@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import LayoutContentWrapper from '../../components/utility/layoutWrapper.js';
-import TableDemoStyle from './demo.style';
+import TableStyle from './customStyle';
 import dataTest from './dataTest';
 import { tableinfo } from './configs';
 import SortView from './tableViews/sortView';
@@ -12,9 +12,9 @@ export default class Exchange extends Component {
   render() {
     return (
       <LayoutContentWrapper>
-        <TableDemoStyle className="isoLayoutContent">
+        <TableStyle className="isoLayoutContent">
           <SortView tableInfo={tableinfo} dataList={dataList} />
-        </TableDemoStyle>
+        </TableStyle>
       </LayoutContentWrapper>
     );
   }

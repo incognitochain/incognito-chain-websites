@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import TableWrapper from '../antTable.style';
+import TableWrapper from './style';
 
 export default class extends Component {
   constructor(props) {

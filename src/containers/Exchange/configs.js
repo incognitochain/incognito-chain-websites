@@ -5,8 +5,10 @@ import {
   DateCell,
   ImageCell,
   LinkCell,
-  TextCell
+  TextCell,
+  NumberCell
 } from '../../components/tables/helperCells';
+import { RateTag } from './tableViews/style';
 
 const renderCell = (object, type, key) => {
   const value = object[key];
@@ -17,6 +19,8 @@ const renderCell = (object, type, key) => {
       return DateCell(value);
     case 'LinkCell':
       return LinkCell(value);
+    case 'NumberCell':
+      return NumberCell(value);
     default:
       return TextCell(value);
   }
@@ -33,39 +37,54 @@ const columns = [
     title: "Last",
     key: 'last_price',
     width: 100,
-    render: object => renderCell(object, 'TextCell', 'last_price')
+    render: object => renderCell(object, 'NumberCell', 'last_price')
+  },
+  {
+    title: "Change",
+    key: 'prevday_volumn',
+    width: 100,
+    render: obj => {
+      let className, percent = 0;
+        if (obj.volumn > obj.prevday_volumn) {
+          className = 'rateUp';
+        } else if (obj.volumn < obj.prevday_volumn) {
+          className = 'rateDown';
+        }
+        else {
+          className = 'rateSame';
+        }
+
+        percent = ((obj.volumn-obj.prevday_volumn) / obj.volumn) * 100;
+        return <RateTag className={className}>{percent > 0 ? "+" + percent.toFixed(2) : percent.toFixed(2)}</RateTag>;
+    }
   },
   {
     title: "High",
     key: 'prevday_high',
     width: 100,
-    render: object => renderCell(object, 'TextCell', 'prevday_high')
+    render: object => renderCell(object, 'NumberCell', 'prevday_high')
   },
   {
     title: "Low",
     key: 'prevday_low',
     width: 100,
-    render: object => renderCell(object, 'TextCell', 'prevday_low')
+    render: object => renderCell(object, 'NumberCell', 'prevday_low')
   },
   {
     title: "Volumn",
     key: 'volumn',
     width: 100,
-    render: object => renderCell(object, 'TextCell', 'volumn')
-  },
-  {
-    title: "BV",
-    key: 'prevday_volumn',
-    width: 100,
-    render: object => renderCell(object, 'TextCell', 'prevday_volumn')
+    render: object => renderCell(object, 'NumberCell', 'volumn')
   }
 ];
+
 const sortColumns = [
   { ...columns[0], sorter: true },
   { ...columns[1], sorter: true },
   { ...columns[2], sorter: true },
   { ...columns[3], sorter: true },
-  { ...columns[4], sorter: true }
+  { ...columns[4], sorter: true },
+  { ...columns[5], sorter: true }
 ];
 
 

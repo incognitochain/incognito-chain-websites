@@ -5,7 +5,7 @@ const tableData = [
     "prevday_high": 6470.00,
     "prevday_low": 6393.55,
     "volumn": 9848,
-    "prevday_volumn": "",
+    "prevday_volumn": 9748,
     "key": 0
   },
   {
@@ -14,7 +14,7 @@ const tableData = [
     "prevday_high": 213.00,
     "prevday_low": 209.55,
     "volumn": 97143,
-    "prevday_volumn": "",
+    "prevday_volumn": 107143,
     "key": 1
   },
   {
@@ -23,7 +23,7 @@ const tableData = [
     "prevday_high": 0.5336,
     "prevday_low": 0.5156,
     "volumn": 60191196,
-    "prevday_volumn": "",
+    "prevday_volumn": 60291496,
     "key": 2
   }
 ];
