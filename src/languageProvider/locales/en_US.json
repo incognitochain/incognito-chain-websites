@@ -553,5 +553,10 @@
   "topbar.logout": "Logout",
   "topbar.viewAll": "View All",
   "topbar.viewCart": "View Cart",
-  "topbar.totalPrice": "Total Price"
+  "topbar.totalPrice": "Total Price",
+  
+  "Market.pageHeader": "Market",
+  "Market.pair": "Pair",
+  "Market.lastPrice": "Last Price"
+
 }

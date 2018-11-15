@@ -19,6 +19,10 @@ const routes = [
     path: 'exchange',
     component: asyncComponent(() => import('../Exchange')),
   },
+  {
+    path: 'exchange2',
+    component: asyncComponent(() => import('../Exchange2')),
+  },
 ];
 
 class AppRouter extends Component {

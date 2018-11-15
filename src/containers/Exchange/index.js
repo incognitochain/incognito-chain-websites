@@ -7,7 +7,7 @@ import SortView from './tableViews/sortView';
 
 const dataList = new dataTest(3);
 
-export default class Exchange extends Component {
+export default class Exchange2 extends Component {
 
   render() {
     return (
