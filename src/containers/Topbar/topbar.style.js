@@ -7,12 +7,16 @@ const TopbarWrapper = styled.div`
   .isomorphicTopbar {
     display: flex;
     justify-content: space-between;
-    background-color: #ffffff;
+    background-color: #1F2D83;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     padding: ${props =>
-      props["data-rtl"] === "rtl" ? "0 265px 0 31px" : "0 31px 0 265px"};
+      props["data-rtl"] === "rtl" ? "0 265px 0 31px" : "0 31px 0 0px"};
     z-index: 1000;
     ${transition()};
+
+    > div {
+      width: 100%;
+    }
 
     @media only screen and (max-width: 767px) {
       padding: ${props =>

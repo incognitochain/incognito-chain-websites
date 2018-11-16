@@ -1,18 +1,24 @@
 const options = [
   {
-    key: 'blankPage',
-    label: 'sidebar.blankPage',
-    leftIcon: 'ion-document',
-  },
-  {
-    key: 'authCheck',
-    label: 'sidebar.authCheck',
-    leftIcon: 'ion-document',
+    key: 'market',
+    label: 'sidebar.market',
+    leftIcon: '',
   },
   {
     key: 'exchange',
     label: 'sidebar.exchange',
-    leftIcon: 'ion-document',
+    leftIcon: '',
   },
+  {
+    key: 'Walet',
+    label: 'sidebar.wallet',
+    leftIcon: '',
+  }
 ];
 export default options;
+
+// {
+//   key: 'authCheck',
+//   label: 'sidebar.authCheck',
+//   leftIcon: '',
+// },

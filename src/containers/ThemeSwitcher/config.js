@@ -7,7 +7,7 @@ const changeThemes = {
     {
       themeName: "themedefault",
       buttonColor: "#ffffff",
-      textColor: "#323332"
+      textColor: "#323332",
     },
     {
       themeName: "theme2",

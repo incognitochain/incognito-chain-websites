@@ -16,7 +16,7 @@ import * as TableViews from './tableViews/';
 
 const dataList = new dataTest(3);
 
-export default class Exchange extends Component {
+export default class Market extends Component {
   renderTable(tableInfo) {
     let Component;
     switch (tableInfo.value) {

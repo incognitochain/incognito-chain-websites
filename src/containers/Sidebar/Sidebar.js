@@ -12,6 +12,8 @@ import appActions from '../../redux/app/actions';
 import Logo from '../../components/utility/logo';
 import themes from '../../settings/themes';
 import { themeConfig } from '../../settings';
+import { Row, Col } from 'antd';
+import ContentHolder from '../../components/utility/contentHolder';
 
 const SubMenu = Menu.SubMenu;
 const { Sider } = Layout;
@@ -76,7 +78,7 @@ class Sidebar extends Component {
           key={key}
           title={
             <span className="isoMenuHolder" style={submenuColor}>
-              <i className={leftIcon} />
+              {/* <i className={leftIcon} /> */}
               <span className="nav-text">
                 <IntlMessages id={label} />
               </span>
@@ -102,7 +104,7 @@ class Sidebar extends Component {
       <Menu.Item key={key}>
         <Link to={`${url}/${key}`}>
           <span className="isoMenuHolder" style={submenuColor}>
-            <i className={leftIcon} />
+            {/* <i className={leftIcon} /> */}
             <span className="nav-text">
               <IntlMessages id={label} />
             </span>
@@ -115,7 +117,7 @@ class Sidebar extends Component {
     const { app, toggleOpenDrawer, height } = this.props;
     const collapsed = clone(app.collapsed) && !clone(app.openDrawer);
     const { openDrawer } = app;
-    const mode = collapsed === true ? 'vertical' : 'inline';
+    const mode = collapsed === true ? 'horizontal' : 'inline';
     const onMouseEnter = event => {
       if (openDrawer === false) {
         toggleOpenDrawer();
@@ -145,28 +147,36 @@ class Sidebar extends Component {
           trigger={null}
           collapsible={true}
           collapsed={collapsed}
-          width={240}
+          width={"100%"}
           className="isomorphicSidebar"
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
           style={styling}
         >
-          <Logo collapsed={collapsed} />
-          <Scrollbars style={{ height: height - 70 }}>
-            <Menu
-              onClick={this.handleClick}
-              theme="dark"
-              className="isoDashboardMenu"
-              mode={mode}
-              openKeys={collapsed ? [] : app.openKeys}
-              selectedKeys={app.current}
-              onOpenChange={this.onOpenChange}
-            >
-              {options.map(singleOption =>
-                this.getMenuItem({ submenuStyle, submenuColor, singleOption })
-              )}
-            </Menu>
-          </Scrollbars>
+          <Row>
+            <ContentHolder style={{ overflow: 'hidden', margin: 0 }}>
+              <Col md={2} sm={6} xs={4} >
+              <Logo collapsed={collapsed} />
+              </Col>
+              <Col md={22} sm={18} xs={20} >
+              <Scrollbars style={{ height: 50 }}>
+                <Menu
+                  onClick={this.handleClick}
+                  theme="dark"
+                  className="isoDashboardMenu"
+                  mode={mode}
+                  openKeys={collapsed ? [] : app.openKeys}
+                  selectedKeys={app.current}
+                  onOpenChange={this.onOpenChange}
+                >
+                  {options.map(singleOption =>
+                    this.getMenuItem({ submenuStyle, submenuColor, singleOption })
+                  )}
+                </Menu>
+              </Scrollbars>
+              </Col>
+            </ContentHolder>
+          </Row>
         </Sider>
       </SidebarWrapper>
     );

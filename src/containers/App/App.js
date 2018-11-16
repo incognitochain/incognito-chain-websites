@@ -6,7 +6,6 @@ import WindowResizeListener from 'react-window-size-listener';
 import { ThemeProvider } from 'styled-components';
 import authAction from '../../redux/auth/actions';
 import appActions from '../../redux/app/actions';
-import Sidebar from '../Sidebar/Sidebar';
 import Topbar from '../Topbar/Topbar';
 import AppRouter from './AppRouter';
 import { siteConfig } from '../../settings';
@@ -27,7 +26,7 @@ export class App extends Component {
       <ThemeProvider theme={themes[themeConfig.theme]}>
         <AppHolder>
           <Layout style={{ height: appHeight }}>
-            <Debounce time="1000" handler="onResize">
+            {/* <Debounce time="1000" handler="onResize">
               <WindowResizeListener
                 onResize={windowSize =>
                   this.props.toggleAll(
@@ -36,16 +35,11 @@ export class App extends Component {
                   )
                 }
               />
-            </Debounce>
+            </Debounce> */}
             <Topbar url={url} />
             <Layout style={{ flexDirection: 'row', overflowX: 'hidden' }}>
-              <Sidebar url={url} />
-              <Layout
-                className="isoContentMainLayout"
-                style={{
-                  height: height
-                }}
-              >
+
+              <Layout className="isoContentMainLayout" style={{ height: height }} >
                 <Content
                   className="isomorphicContent"
                   style={{

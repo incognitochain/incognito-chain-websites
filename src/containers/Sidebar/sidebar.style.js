@@ -6,42 +6,40 @@ import WithDirection from '../../settings/withDirection';
 const SidebarWrapper = styled.div`
   .isomorphicSidebar {
     z-index: 1000;
-    background: ${palette('secondary', 0)};
+    background: ${palette('primary', 0)};
     width: 280px;
     flex: 0 0 280px;
 
     .scrollarea {
-      height: calc(100vh - 70px);
+      height: calc(100vh - 50px);
     }
 
-    @media only screen and (max-width: 767px) {
-      width: 240px !important;
-      flex: 0 0 240px !important;
-    }
+    // @media only screen and (max-width: 767px) {
+    //   width: 240px !important;
+    //   flex: 0 0 240px !important;
+    // }
 
-    &.ant-layout-sider-collapsed {
-      @media only screen and (max-width: 767px) {
-        width: 0;
-        min-width: 0 !important;
-        max-width: 0 !important;
-        flex: 0 0 0 !important;
-      }
-    }
+    // &.ant-layout-sider-collapsed {
+    //   @media only screen and (max-width: 767px) {
+    //     width: 0;
+    //     min-width: 0 !important;
+    //     max-width: 0 !important;
+    //     flex: 0 0 0 !important;
+    //   }
+    // }
 
     .isoLogoWrapper {
-      height: 70px;
-      background: rgba(0, 0, 0, 0.3);
-      margin: 0;
-      padding: 0 10px;
+      width: 100%;
+      max-height: 50px;
+      margin-top: -8px;
       text-align: center;
       overflow: hidden;
-      ${borderRadius()};
 
       h3 {
         a {
           font-size: 15px;
           font-weight: 300;
-          line-height: 70px;
+          line-height: 50px;
           letter-spacing: 3px;
           text-transform: uppercase;
           color: ${palette('grayscale', 6)};
@@ -66,9 +64,8 @@ const SidebarWrapper = styled.div`
     }
 
     .isoDashboardMenu {
-      padding-top: 35px;
-      padding-bottom: 35px;
-      background: transparent;
+      padding-top: 5px;
+      background-color: transparent !important;
 
       a {
         text-decoration: none;
@@ -76,13 +73,15 @@ const SidebarWrapper = styled.div`
       }
 
       .ant-menu-item {
-        width: 100%;
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-align: center;
-        align-items: center;
-        padding: 0 24px;
+        width: 150px;
+        // display: -ms-flexbox;
+        // display: flex;
+        // -ms-flex-align: center;
+        // align-items: center;
+        // padding: 0 24px;
         margin: 0;
+        float: left;
+        display: block
       }
 
       .isoMenuHolder {
@@ -114,7 +113,9 @@ const SidebarWrapper = styled.div`
       }
 
       .ant-menu-item-selected {
-        background-color: rgba(0, 0, 0, 0.4) !important;
+        border-bottom: solid 2px #56F5B5;
+        height: 45px;
+        background-color: transparent !important;
         .anticon {
           color: #fff;
         }
@@ -138,8 +139,8 @@ const SidebarWrapper = styled.div`
       }
     }
 
-    .ant-menu-dark .ant-menu-inline.ant-menu-sub {
-      background: ${palette('secondary', 5)};
+    .ant-menu-dark .ant-menu-inline .ant-menu-sub {
+      background: ${palette('primary', 0)};
     }
 
     .ant-menu-submenu-inline,
@@ -148,7 +149,7 @@ const SidebarWrapper = styled.div`
         width: 100%;
         display: flex;
         align-items: center;
-        padding: 0 24px;
+        // padding: 0 24px;
 
         > span {
           display: flex;

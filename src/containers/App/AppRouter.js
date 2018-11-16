@@ -20,8 +20,8 @@ const routes = [
     component: asyncComponent(() => import('../Exchange')),
   },
   {
-    path: 'exchange2',
-    component: asyncComponent(() => import('../Exchange2')),
+    path: 'market',
+    component: asyncComponent(() => import('../Market')),
   },
 ];
 

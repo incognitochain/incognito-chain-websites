@@ -2,7 +2,7 @@ const theme = {};
 
 theme.palette = {
   primary: [
-    '#4482FF', // 0: Default
+    '#1E2D83', // 0: Default
     '#3A78F5', // 1: Darken 4%
     '#3775F2', // 2: Darken 5%
     'rgba(68, 130, 255, 0.2)', // 3: Fade 20%
