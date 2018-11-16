@@ -14,7 +14,7 @@ const customizedTheme = themes[themeConfig.theme];
 
 class Topbar extends Component {
   render() {
-    const { toggleCollapsed, url } = this.props;
+    const { toggleCollapsed, url } = this.props; 
     const collapsed = this.props.collapsed && !this.props.openDrawer;
     const styling = {
       background: customizedTheme.backgroundColor,

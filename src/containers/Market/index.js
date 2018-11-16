@@ -38,7 +38,7 @@ export default class Market extends Component {
     return (
       <LayoutWrapper>
         <PageHeader>{<IntlMessages id="Market.pageHeader" />}</PageHeader>
-        <Row style={rowStyle} gutter={gutter} justify="start">
+        {/* <Row style={rowStyle} gutter={gutter} justify="start">
           <Col span={24} style={colStyle}>
             <Box
               title={<IntlMessages id="uiElements.cards.gridCard" />}
@@ -71,7 +71,7 @@ export default class Market extends Component {
               </Row>
             </Box>
           </Col>
-        </Row>
+        </Row> */}
         <TableStyle className="isoLayoutContent">
           <Tabs className="isoTableDisplayTab">
             {tableinfos.map(tableInfo => (

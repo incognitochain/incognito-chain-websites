@@ -42,9 +42,9 @@ const AppHolder = styled.div`
 
   .isoLayoutContent {
     width: 100%;
-    padding: 35px;
-    background-color: #ffffff;
-    border: 1px solid ${palette("border", 0)};
+    // padding: 35px;
+    // background-color: #ffffff;
+    // border: 1px solid ${palette("border", 0)};
     height: 100%;
   }
 

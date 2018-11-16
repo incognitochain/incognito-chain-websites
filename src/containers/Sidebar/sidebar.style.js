@@ -32,7 +32,7 @@ const SidebarWrapper = styled.div`
       width: 100%;
       max-height: 50px;
       margin-top: -8px;
-      text-align: center;
+      margin-left: 2rem;
       overflow: hidden;
 
       h3 {

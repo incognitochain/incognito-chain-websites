@@ -17,11 +17,14 @@ import './global.css';
 const { Content, Footer } = Layout;
 const { logout } = authAction;
 const { toggleAll } = appActions;
+const customizedTheme = themes[themeConfig.theme];
+
 export class App extends Component {
   render() {
     const { url } = this.props.match;
     const { height } = this.props;
     const appHeight = window.innerHeight;
+
     return (
       <ThemeProvider theme={themes[themeConfig.theme]}>
         <AppHolder>
@@ -40,26 +43,13 @@ export class App extends Component {
             <Layout style={{ flexDirection: 'row', overflowX: 'hidden' }}>
 
               <Layout className="isoContentMainLayout" style={{ height: height }} >
-                <Content
-                  className="isomorphicContent"
-                  style={{
-                    padding: '70px 0 0',
-                    flexShrink: '0',
-                    background: '#f1f3f6',
-                    position: 'relative'
-                  }}
-                >
+                <Content  className="isomorphicContent" style={{...customizedTheme.content}} >
                   <AppRouter url={url} />
                 </Content>
-                <Footer
-                  style={{
-                    background: '#ffffff',
-                    textAlign: 'center',
-                    borderTop: '1px solid #ededed'
-                  }}
-                >
+                <Footer style={{...customizedTheme.footer}} >
                   {siteConfig.footerText}
                 </Footer>
+
               </Layout>
             </Layout>
           </Layout>

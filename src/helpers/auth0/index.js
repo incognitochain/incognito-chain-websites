@@ -33,7 +33,7 @@ class Auth0Helper {
   }
   handleAuthentication(props) {
     localStorage.setItem('id_token', 'secret token');
-    history.replace('/dashboard');
+    history.replace('/market');
   }
   setSession(authResult) {
     // Set the time that the access token will expire at
