@@ -190,45 +190,6 @@ const TopbarWrapper = styled.div`
     }
   }
 
-  .isoUserDropdown {
-    .ant-popover-inner {
-      .ant-popover-inner-content {
-        .isoUserDropdownContent {
-          padding: 7px 0;
-          display: flex;
-          flex-direction: column;
-          position: absolute;
-          top: 0;
-          right: 0;
-          background-color: #ffffff;
-          width: 220px;
-          min-width: 160px;
-          flex-shrink: 0;
-          .isoBorderRadius(5px);
-          ${borderRadius("5px")};
-          ${boxShadow("0 2px 10px rgba(0,0,0,0.2)")};
-          ${transition()};
-
-          .isoDropdownLink {
-            font-size: 13px;
-            color: ${palette("text", 1)};
-            line-height: 1.1;
-            padding: 7px 15px;
-            background-color: transparent;
-            text-decoration: none;
-            display: flex;
-            justify-content: flex-start;
-            ${transition()};
-
-            &:hover {
-              background-color: ${palette("secondary", 6)};
-            }
-          }
-        }
-      }
-    }
-  }
-
   // Dropdown
   .ant-popover {
     .ant-popover-inner {

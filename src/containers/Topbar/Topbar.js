@@ -14,7 +14,8 @@ const customizedTheme = themes[themeConfig.theme];
 
 class Topbar extends Component {
   render() {
-    const { toggleCollapsed, url } = this.props; 
+    const { toggleCollapsed, url, customizedTheme, locale } = this.props;
+    console.log('Topbar' , locale);
     const collapsed = this.props.collapsed && !this.props.openDrawer;
     const styling = {
       background: customizedTheme.backgroundColor,
@@ -39,13 +40,13 @@ class Topbar extends Component {
               onClick={toggleCollapsed}
             />
           </div> */}
-          <Sidebar url={url} />
+          <Sidebar url={url} locale={locale} />
           <ul className="isoRight">
             <li
               onClick={() => this.setState({ selectedItem: "user" })}
               className="isoUser"
             >
-              <TopbarUser />
+              <TopbarUser locale={locale} />
             </li>
           </ul>
         </Header>
@@ -56,7 +57,9 @@ class Topbar extends Component {
 
 export default connect(
   state => ({
-    ...state.App
+    ...state.App,
+    locale: state.LanguageSwitcher.language.locale,
+    customizedTheme: state.ThemeSwitcher.topbarTheme
   }),
   { toggleCollapsed }
 )(Topbar);

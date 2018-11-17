@@ -75,9 +75,7 @@
   "sidebar.option2": "Option 2",
   "sidebar.option3": "Option 3",
   "sidebar.option4": "Option 4",
-  "sidebar.market": "Market",
-  "sidebar.exchange": "Exchange",
-  "sidebar.wallet": "Wallet",
+  
   "sidebar.githubSearch": "Github Search",
   "sidebar.youtubeSearch": "Youtube Search",
   "languageSwitcher.label": "Change Language",
@@ -551,13 +549,21 @@
   "sidebar.selectbox": "Select",
   "sidebar.frappeChart": "Frappe Charts",
   "topbar.help": "Help",
-  "topbar.logout": "Logout",
+  
   "topbar.viewAll": "View All",
   "topbar.viewCart": "View Cart",
   "topbar.totalPrice": "Total Price",
   
+  "topbar.logout": "Logout",
+  "topbar.signin": "Sign in",
+  "topbar.signup": "Sign up",
+  "topbar.language": "Language",
+
+  "sidebar.market": "Market",
+  "sidebar.exchange": "Exchange",
+  "sidebar.wallet": "Wallet",
+
   "Market.pageHeader": "Market",
   "Market.pair": "Pair",
   "Market.lastPrice": "Last Price"
-
 }

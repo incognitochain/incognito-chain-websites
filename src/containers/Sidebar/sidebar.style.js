@@ -73,12 +73,7 @@ const SidebarWrapper = styled.div`
       }
 
       .ant-menu-item {
-        width: 150px;
-        // display: -ms-flexbox;
-        // display: flex;
-        // -ms-flex-align: center;
-        // align-items: center;
-        // padding: 0 24px;
+        width: 120px;
         margin: 0;
         float: left;
         display: block
@@ -106,7 +101,7 @@ const SidebarWrapper = styled.div`
       }
 
       .nav-text {
-        font-size: 14px;
+        font-size: 1rem;
         color: inherit;
         font-weight: 400;
         ${transition()};

@@ -70,7 +70,7 @@ class Sidebar extends Component {
     return map[key] || [];
   };
   getMenuItem = ({ singleOption, submenuStyle, submenuColor }) => {
-    const { key, label, leftIcon, children } = singleOption;
+    const { key, label, children } = singleOption;
     const url = stripTrailingSlash(this.props.url);
     if (children) {
       return (
@@ -114,7 +114,7 @@ class Sidebar extends Component {
     );
   };
   render() {
-    const { app, toggleOpenDrawer, height } = this.props;
+    const { app, toggleOpenDrawer } = this.props;
     const collapsed = clone(app.collapsed) && !clone(app.openDrawer);
     const { openDrawer } = app;
     const mode = collapsed === true ? 'horizontal' : 'inline';

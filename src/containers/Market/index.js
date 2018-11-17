@@ -1,14 +1,9 @@
 import React, { Component } from 'react';
 import Tabs, { TabPane } from '../../components/uielements/tabs';
 import LayoutWrapper from '../../components/utility/layoutWrapper.js';
-import ContentHolder from '../../components/utility/contentHolder';
 import PageHeader from '../../components/utility/pageHeader';
 import IntlMessages from '../../components/utility/intlMessages';
 import basicStyle from '../../settings/basicStyle';
-import { Row, Col } from 'antd';
-import Box from '../../components/utility/box';
-import Card from './card.style';
-
 import TableStyle from './custom.style';
 import dataTest from './dataTest';
 import { tableinfos } from './configs';
