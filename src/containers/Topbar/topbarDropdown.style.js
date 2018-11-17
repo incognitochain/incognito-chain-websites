@@ -8,7 +8,7 @@ const TopbarDropdownWrapper = styled.div`
   flex-direction: column;
   background-color: #ffffff;
   margin: -12px -16px;
-  width: 360px;
+  width: 260px;
   min-width: 160px;
   flex-shrink: 0;
   ${borderRadius("5px")};
@@ -16,7 +16,7 @@ const TopbarDropdownWrapper = styled.div`
   ${transition()};
 
   @media only screen and (max-width: 767px) {
-    width: 310px;
+    width: 210px;
   }
 
   .isoDropdownHeader {
@@ -261,8 +261,8 @@ const TopbarDropdownWrapper = styled.div`
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
-    width: 220px;
-    min-width: 160px;
+    width: 140px;
+    min-width: 120px;
     flex-shrink: 0;
     ${borderRadius("5px")};
     ${boxShadow("0 2px 10px rgba(0,0,0,0.2)")};
@@ -278,6 +278,24 @@ const TopbarDropdownWrapper = styled.div`
       display: flex;
       justify-content: flex-start;
       ${transition()};
+
+      &:hover {
+        background-color: ${palette("secondary", 6)};
+      }
+    }
+
+    .lnkLanguage {
+      font-size: 13px;
+      color: ${palette("text", 1)};
+      line-height: 1.1;
+      padding: 7px 15px;
+      background-color: transparent;
+      text-decoration: none;
+      ${transition()};
+  
+      img {
+        margin-right: 1rem;
+      }
 
       &:hover {
         background-color: ${palette("secondary", 6)};

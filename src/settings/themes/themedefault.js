@@ -2,7 +2,7 @@ const theme = {};
 
 theme.palette = {
   primary: [
-    '#4482FF', // 0: Default
+    '#1F2D83', // 0: Default
     '#3A78F5', // 1: Darken 4%
     '#3775F2', // 2: Darken 5%
     'rgba(68, 130, 255, 0.2)', // 3: Fade 20%
@@ -75,7 +75,7 @@ theme.palette = {
     '#323332', // 0: Heading
     '#595959', // 1: HeadingLight
     '#979797', // 2: Text
-    '#797979', // 3: TextDark
+    '#022047', // 3: TextDark
     '#6a6c6a', // 4: Heading Lighten 22%
   ],
   border: [
@@ -96,10 +96,31 @@ theme.palette = {
   ],
 };
 
+
 theme.fonts = {
   primary: 'Opensans, sans-serif',
   fontSize: '1.2rem',
   pre: 'Consolas, Liberation Mono, Menlo, Courier, monospace',
 };
 
+theme.page = {
+  market: {
+    
+  }
+}
+
+theme.content = {
+  pageTitle: '#022047',
+  padding: '50px 0 0',
+  flexShrink: '0',
+  background: '#FFF',
+  position: 'relative'
+}
+
+theme.footer = {
+  backgroundColor: '#1F2D83',
+  color: '#FFF',
+  textAlign: 'center',
+  borderTop: '1px solid #ededed'
+}
 export default theme;

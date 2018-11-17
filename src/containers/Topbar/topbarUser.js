@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
+import { Icon, Row, Col } from 'antd';
 import { connect } from 'react-redux';
 import Popover from '../../components/uielements/popover';
 import IntlMessages from '../../components/utility/intlMessages';
-import userpic from '../../image/user1.png';
 import authAction from '../../redux/auth/actions';
 import TopbarDropdownWrapper from './topbarDropdown.style';
+import TopbarUserWrapper from './topbarUser.style';
+import ContentHolder from '../../components/utility/contentHolder';
+import Button from '../../components/uielements/button';
+import actions from '../../redux/languageSwitcher/actions';
+import config from './language.config';
 
 const { logout } = authAction;
+const { changeLanguage } = actions;
 
 class TopbarUser extends Component {
   constructor(props) {
@@ -25,9 +31,24 @@ class TopbarUser extends Component {
   }
 
   render() {
+    const { locale:language, changeLanguage } = this.props;
+
     const content = (
       <TopbarDropdownWrapper className="isoUserDropdown">
-        <a className="isoDropdownLink" href="# ">
+        {config.options.map(option => {console.log(option);
+          const { languageId, icon } = option;
+          const customClass = 
+            languageId === language.languageId
+              ? 'selectedTheme languageSwitch'
+              : 'languageSwitch';
+
+          return (
+            <a className="lnkLanguage" href="#" key={languageId} onClick={() => changeLanguage(languageId) }>
+              <img src={process.env.PUBLIC_URL + icon} alt="flag" width={24} /> {option.text}
+            </a>
+          );
+        })}
+        {/* <a className="isoDropdownLink" href="# ">
           <IntlMessages id="themeSwitcher.settings" />
         </a>
         <a className="isoDropdownLink" href="# ">
@@ -38,28 +59,58 @@ class TopbarUser extends Component {
         </a>
         <a className="isoDropdownLink" onClick={this.props.logout} href="# ">
           <IntlMessages id="topbar.logout" />
-        </a>
+        </a> */}
       </TopbarDropdownWrapper>
     );
 
-    return (
-      <Popover
-        content={content}
-        trigger="click"
-        visible={this.state.visible}
-        onVisibleChange={this.handleVisibleChange}
-        arrowPointAtCenter={true}
-        placement="bottomLeft"
-      >
-        <div className="isoImgWrapper">
-          <img alt="user" src={userpic} />
-          <span className="userActivity online" />
-        </div>
-      </Popover>
+    const unlogin = (
+        <TopbarUserWrapper>
+          <Button type="primary" className="btnSignin" >
+            <IntlMessages id="topbar.signin" />
+          </Button>
+
+          <Button type="primary" className="btnSignup" >
+            <IntlMessages id="topbar.signup" />
+          </Button>
+          
+          <Popover
+            content={content}
+            trigger="click"
+            visible={this.state.visible}
+            onVisibleChange={this.handleVisibleChange}
+            arrowPointAtCenter={true}
+            placement="bottomLeft"
+          >
+            <Button type="default" className="btnLanguage" >
+              <IntlMessages id="topbar.language" />
+            </Button>
+          </Popover>
+
+        </TopbarUserWrapper>
     );
+
+    return (unlogin);
+    // return (
+    //   <Popover
+    //     content={content}
+    //     trigger="click"
+    //     visible={this.state.visible}
+    //     onVisibleChange={this.handleVisibleChange}
+    //     arrowPointAtCenter={true}
+    //     placement="bottomLeft"
+    //   >
+    //     <div className="isoImgWrapper">
+    //       <img alt="user" src={userpic} />
+    //       <span className="userActivity online" />
+    //     </div>
+    //   </Popover>
+    // );
   }
 }
+
 export default connect(
-  null,
-  { logout }
+  state => ({
+    ...state.TopbarUser,
+  }),
+  { changeLanguage }
 )(TopbarUser);

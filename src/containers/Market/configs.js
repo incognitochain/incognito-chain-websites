@@ -90,10 +90,23 @@ const sortColumns = [
 ];
 
 
-const tableinfo = 
-{
-  title: 'Sortable Table',
-  value: 'sortView',
-  columns: clone(sortColumns)
-};
-export { columns, tableinfo };
+
+const tableinfos = [
+  {
+    title: '1 day',
+    value: 'day',
+    columns: clone(sortColumns)
+  },
+  {
+    title: '4H',
+    value: 'fourHours',
+    columns: clone(sortColumns)
+  },
+  {
+    title: '1H',
+    value: 'oneHour',
+    columns: clone(sortColumns)
+  }
+];
+
+export { columns, tableinfos };

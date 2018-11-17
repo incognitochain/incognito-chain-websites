@@ -1,18 +1,19 @@
-import Table from '../../components/uielements/table';
+import Table from '../../../components/uielements/table';
 import styled from 'styled-components';
 import { palette } from 'styled-theme';
 import {
   transition,
   boxShadow,
   borderRadius,
-} from '../../settings/style-util';
-import WithDirection from '../../settings/withDirection';
+} from '../../../settings/style-util';
+import WithDirection from '../../../settings/withDirection';
 
 const TableWrapper = styled(Table)`
   overflow: hidden;
   overflow-x: auto;
   background-color: #ffffff;
-
+  
+  
   .ant-table-body {
     overflow-x: auto;
   }
@@ -32,6 +33,7 @@ const TableWrapper = styled(Table)`
 
   .ant-table-thead > tr > th,
   .ant-table-tbody > tr > td {
+    font-size: 0.9rem;
     padding: 16px 15px;
     white-space: nowrap;
     text-align: ${props => (props['data-rtl'] === 'rtl' ? 'right' : 'left')};
@@ -42,7 +44,7 @@ const TableWrapper = styled(Table)`
   }
 
   .ant-table-tbody > tr > td {
-    font-size: 12px;
+    font-size: 0.9rem;
     color: ${palette('text', 3)};
     border-bottom: 1px solid ${palette('border', 0)};
 
@@ -414,7 +416,32 @@ const WDCustomizedTableWrapper = styled.div`
   }
 `;
 
+const RateTag = styled.span`
+  padding: 0 5px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  background-color: ${palette('primary', 0)};
+  min-width: 60px;
+  color: #ffffff;
+  text-transform: capitalize;
+
+  &.rateDown {
+    background-color: ${palette('error', 0)};
+  }
+
+  &.rateSame {
+    background-color: ${palette('warning', 0)};
+  }
+
+  &.rateUp {
+    background-color: ${palette('success', 0)};
+  }
+`;
+
 const CustomizedTableWrapper = WithDirection(WDCustomizedTableWrapper);
 
-export { CustomizedTableWrapper };
+export { CustomizedTableWrapper, RateTag };
 export default WithDirection(TableWrapper);

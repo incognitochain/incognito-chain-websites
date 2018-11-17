@@ -6,6 +6,7 @@ import TopbarUser from "./topbarUser";
 import TopbarWrapper from "./topbar.style";
 import themes from "../../settings/themes";
 import { themeConfig } from "../../settings";
+import Sidebar from '../Sidebar/Sidebar';
 
 const { Header } = Layout;
 const { toggleCollapsed } = appActions;
@@ -13,13 +14,14 @@ const customizedTheme = themes[themeConfig.theme];
 
 class Topbar extends Component {
   render() {
-    const { toggleCollapsed } = this.props;
+    const { toggleCollapsed, url, customizedTheme, locale } = this.props;
+    console.log('Topbar' , locale);
     const collapsed = this.props.collapsed && !this.props.openDrawer;
     const styling = {
       background: customizedTheme.backgroundColor,
       position: "fixed",
       width: "100%",
-      height: 70
+      height: 50
     };
     return (
       <TopbarWrapper>
@@ -29,7 +31,7 @@ class Topbar extends Component {
             collapsed ? "isomorphicTopbar collapsed" : "isomorphicTopbar"
           }
         >
-          <div className="isoLeft">
+          {/* <div className="isoLeft">
             <button
               className={
                 collapsed ? "triggerBtn menuCollapsed" : "triggerBtn menuOpen"
@@ -37,14 +39,14 @@ class Topbar extends Component {
               style={{ color: customizedTheme.textColor }}
               onClick={toggleCollapsed}
             />
-          </div>
-
+          </div> */}
+          <Sidebar url={url} locale={locale} />
           <ul className="isoRight">
             <li
               onClick={() => this.setState({ selectedItem: "user" })}
               className="isoUser"
             >
-              <TopbarUser />
+              <TopbarUser locale={locale} />
             </li>
           </ul>
         </Header>
@@ -55,7 +57,9 @@ class Topbar extends Component {
 
 export default connect(
   state => ({
-    ...state.App
+    ...state.App,
+    locale: state.LanguageSwitcher.language.locale,
+    customizedTheme: state.ThemeSwitcher.topbarTheme
   }),
   { toggleCollapsed }
 )(Topbar);

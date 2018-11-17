@@ -25,10 +25,10 @@ class SignIn extends Component {
   handleLogin = () => {
     const { login } = this.props;
     login();
-    this.props.history.push('/dashboard');
+    this.props.history.push('/market');
   };
   render() {
-    const from = { pathname: '/dashboard' };
+    const from = { pathname: '/market' };
     const { redirectToReferrer } = this.state;
 
     if (redirectToReferrer) {
@@ -39,7 +39,7 @@ class SignIn extends Component {
         <div className="isoLoginContentWrapper">
           <div className="isoLoginContent">
             <div className="isoLogoWrapper">
-              <Link to="/dashboard">
+              <Link to="/market">
                 <IntlMessages id="page.signInTitle" />
               </Link>
             </div>

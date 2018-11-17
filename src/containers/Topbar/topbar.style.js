@@ -7,12 +7,16 @@ const TopbarWrapper = styled.div`
   .isomorphicTopbar {
     display: flex;
     justify-content: space-between;
-    background-color: #ffffff;
+    background-color: #1F2D83;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     padding: ${props =>
-      props["data-rtl"] === "rtl" ? "0 265px 0 31px" : "0 31px 0 265px"};
+      props["data-rtl"] === "rtl" ? "0 265px 0 31px" : "0 31px 0 0px"};
     z-index: 1000;
     ${transition()};
+
+    > div {
+      width: 100%;
+    }
 
     @media only screen and (max-width: 767px) {
       padding: ${props =>
@@ -179,45 +183,6 @@ const TopbarWrapper = styled.div`
               right: 3px;
               border: 1px solid #ffffff;
               ${borderRadius("50%")};
-            }
-          }
-        }
-      }
-    }
-  }
-
-  .isoUserDropdown {
-    .ant-popover-inner {
-      .ant-popover-inner-content {
-        .isoUserDropdownContent {
-          padding: 7px 0;
-          display: flex;
-          flex-direction: column;
-          position: absolute;
-          top: 0;
-          right: 0;
-          background-color: #ffffff;
-          width: 220px;
-          min-width: 160px;
-          flex-shrink: 0;
-          .isoBorderRadius(5px);
-          ${borderRadius("5px")};
-          ${boxShadow("0 2px 10px rgba(0,0,0,0.2)")};
-          ${transition()};
-
-          .isoDropdownLink {
-            font-size: 13px;
-            color: ${palette("text", 1)};
-            line-height: 1.1;
-            padding: 7px 15px;
-            background-color: transparent;
-            text-decoration: none;
-            display: flex;
-            justify-content: flex-start;
-            ${transition()};
-
-            &:hover {
-              background-color: ${palette("secondary", 6)};
             }
           }
         }

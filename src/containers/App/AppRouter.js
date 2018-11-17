@@ -4,8 +4,12 @@ import asyncComponent from '../../helpers/AsyncFunc';
 
 const routes = [
   {
+    path: 'market',
+    component: asyncComponent(() => import('../Market')),
+  },
+  {
     path: '',
-    component: asyncComponent(() => import('../dashboard')),
+    component: asyncComponent(() => import('../Market')),
   },
   {
     path: 'blankPage',
@@ -18,7 +22,7 @@ const routes = [
   {
     path: 'exchange',
     component: asyncComponent(() => import('../Exchange')),
-  },
+  }
 ];
 
 class AppRouter extends Component {
