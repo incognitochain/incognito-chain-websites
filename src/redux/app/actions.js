@@ -18,8 +18,8 @@ const actions = {
     type: actions.COLLPSE_CHANGE
   }),
   toggleAll: (width, height) => {
-    const view = getView(width);
-    const collapsed = view !== 'DesktopView';
+    const view = getView(width);console.log(view);
+    const collapsed = view == 'MobileView';
     return {
       type: actions.TOGGLE_ALL,
       collapsed,

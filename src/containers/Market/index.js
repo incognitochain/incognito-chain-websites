@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 import Tabs, { TabPane } from '../../components/uielements/tabs';
 import LayoutWrapper from '../../components/utility/layoutWrapper.js';
+import ContentHolder from '../../components/utility/contentHolder';
 import PageHeader from '../../components/utility/pageHeader';
 import IntlMessages from '../../components/utility/intlMessages';
 import basicStyle from '../../settings/basicStyle';
+import { Row, Col } from 'antd';
+import Box from '../../components/utility/box';
+import Card from './card.style';
+
 import TableStyle from './custom.style';
 import dataTest from './dataTest';
 import { tableinfos } from './configs';
@@ -33,7 +38,7 @@ export default class Market extends Component {
     return (
       <LayoutWrapper>
         <PageHeader>{<IntlMessages id="Market.pageHeader" />}</PageHeader>
-        {/* <Row style={rowStyle} gutter={gutter} justify="start">
+        <Row style={rowStyle} gutter={gutter} justify="start">
           <Col span={24} style={colStyle}>
             <Box
               title={<IntlMessages id="uiElements.cards.gridCard" />}
@@ -66,7 +71,7 @@ export default class Market extends Component {
               </Row>
             </Box>
           </Col>
-        </Row> */}
+        </Row>
         <TableStyle className="isoLayoutContent">
           <Tabs className="isoTableDisplayTab">
             {tableinfos.map(tableInfo => (

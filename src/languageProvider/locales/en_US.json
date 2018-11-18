@@ -489,18 +489,7 @@
   "widget.stickerwidget3.text": "Total Message",
   "widget.stickerwidget4.number": "54",
   "widget.stickerwidget4.text": "Orders Post",
-  "widget.salewidget1.label": "Income",
-  "widget.salewidget1.price": "$15000",
-  "widget.salewidget1.details": "Lorem ipsum dolor sit amet   consectetur adipisicing elit   sed do eiusmod tempor",
-  "widget.salewidget2.label": "Income",
-  "widget.salewidget2.price": "$15000",
-  "widget.salewidget2.details": "Lorem ipsum dolor sit amet   consectetur adipisicing elit   sed do eiusmod tempor",
-  "widget.salewidget3.label": "Income",
-  "widget.salewidget3.price": "$15000",
-  "widget.salewidget3.details": "Lorem ipsum dolor sit amet   consectetur adipisicing elit   sed do eiusmod tempor",
-  "widget.salewidget4.label": "Income",
-  "widget.salewidget4.price": "$15000",
-  "widget.salewidget4.details": "Lorem ipsum dolor sit amet   consectetur adipisicing elit   sed do eiusmod tempor",
+  
   "widget.cardwidget1.number": "110",
   "widget.cardwidget1.text": "New Messages",
   "widget.cardwidget2.number": "100%",
@@ -544,8 +533,10 @@
   "email.cancel": "CANCEL",
   "email.compose": "COMPOSE",
   "email.noMessage": "Please select a mail to read",
+
   "themeSwitcher.purchase": "PURCHAGE NOW",
   "themeSwitcher.settings": "Settings",
+
   "sidebar.selectbox": "Select",
   "sidebar.frappeChart": "Frappe Charts",
   "topbar.help": "Help",
@@ -565,5 +556,20 @@
 
   "Market.pageHeader": "Market",
   "Market.pair": "Pair",
-  "Market.lastPrice": "Last Price"
+  "Market.lastPrice": "Last Price",
+  "Market.volumn": "Volumn",
+  "Market.high": "High",
+  "Market.low": "Low",
+  "Market.change": "Change",
+
+  "Wallet.pageHeader": "Wallet",
+  "Wallet.constantValue": "CST Value",
+  "Wallet.symbolName": "Name",
+  "Wallet.symbolCode": "Symbol",
+  "Wallet.totalBalance": "Total",
+  "Wallet.availableBalance": "Available",
+  "Wallet.inOrder": "In Order",
+  "Wallet.deposit": "Deposit",
+  "Wallet.withdraw": "Withdraw",
+  "Wallet.exchange": "Exchange"
 }

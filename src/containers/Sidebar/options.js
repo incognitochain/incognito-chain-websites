@@ -10,7 +10,7 @@ const options = [
     leftIcon: '',
   },
   {
-    key: 'Walet',
+    key: 'wallet',
     label: 'sidebar.wallet',
     leftIcon: '',
   }

@@ -155,10 +155,10 @@ class Sidebar extends Component {
         >
           <Row>
             <ContentHolder style={{ overflow: 'hidden', margin: 0 }}>
-              <Col md={2} sm={6} xs={4} >
+              <Col lg={2} md={4} sm={6} xs={4} >
               <Logo collapsed={collapsed} />
               </Col>
-              <Col md={22} sm={18} xs={20} >
+              <Col lg={22} md={20} sm={18} xs={20} >
               <Scrollbars style={{ height: 50 }}>
                 <Menu
                   onClick={this.handleClick}
