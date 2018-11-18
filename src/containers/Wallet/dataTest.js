@@ -1,31 +1,44 @@
 const tableData = [
   {
-    "symbolCode": "btcusdt",
-    "last_price": 6440.59,
-    "prevday_high": 6470.00,
-    "prevday_low": 6393.55,
-    "volumn": 9848,
-    "prevday_volumn": 9748,
-    "key": 0
+    "symbolName": "Constant",
+    "symbolCode": "CST",
+    "totalBalance": 100,
+    "availableBalance": 1,
+    "inOrder": 0,
+    "constantValue": 100,
   },
   {
-    "symbolCode": "ethusdt",
-    "last_price": 210.59,
-    "prevday_high": 213.00,
-    "prevday_low": 209.55,
-    "volumn": 97143,
-    "prevday_volumn": 107143,
-    "key": 1
+    "symbolName": "Token A",
+    "symbolCode": "ATK",
+    "totalBalance": 600,
+    "availableBalance": 400,
+    "inOrder": 200,
+    "constantValue": 0.0084,
   },
   {
-    "symbolCode": "xrpusdt",
-    "last_price": 0.5275,
-    "prevday_high": 0.5336,
-    "prevday_low": 0.5156,
-    "volumn": 60191196,
-    "prevday_volumn": 60291496,
-    "key": 2
-  }
+    "symbolName": "Token B",
+    "symbolCode": "BTK",
+    "totalBalance": 1200,
+    "availableBalance": 800,
+    "inOrder": 400,
+    "constantValue": 0.0168,
+  },
+  {
+    "symbolName": "Token C",
+    "symbolCode": "CTK",
+    "totalBalance": 1200,
+    "availableBalance": 800,
+    "inOrder": 400,
+    "constantValue": 0.0168,
+  },
+  {
+    "symbolName": "Token D",
+    "symbolCode": "DTK",
+    "totalBalance": 1200,
+    "availableBalance": 800,
+    "inOrder": 400,
+    "constantValue": 0.0168,
+  },
 ];
 
 const sortOption = {};
@@ -43,32 +56,36 @@ class dataTest {
     if (index < 0 || index > this.size) {
       return undefined;
     }
+
     if (this.datas[index] === undefined) {
       this.datas[index] = this.dataModel(index);
     }
+
     return this.datas[index];
   }
   getAll() {
     if(this.size > tableData.length)
       this.size = tableData.length;
-      
+
     if (this.datas.length < this.size) {
       for (let i = 0; i < this.size; i++) {
         this.getObjectAt(i);
+        
       }
     }
+    console.log('getAll', this.datas);
     return this.datas.slice();
   }
 
   getSize() {
     return this.size;
   }
-  getSortAsc(sortKey) {console.log('getSortAsc');
+  getSortAsc(sortKey) {
     sortOption.sortKey = sortKey;
     sortOption.sortDir = 'ASC';
     return this.datas.sort(this.sort);
   }
-  getSortDesc(sortKey) {console.log('getSortDesc');
+  getSortDesc(sortKey) {
     sortOption.sortKey = sortKey;
     sortOption.sortDir = 'DESC';
     return this.datas.sort(this.sort);

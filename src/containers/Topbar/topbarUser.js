@@ -35,7 +35,7 @@ class TopbarUser extends Component {
 
     const content = (
       <TopbarDropdownWrapper className="isoUserDropdown">
-        {config.options.map(option => {console.log(option);
+        {config.options.map(option => {
           const { languageId, icon } = option;
           const customClass = 
             languageId === language.languageId

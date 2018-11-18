@@ -42,7 +42,7 @@ const columns = [
     render: object => renderCell(object, 'NumberCell', 'last_price')
   },
   {
-    title: "Change",
+    title: <IntlMessages id="Market.change" />,
     key: 'prevday_volumn',
     width: 100,
     render: obj => {
@@ -61,19 +61,19 @@ const columns = [
     }
   },
   {
-    title: "High",
+    title: <IntlMessages id="Market.high" />,
     key: 'prevday_high',
     width: 100,
     render: object => renderCell(object, 'NumberCell', 'prevday_high')
   },
   {
-    title: "Low",
+    title: <IntlMessages id="Market.low" />,
     key: 'prevday_low',
     width: 100,
     render: object => renderCell(object, 'NumberCell', 'prevday_low')
   },
   {
-    title: "Volumn",
+    title: <IntlMessages id="Market.volumn" />,
     key: 'volumn',
     width: 100,
     render: object => renderCell(object, 'NumberCell', 'volumn')

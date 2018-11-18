@@ -9,7 +9,7 @@ theme.palette = {
     '#4C8AFF', // 4: Lighten 3%
     'rgba(68, 130, 255, 0.75)', // 5: Fade 75%
     '#6AA8FF', // 6: Lighten 15%
-    '#63A1FF', // 7: Lighten 12%
+    '#1890ff', // 7: Lighten 12%
     '#3F7DFA', // 8: Darken 2%
     '#3369e7', // 9: Algolia color
     '#5896FF', // 10: Lighten 8%
@@ -75,7 +75,7 @@ theme.palette = {
     '#323332', // 0: Heading
     '#595959', // 1: HeadingLight
     '#979797', // 2: Text
-    '#022047', // 3: TextDark
+    '#323332', // 3: TextDark
     '#6a6c6a', // 4: Heading Lighten 22%
   ],
   border: [

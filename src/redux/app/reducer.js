@@ -4,7 +4,7 @@ import actions, { getView } from './actions';
 const preKeys = getDefaultPath();
 
 const initState = {
-  collapsed: window.innerWidth > 1220 ? false : true,
+  collapsed: window.innerWidth > 768 ? false : true,
   view: getView(window.innerWidth),
   height: window.innerHeight,
   openDrawer: false,
