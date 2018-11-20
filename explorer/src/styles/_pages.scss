@@ -1,0 +1,61 @@
+.c-explorer-page {
+  padding: 20px 0;
+  &.c-explorer-page-chains {
+    .chain-item-content {
+      color: get-gray('endeavour2');
+    }
+  }
+  &.c-explorer-page-chain {
+
+  }
+  &.c-explorer-page-home {
+    .home-top-info-container {
+      padding-bottom: 0;
+    }
+    .home-search {
+      background-color: get-gray('endeavour2');
+      color: get-color('c-white');
+      border-radius: 10px;
+      .title {
+        font-weight: bold;
+        font-size: 120%;
+        margin-bottom: 10px;
+      }
+      .c-input {
+        width: 100%;
+      }
+    }
+    .home-top-info {
+      position: relative;
+      width: 100%;
+      li {
+        width: 20%;
+        a {
+          display: block;
+          padding: 20px 0;
+          text-align: center;
+          &:hover {
+            background-color: lighten(get-gray('black-haze'), 1%);
+          }
+          .data {
+            font-weight: bold;
+            font-size: 150%;
+            line-height: 22px;
+          }
+          .title {
+            color: get-gray('bali-hai');
+          }
+        }
+      }
+    }
+  }
+}
+
+.c-table {
+  overflow: hidden;
+  td {
+    max-width: 400px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

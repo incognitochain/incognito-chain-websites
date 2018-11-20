@@ -1,0 +1,15 @@
+127.0.0.1       localhost
+255.255.255.255 broadcasthost
+::1             localhost
+fe80::1%lo0     localhost
+
+# Constant websites
+
+127.0.0.1   auth.constant.money
+127.0.0.1   wallet.constant.money
+127.0.0.1   exchange.constant.money
+127.0.0.1   explorer.constant.money
+127.0.0.1   portal.constant.money
+127.0.0.1   voting.constant.money
+127.0.0.1   reserve.constant.money
+127.0.0.1   oracle.constant.money
