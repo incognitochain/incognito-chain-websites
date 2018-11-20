@@ -75,7 +75,7 @@ const columns = [
     render: obj => {
       return (
         <div>
-          <Button type="primary" className="btn" >
+          <Button type="primary" className="btn">
             <IntlMessages id="Wallet.deposit" />
           </Button>
 

@@ -73,7 +73,7 @@ class dataTest {
         
       }
     }
-    console.log('getAll', this.datas);
+    
     return this.datas.slice();
   }
 
@@ -90,7 +90,7 @@ class dataTest {
     sortOption.sortDir = 'DESC';
     return this.datas.sort(this.sort);
   }
-  sort(optionA, optionB) {console.log('sort', optionA[sortOption.sortKey], optionB[sortOption.sortKey]);
+  sort(optionA, optionB) {
 
     const valueA = isNaN(optionA[sortOption.sortKey]) ? optionA[sortOption.sortKey].toUpperCase() : optionA[sortOption.sortKey];
     const valueB = isNaN(optionB[sortOption.sortKey]) ? optionB[sortOption.sortKey].toUpperCase() : optionB[sortOption.sortKey];

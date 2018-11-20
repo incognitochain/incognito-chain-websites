@@ -16,10 +16,6 @@ const routes = [
     component: asyncComponent(() => import('../Wallet')),
   },
   {
-    path: 'authCheck',
-    component: asyncComponent(() => import('../AuthCheck')),
-  },
-  {
     path: 'exchange',
     component: asyncComponent(() => import('../Exchange')),
   }

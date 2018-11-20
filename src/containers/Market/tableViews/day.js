@@ -9,6 +9,7 @@ export default class extends Component {
       dataList: this.props.dataList.getAll()
     };
   }
+  
   onChange(pagination, filters, sorter) {
     const { dataList } = this.props;
     if (sorter && sorter.columnKey && sorter.order) {
@@ -17,9 +18,11 @@ export default class extends Component {
       } else {
         dataList.getSortDesc(sorter.columnKey);
       }
+
       this.setState({ dataList: dataList.getAll() });
     }
   }
+
   render() {
 
     return (

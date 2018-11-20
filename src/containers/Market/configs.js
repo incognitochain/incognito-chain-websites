@@ -29,64 +29,64 @@ const renderCell = (object, type, key) => {
 const columns = [
   {
     title: <IntlMessages id="Market.pair" />,
-    key: 'symbolCode',
+    key: 'DisplayName',
     width: 200,
     render: obj => {
-      return <span>{obj.symbolCode.toUpperCase()}</span>
+      return <span>{obj.DisplayName.toUpperCase()}</span>
     }
   },
   {
     title: <IntlMessages id="Market.lastPrice" />,
-    key: 'last_price',
+    key: 'Last',
     width: 100,
     render: object => renderCell(object, 'NumberCell', 'last_price')
   },
   {
     title: <IntlMessages id="Market.change" />,
-    key: 'prevday_volumn',
+    key: 'PrevPrice',
     width: 100,
     render: obj => {
       let className, percent = 0;
-        if (obj.volumn > obj.prevday_volumn) {
+        if (obj.Last > obj.PrevPrice) {
           className = 'rateUp';
-        } else if (obj.volumn < obj.prevday_volumn) {
+        } else if (obj.Last < obj.PrevPrice) {
           className = 'rateDown';
         }
         else {
           className = 'rateSame';
         }
 
-        percent = ((obj.volumn-obj.prevday_volumn) / obj.volumn) * 100;
+        percent = ((obj.Last-obj.PrevPrice) / obj.Last) * 100;
         return <RateTag className={className}>{percent > 0 ? "+" + percent.toFixed(2) : percent.toFixed(2)}{"%"}</RateTag>;
     }
   },
   {
     title: <IntlMessages id="Market.high" />,
-    key: 'prevday_high',
+    key: 'High',
     width: 100,
-    render: object => renderCell(object, 'NumberCell', 'prevday_high')
+    render: object => renderCell(object, 'NumberCell', 'High')
   },
   {
     title: <IntlMessages id="Market.low" />,
-    key: 'prevday_low',
+    key: 'Low',
     width: 100,
-    render: object => renderCell(object, 'NumberCell', 'prevday_low')
+    render: object => renderCell(object, 'NumberCell', 'Low')
   },
   {
     title: <IntlMessages id="Market.volumn" />,
-    key: 'volumn',
+    key: 'Volumn',
     width: 100,
-    render: object => renderCell(object, 'NumberCell', 'volumn')
+    render: object => renderCell(object, 'NumberCell', 'Volumn')
   }
 ];
 
 const sortColumns = [
   { ...columns[0], sorter: true },
-  { ...columns[1], sorter: true },
-  { ...columns[2], sorter: true },
-  { ...columns[3], sorter: false },
-  { ...columns[4], sorter: false },
-  { ...columns[5], sorter: true }
+  // { ...columns[1], sorter: true },
+  // { ...columns[2], sorter: true },
+  // { ...columns[3], sorter: false },
+  // { ...columns[4], sorter: false },
+  // { ...columns[5], sorter: true }
 ];
 
 

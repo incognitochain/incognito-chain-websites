@@ -1,4 +1,6 @@
-const tableData = [
+import market from './Market';
+
+const tableData2 = [
   {
     "symbolCode": "btcusdt",
     "last_price": 6440.59,
@@ -28,7 +30,9 @@ const tableData = [
   }
 ];
 
+let tableData = [];
 const sortOption = {};
+
 class dataTest {
   constructor(size) {
     this.size = size || 2000;
@@ -48,32 +52,70 @@ class dataTest {
     }
     return this.datas[index];
   }
-  getAll() {
-    if(this.size > tableData.length)
-      this.size = tableData.length;
-      
-    if (this.datas.length < this.size) {
-      for (let i = 0; i < this.size; i++) {
-        this.getObjectAt(i);
-      }
+
+  async getData(){
+    //market settings 
+    let result = await market.getMarkets();
+    let markets = {};
+    for(let s of result){
+      const { DisplayName, State, SymbolCode } = s;
+      markets[SymbolCode] = { DisplayName, State };
     }
-    return this.datas.slice();
+
+    //market datas
+    result = await market.getSymbolRates("24h");
+    let rates = [];
+    for(let s of result){
+      const setting = markets[s.SymbolCode];
+      if(setting){console.log(setting);
+        if(setting.State != "online"){
+          break;
+        }
+
+        s.DisplayName = setting.DisplayName;
+      }
+
+      rates.push(s);
+    }
+
+    //console.log(markets, rates);
+    return rates;
+  }
+
+  getAll() {
+    this.getData().then(result => {
+      tableData = result;
+
+      if(tableData && this.size > tableData.length)
+        this.size = tableData.length;
+      
+      if (this.datas.length < this.size) {
+        for (let i = 0; i < this.size; i++) {
+          this.getObjectAt(i);
+        }
+      }
+      console.log(tableData, this.datas);
+      return this.datas.slice();
+    });
   }
 
   getSize() {
     return this.size;
   }
-  getSortAsc(sortKey) {console.log('getSortAsc');
+
+  getSortAsc(sortKey) {
     sortOption.sortKey = sortKey;
     sortOption.sortDir = 'ASC';
     return this.datas.sort(this.sort);
   }
-  getSortDesc(sortKey) {console.log('getSortDesc');
+
+  getSortDesc(sortKey) {
     sortOption.sortKey = sortKey;
     sortOption.sortDir = 'DESC';
     return this.datas.sort(this.sort);
   }
-  sort(optionA, optionB) {console.log('sort', optionA[sortOption.sortKey], optionB[sortOption.sortKey]);
+
+  sort(optionA, optionB) {
 
     const valueA = isNaN(optionA[sortOption.sortKey]) ? optionA[sortOption.sortKey].toUpperCase() : optionA[sortOption.sortKey];
     const valueB = isNaN(optionB[sortOption.sortKey]) ? optionB[sortOption.sortKey].toUpperCase() : optionB[sortOption.sortKey];
@@ -90,4 +132,5 @@ class dataTest {
     return sortVal;
   }
 }
+
 export default dataTest;
