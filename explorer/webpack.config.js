@@ -28,6 +28,8 @@ module.exports = function webpackConfig(env, argv = {}) {
       host: '0.0.0.0',
       watchContentBase: true,
       stats,
+      port: '3004',
+      disableHostCheck: true,
       publicPath: '/',
       historyApiFallback: {
         disableDotRule: true,

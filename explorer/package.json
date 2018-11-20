@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "webpack-dev-server --mode development",
+    "start": "webpack-dev-server --mode development --public explorer.constant.money",
     "build": "webpack --mode production"
   },
   "dependencies": {
