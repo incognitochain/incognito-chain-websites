@@ -1,0 +1,26 @@
+{
+  "name": "constant-auth",
+  "version": "0.0.1",
+  "author": "0xbatutut <39509105+0xbatutut@users.noreply.github.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "next -p 3001 -H 0.0.0.0"
+  },
+  "devDependencies": {
+    "@constant-core-ui/base": "^0.0.2",
+    "@sindresorhus/class-names": "^1.0.0",
+    "@zeit/next-sass": "^1.0.1",
+    "axios": "^0.18.0",
+    "bootstrap-nojs": "^4.1.3",
+    "eslint": "^5.9.0",
+    "formik": "^1.3.2",
+    "next": "^7.0.2",
+    "node-sass": "^4.10.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "prop-types": "^15.6.2",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-ga": "^2.5.3"
+  }
+}

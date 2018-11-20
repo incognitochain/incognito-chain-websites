@@ -1,0 +1,58 @@
+.c-explorer-header {
+  position: relative;
+  z-index: 5;
+  background-color: get-color('c-white');
+  height: 80px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  .logo-container {
+    line-height: 80px;
+    float: left;
+    .logo {
+      float: left;
+    }
+    .title {
+      float: left;
+      margin-left: -25px;
+      color: get-color('primary');
+      font-weight: bold;
+      font-size: 22px;
+      white-space: nowrap;
+      &::first-letter {
+        visibility: hidden;
+      }
+      text-decoration: none;
+    }
+    @include breakpoint-max('sm') {
+      .logo {
+        svg {
+          height: 50px;
+        }
+      }
+      .title {
+        margin-left: -15px;
+        font-size: 16px;
+      }
+    }
+  }
+  .menu {
+    user-select: none;
+    height: 80px;
+    float: right;
+    position: relative;
+    ul {
+      height: 40px;
+      top: 50%;
+      right: 0;
+      line-height: 40px;
+      position: absolute;
+      white-space: nowrap;
+      a {
+        padding: 0 20px;
+        text-decoration: none;
+      }
+    }
+  }
+}
