@@ -1,0 +1,29 @@
+.c-pagination {
+  display: block;
+  padding: 10px 0;
+  ul {
+    @extend .c-list-inline;
+    li {
+      padding: 0 15px;
+      &:first-of-type {
+        padding-left: 0;
+      }
+      &:last-of-type {
+        padding-right: 0;
+      }
+      a {
+        font-weight: 600;
+        color: get-gray('periwinkle');
+        user-select: none;
+      }
+      &.active, &.next, &.prev {
+        a {
+          color: get-color('c-blue');
+        }
+      }
+    }
+  }
+  svg {
+    height: 16px;
+  }
+}

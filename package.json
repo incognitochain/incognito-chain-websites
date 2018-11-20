@@ -9,5 +9,9 @@
     "auth": "cd auth && yarn dev",
     "exchange": "cd exchange && yarn start",
     "explorer": "cd explorer && yarn start"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bootstrap-nojs": "^4.1.3"
   }
 }

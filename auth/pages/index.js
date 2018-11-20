@@ -1,10 +1,9 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
-// import { Link } from 'react-router-dom';
 import Head from 'next/head';
+import axios from 'axios';
 
-import '../styles/auth.scss';
+import '../auth.scss';
 
 const title = 'Account - Constant: untraceable, constant, digital cash.';
 const description = 'Account dashboard of constant.money';
@@ -48,7 +47,10 @@ class Index extends React.Component {
           <div className="container">
             <div className="row">
               <div className="col-12">
-
+                <form action="">
+                  <input type="text" className="c-input" />
+                  <input type="text" className="c-input" />
+                </form>
               </div>
             </div>
           </div>

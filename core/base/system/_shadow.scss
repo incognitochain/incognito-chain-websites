@@ -1,0 +1,20 @@
+$default-color-shadow: rgba(0, 0, 0, 0.10);
+
+.c-shadow-100 {
+  @include shadow($default-color-shadow, 's-100');
+}
+.c-shadow-200 {
+  @include shadow($default-color-shadow, 's-200');
+}
+.c-shadow-300 {
+  @include shadow($default-color-shadow, 's-300');
+}
+.c-shadow-400 {
+  @include shadow($default-color-shadow, 's-400');
+}
+.c-shadow-500 {
+  @include shadow($default-color-shadow, 's-500');
+}
+.c-shadow-600 {
+  @include shadow($default-color-shadow, 's-600');
+}

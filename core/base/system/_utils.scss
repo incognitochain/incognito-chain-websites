@@ -1,0 +1,5 @@
+.c-text-ellipsis, .c-text-cut {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

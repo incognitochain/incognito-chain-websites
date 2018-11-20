@@ -1,0 +1,29 @@
+.c-table {
+  tr {
+    td {
+      padding-top: 9px;
+      padding-bottom: 9px;
+      padding-right: 15px;
+      &:last-of-type {
+        padding-right: 0;
+      }
+    }
+    &:last-of-type {
+      td {
+        border-bottom-color: transparent;
+      }
+    }
+  }
+  &.c-table-list {
+    tr {
+      td {
+        &:first-of-type {
+          &:after {
+            content: ':';
+            padding-left: 2px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+.c-input {
+  height: 50px;
+  line-height: 50px;
+  padding: 0 20px;
+  border: 1px solid get-gray('periwinkle');
+  border-radius: 4px;
+  color: get-gray('bali-hai');
+  outline-color: get-gray('bali-hai');
+  .c-input-block {
+    display: block;
+  }
+  &:hover {
+    border-color: get-gray('bali-hai');
+  }
+  &:active {
+    border-color: get-color('bali-hai');
+  }
+  &.c-input-error {
+    border-color: get-color('c-red');
+    color: get-color('c-red');
+    outline-color: get-color('c-red');
+  }
+  &.c-input-success {
+    border-color: get-color('c-turquose');
+    color: get-color('c-turquose');
+    outline-color: get-color('c-turquose');
+  }
+  &.c-input-disabled {
+    border-color: get-color('c-red');
+    color: get-color('c-red');
+    outline-color: get-color('c-red');
+  }
+}
+
+.c-input-group {
+  label {
+    input {
+      margin-top: 2px;
+      display: block;
+    }
+  }
+}
