@@ -2,29 +2,33 @@
   height: 50px;
   line-height: 50px;
   padding: 0 20px;
-  border: 1px solid get-gray('periwinkle');
-  border-radius: 4px;
-  color: get-gray('bali-hai');
-  outline-color: get-gray('bali-hai');
+  border-radius: 3px;
+  outline: 0;
+  border: none;
+  font-size: 14px;
+
+  @extend .c-shadow-100;
+
   .c-input-block {
     display: block;
   }
+
   &:hover {
-    border-color: get-gray('bali-hai');
+    @extend .c-shadow-200;
   }
-  &:active {
-    border-color: get-color('bali-hai');
-  }
+
   &.c-input-error {
     border-color: get-color('c-red');
     color: get-color('c-red');
     outline-color: get-color('c-red');
   }
+
   &.c-input-success {
     border-color: get-color('c-turquose');
     color: get-color('c-turquose');
     outline-color: get-color('c-turquose');
   }
+
   &.c-input-disabled {
     border-color: get-color('c-red');
     color: get-color('c-red');
@@ -32,11 +36,12 @@
   }
 }
 
-.c-input-group {
+.c-input-group, .c-field {
   label {
     input {
-      margin-top: 2px;
+      margin-top: 3px;
       display: block;
     }
   }
+  margin-bottom: 10px;
 }

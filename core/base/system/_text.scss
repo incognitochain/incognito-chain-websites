@@ -48,3 +48,8 @@ h6, .h6 {
 .c-text-nowrap {
   white-space: nowrap;
 }
+
+.c-error {
+  font-size: 14px;
+  @extend .c-color-red;
+}

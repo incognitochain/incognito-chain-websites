@@ -1,1 +1,18 @@
 @import '../core/base/main.scss';
+
+.auth-page {
+  max-width: 500px;
+  margin: 0 auto;
+  padding-top: 15vh;
+
+  .title {
+    text-align: center;
+    font-size: 150%;
+    margin-bottom: 30px;
+    font-weight: 500;
+  }
+}
+
+.auth-route {
+  text-align: center;
+}
