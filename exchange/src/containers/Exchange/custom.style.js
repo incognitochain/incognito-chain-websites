@@ -1,7 +1,29 @@
 import styled from 'styled-components';
 import { palette } from 'styled-theme';
 
+const rowStyle = {
+  width: '100%',
+  display: 'flex',
+  flexFlow: 'row wrap',
+  marginLeft: '0.3rem',
+  marginRight: '0.3rem',
+  marginTop: '0.3rem',
+};
+const colStyle = {
+  padding: '0.3rem',
+};
+
+const boxStyle = {
+  padding: '1rem'
+}
+
 const TableStyle = styled.div`
+border: none !important;
+    padding: 0px !important;
+  .isoLayoutContent {
+    
+  }
+
   .ant-tabs-content {
     margin-top: 40px;
   }
@@ -9,6 +31,7 @@ const TableStyle = styled.div`
   .ant-tabs-nav {
     > div {
       color: ${palette('secondary', 2)};
+      padding: 0;
 
       &.ant-tabs-ink-bar {
         background-color: ${palette('primary', 0)};
@@ -21,5 +44,4 @@ const TableStyle = styled.div`
   }
 `;
 
-
-export default TableStyle;
+export { rowStyle, colStyle, boxStyle, TableStyle };

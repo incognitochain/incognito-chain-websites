@@ -29,7 +29,7 @@ const renderCell = (object, type, key) => {
 
 const columns = [
   {
-    title: <IntlMessages id="Market.pair" />,
+    title: <IntlMessages id="Market.Pair" />,
     key: 'DisplayName',
     width: 200,
     render: obj => {
@@ -37,13 +37,13 @@ const columns = [
     }
   },
   {
-    title: <IntlMessages id="Market.lastPrice" />,
+    title: <IntlMessages id="Market.LastPrice" />,
     key: 'Last',
     width: 100,
     render: obj => renderCell(obj, 'NumberCell', 'Last')
   },
   {
-    title: <IntlMessages id="Market.change" />,
+    title: <IntlMessages id="Market.Change" />,
     key: 'PrevPrice',
     width: 100,
     render: obj => {
@@ -67,19 +67,19 @@ const columns = [
     }
   },
   {
-    title: <IntlMessages id="Market.high" />,
+    title: <IntlMessages id="Market.High" />,
     key: 'High',
     width: 100,
     render: obj => renderCell(obj, 'NumberCell', 'High')
   },
   {
-    title: <IntlMessages id="Market.low" />,
+    title: <IntlMessages id="Market.Low" />,
     key: 'Low',
     width: 100,
     render: obj => renderCell(obj, 'NumberCell', 'Low')
   },
   {
-    title: <IntlMessages id="Market.volume" />,
+    title: <IntlMessages id="Market.Volume" />,
     key: 'Volume',
     width: 100,
     render: obj => renderCell(obj, 'NumberCell', 'Volume')

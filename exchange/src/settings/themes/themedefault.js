@@ -113,7 +113,6 @@ theme.content = {
   pageTitle: '#022047',
   padding: '50px 0 0',
   flexShrink: '0',
-  background: '#FFF',
   position: 'relative'
 }
 

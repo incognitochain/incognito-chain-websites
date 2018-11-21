@@ -1,17 +1,17 @@
 const options = [
   {
     key: 'market',
-    label: 'sidebar.market',
+    label: 'sidebar.Market',
     leftIcon: '',
   },
   {
     key: 'exchange',
-    label: 'sidebar.exchange',
+    label: 'sidebar.Exchange',
     leftIcon: '',
   },
   {
     key: 'wallet',
-    label: 'sidebar.wallet',
+    label: 'sidebar.Wallet',
     leftIcon: '',
   }
 ];

@@ -66,11 +66,11 @@ class TopbarUser extends Component {
     const unlogin = (
         <TopbarUserWrapper>
           <Button type="primary" className="btnSignin" >
-            <IntlMessages id="topbar.signin" />
+            <IntlMessages id="topbar.Signin" />
           </Button>
 
           <Button type="primary" className="btnSignup" >
-            <IntlMessages id="topbar.signup" />
+            <IntlMessages id="topbar.Signup" />
           </Button>
           
           <Popover
@@ -82,7 +82,7 @@ class TopbarUser extends Component {
             placement="bottomLeft"
           >
             <Button type="default" className="btnLanguage" >
-              <IntlMessages id="topbar.language" />
+              <IntlMessages id="topbar.Language" />
             </Button>
           </Popover>
 

@@ -1,30 +1,45 @@
-const tableData = [
+const dataTradeHistory = [
   {
-    "symbolCode": "btcusdt",
-    "last_price": 6440.59,
-    "prevday_high": 6470.00,
-    "prevday_low": 6393.55,
-    "volume": 9848,
-    "prevday_volume": 9748,
+    "price": 6440.59,
+    "unit": 6470.00,
+    "side": "buy",
+    "time": "19:53:49",
     "key": 0
   },
   {
-    "symbolCode": "ethusdt",
-    "last_price": 210.59,
-    "prevday_high": 213.00,
-    "prevday_low": 209.55,
-    "volume": 97143,
-    "prevday_volume": 107143,
+    "price": 6440.59,
+    "unit": 6470.00,
+    "side": "buy",
+    "time": "19:53:49",
     "key": 1
   },
   {
-    "symbolCode": "xrpusdt",
-    "last_price": 0.5275,
-    "prevday_high": 0.5336,
-    "prevday_low": 0.5156,
-    "volume": 60191196,
-    "prevday_volume": 60291496,
+    "price": 6440.59,
+    "unit": 6470.00,
+    "side": "sell",
+    "time": "19:53:49",
     "key": 2
+  },
+  {
+    "price": 6440.59,
+    "unit": 6470.00,
+    "side": "sell",
+    "time": "19:53:49",
+    "key": 3
+  },
+  {
+    "price": 6440.59,
+    "unit": 6470.00,
+    "side": "buy",
+    "time": "19:53:49",
+    "key": 4
+  },
+  {
+    "price": 6440.59,
+    "unit": 6470.00,
+    "side": "buy",
+    "time": "19:53:49",
+    "key": 5
   }
 ];
 
@@ -36,9 +51,12 @@ class Data {
     this.sortKey = null;
     this.sortDir = null;
   }
+  
+
   dataModel(index) {
-    return tableData[index];
+    return dataTradeHistory[index];
   }
+
   getObjectAt(index) {
     if (index < 0 || index > this.size) {
       return undefined;
@@ -48,7 +66,11 @@ class Data {
     }
     return this.datas[index];
   }
+
   getAll() {
+    if(dataTradeHistory && this.size > dataTradeHistory.length)
+      this.size = dataTradeHistory.length;
+
     if (this.datas.length < this.size) {
       for (let i = 0; i < this.size; i++) {
         this.getObjectAt(i);
@@ -57,34 +79,5 @@ class Data {
     return this.datas.slice();
   }
 
-  getSize() {
-    return this.size;
-  }
-  getSortAsc(sortKey) {console.log('getSortAsc');
-    sortOption.sortKey = sortKey;
-    sortOption.sortDir = 'ASC';
-    return this.datas.sort(this.sort);
-  }
-  getSortDesc(sortKey) {console.log('getSortDesc');
-    sortOption.sortKey = sortKey;
-    sortOption.sortDir = 'DESC';
-    return this.datas.sort(this.sort);
-  }
-  sort(optionA, optionB) {console.log('sort', optionA[sortOption.sortKey], optionB[sortOption.sortKey]);
-
-    const valueA = isNaN(optionA[sortOption.sortKey]) ? optionA[sortOption.sortKey].toUpperCase() : optionA[sortOption.sortKey];
-    const valueB = isNaN(optionB[sortOption.sortKey]) ? optionB[sortOption.sortKey].toUpperCase() : optionB[sortOption.sortKey];
-    let sortVal = 0;
-    if (valueA > valueB) {
-      sortVal = 1;
-    }
-    if (valueA < valueB) {
-      sortVal = -1;
-    }
-    if (sortVal !== 0 && sortOption.sortDir === 'DESC') {
-      return sortVal * (-1);
-    }
-    return sortVal;
-  }
 }
 export default Data;

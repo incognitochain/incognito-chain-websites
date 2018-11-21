@@ -8,7 +8,7 @@ import {
   TextCell,
   NumberCell
 } from '../../components/tables/helperCells';
-import { RateTag } from './tableViews/style';
+import { PriceSide } from './tableViews/style';
 
 const renderCell = (object, type, key) => {
   const value = object[key];
@@ -28,65 +28,31 @@ const renderCell = (object, type, key) => {
 
 const columns = [
   {
-    title: <IntlMessages id="Market.pair" />,
-    key: 'symbolCode',
-    width: 200,
+    title: <IntlMessages id="Exchange.TradeHistory.Price" />,
+    key: 'price',
+    width: 100,
     render: obj => {
-      return <span>{obj.symbolCode.toUpperCase()}</span>
+      return <PriceSide className={obj.side}>{obj.price}</PriceSide>
     }
   },
   {
-    title: <IntlMessages id="Market.lastPrice" />,
-    key: 'last_price',
+    title: <IntlMessages id="Exchange.TradeHistory.Unit" />,
+    key: 'unit',
     width: 100,
-    render: object => renderCell(object, 'NumberCell', 'last_price')
+    render: obj => renderCell(obj, 'TextCell', 'unit')
   },
   {
-    title: "Change",
-    key: 'prevday_volume',
+    title: <IntlMessages id="Exchange.TradeHistory.Time" />,
+    key: 'time',
     width: 100,
-    render: obj => {
-      let className, percent = 0;
-        if (obj.volume > obj.prevday_volume) {
-          className = 'rateUp';
-        } else if (obj.volume < obj.prevday_volume) {
-          className = 'rateDown';
-        }
-        else {
-          className = 'rateSame';
-        }
-
-        percent = ((obj.volume-obj.prevday_volume) / obj.volume) * 100;
-        return <RateTag className={className}>{percent > 0 ? "+" + percent.toFixed(2) : percent.toFixed(2)}{"%"}</RateTag>;
-    }
-  },
-  {
-    title: "High",
-    key: 'prevday_high',
-    width: 100,
-    render: object => renderCell(object, 'NumberCell', 'prevday_high')
-  },
-  {
-    title: "Low",
-    key: 'prevday_low',
-    width: 100,
-    render: object => renderCell(object, 'NumberCell', 'prevday_low')
-  },
-  {
-    title: "Volume",
-    key: 'volume',
-    width: 100,
-    render: object => renderCell(object, 'NumberCell', 'volume')
+    render: obj => renderCell(obj, 'TextCell', 'time')
   }
 ];
 
 const sortColumns = [
-  { ...columns[0], sorter: true },
-  { ...columns[1], sorter: true },
-  { ...columns[2], sorter: true },
-  { ...columns[3], sorter: false },
-  { ...columns[4], sorter: false },
-  { ...columns[5], sorter: true }
+  { ...columns[0] },
+  { ...columns[1] },
+  { ...columns[2] }
 ];
 
 

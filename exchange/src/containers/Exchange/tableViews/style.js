@@ -23,6 +23,7 @@ const TableWrapper = styled(Table)`
     font-size: 13px;
     background-color: ${palette('secondary', 1)};
     border-bottom: 0;
+    padding: 0.5rem !important;
 
     &.ant-table-column-sort {
       background: ${palette('secondary', 1)};
@@ -31,10 +32,20 @@ const TableWrapper = styled(Table)`
     }
   }
 
+  .ant-table-thead > tr:first-child > th:first-child {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+  }
+
+  .ant-table-thead > tr:first-child > th:last-child {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+  }
+
   .ant-table-thead > tr > th,
   .ant-table-tbody > tr > td {
     font-size: 0.9rem;
-    padding: 16px 15px;
+    padding: 0.5rem;
     white-space: nowrap;
     text-align: ${props => (props['data-rtl'] === 'rtl' ? 'right' : 'left')};
 
@@ -416,32 +427,19 @@ const WDCustomizedTableWrapper = styled.div`
   }
 `;
 
-const RateTag = styled.span`
-  padding: 0 5px;
-  height: 24px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 2px;
-  background-color: ${palette('primary', 0)};
-  min-width: 60px;
-  color: #ffffff;
-  text-transform: capitalize;
-
-  &.rateDown {
-    background-color: ${palette('error', 0)};
+const PriceSide = styled.span`
+  color: ${palette('primary', 0)};
+  
+  &.sell {
+    color: ${palette('error', 0)};
   }
 
-  &.rateSame {
-    background-color: ${palette('warning', 0)};
-  }
-
-  &.rateUp {
-    background-color: ${palette('success', 0)};
+  &.buy {
+    color: ${palette('success', 0)};
   }
 `;
 
 const CustomizedTableWrapper = WithDirection(WDCustomizedTableWrapper);
 
-export { CustomizedTableWrapper, RateTag };
+export { CustomizedTableWrapper, PriceSide };
 export default WithDirection(TableWrapper);
