@@ -4,8 +4,8 @@ const tableData = [
     "last_price": 6440.59,
     "prevday_high": 6470.00,
     "prevday_low": 6393.55,
-    "volumn": 9848,
-    "prevday_volumn": 9748,
+    "volume": 9848,
+    "prevday_volume": 9748,
     "key": 0
   },
   {
@@ -13,8 +13,8 @@ const tableData = [
     "last_price": 210.59,
     "prevday_high": 213.00,
     "prevday_low": 209.55,
-    "volumn": 97143,
-    "prevday_volumn": 107143,
+    "volume": 97143,
+    "prevday_volume": 107143,
     "key": 1
   },
   {
@@ -22,14 +22,14 @@ const tableData = [
     "last_price": 0.5275,
     "prevday_high": 0.5336,
     "prevday_low": 0.5156,
-    "volumn": 60191196,
-    "prevday_volumn": 60291496,
+    "volume": 60191196,
+    "prevday_volume": 60291496,
     "key": 2
   }
 ];
 
 const sortOption = {};
-class dataTest {
+class Data {
   constructor(size) {
     this.size = size || 2000;
     this.datas = [];
@@ -87,4 +87,4 @@ class dataTest {
     return sortVal;
   }
 }
-export default dataTest;
+export default Data;

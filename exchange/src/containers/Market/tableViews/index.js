@@ -1,6 +1,6 @@
-import day from './day';
-import fourHours from './day';
-import oneHour from './day';
+import day from './sortView';
+import fourHours from './sortView';
+import oneHour from './sortView';
 
 export {
   day,

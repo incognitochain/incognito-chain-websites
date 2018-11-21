@@ -11,6 +11,7 @@ import {
 import { RateTag } from './tableViews/style';
 
 const renderCell = (object, type, key) => {
+  
   const value = object[key];
   switch (type) {
     case 'ImageCell':
@@ -39,7 +40,7 @@ const columns = [
     title: <IntlMessages id="Market.lastPrice" />,
     key: 'Last',
     width: 100,
-    render: object => renderCell(object, 'NumberCell', 'last_price')
+    render: obj => renderCell(obj, 'NumberCell', 'Last')
   },
   {
     title: <IntlMessages id="Market.change" />,
@@ -57,54 +58,59 @@ const columns = [
         }
 
         percent = ((obj.Last-obj.PrevPrice) / obj.Last) * 100;
-        return <RateTag className={className}>{percent > 0 ? "+" + percent.toFixed(2) : percent.toFixed(2)}{"%"}</RateTag>;
+        if(isNaN(percent)){
+          return <RateTag className={className}>%</RateTag>
+        }
+        else{
+          return <RateTag className={className}>{percent > 0 ? "+" + percent.toFixed(2) : percent.toFixed(2)}{"%"}</RateTag>;
+        }
     }
   },
   {
     title: <IntlMessages id="Market.high" />,
     key: 'High',
     width: 100,
-    render: object => renderCell(object, 'NumberCell', 'High')
+    render: obj => renderCell(obj, 'NumberCell', 'High')
   },
   {
     title: <IntlMessages id="Market.low" />,
     key: 'Low',
     width: 100,
-    render: object => renderCell(object, 'NumberCell', 'Low')
+    render: obj => renderCell(obj, 'NumberCell', 'Low')
   },
   {
-    title: <IntlMessages id="Market.volumn" />,
-    key: 'Volumn',
+    title: <IntlMessages id="Market.volume" />,
+    key: 'Volume',
     width: 100,
-    render: object => renderCell(object, 'NumberCell', 'Volumn')
+    render: obj => renderCell(obj, 'NumberCell', 'Volume')
   }
 ];
 
 const sortColumns = [
-  { ...columns[0], sorter: true },
-  // { ...columns[1], sorter: true },
-  // { ...columns[2], sorter: true },
-  // { ...columns[3], sorter: false },
-  // { ...columns[4], sorter: false },
-  // { ...columns[5], sorter: true }
+  { ...columns[0], sorter: false },
+  { ...columns[1], sorter: true },
+  { ...columns[2], sorter: true },
+  { ...columns[3], sorter: true },
+  { ...columns[4], sorter: true },
+  { ...columns[5], sorter: true }
 ];
 
 
 
 const tableinfos = [
   {
-    title: '1 day',
-    value: 'day',
+    title: 'One day',
+    value: '24h',
     columns: clone(sortColumns)
   },
   {
     title: '4H',
-    value: 'fourHours',
+    value: '4h',
     columns: clone(sortColumns)
   },
   {
     title: '1H',
-    value: 'oneHour',
+    value: '1h',
     columns: clone(sortColumns)
   }
 ];

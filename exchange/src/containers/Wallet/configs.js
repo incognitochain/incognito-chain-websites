@@ -9,7 +9,6 @@ import {
   NumberCell
 } from '../../components/tables/helperCells';
 import Button from '../../components/uielements/button';
-import IsoButton from '../../components/uielements/button';
 
 const renderCell = (object, type, key) => {
   const value = object[key];

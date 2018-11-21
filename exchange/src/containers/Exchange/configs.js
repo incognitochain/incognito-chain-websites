@@ -43,20 +43,20 @@ const columns = [
   },
   {
     title: "Change",
-    key: 'prevday_volumn',
+    key: 'prevday_volume',
     width: 100,
     render: obj => {
       let className, percent = 0;
-        if (obj.volumn > obj.prevday_volumn) {
+        if (obj.volume > obj.prevday_volume) {
           className = 'rateUp';
-        } else if (obj.volumn < obj.prevday_volumn) {
+        } else if (obj.volume < obj.prevday_volume) {
           className = 'rateDown';
         }
         else {
           className = 'rateSame';
         }
 
-        percent = ((obj.volumn-obj.prevday_volumn) / obj.volumn) * 100;
+        percent = ((obj.volume-obj.prevday_volume) / obj.volume) * 100;
         return <RateTag className={className}>{percent > 0 ? "+" + percent.toFixed(2) : percent.toFixed(2)}{"%"}</RateTag>;
     }
   },
@@ -73,10 +73,10 @@ const columns = [
     render: object => renderCell(object, 'NumberCell', 'prevday_low')
   },
   {
-    title: "Volumn",
-    key: 'volumn',
+    title: "Volume",
+    key: 'volume',
     width: 100,
-    render: object => renderCell(object, 'NumberCell', 'volumn')
+    render: object => renderCell(object, 'NumberCell', 'volume')
   }
 ];
 
