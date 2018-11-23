@@ -57,7 +57,7 @@ const TableWrapper = styled(Table)`
   .ant-table-tbody > tr > td {
     font-size: 0.9rem;
     color: ${palette('text', 3)};
-    border-bottom: 1px solid ${palette('border', 0)};
+    border-bottom: 1px solid ${palette('border', 2)};
 
     a {
       color: ${palette('primary', 0)};
@@ -194,210 +194,6 @@ const TableWrapper = styled(Table)`
   .ant-table-column-sorter-down.on .anticon-caret-down {
     color: ${palette('primary', 0)};
   }
-
-  &.isoSearchableTable {
-    .isoTableSearchBox {
-      padding: 20px;
-      display: flex;
-      background: #ffffff;
-      border: 1px solid ${palette('border', 0)};
-      ${boxShadow('0 1px 6px rgba(0,0,0,0.2)')};
-
-      input {
-        font-size: 14px;
-        font-weight: 400;
-        color: ${palette('text', 3)};
-        line-height: inherit;
-        height: 36px;
-        width: 100%;
-        padding: 0 15px;
-        margin: 0;
-        border: 1px solid ${palette('secondary', 7)};
-        outline: 0 !important;
-        overflow: hidden;
-        background-color: #ffffff;
-        ${borderRadius('3px 0 0 3px')};
-        ${transition()};
-        ${boxShadow('none')};
-
-        &:focus,
-        &:hover {
-          border-color: ${palette('secondary', 7)};
-          ${boxShadow('none')};
-        }
-
-        &::-webkit-input-placeholder {
-          color: ${palette('grayscale', 0)};
-        }
-
-        &:-moz-placeholder {
-          color: ${palette('grayscale', 0)};
-        }
-
-        &::-moz-placeholder {
-          color: ${palette('grayscale', 0)};
-        }
-        &:-ms-input-placeholder {
-          color: ${palette('grayscale', 0)};
-        }
-      }
-
-      button {
-        font-size: 12px;
-        font-weight: 400;
-        padding: 0;
-        text-transform: uppercase;
-        color: #ffffff;
-        background-color: ${palette('primary', 0)};
-        border: 0;
-        outline: 0;
-        height: 36px;
-        padding: 0 15px;
-        margin-left: -1px;
-        cursor: pointer;
-        border-radius: ${props =>
-          props['data-rtl'] === 'rtl' ? '3px 0 0 3px' : '0 3px 3px 0'};
-        ${transition()};
-
-        &:hover {
-          background-color: ${palette('primary', 1)};
-        }
-      }
-    }
-
-    .ant-table-thead > tr > th {
-      word-break: keep-all;
-
-      span {
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-
-        i {
-          margin: ${props =>
-            props['data-rtl'] === 'rtl' ? '0 0 0 10px' : '0 10px 0 0'};
-          order: -1;
-        }
-      }
-    }
-  }
-
-  &.isoGroupTable {
-    .ant-table-thead > tr {
-      th {
-        border: 1px solid ${palette('border', 0)};
-        border-left: 0;
-
-        &[rowspan] {
-          text-align: center;
-        }
-
-        &.isoImageCell {
-          padding: 3px;
-        }
-      }
-
-      &:first-child {
-        th {
-          &:first-child {
-            border-left: ${props => (props['data-rtl'] === 'rtl' ? '0' : '1px')}
-              solid ${palette('border', 0)};
-          }
-        }
-      }
-
-      &:last-child {
-        th {
-          border-top: 0;
-        }
-      }
-    }
-
-    .ant-table-tbody {
-      .ant-table-row {
-        td {
-          border-right: 1px solid ${palette('border', 0)};
-
-          &:first-child {
-            border-left: ${props => (props['data-rtl'] === 'rtl' ? '0' : '1px')}
-              solid ${palette('border', 0)};
-          }
-
-          &:last-child {
-            border-left: ${props => (props['data-rtl'] === 'rtl' ? '1px' : '0')}
-              solid ${palette('border', 0)};
-          }
-
-          &.isoImageCell {
-            padding: 3px;
-          }
-        }
-      }
-    }
-  }
-
-  &.isoEditableTable {
-    .isoEditData {
-      .isoEditDataWrapper {
-        display: flex;
-        align-items: center;
-
-        input {
-          font-size: 12px;
-          font-weight: 400;
-          color: ${palette('text', 3)};
-          line-height: inherit;
-          padding: 7px 10px;
-          margin: ${props =>
-            props['data-rtl'] === 'rtl' ? '0 0 0 10px' : '0 10px 0 0'};
-          border: 1px solid ${palette('border', 0)};
-          outline: 0 !important;
-          overflow: hidden;
-          background-color: #ffffff;
-          ${borderRadius('3px')};
-          ${boxShadow()};
-          ${transition()};
-
-          &:focus,
-          &:hover {
-            border-color: ${palette('border', 0)};
-            ${boxShadow()};
-          }
-
-          &::-webkit-input-placeholder {
-            color: ${palette('grayscale', 0)};
-          }
-
-          &:-moz-placeholder {
-            color: ${palette('grayscale', 0)};
-          }
-
-          &::-moz-placeholder {
-            color: ${palette('grayscale', 0)};
-          }
-          &:-ms-input-placeholder {
-            color: ${palette('grayscale', 0)};
-          }
-        }
-
-        .isoEditIcon {
-          cursor: pointer;
-        }
-      }
-
-      .isoDataWrapper {
-        display: flex;
-        align-items: center;
-
-        .isoEditIcon {
-          margin: ${props =>
-            props['data-rtl'] === 'rtl' ? '0 auto 0 0' : '0 0 0 auto'};
-          cursor: pointer;
-          flex-shrink: 0;
-        }
-      }
-    }
-  }
 `;
 
 const WDCustomizedTableWrapper = styled.div`
@@ -427,6 +223,14 @@ const WDCustomizedTableWrapper = styled.div`
   }
 `;
 
+const OrderForm = styled.div`
+  
+  .ant-tabs-tab {
+    margin: 0 12px 0 0 !important;
+  }
+
+`;
+
 const PriceSide = styled.span`
   color: ${palette('primary', 0)};
   
@@ -439,7 +243,63 @@ const PriceSide = styled.span`
   }
 `;
 
+const Label = styled.div`
+  font-weight: 400;
+  padding-bottom: 0.2rem;
+  padding-top: 0.2rem;
+`;
+
+const OrderFormFooter = styled.div`
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: solid 1px ${palette("border", 1)};
+
+  > div {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  
+    span {
+      font-size: 14px;
+      font-weight: 500;
+      color: ${palette("text", 0)};
+      line-height: 1.2;
+    }
+  }
+  
+`;
+
+const OrderSide = {
+  width: '100%',
+
+  'Default': {
+    width:'50%', 
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+
+  'Sell': {
+    width:'50%', 
+    color: 'White',
+    fontWeight: '500',
+    textAlign: 'center',
+    borderColor: '#f64744',
+    backgroundColor: '#f64744'
+  },
+  'Buy': {
+    width:'50%', 
+    color: 'White',
+    fontWeight: '500',
+    textAlign: 'center',
+    borderColor: '#00b16a',
+    backgroundColor: '#00b16a'
+  }
+  
+};
+
 const CustomizedTableWrapper = WithDirection(WDCustomizedTableWrapper);
 
-export { CustomizedTableWrapper, PriceSide };
+export { CustomizedTableWrapper, PriceSide, OrderSide, Label, OrderForm, OrderFormFooter };
 export default WithDirection(TableWrapper);

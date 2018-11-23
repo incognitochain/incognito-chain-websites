@@ -1,14 +1,14 @@
-import React from 'react';
-import clone from 'clone';
-import IntlMessages from '../../components/utility/intlMessages';
+import React, { Component } from 'react';
+import IntlMessages from '../../../components/utility/intlMessages';
 import {
   DateCell,
   ImageCell,
   LinkCell,
   TextCell,
-  NumberCell
-} from '../../components/tables/helperCells';
-import { PriceSide } from './tableViews/style';
+  NumberCell,
+  TimeCell
+} from '../../../components/tables/helperCells';
+import TableWrapper, { PriceSide } from './style';
 
 const renderCell = (object, type, key) => {
   const value = object[key];
@@ -21,6 +21,8 @@ const renderCell = (object, type, key) => {
       return LinkCell(value);
     case 'NumberCell':
       return NumberCell(value);
+    case 'TimeCell':
+      return TimeCell(value);
     default:
       return TextCell(value);
   }
@@ -49,17 +51,18 @@ const columns = [
   }
 ];
 
-const sortColumns = [
-  { ...columns[0] },
-  { ...columns[1] },
-  { ...columns[2] }
-];
-
-
-const tableinfo = 
-{
-  title: 'Sortable Table',
-  value: 'sortView',
-  columns: clone(sortColumns)
-};
-export { columns, tableinfo };
+export default class extends Component {
+  
+  render() {
+    const dataSource = this.props.dataSource || this.props.dataList.getAll();
+    //const columns = this.props.columns || this.props.tableInfo.columns;
+    return (
+      <TableWrapper
+        pagination={false}
+        columns={columns}
+        dataSource={dataSource}
+        className="isoSimpleTable"
+      />
+    );
+  }
+}

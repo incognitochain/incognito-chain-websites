@@ -497,5 +497,21 @@
   "Exchange.TradeHistory": "Trade History",
   "Exchange.TradeHistory.Price": "Price",
   "Exchange.TradeHistory.Unit": "Unit",
-  "Exchange.TradeHistory.Time": "Date"
+  "Exchange.TradeHistory.Time": "Date",
+
+  "Exchange.PriceChart": "Price Chart",
+
+  "Exchange.OrderBook": "Order Book",
+  "Exchange.OrderBook.Price": "Price",
+  "Exchange.OrderBook.Amount": "Amount",
+  "Exchange.OrderBook.Total": "Total",
+  
+  
+  "Exchange.OrderForm": "Order Form",
+  "Exchange.OrderForm.Price": "Price",
+  "Exchange.OrderForm.Amount": "Amount",
+  "Exchange.OrderForm.Fee": "Fee",
+  "Exchange.OrderForm.Total": "Total",
+  "Exchange.OrderForm.PlaceOrderBuy": "Place Order Buy",
+  "Exchange.OrderForm.PlaceOrderSell": "Place Order Sell"
 }

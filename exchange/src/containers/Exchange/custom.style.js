@@ -29,16 +29,22 @@ border: none !important;
   }
 
   .ant-tabs-nav {
+    &.ant-tabs-tab {
+      
+    }
+    
     > div {
       color: ${palette('secondary', 2)};
       padding: 0;
 
+      
       &.ant-tabs-ink-bar {
         background-color: ${palette('primary', 0)};
       }
 
       &.ant-tabs-tab-active {
         color: ${palette('primary', 0)};
+        margin-right: 10px;
       }
     }
   }

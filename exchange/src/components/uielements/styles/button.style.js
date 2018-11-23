@@ -117,6 +117,28 @@ const Buttons = ComponentName => styled(ComponentName)`
       }
     }
 
+    &.ant-btn-success {
+      background-color: ${palette('success', 0)};
+      border-color: ${palette('success', 0)};
+      color: #ffffff;
+
+      &:hover {
+        background-color: ${palette('success', 2)};
+        border-color: ${palette('success', 2)};
+      }
+
+      &.ant-btn-background-ghost {
+        color: ${palette('error', 0)};
+        background-color: transparent;
+        border-color: ${palette('success', 0)};
+
+        &:hover {
+          color: ${palette('success', 2)};
+          border-color: ${palette('success', 2)};
+        }
+      }
+    }
+
     &.ant-btn-circle,
     &.ant-btn-circle-outline {
       width: 35px;
@@ -159,7 +181,7 @@ const Buttons = ComponentName => styled(ComponentName)`
     &.ant-btn-loading:not(.ant-btn-circle):not(.ant-btn-circle-outline)
       .anticon {
       margin: ${props =>
-        props['data-rtl'] === 'rtl' ? '0 -14px 0 0' : '0 0 0 -14px'};
+        props['data-rtl'] === 'rtl' ? '0 -14px 0 0' : '0 0 0 -14px'};
     }
 
     &.isoButton {

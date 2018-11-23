@@ -1,60 +1,50 @@
-const dataTradeHistory = [
+const dataOrderBook = [
   {
     "price": 6440.59,
-    "unit": 6470.00,
+    "amount": 0.444,
+    "total": "612.34",
     "side": "buy",
-    "time": "19:53:49",
     "key": 0
   },
   {
     "price": 6440.59,
-    "unit": 6470.00,
+    "amount": 0.1,
+    "total": "195,349",
     "side": "buy",
-    "time": "19:53:49",
     "key": 1
   },
   {
     "price": 6440.59,
-    "unit": 6470.00,
-    "side": "sell",
-    "time": "19:53:49",
+    "amount": 0.1241,
+    "total": "195,349",
+    "side": "buy",
     "key": 2
   },
   {
     "price": 6440.59,
-    "unit": 6470.00,
+    "amount": 0.412,
+    "total": "195,349",
     "side": "sell",
-    "time": "19:53:49",
     "key": 3
   },
   {
     "price": 6440.59,
-    "unit": 6470.00,
-    "side": "buy",
-    "time": "19:53:49",
+    "amount": 0.23,
+    "total": "412.33",
+    "side": "sell",
     "key": 4
   },
-  {
-    "price": 6440.59,
-    "unit": 6470.00,
-    "side": "buy",
-    "time": "19:53:49",
-    "key": 5
-  }
 ];
 
-const sortOption = {};
 class Data {
   constructor(size) {
     this.size = size || 2000;
     this.datas = [];
-    this.sortKey = null;
-    this.sortDir = null;
   }
   
 
   dataModel(index) {
-    return dataTradeHistory[index];
+    return dataOrderBook[index];
   }
 
   getObjectAt(index) {
@@ -68,8 +58,8 @@ class Data {
   }
 
   getAll() {
-    if(dataTradeHistory && this.size > dataTradeHistory.length)
-      this.size = dataTradeHistory.length;
+    if(dataOrderBook && this.size > dataOrderBook.length)
+      this.size = dataOrderBook.length;
 
     if (this.datas.length < this.size) {
       for (let i = 0; i < this.size; i++) {
