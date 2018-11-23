@@ -1,15 +1,15 @@
 import React from 'react';
 import clone from 'clone';
-import IntlMessages from '../../components/utility/intlMessages';
+import IntlMessages from 'core-components/utility/intlMessages';
 import {
   DateCell,
   ImageCell,
   LinkCell,
   TextCell,
   NumberCell
-} from '../../components/tables/helperCells';
-import Button from '../../components/uielements/button';
-import IsoButton from '../../components/uielements/button';
+} from 'core-components/tables/helperCells';
+import Button from 'core-components/uielements/button';
+import IsoButton from 'core-components/uielements/button';
 
 const renderCell = (object, type, key) => {
   const value = object[key];

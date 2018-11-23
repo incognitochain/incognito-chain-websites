@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import Tabs, { TabPane } from '../../components/uielements/tabs';
-import LayoutWrapper from '../../components/utility/layoutWrapper.js';
-import ContentHolder from '../../components/utility/contentHolder';
-import PageHeader from '../../components/utility/pageHeader';
-import IntlMessages from '../../components/utility/intlMessages';
+import Tabs, { TabPane } from 'core-components/uielements/tabs';
+import LayoutWrapper from 'core-components/utility/layoutWrapper.js';
+import ContentHolder from 'core-components/utility/contentHolder';
+import PageHeader from 'core-components/utility/pageHeader';
+import IntlMessages from 'core-components/utility/intlMessages';
 import basicStyle from '../../settings/basicStyle';
 import { Row, Col } from 'antd';
-import Box from '../../components/utility/box';
+import Box from 'core-components/utility/box';
 import Card from './card.style';
 
 import TableStyle from './custom.style';

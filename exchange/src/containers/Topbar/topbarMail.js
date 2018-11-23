@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import IntlMessages from '../../components/utility/intlMessages';
-import Popover from '../../components/uielements/popover';
+import IntlMessages from 'core-components/utility/intlMessages';
+import Popover from 'core-components/uielements/popover';
 import TopbarDropdownWrapper from './topbarDropdown.style';
 
 const demoMails = [

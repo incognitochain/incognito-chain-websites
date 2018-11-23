@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Popover } from 'antd';
 import { connect } from 'react-redux';
-import IntlMessages from '../../components/utility/intlMessages';
+import IntlMessages from 'core-components/utility/intlMessages';
 import TopbarDropdownWrapper from './topbarDropdown.style';
 
 const demoNotifications = [

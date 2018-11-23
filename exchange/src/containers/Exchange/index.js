@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import LayoutContentWrapper from '../../components/utility/layoutWrapper.js';
+import LayoutContentWrapper from 'core-components/utility/layoutWrapper.js';
 import TableStyle from './customStyle';
 import dataTest from './dataTest';
 import { tableinfo } from './configs';

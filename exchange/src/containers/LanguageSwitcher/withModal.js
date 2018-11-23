@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Modal from '../../components/feedback/modal';
-import Button from '../../components/uielements/button';
+import Modal from 'core-components/feedback/modal';
+import Button from 'core-components/uielements/button';
 import actions from '../../redux/languageSwitcher/actions';
 import config from './config';
 
