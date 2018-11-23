@@ -10,26 +10,92 @@ import Box from 'core-components/utility/box';
 import Card from './card.style';
 
 import TableStyle from './custom.style';
-import dataTest from './dataTest';
+import Data from './data';
 import { tableinfos } from './configs';
 import * as TableViews from './tableViews/';
-
-const dataList = new dataTest(3);
+import market from '../../services/Market';
 
 export default class Market extends Component {
-  renderTable(tableInfo) {
-    let Component;
-    switch (tableInfo.value) {
-      case '1h':
-        Component = TableViews.oneHour;
-        break;
-      case '4h':
-        Component = TableViews.fourHours;
-        break;
-      default:
-        Component = TableViews.day;
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataList: false,
     }
-    return <Component tableInfo={tableInfo} dataList={dataList} />;
+    
+  }
+
+  async componentDidMount(){
+    let { dataList } = this.state;
+
+    if(!dataList){
+      dataList = {};
+
+      let result = await this.getData("24h");
+      dataList["24h"] = result;
+
+      result = await this.getData("4h");
+      dataList["4h"] = result;
+
+      result = await this.getData("1h");
+      dataList["1h"] = result;
+
+      this.setState({dataList});
+    }
+  }
+
+  async getData(time="24h"){
+    //market settings 
+    let result = await market.getMarkets();
+    let markets = {};
+    for(let s of result){
+      const { DisplayName, State, SymbolCode } = s;
+      markets[SymbolCode] = { DisplayName, State };
+    }
+
+    //market datas
+    result = await market.getSymbolRates(time);
+    let rates = [], key = 0;
+    for(let s of result){
+      const setting = markets[s.SymbolCode];
+      if(setting){
+        if(setting.State !== "online"){
+          break;
+        }
+
+        s.key = key;
+        s.DisplayName = setting.DisplayName;
+        key ++;
+      }
+
+      rates.push(s);
+    }
+
+    //console.log(markets, rates);
+    return rates;
+  }
+
+  renderTable(tableInfo) {
+    const { dataList } = this.state;
+
+    if(dataList && dataList[tableInfo.value]){
+      const data = new Data(10, dataList[tableInfo.value]);
+
+      let Component;
+      switch (tableInfo.value) {
+        case '1h':
+          Component = TableViews.oneHour;
+          break;
+        case '4h':
+          Component = TableViews.fourHours;
+          break;
+        default:
+          Component = TableViews.day;
+      }
+      return <Component tableInfo={tableInfo} dataList={data} />;
+    }
+    else{
+      return "";
+    }
   }
 
   render() {
@@ -37,8 +103,8 @@ export default class Market extends Component {
 
     return (
       <LayoutWrapper>
-        <PageHeader>{<IntlMessages id="Market.pageHeader" />}</PageHeader>
-        <Row style={rowStyle} gutter={gutter} justify="start">
+        <PageHeader>{<IntlMessages id="Market.PageHeader" />}</PageHeader>
+        {/* <Row style={rowStyle} gutter={gutter} justify="start">
           <Col span={24} style={colStyle}>
             <Box
               title={<IntlMessages id="uiElements.cards.gridCard" />}
@@ -71,7 +137,7 @@ export default class Market extends Component {
               </Row>
             </Box>
           </Col>
-        </Row>
+        </Row> */}
         <TableStyle className="isoLayoutContent">
           <Tabs className="isoTableDisplayTab">
             {tableinfos.map(tableInfo => (
@@ -85,4 +151,4 @@ export default class Market extends Component {
     );
   }
 }
-export { TableViews, tableinfos, dataTest };
+export { TableViews, tableinfos, Data };

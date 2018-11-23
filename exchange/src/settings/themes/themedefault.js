@@ -81,7 +81,7 @@ theme.palette = {
   border: [
     '#e9e9e9', // 0: Border
     '#d8d8d8', // 1: BorderDark
-    '#ebebeb', // 2: BorderLight
+    '#f3f3f3', // 2: BorderLight
     '#d3d3d3', // 3:
     'rgba(228, 228, 228, 0.65)', // 4:
   ],
@@ -113,7 +113,6 @@ theme.content = {
   pageTitle: '#022047',
   padding: '50px 0 0',
   flexShrink: '0',
-  background: '#FFF',
   position: 'relative'
 }
 

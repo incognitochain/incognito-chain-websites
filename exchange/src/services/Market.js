@@ -17,7 +17,7 @@ export default class Market {
       options['data'] = data;
     }
 
-    if(func && func.charAt(0) != "/"){
+    if(func && func.charAt(0) !== "/"){
       url += "/";
     }
 

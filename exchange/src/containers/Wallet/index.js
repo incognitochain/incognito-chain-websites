@@ -13,7 +13,7 @@ export default class Wallet extends Component {
   render() {
     return (
       <LayoutWrapper>
-      <PageHeader>{<IntlMessages id="Wallet.pageHeader" />}</PageHeader>
+      <PageHeader>{<IntlMessages id="Wallet.PageHeader" />}</PageHeader>
         <TableStyle className="isoLayoutContent">
           <SortView tableInfo={tableinfo} dataList={dataList} />
         </TableStyle>

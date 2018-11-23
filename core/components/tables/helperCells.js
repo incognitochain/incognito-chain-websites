@@ -9,6 +9,7 @@ const ImageCell = src => <ImageCellView src={src} />;
 const LinkCell = (link, href) => <a href={href ? href : '#'}>{link}</a>;
 const TextCell = text => <p>{text}</p>;
 const NumberCell = number => <p className="text-right">{number.toLocaleString()}</p>;
+const TimeCell = text => <p className="text-right">{text}</p>;
 
 export {
   DateCell,
@@ -16,6 +17,7 @@ export {
   LinkCell,
   TextCell,
   NumberCell,
+  TimeCell,
   EditableCell,
   DeleteCell,
   FilterDropdown

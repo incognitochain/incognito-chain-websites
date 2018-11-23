@@ -9,7 +9,6 @@ import {
   NumberCell
 } from 'core-components/tables/helperCells';
 import Button from 'core-components/uielements/button';
-import IsoButton from 'core-components/uielements/button';
 
 const renderCell = (object, type, key) => {
   const value = object[key];
@@ -29,7 +28,7 @@ const renderCell = (object, type, key) => {
 
 const columns = [
   {
-    title: <IntlMessages id="Wallet.symbolName" />,
+    title: <IntlMessages id="Wallet.SymbolName" />,
     key: 'symbolName',
     width: 200,
     render: obj => {
@@ -37,7 +36,7 @@ const columns = [
     }
   },
   {
-    title: <IntlMessages id="Wallet.symbolCode" />,
+    title: <IntlMessages id="Wallet.SymbolCode" />,
     key: 'symbolCode',
     width: 200,
     render: obj => {
@@ -45,25 +44,25 @@ const columns = [
     }
   },
   {
-    title: <IntlMessages id="Wallet.totalBalance" />,
+    title: <IntlMessages id="Wallet.TotalBalance" />,
     key: 'totalBalance',
     width: 100,
     render: obj => renderCell(obj, 'NumberCell', 'totalBalance')
   },
   {
-    title: <IntlMessages id="Wallet.availableBalance" />,
+    title: <IntlMessages id="Wallet.AvailableBalance" />,
     key: 'availableBalance',
     width: 80,
     render: obj => renderCell(obj, 'NumberCell', 'availableBalance')
   },
   {
-    title: <IntlMessages id="Wallet.inOrder" />,
+    title: <IntlMessages id="Wallet.InOrder" />,
     key: 'inOrder',
     width: 80,
     render: obj => renderCell(obj, 'NumberCell', 'inOrder')
   },
   {
-    title: <IntlMessages id="Wallet.constantValue" />,
+    title: <IntlMessages id="Wallet.ConstantValue" />,
     key: 'constantValue',
     width: 100,
     render: obj => renderCell(obj, 'NumberCell', 'constantValue')
@@ -76,15 +75,15 @@ const columns = [
       return (
         <div>
           <Button type="primary" className="btn">
-            <IntlMessages id="Wallet.deposit" />
+            <IntlMessages id="Wallet.Deposit" />
           </Button>
 
           <Button type="primary" className="btn" >
-            <IntlMessages id="Wallet.withdraw" />
+            <IntlMessages id="Wallet.Withdraw" />
           </Button>
 
           <Button type="primary" className="btn" >
-            <IntlMessages id="Wallet.exchange" />
+            <IntlMessages id="Wallet.Exchange" />
           </Button>
         </div>
       );
@@ -103,7 +102,7 @@ const sortColumns = [
 ];
 
 
-const tableinfo = 
+const tableinfo =
 {
   title: 'Sortable Table',
   value: 'sortView',

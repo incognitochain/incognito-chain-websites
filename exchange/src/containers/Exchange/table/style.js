@@ -1,4 +1,4 @@
-import Table from 'core-components/uielements/table';
+import Table from '../../../components/uielements/table';
 import styled from 'styled-components';
 import { palette } from 'styled-theme';
 import {
@@ -12,8 +12,8 @@ const TableWrapper = styled(Table)`
   overflow: hidden;
   overflow-x: auto;
   background-color: #ffffff;
-
-
+  
+  
   .ant-table-body {
     overflow-x: auto;
   }
@@ -23,18 +23,29 @@ const TableWrapper = styled(Table)`
     font-size: 13px;
     background-color: ${palette('secondary', 1)};
     border-bottom: 0;
+    padding: 0.5rem !important;
 
     &.ant-table-column-sort {
       background: ${palette('secondary', 1)};
       margin: ${props =>
-    props['data-rtl'] === 'rtl' ? '0 4px 0 0' : '0 0 0 4px'};
+        props['data-rtl'] === 'rtl' ? '0 4px 0 0' : '0 0 0 4px'};
     }
+  }
+
+  .ant-table-thead > tr:first-child > th:first-child {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+  }
+
+  .ant-table-thead > tr:first-child > th:last-child {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
   }
 
   .ant-table-thead > tr > th,
   .ant-table-tbody > tr > td {
     font-size: 0.9rem;
-    padding: 16px 15px;
+    padding: 0.5rem;
     white-space: nowrap;
     text-align: ${props => (props['data-rtl'] === 'rtl' ? 'right' : 'left')};
 
@@ -46,7 +57,7 @@ const TableWrapper = styled(Table)`
   .ant-table-tbody > tr > td {
     font-size: 0.9rem;
     color: ${palette('text', 3)};
-    border-bottom: 1px solid ${palette('border', 0)};
+    border-bottom: 1px solid ${palette('border', 2)};
 
     a {
       color: ${palette('primary', 0)};
@@ -98,19 +109,19 @@ const TableWrapper = styled(Table)`
   .ant-pagination-jump-prev,
   .ant-pagination-jump-next {
     transform: ${props =>
-    props['data-rtl'] === 'rtl' ? 'rotate(180deg)' : 'rotate(0)'};
+      props['data-rtl'] === 'rtl' ? 'rotate(180deg)' : 'rotate(0)'};
   }
 
   .ant-pagination-prev,
   .ant-pagination-jump-prev,
   .ant-pagination-jump-next {
     margin: ${props =>
-    props['data-rtl'] === 'rtl' ? '0 0 0 8px' : '0 8px 0 0'};
+      props['data-rtl'] === 'rtl' ? '0 0 0 8px' : '0 8px 0 0'};
   }
 
   .ant-pagination-item {
     margin: ${props =>
-    props['data-rtl'] === 'rtl' ? '0 0 0 8px' : '0 8px 0 0'};
+      props['data-rtl'] === 'rtl' ? '0 0 0 8px' : '0 8px 0 0'};
 
     &:hover {
       border-color: ${palette('primary', 0)};
@@ -191,7 +202,7 @@ const WDCustomizedTableWrapper = styled.div`
 
     .ant-form-item {
       margin: ${props =>
-    props['data-rtl'] === 'rtl' ? '0 0 0 16px' : '0 16px 0 0'};
+        props['data-rtl'] === 'rtl' ? '0 0 0 16px' : '0 16px 0 0'};
     }
 
     .ant-form-item-label {
@@ -200,7 +211,7 @@ const WDCustomizedTableWrapper = styled.div`
 
         &:after {
           margin: ${props =>
-    props['data-rtl'] === 'rtl' ? '0 2px 0 8px' : '0 8px 0 2px'};
+            props['data-rtl'] === 'rtl' ? '0 2px 0 8px' : '0 8px 0 2px'};
         }
       }
     }
@@ -212,32 +223,83 @@ const WDCustomizedTableWrapper = styled.div`
   }
 `;
 
-const RateTag = styled.span`
-  padding: 0 5px;
-  height: 24px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 2px;
-  background-color: ${palette('primary', 0)};
-  min-width: 60px;
-  color: #ffffff;
-  text-transform: capitalize;
-
-  &.rateDown {
-    background-color: ${palette('error', 0)};
+const OrderForm = styled.div`
+  
+  .ant-tabs-tab {
+    margin: 0 12px 0 0 !important;
   }
 
-  &.rateSame {
-    background-color: ${palette('warning', 0)};
+`;
+
+const PriceSide = styled.span`
+  color: ${palette('primary', 0)};
+  
+  &.sell {
+    color: ${palette('error', 0)};
   }
 
-  &.rateUp {
-    background-color: ${palette('success', 0)};
+  &.buy {
+    color: ${palette('success', 0)};
   }
 `;
 
+const Label = styled.div`
+  font-weight: 400;
+  padding-bottom: 0.2rem;
+  padding-top: 0.2rem;
+`;
+
+const OrderFormFooter = styled.div`
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: solid 1px ${palette("border", 1)};
+
+  > div {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  
+    span {
+      font-size: 14px;
+      font-weight: 500;
+      color: ${palette("text", 0)};
+      line-height: 1.2;
+    }
+  }
+  
+`;
+
+const OrderSide = {
+  width: '100%',
+
+  'Default': {
+    width:'50%', 
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+
+  'Sell': {
+    width:'50%', 
+    color: 'White',
+    fontWeight: '500',
+    textAlign: 'center',
+    borderColor: '#f64744',
+    backgroundColor: '#f64744'
+  },
+  'Buy': {
+    width:'50%', 
+    color: 'White',
+    fontWeight: '500',
+    textAlign: 'center',
+    borderColor: '#00b16a',
+    backgroundColor: '#00b16a'
+  }
+  
+};
+
 const CustomizedTableWrapper = WithDirection(WDCustomizedTableWrapper);
 
-export { CustomizedTableWrapper, RateTag };
+export { CustomizedTableWrapper, PriceSide, OrderSide, Label, OrderForm, OrderFormFooter };
 export default WithDirection(TableWrapper);
