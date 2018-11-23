@@ -2,6 +2,8 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 // import { connect } from 'react-redux';
 // import { Link } from 'react-router-dom';
+import auth from '../../core/components/auth';
+import Cookies from 'js-cookie';
 
 class Index extends React.Component {
   static propTypes = {
@@ -15,13 +17,23 @@ class Index extends React.Component {
   }
 
   componentDidMount() {
+    if (auth.isLogged) {
+
+    } else {
+      window.location.assign('/login');
+    }
+  }
+
+  logout = (e) => {
+    e.preventDefault();
+    Cookies.remove('auth', { domain: '.constant.money', path: '/' });
     window.location.assign('/login');
   }
 
   render() {
     return (
       <div>
-        hello
+        <a href="/" onClick={this.logout}>Logout</a>
       </div>
     );
   }

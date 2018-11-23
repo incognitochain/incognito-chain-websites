@@ -4,6 +4,8 @@ import React from 'react';
 // import { Link } from 'react-router-dom';
 import Head from 'next/head';
 import { Formik } from 'formik';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 import '../auth.scss';
 
@@ -19,14 +21,60 @@ class Register extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      error: '',
+    };
   }
 
   handleSubmit = (values, setSubmitting) => {
+    const { firstName, lastName, email, newPassword, confirmPassword } = values;
 
+    const formData = new FormData();
+
+    const data = {
+      FirstName: firstName,
+      LastName: lastName,
+      Email: email,
+      Password: newPassword,
+      ConfirmPassword: confirmPassword,
+      Type: 'borrower',
+      PublicKey: '',
+    };
+
+    axios({
+      method: 'POST',
+      url: `http://localhost:8888/auth/register`,
+      data,
+    })
+      .then((res) => {
+        if (res && res.data && res.data.Result && res.data.Result.Message && res.data.Result.Message === 'register successfully') {
+          axios({
+            method: 'POST',
+            url: `http://localhost:8888/auth/login`,
+            data,
+          })
+            .then((res) => {
+              if (res.data && res.data.Result && res.data.Result.Token) {
+                Cookies.set('auth', res.data.Result.Token, { domain: '.constant.money', expires: 30 });
+                window.location.assign('/');
+              } else {
+                this.setState({ error: 'Have something wrong' });
+              }
+            })
+        } else {
+          this.setState({ error: 'Have something wrong' });
+        }
+        setSubmitting(false);
+      })
+      .catch(err => {
+        this.setState({ error: err.response.data.Error.Message });
+        console.log('err register', err);
+        setSubmitting(false);
+      });
   }
 
   render() {
+    const { error } = this.state;
     return (
       <>
         <Head>
@@ -40,7 +88,7 @@ class Register extends React.Component {
           <link rel="mask-icon" href="/static/icons/safari-pinned-tab.svg" color="#0a2240" />
           <meta name="msapplication-TileColor" content="#0a2240" />
           <meta name="theme-color" content="#0a2240" />
-          <meta property="og:url" content="https://auth.constant.money" />
+          <meta property="og:url" content="https://auth.constant.money/register" />
           <meta property="og:type" content="website" />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
@@ -56,9 +104,21 @@ class Register extends React.Component {
                 <div className="auth-page">
                   <div className="title">Register</div>
                   <Formik
-                    initialValues={{ email: '', newPassword: '', confirmPassword: '' }}
+                    initialValues={{
+                      firstName: '',
+                      lastName: '',
+                      email: '',
+                      newPassword: '',
+                      confirmPassword: '',
+                    }}
                     validate={values => {
                       let errors = {};
+                      if (!values.firstName) {
+                        errors.firstName = 'Required';
+                      }
+                      if (!values.lastName) {
+                        errors.lastName = 'Required';
+                      }
                       if (!values.email) {
                         errors.email = 'Required';
                       } else if (
@@ -96,13 +156,52 @@ class Register extends React.Component {
                         /* and other goodies */
                       }) => (
                           <form onSubmit={handleSubmit}>
+                            <div className="row">
+                              <div className="col-12">
+                                {error && <div className="c-field" style={{ textAlign: 'center' }}><span className="c-error">{error}</span></div>}
+                              </div>
+                              <div className="col-6">
+                                <div className="c-field">
+                                  <label>
+                                    First name
+                                <input
+                                      type="text"
+                                      className="c-input c-block"
+                                      placeholder="First name"
+                                      name="firstName"
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.firstName}
+                                    />
+                                  </label>
+                                  {errors.firstName && touched.firstName && <span className="c-error">{errors.firstName}</span>}
+                                </div>
+                              </div>
+                              <div className="col-6">
+                                <div className="c-field">
+                                  <label>
+                                    Last name
+                                <input
+                                      type="text"
+                                      className="c-input c-block"
+                                      placeholder="Last name"
+                                      name="lastName"
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.lastName}
+                                    />
+                                  </label>
+                                  {errors.lastName && touched.lastName && <span className="c-error">{errors.lastName}</span>}
+                                </div>
+                              </div>
+                            </div>
                             <div className="c-field">
                               <label>
                                 Email
                                 <input
                                   type="text"
                                   className="c-input c-block"
-                                  placeholder="Email or username"
+                                  placeholder="Email"
                                   name="email"
                                   onChange={handleChange}
                                   onBlur={handleBlur}

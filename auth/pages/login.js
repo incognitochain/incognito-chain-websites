@@ -3,6 +3,7 @@ import React from 'react';
 import Head from 'next/head';
 import axios from 'axios';
 import { Formik } from 'formik';
+import Cookies from 'js-cookie';
 
 import '../auth.scss';
 
@@ -17,7 +18,9 @@ class Index extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      error: '',
+    };
   }
 
   componentDidMount() {
@@ -28,7 +31,37 @@ class Index extends React.Component {
 
   }
 
+  handleSubmit = (values, setSubmitting) => {
+    const { email, password } = values;
+
+    const data = {
+      Email: email,
+      Password: password,
+    };
+
+    axios({
+      method: 'POST',
+      url: `http://localhost:8888/auth/login`,
+      data,
+    })
+      .then((res) => {
+        if (res.data && res.data.Result && res.data.Result.Token) {
+          Cookies.set('auth', res.data.Result.Token, { domain: '.constant.money', expires: 30 });
+          document.location.assign('/');
+        } else {
+          this.setState({ error: 'Invalid email or password' });
+        }
+        setSubmitting(false);
+      })
+      .catch(err => {
+        this.setState({ error: 'Invalid email or password' });
+        console.log('err login', err);
+        setSubmitting(false);
+      });
+  }
+
   render() {
+    const { error } = this.state;
     return (
       <>
         <Head>
@@ -42,7 +75,7 @@ class Index extends React.Component {
           <link rel="mask-icon" href="/static/icons/safari-pinned-tab.svg" color="#0a2240" />
           <meta name="msapplication-TileColor" content="#0a2240" />
           <meta name="theme-color" content="#0a2240" />
-          <meta property="og:url" content="https://auth.constant.money" />
+          <meta property="og:url" content="https://auth.constant.money/login" />
           <meta property="og:type" content="website" />
           <meta property="og:title" content={title} />
           <meta property="og:description" content={description} />
@@ -92,28 +125,38 @@ class Index extends React.Component {
                         /* and other goodies */
                       }) => (
                           <form onSubmit={handleSubmit}>
+                            {error && <div className="c-field" style={{ textAlign: 'center' }}><span className="c-error">{error}</span></div>}
                             <div className="c-field">
                               <label>
                                 Email
                                 <input
                                   type="text"
                                   className="c-input c-block"
-                                  placeholder="Email or username"
+                                  placeholder="Email"
                                   name="email"
+                                  autoComplete="username email"
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.email}
                                 />
                               </label>
+                              {errors.email && touched.email && <span className="c-error">{errors.email}</span>}
                             </div>
                             <div className="c-field">
                               <label>
                                 Password
-                            <input
-
+                                <input
                                   type="password"
-                                  className="c-input c-block" placeholder="Password" />
+                                  className="c-input c-block"
+                                  placeholder="Password"
+                                  name="password"
+                                  autoComplete="current-password"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.password}
+                                />
                               </label>
+                              {errors.password && touched.password && <span className="c-error">{errors.password}</span>}
                             </div>
                             <div className="c-field">
                               Having some trouble? <a href="/forgot-password">Get help logging in</a>
