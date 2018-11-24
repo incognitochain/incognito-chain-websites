@@ -1,0 +1,15 @@
+.c-preview-layout {
+  padding: 20px 0;
+  h3 {
+    margin: 10px 0;
+  }
+}
+.c-preview {
+  margin-bottom: 25px;
+  &.c-preview-inline {
+    display: inline-block;
+  }
+  .c-preview-code {
+    margin-top: 5px;
+  }
+}

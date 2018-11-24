@@ -1,0 +1,22 @@
+.c-list-inline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  li {
+    display: inline-block;
+    padding: 0 5px;
+  }
+}
+
+.c-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  li {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(get-gray('periwinkle'), 0.6);
+    &:last-of-type {
+      border-bottom-color: transparent;
+    }
+  }
+}

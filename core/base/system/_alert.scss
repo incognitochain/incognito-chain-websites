@@ -1,0 +1,49 @@
+.c-alert {
+  position: relative;
+  height: 50px;
+  @extend .c-shadow-100;
+  background-color: get-color('c-white');
+  padding-left: 60px;
+  padding-right: 50px;
+  padding-top: 10px;
+
+  &:before {
+    height: 50px;
+    width: 50px;
+    display: block;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .c-alert-close {
+    position: absolute;
+  }
+
+  &.c-alert-primary {
+    &:before {
+      @extend .c-bg-primary;
+    }
+  }
+  &.c-alert-success {
+    &:before {
+      @extend .c-bg-success;
+    }
+  }
+  &.c-alert-error {
+    &:before {
+      @extend .c-bg-error;
+    }
+  }
+  &.c-alert-alert {
+    &:before {
+      @extend .c-bg-alert;
+    }
+  }
+  &.c-alert-dark {
+    &:before {
+      @extend .c-bg-dark;
+    }
+  }
+}

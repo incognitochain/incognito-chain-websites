@@ -1,0 +1,36 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: map-get($gray, 's-100');
+  color: map-get($gray, 's-400');
+}
+
+button {
+  user-select: none;
+}
+
+code, pre {
+  font-size: 90%;
+}
+
+pre {
+  margin: 0;
+  padding: 3px 0;
+}
+
+code {
+  @extend .c-color-red-500;
+  border: 1px solid map-get($gray, 's-200');
+  border-radius: 3px;
+  padding: 2px 4px;
+  margin: 2px 0;
+  display: inline-block;
+}
+
+pre {
+  border: 1px solid map-get($gray, 's-200');
+  border-radius: 3px;
+  padding: 2px 4px;
+  margin: 2px 0;
+  display: block;
+}

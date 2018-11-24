@@ -1,0 +1,21 @@
+@mixin breakpoint($point) {
+  @media (min-width: get-breakpoint($point)) {
+    @content;
+  }
+}
+
+@mixin breakpoint-max($point) {
+  @media (max-width: get-breakpoint($point)) {
+    @content;
+  }
+}
+
+@mixin breakpoint-between($from, $to) {
+  @media (min-width: get-breakpoint($from)) and (max-width: get-breakpoint($to)) {
+    @content;
+  }
+}
+
+@mixin shadow($color, $shadow) {
+  box-shadow: get-shadow($shadow) $color;
+}

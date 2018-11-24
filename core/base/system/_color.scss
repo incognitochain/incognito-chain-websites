@@ -1,0 +1,345 @@
+// Text colors
+.c-color-primary, .c-color-info, .c-color-blue {
+  color: get-color('c-blue');
+}
+.c-color-success, .c-color-green {
+  color: get-color('c-green');
+}
+.c-color-error, .c-color-red {
+  color: get-color('c-red');
+}
+.c-color-alert, .c-color-orange {
+  color: get-color('c-orange');
+}
+.c-color-text, .c-color-black, .c-color-dark {
+  color: get-color('c-dark');
+}
+
+// Text blue, primary
+.c-color-blue-100, .c-color-primary-100 {
+  color: map-get($primary, 's-100');
+}
+.c-color-blue-200, .c-color-primary-200 {
+  color: map-get($primary, 's-200');
+}
+.c-color-blue-300, .c-color-primary-300 {
+  color: map-get($primary, 's-300');
+}
+.c-color-blue-400, .c-color-primary-400 {
+  color: map-get($primary, 's-400');
+}
+.c-color-blue-500, .c-color-primary-500 {
+  color: map-get($primary, 's-500');
+}
+.c-color-blue-600, .c-color-primary-600 {
+  color: map-get($primary, 's-600');
+}
+.c-color-blue-700, .c-color-primary-700 {
+  color: map-get($primary, 's-700');
+}
+.c-color-blue-800, .c-color-primary-800 {
+  color: map-get($primary, 's-800');
+}
+.c-color-blue-900, .c-color-primary-900 {
+  color: map-get($primary, 's-900');
+}
+.c-color-blue-1000, .c-color-primary-1000 {
+  color: map-get($primary, 's-1000');
+}
+
+// Text green, success
+.c-color-green-100, .c-color-success-100 {
+  color: map-get($success, 's-100');
+}
+.c-color-green-200, .c-color-success-200 {
+  color: map-get($success, 's-200');
+}
+.c-color-green-300, .c-color-success-300 {
+  color: map-get($success, 's-300');
+}
+.c-color-green-400, .c-color-success-400 {
+  color: map-get($success, 's-400');
+}
+.c-color-green-500, .c-color-success-500 {
+  color: map-get($success, 's-500');
+}
+.c-color-green-600, .c-color-success-600 {
+  color: map-get($success, 's-600');
+}
+.c-color-green-700, .c-color-success-700 {
+  color: map-get($success, 's-700');
+}
+.c-color-green-800, .c-color-success-800 {
+  color: map-get($success, 's-800');
+}
+.c-color-green-900, .c-color-success-900 {
+  color: map-get($success, 's-900');
+}
+.c-color-green-1000, .c-color-success-1000 {
+  color: map-get($success, 's-1000');
+}
+
+// Text red, error
+.c-color-red-100, .c-color-error-100 {
+  color: map-get($error, 's-100');
+}
+.c-color-red-200, .c-color-error-200 {
+  color: map-get($error, 's-200');
+}
+.c-color-red-300, .c-color-error-300 {
+  color: map-get($error, 's-300');
+}
+.c-color-red-400, .c-color-error-400 {
+  color: map-get($error, 's-400');
+}
+.c-color-red-500, .c-color-error-500 {
+  color: map-get($error, 's-500');
+}
+.c-color-red-600, .c-color-error-600 {
+  color: map-get($error, 's-600');
+}
+.c-color-red-700, .c-color-error-700 {
+  color: map-get($error, 's-700');
+}
+.c-color-red-800, .c-color-error-800 {
+  color: map-get($error, 's-800');
+}
+.c-color-red-900, .c-color-error-900 {
+  color: map-get($error, 's-900');
+}
+.c-color-red-1000, .c-color-error-1000 {
+  color: map-get($error, 's-1000');
+}
+
+// Text orange, alert
+.c-color-orange-100, .c-color-alert-100 {
+  color: map-get($alert, 's-100');
+}
+.c-color-orange-200, .c-color-alert-200 {
+  color: map-get($alert, 's-200');
+}
+.c-color-orange-300, .c-color-alert-300 {
+  color: map-get($alert, 's-300');
+}
+.c-color-orange-400, .c-color-alert-400 {
+  color: map-get($alert, 's-400');
+}
+.c-color-orange-500, .c-color-alert-500 {
+  color: map-get($alert, 's-500');
+}
+.c-color-orange-600, .c-color-alert-600 {
+  color: map-get($alert, 's-600');
+}
+.c-color-orange-700, .c-color-alert-700 {
+  color: map-get($alert, 's-700');
+}
+.c-color-orange-800, .c-color-alert-800 {
+  color: map-get($alert, 's-800');
+}
+.c-color-orange-900, .c-color-alert-900 {
+  color: map-get($alert, 's-900');
+}
+.c-color-orange-1000, .c-color-alert-1000 {
+  color: map-get($alert, 's-1000');
+}
+
+// Text gray
+.c-color-gray-100 {
+  color: map-get($gray, 's-100');
+}
+.c-color-gray-200 {
+  color: map-get($gray, 's-200');
+}
+.c-color-gray-300 {
+  color: map-get($gray, 's-300');
+}
+.c-color-gray-400 {
+  color: map-get($gray, 's-400');
+}
+.c-color-gray-500 {
+  color: map-get($gray, 's-500');
+}
+.c-color-gray-600 {
+  color: map-get($gray, 's-600');
+}
+
+// Backgrounds
+.c-bg-primary, .c-bg-info, .c-bg-blue {
+  background-color: get-color('c-blue');
+}
+.c-bg-success, .c-bg-green {
+  background-color: get-color('c-green');
+}
+.c-bg-error, .c-bg-red {
+  background-color: get-color('c-red');
+}
+.c-bg-alert, .c-bg-orange {
+  background-color: get-color('c-orange');
+}
+.c-bg-text, .c-bg-black, .c-bg-dark {
+  background-color: get-color('c-dark');
+}
+
+.c-bg-r-primary, .c-bg-r-info, .c-bg-r-blue {
+  background-image: linear-gradient(90deg, #8AA8F8 0%, #2D4EF5 100%);
+}
+.c-bg-r-success, .c-bg-r-green {
+  background-image: linear-gradient(-90deg, #4CE2A7 0%, #B3F6DC 100%);
+}
+.c-bg-r-error, .c-bg-r-red {
+  background-image: linear-gradient(-90deg, #E24C4C 0%, #FFB2B2 100%);
+}
+.c-bg-r-alert, .c-bg-r-orange {
+  background-image: linear-gradient(-90deg, #F1A153 0%, #FFDEBE 100%);
+}
+.c-bg-r-text, .c-bg-r-black, .c-bg-r-dark {
+  background-image: linear-gradient(-90deg, #022047 0%, #547298 100%);
+}
+
+// Background blue, primary
+.c-bg-blue-100, .c-bg-primary-100 {
+  background-color: map-get($primary, 's-100');
+}
+.c-bg-blue-200, .c-bg-primary-200 {
+  background-color: map-get($primary, 's-200');
+}
+.c-bg-blue-300, .c-bg-primary-300 {
+  background-color: map-get($primary, 's-300');
+}
+.c-bg-blue-400, .c-bg-primary-400 {
+  background-color: map-get($primary, 's-400');
+}
+.c-bg-blue-500, .c-bg-primary-500 {
+  background-color: map-get($primary, 's-500');
+}
+.c-bg-blue-600, .c-bg-primary-600 {
+  background-color: map-get($primary, 's-600');
+}
+.c-bg-blue-700, .c-bg-primary-700 {
+  background-color: map-get($primary, 's-700');
+}
+.c-bg-blue-800, .c-bg-primary-800 {
+  background-color: map-get($primary, 's-800');
+}
+.c-bg-blue-900, .c-bg-primary-900 {
+  background-color: map-get($primary, 's-900');
+}
+.c-bg-blue-1000, .c-bg-primary-1000 {
+  background-color: map-get($primary, 's-1000');
+}
+
+// Background green, success
+.c-bg-green-100, .c-bg-success-100 {
+  background-color: map-get($success, 's-100');
+}
+.c-bg-green-200, .c-bg-success-200 {
+  background-color: map-get($success, 's-200');
+}
+.c-bg-green-300, .c-bg-success-300 {
+  background-color: map-get($success, 's-300');
+}
+.c-bg-green-400, .c-bg-success-400 {
+  background-color: map-get($success, 's-400');
+}
+.c-bg-green-500, .c-bg-success-500 {
+  background-color: map-get($success, 's-500');
+}
+.c-bg-green-600, .c-bg-success-600 {
+  background-color: map-get($success, 's-600');
+}
+.c-bg-green-700, .c-bg-success-700 {
+  background-color: map-get($success, 's-700');
+}
+.c-bg-green-800, .c-bg-success-800 {
+  background-color: map-get($success, 's-800');
+}
+.c-bg-green-900, .c-bg-success-900 {
+  background-color: map-get($success, 's-900');
+}
+.c-bg-green-1000, .c-bg-success-1000 {
+  background-color: map-get($success, 's-1000');
+}
+
+// Background red, error
+.c-bg-red-100, .c-bg-error-100 {
+  background-color: map-get($error, 's-100');
+}
+.c-bg-red-200, .c-bg-error-200 {
+  background-color: map-get($error, 's-200');
+}
+.c-bg-red-300, .c-bg-error-300 {
+  background-color: map-get($error, 's-300');
+}
+.c-bg-red-400, .c-bg-error-400 {
+  background-color: map-get($error, 's-400');
+}
+.c-bg-red-500, .c-bg-error-500 {
+  background-color: map-get($error, 's-500');
+}
+.c-bg-red-600, .c-bg-error-600 {
+  background-color: map-get($error, 's-600');
+}
+.c-bg-red-700, .c-bg-error-700 {
+  background-color: map-get($error, 's-700');
+}
+.c-bg-red-800, .c-bg-error-800 {
+  background-color: map-get($error, 's-800');
+}
+.c-bg-red-900, .c-bg-error-900 {
+  background-color: map-get($error, 's-900');
+}
+.c-bg-red-1000, .c-bg-error-1000 {
+  background-color: map-get($error, 's-1000');
+}
+
+// Background orange, alert
+.c-bg-orange-100, .c-bg-alert-100 {
+  background-color: map-get($alert, 's-100');
+}
+.c-bg-orange-200, .c-bg-alert-200 {
+  background-color: map-get($alert, 's-200');
+}
+.c-bg-orange-300, .c-bg-alert-300 {
+  background-color: map-get($alert, 's-300');
+}
+.c-bg-orange-400, .c-bg-alert-400 {
+  background-color: map-get($alert, 's-400');
+}
+.c-bg-orange-500, .c-bg-alert-500 {
+  background-color: map-get($alert, 's-500');
+}
+.c-bg-orange-600, .c-bg-alert-600 {
+  background-color: map-get($alert, 's-600');
+}
+.c-bg-orange-700, .c-bg-alert-700 {
+  background-color: map-get($alert, 's-700');
+}
+.c-bg-orange-800, .c-bg-alert-800 {
+  background-color: map-get($alert, 's-800');
+}
+.c-bg-orange-900, .c-bg-alert-900 {
+  background-color: map-get($alert, 's-900');
+}
+.c-bg-orange-1000, .c-bg-alert-1000 {
+  background-color: map-get($alert, 's-1000');
+}
+
+// Background gray
+.c-bg-gray-100 {
+  background-color: map-get($gray, 's-100');
+}
+.c-bg-gray-200 {
+  background-color: map-get($gray, 's-200');
+}
+.c-bg-gray-300 {
+  background-color: map-get($gray, 's-300');
+}
+.c-bg-gray-400 {
+  background-color: map-get($gray, 's-400');
+}
+.c-bg-gray-500 {
+  background-color: map-get($gray, 's-500');
+}
+.c-bg-gray-600 {
+  background-color: map-get($gray, 's-600');
+}

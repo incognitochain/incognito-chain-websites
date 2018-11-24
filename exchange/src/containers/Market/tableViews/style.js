@@ -1,4 +1,4 @@
-import Table from '../../../components/uielements/table';
+import Table from 'core-components/uielements/table';
 import styled from 'styled-components';
 import { palette } from 'styled-theme';
 import {
@@ -12,8 +12,8 @@ const TableWrapper = styled(Table)`
   overflow: hidden;
   overflow-x: auto;
   background-color: #ffffff;
-  
-  
+
+
   .ant-table-body {
     overflow-x: auto;
   }
@@ -27,7 +27,7 @@ const TableWrapper = styled(Table)`
     &.ant-table-column-sort {
       background: ${palette('secondary', 1)};
       margin: ${props =>
-        props['data-rtl'] === 'rtl' ? '0 4px 0 0' : '0 0 0 4px'};
+    props['data-rtl'] === 'rtl' ? '0 4px 0 0' : '0 0 0 4px'};
     }
   }
 
@@ -98,19 +98,19 @@ const TableWrapper = styled(Table)`
   .ant-pagination-jump-prev,
   .ant-pagination-jump-next {
     transform: ${props =>
-      props['data-rtl'] === 'rtl' ? 'rotate(180deg)' : 'rotate(0)'};
+    props['data-rtl'] === 'rtl' ? 'rotate(180deg)' : 'rotate(0)'};
   }
 
   .ant-pagination-prev,
   .ant-pagination-jump-prev,
   .ant-pagination-jump-next {
     margin: ${props =>
-      props['data-rtl'] === 'rtl' ? '0 0 0 8px' : '0 8px 0 0'};
+    props['data-rtl'] === 'rtl' ? '0 0 0 8px' : '0 8px 0 0'};
   }
 
   .ant-pagination-item {
     margin: ${props =>
-      props['data-rtl'] === 'rtl' ? '0 0 0 8px' : '0 8px 0 0'};
+    props['data-rtl'] === 'rtl' ? '0 0 0 8px' : '0 8px 0 0'};
 
     &:hover {
       border-color: ${palette('primary', 0)};
@@ -191,7 +191,7 @@ const WDCustomizedTableWrapper = styled.div`
 
     .ant-form-item {
       margin: ${props =>
-        props['data-rtl'] === 'rtl' ? '0 0 0 16px' : '0 16px 0 0'};
+    props['data-rtl'] === 'rtl' ? '0 0 0 16px' : '0 16px 0 0'};
     }
 
     .ant-form-item-label {
@@ -200,7 +200,7 @@ const WDCustomizedTableWrapper = styled.div`
 
         &:after {
           margin: ${props =>
-            props['data-rtl'] === 'rtl' ? '0 2px 0 8px' : '0 8px 0 2px'};
+    props['data-rtl'] === 'rtl' ? '0 2px 0 8px' : '0 8px 0 2px'};
         }
       }
     }

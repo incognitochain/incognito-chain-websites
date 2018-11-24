@@ -22,5 +22,8 @@
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-ga": "^2.5.3"
+  },
+  "dependencies": {
+    "js-cookie": "^2.2.0"
   }
 }

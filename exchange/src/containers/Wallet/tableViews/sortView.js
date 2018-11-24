@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import ContentHolder from "../../../components/utility/contentHolder";
+import ContentHolder from "core-components/utility/contentHolder";
 import ModalStyle, { ModalContent } from "./modal.style";
 import TableWrapper from './style';
 import { Modal as Modals } from 'antd';
 import WithDirection from "../../../settings/withDirection";
-import Button from "../../../components/uielements/button";
+import Button from "core-components/uielements/button";
 
 const isoModal = ModalStyle(Modals);
 const Modal = WithDirection(isoModal);
@@ -31,13 +31,13 @@ export default class extends Component {
     }
   }
 
-  onDeposit(){
+  onDeposit() {
     console.log('onDeposit');
-    this.setState({isDeposit: true});
+    this.setState({ isDeposit: true });
   }
 
   render() {
-    
+
     return (
       <ContentHolder>
         <TableWrapper

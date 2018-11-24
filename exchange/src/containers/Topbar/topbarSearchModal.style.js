@@ -1,4 +1,4 @@
-import Modal from "../../components/feedback/modal";
+import Modal from "core-components/feedback/modal";
 import styled from "styled-components";
 import { palette } from "styled-theme";
 import WithDirection from "../../settings/withDirection";
