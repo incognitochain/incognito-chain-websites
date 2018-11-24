@@ -31,47 +31,56 @@ export default class Market extends Component {
       dataList = {};
 
       let result = await this.getData("24h");
-      dataList["24h"] = result;
+      if(!result)
+        dataList["24h"] = result;
 
       result = await this.getData("4h");
-      dataList["4h"] = result;
+      if(!result)
+        dataList["4h"] = result;
 
       result = await this.getData("1h");
-      dataList["1h"] = result;
+      if(!result)
+        dataList["1h"] = result;
 
-      this.setState({dataList});
+      if(dataList["24h"] || dataList["4h"] || dataList["1h"])
+        this.setState({dataList});
     }
   }
 
   async getData(time="24h"){
     //market settings 
-    let result = await market.getMarkets();
-    let markets = {};
-    for(let s of result){
-      const { DisplayName, State, SymbolCode } = s;
-      markets[SymbolCode] = { DisplayName, State };
-    }
-
-    //market datas
-    result = await market.getSymbolRates(time);
-    let rates = [], key = 0;
-    for(let s of result){
-      const setting = markets[s.SymbolCode];
-      if(setting){
-        if(setting.State !== "online"){
-          break;
-        }
-
-        s.key = key;
-        s.DisplayName = setting.DisplayName;
-        key ++;
+    let result = await market.getMarkets();console.log(result);
+    if(!result.error){
+      let markets = {};
+      for(let s of result){
+        const { DisplayName, State, SymbolCode } = s;
+        markets[SymbolCode] = { DisplayName, State };
       }
-
-      rates.push(s);
+  
+      //market datas
+      result = await market.getSymbolRates(time);
+      let rates = [], key = 0;
+      for(let s of result){
+        const setting = markets[s.SymbolCode];
+        if(setting){
+          if(setting.State !== "online"){
+            break;
+          }
+  
+          s.key = key;
+          s.DisplayName = setting.DisplayName;
+          key ++;
+        }
+  
+        rates.push(s);
+      }
+  
+      //console.log(markets, rates);
+      return rates;
     }
-
-    //console.log(markets, rates);
-    return rates;
+    else{
+      return false;
+    }
   }
 
   renderTable(tableInfo) {
@@ -94,7 +103,7 @@ export default class Market extends Component {
       return <Component tableInfo={tableInfo} dataList={data} />;
     }
     else{
-      return "";
+      return <p>Data not found matchs this criti</p>;
     }
   }
 

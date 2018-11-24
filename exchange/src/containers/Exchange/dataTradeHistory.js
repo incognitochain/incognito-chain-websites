@@ -1,57 +1,13 @@
-const dataTradeHistory = [
-  {
-    "price": 6440.59,
-    "unit": 0.444,
-    "side": "buy",
-    "time": "19:53:49",
-    "key": 0
-  },
-  {
-    "price": 6440.59,
-    "unit": 0.1,
-    "side": "buy",
-    "time": "19:53:49",
-    "key": 1
-  },
-  {
-    "price": 6440.59,
-    "unit": 0.1241,
-    "side": "sell",
-    "time": "19:53:49",
-    "key": 2
-  },
-  {
-    "price": 6440.59,
-    "unit": 0.412,
-    "side": "sell",
-    "time": "19:53:49",
-    "key": 3
-  },
-  {
-    "price": 6440.59,
-    "unit": 0.23,
-    "side": "buy",
-    "time": "19:53:49",
-    "key": 4
-  },
-  {
-    "price": 6440.59,
-    "unit": 0.234,
-    "side": "buy",
-    "time": "19:53:49",
-    "key": 5
-  }
-];
-
-class Data {
-  constructor(size) {
+export default class DataTradeHistory {
+  constructor(size, dataSource) {
     this.size = size || 2000;
     this.datas = [];
+    this.dataList = dataSource;
   }
   
 
   dataModel(index) {
-    return dataTradeHistory[index];
+    return this.dataList[index];
   }
 
   getObjectAt(index) {
@@ -65,8 +21,8 @@ class Data {
   }
 
   getAll() {
-    if(dataTradeHistory && this.size > dataTradeHistory.length)
-      this.size = dataTradeHistory.length;
+    if(this.dataList && this.size > this.dataList.length)
+      this.size = this.dataList.length;
 
     if (this.datas.length < this.size) {
       for (let i = 0; i < this.size; i++) {
@@ -77,4 +33,3 @@ class Data {
   }
 
 }
-export default Data;

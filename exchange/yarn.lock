@@ -9211,6 +9211,11 @@ react-throttle@^0.3.0:
     react-addons-test-utils "^15.0.2"
     react-dom "^15.0.2"
 
+react-websocket@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-websocket/-/react-websocket-2.0.0.tgz#efc72f3e841ee1befe78efe634c9982fae16348a"
+  integrity sha512-wbFrc8na2Mb4P+WRfQO71RRREntn4hXL4qJnt0XHJWIKkt/tfProUJ7OUlFtjAMQ085Z+0pw22ojnyP6VBR2dg==
+
 react-window-size-listener@^1.0.10:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/react-window-size-listener/-/react-window-size-listener-1.2.1.tgz#8dddce05574ff9057116e55254cd97c4b33bf9cd"
