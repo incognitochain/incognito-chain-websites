@@ -1,13 +1,13 @@
 import React from 'react';
 import clone from 'clone';
-import IntlMessages from 'core-components/utility/intlMessages';
+import IntlMessages from '@/components/utility/intlMessages';
 import {
   DateCell,
   ImageCell,
   LinkCell,
   TextCell,
   NumberCell
-} from 'core-components/tables/helperCells';
+} from '@/components/tables/helperCells';
 import { RateTag } from './tableViews/style';
 
 const renderCell = (object, type, key) => {

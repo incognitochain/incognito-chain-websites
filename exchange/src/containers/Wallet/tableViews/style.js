@@ -1,4 +1,4 @@
-import Table from 'core-components/uielements/table';
+import Table from '@/components/uielements/table';
 import styled from 'styled-components';
 import { palette } from 'styled-theme';
 import {

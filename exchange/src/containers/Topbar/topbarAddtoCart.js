@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import IntlMessages from 'core-components/utility/intlMessages';
-import Popover from 'core-components/uielements/popover';
-import SingleCart from 'core-components/cart/singleCartModal';
+import IntlMessages from '@/components/utility/intlMessages';
+import Popover from '@/components/uielements/popover';
+import SingleCart from '@/components/cart/singleCartModal';
 import ecommerceAction from '../../redux/ecommerce/actions';
 import TopbarDropdownWrapper from './topbarDropdown.style';
 

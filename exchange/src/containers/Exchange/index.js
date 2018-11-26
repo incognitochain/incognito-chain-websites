@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import LayoutWrapper from 'core-components/utility/layoutWrapper.js';
-import IntlMessages from 'core-components/utility/intlMessages';
+import LayoutWrapper from '@/components/utility/layoutWrapper.js';
+import IntlMessages from '@/components/utility/intlMessages';
 import DataTradeHistory from './dataTradeHistory';
 import DataOrderBook from './dataOrderBook';
 import TradeHistory from './table/tradeHistory';
 import OrderBook from './table/orderBook';
 import OrderForm from './table/orderForm';
 import { Row, Col } from 'antd';
-import Box from 'core-components/utility/box';
+import Box from '@/components/utility/box';
 import { TableStyle, rowStyle, colStyle, boxStyle } from './custom.style';
 import exchange from '../../services/Exchange';
 import ContentHolder from '../../components/utility/contentHolder';

@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { Icon, Row, Col } from 'antd';
 import { connect } from 'react-redux';
-import Popover from 'core-components/uielements/popover';
-import IntlMessages from 'core-components/utility/intlMessages';
+import Popover from '@/components/uielements/popover';
+import IntlMessages from '@/components/utility/intlMessages';
 import authAction from '../../redux/auth/actions';
 import TopbarDropdownWrapper from './topbarDropdown.style';
 import TopbarUserWrapper from './topbarUser.style';
-import ContentHolder from 'core-components/utility/contentHolder';
-import Button from 'core-components/uielements/button';
+import ContentHolder from '@/components/utility/contentHolder';
+import Button from '@/components/uielements/button';
 import actions from '../../redux/languageSwitcher/actions';
 import config from './language.config';
 

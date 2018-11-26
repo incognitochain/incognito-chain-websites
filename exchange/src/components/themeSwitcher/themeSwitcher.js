@@ -1,5 +1,5 @@
 import React from 'react';
-import IntlMessages from 'core-components/utility/intlMessages';
+import IntlMessages from '@/components/utility/intlMessages';
 
 export default ({ config, changeTheme, selectedId }) => {
   const { id, label, options } = config;

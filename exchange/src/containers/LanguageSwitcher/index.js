@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import IntlMessages from 'core-components/utility/intlMessages';
+import IntlMessages from '@/components/utility/intlMessages';
 import actions from '../../redux/languageSwitcher/actions';
 import config from './config';
 
