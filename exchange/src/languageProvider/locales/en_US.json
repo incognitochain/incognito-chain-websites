@@ -505,7 +505,20 @@
   "Exchange.OrderBook.Price": "Price",
   "Exchange.OrderBook.Amount": "Amount",
   "Exchange.OrderBook.Total": "Total",
-  
+
+  "Exchange.OpenOrder": "Open Orders",
+  "Exchange.OpenOrder.Price": "Price",
+  "Exchange.OpenOrder.Status": "Status",
+  "Exchange.OpenOrder.Size": "Size",
+  "Exchange.OpenOrder.Side": "Side",
+  "Exchange.OpenOrder.Filled": "Filled",
+  "Exchange.OpenOrder.Fee": "Fee",
+
+  "Exchange.FillOrder.Side": "Side",
+  "Exchange.FillOrder.Size": "Size",
+  "Exchange.FillOrder.Price": "Price",
+  "Exchange.FillOrder.Fee": "Fee",
+  "Exchange.FillOrder.Time": "Time",
   
   "Exchange.OrderForm": "Order Form",
   "Exchange.OrderForm.Price": "Price",

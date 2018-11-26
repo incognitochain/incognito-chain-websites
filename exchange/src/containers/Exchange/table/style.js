@@ -13,6 +13,9 @@ const TableWrapper = styled(Table)`
   overflow-x: auto;
   background-color: #ffffff;
   
+  .text-right > div {
+    text-align: right;
+  }
   
   .ant-table-body {
     overflow-x: auto;

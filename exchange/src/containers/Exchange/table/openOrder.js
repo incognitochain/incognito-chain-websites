@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import IntlMessages from '../../../components/utility/intlMessages';
+import IntlMessages from '@/components/utility/intlMessages';
 import {
   DateCell,
   ImageCell,
@@ -7,7 +7,7 @@ import {
   TextCell,
   NumberCell,
   TimeCell
-} from '../../../components/tables/helperCells';
+} from '@/components/tables/helperCells';
 import TableWrapper, { PriceSide } from './style';
 
 const renderCell = (object, type, key) => {
@@ -30,26 +30,48 @@ const renderCell = (object, type, key) => {
 
 const columns = [
   {
-    title: <IntlMessages id="Exchange.OrderBook.Price" />,
-    key: 'price',
+    title: <IntlMessages id="Exchange.OpenOrder.Side" />,
+    key: 'side',
     width: 100,
     render: obj => {
-      return <PriceSide className={obj.side}>{obj.price}</PriceSide>
+      return <PriceSide className={obj.side}>{obj.side}</PriceSide>
     }
   },
   {
-    title: <IntlMessages id="Exchange.OrderBook.Amount" />,
-    key: 'amount',
-    width: 100,
+    title: <IntlMessages id="Exchange.OpenOrder.Size" />,
+    key: 'size',
     className: 'text-right',
-    render: obj => renderCell(obj, 'TextCell', 'amount')
+    width: 100,
+    render: obj => renderCell(obj, 'NumberCell', 'size')
   },
   {
-    title: <IntlMessages id="Exchange.OrderBook.Total" />,
-    key: 'total',
+    title: <IntlMessages id="Exchange.OpenOrder.Filled" />,
+    key: 'filled',
     className: 'text-right',
     width: 100,
-    render: obj => renderCell(obj, 'NumberCell', 'total')
+    render: obj => renderCell(obj, 'NumberCell', 'filled')
+  },
+  {
+    title: <IntlMessages id="Exchange.OpenOrder.Price" />,
+    key: 'price',
+    className: 'text-right',
+    width: 100,
+    render: obj => renderCell(obj, 'NumberCell', 'price')
+  },
+  {
+    title: <IntlMessages id="Exchange.OpenOrder.Fee" />,
+    key: 'fee',
+    className: 'text-right',
+    width: 50,
+    render: obj => renderCell(obj, 'NumberCell', 'fee')
+  },
+  {
+    title: <IntlMessages id="Exchange.OpenOrder.Status" />,
+    key: 'status',
+    width: 100,
+    render: obj => {
+      return <PriceSide className={obj.side}>{obj.status}</PriceSide>
+    }
   }
 ];
 

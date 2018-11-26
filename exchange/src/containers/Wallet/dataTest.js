@@ -6,6 +6,7 @@ const tableData = [
     "availableBalance": 1,
     "inOrder": 0,
     "constantValue": 100,
+    "key": 0
   },
   {
     "symbolName": "Token A",
@@ -14,6 +15,7 @@ const tableData = [
     "availableBalance": 400,
     "inOrder": 200,
     "constantValue": 0.0084,
+    "key": 1
   },
   {
     "symbolName": "Token B",
@@ -22,6 +24,7 @@ const tableData = [
     "availableBalance": 800,
     "inOrder": 400,
     "constantValue": 0.0168,
+    "key": 2
   },
   {
     "symbolName": "Token C",
@@ -30,6 +33,7 @@ const tableData = [
     "availableBalance": 800,
     "inOrder": 400,
     "constantValue": 0.0168,
+    "key": 3
   },
   {
     "symbolName": "Token D",
@@ -38,6 +42,7 @@ const tableData = [
     "availableBalance": 800,
     "inOrder": 400,
     "constantValue": 0.0168,
+    "key": 4
   },
 ];
 
