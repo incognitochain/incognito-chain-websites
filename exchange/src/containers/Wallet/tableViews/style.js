@@ -237,7 +237,40 @@ const RateTag = styled.span`
   }
 `;
 
+
+const DepositWrapper = styled.div`
+  padding: 0 5px;
+  
+  p.qrcode {
+    text-align: center;
+  }
+
+  p.address {
+    text-align: center;
+  }
+
+  p.action {
+    text-align: center;
+  }
+`;
+
+const WithdrawWrapper = styled.div`
+  padding: 0 5px;
+  
+  div.label {
+    font-weight: 400;
+    padding-bottom: 0.2rem;
+    padding-top: 0.2rem;
+  }
+`;
+
+const MessageContent = styled.p`
+  display: inline-block;
+  font-size: 13px;
+`;
+
+
 const CustomizedTableWrapper = WithDirection(WDCustomizedTableWrapper);
 
-export { CustomizedTableWrapper, RateTag };
+export { CustomizedTableWrapper, RateTag, DepositWrapper, MessageContent, WithdrawWrapper };
 export default WithDirection(TableWrapper);

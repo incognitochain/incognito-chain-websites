@@ -23,9 +23,19 @@ class TopbarUser extends Component {
       visible: false,
     };
   }
+
   hide() {
     this.setState({ visible: false });
   }
+
+  onSignin(){
+    window.location.href = 'http://auth.constant.money';
+  }
+
+  onSignup(){
+    window.location.href = 'http://auth.constant.money/register';
+  }
+
   handleVisibleChange() {
     this.setState({ visible: !this.state.visible });
   }
@@ -65,11 +75,11 @@ class TopbarUser extends Component {
 
     const unlogin = (
         <TopbarUserWrapper>
-          <Button type="primary" className="btnSignin" >
+          <Button type="primary" className="btnSignin" onClick={this.onSignin} >
             <IntlMessages id="topbar.Signin" />
           </Button>
 
-          <Button type="primary" className="btnSignup" >
+          <Button type="primary" className="btnSignup" onClick={this.onSignup} >
             <IntlMessages id="topbar.Signup" />
           </Button>
           

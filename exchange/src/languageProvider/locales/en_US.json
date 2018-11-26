@@ -491,9 +491,20 @@
   "Wallet.AvailableBalance": "Available",
   "Wallet.InOrder": "In Order",
   "Wallet.Deposit": "Deposit",
+  "Wallet.Deposit.Done": "Done",
+  "Wallet.Deposit.WarningDescription": "By depositing tokens to this address, you agree to our deposit recovery policy. Depositing tokens to an address other than CONSTANT may result in your funds being lost.",
+  
   "Wallet.Withdraw": "Withdraw",
-  "Wallet.Exchange": "Exchange",
+  "Wallet.Withdraw.Amount": "Amount",
+  "Wallet.Withdraw.Address": "Address",
+  "Wallet.Withdraw.Submit": "Withdraw",
+  "Wallet.Withdraw.Cancel": "Cancel",
+  "Wallet.Withdraw.WarningDescription": "Please verify your withdrawal address. We cannot refund an incorrect withdrawal. Do not withdraw directly to a crowdfund or ICO. We will not credit your account with tokens from that sale.",
 
+  "Wallet.Exchange": "Exchange",
+  "Wallet.Deposit.Copy": "Copy",
+  "Wallet.Deposit.CopySuccess": "Copy success!",
+  
   "Exchange.TradeHistory": "Trade History",
   "Exchange.TradeHistory.Price": "Price",
   "Exchange.TradeHistory.Unit": "Unit",
