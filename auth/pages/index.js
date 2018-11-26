@@ -2,7 +2,7 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 // import { connect } from 'react-redux';
 // import { Link } from 'react-router-dom';
-import auth from '../../core/components/auth';
+import auth from '../components/auth';
 import Cookies from 'js-cookie';
 
 class Index extends React.Component {
