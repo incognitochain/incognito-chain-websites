@@ -13,6 +13,7 @@ import message from "@/components/feedback/message";
 import Input, {
   InputGroup,
 } from '../../../components/uielements/input';
+import wallet from '@/services/Wallet';
 
 import {
   DateCell,
@@ -42,7 +43,16 @@ const successWithdraw = () => {
     <MessageContent>
       {msg}
     </MessageContent>,
-    1
+    2
+  );
+};
+
+const errorWithdraw = (msg) => {
+  message.error(
+    <MessageContent>
+      {msg}
+    </MessageContent>,
+    2
   );
 };
 
@@ -67,51 +77,54 @@ export default class extends Component {
     super(props);
     this.onChange = this.onChange.bind(this);
     this.state = {
+      paymentAddress: props.paymentAddress,
       isDeposit: false,
       isWithdraw: false,
       coinSelected: false,
+      wAmount: 0,
+      wAddress: '',
       dataList: this.props.dataList.getAll(),
     };
     this.columns = [
       {
         title: <IntlMessages id="Wallet.SymbolName" />,
-        key: 'symbolName',
+        key: 'SymbolName',
         width: 200,
         render: obj => {
-          return <span>{obj.symbolName.toUpperCase()}</span>
+          return <span>{obj.SymbolName.toUpperCase()}</span>
         }
       },
       {
         title: <IntlMessages id="Wallet.SymbolCode" />,
-        key: 'symbolCode',
+        key: 'SymbolCode',
         width: 200,
         render: obj => {
-          return <span>{obj.symbolCode.toUpperCase()}</span>
+          return <span>{obj.SymbolCode.toUpperCase()}</span>
         }
       },
       {
         title: <IntlMessages id="Wallet.TotalBalance" />,
-        key: 'totalBalance',
+        key: 'TotalBalance',
         width: 100,
-        render: obj => renderCell(obj, 'NumberCell', 'totalBalance')
+        render: obj => renderCell(obj, 'NumberCell', 'TotalBalance')
       },
       {
         title: <IntlMessages id="Wallet.AvailableBalance" />,
-        key: 'availableBalance',
+        key: 'AvailableBalance',
         width: 80,
-        render: obj => renderCell(obj, 'NumberCell', 'availableBalance')
+        render: obj => renderCell(obj, 'NumberCell', 'AvailableBalance')
       },
       {
         title: <IntlMessages id="Wallet.InOrder" />,
-        key: 'inOrder',
+        key: 'InOrder',
         width: 80,
-        render: obj => renderCell(obj, 'NumberCell', 'inOrder')
+        render: obj => renderCell(obj, 'NumberCell', 'InOrder')
       },
       {
         title: <IntlMessages id="Wallet.ConstantValue" />,
-        key: 'constantValue',
+        key: 'ConstantValue',
         width: 100,
-        render: obj => renderCell(obj, 'NumberCell', 'constantValue')
+        render: obj => renderCell(obj, 'NumberCell', 'ConstantValue')
       },
       {
         title: "",
@@ -158,23 +171,47 @@ export default class extends Component {
     this.setState({ isWithdraw: true, coinSelected: obj });
   }
 
+  changeAmount = (e) => {
+    let val = e.target.value ? e.target.value : Number(e.target.value);
+    this.setState({ wAmount:  val});
+  }
+
+  changeAddress = (e) => {
+    this.setState({ wAddress: e.target.value });
+  }
+
   onExchange(obj) {
     //console.log(obj);
-    window.location.href = '/?market' + obj.symbolCode;
+    window.location.href = '/?market' + obj.SymbolCode;
   }
 
   handleCancel = () => {
     this.setState({ isDeposit: false, isWithdraw: false, });
   };
 
-  handleWithdraw = () => {
+  handleWithdraw = async () => {
+    const { wAmount, wAddress } = this.state;
+
+    
+    let result = await wallet.send(wAddress, wAmount);console.log(result);
+    if(result){
+      if(result.error){
+        errorWithdraw(result.message);
+      }
+      else if(!result.Result){
+        errorWithdraw(result.Message);
+      }
+      else{
+        successWithdraw();
+      }
+    }
+    
     this.setState({ isDeposit: false, isWithdraw: false, });
   };
 
   renderWithdraw(){
-    const { coinSelected, isWithdraw } = this.state;
+    const { coinSelected, isWithdraw, paymentAddress } = this.state;
     const title = <IntlMessages id="Wallet.Withdraw" />;
-    const paymentAddress = "1Uv12YEcd5w5Qm79sTGHSHYnCfVKM2ui8mbapD1dgziUf9211b5cnCSdxVb1DoXyDD19V1THMSnaAWZ18sJtmaVnh56wVhwb1HuYpkTa4";
 
     return (
       <Modal
@@ -203,12 +240,13 @@ export default class extends Component {
               <Input
                 addonAfter="CONST"
                 placeholder="0.00"
+                onChange={(e) => this.changeAmount(e)}
               />
             </InputGroup>
 
             <div><IntlMessages id="Wallet.Withdraw.Address" /></div>
             <InputGroup >
-              <Input />
+              <Input onChange={(e) => this.changeAddress(e)} />
             </InputGroup>
           </WithdrawWrapper>
           <Alert

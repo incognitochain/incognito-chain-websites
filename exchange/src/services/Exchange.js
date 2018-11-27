@@ -26,7 +26,6 @@ export default class Exchange {
   }
 
   static async OrderHistory(symbolCode, page, limit) {
-console.log(symbolCode, page, limit);
     try{
       const response = await axios(Exchange.getOption(`/exchange/market_histories?symbol_code=${symbolCode}&page=${page}&limit=${limit}`));
       if (response.status === 200) {

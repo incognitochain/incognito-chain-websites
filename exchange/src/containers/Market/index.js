@@ -103,7 +103,7 @@ export default class Market extends Component {
       return <Component tableInfo={tableInfo} dataList={data} />;
     }
     else{
-      return <p>Data not found matchs this criti</p>;
+      return <p><IntlMessages id="Market.DataNotFound" /></p>;
     }
   }
 

@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { Icon, Row, Col } from 'antd';
+import userpic from '@/image/user1.png';
 import { connect } from 'react-redux';
 import Popover from '@/components/uielements/popover';
 import IntlMessages from '@/components/utility/intlMessages';
 import authAction from '../../redux/auth/actions';
 import TopbarDropdownWrapper from './topbarDropdown.style';
 import TopbarUserWrapper from './topbarUser.style';
-import ContentHolder from '@/components/utility/contentHolder';
 import Button from '@/components/uielements/button';
 import actions from '../../redux/languageSwitcher/actions';
 import config from './language.config';
+import auth from '@/components/auth';
 
 const { logout } = authAction;
 const { changeLanguage } = actions;
@@ -17,15 +17,20 @@ const { changeLanguage } = actions;
 class TopbarUser extends Component {
   constructor(props) {
     super(props);
-    this.handleVisibleChange = this.handleVisibleChange.bind(this);
     this.hide = this.hide.bind(this);
     this.state = {
-      visible: false,
+      isLang: false,
+      isLogged: false,
+      auth: false,
     };
   }
 
+  componentDidMount(){
+    this.setState({auth: auth.isLogged()});
+  }
+
   hide() {
-    this.setState({ visible: false });
+    this.setState({ isLang: false, isLogged: false });
   }
 
   onSignin(){
@@ -36,14 +41,93 @@ class TopbarUser extends Component {
     window.location.href = 'http://auth.constant.money/register';
   }
 
-  handleVisibleChange() {
-    this.setState({ visible: !this.state.visible });
+  handleLanguageChange() {
+    this.setState({ isLang: !this.state.isLang });
   }
 
-  render() {
+  get login(){
+
+    return <TopbarUserWrapper>
+      <Popover
+        content={this.popupLogin}
+        trigger="click"
+        visible={this.state.isLogged}
+        onVisibleChange={() => this.setState({ isLogged: !this.state.isLogged })}
+        arrowPointAtCenter={true}
+        placement="bottomLeft"
+      >
+        <div className="isoImgWrapper">
+          <img alt="user" src={userpic} />
+          <span className="userActivity online" />
+        </div>
+      </Popover>
+
+      <Popover
+        content={this.popupLanguage}
+        trigger="click"
+        visible={this.state.isLang}
+        onVisibleChange={() => this.setState({ isLang: !this.state.isLang })}
+        arrowPointAtCenter={true}
+        placement="bottomLeft"
+      >
+        <Button type="default" className="btnLanguage" >
+          <IntlMessages id="topbar.Language" />
+        </Button>
+      </Popover>
+
+    </TopbarUserWrapper>
+  }
+
+  get unlogin(){
+
+    return <TopbarUserWrapper>
+      <Button type="primary" className="btnSignin" onClick={this.onSignin} >
+        <IntlMessages id="topbar.Signin" />
+      </Button>
+
+      <Button type="primary" className="btnSignup" onClick={this.onSignup} >
+        <IntlMessages id="topbar.Signup" />
+      </Button>
+      
+      <Popover
+        content={this.popupLanguage}
+        trigger="click"
+        visible={this.state.isLang}
+        onVisibleChange={this.handleLanguageChange}
+        arrowPointAtCenter={true}
+        placement="bottomLeft"
+      >
+        <Button type="default" className="btnLanguage" >
+          <IntlMessages id="topbar.Language" />
+        </Button>
+      </Popover>
+
+    </TopbarUserWrapper>
+  }
+
+  get popupLogin(){
+    return (
+      <TopbarDropdownWrapper className="isoUserDropdown">
+        <a className="isoDropdownLink" href="# ">
+          <IntlMessages id="topbar.Settings" />
+        </a>
+        <a className="isoDropdownLink" href="# ">
+          <IntlMessages id="topbar.Feedback" />
+        </a>
+        <a className="isoDropdownLink" href="# ">
+          <IntlMessages id="topbar.Help" />
+        </a>
+        <a className="isoDropdownLink" onClick={this.props.logout} href="# ">
+          <IntlMessages id="topbar.Logout" />
+        </a>
+      </TopbarDropdownWrapper>
+    );
+  }
+
+  get popupLanguage(){
     const { locale:language, changeLanguage } = this.props;
 
-    const content = (
+    return(
       <TopbarDropdownWrapper className="isoUserDropdown">
         {config.options.map(option => {
           const { languageId, icon } = option;
@@ -58,63 +142,16 @@ class TopbarUser extends Component {
             </a>
           );
         })}
-        {/* <a className="isoDropdownLink" href="# ">
-          <IntlMessages id="themeSwitcher.settings" />
-        </a>
-        <a className="isoDropdownLink" href="# ">
-          <IntlMessages id="sidebar.feedback" />
-        </a>
-        <a className="isoDropdownLink" href="# ">
-          <IntlMessages id="topbar.help" />
-        </a>
-        <a className="isoDropdownLink" onClick={this.props.logout} href="# ">
-          <IntlMessages id="topbar.logout" />
-        </a> */}
+        {/*  */}
       </TopbarDropdownWrapper>
     );
+  }
 
-    const unlogin = (
-        <TopbarUserWrapper>
-          <Button type="primary" className="btnSignin" onClick={this.onSignin} >
-            <IntlMessages id="topbar.Signin" />
-          </Button>
+  render() {
+    const { auth } = this.state;
 
-          <Button type="primary" className="btnSignup" onClick={this.onSignup} >
-            <IntlMessages id="topbar.Signup" />
-          </Button>
-          
-          <Popover
-            content={content}
-            trigger="click"
-            visible={this.state.visible}
-            onVisibleChange={this.handleVisibleChange}
-            arrowPointAtCenter={true}
-            placement="bottomLeft"
-          >
-            <Button type="default" className="btnLanguage" >
-              <IntlMessages id="topbar.Language" />
-            </Button>
-          </Popover>
+    return (auth ? this.login : this.unlogin);
 
-        </TopbarUserWrapper>
-    );
-
-    return (unlogin);
-    // return (
-    //   <Popover
-    //     content={content}
-    //     trigger="click"
-    //     visible={this.state.visible}
-    //     onVisibleChange={this.handleVisibleChange}
-    //     arrowPointAtCenter={true}
-    //     placement="bottomLeft"
-    //   >
-    //     <div className="isoImgWrapper">
-    //       <img alt="user" src={userpic} />
-    //       <span className="userActivity online" />
-    //     </div>
-    //   </Popover>
-    // );
   }
 }
 

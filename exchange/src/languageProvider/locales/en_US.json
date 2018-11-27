@@ -466,10 +466,14 @@
   "topbar.viewCart": "View Cart",
   "topbar.totalPrice": "Total Price",
   
-  "topbar.Logout": "Logout",
   "topbar.Signin": "Sign in",
   "topbar.Signup": "Sign up",
   "topbar.Language": "Language",
+  "topbar.Logout": "Logout",
+  "topbar.Settings": "Settings",
+  "topbar.Feedback": "Feedback",
+  "topbar.Help": "Help",
+
 
   "sidebar.Market": "Market",
   "sidebar.Exchange": "Exchange",
@@ -482,6 +486,7 @@
   "Market.High": "High",
   "Market.Low": "Low",
   "Market.Change": "Change",
+  "Market.DataNotFound": "Data not found matchs this criteria.",
 
   "Wallet.PageHeader": "Wallet",
   "Wallet.ConstantValue": "CST Value",

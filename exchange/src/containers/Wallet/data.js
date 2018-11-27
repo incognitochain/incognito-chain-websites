@@ -1,61 +1,62 @@
 const tableData = [
   {
-    "symbolName": "Constant",
-    "symbolCode": "CST",
-    "totalBalance": 100,
-    "availableBalance": 1,
-    "inOrder": 0,
-    "constantValue": 100,
+    "SymbolName": "Constant",
+    "SymbolCode": "CST",
+    "TotalBalance": 100,
+    "AvailableBalance": 1,
+    "InOrder": 0,
+    "ConstantValue": 100,
     "key": 0
   },
   {
-    "symbolName": "Token A",
-    "symbolCode": "ATK",
-    "totalBalance": 600,
-    "availableBalance": 400,
-    "inOrder": 200,
-    "constantValue": 0.0084,
+    "SymbolName": "Token A",
+    "SymbolCode": "ATK",
+    "TotalBalance": 600,
+    "AvailableBalance": 400,
+    "InOrder": 200,
+    "ConstantValue": 0.0084,
     "key": 1
   },
   {
-    "symbolName": "Token B",
-    "symbolCode": "BTK",
-    "totalBalance": 1200,
-    "availableBalance": 800,
-    "inOrder": 400,
-    "constantValue": 0.0168,
+    "SymbolName": "Token B",
+    "SymbolCode": "BTK",
+    "TotalBalance": 1200,
+    "AvailableBalance": 800,
+    "InOrder": 400,
+    "ConstantValue": 0.0168,
     "key": 2
   },
   {
-    "symbolName": "Token C",
-    "symbolCode": "CTK",
-    "totalBalance": 1200,
-    "availableBalance": 800,
-    "inOrder": 400,
-    "constantValue": 0.0168,
+    "SymbolName": "Token C",
+    "SymbolCode": "CTK",
+    "TotalBalance": 1200,
+    "AvailableBalance": 800,
+    "InOrder": 400,
+    "ConstantValue": 0.0168,
     "key": 3
   },
   {
-    "symbolName": "Token D",
-    "symbolCode": "DTK",
-    "totalBalance": 1200,
-    "availableBalance": 800,
-    "inOrder": 400,
-    "constantValue": 0.0168,
+    "SymbolName": "Token D",
+    "SymbolCode": "DTK",
+    "TotalBalance": 1200,
+    "AvailableBalance": 800,
+    "InOrder": 400,
+    "ConstantValue": 0.0168,
     "key": 4
   },
 ];
 
 const sortOption = {};
-class dataTest {
-  constructor(size) {
+export default class Data {
+  constructor(size, dataSource) {
     this.size = size || 2000;
+    this.dataList = dataSource;
     this.datas = [];
     this.sortKey = null;
     this.sortDir = null;
   }
   dataModel(index) {
-    return tableData[index];
+    return this.dataList[index];
   }
   getObjectAt(index) {
     if (index < 0 || index > this.size) {
@@ -69,9 +70,9 @@ class dataTest {
     return this.datas[index];
   }
   getAll() {
-    if(this.size > tableData.length)
-      this.size = tableData.length;
-
+    if(this.size > this.dataList.length)
+      this.size = this.dataList.length;
+console.log(this.dataList);
     if (this.datas.length < this.size) {
       for (let i = 0; i < this.size; i++) {
         this.getObjectAt(i);
@@ -112,4 +113,3 @@ class dataTest {
     return sortVal;
   }
 }
-export default dataTest;
