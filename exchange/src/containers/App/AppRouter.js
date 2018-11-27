@@ -4,21 +4,17 @@ import asyncComponent from '../../helpers/AsyncFunc';
 
 const routes = [
   {
-    path: 'market',
-    component: asyncComponent(() => import('../Market')),
+    path: '/wallet',
+    component: asyncComponent(() => import('../Wallet')),
+  },
+  {
+    path: '/exchange',
+    component: asyncComponent(() => import('../Exchange')),
   },
   {
     path: '',
     component: asyncComponent(() => import('../Market')),
   },
-  {
-    path: 'wallet',
-    component: asyncComponent(() => import('../Wallet')),
-  },
-  {
-    path: 'exchange',
-    component: asyncComponent(() => import('../Exchange')),
-  }
 ];
 
 class AppRouter extends Component {
@@ -26,17 +22,33 @@ class AppRouter extends Component {
     const { url, style } = this.props;
     return (
       <div style={style}>
+        <Route
+          exact
+          path={'/'}
+          component={asyncComponent(() => import('@/containers/Market'))}
+        />
+        <Route
+          exact
+          path={'/exchange'}
+          component={asyncComponent(() => import('@/containers/Exchange'))}
+        />
+        <Route
+          exact
+          path={'/wallet'}
+          component={asyncComponent(() => import('@/containers/Wallet'))}
+        />
+{/*         
         {routes.map(singleRoute => {
-          const { path, exact, ...otherProps } = singleRoute;
+          const { path, exact, ...otherProps } = singleRoute;console.log(path, exact, url);
           return (
             <Route
-              exact={exact === false ? false : true}
+              exact={true}
               key={singleRoute.path}
               path={`${url}/${singleRoute.path}`}
               {...otherProps}
             />
           );
-        })}
+        })} */}
       </div>
     );
   }

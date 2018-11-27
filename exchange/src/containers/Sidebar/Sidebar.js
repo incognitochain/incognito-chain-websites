@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import clone from 'clone';
 import { Link } from 'react-router-dom';
 import { Layout } from 'antd';
-import options from './options';
 import Scrollbars from '@/components/utility/customScrollBar.js';
 import Menu from '@/components/uielements/menu';
 import IntlMessages from '@/components/utility/intlMessages';
@@ -30,6 +29,24 @@ const stripTrailingSlash = str => {
   }
   return str;
 };
+
+const topMenus = [
+  {
+    key: '',
+    label: 'sidebar.Market',
+    leftIcon: '',
+  },
+  {
+    key: 'exchange',
+    label: 'sidebar.Exchange',
+    leftIcon: '',
+  },
+  {
+    key: 'wallet',
+    label: 'sidebar.Wallet',
+    leftIcon: '',
+  }
+];
 
 class Sidebar extends Component {
   constructor(props) {
@@ -102,7 +119,7 @@ class Sidebar extends Component {
     }
     return (
       <Menu.Item key={key}>
-        <Link to={`${url}/${key}`}>
+        <Link to={`/${key}`}>
           <span className="isoMenuHolder" style={submenuColor}>
             {/* <i className={leftIcon} /> */}
             <span className="nav-text">
@@ -169,7 +186,7 @@ class Sidebar extends Component {
                   selectedKeys={app.current}
                   onOpenChange={this.onOpenChange}
                 >
-                  {options.map(singleOption =>
+                  {topMenus.map(singleOption =>
                     this.getMenuItem({ submenuStyle, submenuColor, singleOption })
                   )}
                 </Menu>
