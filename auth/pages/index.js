@@ -13,12 +13,14 @@ class Index extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isLogged: false,
+    };
   }
 
   componentDidMount() {
-    if (auth.isLogged) {
-
+    if (auth.isLogged()) {
+      this.setState({ isLogged: true });
     } else {
       window.location.assign('/login');
     }
@@ -31,9 +33,11 @@ class Index extends React.Component {
   }
 
   render() {
+    const { isLogged } = this.state;
+
     return (
       <div>
-        <a href="/" onClick={this.logout}>Logout</a>
+        {isLogged ? <a href="/" onClick={this.logout}>Logout</a> : ''}
       </div>
     );
   }
