@@ -1,0 +1,10 @@
+node_modules
+yarn-error.log
+package-lock.json
+dist
+.DS_Store
+.idea
+.env.js
+testing
+.idea/
+.notes

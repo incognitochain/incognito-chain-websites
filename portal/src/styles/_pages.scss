@@ -1,0 +1,35 @@
+.create {
+  min-height: 100vh;
+  @extend .c-bg-blue-900;
+  .create-hero {
+    color: #fff;
+    text-align: center;
+    h2 {
+      font-size: 36px;
+      font-weight: bold;
+      text-align: center;
+      letter-spacing: 0;
+      line-height: 41px;
+      margin-top: 64px;
+    }
+    p {
+      color: #CCCFD9;
+      font-size: 20px;
+      margin-top: 15px;
+    }
+  }
+  .create-box {
+    h2 {
+      font-size: 30px;
+    }
+    h3 {
+      font-size: 14px;
+    }
+    max-width: 1091px;
+    margin: 58px auto;
+    padding: 90px 86px;
+    background-color: #fff;
+    border-radius: 4px;
+    @extend .c-shadow-200;
+  }
+}
