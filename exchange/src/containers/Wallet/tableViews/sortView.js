@@ -84,6 +84,7 @@ export default class extends Component {
       wAmount: 0,
       wAddress: '',
       dataList: this.props.dataList.getAll(),
+      loading: false,
     };
     this.columns = [
       {

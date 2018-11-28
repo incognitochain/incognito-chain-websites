@@ -1,15 +1,24 @@
 import axios from 'axios';
+import auth from '@/components/auth';
 
 export default class Exchange {
 
-  static getOption(func, data){
-    //const auth = "Basic " + new Buffer(server.username+':'+server.password).toString('base64');
+  static getOption(param){
+    let {method, func, data} = param;
+    if(!method)
+      method = "GET";
+
+    let authorization = "", token = auth.isLogged();
+    if(token){
+      authorization = "Bearer " + token;
+    }
+    
     let url = 'http://localhost:8888',
     options = {
-      method: 'GET',
+      method: method,
       headers: { 
         'Content-Type': 'application/json;charset=UTF-8',
-        //'Authorization': auth
+        'Authorization': authorization
       }
     };
 
@@ -25,9 +34,58 @@ export default class Exchange {
     return options;
   }
 
-  static async OrderHistory(symbolCode, page, limit) {
+  static async TradeHistory(symbolCode, page, limit) {
     try{
-      const response = await axios(Exchange.getOption(`/exchange/market_histories?symbol_code=${symbolCode}&page=${page}&limit=${limit}`));
+      const options = {func: `/exchange/market_histories?symbol_code=${symbolCode}&page=${page}&limit=${limit}`};
+      const response = await axios(Exchange.getOption(options));
+      if (response.status === 200) {
+        if(response.data && response.data.Result)
+          return response.data.Result;
+      }
+    }
+    catch (e) {
+      return { error: true, message: e.message };
+    }
+    
+    return false;
+  }
+
+  static async OpenOrders(symbolCode, page, limit) {
+    try{
+      const options = {func: `/exchange/orders?status=new&symbol_code=${symbolCode}&page=${page}&limit=${limit}`};
+      const response = await axios(Exchange.getOption(options));
+      if (response.status === 200) {
+        if(response.data && response.data.Result)
+          return response.data.Result;
+      }
+    }
+    catch (e) {
+      return { error: true, message: e.message };
+    }
+    
+    return false;
+  }
+
+  static async FilledOrders(symbolCode, page, limit) {
+    try{
+      const options = {func: `/exchange/orders?status=filled&symbol_code=${symbolCode}&page=${page}&limit=${limit}`};
+      const response = await axios(Exchange.getOption(options));
+      if (response.status === 200) {
+        if(response.data && response.data.Result)
+          return response.data.Result;
+      }
+    }
+    catch (e) {
+      return { error: true, message: e.message };
+    }
+    
+    return false;
+  }
+
+  static async CreateOrder(SymbolCode, Price, Quantity, Type, Side) {
+    try{
+      const options = {method: 'POST', func: `/exchange/orders`, data: {SymbolCode, Price, Quantity, Type, Side}};
+      const response = await axios(Exchange.getOption(options));
       if (response.status === 200) {
         if(response.data && response.data.Result)
           return response.data.Result;

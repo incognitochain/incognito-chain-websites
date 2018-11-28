@@ -31,46 +31,37 @@ const renderCell = (object, type, key) => {
 const columns = [
   {
     title: <IntlMessages id="Exchange.OpenOrder.Side" />,
-    key: 'side',
+    key: 'Side',
     width: 100,
     render: obj => {
-      return <PriceSide className={obj.side}>{obj.side}</PriceSide>
+      return <PriceSide className={obj.Side}>{obj.Side.toUpperCase()}</PriceSide>
     }
   },
   {
-    title: <IntlMessages id="Exchange.OpenOrder.Size" />,
-    key: 'size',
-    className: 'text-right',
+    title: <IntlMessages id="Exchange.OpenOrder.Quantity" />,
+    key: 'Quantity',
     width: 100,
-    render: obj => renderCell(obj, 'NumberCell', 'size')
-  },
-  {
-    title: <IntlMessages id="Exchange.OpenOrder.Filled" />,
-    key: 'filled',
-    className: 'text-right',
-    width: 100,
-    render: obj => renderCell(obj, 'NumberCell', 'filled')
+    render: obj => renderCell(obj, 'TextCell', 'Quantity')
   },
   {
     title: <IntlMessages id="Exchange.OpenOrder.Price" />,
-    key: 'price',
-    className: 'text-right',
+    key: 'Price',
     width: 100,
-    render: obj => renderCell(obj, 'NumberCell', 'price')
+    render: obj => renderCell(obj, 'TextCell', 'Price')
   },
   {
-    title: <IntlMessages id="Exchange.OpenOrder.Fee" />,
-    key: 'fee',
+    title: <IntlMessages id="Exchange.OpenOrder.Time" />,
+    key: 'Time',
     className: 'text-right',
     width: 50,
-    render: obj => renderCell(obj, 'NumberCell', 'fee')
+    render: obj => renderCell(obj, 'TimeCell', 'Time')
   },
   {
     title: <IntlMessages id="Exchange.OpenOrder.Status" />,
-    key: 'status',
+    key: 'Status',
     width: 100,
     render: obj => {
-      return <PriceSide className={obj.side}>{obj.status}</PriceSide>
+      return <PriceSide className={obj.Side}>{obj.Status.toUpperCase()}</PriceSide>
     }
   }
 ];

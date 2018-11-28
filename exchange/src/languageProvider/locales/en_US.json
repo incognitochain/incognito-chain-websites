@@ -512,7 +512,7 @@
   
   "Exchange.TradeHistory": "Trade History",
   "Exchange.TradeHistory.Price": "Price",
-  "Exchange.TradeHistory.Unit": "Unit",
+  "Exchange.TradeHistory.Quantity": "Quantity",
   "Exchange.TradeHistory.Time": "Date",
 
   "Exchange.PriceChart": "Price Chart",
@@ -528,6 +528,8 @@
   "Exchange.OpenOrder.Size": "Size",
   "Exchange.OpenOrder.Side": "Side",
   "Exchange.OpenOrder.Filled": "Filled",
+  "Exchange.OpenOrder.Quantity": "Quantity",
+  "Exchange.OpenOrder.Time": "Time",
   "Exchange.OpenOrder.Fee": "Fee",
 
   "Exchange.FillOrder.Side": "Side",

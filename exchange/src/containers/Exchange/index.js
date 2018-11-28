@@ -8,7 +8,7 @@ import exchange from '@/services/Exchange';
 import { Row, Col } from 'antd';
 import { TableStyle, rowStyle, colStyle, boxStyle } from './custom.style';
 
-import dataTradeHistory from './dataTradeHistory';
+import DataTradeHistory from './dataTradeHistory';
 import DataOrderBook from './dataOrderBook';
 import DataOpenOrder from './dataOpenOrder';
 
@@ -19,32 +19,51 @@ import OpenOrder from './table/openOrder';
 
 import TradingViewWidget from 'react-tradingview-widget';
 
-//const dataTradeHistory= new DataTradeHistory(10);
-const dataOpenOrder= new DataOpenOrder(10);
+//const dataOpenOrder= new DataOpenOrder(10);
 const dataOrderBook= new DataOrderBook(10);
 
 export default class Exchange extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      orderHistory: false,
+      tradeHistory: false,
+      openOrders: false,
     }
     
   }
 
   async componentDidMount(){
-    let { orderHistory } = this.state;
+    let { tradeHistory, openOrders } = this.state;
 
-    if(!orderHistory){
-      orderHistory = await this.getData();
-      this.setState({orderHistory});
+    if(!tradeHistory){
+      tradeHistory = await this.getData('tradeHistory');
+      this.setState({tradeHistory});
+    }
+
+    console.log(openOrders);
+    if(!openOrders){
+      openOrders = await this.getData('openOrders');
+      this.setState({openOrders});
     }
   }
 
-  async getData(){console.log('getData');
-    let result = await exchange.OrderHistory("btcusdt", 1, 10);
-    if(result && result.length)
+  async getData(type){
+    let result = false;
+    
+    if(type == 'tradeHistory'){
+      result = await exchange.TradeHistory("constantbond", 1, 10);
+    }
+    else{
+      result = await exchange.OpenOrders("constantbond", 1, 10);
+    }
+    
+    if(result && result.length){
+      for(let i in result){
+        result[i].key = i;
+      }
+      
       return result;
+    }
 
     return false;
   }
@@ -58,8 +77,23 @@ export default class Exchange extends Component {
     </div>;
   }
 
+  renderOpenOrder(){
+    const { openOrders } = this.state;
+    if(openOrders){console.log(openOrders);
+      const dataOpenOrders = new DataOpenOrder(10, openOrders);
+      return <TableStyle className="">
+        <OpenOrder dataList={dataOpenOrders} />
+      </TableStyle>;
+    }
+    else{
+      return "";
+    }
+  }
+
   render() {
-    const { orderHistory } = this.state
+    const { tradeHistory } = this.state;
+    const dataTradeHistory = new DataTradeHistory(10, tradeHistory);
+
     return (
       <LayoutWrapper style={{ padding: 0, height: 'calc(100vh - 120px)' }}>
         <Row style={rowStyle} gutter={16} justify="start">
@@ -93,21 +127,20 @@ export default class Exchange extends Component {
               </Box>
               <Box title={this.headerBox("Exchange.OpenOrder", "ion-android-globe", "#1f2d83")} style={{height:'50%'}}>
               <ContentHolder>
-                <TableStyle className="">
-                  <OpenOrder dataList={dataOpenOrder} />
-                </TableStyle>
+                {
+                  this.renderOpenOrder()
+                }
               </ContentHolder>              
               </Box>
             </Col>
             <Col md={5} sm={8} xs={24} style={colStyle} >
               <Box title={this.headerBox("Exchange.TradeHistory", "ion-ios-list-outline", "#1f2d83")} style={boxStyle}>
                 {
-                  orderHistory && 
+                  tradeHistory && 
                   <TableStyle className="">
-                    <TradeHistory dataList={orderHistory} />
+                    <TradeHistory dataList={dataTradeHistory} />
                   </TableStyle>
                 }
-                
               </Box>
             </Col>
         </Row>

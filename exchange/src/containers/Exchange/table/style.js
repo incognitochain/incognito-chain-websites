@@ -302,7 +302,13 @@ const OrderSide = {
   
 };
 
+const MessageContent = styled.p`
+  display: inline-block;
+  font-size: 13px;
+`;
+
+
 const CustomizedTableWrapper = WithDirection(WDCustomizedTableWrapper);
 
-export { CustomizedTableWrapper, PriceSide, OrderSide, Label, OrderForm, OrderFormFooter };
+export { CustomizedTableWrapper, PriceSide, OrderSide, Label, OrderForm, OrderFormFooter, MessageContent };
 export default WithDirection(TableWrapper);

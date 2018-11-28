@@ -1,42 +1,13 @@
-const dataList = [
-  {
-    "side": 'buy',
-    "size": 0.4,
-    "filled": 0,
-    "price": 3994,
-    "fee": 0.25,
-    "status": "open",
-    "key": 0
-  },
-  {
-    "side": 'buy',
-    "size": 0.5,
-    "filled": 0.1,
-    "price": 3980,
-    "fee": 0.25,
-    "status": "partial buy",
-    "key": 1
-  },
-  {
-    "side": 'sell',
-    "size": 1,
-    "filled": 0,
-    "price": 3999,
-    "fee": 0.25,
-    "status": "open",
-    "key": 2
-  },
-];
-
 class Data {
-  constructor(size) {
+  constructor(size, dataSource) {
     this.size = size || 2000;
     this.datas = [];
+    this.dataList = dataSource;
   }
   
 
   dataModel(index) {
-    return dataList[index];
+    return this.dataList[index];
   }
 
   getObjectAt(index) {
@@ -50,8 +21,8 @@ class Data {
   }
 
   getAll() {
-    if(dataList && this.size > dataList.length)
-      this.size = dataList.length;
+    if(this.dataList && this.size > this.dataList.length)
+      this.size = this.dataList.length;
 
     if (this.datas.length < this.size) {
       for (let i = 0; i < this.size; i++) {

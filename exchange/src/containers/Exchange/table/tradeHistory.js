@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import IntlMessages from '../../../components/utility/intlMessages';
+import IntlMessages from '@/components/utility/intlMessages';
 import {
   DateCell,
   ImageCell,
@@ -7,7 +7,7 @@ import {
   TextCell,
   NumberCell,
   TimeCell
-} from '../../../components/tables/helperCells';
+} from '@/components/tables/helperCells';
 import TableWrapper, { PriceSide } from './style';
 
 const renderCell = (object, type, key) => {
@@ -31,23 +31,24 @@ const renderCell = (object, type, key) => {
 const columns = [
   {
     title: <IntlMessages id="Exchange.TradeHistory.Price" />,
-    key: 'price',
+    key: 'Price',
     width: 100,
     render: obj => {
-      return <PriceSide className={obj.side}>{obj.price}</PriceSide>
+      return <PriceSide className={obj.Side}>{obj.Price}</PriceSide>
     }
   },
   {
-    title: <IntlMessages id="Exchange.TradeHistory.Unit" />,
-    key: 'unit',
+    title: <IntlMessages id="Exchange.TradeHistory.Quantity" />,
+    key: 'Quantity',
     width: 100,
-    render: obj => renderCell(obj, 'TextCell', 'unit')
+    render: obj => renderCell(obj, 'TextCell', 'Quantity')
   },
   {
     title: <IntlMessages id="Exchange.TradeHistory.Time" />,
-    key: 'time',
+    key: 'Time',
+    className: 'text-right',
     width: 100,
-    render: obj => renderCell(obj, 'TextCell', 'time')
+    render: obj => renderCell(obj, 'TimeCell', 'Time')
   }
 ];
 
