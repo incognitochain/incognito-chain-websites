@@ -4,7 +4,7 @@ import auth from '@/components/auth';
 export default class Wallet {
 
   static getOption(param){
-    let {method, func, data} = param;console.log(method);
+    let {method, func, data} = param;
     if(!method)
       method = "GET";
 

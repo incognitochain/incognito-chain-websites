@@ -31,17 +31,17 @@ export default class Market extends Component {
       dataList = {};
 
       let result = await this.getData("24h");
-      if(!result)
+      if(result)
         dataList["24h"] = result;
 
       result = await this.getData("4h");
-      if(!result)
+      if(result)
         dataList["4h"] = result;
-
+        
       result = await this.getData("1h");
-      if(!result)
+      if(result)
         dataList["1h"] = result;
-
+        
       if(dataList["24h"] || dataList["4h"] || dataList["1h"])
         this.setState({dataList});
     }
@@ -49,14 +49,14 @@ export default class Market extends Component {
 
   async getData(time="24h"){
     //market settings 
-    let result = await market.getMarkets();console.log(result);
+    let result = await market.getMarkets();
     if(!result.error){
       let markets = {};
       for(let s of result){
         const { DisplayName, State, SymbolCode } = s;
         markets[SymbolCode] = { DisplayName, State };
       }
-  
+      
       //market datas
       result = await market.getSymbolRates(time);
       let rates = [], key = 0;
@@ -85,7 +85,6 @@ export default class Market extends Component {
 
   renderTable(tableInfo) {
     const { dataList } = this.state;
-
     if(dataList && dataList[tableInfo.value]){
       const data = new Data(10, dataList[tableInfo.value]);
 
