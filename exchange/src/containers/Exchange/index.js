@@ -18,6 +18,7 @@ import OrderForm from './table/orderForm';
 import OpenOrder from './table/openOrder';
 
 import TradingViewWidget from 'react-tradingview-widget';
+import Websocket from 'react-websocket';
 
 //const dataOpenOrder= new DataOpenOrder(10);
 const dataOrderBook= new DataOrderBook(10);
@@ -40,7 +41,6 @@ export default class Exchange extends Component {
       this.setState({tradeHistory});
     }
 
-    console.log(openOrders);
     if(!openOrders){
       openOrders = await this.getData('openOrders');
       this.setState({openOrders});
@@ -68,6 +68,11 @@ export default class Exchange extends Component {
     return false;
   }
 
+  handleOpenBook(data) {
+    let result = JSON.parse(data);
+    console.log(result);
+  }
+
   headerBox(text, icon, color) {
     return <div>
       <h3 style={{ color }}>
@@ -79,8 +84,8 @@ export default class Exchange extends Component {
 
   renderOpenOrder(){
     const { openOrders } = this.state;
-    if(openOrders){console.log(openOrders);
-      const dataOpenOrders = new DataOpenOrder(10, openOrders);
+    if(openOrders){
+      const dataOpenOrders = new DataOpenOrder(5, openOrders);
       return <TableStyle className="">
         <OpenOrder dataList={dataOpenOrders} />
       </TableStyle>;
@@ -90,10 +95,29 @@ export default class Exchange extends Component {
     }
   }
 
+  renderTradeHistory(){
+    const { tradeHistory } = this.state;
+    if(tradeHistory){
+      const dataTradeHistory = new DataTradeHistory(10, tradeHistory);
+      return <TableStyle className="">
+        <TradeHistory dataList={dataTradeHistory} />
+      </TableStyle>;
+    }
+    else{
+      return "";
+    }
+  }
+
+  renderOpenBook(){
+    return  <div>
+        <Websocket url='ws://localhost:8888/exchange/ws/trades'
+          onMessage={this.handleOpenBook.bind(this)}/>
+      </div>;
+  }
+
   render() {
     const { tradeHistory } = this.state;
-    const dataTradeHistory = new DataTradeHistory(10, tradeHistory);
-
+  
     return (
       <LayoutWrapper style={{ padding: 0, height: 'calc(100vh - 120px)' }}>
         <Row style={rowStyle} gutter={16} justify="start">
@@ -110,12 +134,15 @@ export default class Exchange extends Component {
                 <TableStyle className="">
                   <OrderBook dataList={dataOrderBook} />
                 </TableStyle>
+                {
+                  this.renderOpenBook()
+                }
               </Box>
             </Col>
             <Col md={10} sm={8} xs={24} style={colStyle} >
-              <Box title={this.headerBox("Exchange.PriceChart", "ion-android-globe", "#1f2d83")} style={{height:'calc(50% - 0.6rem)', marginBottom: '0.7rem'}}>
-                <ContentHolder style={{height: 'calc(100% - 50px'}}>
-                  
+              <Box style={{height:'calc(50% - 0.6rem)', marginBottom: '0.7rem', padding: 0}}>
+                <ContentHolder style={{height: '100%', padding: 0, margin: 0}}>
+                {/* title={this.headerBox("Exchange.PriceChart", "ion-android-globe", "#1f2d83")}  */}
                 <TradingViewWidget
                   symbol="BITTREX:BTCUSDT"
                   theme="Light"
@@ -136,10 +163,7 @@ export default class Exchange extends Component {
             <Col md={5} sm={8} xs={24} style={colStyle} >
               <Box title={this.headerBox("Exchange.TradeHistory", "ion-ios-list-outline", "#1f2d83")} style={boxStyle}>
                 {
-                  tradeHistory && 
-                  <TableStyle className="">
-                    <TradeHistory dataList={dataTradeHistory} />
-                  </TableStyle>
+                  this.renderTradeHistory()                  
                 }
               </Box>
             </Col>

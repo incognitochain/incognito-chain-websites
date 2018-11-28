@@ -3,7 +3,7 @@ import { palette } from 'styled-theme';
 import WithDirection from '../../settings/withDirection';
 
 const WDContentHolderWrapper = styled.div`
-  margin-top: 30px;
+  margin-top: 1rem;
   -webkit-overflow-scrolling: touch;
 
   .demoBtn {

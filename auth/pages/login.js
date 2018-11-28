@@ -47,7 +47,7 @@ class Index extends React.Component {
       .then((res) => {
         if (res.data && res.data.Result && res.data.Result.Token) {
           Cookies.set('auth', res.data.Result.Token, { domain: '.constant.money', expires: 30 });
-          document.location.assign('/');
+          document.location.assign('//exchange.constant.money');
         } else {
           this.setState({ error: 'Invalid email or password' });
         }

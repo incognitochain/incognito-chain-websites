@@ -44,7 +44,7 @@ export default class Wallet extends Component {
   }
 
   renderTable(tableInfo) {
-    const { paymentAddress, listBalances } = this.state;console.log(listBalances, paymentAddress);
+    const { paymentAddress, listBalances } = this.state;
 
     if(listBalances){
       const data = new Data(10, listBalances);

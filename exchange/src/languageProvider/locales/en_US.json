@@ -544,5 +544,6 @@
   "Exchange.OrderForm.Fee": "Fee",
   "Exchange.OrderForm.Total": "Total",
   "Exchange.OrderForm.PlaceOrderBuy": "Place Order Buy",
-  "Exchange.OrderForm.PlaceOrderSell": "Place Order Sell"
+  "Exchange.OrderForm.PlaceOrderSell": "Place Order Sell",
+  "Exchange.OrderForm.PlaceOrderSuccess": "Place order success."
 }

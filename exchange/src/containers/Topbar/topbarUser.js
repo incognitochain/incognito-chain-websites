@@ -5,14 +5,22 @@ import Popover from '@/components/uielements/popover';
 import IntlMessages from '@/components/utility/intlMessages';
 import authAction from '../../redux/auth/actions';
 import TopbarDropdownWrapper from './topbarDropdown.style';
-import TopbarUserWrapper from './topbarUser.style';
+import TopbarUserWrapper, { PopconfirmWrapper } from './topbarUser.style';
 import Button from '@/components/uielements/button';
-import actions from '../../redux/languageSwitcher/actions';
+import actions from '@/redux/languageSwitcher/actions';
 import config from './language.config';
 import auth from '@/components/auth';
+import Cookies from 'js-cookie';
+import Popconfirms from '@/components/feedback/popconfirm';
 
 const { logout } = authAction;
 const { changeLanguage } = actions;
+
+const Popconfirm = props => (
+  <PopconfirmWrapper>
+    <Popconfirms {...props} />
+  </PopconfirmWrapper>
+);
 
 class TopbarUser extends Component {
   constructor(props) {
@@ -39,6 +47,11 @@ class TopbarUser extends Component {
 
   onSignup(){
     window.location.href = 'http://auth.constant.money/register';
+  }
+
+  onLogout(){
+    Cookies.remove('auth', { domain: '.constant.money', path: '/' });
+    window.location.assign('/');
   }
 
   handleLanguageChange() {
@@ -117,9 +130,18 @@ class TopbarUser extends Component {
         <a className="isoDropdownLink" href="# ">
           <IntlMessages id="topbar.Help" />
         </a>
+        <Popconfirm
+          placement="bottomRight"
+          title="Are you sure to logout？"
+          okText="Yes"
+          cancelText="No"
+          onConfirm={this.onLogout}
+          //onCancel={cancel}
+        >
         <a className="isoDropdownLink" onClick={this.props.logout} href="# ">
           <IntlMessages id="topbar.Logout" />
         </a>
+        </Popconfirm>
       </TopbarDropdownWrapper>
     );
   }

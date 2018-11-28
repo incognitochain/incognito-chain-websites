@@ -14,6 +14,7 @@ import { OrderSide, Label, OrderForm, OrderFormFooter, MessageContent } from './
 import exchange from '@/services/Exchange';
 
 const showMessage = (msg, type='warning', time=2) => {
+
   if(type == 'success'){
     message.success(
       <MessageContent>
@@ -87,7 +88,7 @@ export default class extends Component {
     }
 
 
-    const result = await exchange.CreateOrder(symbolCode, price, amount, type, side);
+    const result = await exchange.CreateOrder(symbolCode, Number(price), Number(amount), type, side);
     if(result){console.log(result);
       if(result.error){
         showMessage(result.message, 'error');
@@ -96,7 +97,7 @@ export default class extends Component {
         showMessage(result.Message, 'error');
       }
       else{
-        showMessage(result.Message, 'success');
+        showMessage("Place order success", 'success');
       }
     }
     

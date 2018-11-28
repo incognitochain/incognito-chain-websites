@@ -78,4 +78,7 @@ const TopbarUserWrapper = styled.div`
   }
 `;
 
+const PopconfirmWrapper = styled.div`display: inline-block;`;
+
 export default WithDirection(TopbarUserWrapper);
+export { PopconfirmWrapper } ;
