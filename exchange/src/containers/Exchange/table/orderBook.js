@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import IntlMessages from '../../../components/utility/intlMessages';
+import IntlMessages from '@/components/utility/intlMessages';
 import {
   DateCell,
   ImageCell,
@@ -7,7 +7,7 @@ import {
   TextCell,
   NumberCell,
   TimeCell
-} from '../../../components/tables/helperCells';
+} from '@/components/tables/helperCells';
 import TableWrapper, { PriceSide } from './style';
 
 const renderCell = (object, type, key) => {
@@ -38,18 +38,11 @@ const columns = [
     }
   },
   {
-    title: <IntlMessages id="Exchange.OrderBook.Amount" />,
-    key: 'amount',
+    title: <IntlMessages id="Exchange.OrderBook.Size" />,
+    key: 'size',
     width: 100,
     className: 'text-right',
-    render: obj => renderCell(obj, 'TextCell', 'amount')
-  },
-  {
-    title: <IntlMessages id="Exchange.OrderBook.Total" />,
-    key: 'total',
-    className: 'text-right',
-    width: 100,
-    render: obj => renderCell(obj, 'NumberCell', 'total')
+    render: obj => renderCell(obj, 'NumberCell', 'size')
   }
 ];
 

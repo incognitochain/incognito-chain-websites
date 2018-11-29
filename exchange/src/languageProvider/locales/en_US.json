@@ -520,6 +520,7 @@
   "Exchange.OrderBook": "Order Book",
   "Exchange.OrderBook.Price": "Price",
   "Exchange.OrderBook.Amount": "Amount",
+  "Exchange.OrderBook.Size": "Size",
   "Exchange.OrderBook.Total": "Total",
 
   "Exchange.OpenOrder": "Open Orders",

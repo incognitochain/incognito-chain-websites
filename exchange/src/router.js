@@ -33,7 +33,6 @@ const PublicRoutes = ({ history, isLoggedIn }) => {
           component={App}
         />
         <Route
-          exact
           path={'/exchange'}
           component={App}
         />

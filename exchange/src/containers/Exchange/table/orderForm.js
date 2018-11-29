@@ -52,13 +52,19 @@ export default class extends Component {
       price: '',
       loading: false,
       type: 'market',
-      symbolCode: 'constantbond',
+      symbolCode: props.symbolCode,
+      coinBase: props.coinBase,
+      coinUsing: props.coinUsing,
     }
-    
+  }
+
+  componentWillReceiveProps(){
+    const { symbolCode, coinBase, coinUsing } = this.props;
+    if(!this.state.symbolCode || !this.state.coinBase || !this.state.coinUsing)
+      this.setState({symbolCode, coinBase, coinUsing});
   }
 
   changeSide = e => {
-    console.log(e.target.value3)
     this.setState({ side: e.target.value });
   };
 
@@ -89,7 +95,7 @@ export default class extends Component {
 
 
     const result = await exchange.CreateOrder(symbolCode, Number(price), Number(amount), type, side);
-    if(result){console.log(result);
+    if(result){
       if(result.error){
         showMessage(result.message, 'error');
       }
@@ -98,17 +104,25 @@ export default class extends Component {
       }
       else{
         showMessage("Place order success", 'success');
+        this.onFinish();
       }
     }
     
     //this.setState({ isDeposit: false, isWithdraw: false, });
   }
 
+  onFinish = () => {
+    const { onFinish } = this.props;
+    
+    if (onFinish) {
+      onFinish();
+    }
+  }
+
   render() {
-    const { side, fee, total } = this.state;
+    const { side, fee, total, price, amount, loading, coinBase, coinUsing, symbolCode } = this.state;
     const btnText = side == "buy" ? <IntlMessages id="Exchange.OrderForm.PlaceOrderBuy" /> : <IntlMessages id="Exchange.OrderForm.PlaceOrderSell" />;
     const btnType = side == "buy" ? "success" : "danger";
-
     return (
       <OrderForm>
       <ContentHolder>
@@ -123,10 +137,10 @@ export default class extends Component {
             <Label><IntlMessages id="Exchange.OrderForm.Amount" /></Label>
             <InputGroup >
               <Input
-                addonAfter="CONST"
+                addonAfter={coinUsing.toUpperCase()}
                 placeholder="0.00"
                 onChange={(e) => this.changeAmount(e)}
-                value={this.state.amount}
+                value={amount}
               />
             </InputGroup>
             <OrderFormFooter>
@@ -140,7 +154,7 @@ export default class extends Component {
               </div>
             </OrderFormFooter>
             <Button type={btnType} size="large" style={{width: '100%', marginTop: '1rem'}}
-              loading={this.state.loading}
+              loading={loading}
               onClick={this.handleOrder}
             >
               {btnText}
@@ -150,20 +164,20 @@ export default class extends Component {
             <Label><IntlMessages id="Exchange.OrderForm.Amount" /></Label>
             <InputGroup >
               <Input
-                addonAfter="CONST"
+                addonAfter={coinUsing.toUpperCase()}
                 placeholder="0.00"
                 onChange={(e) => this.changeAmount(e)}
-                value={this.state.amount}
+                value={amount}
               />
             </InputGroup>
 
             <Label><IntlMessages id="Exchange.OrderForm.Price" /></Label>
             <InputGroup >
               <Input
-                addonAfter="USD"
+                addonAfter={coinBase.toUpperCase()}
                 placeholder="0.00"
                 onChange={(e) => this.changePrice(e)}
-                value={this.state.price}
+                value={price}
               />
             </InputGroup>
             <OrderFormFooter>
@@ -177,7 +191,7 @@ export default class extends Component {
               </div>
             </OrderFormFooter>
             <Button type={btnType} size="large" style={{width: '100%', marginTop: '1rem'}}
-              loading={this.state.loading}
+              loading={loading}
               onClick={this.handleOrder}
             >
               {btnText}

@@ -33,10 +33,14 @@ export default class Wallet extends Component {
   }
 
   async getBalances(){
-    //market settings 
-    let result = await wallet.getBalances();console.log(result);
+    let result = await wallet.getBalances();
     if(!result.error){
-      this.setState({paymentAddress: result.PaymentAddress, listBalances: result.ListBalances});
+      let listBalances = result.ListBalances, paymentAddress = result.PaymentAddress;
+      for(let i in listBalances){
+        listBalances[i].key = i;
+      }
+
+      this.setState({paymentAddress, listBalances});
     }
     else{
       //return false;

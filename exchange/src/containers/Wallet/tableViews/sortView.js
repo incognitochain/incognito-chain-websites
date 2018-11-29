@@ -181,9 +181,8 @@ export default class extends Component {
     this.setState({ wAddress: e.target.value });
   }
 
-  onExchange(obj) {
-    //console.log(obj);
-    window.location.href = '/?market' + obj.SymbolCode;
+  onExchange(obj) {console.log(obj);
+    window.location.assign(`/exchange/${obj.SymbolCode.toUpperCase()}_BOND`);
   }
 
   handleCancel = () => {
@@ -262,9 +261,8 @@ export default class extends Component {
   }
 
   renderDeposit(){
-    const { coinSelected, isDeposit } = this.state;
+    const { coinSelected, isDeposit, paymentAddress } = this.state;
     const title = <IntlMessages id="Wallet.Deposit" />;
-    const paymentAddress = "1Uv12YEcd5w5Qm79sTGHSHYnCfVKM2ui8mbapD1dgziUf9211b5cnCSdxVb1DoXyDD19V1THMSnaAWZ18sJtmaVnh56wVhwb1HuYpkTa4";
 
     return (
       <Modal

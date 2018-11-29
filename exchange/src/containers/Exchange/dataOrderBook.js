@@ -37,14 +37,15 @@ const dataOrderBook = [
 ];
 
 class Data {
-  constructor(size) {
+  constructor(size, dataSource) {
     this.size = size || 2000;
     this.datas = [];
+    this.dataList = dataSource;
   }
   
 
   dataModel(index) {
-    return dataOrderBook[index];
+    return this.dataList[index];
   }
 
   getObjectAt(index) {
@@ -58,8 +59,8 @@ class Data {
   }
 
   getAll() {
-    if(dataOrderBook && this.size > dataOrderBook.length)
-      this.size = dataOrderBook.length;
+    if(this.dataList && this.size > this.dataList.length)
+      this.size = this.dataList.length;
 
     if (this.datas.length < this.size) {
       for (let i = 0; i < this.size; i++) {

@@ -28,7 +28,6 @@ class AppRouter extends Component {
           component={asyncComponent(() => import('@/containers/Market'))}
         />
         <Route
-          exact
           path={'/exchange'}
           component={asyncComponent(() => import('@/containers/Exchange'))}
         />
