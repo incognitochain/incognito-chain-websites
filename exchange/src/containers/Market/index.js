@@ -111,7 +111,7 @@ export default class Market extends Component {
 
     return (
       <LayoutWrapper>
-        <PageHeader>{<IntlMessages id="Market.PageHeader" />}</PageHeader>
+        <PageHeader>{<IntlMessages id="Exchange.PageHeader" />}</PageHeader>
         {/* <Row style={rowStyle} gutter={gutter} justify="start">
           <Col span={24} style={colStyle}>
             <Box

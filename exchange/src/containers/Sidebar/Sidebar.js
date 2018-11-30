@@ -33,17 +33,22 @@ const stripTrailingSlash = str => {
 const topMenus = [
   {
     key: '',
-    label: 'sidebar.Market',
-    leftIcon: '',
-  },
-  {
-    key: 'exchange',
     label: 'sidebar.Exchange',
     leftIcon: '',
   },
   {
     key: 'wallet',
     label: 'sidebar.Wallet',
+    leftIcon: '',
+  },
+  {
+    key: 'exchange',
+    label: 'sidebar.Portal',
+    leftIcon: '',
+  },
+  {
+    key: 'exchange',
+    label: 'sidebar.Voting',
     leftIcon: '',
   }
 ];

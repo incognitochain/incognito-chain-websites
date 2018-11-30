@@ -54,7 +54,7 @@ class TopbarUser extends Component {
     window.location.assign('/');
   }
 
-  handleLanguageChange() {
+  handleLanguageChange = () => {
     this.setState({ isLang: !this.state.isLang });
   }
 
@@ -106,7 +106,7 @@ class TopbarUser extends Component {
         content={this.popupLanguage}
         trigger="click"
         visible={this.state.isLang}
-        onVisibleChange={this.handleLanguageChange}
+        onVisibleChange={() => this.handleLanguageChange()}
         arrowPointAtCenter={true}
         placement="bottomLeft"
       >
