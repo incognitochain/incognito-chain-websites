@@ -84,7 +84,8 @@ export default class Exchange {
 
   static async CreateOrder(SymbolCode, Price, Quantity, Type, Side) {
     try{
-      const options = {method: 'POST', func: `/exchange/orders`, data: {SymbolCode, Price, Quantity, Type, Side}};
+      const data = Type == 'market' ?  {SymbolCode, Quantity, Type, Side} : {SymbolCode, Price, Quantity, Type, Side};
+      const options = {method: 'POST', func: `/exchange/orders`, data};
       const response = await axios(Exchange.getOption(options));
       if (response.status === 200) {
         if(response.data && response.data.Result)
