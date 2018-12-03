@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Input from '@/components/uielements/input';
-import Checkbox from '@/components/uielements/checkbox';
-import Button from '@/components/uielements/button';
+import Input from '@ui/uielements/input';
+import Checkbox from '@ui/uielements/checkbox';
+import Button from '@ui/uielements/button';
 import authAction from '../../redux/auth/actions';
-import IntlMessages from '@/components/utility/intlMessages';
+import IntlMessages from '@ui/utility/intlMessages';
 import SignInStyleWrapper from './signin.style';
 
 const { login } = authAction;

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import auth from '@/components/auth';
+import auth from '@ui/auth';
 
 export default class Wallet {
 

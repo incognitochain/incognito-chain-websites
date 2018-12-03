@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
-import ContentHolder from "@/components/utility/contentHolder";
+import ContentHolder from '@ui/utility/contentHolder';
 import ModalStyle, { ModalContent } from "./modal.style";
 import TableWrapper , { DepositWrapper, WithdrawWrapper, MessageContent }  from './style';
 import { Modal as Modals } from 'antd';
 import WithDirection from "@/settings/withDirection";
-import Button from "@/components/uielements/button";
-import IntlMessages from '@/components/utility/intlMessages';
+import Button from "@ui/uielements/button";
+import IntlMessages from '@ui/utility/intlMessages';
 import QRCode from 'qrcode.react';
-import Alert from "@/components/feedback/alert";
+import Alert from "@ui/feedback/alert";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import message from "@/components/feedback/message";
+import message from '@ui/feedback/message';
 import Input, {
   InputGroup,
-} from '../../../components/uielements/input';
+} from '@ui/uielements/input';
 import wallet from '@/services/Wallet';
 
 import {
@@ -21,7 +21,7 @@ import {
   LinkCell,
   TextCell,
   NumberCell
-} from '@/components/tables/helperCells';
+} from '@ui/tables/helperCells';
 
 const isoModal = ModalStyle(Modals);
 const Modal = WithDirection(isoModal);

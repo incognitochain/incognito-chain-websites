@@ -1,5 +1,5 @@
 import React from 'react';
-import Cards from '@/components/uielements/card';
+import Cards from '@ui/uielements/card';
 import styled from 'styled-components';
 import { palette } from 'styled-theme';
 

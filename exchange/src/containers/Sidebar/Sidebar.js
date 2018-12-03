@@ -3,16 +3,19 @@ import { connect } from 'react-redux';
 import clone from 'clone';
 import { Link } from 'react-router-dom';
 import { Layout } from 'antd';
-import Scrollbars from '@/components/utility/customScrollBar.js';
-import Menu from '@/components/uielements/menu';
-import IntlMessages from '@/components/utility/intlMessages';
+import Scrollbars from '@ui/utility/customScrollBar.js';
+import Menu from '@ui/uielements/menu';
+import IntlMessages from '@ui/utility/intlMessages';
 import SidebarWrapper from './sidebar.style';
 import appActions from '../../redux/app/actions';
-import Logo from '@/components/utility/logo';
-import themes from '../../settings/themes';
+import Logo from '@ui/utility/logo';
+import themes from '@/settings/themes';
 import { themeConfig } from '../../settings';
 import { Row, Col } from 'antd';
-import ContentHolder from '@/components/utility/contentHolder';
+import ContentHolder from '@ui/utility/contentHolder';
+import imgLogo from '@/image/logo.png';
+import { siteConfig } from '@/settings';
+
 
 const SubMenu = Menu.SubMenu;
 const { Sider } = Layout;
@@ -178,7 +181,7 @@ class Sidebar extends Component {
           <Row>
             <ContentHolder style={{ overflow: 'hidden', margin: 0 }}>
               <Col lg={2} md={4} sm={6} xs={4} >
-              <Logo collapsed={collapsed} />
+              <Logo collapsed={collapsed} siteConfig={siteConfig} logo={imgLogo} />
               </Col>
               <Col lg={22} md={20} sm={18} xs={20} >
               <Scrollbars style={{ height: 50 }}>

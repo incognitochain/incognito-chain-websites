@@ -2,6 +2,7 @@
   "name": "constant-exchange",
   "version": "2.9.4",
   "private": true,
+  "author": "0xbigfoot <https://github.com/0xbigfoot>",
   "dependencies": {
     "@babel/core": "7.1.0",
     "@svgr/webpack": "2.4.1",

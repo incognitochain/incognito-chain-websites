@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import userpic from '@/image/user1.png';
 import { connect } from 'react-redux';
-import Popover from '@/components/uielements/popover';
-import IntlMessages from '@/components/utility/intlMessages';
+import Popover from '@ui/uielements/popover';
+import IntlMessages from '@ui/utility/intlMessages';
 import authAction from '../../redux/auth/actions';
 import TopbarDropdownWrapper from './topbarDropdown.style';
 import TopbarUserWrapper, { PopconfirmWrapper } from './topbarUser.style';
-import Button from '@/components/uielements/button';
+import Button from '@ui/uielements/button';
 import actions from '@/redux/languageSwitcher/actions';
 import config from './language.config';
-import auth from '@/components/auth';
+import auth from '@ui/auth';
 import Cookies from 'js-cookie';
-import Popconfirms from '@/components/feedback/popconfirm';
+import Popconfirms from '@ui/feedback/popconfirm';
 
 const { logout } = authAction;
 const { changeLanguage } = actions;

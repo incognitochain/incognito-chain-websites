@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import LayoutWrapper from '@/components/utility/layoutWrapper.js';
+import LayoutWrapper from '@ui/utility/layoutWrapper.js';
 import TableStyle from './customStyle';
 import Data from './data';
 //import { tableinfo } from './configs';
 import SortView from './tableViews/sortView';
-import PageHeader from '@/components/utility/pageHeader';
-import IntlMessages from '@/components/utility/intlMessages';
+import PageHeader from '@ui/utility/pageHeader';
+import IntlMessages from '@ui/utility/intlMessages';
 import wallet from '@/services/Wallet';
-import auth from '@/components/auth';
+import auth from '@ui/auth';
 
 export default class Wallet extends Component {
   constructor(props) {

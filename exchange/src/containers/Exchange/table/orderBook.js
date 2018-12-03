@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import IntlMessages from '@/components/utility/intlMessages';
+import IntlMessages from '@ui/utility/intlMessages';
 import {
   DateCell,
   ImageCell,
@@ -7,7 +7,7 @@ import {
   TextCell,
   NumberCell,
   TimeCell
-} from '@/components/tables/helperCells';
+} from '@ui/tables/helperCells';
 import TableWrapper, { PriceSide } from './style';
 
 const renderCell = (object, type, key) => {

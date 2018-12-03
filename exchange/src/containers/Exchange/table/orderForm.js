@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import IntlMessages from '@/components/utility/intlMessages';
-import { RadioGroup, RadioButton } from '@/components/uielements/radio';
-import Button, { ButtonGroup } from '@/components/uielements/button';
-import ContentHolder from '@/components/utility/contentHolder';
-import message from "@/components/feedback/message";
-import Tabs, { TabPane } from '@/components/uielements/tabs';
+import IntlMessages from '@ui/utility/intlMessages';
+import { RadioGroup, RadioButton } from '@ui/uielements/radio';
+import Button, { ButtonGroup } from '@ui/uielements/button';
+import ContentHolder from '@ui/utility/contentHolder';
+import message from "@ui/feedback/message";
+import Tabs, { TabPane } from '@ui/uielements/tabs';
 import Input, {
   InputSearch,
   InputGroup,
   Textarea
-} from '@/components/uielements/input';
+} from '@ui/uielements/input';
 import { OrderSide, Label, OrderForm, OrderFormFooter, MessageContent } from './style'; 
 import exchange from '@/services/Exchange';
 

@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-import Tabs, { TabPane } from '@/components/uielements/tabs';
-import LayoutWrapper from '@/components/utility/layoutWrapper.js';
-import ContentHolder from '@/components/utility/contentHolder';
-import PageHeader from '@/components/utility/pageHeader';
-import IntlMessages from '@/components/utility/intlMessages';
-import basicStyle from '../../settings/basicStyle';
+import Tabs, { TabPane } from '@ui/uielements/tabs';
+import LayoutWrapper from '@ui/utility/layoutWrapper.js';
+import ContentHolder from '@ui/utility/contentHolder';
+import PageHeader from '@ui/utility/pageHeader';
+import IntlMessages from '@ui/utility/intlMessages';
+import basicStyle from '@/settings/basicStyle';
 import { Row, Col } from 'antd';
-import Box from '@/components/utility/box';
+import Box from '@ui/utility/box';
 import Card from './card.style';
 
 import TableStyle from './custom.style';
 import Data from './data';
 import { tableinfos } from './configs';
 import * as TableViews from './tableViews/';
-import market from '../../services/Market';
+import market from '@/services/Market';
 
 export default class Market extends Component {
   constructor(props) {

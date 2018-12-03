@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import LayoutWrapper from '@/components/utility/layoutWrapper.js';
-import IntlMessages from '@/components/utility/intlMessages';
-import ContentHolder from '@/components/utility/contentHolder';
-import Box from '@/components/utility/box';
+import LayoutWrapper from '@ui/utility/layoutWrapper.js';
+import IntlMessages from '@ui/utility/intlMessages';
+import ContentHolder from '@ui/utility/contentHolder';
+import Box from '@ui/utility/box';
 import exchange from '@/services/Exchange';
 
 import { Row, Col } from 'antd';
@@ -19,7 +19,6 @@ import OpenOrder from './table/openOrder';
 
 import TradingViewWidget from 'react-tradingview-widget';
 import Websocket from 'react-websocket';
-
 
 export default class Exchange extends Component {
   constructor(props) {
