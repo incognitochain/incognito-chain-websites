@@ -6,23 +6,6 @@ import { connect } from 'react-redux';
 import App from './containers/App/App';
 import asyncComponent from './helpers/AsyncFunc';
 
-const RestrictedRoute = ({ component: Component, isLoggedIn, ...rest }) => (
-  <Route
-    {...rest}
-    render={props =>
-      isLoggedIn ? (
-        <Component {...props} />
-      ) : (
-        <Redirect
-          to={{
-            pathname: '/signin',
-            state: { from: props.location }
-          }}
-        />
-      )
-    }
-  />
-);
 const PublicRoutes = ({ history, isLoggedIn }) => {
   return (
     <ConnectedRouter history={history}>
@@ -41,11 +24,6 @@ const PublicRoutes = ({ history, isLoggedIn }) => {
           path={'/wallet'}
           component={App}
         />
-        {/* <RestrictedRoute
-          path="/dashboard"
-          component={App}
-          isLoggedIn={isLoggedIn}
-        /> */}
       </div>
     </ConnectedRouter>
   );

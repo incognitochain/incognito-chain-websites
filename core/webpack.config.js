@@ -8,12 +8,8 @@ const PATHS = {
     dist: path.join(__dirname, './')
 };
 
-if (TARGET === 'build:dev' || TARGET === 'dev' || !TARGET) {
-    module.exports = require('./config/webpack.config.dev');
-    console.info('--> ./config/webpack.config.dev.js');
-}
-else if (TARGET === 'exchange') {
-    console.info('>> export ui to exchange <<');
+if (TARGET === 'exchange' || TARGET === 'portal' || TARGET === 'auth') {
+    console.info('Export components UI to ', TARGET);
     module.exports = {
         context: __dirname,
         mode: 'production',
@@ -21,26 +17,9 @@ else if (TARGET === 'exchange') {
             new CopyWebpackPlugin([
                 {
                     from: path.join(PATHS.src, ''),
-                    to: path.join(PATHS.dist, '..', 'exchange', 'src', '__ui')
+                    to: path.join(PATHS.dist, '..', TARGET, 'src', '__ui')
                 },
             ])
         ]
     };
 }
-else if(TARGET === 'portal') {
-    console.info('>> export ui to portal <<');
-    module.exports = {
-        context: __dirname,
-        mode: 'production',
-        plugins: [
-            new CopyWebpackPlugin([
-                {
-                    from: path.join(PATHS.src, ''),
-                    to: path.join(PATHS.dist, '..', 'portal', 'src', '__ui')
-                },
-            ])
-        ]
-    };
-}
-
-
