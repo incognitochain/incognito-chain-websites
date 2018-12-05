@@ -24,6 +24,11 @@ const PublicRoutes = ({ history, isLoggedIn }) => {
           path={'/wallet'}
           component={App}
         />
+        <Route
+          exact
+          path={'/portal'}
+          component={App}
+        />
       </div>
     </ConnectedRouter>
   );

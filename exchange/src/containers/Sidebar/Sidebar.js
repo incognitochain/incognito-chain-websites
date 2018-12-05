@@ -45,12 +45,12 @@ const topMenus = [
     leftIcon: '',
   },
   {
-    key: 'exchange',
+    key: 'portal',
     label: 'sidebar.Portal',
     leftIcon: '',
   },
   {
-    key: 'exchange',
+    key: 'voting',
     label: 'sidebar.Voting',
     leftIcon: '',
   }

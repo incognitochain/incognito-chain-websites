@@ -490,5 +490,14 @@
   "Exchange.OrderForm.Total": "Total",
   "Exchange.OrderForm.PlaceOrderBuy": "Place Order Buy",
   "Exchange.OrderForm.PlaceOrderSell": "Place Order Sell",
-  "Exchange.OrderForm.PlaceOrderSuccess": "Place order success."
+  "Exchange.OrderForm.PlaceOrderSuccess": "Place order success.",
+
+  "Portal.Home.Apply": "Apply now",
+  "Portal.Home.ApplyGOV": "Apply GOV board",
+  "Portal.Home.ApplyGOV.Description": "Control the new internet",
+  "Portal.Home.ApplyDCB": "Apply DCB board",
+  "Portal.Home.ApplyDCB.Description": "A decentrialized bank",
+  "Portal.Home.ApplyMCB": "Apply MCB board",
+  "Portal.Home.ApplyMCB.Description": "Complete freedom with your money"
+
 }

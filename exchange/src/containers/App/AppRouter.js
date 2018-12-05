@@ -36,6 +36,11 @@ class AppRouter extends Component {
           path={'/wallet'}
           component={asyncComponent(() => import('@/containers/Wallet'))}
         />
+        <Route
+          exact
+          path={'/portal'}
+          component={asyncComponent(() => import('@/containers/Portal'))}
+        />
 {/*         
         {routes.map(singleRoute => {
           const { path, exact, ...otherProps } = singleRoute;console.log(path, exact, url);
