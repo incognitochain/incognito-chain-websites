@@ -3,7 +3,7 @@ import Button from '../uielements/button';
 import Input from '../uielements/input';
 import Modal from '../feedback/modal';
 import { notification } from '../index';
-import Firebase from '../../helpers/firebase/index';
+import Firebase from '@/helpers/firebase/index';
 
 export default class extends Component {
   state = {

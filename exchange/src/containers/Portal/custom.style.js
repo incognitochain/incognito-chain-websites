@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import { palette } from 'styled-theme';
 import WithDirection from "@/settings/withDirection";
 import bgImage from '@/image/portal-proposal-bg.png';
+import {
+  borderRadius,
+} from '@/settings/style-util';
 
 const ShareWrapper = styled.div`
   margin-right: auto;
@@ -40,9 +43,11 @@ const TableStyle = styled.div`
 `;
 
 const ProposalBox = styled.div`
-  background: url(${bgImage}) no-repeat center;
+  background: url(${bgImage}) no-repeat center right;
+  background-color: none;
   height: 276px;
   padding: 1.5rem;
+  ${borderRadius('5px')};
 
   .desc {
     font-size:1rem;
@@ -64,6 +69,13 @@ const WDFixedContainer = styled.div`
   max-width: 1140px;
   margin-right: auto;
   margin-left: auto;
+
+  .cardBoard {
+    .isoBoxSubTitle {
+      width: 50%;
+      min-width: 120px;
+    }
+  }
 `;
 
 const FixedContainer = WithDirection(WDFixedContainer);

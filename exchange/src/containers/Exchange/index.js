@@ -71,7 +71,7 @@ export default class Exchange extends Component {
   async getData(type){
     let result = false;
     
-    if(type == 'tradeHistory'){
+    if(type === 'tradeHistory'){
       result = await exchange.TradeHistory(this.state.symbolCode, 1, 10);
     }
     else{

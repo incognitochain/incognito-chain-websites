@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import Async from '@/helpers/asyncComponent';
-import Button from '../uielements/button';
-import Input from '../uielements/input';
+import Button from '@ui/uielements/button';
+import Input from '@ui/uielements/input';
 import ComposeAutoComplete from './composeAutoComplete';
-import notification from '../notification';
-import IntlMessages from '../utility/intlMessages';
+import notification from '@ui/notification';
+import IntlMessages from '@ui/utility/intlMessages';
 import ComposeForm from './composeMail.style';
 
 const Editor = props => (
   <Async
-    load={import(/* webpackChunkName: "compose-mAIL--editor" */ '../uielements/editor')}
+    load={import(/* webpackChunkName: "compose-mAIL--editor" */ '@ui/uielements/editor')}
     componentProps={props}
   />
 );

@@ -13,7 +13,8 @@ const colStyle0 = {
 const boxStyle0 = {
   margin: 0,
   padding: 0,
-  border: 0
+  border: 0,
+  backgroundColor: 'unset'
 };
 
 const boxStyleBg = (bgImage, pos='right bottom') => {

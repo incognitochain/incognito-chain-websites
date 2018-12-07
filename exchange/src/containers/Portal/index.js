@@ -165,11 +165,11 @@ export default class Portal extends Component {
               boardCars.map(box => {
                 return (
                   <Col md={8} sm={24} xs={24} style={colStyle}>
-                  <Box style={boxStyleBg(box.background)}
+                  <Box style={boxStyleBg(box.background)} className="cardBoard"
                     title={<IntlMessages id={box.title} />}
                     subtitle={<IntlMessages id={box.subTitle} />} 
                     >
-                    <Button type="default" className={box.btnStyle} >
+                    <Button type="primary" className="btn" >
                       <IntlMessages id={box.btnText} />
                     </Button>
                   </Box>

@@ -35,20 +35,7 @@ export default function singleMail(
 
   return (
     <SingleMailContents className="isoSingleMailContents">
-      <MailAction
-        mail={mail}
-        filterMails={filterMails}
-        selectMail={selectMail}
-        toggleListVisible={toggleListVisible}
-      />
       <div className="isoSingleMail">
-        <SingleMailHeader className="isoMailHeader">
-          <h2>{mail.subject}</h2>
-          <span className="label" style={{ backgroundColor: labelColor }}>
-            {mail.tags ? mail.tags : mail.bucket}
-          </span>
-        </SingleMailHeader>
-
         <SingleMailInfo className="isoMailInfo">
           <div className="isoRecipentsImg">
             {mail.img ? (
@@ -64,29 +51,22 @@ export default function singleMail(
               </h3>
               <span className="mailDate">{timeDifference(mail.date)}</span>
             </div>
-            <p>
-              to <span>me</span>
-            </p>
           </div>
         </SingleMailInfo>
 
+        <SingleMailHeader className="isoMailHeader">
+          <h2>{mail.subject}</h2>
+        </SingleMailHeader>
         <SingleMailBody className="isoMailBody">
           <p>{mail.body}</p>
         </SingleMailBody>
-
-        <SingleMailReply className="isoReplyMail">
-          {replyMail ? (
-            <ComposeMail allMail={allMail} />
-          ) : (
-            <div
-              onClick={event => changeReplyMail(true)}
-              className="isoReplyMailBtn"
-            >
-              Click here to <span>Reply</span>
-            </div>
-          )}
-        </SingleMailReply>
       </div>
+      <MailAction
+        mail={mail}
+        filterMails={filterMails}
+        selectMail={selectMail}
+        toggleListVisible={toggleListVisible}
+      />
     </SingleMailContents>
   );
 }
