@@ -191,9 +191,8 @@ export default class extends Component {
 
   handleWithdraw = async () => {
     const { wAmount, wAddress } = this.state;
-
     
-    let result = await wallet.send(wAddress, wAmount);console.log(result);
+    let result = await wallet.send(wAddress, wAmount);
     if(result){
       if(result.error){
         errorWithdraw(result.message);

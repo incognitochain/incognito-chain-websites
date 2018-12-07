@@ -26,7 +26,6 @@ export default function mailList(
         .split('', 2)
     };
     const activeClass = isSelected ? 'activeMail' : '';
-    const unreadClass = !mail.read ? 'unreadMail' : '';
     const tagOption = mail.tags
       ? tagColor[tags.findIndex(tags => tags === mail.tags)]
       : 'transparent';
@@ -34,7 +33,7 @@ export default function mailList(
       <div
         key={`list${key}`}
         onClick={onClick}
-        className={`${activeClass} ${unreadClass} isoMailList`}
+        className={`${activeClass} isoMailList`}
       >
         <span
           className="isoLabelIndicator"

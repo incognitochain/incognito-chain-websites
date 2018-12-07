@@ -104,10 +104,6 @@ const MailListWrapper = styled.div`
       }
     }
 
-    &.unreadMail {
-      background-color: ${palette('secondary', 8)};
-    }
-
     &:hover {
       background-color: ${palette('secondary', 8)};
     }

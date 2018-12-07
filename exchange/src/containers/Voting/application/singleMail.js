@@ -58,7 +58,7 @@ export default function singleMail(
           <h2>{mail.subject}</h2>
         </SingleMailHeader>
         <SingleMailBody className="isoMailBody">
-          <p>{mail.body}</p>
+          <p>{mail.Bio}</p>
         </SingleMailBody>
       </div>
       <MailAction

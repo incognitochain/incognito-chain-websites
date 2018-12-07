@@ -24,9 +24,9 @@ const mailActions = {
   selectMail: selectedMail => {
     return (dispatch, getState) => {
       const allMails = getState().Mails.allMails;
-      allMails[
-        allMails.findIndex(mail => mail.id === selectedMail)
-      ].read = true;
+      // allMails[
+      //   allMails.findIndex(mail => mail.id === selectedMail)
+      // ].read = true;
       dispatch({
         type: mailActions.SELECTED_MAIL,
         selectedMail,

@@ -1,14 +1,14 @@
+import Cookies from 'js-cookie';
 import axios from 'axios';
-import auth from '@ui/auth';
 
-export default class Wallet {
+export default class Auth {
 
   static getOption(param){
     let {method, func, data} = param;
     if(!method)
       method = "GET";
 
-    let authorization = "", token = auth.isLogged();
+    let authorization = "", token = Auth.isLogged();
     if(token){
       authorization = "Bearer " + token;
     }
@@ -34,33 +34,21 @@ export default class Wallet {
     return options;
   }
 
-  static async getBalances() {
-
-    try{
-      const response = await axios(Wallet.getOption({func: "/wallet/balances"}));
-      if (response.status === 200) {
-        if(response.data && response.data.Result)
-          return response.data.Result;
-      }
-    }
-    catch (e) {console.log(e);
-      return { error: true, message: e.message };
-    }
-    
-    return false;
+  static isLogged(){
+    const result = Cookies.get('auth');
+    return result || '';
   }
 
-  static async send(PaymentAddress, Amount) {
-    let data = {
-      "Type": 0,
-      "TokenID": "TokenID.....",
-      "PaymentAddresses": {
-        [PaymentAddress]:  Number(Amount)
-      }
-    };
+  static async update(param={}) {
+    let data = {};
+    
+    if(param.FirstName) data['FirstName'] = param.FirstName;
+    if(param.LastName) data['LastName'] = param.LastName;
+    if(param.UserName) data['UserName'] = param.UserName;
+    if(param.Bio) data['Bio'] = param.Bio;
 
     try{
-      const response = await axios(Wallet.getOption({method: "POST", func: "/wallet/send", data}));
+      const response = await axios(Auth.getOption({method: "PUT", func: "/auth/update", data}));
       if (response.status === 200) {
         if(response.data && response.data.Result)
           return response.data.Result;

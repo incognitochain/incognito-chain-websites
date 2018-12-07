@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
+
 import LayoutWrapper from '@ui/utility/layoutWrapper.js';
-import TableStyle from './customStyle';
-import Data from './data';
-//import { tableinfo } from './configs';
-import SortView from './tableViews/sortView';
 import PageHeader from '@ui/utility/pageHeader';
 import IntlMessages from '@ui/utility/intlMessages';
-import wallet from '@/services/Wallet';
 import auth from '@ui/auth';
+import Loader from '@ui/utility/loader';
+
+import TableStyle from './customStyle';
+import Data from './data';
+import SortView from './tableViews/sortView';
+import wallet from '@/services/Wallet';
 
 export default class Wallet extends Component {
   constructor(props) {
@@ -17,6 +19,7 @@ export default class Wallet extends Component {
       dataList: false,
       paymentAddress: '',
       listBalances: false,
+      loading: true,
     }
     
   }
@@ -29,7 +32,7 @@ export default class Wallet extends Component {
       await this.getBalances();
     }
     
-    this.setState({auth: token});
+    this.setState({auth: token, loading: false});
   }
 
   async getBalances(){
@@ -63,7 +66,10 @@ export default class Wallet extends Component {
   }
   
   render() {
-    const { paymentAddress, listBalances } = this.state;
+    const { paymentAddress, listBalances, loading } = this.state;
+
+    if(loading)
+      return <Loader />;
 
     return (
       <LayoutWrapper>

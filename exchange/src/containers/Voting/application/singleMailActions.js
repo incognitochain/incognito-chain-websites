@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Popover from '@ui/uielements/popover';
 import Popconfirm from '@ui/feedback/popconfirm';
 import notification from '@ui/notification';
-import { buckets } from './mailBuckets';
 import { tags } from './mailTags';
 import {
   SingleMailActions,
@@ -28,33 +27,6 @@ class DeleteButton extends Component {
           <i className="ion-android-delete" />
         </button>
       </Popconfirm>
-    );
-  }
-}
-
-class MoveMailButton extends Component {
-  render() {
-    const bucketOptions = buckets.map(bucket => (
-      <li
-        onClick={() => {
-          notification('success', `Massage Moved Successfully`, '');
-        }}
-        key={bucket}
-      >
-        {bucket}
-      </li>
-    ));
-    const content = <MailActionDropdown>{bucketOptions}</MailActionDropdown>;
-    return (
-      <Popover
-        title={`Move mail`}
-        content={content}
-        overlayClassName="mailMoveDropdown"
-      >
-        <button type="button" className="mailArchive">
-          <i className="ion-android-folder" />
-        </button>
-      </Popover>
     );
   }
 }
@@ -127,11 +99,6 @@ export default class extends Component {
 
           <DeleteButton />
         </MailActionsWrapper>
-
-        <MailCategoryWrapper className="isoMailMove">
-          <MoveMailButton />
-          <SelectTagButton />
-        </MailCategoryWrapper>
 
         <MailPaginationWrapper className="isoSingleMailPagination">
           {index === 0 ? (

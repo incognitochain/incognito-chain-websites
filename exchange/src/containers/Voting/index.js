@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
+import { Row, Col } from 'antd';
+import { connect } from 'react-redux';
+
 import Tabs, { TabPane } from '@ui/uielements/tabs';
 import LayoutWrapper from '@ui/utility/layoutWrapper.js';
 import ContentHolder from '@ui/utility/contentHolder';
 import IntlMessages from '@ui/utility/intlMessages';
-import basicStyle from '@/settings/basicStyle';
-import { Row, Col } from 'antd';
 import Box from '@ui/utility/box';
 import Button from '@ui/uielements/button';
-
-import PaginationControl from './application/mailPagination';
-import mailSelector from '@/redux/mail/selector';
-import singleMail from './application/singleMail';
-import MailBox from './mailBox.style';
-import { connect } from 'react-redux';
-import mailActions from '@/redux/mail/actions';
 import Scrollbars from '@ui/utility/customScrollBar.js';
 import { InputSearch } from '@ui/uielements/input';
+
+import basicStyle from '@/settings/basicStyle';
+
+import mailSelector from '@/redux/mail/selector';
+import mailActions from '@/redux/mail/actions';
+
+import PaginationControl from './application/mailPagination';
+import singleMail from './application/singleMail';
 import mailList from './application/maiilList';
 import { ApplicantList, BioDetail } from "./style";
 

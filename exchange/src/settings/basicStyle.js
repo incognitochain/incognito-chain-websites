@@ -18,7 +18,6 @@ const boxStyle0 = {
 };
 
 const boxStyleBg = (bgImage, pos='right bottom') => {
-  console.log(bgImage, pos);
   return ({
     backgroundImage: `url(${bgImage})`,
     backgroundRepeat: 'no-repeat',

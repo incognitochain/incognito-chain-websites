@@ -493,22 +493,30 @@
   "Exchange.OrderForm.PlaceOrderSuccess": "Place order success.",
 
   "Portal.Home.BigBox.Hello": "Hello,",
-  "Portal.Home.Gov.Title": "Apply GOV board",
-  "Portal.Home.Gov.Description": "Control the new internet",
-  "Portal.Home.Dcb.Title": "Apply DCB board",
-  "Portal.Home.Dcb.Description": "A decentrialized bank",
-  "Portal.Home.Mcb.Title": "Apply MCB board",
-  "Portal.Home.Mcb.Description": "Complete freedom with your money",
-  
   "Portal.Home.Proposal.Description": "Wanna join the Constant network -  the new area of internet?",
   "Portal.Home.Proposal.Create": "Create a proposal",
 
   "Voting.Applicants": "Applicants",
   "Voting.UnselectAplication": "Please select application",
+  "Voting.Apply.Gov.Title": "Apply GOV board",
+  "Voting.Apply.Gov.Description": "Control the new internet",
+  "Voting.Apply.Dcb.Title": "Apply DCB board",
+  "Voting.Apply.Dcb.Description": "A decentrialized bank",
+  "Voting.Apply.Mcb.Title": "Apply MCB board",
+  "Voting.Apply.Mcb.Description": "Complete freedom with your money",
+  "Voting.Apply.Address": "Address",
+  "Voting.Apply.Submit": "Submit",
+  "Voting.Apply.Cancel": "Cancel",
+  "Voting.EditBio": "Edit your bio",
 
   "Common.Share": "Share to someone in need",
   "Common.Facebook": "Facebook",
   "Common.Twitter": "Twitter",
   "Common.CopyLink": "Copy link url",
-  "Common.NowApply": "Appy now"
+  "Common.NowApply": "Appy now",
+  "Common.Applied": "Applied",
+  "Common.Save": "Save",
+  "Common.Submit": "Submit",
+  "Common.Cancel": "Cancel",
+  "Common.Bio": "Bio"
 }

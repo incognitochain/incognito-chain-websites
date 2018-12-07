@@ -1,117 +1,233 @@
 import React, { Component } from 'react';
+import { Row, Col, Modal as Modals } from 'antd';
+
 import Tabs, { TabPane } from '@ui/uielements/tabs';
 import LayoutWrapper from '@ui/utility/layoutWrapper.js';
-import ContentHolder from '@ui/utility/contentHolder';
-import PageHeader from '@ui/utility/pageHeader';
+import Alert from "@ui/feedback/alert";
 import IntlMessages from '@ui/utility/intlMessages';
-import basicStyle from '@/settings/basicStyle';
-import { Row, Col } from 'antd';
 import Box from '@ui/utility/box';
 import Button from '@ui/uielements/button';
+import Input, { InputGroup, Textarea } from '@ui/uielements/input';
+import message from '@ui/feedback/message';
+import Loader from '@ui/utility/loader';
+
+import WithDirection from "@/settings/withDirection";
+import basicStyle from '@/settings/basicStyle';
+import voting from '@/services/Voting';
+import auth from '@/services/Auth';
+
+import ModalStyle  from "./modal.style";
 
 import Data from './data';
 import { tableinfos } from './configs';
 import * as TableViews from './tableViews/';
-import market from '@/services/Market';
-import { TableStyle, FixedContainer, ProposalBox, ShareWrapper } from "./custom.style";
+import { TableStyle, FixedContainer, ProposalBox, ShareWrapper, ApplyBoardWrapper, MessageContent, BioWrapper } from "./custom.style";
 
 import bgGOV from '@/image/portal-bg-gov.png';
 import bgDCB from '@/image/portal-bg-dcb.png';
 import bgMCB from '@/image/portal-bg-mcb.png';
 
-const boardCars = [
+const Modal = WithDirection(ModalStyle(Modals));
+
+const dataBoards = [
   {
-    title: "Portal.Home.Gov.Title",
-    subTitle: "Portal.Home.Gov.Description",
+    key: 3,
+    title: "Voting.Apply.Gov.Title",
+    subTitle: "Voting.Apply.Gov.Description",
+    description: "Apply GOV board for control our system base on role person in Goverment. Constant provides a mechanism for legitimate exchange that also safeguards your privacy.",
     background: bgGOV,
     btnAction: "",
     btnStyle: "",
-    btnText: "Common.NowApply"
+    btnText: "Common.NowApply",
+    applied: false,
   },
   {
-    title: "Portal.Home.Dcb.Title",
-    subTitle: "Portal.Home.Dcb.Description",
+    key: 1,
+    title: "Voting.Apply.Dcb.Title",
+    subTitle: "Voting.Apply.Dcb.Description",
+    description: "Apply DCB board for control our system base on role person in DCB. Constant provides a mechanism for legitimate exchange that also safeguards your privacy.",
     background: bgDCB,
     btnAction: "",
     btnStyle: "",
-    btnText: "Common.NowApply"
+    btnText: "Common.NowApply",
+    applied: false,
   },
   {
-    title: "Portal.Home.Mcb.Title",
-    subTitle: "Portal.Home.Mcb.Description",
+    key: 2,
+    title: "Voting.Apply.Mcb.Title",
+    subTitle: "Voting.Apply.Mcb.Description",
+    description: "Apply MCB board for control our system base on role person in MCB. Constant provides a mechanism for legitimate exchange that also safeguards your privacy.",
     background: bgMCB,
     btnAction: "",
     btnStyle: "",
-    btnText: "Common.NowApply"
+    btnText: "Common.NowApply",
+    applied: false,
   }
 ];
+
+const showMessage = (msg, type='warning', time=2) => {
+
+  if(type == 'success'){
+    message.success(
+      <MessageContent>
+        {msg}
+      </MessageContent>,
+      time
+    );
+  }
+  else if(type == 'error'){
+    message.error(
+      <MessageContent>
+        {msg}
+      </MessageContent>,
+      time
+    );
+  }
+  else{
+    message.warning(
+      <MessageContent>
+        {msg}
+      </MessageContent>,
+      time
+    );
+  }
+};
 
 export default class Portal extends Component {
   constructor(props) {
     super(props);
     this.state = {
       dataList: false,
+      isApplyBoard: false,
+      applyBoard: false,
+      address: '',
+      boards: dataBoards,
+      user: false,
+      token: false,
+      loading: true,
+      bio: '',
     }
   }
 
   async componentDidMount(){
-    let { dataList } = this.state;
+    const token = auth.isLogged();
+    let paymentAddress = "", listBalances = [];
 
-    if(!dataList){
-      dataList = {};
-
-      let result = await this.getData("24h");
-      if(result)
-        dataList["24h"] = result;
-
-      result = await this.getData("4h");
-      if(result)
-        dataList["4h"] = result;
-        
-      result = await this.getData("1h");
-      if(result)
-        dataList["1h"] = result;
-        
-      if(dataList["24h"] || dataList["4h"] || dataList["1h"])
-        this.setState({dataList});
+    if(token){
+      await this.myCandidate();
     }
+    
+    this.setState({auth: token, loading: false});
   }
 
-  async getData(time="24h"){
-    //market settings 
-    let result = await market.getMarkets();
-    if(!result.error){
-      let markets = {};
-      for(let s of result){
-        const { DisplayName, State, SymbolCode } = s;
-        markets[SymbolCode] = { DisplayName, State };
-      }
-      
-      //market datas
-      result = await market.getSymbolRates(time);
-      let rates = [], key = 0;
-      for(let s of result){
-        const setting = markets[s.SymbolCode];
-        if(setting){
-          if(setting.State !== "online"){
-            break;
-          }
-  
-          s.key = key;
-          s.DisplayName = setting.DisplayName;
-          key ++;
+  async myCandidate(){
+    let { boards } = this.state;
+    let result = await voting.myCandidate();
+    if(!result.Error){
+      let user = result.User;
+      for(let i in boards){
+        if(boards[i].key == 1 && result.DCB){
+          boards[i].applied = true;
         }
-  
-        rates.push(s);
+        else if(boards[i].key == 2 && result.MCB){
+          boards[i].applied = true;
+        }
+        else if(boards[i].key == 3 && result.GOV){
+          boards[i].applied = true;
+        }
       }
-  
-      //console.log(markets, rates);
-      return rates;
+
+      this.setState({boards, user});
     }
     else{
-      return false;
+      //return false;
     }
   }
+
+  handleCancel = () => {
+    this.setState({ isApplyBoard: false, isEditBio: false, applyBoard: false, address: '' });
+  };
+
+  changeAddress = (e) => {
+    this.setState({ address: e.target.value });
+  }
+
+  changeBio = (e) => {
+    this.setState({ bio: e.target.value });
+  }
+
+  openApplyBoard = (box) => {
+    if(auth.isLogged()){
+      this.setState({isApplyBoard: true, applyBoard: box});
+    } 
+    else{
+      showMessage("Please sign in first");
+    }
+  }
+
+  openEditBio = () => {
+    if(auth.isLogged()){
+      const { bio, user } = this.state;
+      this.setState({isEditBio: true, bio: bio ? bio : user.Bio});
+    } 
+    else{
+      showMessage("Please sign in first");
+    }
+  }
+
+  handleApplyBoard = async () => {
+    
+    const { address, applyBoard, boards } = this.state;
+    
+    if(!address){
+      showMessage('Please enter Payment Address!');
+      return;
+    }
+    
+    let result = await voting.createCandidate(address, applyBoard.key);
+    if(result){
+      if(result.error){
+        showMessage(result.message, 'error');
+      }
+      else{console.log(boards);
+        showMessage("success!", 'success');
+        for(let i in boards){
+          if(boards[i].key == applyBoard.key){
+            boards[i].applied = true;
+            break;
+          }
+        }
+
+        this.setState({boards});
+      }
+    }
+    
+    this.setState({ isApplyBoard: false, applyBoard: false, address: ''});
+  };
+
+  handleBio = async () => {
+    
+    const { bio, user  } = this.state;
+    
+    if(!bio){
+      showMessage('Please enter bio!');
+      return;
+    }
+    
+    let result = await auth.update({Bio: bio});
+    if(result){
+      if(result.error){
+        showMessage(result.message, 'error');
+      }
+      else{
+        showMessage("success!", 'success');
+        user.Bio = bio;
+        this.setState({user});
+      }
+    }
+    
+    this.setState({ isEditBio: false, bio: ''});
+  };
 
   renderTable(tableInfo) {
     const { dataList } = this.state;
@@ -134,19 +250,104 @@ export default class Portal extends Component {
     else{
       return <p><IntlMessages id="Market.DataNotFound" /></p>;
     }
+
+  }
+
+
+  renderEditBio(){
+    const { isEditBio, bio } = this.state;
+
+    return (
+      <Modal
+          visible={isEditBio}
+          title={<IntlMessages id="Voting.EditBio" />}
+          onCancel={this.handleCancel}
+          footer={[
+            <Button key="back" size="large" onClick={this.handleCancel}>
+              <IntlMessages id="Common.Cancel" />
+            </Button>,
+            <Button
+              key="submit"
+              type="primary"
+              size="large"
+              loading={this.state.loading}
+              onClick={this.handleBio}
+            >
+              <IntlMessages id="Common.Save" />
+            </Button>
+          ]}
+        >
+          <div>
+            <InputGroup >
+              <Textarea placeholder="Enter your bio" onChange={(e) => this.changeBio(e)} value={bio} rows={5} />
+            </InputGroup>
+          </div>
+          <Alert
+            message="The bio would be helped the Reviewer understand your decision and what things you will do."
+            type="warning"
+            style={{marginBottom: "10px"}}
+          />
+        </Modal>
+    );
+  }
+
+  renderApplyBoard(){
+    const { isApplyBoard, applyBoard, address } = this.state;
+    const title = applyBoard ? <IntlMessages id={applyBoard.title} /> : "";
+
+    return (
+      <Modal
+          visible={isApplyBoard}
+          title={title}
+          onCancel={this.handleCancel}
+          footer={[
+            <Button key="back" size="large" onClick={this.handleCancel}>
+              <IntlMessages id="Common.Cancel" />
+            </Button>,
+            <Button
+              key="submit"
+              type="primary"
+              size="large"
+              loading={this.state.loading}
+              onClick={this.handleApplyBoard}
+            >
+              <IntlMessages id="Common.Submit" />
+            </Button>
+          ]}
+        >
+          <ApplyBoardWrapper>
+            <div><IntlMessages id="Voting.Apply.Address" /></div>
+            <InputGroup >
+              <Input onChange={(e) => this.changeAddress(e)} value={address} />
+            </InputGroup>
+          </ApplyBoardWrapper>
+          <Alert
+            message={applyBoard.description}
+            type="warning"
+            style={{marginBottom: "10px"}}
+          />
+        </Modal>
+    );
   }
 
   render() {
+    const { boards, user, loading } = this.state;
     const { rowStyle, colStyle, colStyle0, boxStyle0, boxStyleBg, gutter } = basicStyle;
+    
+    if(loading)
+      return <Loader />;
 
     return (
       <FixedContainer>
         <LayoutWrapper>
           <Row style={rowStyle} gutter={gutter} justify="start">
             <Col md={16} sm={24} xs={24} style={colStyle}>
-              <Box
+              <Box className="mainBox"
                 title={<IntlMessages id="Portal.Home.BigBox.Hello" />}
-              >
+                subtitle={<span className="editBio" onClick={() => this.openEditBio()}>Edit</span>} >
+                {
+                  user && <div className="bio">{user.Bio}</div>
+                }
               </Box>
             </Col>
             <Col md={8} sm={24} xs={24} style={colStyle0}>
@@ -162,16 +363,23 @@ export default class Portal extends Component {
           </Row>
           <Row style={rowStyle} gutter={gutter}>
             {
-              boardCars.map(box => {
+              boards.map(box => {
                 return (
-                  <Col md={8} sm={24} xs={24} style={colStyle}>
+                  <Col md={8} sm={24} xs={24} style={colStyle} key={box.key}>
                   <Box style={boxStyleBg(box.background)} className="cardBoard"
                     title={<IntlMessages id={box.title} />}
                     subtitle={<IntlMessages id={box.subTitle} />} 
                     >
-                    <Button type="primary" className="btn" >
-                      <IntlMessages id={box.btnText} />
-                    </Button>
+                    {
+                      box.applied ? 
+                      <Button className="btnApplied"   >
+                        <IntlMessages id="Common.Applied" />
+                      </Button>
+                      :
+                      <Button className="btnApply"  onClick={() => this.openApplyBoard(box)}>
+                        <IntlMessages id={box.btnText} />
+                      </Button>
+                    }
                   </Box>
                 </Col>);
               })
@@ -199,6 +407,12 @@ export default class Portal extends Component {
             </Button>
 
           </ShareWrapper>
+          {
+            this.renderApplyBoard()
+          }
+          {
+            this.renderEditBio()
+          }
         </LayoutWrapper>
       </FixedContainer>
       

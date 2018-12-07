@@ -76,7 +76,54 @@ const WDFixedContainer = styled.div`
       min-width: 120px;
     }
   }
+
+  .btnApplied {
+    background-color: #4CE2A7 !important;
+    cursor: default;
+    color: White;
+  }
+
+  .btnApply {
+    background-color: unset !important;
+    border: solid 1px ${palette('primary', 0)};
+    color: ${palette('primary', 0)};
+  }
+
+  .mainBox {
+    padding: 1.5rem;
+
+    > div {
+      display:flex;
+      justify-content: space-between;
+
+      .isoBoxTitle {
+        font-size: 1rem;
+        color: ${palette('primary', 0)};
+      }
+  
+      .editBio {
+        cursor:pointer;
+      }
+    }
+  }
+  
 `;
 
+const ApplyBoardWrapper = styled.div`
+  padding: 0 5px;
+  
+  div.label {
+    font-weight: 400;
+    padding-bottom: 0.2rem;
+    padding-top: 0.2rem;
+  }
+`;
+
+const MessageContent = styled.p`
+  display: inline-block;
+  font-size: 13px;
+`;
+
+
 const FixedContainer = WithDirection(WDFixedContainer);
-export { FixedContainer, ProposalBox, ShareWrapper, TableStyle };
+export { FixedContainer, ProposalBox, ShareWrapper, TableStyle, ApplyBoardWrapper, MessageContent };

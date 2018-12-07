@@ -1,6 +1,11 @@
 import axios from 'axios';
 import auth from '@ui/auth';
 
+// const BoardType = {
+//   DCB: 1,
+//   MCB: 2,
+//   GOV: 3
+// }
 export default class Voting {
 
   static getOption(param){
@@ -31,14 +36,13 @@ export default class Voting {
     }
 
     options['url'] = url + func;
-    console.log(options);
     return options;
   }
 
-  static async getBalances() {
+  static async listCandidate() {
 
     try{
-      const response = await axios(Wallet.getOption({func: "/wallet/balances"}));
+      const response = await axios(Voting.getOption({func: "/voting/candidates"}));
       if (response.status === 200) {
         if(response.data && response.data.Result)
           return response.data.Result;
@@ -51,20 +55,36 @@ export default class Voting {
     return false;
   }
 
-  static async send(PaymentAddress, Amount) {
+  static async createCandidate(PaymentAddress, BoardType) {
     let data = {
-      "Type": 0,
-      "TokenID": "TokenID.....",
-      "PaymentAddresses": {
-        [PaymentAddress]:  Number(Amount)
-      }
+      BoardType,
+      PaymentAddress
     };
 
     try{
-      const response = await axios(Wallet.getOption({method: "POST", func: "/wallet/send", data}));
+      const response = await axios(Voting.getOption({method: "POST", func: "/voting/candidate", data}));//console.log(response);
       if (response.status === 200) {
-        if(response.data && response.data.Result)
+        if(response.data && response.data.Result){
           return response.data.Result;
+        }
+      }
+    }
+    catch (e) {console.log(e);
+      return { error: true, message: e.message };
+    }
+    
+    return false;
+  }
+
+  static async myCandidate() {
+    let data = {};
+
+    try{
+      const response = await axios(Voting.getOption({method: "GET", func: "/voting/my_candidate", data}));//console.log(response);
+      if (response.status === 200) {
+        if(response.data && response.data.Result){
+          return response.data.Result;
+        }
       }
     }
     catch (e) {console.log(e);
@@ -74,4 +94,3 @@ export default class Voting {
     return false;
   }
 }
-

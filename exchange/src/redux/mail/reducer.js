@@ -5,7 +5,7 @@ const initState = {
   allMails,
   tag: undefined,
   selectedMail: -1,
-  filterAttr: { bucket: 'Inbox' },
+  filterAttr: { },
   composeMail: false,
   replyMail: false,
   searchString: ''

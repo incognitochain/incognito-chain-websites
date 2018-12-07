@@ -29,6 +29,11 @@ const PublicRoutes = ({ history, isLoggedIn }) => {
           path={'/portal'}
           component={App}
         />
+        <Route
+          exact
+          path={'/voting'}
+          component={App}
+        />
       </div>
     </ConnectedRouter>
   );

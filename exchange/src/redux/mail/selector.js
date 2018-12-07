@@ -6,12 +6,11 @@ const searchStringSelector = state => state.searchString;
 
 const filterBucket = (mails, bucket) => {
   const newMails = [];
-console.log(mails);
   if(mails){
     mails.forEach(mail => {
-      if (bucket === mail.bucket) {
+      //if (bucket === mail.bucket) {
         newMails.push(mail);
-      }
+      //}
     });
   }
   
