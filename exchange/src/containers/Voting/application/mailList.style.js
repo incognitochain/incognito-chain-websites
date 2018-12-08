@@ -102,6 +102,13 @@ const MailListWrapper = styled.div`
         color: ${palette('secondary', 0)};
         margin: 0;
       }
+
+      .isoBio {
+        font-size: 0.9rem;
+        font-weight: 300;
+        color: ${palette('secondary', 0)};
+        margin: 0;
+      }
     }
 
     &:hover {

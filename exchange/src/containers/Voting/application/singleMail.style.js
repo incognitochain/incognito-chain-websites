@@ -99,15 +99,11 @@ const WDSingleMailInfo = styled.div`
           line-height: 1.5;
         }
 
-        span {
+        div.mailEmail {
           font-size: inherit;
           font-weight: 400;
+          padding-top: 0.5rem;
           color: ${palette('secondary', 2)};
-          padding: ${props =>
-            props['data-rtl'] === 'rtl' ? '0 5px 0 0' : '0 0 0 5px'};
-          display: -webkit-inline-flex;
-          display: -ms-inline-flex;
-          display: inline-flex;
         }
       }
 
@@ -164,12 +160,6 @@ const WDSingleMailReply = styled.div`
 
   @media only screen and (max-width: 767px) {
     padding: 35px 20px;
-  }
-
-  .isoComposeMailWrapper {
-    padding: 0;
-    height: auto;
-    overflow: hidden;
   }
 
   .isoReplyMailBtn {

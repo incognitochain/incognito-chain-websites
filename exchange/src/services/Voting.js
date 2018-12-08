@@ -39,11 +39,24 @@ export default class Voting {
     return options;
   }
 
-  static async listCandidate() {
+  static async listCookedCandidate(){
+    let list = [];
+    const result = await this.listCandidate();
+    if(result){
+      for(let c of result){
+        list.push(c.User);
+      }
+      console.log('listCookedCandidate', list);
+      return list;  
+    }
 
+    return list;
+  }
+
+  static async listCandidate() {
     try{
       const response = await axios(Voting.getOption({func: "/voting/candidates"}));
-      if (response.status === 200) {
+      if (response.status === 200) {console.log('listCandidate', response.data.Result);
         if(response.data && response.data.Result)
           return response.data.Result;
       }

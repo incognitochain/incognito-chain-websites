@@ -1,6 +1,6 @@
 import React from 'react';
+import _ from 'lodash';
 import { timeDifference } from '@/helpers/utility';
-import { tags, tagColor } from './mailTags.js';
 import MailListWrapper from './mailList.style';
 import { rtl } from '@/settings/withDirection';
 
@@ -12,13 +12,14 @@ export default function mailList(
 ) {
   const renderSingleMail = (mail, key) => {
     const onClick = () => {
-      selectMail(mail.id);
+      selectMail(mail.ID);
       if (toggleListVisible) {
         toggleListVisible();
       }
     };
-    const isSelected = selectedMail === mail.id;
-    const recpName = mail.name;
+    const isSelected = selectedMail === mail.ID;
+    const recpName = mail.FirstName + ' ' + mail.LastName;
+    console.log(recpName);
     const signature = {
       splitLet: recpName
         .match(/\b(\w)/g)
@@ -26,25 +27,12 @@ export default function mailList(
         .split('', 2)
     };
     const activeClass = isSelected ? 'activeMail' : '';
-    const tagOption = mail.tags
-      ? tagColor[tags.findIndex(tags => tags === mail.tags)]
-      : 'transparent';
     return (
       <div
         key={`list${key}`}
         onClick={onClick}
         className={`${activeClass} isoMailList`}
       >
-        <span
-          className="isoLabelIndicator"
-          style={
-            rtl === 'rtl' ? (
-              { borderRightColor: tagOption }
-            ) : (
-              { borderTopColor: tagOption }
-            )
-          }
-        />
         <div className="isoRecipentsImg">
           {mail.img ? (
             <img alt="#" src={mail.img} />
@@ -55,10 +43,11 @@ export default function mailList(
 
         <div className="isoMailInfo">
           <div className="infoHead">
-            <p className="isoRecipents">{mail.name}</p>
+            <p className="isoRecipents">{recpName}</p>
             <span className="isoReceiveDate">{timeDifference(mail.date)}</span>
           </div>
-          <p className="isoSubject">{mail.subject}</p>
+          {/* <p className="isoSubject">{mail.subject}</p> */}
+          <p className="isoBio">{_.truncate(mail.Bio, {length: 72, separator: ' '})}</p>
         </div>
       </div>
     );

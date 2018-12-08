@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import Popover from '@ui/uielements/popover';
 import Popconfirm from '@ui/feedback/popconfirm';
 import notification from '@ui/notification';
-import { tags } from './mailTags';
 import {
   SingleMailActions,
   MailActionsWrapper,
-  MailCategoryWrapper,
   MailPaginationWrapper,
   MailActionDropdown
 } from './singleMailActions.style';
@@ -31,38 +29,11 @@ class DeleteButton extends Component {
   }
 }
 
-class SelectTagButton extends Component {
-  render() {
-    const tagOptions = tags.map(tag => (
-      <li
-        onClick={() => {
-          notification('success', `Label Added`, '');
-        }}
-        key={tag}
-      >
-        {tag}
-      </li>
-    ));
-    const content = <MailActionDropdown>{tagOptions}</MailActionDropdown>;
-    return (
-      <Popover
-        title={`Select tag`}
-        content={content}
-        overlayClassName="mailMoveDropdown"
-      >
-        <button type="button" className="mailReport">
-          <i className="ion-pricetags" />
-        </button>
-      </Popover>
-    );
-  }
-}
-
 export default class extends Component {
   render() {
     const { mail, filterMails, selectMail, toggleListVisible } = this.props;
     const index = filterMails.findIndex(
-      filterMail => filterMail.id === mail.id
+      filterMail => filterMail.ID === mail.ID
     );
     const toggleView = () => {
       toggleListVisible();
@@ -107,7 +78,7 @@ export default class extends Component {
             <button
               type="button"
               className="prevPage"
-              onClick={() => selectMail(filterMails[index - 1].id)}
+              onClick={() => selectMail(filterMails[index - 1].ID)}
             >
               <i
                 className={
@@ -123,7 +94,7 @@ export default class extends Component {
             <button
               type="button"
               className="nextPage"
-              onClick={() => selectMail(filterMails[index + 1].id)}
+              onClick={() => selectMail(filterMails[index + 1].ID)}
             >
               <i
                 className={

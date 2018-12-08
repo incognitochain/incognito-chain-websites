@@ -19,7 +19,7 @@ const routes = [
 
 class AppRouter extends Component {
   render() {
-    const { url, style } = this.props;
+    const { style } = this.props;
     return (
       <div style={style}>
         <Route

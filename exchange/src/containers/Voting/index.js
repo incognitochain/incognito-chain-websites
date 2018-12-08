@@ -2,12 +2,9 @@ import React, { Component } from 'react';
 import { Row, Col } from 'antd';
 import { connect } from 'react-redux';
 
-import Tabs, { TabPane } from '@ui/uielements/tabs';
 import LayoutWrapper from '@ui/utility/layoutWrapper.js';
-import ContentHolder from '@ui/utility/contentHolder';
 import IntlMessages from '@ui/utility/intlMessages';
 import Box from '@ui/utility/box';
-import Button from '@ui/uielements/button';
 import Scrollbars from '@ui/utility/customScrollBar.js';
 import { InputSearch } from '@ui/uielements/input';
 
@@ -24,7 +21,6 @@ import { ApplicantList, BioDetail } from "./style";
 const {
   filterAction,
   selectMail,
-  changeComposeMail,
   changeReplyMail,
   changeSearchString,
 } = mailActions;
@@ -49,7 +45,6 @@ class Voting extends Component {
       selectMail,
       filterMails,
       filterAction,
-      changeComposeMail,
       changeReplyMail,
       changeSearchString,
     } = this.props;
@@ -86,11 +81,9 @@ class Voting extends Component {
       filterAttr,
       filterMails,
       selectedMail,
-      composeMail,
       replyMail,
       selectMail,
       filterAction,
-      changeComposeMail,
       changeReplyMail,
     } = this.props;
     const { search } = this.state;
@@ -99,7 +92,7 @@ class Voting extends Component {
         <IntlMessages id="Voting.UnselectAplication" />
       </p>
     );
-    const index = allMails.findIndex(mail => mail.id === selectedMail);
+    const index = allMails.findIndex(mail => mail.ID === selectedMail);
     if (index !== -1) {
       singleMailComponent = singleMail(
         allMails,
@@ -166,7 +159,6 @@ function mapStateToProps(state) {
     tag,
     selectedMail,
     filterAttr,
-    composeMail,
     replyMail,
     searchString,
   } = state.Mails;
@@ -175,7 +167,6 @@ function mapStateToProps(state) {
     tag,
     selectedMail,
     filterAttr,
-    composeMail,
     replyMail,
     searchString,
     filterMails: mailSelector(state.Mails),
@@ -186,7 +177,6 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, {
   filterAction,
   selectMail,
-  changeComposeMail,
   changeReplyMail,
   changeSearchString,
 })(Voting);

@@ -1,8 +1,9 @@
 import actions from './actions';
 import allMails from '@/containers/Voting/fakeData';
+import voting from '@/services/Voting';
 
 const initState = {
-  allMails,
+  allMails: voting.listCookedCandidate(),
   tag: undefined,
   selectedMail: -1,
   filterAttr: { },
@@ -22,18 +23,11 @@ export default function mailReducer(state = initState, action) {
         filterAttr: { ...action.filterAttr }
       };
     case actions.SELECTED_MAIL:
-      console.log(action.allMails);
       return {
         ...state,
         replyMail: false,
         selectedMail: action.selectedMail,
         allMails: action.allMails
-      };
-    case actions.COMPOSE_MAIL:
-      return {
-        ...state,
-        replyMail: false,
-        composeMail: action.composeMail
       };
     case actions.REPLY_MAIL:
       return {

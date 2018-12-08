@@ -1,7 +1,6 @@
 const mailActions = {
   FILTER_ATTRIBUTE: 'FILTER_ATTRIBUTE',
   SELECTED_MAIL: 'SELECTED_MAIL',
-  COMPOSE_MAIL: 'COMPOSE_MAIL',
   REPLY_MAIL: 'REPLY_MAIL',
   SEARCH_STRING: 'SEARCH_STRING',
   filterAction: newFilterAttr => {
@@ -34,10 +33,6 @@ const mailActions = {
       });
     };
   },
-  changeComposeMail: composeMail => ({
-    type: mailActions.COMPOSE_MAIL,
-    composeMail
-  }),
   changeReplyMail: replyMail => ({
     type: mailActions.REPLY_MAIL,
     replyMail
