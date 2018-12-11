@@ -14,11 +14,11 @@ class DeleteButton extends Component {
   render() {
     return (
       <Popconfirm
-        title={`Sure to delete This mail?`}
+        title={`Are you sure to delete this applicant?`}
         okText="DELETE"
         cancelText="No"
         onConfirm={() => {
-          notification('error', `Deleted selected mail`, '');
+          notification('error', `Deleted selected applicant`, '');
         }}
       >
         <button type="button" className="mailDelete">
@@ -47,7 +47,7 @@ export default class extends Component {
         ) : (
           ''
         )}
-        <MailActionsWrapper className="isoMailActions">
+        {/* <MailActionsWrapper className="isoMailActions">
           <button
             type="button"
             className="mailArchive"
@@ -69,7 +69,7 @@ export default class extends Component {
           </button>
 
           <DeleteButton />
-        </MailActionsWrapper>
+        </MailActionsWrapper> */}
 
         <MailPaginationWrapper className="isoSingleMailPagination">
           {index === 0 ? (

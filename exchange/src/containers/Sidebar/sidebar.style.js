@@ -137,14 +137,30 @@ const SidebarWrapper = styled.div`
     .ant-menu-dark .ant-menu-inline .ant-menu-sub {
       background: ${palette('primary', 0)};
     }
+    
+
+    x.ant-menu-submenu-inline {
+      ul {
+        background-color: red ! important;
+        width: 300px;
+        clear: both;
+
+        li {
+          clear: both ! important;
+          width: auto ! important;
+        }
+      }
+
+    }
+    
 
     .ant-menu-submenu-inline,
     .ant-menu-submenu-vertical {
       > .ant-menu-submenu-title {
-        width: 100%;
-        display: flex;
-        align-items: center;
-        // padding: 0 24px;
+        width: 120px;
+        margin: 0;
+        float: left;
+        display: block
 
         > span {
           display: flex;
@@ -154,6 +170,7 @@ const SidebarWrapper = styled.div`
         .ant-menu-submenu-arrow {
           left: ${props => (props['data-rtl'] === 'rtl' ? '25px' : 'auto')};
           right: ${props => (props['data-rtl'] === 'rtl' ? 'auto' : '25px')};
+          margin-top: 0.1rem;
 
           &:before,
           &:after {
@@ -230,6 +247,8 @@ const SidebarWrapper = styled.div`
       }
     }
 
+
+
     &.ant-layout-sider-collapsed {
       .nav-text {
         display: none;
@@ -254,6 +273,8 @@ const SidebarWrapper = styled.div`
           }
         }
       }
+
+      
     }
   }
 `;

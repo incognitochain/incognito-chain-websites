@@ -497,17 +497,19 @@
   "Portal.Home.Proposal.Create": "Create a proposal",
 
   "Voting.Applicants": "Applicants",
-  "Voting.UnselectAplication": "Please select application",
+  "Voting.UnselectAplication": "Please select applicant",
   "Voting.Apply.Gov.Title": "Apply GOV board",
   "Voting.Apply.Gov.Description": "Control the new internet",
   "Voting.Apply.Dcb.Title": "Apply DCB board",
   "Voting.Apply.Dcb.Description": "A decentrialized bank",
-  "Voting.Apply.Mcb.Title": "Apply MCB board",
-  "Voting.Apply.Mcb.Description": "Complete freedom with your money",
+  "Voting.Apply.Cmb.Title": "Apply CMB board",
+  "Voting.Apply.Cmb.Description": "Complete freedom with your money",
   "Voting.Apply.Address": "Address",
   "Voting.Apply.Submit": "Submit",
   "Voting.Apply.Cancel": "Cancel",
   "Voting.EditBio": "Edit your bio",
+  "Voting.TokenList": "Token List",
+  "Voting.VoteApplicant": "Vote this applicant",
 
   "Common.Share": "Share to someone in need",
   "Common.Facebook": "Facebook",
@@ -516,7 +518,9 @@
   "Common.NowApply": "Appy now",
   "Common.Applied": "Applied",
   "Common.Save": "Save",
+  "Common.Amount": "Amount",
   "Common.Submit": "Submit",
   "Common.Cancel": "Cancel",
-  "Common.Bio": "Bio"
+  "Common.Bio": "Bio",
+  "Common.Votes": "Votes"
 }

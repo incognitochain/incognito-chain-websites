@@ -1,9 +1,57 @@
+import React from 'react';
 import styled from 'styled-components';
-import { palette } from 'styled-theme';
-import { borderRadius, transition } from '@/settings/style-util';
+import { palette, font } from 'styled-theme';
+import { borderRadius, transition, boxShadow } from '@/settings/style-util';
 import WithDirection from '@/settings/withDirection';
+import Badges from '@ui/uielements/badge';
 
-const SingleMailContents = styled.div`
+const AntBadge = props => <Badges {...props} />;
+const WDBadge = styled(AntBadge)`
+  display: inline-block;
+
+  &:not(.ant-badge-status) {
+    margin-right: ${props => (props['data-rtl'] === 'rtl' ? '0' : '16px')};
+    margin-left: ${props => (props['data-rtl'] === 'rtl' ? '16px' : '0')};
+  }
+
+  .ant-badge-status-dot {
+    width: 10px;
+    height: 10px;
+  }
+
+  i {
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    font-size: 16px;
+  }
+
+  a {
+    font-size: 13px;
+    color: ${palette('primary', 0)};
+  }
+
+  .isoBadgeLink {
+    width: 42px;
+    height: 42px;
+    ${borderRadius('6px')};
+    background: ${palette('grayscale', 8)};
+    display: inline-block;
+  }
+
+  .ant-badge-count {
+    z-index: 1;
+    background: ${palette('primary', 0)};
+    font-family: ${font('primary', 0)};
+    ${boxShadow('0 0 0 1px #fff')};
+  }
+  .ant-badge-status-text {
+    margin-left: ${props => (props['data-rtl'] === 'rtl' ? 'inherit' : '1rem')};
+    margin-right: ${props => (props['data-rtl'] === 'rtl' ? '1rem' : 'inherit')};
+  }
+`;
+
+const BoardContents = styled.div`
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
@@ -15,6 +63,12 @@ const SingleMailContents = styled.div`
     flex-direction: column;
     height: 100%;
     overflow-y: auto;
+
+    button {
+      margin: 1rem;
+      font-size: 1rem !important;
+      padding: 0.5rem !important;
+    }
   }
 `;
 
@@ -35,12 +89,10 @@ const WDSingleMailHeader = styled.div`
   }
 `;
 
-const WDSingleMailInfo = styled.div`
+const WDBoardInfo = styled.div`
   width: 100%;
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-  padding: 1rem;
+  text-align: center;
+  padding-top: 1rem;
 
   .isoRecipentsImg {
     width: 48px;
@@ -53,6 +105,7 @@ const WDSingleMailInfo = styled.div`
     overflow: hidden;
     flex-shrink: 0;
     ${borderRadius('50%')};
+    margin-bottom: 1rem;
 
     img {
       width: 100%;
@@ -74,44 +127,42 @@ const WDSingleMailInfo = styled.div`
     }
   }
 
+  h3 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: ${palette('text', 0)};
+    margin: 0 0 2rem;
+  }
+
   .isoMailAddress {
     width: 100%;
-    padding: ${props => (props['data-rtl'] === 'rtl' ? '0 20px 0 0' : '0 0 0 20px')};
+    padding: 0 0 2rem 0;
     display: flex;
     flex-direction: column;
     text-align: ${props => (props['data-rtl'] === 'rtl' ? 'right' : 'left')};
+    border-bottom: 1px solid ${palette('border', 0)};
 
     .isoAddress {
       width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      position: relative;
 
-      h3 {
-        font-size: 14px;
-        font-weight: 700;
-        color: ${palette('text', 0)};
-        line-height: 1.1;
-        margin: 0 0 8px;
-
-        @media only screen and (max-width: 767px) {
-          line-height: 1.5;
-        }
-
-        div.mailEmail {
-          font-size: inherit;
-          font-weight: 400;
-          padding-top: 0.5rem;
-          color: ${palette('secondary', 2)};
-        }
+      i {
+        font-size: 1.5rem;
+        margin-right: 1rem;
+        vertical-align: middle;
       }
 
-      .mailDate {
-        font-size: 13px;
+      .mailEmail {
+        padding-bottom: 0.5rem;
+        font-size: 0.9rem;
         font-weight: 400;
-        color: ${palette('secondary', 2)};
-        flex-shrink: 0;
+        color: ${palette('text', 0)};
+      }
+
+      .voteNum {
+        color: ${palette('text', 0)};
+        font-size: 0.9rem;
+        font-weight: 400;
+        
 
         @media only screen and (max-width: 767px) {
           position: absolute;
@@ -136,18 +187,37 @@ const WDSingleMailInfo = styled.div`
   }
 `;
 
-const WDSingleMailBody = styled.div`
-  padding: 1rem;
+const WDBoardList = styled.div`
+  padding-top: 1.5rem;
   text-align: ${props => (props['data-rtl'] === 'rtl' ? 'right' : 'left')};
   flex-shrink: 0;
-  border-bottom: 1px solid ${palette('border', 0)};
 
-  p {
-    font-size: 0.9rem;
+  h4 {
+    padding-bottom: 1rem;
     font-weight: 400;
-    color: ${palette('text', 3)};
-    line-height: 1.5;
-    margin-bottom: 21px;
+    font-size: 1rem;
+    color: ${palette('primary', 0)};
+  }
+
+
+  .board {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    position: relative;
+    padding: 0.5rem 0;
+
+    .title {
+      font-size: 0.9rem;
+      font-weight: 400;
+    }
+
+    .number {
+      font-size: 0.9rem;
+      font-weight: 400;
+      text-transform: lowercase;
+    }
   }
 `;
 
@@ -190,15 +260,15 @@ const WDSingleMailReply = styled.div`
   }
 `;
 
-const SingleMailHeader = WithDirection(WDSingleMailHeader);
-const SingleMailInfo = WithDirection(WDSingleMailInfo);
-const SingleMailBody = WithDirection(WDSingleMailBody);
+const BoardInfo = WithDirection(WDBoardInfo);
+const BoardList = WithDirection(WDBoardList);
 const SingleMailReply = WithDirection(WDSingleMailReply);
+const Badge = WithDirection(WDBadge);
 
 export {
-  SingleMailContents,
-  SingleMailHeader,
-  SingleMailInfo,
-  SingleMailBody,
+  BoardContents,
+  BoardInfo,
+  BoardList,
   SingleMailReply,
+  Badge,
 };

@@ -18,5 +18,7 @@ const store = createStore(
   }),
   compose(applyMiddleware(...middlewares))
 );
+
+//store.subscribe(data => console.log('STORE', store.getState()));
 sagaMiddleware.run(rootSaga);
 export { store, history };

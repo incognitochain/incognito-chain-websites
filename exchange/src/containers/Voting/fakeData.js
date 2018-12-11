@@ -3,7 +3,6 @@ const data = [{
   "FirstName": "Samara",
   "LastName": "Pfeffer",
   "Email": "Joey76@gmail.com",
-  "img": "https://s3.amazonaws.com/uifaces/faces/twitter/xamorep/128.jpg",
   "Bio": "Vero officia quasi optio quidem. Cupiditate consequuntur officia asperiores ut vel quisquam nam. Numquam eaque minima est rerum est blanditiis veritatis repudiandae laudantium. Et qui placeat saepe ad quas harum maxime quod. Dolor quae omnis qui. Est odit suscipit aperiam esse laborum modi iste distinctio occaecati. Rerum quia aspernatur quaerat minima eos rerum. Voluptas ad animi non aliquid. Recusandae repellendus consequatur quam. Aliquid unde tenetur.",
   "Date": "2016-09-08T16:33:08.696Z",
 }, {

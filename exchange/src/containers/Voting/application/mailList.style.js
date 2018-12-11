@@ -63,7 +63,7 @@ const MailListWrapper = styled.div`
         display: flex;
         align-items: center;
         justify-content: center;
-        background-color: ${palette('color', 4)};
+        background-color: ${palette('grayscale', 1)};
         font-size: 16px;
         font-weight: 300;
         color: #fff;

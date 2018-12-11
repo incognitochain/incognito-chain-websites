@@ -3,7 +3,7 @@ import auth from '@ui/auth';
 
 // const BoardType = {
 //   DCB: 1,
-//   MCB: 2,
+//   CMB: 2,
 //   GOV: 3
 // }
 export default class Voting {
@@ -39,29 +39,60 @@ export default class Voting {
     return options;
   }
 
-  static async listCookedCandidate(){
+  static async listCookedCandidate(boardType){
     let list = [];
-    const result = await this.listCandidate();
+    const result = await this.listCandidate(boardType);
     if(result){
       for(let c of result){
-        list.push(c.User);
+        
+        list.push({...c.User, 
+          VoteNum: c.VoteNum,
+          CMB: c.CMB,
+          GOV: c.GOV,
+          DCB: c.DCB,
+          Date: "2016-09-08T16:33:08.696Z"
+        });
       }
-      console.log('listCookedCandidate', list);
-      return list;  
     }
 
     return list;
   }
 
-  static async listCandidate() {
+  static async listCandidate(BoardType) {
+    let data = {
+      BoardType
+    };
+
     try{
-      const response = await axios(Voting.getOption({func: "/voting/candidates"}));
-      if (response.status === 200) {console.log('listCandidate', response.data.Result);
+      const response = await axios(Voting.getOption({func: "/voting/candidates", data}));
+      if (response.status === 200) {
         if(response.data && response.data.Result)
           return response.data.Result;
       }
     }
-    catch (e) {console.log(e);
+    catch (e) {
+      return { error: true, message: e.message };
+    }
+    
+    return false;
+  }
+
+  static async voteCandidate(BoardType, CandidateID, VoteAmount) {
+    let data = {
+      BoardType,
+      CandidateID,
+      VoteAmount
+    };
+
+    try{
+      const response = await axios(Voting.getOption({method: "POST", func: "/voting/candidate/vote", data}));
+      if (response.status === 200) {
+        if(response.data && response.data.Result){
+          return response.data.Result;
+        }
+      }
+    }
+    catch (e) {
       return { error: true, message: e.message };
     }
     
@@ -75,14 +106,14 @@ export default class Voting {
     };
 
     try{
-      const response = await axios(Voting.getOption({method: "POST", func: "/voting/candidate", data}));//console.log(response);
+      const response = await axios(Voting.getOption({method: "POST", func: "/voting/candidate", data}));
       if (response.status === 200) {
         if(response.data && response.data.Result){
           return response.data.Result;
         }
       }
     }
-    catch (e) {console.log(e);
+    catch (e) {
       return { error: true, message: e.message };
     }
     
@@ -93,14 +124,14 @@ export default class Voting {
     let data = {};
 
     try{
-      const response = await axios(Voting.getOption({method: "GET", func: "/voting/my_candidate", data}));//console.log(response);
+      const response = await axios(Voting.getOption({method: "GET", func: "/voting/my_candidate", data}));
       if (response.status === 200) {
         if(response.data && response.data.Result){
           return response.data.Result;
         }
       }
     }
-    catch (e) {console.log(e);
+    catch (e) {
       return { error: true, message: e.message };
     }
     

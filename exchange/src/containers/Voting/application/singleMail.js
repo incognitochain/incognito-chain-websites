@@ -11,15 +11,19 @@ export default function singleMail(
   allMail,
   filterMails,
   index,
-  replyMail,
-  changeReplyMail,
-  selectMail,
-  toggleListVisible
+  selectMail
 ) {
-  const mail = allMail[index];
-  const recpName = mail.FirstName + ' ' + mail.LastName;
-  console.log(recpName);
-  const signature = {
+  
+  let mail = allMail[index];
+
+  let recpName = mail.FirstName , signature = [];
+  if(mail.LastName)
+    recpName += ' ' + mail.LastName;
+
+  if(!recpName){
+    recpName = "Unknown";
+  }
+  signature = {
     splitLet: recpName
       .match(/\b(\w)/g)
       .join('')
@@ -58,7 +62,6 @@ export default function singleMail(
         mail={mail}
         filterMails={filterMails}
         selectMail={selectMail}
-        toggleListVisible={toggleListVisible}
       />
     </SingleMailContents>
   );

@@ -12,20 +12,28 @@ export default function mailList(
 ) {
   const renderSingleMail = (mail, key) => {
     const onClick = () => {
-      selectMail(mail.ID);
+      selectMail(mail.ID, mails);
       if (toggleListVisible) {
         toggleListVisible();
       }
     };
     const isSelected = selectedMail === mail.ID;
-    const recpName = mail.FirstName + ' ' + mail.LastName;
-    console.log(recpName);
-    const signature = {
+    let recpName = mail.FirstName , signature = [];
+    if(mail.LastName)
+      recpName += ' ' + mail.LastName;
+
+    if(!recpName){
+      recpName = "Unknown";
+    }
+    
+    signature = {
       splitLet: recpName
         .match(/\b(\w)/g)
         .join('')
         .split('', 2)
-    };
+    }
+  
+    
     const activeClass = isSelected ? 'activeMail' : '';
     return (
       <div

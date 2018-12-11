@@ -97,13 +97,11 @@ const BioDetail = styled.div`
   padding: 1rem;
   background-color: #ffffff;
   border: 1px solid ${palette('border', 0)};
-  margin: 0 0 30px;
   
 
   .isoNoMailMsg {
     font-size: 28px;
     font-weight: 300;
-    text-transform: capitalize;
     color: ${palette("text", 2)};
     text-align: center;
     width: 100%;

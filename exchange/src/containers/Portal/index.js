@@ -25,7 +25,7 @@ import { TableStyle, FixedContainer, ProposalBox, ShareWrapper, ApplyBoardWrappe
 
 import bgGOV from '@/image/portal-bg-gov.png';
 import bgDCB from '@/image/portal-bg-dcb.png';
-import bgMCB from '@/image/portal-bg-mcb.png';
+import bgCMB from '@/image/portal-bg-cmb.png';
 
 const Modal = WithDirection(ModalStyle(Modals));
 
@@ -54,10 +54,10 @@ const dataBoards = [
   },
   {
     key: 2,
-    title: "Voting.Apply.Mcb.Title",
-    subTitle: "Voting.Apply.Mcb.Description",
-    description: "Apply MCB board for control our system base on role person in MCB. Constant provides a mechanism for legitimate exchange that also safeguards your privacy.",
-    background: bgMCB,
+    title: "Voting.Apply.Cmb.Title",
+    subTitle: "Voting.Apply.Cmb.Description",
+    description: "Apply CMB board for control our system base on role person in CMB. Constant provides a mechanism for legitimate exchange that also safeguards your privacy.",
+    background: bgCMB,
     btnAction: "",
     btnStyle: "",
     btnText: "Common.NowApply",
@@ -129,7 +129,7 @@ export default class Portal extends Component {
         if(boards[i].key == 1 && result.DCB){
           boards[i].applied = true;
         }
-        else if(boards[i].key == 2 && result.MCB){
+        else if(boards[i].key == 2 && result.CMB){
           boards[i].applied = true;
         }
         else if(boards[i].key == 3 && result.GOV){
@@ -350,7 +350,7 @@ export default class Portal extends Component {
                 }
               </Box>
             </Col>
-            <Col md={8} sm={24} xs={24} style={colStyle0}>
+            <Col md={8} sm={24} xs={24} style={colStyle}>
               <Box style={boxStyle0}>
                 <ProposalBox>
                   <div className="desc"><IntlMessages id="Portal.Home.Proposal.Description" /></div>

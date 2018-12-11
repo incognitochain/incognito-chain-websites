@@ -53,6 +53,20 @@ const topMenus = [
     key: 'voting',
     label: 'sidebar.Voting',
     leftIcon: '',
+    // children: [
+    //   {
+    //     label: 'sidebar.Voting',
+    //     key: '1'
+    //   },
+    //   {
+    //     label: 'sidebar.Voting',
+    //     key: '2'
+    //   },
+    //   {
+    //     label: 'sidebar.Voting',
+    //     key: '3'
+    //   }
+    // ]
   }
 ];
 
@@ -97,26 +111,27 @@ class Sidebar extends Component {
   getMenuItem = ({ singleOption, submenuStyle, submenuColor }) => {
     const { key, label, children } = singleOption;
     const url = stripTrailingSlash(this.props.url);
+    
     if (children) {
       return (
+        
         <SubMenu
           key={key}
           title={
             <span className="isoMenuHolder" style={submenuColor}>
-              {/* <i className={leftIcon} /> */}
               <span className="nav-text">
-                <IntlMessages id={label} />
+              <IntlMessages id={label} />
               </span>
             </span>
           }
         >
-          {children.map(child => {
+          {children.map(child => {console.log(child);
             const linkTo = child.withoutDashboard
               ? `/${child.key}`
               : `${url}/${child.key}`;
             return (
               <Menu.Item style={submenuStyle} key={child.key}>
-                <Link style={submenuColor} to={linkTo}>
+                <Link style={submenuColor} to={`/${key}`}>
                   <IntlMessages id={child.label} />
                 </Link>
               </Menu.Item>
@@ -125,6 +140,7 @@ class Sidebar extends Component {
         </SubMenu>
       );
     }
+    
     return (
       <Menu.Item key={key}>
         <Link to={`/${key}`}>

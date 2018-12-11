@@ -4,7 +4,7 @@ const allMailsSelector = state => state.allMails;
 const filterAttrSelector = state => state.filterAttr;
 const searchStringSelector = state => state.searchString;
 
-const filterBucket = (mails, bucket) => {
+const filterBucket = (mails) => {
   const newMails = [];
   if(mails){
     mails.forEach(mail => {
@@ -26,10 +26,10 @@ const filterTag = (mails, tag) => {
   return newMails;
 };
 const filterMaiil = (allMails, filterAttr, searchString) => {
-  let newMails = filterBucket(allMails, filterAttr.bucket);
-  if (filterAttr.tag) {
-    newMails = filterTag(allMails, filterAttr.tag);
-  }
+  let newMails = filterBucket(allMails);
+  //if (filterAttr.tag) {
+    //newMails = filterTag(allMails, filterAttr.tag);
+  //}
   if (searchString) {
     const search = searchString.toUpperCase();
     newMails = newMails.filter(mail =>

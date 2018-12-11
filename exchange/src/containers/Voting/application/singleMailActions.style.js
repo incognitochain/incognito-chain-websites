@@ -78,7 +78,7 @@ const WDMailActionsWrapper = styled.div`
   display: -webkit-flex;
   display: -ms-flex;
   display: flex;
-
+  
   button {
     font-size: 16px;
     color: ${palette('secondary', 0)};

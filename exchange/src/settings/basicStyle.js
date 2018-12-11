@@ -7,7 +7,6 @@ const colStyle = {
   marginBottom: '16px',
 };
 const colStyle0 = {
-  marginBottom: '16px',
 };
 
 const boxStyle0 = {
