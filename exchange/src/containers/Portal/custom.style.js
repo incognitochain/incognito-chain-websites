@@ -46,23 +46,36 @@ const ProposalBox = styled.div`
   background: url(${bgImage}) no-repeat center right;
   background-color: none;
   height: 276px;
-  padding: 1.5rem;
+  padding: 1rem 1.5rem;
   ${borderRadius('5px')};
 
   .desc {
     font-size:1rem;
     color: White;
-    width: 50%;
+    width: 60%;
     min-width: 120px;
     font-weight:500;
-    padding: 1.5rem 0;
+    padding: 2.5rem 0;
+
+    .create {
+      font-style: italic; 
+      color: ${palette('color', 5)};
+    }
   }
 
-  .btn {
-    background: #4CE2A7;
-    border: solid 1px #0F79E1;
-    color: White;
+  .action {
+    display: flex;
+    justify-content: space-between;
+
+    .btn {
+      background: #4CE2A7;
+      border: solid 1px #0F79E1;
+      color: White;
+      padding: 0 15px;
+    }
   }
+
+  
 `;
 
 const WDFixedContainer = styled.div`
@@ -76,6 +89,16 @@ const WDFixedContainer = styled.div`
       min-width: 120px;
     }
   }
+
+  .ant-row {
+    .col:first-child {
+      padding-left: 0px ! important;
+    }
+
+    .col:last-child {
+      padding-right: 0px ! important;
+    }
+  } 
 
   .btnApplied {
     background-color: #4CE2A7 !important;

@@ -45,7 +45,7 @@ const dataBoards = [
     key: 1,
     title: "Voting.Apply.Dcb.Title",
     subTitle: "Voting.Apply.Dcb.Description",
-    description: "Apply DCB board for control our system base on role person in DCB. Constant provides a mechanism for legitimate exchange that also safeguards your privacy.",
+    description: "Apply DCB board for control our system base on role person in DCB. Constant provides a mechanism for legitimate exchange that also safeguards your privacy.",
     background: bgDCB,
     btnAction: "",
     btnStyle: "",
@@ -101,23 +101,26 @@ export default class Portal extends Component {
       isApplyBoard: false,
       applyBoard: false,
       address: '',
+
       boards: dataBoards,
       user: false,
       token: false,
       loading: true,
       bio: '',
+
+      isProposal: false,
+      nameProposal: '',
+      selectedProposal: false,
+      selectedProposalType: false,
     }
   }
 
   async componentDidMount(){
-    const token = auth.isLogged();
-    let paymentAddress = "", listBalances = [];
-
-    if(token){
+    if(auth.isLogged()){
       await this.myCandidate();
-    }
-    
-    this.setState({auth: token, loading: false});
+    } 
+
+    this.setState({loading: false});
   }
 
   async myCandidate(){
@@ -145,7 +148,9 @@ export default class Portal extends Component {
   }
 
   handleCancel = () => {
-    this.setState({ isApplyBoard: false, isEditBio: false, applyBoard: false, address: '' });
+    this.setState({ isApplyBoard: false, applyBoard: false, address: '', 
+      isEditBio: false, 
+      isProposal: false, selectedProposal: false, selectedProposalType: false, nameProposal: ''});
   };
 
   changeAddress = (e) => {
@@ -154,6 +159,19 @@ export default class Portal extends Component {
 
   changeBio = (e) => {
     this.setState({ bio: e.target.value });
+  }
+
+  changeProposal = (e, input) => {
+    let value= e.target.value, selectedProposal = this.state.selectedProposal;
+    
+    for(let i in selectedProposal){
+      if(selectedProposal[i].key === input.key){
+        selectedProposal[i].value = value;
+        break;
+      }
+    }
+    
+    this.setState({ selectedProposal });
   }
 
   openApplyBoard = (box) => {
@@ -175,8 +193,45 @@ export default class Portal extends Component {
     }
   }
 
-  handleApplyBoard = async () => {
+  openProposal = async (boardType) => {
+    if(auth.isLogged()){
+      const result = await voting.createProposal(boardType);
+      if(result){
+        let selectedProposal = this.parseJsonMultiLevel(result);
+        this.setState({selectedProposal, selectedProposalType: boardType, isProposal: true});
+      }
+    } 
+    else{
+      showMessage("Please sign in first");
+    }
+  }
+
+  parseJsonMultiLevel(data){
+    var result = [];
     
+    function parseData(input, prefix){
+      for(let index in input){
+        if(typeof(input[index]) == "object"){
+          parseData(input[index], index);
+        }
+        else{
+          result.push({
+            key: prefix ? prefix + "." + index : index, 
+            name: index,
+            value: input[index],
+            type: typeof(input[index])
+          });
+        }
+      }
+    }
+    
+    parseData(data);
+
+    return result;
+  }
+
+
+  handleApplyBoard = async () => {
     const { address, applyBoard, boards } = this.state;
     
     if(!address){
@@ -189,7 +244,7 @@ export default class Portal extends Component {
       if(result.error){
         showMessage(result.message, 'error');
       }
-      else{console.log(boards);
+      else{
         showMessage("success!", 'success');
         for(let i in boards){
           if(boards[i].key == applyBoard.key){
@@ -227,6 +282,63 @@ export default class Portal extends Component {
     }
     
     this.setState({ isEditBio: false, bio: ''});
+  };
+
+  handleProposal = async () => {
+    
+    const { selectedProposal, nameProposal, selectedProposalType } = this.state;
+    let required = [], invalid = [];
+    for(let i of selectedProposal){
+      if((i.type == "number" && i.value === "") || (i.type != "number" && !i.value)){
+        required.push(i.name);
+      }
+      else if(i.type === 'number' && isNaN(i.value)){
+        invalid.push(i.name);
+      }
+    }
+
+    if(required.length){
+      showMessage(`Please enter ${required.join(", ")}.`);
+      return;
+    }
+
+    if(invalid.length){
+      showMessage(`${invalid.join(", ")} are required input number.`);
+      return;
+    }
+    
+    let data = {};
+    for(let i of selectedProposal){
+
+      let arr = i.key.split(".");
+      if(arr.length > 1){
+        let sub = {}, key = arr[0];
+        for(let x in arr){
+          if(x == arr.length-1)
+            sub = {[arr[x]] : i.value};
+          else
+            sub = {[arr[x]] : sub};
+        }
+        
+        data[key] = {...data[key], ...sub};
+      }
+      else{
+        data[i.key] = i.type == "number" ? Number(i.value) : i.value;
+      }
+    }
+
+    let result = await voting.submitProposal(selectedProposalType, nameProposal, data);
+    if(result){
+      if(result.error){
+        showMessage(result.message, 'error');
+      }
+      else{
+        showMessage("success!", 'success');
+        
+      }
+    }
+    
+    this.setState({ isProposal: false, selectedProposal: '', nameProposal: '', selectedProposalType:  false});
   };
 
   renderTable(tableInfo) {
@@ -291,6 +403,54 @@ export default class Portal extends Component {
     );
   }
 
+  renderProposal(){
+    const { isProposal, selectedProposal, nameProposal } = this.state;
+
+    return (
+      <Modal
+          visible={isProposal}
+          title={<IntlMessages id="Proposal.CreateGOV" />}
+          onCancel={this.handleCancel}
+          footer={[
+            <Button key="back" size="large" onClick={this.handleCancel}>
+              <IntlMessages id="Common.Cancel" />
+            </Button>,
+            <Button
+              key="submit"
+              type="primary"
+              size="large"
+              loading={this.state.loading}
+              onClick={this.handleProposal}
+            >
+              <IntlMessages id="Common.Submit" />
+            </Button>
+          ]}
+        >
+          <div>
+              <ApplyBoardWrapper key="Name">
+                <div><IntlMessages id="Proposal.Name" /></div>
+                <InputGroup >
+                  <Input onChange={(e) => this.setState({ nameProposal: e.target.value})} value={nameProposal}/>
+                </InputGroup>
+              </ApplyBoardWrapper>
+            {
+              selectedProposal && selectedProposal.map(i => {
+
+                return (
+                  <ApplyBoardWrapper key={i.key}>
+                    <div><IntlMessages id={"Proposal." + i.name} /></div>
+                    <InputGroup >
+                      <Input onChange={(e) => this.changeProposal(e, i)} value={i.value} />
+                    </InputGroup>
+                  </ApplyBoardWrapper>
+                )
+              })
+            }
+          </div>
+        </Modal>
+    );
+  }
+
   renderApplyBoard(){
     const { isApplyBoard, applyBoard, address } = this.state;
     const title = applyBoard ? <IntlMessages id={applyBoard.title} /> : "";
@@ -341,7 +501,7 @@ export default class Portal extends Component {
       <FixedContainer>
         <LayoutWrapper>
           <Row style={rowStyle} gutter={gutter} justify="start">
-            <Col md={16} sm={24} xs={24} style={colStyle}>
+            <Col md={16} sm={24} xs={24} style={colStyle} className="col">
               <Box className="mainBox"
                 title={<IntlMessages id="Portal.Home.BigBox.Hello" />}
                 subtitle={<span className="editBio" onClick={() => this.openEditBio()}>Edit</span>} >
@@ -350,13 +510,22 @@ export default class Portal extends Component {
                 }
               </Box>
             </Col>
-            <Col md={8} sm={24} xs={24} style={colStyle}>
+            <Col md={8} sm={24} xs={24} style={colStyle} className="col">
               <Box style={boxStyle0}>
                 <ProposalBox>
-                  <div className="desc"><IntlMessages id="Portal.Home.Proposal.Description" /></div>
-                  <Button type="default" className="btn" >
-                    <IntlMessages id="Portal.Home.Proposal.Create" />
-                  </Button>
+                  <div className="desc">
+                    <IntlMessages id="Portal.Home.Proposal.Description" />
+                    <br /><span className="create"><IntlMessages id="Common.CreateNewOne" />.</span>
+                  </div>
+
+                  <div className="action">
+                    <Button type="default" className="btn" style={{marginBottom: '1rem'}} onClick={() => this.openProposal(1)}>
+                      <IntlMessages id="Proposal.CreateDCB" />
+                    </Button>
+                    <Button type="default" className="btn" onClick={() => this.openProposal(2)}>
+                      <IntlMessages id="Proposal.CreateGOV" />
+                    </Button>
+                  </div>
                 </ProposalBox>
               </Box>
             </Col>
@@ -365,7 +534,7 @@ export default class Portal extends Component {
             {
               boards.map(box => {
                 return (
-                  <Col md={8} sm={24} xs={24} style={colStyle} key={box.key}>
+                  <Col md={8} sm={24} xs={24} style={colStyle} key={box.key} className="col">
                   <Box style={boxStyleBg(box.background)} className="cardBoard"
                     title={<IntlMessages id={box.title} />}
                     subtitle={<IntlMessages id={box.subTitle} />} 
@@ -412,6 +581,9 @@ export default class Portal extends Component {
           }
           {
             this.renderEditBio()
+          }
+          {
+            this.renderProposal()
           }
         </LayoutWrapper>
       </FixedContainer>

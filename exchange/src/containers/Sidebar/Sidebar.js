@@ -67,7 +67,12 @@ const topMenus = [
     //     key: '3'
     //   }
     // ]
-  }
+  },
+  {
+    key: 'proposal',
+    label: 'sidebar.Proposal',
+    leftIcon: '',
+  },
 ];
 
 class Sidebar extends Component {

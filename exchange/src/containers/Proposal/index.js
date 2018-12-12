@@ -65,7 +65,7 @@ const showMessage = (msg, type='warning', time=2) => {
 };
 
 const Modal = WithDirection(ModalStyle(Modals));
-class Voting extends Component {
+class Proposal extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -84,7 +84,7 @@ class Voting extends Component {
 
   async componentDidMount(){
     if(auth.isLogged()){
-      const result = await voting.listCookedCandidate(1);
+      const result = await voting.listProposal(1);
       if(result){
         this.props.storeMails(result);
       }
@@ -109,7 +109,7 @@ class Voting extends Component {
     return (
       <ApplicantList>
         <div className="titleWrapper">
-          <h3><IntlMessages id="Voting.Applicants" /></h3>
+          <h3><IntlMessages id="Common.Proposals" /></h3>
           <PaginationControl />
         </div>
         <div className="searchWrapper">
@@ -140,7 +140,7 @@ class Voting extends Component {
 
     let singleMailComponent = (
       <p className="isoNoMailMsg">
-        <IntlMessages id="Voting.UnselectAplication" />
+        <IntlMessages id="Proposal.UnselectApplicant" />
       </p>
     );
     
@@ -174,7 +174,7 @@ class Voting extends Component {
 
     let boardMailComponent = (
       <p className="isoNoMailMsg">
-        <IntlMessages id="Voting.UnselectAplication" />
+        <IntlMessages id="Proposal.UnselectApplicant" />
       </p>
     );
     
@@ -346,5 +346,5 @@ export default connect(mapStateToProps, {
   changeReplyMail,
   changeSearchString,
   storeMails
-})(Voting);
+})(Proposal);
 

@@ -422,6 +422,7 @@
   "sidebar.Wallet": "Wallet",
   "sidebar.Portal": "Portal",
   "sidebar.Voting": "Voting",
+  "sidebar.Proposal": "Proposal",
 
   "Market.PageHeader": "Market",
   "Market.Pair": "Pair",
@@ -494,8 +495,30 @@
 
   "Portal.Home.BigBox.Hello": "Hello,",
   "Portal.Home.Proposal.Description": "Wanna join the Constant network -  the new area of internet?",
-  "Portal.Home.Proposal.Create": "Create a proposal",
 
+  "Proposal": "Proposal",
+  "Proposal.UnselectApplicant": "Please select proposal",
+  "Proposal.CreateDCB": "DCB proposal",
+  "Proposal.CreateGOV": "GOV proposal",
+  "Proposal.SaleID": "Sale ID",
+  "Proposal.BondID": "Bond ID",
+  "Proposal.BuyingAsset": "Buying Asset",
+  "Proposal.SellingAsset": "Selling Asset",
+  "Proposal.Price": "Price",
+  "Proposal.EndBlock": "End Block",
+  "Proposal.SalaryPerTx": "Salary Per Tx",
+  "Proposal.BasicSalary": "Basic Salary",
+  "Proposal.TxFee": "Tx Fee",
+  "Proposal.BuyBackPrice": "Buy Back Price",
+  "Proposal.BondsToSell": "Bonds To Sell",
+  "Proposal.BondPrice": "Bond Price",
+  "Proposal.Maturity": "Maturity",
+  "Proposal.StartSellingAt": "Start Selling At",
+  "Proposal.SellingWithin": "Selling Within",
+  "Proposal.ThresholdToLargeTx": "Threshold To Large Tx",
+  "Proposal.RefundAmount": "Refund Amount",
+  "Proposal.Name": "Name",
+  
   "Voting.Applicants": "Applicants",
   "Voting.UnselectAplication": "Please select applicant",
   "Voting.Apply.Gov.Title": "Apply GOV board",
@@ -511,6 +534,7 @@
   "Voting.TokenList": "Token List",
   "Voting.VoteApplicant": "Vote this applicant",
 
+  "Common.Proposals": "Proposals",
   "Common.Share": "Share to someone in need",
   "Common.Facebook": "Facebook",
   "Common.Twitter": "Twitter",
@@ -522,5 +546,6 @@
   "Common.Submit": "Submit",
   "Common.Cancel": "Cancel",
   "Common.Bio": "Bio",
-  "Common.Votes": "Votes"
+  "Common.Votes": "Votes",
+  "Common.CreateNewOne": "Create new one"
 }

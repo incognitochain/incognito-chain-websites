@@ -2,6 +2,8 @@ const rowStyle = {
   width: '100%',
   display: 'flex',
   flexFlow: 'row wrap',
+  marginLeft: 0,
+  marginRight: 0,
 };
 const colStyle = {
   marginBottom: '16px',

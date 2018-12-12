@@ -46,6 +46,11 @@ class AppRouter extends Component {
           path={'/voting'}
           component={asyncComponent(() => import('@/containers/Voting'))}
         />
+        <Route
+          exact
+          path={'/proposal'}
+          component={asyncComponent(() => import('@/containers/Proposal'))}
+        />
 {/*         
         {routes.map(singleRoute => {
           const { path, exact, ...otherProps } = singleRoute;console.log(path, exact, url);
