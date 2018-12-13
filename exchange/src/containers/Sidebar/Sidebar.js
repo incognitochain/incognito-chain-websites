@@ -15,7 +15,7 @@ import { Row, Col } from 'antd';
 import ContentHolder from '@ui/utility/contentHolder';
 import imgLogo from '@/image/logo.png';
 import { siteConfig } from '@/settings';
-
+import Popover from '@ui/uielements/popover';
 
 const SubMenu = Menu.SubMenu;
 const { Sider } = Layout;
@@ -53,20 +53,20 @@ const topMenus = [
     key: 'voting',
     label: 'sidebar.Voting',
     leftIcon: '',
-    // children: [
-    //   {
-    //     label: 'sidebar.Voting',
-    //     key: '1'
-    //   },
-    //   {
-    //     label: 'sidebar.Voting',
-    //     key: '2'
-    //   },
-    //   {
-    //     label: 'sidebar.Voting',
-    //     key: '3'
-    //   }
-    // ]
+    children: [
+      {
+        label: 'sidebar.Voting',
+        key: '1'
+      },
+      {
+        label: 'sidebar.Voting',
+        key: '2'
+      },
+      {
+        label: 'sidebar.Voting',
+        key: '3'
+      }
+    ]
   },
   {
     key: 'proposal',
@@ -78,9 +78,19 @@ const topMenus = [
 class Sidebar extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isVoting: false,
+    };
+
     this.handleClick = this.handleClick.bind(this);
     this.onOpenChange = this.onOpenChange.bind(this);
   }
+
+  goSubMenu = (i) => {
+
+  }
+
+
   handleClick(e) {
     this.props.changeCurrent([e.key]);
     if (this.props.app.view === 'MobileView') {
@@ -113,14 +123,55 @@ class Sidebar extends Component {
     };
     return map[key] || [];
   };
+
+  listSubMenu(items){
+
+    return(
+      <div className="isoUserDropdown">
+        {items.map(i => {
+          return (
+            <a className="lnkLanguage" href="#" key={i.key} onClick={() => this.goSubMenu(i) }>
+              {i.label}
+            </a>
+          );
+        })}
+      </div>
+    );
+  }
+
   getMenuItem = ({ singleOption, submenuStyle, submenuColor }) => {
     const { key, label, children } = singleOption;
     const url = stripTrailingSlash(this.props.url);
     
-    if (children) {
+    if (1 == 2  && children) {
+
+      return (
+
+        <Popover
+        content={this.listSubMenu(children)}
+        trigger="click"
+        visible={this.state.isVoting}
+        onVisibleChange={() => this.setState({ isVoting: !this.state.isVoting })}
+        arrowPointAtCenter={true}
+        placement="bottomLeft"
+      >
+        <Menu.Item key={key}>
+          <Link to={`/${key}`}>
+            <span className="isoMenuHolder" style={submenuColor}>
+              {/* <i className={leftIcon} /> */}
+              <span className="nav-text">
+                <IntlMessages id={label} />
+              </span>
+            </span>
+          </Link>
+        </Menu.Item>
+      </Popover>
+      );
+
       return (
         
         <SubMenu
+          className="ulSubmenu"
           key={key}
           title={
             <span className="isoMenuHolder" style={submenuColor}>
@@ -135,7 +186,7 @@ class Sidebar extends Component {
               ? `/${child.key}`
               : `${url}/${child.key}`;
             return (
-              <Menu.Item style={submenuStyle} key={child.key}>
+              <Menu.Item style={submenuStyle} key={child.key} >
                 <Link style={submenuColor} to={`/${key}`}>
                   <IntlMessages id={child.label} />
                 </Link>

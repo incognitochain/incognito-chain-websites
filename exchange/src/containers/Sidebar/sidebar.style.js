@@ -139,7 +139,7 @@ const SidebarWrapper = styled.div`
     }
     
 
-    x.ant-menu-submenu-inline {
+    .ulSubmenu {
       ul {
         background-color: red ! important;
         width: 300px;

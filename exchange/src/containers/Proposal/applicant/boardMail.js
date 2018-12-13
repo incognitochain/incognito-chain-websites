@@ -19,9 +19,9 @@ export default function boardMail(
   
   let mail = allMail[index];
 
-  let recpName = mail.FirstName , signature = [];
-  if(mail.LastName)
-    recpName += ' ' + mail.LastName;
+  let recpName = mail.User.FirstName , signature = [];
+  if(mail.User.LastName)
+    recpName += ' ' + mail.User.LastName;
 
   if(!recpName){
     recpName = "Unknown";
@@ -47,38 +47,13 @@ export default function boardMail(
           <h3>{recpName}</h3>
           <div className="isoMailAddress">
             <div className="isoAddress">
-              <div className="mailEmail"><i className="ion-ios-email-outline" /> {mail.Email}</div>
+              <div className="mailEmail"><i className="ion-ios-email-outline" /> {mail.User.Email}</div>
               <div className="voteNum"><i className="ion-ios-star-outline" /> {mail.VoteNum} <IntlMessages id="Common.Votes" /></div>
             </div>
           </div>
         </BoardInfo>
-
-        {/* <SingleMailHeader className="isoMailHeader">
-          <h2>{mail.subject}</h2>
-        </SingleMailHeader> */}
-        <BoardList>
-          <h4>Token List</h4>
-          <div className="board">
-            <Badge
-              status="error"
-              text="CMB" />
-            <div className="number">{mail.CMB}</div>
-          </div>
-          <div className="board">
-            <Badge
-              status="warning"
-              text="DCB" />
-            <div className="number">{mail.DCB}</div>
-          </div>
-          <div className="board">
-            <Badge
-              status="success"
-              text="GOV" />
-            <div className="number">{mail.GOV}</div>
-          </div>
-        </BoardList>
         <Button type="primary" size="large" onClick={() => openVote(mail)}>
-          <IntlMessages id="Voting.VoteApplicant" />
+          <IntlMessages id="Proposal.VoteProposal" />
         </Button>
       </div>
     </BoardContents>

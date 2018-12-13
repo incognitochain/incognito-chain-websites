@@ -518,6 +518,7 @@
   "Proposal.ThresholdToLargeTx": "Threshold To Large Tx",
   "Proposal.RefundAmount": "Refund Amount",
   "Proposal.Name": "Name",
+  "Proposal.VoteProposal": "Vote this proposal",
   
   "Voting.Applicants": "Applicants",
   "Voting.UnselectAplication": "Please select applicant",

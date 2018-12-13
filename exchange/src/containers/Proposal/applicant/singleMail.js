@@ -1,6 +1,7 @@
 import React from 'react';
 import { timeDifference } from '@/helpers/utility';
 import MailAction from './singleMailActions';
+import IntlMessages from '@ui/utility/intlMessages';
 import {
   SingleMailContents,
   SingleMailInfo,
@@ -16,9 +17,9 @@ export default function singleMail(
   
   let mail = allMail[index];
 
-  let recpName = mail.FirstName , signature = [];
-  if(mail.LastName)
-    recpName += ' ' + mail.LastName;
+  let recpName = mail.User.FirstName , signature = [];
+  if(mail.User.LastName)
+    recpName += ' ' + mail.User.LastName;
 
   if(!recpName){
     recpName = "Unknown";
@@ -30,6 +31,11 @@ export default function singleMail(
       .split('', 2)
   };
 
+  let arr = [], json = JSON.parse(mail.Data);
+  Object.keys(json).forEach(function(key) {
+    arr.push({name: key, value: json[key]});
+  });
+  
   return (
     <SingleMailContents className="isoSingleMailContents">
       <div className="isoSingleMail">
@@ -44,7 +50,7 @@ export default function singleMail(
           <div className="isoMailAddress">
             <div className="isoAddress">
               <h3>
-                {recpName} <br /><div className="mailEmail">{mail.Email}</div>
+                {recpName} <br /><div className="mailEmail">{mail.User.Email}</div>
               </h3>
               <span className="mailDate">{timeDifference(mail.Date)}</span>
             </div>
@@ -55,7 +61,14 @@ export default function singleMail(
           <h2>{mail.subject}</h2>
         </SingleMailHeader> */}
         <SingleMailBody className="isoMailBody">
-          <p>{mail.Bio}</p>
+          {
+            arr.map(e => {
+              return (<div className="isoContactCardInfos" key={e.name}>
+                <p className="isoInfoLabel"><IntlMessages id={"Proposal." + e.name} /></p>
+                <p className="isoInfoDetails">{e.value}</p>
+              </div>)
+            })
+          }
         </SingleMailBody>
       </div>
       <MailAction

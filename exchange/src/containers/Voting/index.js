@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Modal as Modals } from 'antd';
+import { Icon, Row, Col, Modal as Modals } from 'antd';
 import { connect } from 'react-redux';
 
 import LayoutWrapper from '@ui/utility/layoutWrapper.js';
@@ -12,6 +12,11 @@ import Loader from '@ui/utility/loader';
 import Input, { InputGroup, Textarea } from '@ui/uielements/input';
 import Alert from "@ui/feedback/alert";
 import Button from '@ui/uielements/button';
+
+import Dropdown, { DropdownButtons,
+  DropdownMenu,
+  MenuItem,
+  SubMenu } from '@ui/uielements/dropdown';
 
 import WithDirection from "@/settings/withDirection";
 import basicStyle from '@/settings/basicStyle';
@@ -74,6 +79,7 @@ class Voting extends Component {
       isVote: false,
       amount: '',
       selectedApplicant: false,
+      boardType: {name: "DCB", value: 1},
     }
     
   }
@@ -83,14 +89,35 @@ class Voting extends Component {
   }
 
   async componentDidMount(){
-    if(auth.isLogged()){
-      const result = await voting.listCookedCandidate(1);
+    this.getBoards()
+  }
+
+  async getBoards(boardType){
+    if(!boardType) boardType = this.state.boardType;
+
+    this.setState({loading: true});
+
+    if(auth.isLogged()){console.log(boardType.value);
+      const result = await voting.listCookedCandidate(boardType.value);
       if(result){
         this.props.storeMails(result);
       }
     } 
-    this.setState({loading: false});
+    this.setState({loading: false, boardType});
   }
+
+  get menuClicked(){
+    return (
+      <DropdownMenu onClick={(e) => this.changeBoardType(e)}>
+        <MenuItem key="1" value="DCB">DCB</MenuItem>
+        <MenuItem key="3" value="CMB">CMB</MenuItem>
+        <MenuItem key="2" value="GOV">GOV</MenuItem>
+    </DropdownMenu>);
+  }
+
+  changeBoardType = (e) => {
+    this.getBoards({name: e.item.props.value, value: Number(e.key)});
+  };
 
   renderApplicants(){
     let {
@@ -104,13 +131,17 @@ class Voting extends Component {
       changeSearchString,
     } = this.props;
 
-    const { search } = this.state;
+    const { search, boardType } = this.state;
     
     return (
       <ApplicantList>
         <div className="titleWrapper">
           <h3><IntlMessages id="Voting.Applicants" /></h3>
-          <PaginationControl />
+          <Dropdown overlay={this.menuClicked}>
+            <Button style={{padding: '0 0.5rem'}} >
+              {boardType.name} <Icon type="down" />
+            </Button>
+          </Dropdown>
         </div>
         <div className="searchWrapper">
           <InputSearch

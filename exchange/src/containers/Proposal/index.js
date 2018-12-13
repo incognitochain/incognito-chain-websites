@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { Row, Col, Modal as Modals } from 'antd';
+import { Icon, Row, Col, Modal as Modals } from 'antd';
 import { connect } from 'react-redux';
 
 import LayoutWrapper from '@ui/utility/layoutWrapper.js';
 import IntlMessages from '@ui/utility/intlMessages';
-import Box from '@ui/utility/box';
 import message from '@ui/feedback/message';
 import Scrollbars from '@ui/utility/customScrollBar.js';
 import { InputSearch } from '@ui/uielements/input';
@@ -12,6 +11,11 @@ import Loader from '@ui/utility/loader';
 import Input, { InputGroup, Textarea } from '@ui/uielements/input';
 import Alert from "@ui/feedback/alert";
 import Button from '@ui/uielements/button';
+
+import Dropdown, { DropdownButtons,
+  DropdownMenu,
+  MenuItem,
+  SubMenu } from '@ui/uielements/dropdown';
 
 import WithDirection from "@/settings/withDirection";
 import basicStyle from '@/settings/basicStyle';
@@ -22,6 +26,7 @@ import PaginationControl from './applicant/mailPagination';
 import singleMail from './applicant/singleMail';
 import boardMail from './applicant/boardMail';
 import mailList from './applicant/maiilList';
+import MailPagination from './applicant/mailPagination.style';
 import { ApplicantList, BioDetail } from "./style";
 import voting from '@/services/Voting';
 import auth from '@/services/Auth';
@@ -34,7 +39,6 @@ const {
   changeSearchString,
   storeMails
 } = mailActions;
-
 
 const showMessage = (msg, type='warning', time=2) => {
 
@@ -70,10 +74,11 @@ class Proposal extends Component {
     super(props);
     this.state = {
       search: this.props.searchString,
-      loading: true,
+      loading: false,
       isVote: false,
       amount: '',
       selectedApplicant: false,
+      boardType: {name: "DCB", value: 1},
     }
     
   }
@@ -82,14 +87,36 @@ class Proposal extends Component {
     allMails: [],
   }
 
-  async componentDidMount(){
-    if(auth.isLogged()){
-      const result = await voting.listProposal(1);
+  componentDidMount(){
+    this.getProposal();
+  }
+
+  async getProposal(boardType){
+    if(!boardType) boardType = this.state.boardType;
+
+    this.setState({loading: true});
+
+    if(auth.isLogged()){console.log(boardType.value);
+      const result = await voting.listProposal(boardType.value);
       if(result){
         this.props.storeMails(result);
       }
     } 
-    this.setState({loading: false});
+    this.setState({loading: false, boardType});
+  }
+
+
+  changeBoardType = (e) => {
+    this.getProposal({name: e.item.props.value, value: Number(e.key)});
+  };
+  
+
+  get menuClicked(){
+    return (
+      <DropdownMenu onClick={(e) => this.changeBoardType(e)}>
+        <MenuItem key="1" value="DCB">DCB</MenuItem>
+        <MenuItem key="2" value="GOV">GOV</MenuItem>
+    </DropdownMenu>);
   }
 
   renderApplicants(){
@@ -104,13 +131,17 @@ class Proposal extends Component {
       changeSearchString,
     } = this.props;
 
-    const { search } = this.state;
+    const { search, boardType } = this.state;
     
     return (
       <ApplicantList>
         <div className="titleWrapper">
           <h3><IntlMessages id="Common.Proposals" /></h3>
-          <PaginationControl />
+            <Dropdown overlay={this.menuClicked}>
+            <Button style={{padding: '0 0.5rem'}} >
+              {boardType.name} <Icon type="down" />
+            </Button>
+          </Dropdown>
         </div>
         <div className="searchWrapper">
           <InputSearch
@@ -229,14 +260,13 @@ class Proposal extends Component {
       return;
     }
     
-    let result = await voting.voteCandidate(1, selectedApplicant.ID, Number(amount));
-    if(result){console.log(result);
+    let result = await voting.voteProposal(1, selectedApplicant.ID, Number(amount));
+    if(result){
       if(result.error){
         showMessage(result.message, 'error');
       }
       else{
         showMessage("success!", 'success');
-        
       }
     }
     

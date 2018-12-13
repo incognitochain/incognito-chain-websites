@@ -149,6 +149,66 @@ const WDSingleMailBody = styled.div`
     line-height: 1.5;
     margin-bottom: 21px;
   }
+
+  .isoContactCardInfos {
+    width: 100%;
+    display: flex;
+    flex-shrink: 0;
+    align-items: baseline;
+    flex-direction: row;
+    margin-bottom: 15px;
+
+    @media only screen and (max-width: 430px) {
+      flex-direction: column;
+      margin-bottom: 20px;
+    }
+
+    .isoInfoLabel {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: ${palette('text', 0)};
+      line-height: 1.5;
+      margin: 0;
+      margin-right: ${props =>
+        props['data-rtl'] === 'rtl' ? 'inherit' : '15px'};
+      margin-left: ${props =>
+        props['data-rtl'] === 'rtl' ? '15px' : 'inherit'};
+      text-align: ${props =>
+        props['data-rtl'] === 'rtl' ? 'right' : 'left'};
+      min-width: 120px;
+      position: relative;
+
+      @media only screen and (max-width: 430px) {
+        margin-bottom: 5px;
+        margin-right: ${props =>
+          props['data-rtl'] === 'rtl' ? 'inherit' : '0'};
+        margin-left: ${props =>
+          props['data-rtl'] === 'rtl' ? '0' : 'inherit'};
+        padding-right: ${props =>
+          props['data-rtl'] === 'rtl' ? 'inherit' : '10px'};
+        padding-left: ${props =>
+          props['data-rtl'] === 'rtl' ? '10px' : 'inherit'};
+        min-width: 0;
+      }
+
+      &::after {
+        content: ':';
+        position: absolute;
+        right: ${props => (props['data-rtl'] === 'rtl' ? 'inherit' : '0')};
+        left: ${props => (props['data-rtl'] === 'rtl' ? '0' : 'inherit')};
+      }
+    }
+
+    .isoInfoDetails {
+      font-size: 14px;
+      font-weight: 400;
+      color: ${palette('text', 2)};
+      line-height: 1.5;
+      margin: 0;
+      text-align: ${props =>
+        props['data-rtl'] === 'rtl' ? 'right' : 'left'};
+    }
+  }
 `;
 
 const WDSingleMailReply = styled.div`

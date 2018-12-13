@@ -17,7 +17,7 @@ export default function mailList(
         toggleListVisible();
       }
     };
-    const isSelected = selectedMail === mail.ID;
+    const isSelected = selectedMail === mail.ID;console.log(mail);
     let recpName = mail.User.FirstName , signature = [];
     if(mail.User.LastName)
       recpName += ' ' + mail.User.LastName;

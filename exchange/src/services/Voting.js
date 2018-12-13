@@ -70,7 +70,7 @@ export default class Voting {
     };
 
     try{
-      const response = await axios(Voting.getOption({func: "/voting/proposals", data}));
+      const response = await axios(Voting.getOption({func: `/voting/proposals?board_type=${BoardType}`, data}));
       if (response.status === 200) {
         if(response.data && response.data.Result)
           return response.data.Result;
@@ -89,7 +89,7 @@ export default class Voting {
     };
 
     try{
-      const response = await axios(Voting.getOption({func: "/voting/candidates", data}));
+      const response = await axios(Voting.getOption({func: `/voting/candidates?board_type=${BoardType}`, data}));
       if (response.status === 200) {
         if(response.data && response.data.Result)
           return response.data.Result;
@@ -111,6 +111,28 @@ export default class Voting {
 
     try{
       const response = await axios(Voting.getOption({method: "POST", func: "/voting/candidate/vote", data}));
+      if (response.status === 200) {
+        if(response.data && response.data.Result){
+          return response.data.Result;
+        }
+      }
+    }
+    catch (e) {
+      return { error: true, message: e.message };
+    }
+    
+    return false;
+  }
+
+  static async voteProposal(BoardType, ProposalID, VoteAmount) {
+    let data = {
+      BoardType,
+      ProposalID,
+      VoteAmount
+    };
+
+    try{
+      const response = await axios(Voting.getOption({method: "POST", func: "/voting/proposal/vote", data}));
       if (response.status === 200) {
         if(response.data && response.data.Result){
           return response.data.Result;

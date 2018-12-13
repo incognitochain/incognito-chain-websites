@@ -147,17 +147,12 @@ class TopbarUser extends Component {
   }
 
   get popupLanguage(){
-    const { locale:language, changeLanguage } = this.props;
+    const { changeLanguage } = this.props;
 
     return(
       <TopbarDropdownWrapper className="isoUserDropdown">
         {config.options.map(option => {
           const { languageId, icon } = option;
-          const customClass = 
-            languageId === language.languageId
-              ? 'selectedTheme languageSwitch'
-              : 'languageSwitch';
-
           return (
             <a className="lnkLanguage" href="#" key={languageId} onClick={() => changeLanguage(languageId) }>
               <img src={process.env.PUBLIC_URL + icon} alt="flag" width={24} /> {option.text}
