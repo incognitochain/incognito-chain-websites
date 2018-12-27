@@ -1,12 +1,11 @@
-import Table from '@/components/uielements/table';
+import Table from '@ui/uielements/table';
 import styled from 'styled-components';
 import { palette } from 'styled-theme';
 import {
   transition,
-  boxShadow,
   borderRadius,
-} from '../../../settings/style-util';
-import WithDirection from '../../../settings/withDirection';
+} from '@/settings/style-util';
+import WithDirection from '@/settings/withDirection';
 
 const TableWrapper = styled(Table)`
   overflow: hidden;
@@ -212,6 +211,11 @@ const WDCustomizedTableWrapper = styled.div`
   }
 `;
 
+const MarketTag = styled.span`
+  color: ${palette('primary', 0)};
+  cursor: pointer
+`;
+
 const RateTag = styled.span`
   padding: 0 5px;
   height: 24px;
@@ -239,5 +243,5 @@ const RateTag = styled.span`
 
 const CustomizedTableWrapper = WithDirection(WDCustomizedTableWrapper);
 
-export { CustomizedTableWrapper, RateTag };
+export { CustomizedTableWrapper, RateTag, MarketTag };
 export default WithDirection(TableWrapper);

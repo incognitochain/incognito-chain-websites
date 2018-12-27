@@ -69,10 +69,11 @@ export default class Data {
 
     return this.datas[index];
   }
+  
   getAll() {
     if(this.size > this.dataList.length)
       this.size = this.dataList.length;
-console.log(this.dataList);
+      
     if (this.datas.length < this.size) {
       for (let i = 0; i < this.size; i++) {
         this.getObjectAt(i);

@@ -1,27 +1,24 @@
 import React, { Component } from 'react';
-import Tabs, { TabPane } from '@/components/uielements/tabs';
-import LayoutWrapper from '@/components/utility/layoutWrapper.js';
-import ContentHolder from '@/components/utility/contentHolder';
-import PageHeader from '@/components/utility/pageHeader';
-import IntlMessages from '@/components/utility/intlMessages';
-import basicStyle from '../../settings/basicStyle';
-import { Row, Col } from 'antd';
-import Box from '@/components/utility/box';
-import Card from './card.style';
 
+import Tabs, { TabPane } from '@ui/uielements/tabs';
+import LayoutWrapper from '@ui/utility/layoutWrapper.js';
+import PageHeader from '@ui/utility/pageHeader';
+import IntlMessages from '@ui/utility/intlMessages';
+import Loader from '@ui/utility/loader';
+
+import basicStyle from '@/settings/basicStyle';
 import TableStyle from './custom.style';
 import Data from './data';
-import { tableinfos } from './configs';
-import * as TableViews from './tableViews/';
-import market from '../../services/Market';
+import SortView, { tableinfos }from './tableViews/sortView';
+import market from '@/services/Market';
 
 export default class Market extends Component {
   constructor(props) {
     super(props);
     this.state = {
       dataList: false,
+      loading: true,
     }
-    
   }
 
   async componentDidMount(){
@@ -45,6 +42,8 @@ export default class Market extends Component {
       if(dataList["24h"] || dataList["4h"] || dataList["1h"])
         this.setState({dataList});
     }
+
+    this.setState({loading: false});
   }
 
   async getData(time="24h"){
@@ -53,8 +52,8 @@ export default class Market extends Component {
     if(!result.error){
       let markets = {};
       for(let s of result){
-        const { DisplayName, State, SymbolCode } = s;
-        markets[SymbolCode] = { DisplayName, State };
+        const { DisplayName, Status, SymbolCode } = s;
+        markets[SymbolCode] = { DisplayName, Status };
       }
       
       //market datas
@@ -63,7 +62,7 @@ export default class Market extends Component {
       for(let s of result){
         const setting = markets[s.SymbolCode];
         if(setting){
-          if(setting.State !== "online"){
+          if(setting.Status !== "online"){
             break;
           }
   
@@ -71,11 +70,9 @@ export default class Market extends Component {
           s.DisplayName = setting.DisplayName;
           key ++;
         }
-  
+        
         rates.push(s);
       }
-  
-      //console.log(markets, rates);
       return rates;
     }
     else{
@@ -87,17 +84,17 @@ export default class Market extends Component {
     const { dataList } = this.state;
     if(dataList && dataList[tableInfo.value]){
       const data = new Data(10, dataList[tableInfo.value]);
-
+      //console.log(dataList, data);
       let Component;
       switch (tableInfo.value) {
         case '1h':
-          Component = TableViews.oneHour;
+          Component = SortView;
           break;
         case '4h':
-          Component = TableViews.fourHours;
+          Component = SortView;
           break;
         default:
-          Component = TableViews.day;
+          Component = SortView;
       }
       return <Component tableInfo={tableInfo} dataList={data} />;
     }
@@ -107,45 +104,15 @@ export default class Market extends Component {
   }
 
   render() {
+    const { loading } = this.state;
     const { rowStyle, colStyle, gutter } = basicStyle;
+
+    if(loading)
+      return <Loader />;
 
     return (
       <LayoutWrapper>
         <PageHeader>{<IntlMessages id="Exchange.PageHeader" />}</PageHeader>
-        {/* <Row style={rowStyle} gutter={gutter} justify="start">
-          <Col span={24} style={colStyle}>
-            <Box
-              title={<IntlMessages id="uiElements.cards.gridCard" />}
-              subtitle={<IntlMessages id="uiElements.cards.gridCardSubTitle" />}
-            >
-              <Row>
-                <ContentHolder style={{ overflow: 'hidden' }}>
-                  <Col md={8} sm={8} xs={24} style={{ padding: '0 8px' }}>
-                    <Card
-                      title={<IntlMessages id="uiElements.cards.cardTitle" />}
-                    >
-                      {<IntlMessages id="uiElements.cards.cardContent" />}
-                    </Card>
-                  </Col>
-                  <Col md={8} sm={8} xs={24} style={{ padding: '0 8px' }}>
-                    <Card
-                      title={<IntlMessages id="uiElements.cards.cardTitle" />}
-                    >
-                      {<IntlMessages id="uiElements.cards.cardContent" />}
-                    </Card>
-                  </Col>
-                  <Col md={8} sm={8} xs={24} style={{ padding: '0 8px' }}>
-                    <Card
-                      title={<IntlMessages id="uiElements.cards.cardTitle" />}
-                    >
-                      {<IntlMessages id="uiElements.cards.cardContent" />}
-                    </Card>
-                  </Col>
-                </ContentHolder>
-              </Row>
-            </Box>
-          </Col>
-        </Row> */}
         <TableStyle className="isoLayoutContent">
           <Tabs className="isoTableDisplayTab">
             {tableinfos.map(tableInfo => (
@@ -159,4 +126,4 @@ export default class Market extends Component {
     );
   }
 }
-export { TableViews, tableinfos, Data };
+export { SortView, Data };

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import auth from '@/components/auth';
+import auth from '@ui/auth';
 
 export default class Wallet {
 
@@ -31,7 +31,6 @@ export default class Wallet {
     }
 
     options['url'] = url + func;
-    console.log(options);
     return options;
   }
 

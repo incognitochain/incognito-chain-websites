@@ -19,7 +19,7 @@ const routes = [
 
 class AppRouter extends Component {
   render() {
-    const { url, style } = this.props;
+    const { style } = this.props;
     return (
       <div style={style}>
         <Route
@@ -35,6 +35,21 @@ class AppRouter extends Component {
           exact
           path={'/wallet'}
           component={asyncComponent(() => import('@/containers/Wallet'))}
+        />
+        <Route
+          exact
+          path={'/portal'}
+          component={asyncComponent(() => import('@/containers/Portal'))}
+        />
+        <Route
+          exact
+          path={'/voting'}
+          component={asyncComponent(() => import('@/containers/Voting'))}
+        />
+        <Route
+          exact
+          path={'/proposal'}
+          component={asyncComponent(() => import('@/containers/Proposal'))}
         />
 {/*         
         {routes.map(singleRoute => {

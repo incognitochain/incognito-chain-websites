@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import LayoutWrapper from '@/components/utility/layoutWrapper.js';
+
+import LayoutWrapper from '@ui/utility/layoutWrapper.js';
+import PageHeader from '@ui/utility/pageHeader';
+import IntlMessages from '@ui/utility/intlMessages';
+import auth from '@ui/auth';
+import Loader from '@ui/utility/loader';
+
 import TableStyle from './customStyle';
 import Data from './data';
-//import { tableinfo } from './configs';
 import SortView from './tableViews/sortView';
-import PageHeader from '@/components/utility/pageHeader';
-import IntlMessages from '@/components/utility/intlMessages';
 import wallet from '@/services/Wallet';
-import auth from '@/components/auth';
 
 export default class Wallet extends Component {
   constructor(props) {
@@ -17,8 +19,9 @@ export default class Wallet extends Component {
       dataList: false,
       paymentAddress: '',
       listBalances: false,
+      loading: true,
     }
-
+    
   }
 
   async componentDidMount(){
@@ -28,17 +31,14 @@ export default class Wallet extends Component {
     if(token){
       await this.getBalances();
     }
-
-    this.setState({auth: token});
+    
+    this.setState({auth: token, loading: false});
   }
 
   async getBalances(){
     let result = await wallet.getBalances();
     if(!result.error){
       let listBalances = result.ListBalances, paymentAddress = result.PaymentAddress;
-      // convert mili constant to constant
-      listBalances[0]["AvailableBalance"] = listBalances[0]["AvailableBalance"] / 1000
-      listBalances[0]["TotalBalance"] = listBalances[0]["TotalBalance"] / 1000
       for(let i in listBalances){
         listBalances[i].key = i;
       }
@@ -64,9 +64,12 @@ export default class Wallet extends Component {
       return <p><IntlMessages id="Market.DataNotFound" /></p>;
     }
   }
-
+  
   render() {
-    const { paymentAddress, listBalances } = this.state;
+    const { paymentAddress, listBalances, loading } = this.state;
+
+    if(loading)
+      return <Loader />;
 
     return (
       <LayoutWrapper>

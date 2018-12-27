@@ -3,16 +3,19 @@ import { connect } from 'react-redux';
 import clone from 'clone';
 import { Link } from 'react-router-dom';
 import { Layout } from 'antd';
-import Scrollbars from '@/components/utility/customScrollBar.js';
-import Menu from '@/components/uielements/menu';
-import IntlMessages from '@/components/utility/intlMessages';
+import Scrollbars from '@ui/utility/customScrollBar.js';
+import Menu from '@ui/uielements/menu';
+import IntlMessages from '@ui/utility/intlMessages';
 import SidebarWrapper from './sidebar.style';
 import appActions from '../../redux/app/actions';
-import Logo from '@/components/utility/logo';
-import themes from '../../settings/themes';
+import Logo from '@ui/utility/logo';
+import themes from '@/settings/themes';
 import { themeConfig } from '../../settings';
 import { Row, Col } from 'antd';
-import ContentHolder from '@/components/utility/contentHolder';
+import ContentHolder from '@ui/utility/contentHolder';
+import imgLogo from '@/image/logo.png';
+import { siteConfig } from '@/settings';
+import Popover from '@ui/uielements/popover';
 
 const SubMenu = Menu.SubMenu;
 const { Sider } = Layout;
@@ -42,23 +45,52 @@ const topMenus = [
     leftIcon: '',
   },
   {
-    key: 'exchange',
+    key: 'portal',
     label: 'sidebar.Portal',
     leftIcon: '',
   },
   {
-    key: 'exchange',
+    key: 'voting',
     label: 'sidebar.Voting',
     leftIcon: '',
-  }
+    children: [
+      {
+        label: 'sidebar.Voting',
+        key: '1'
+      },
+      {
+        label: 'sidebar.Voting',
+        key: '2'
+      },
+      {
+        label: 'sidebar.Voting',
+        key: '3'
+      }
+    ]
+  },
+  {
+    key: 'proposal',
+    label: 'sidebar.Proposal',
+    leftIcon: '',
+  },
 ];
 
 class Sidebar extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      isVoting: false,
+    };
+
     this.handleClick = this.handleClick.bind(this);
     this.onOpenChange = this.onOpenChange.bind(this);
   }
+
+  goSubMenu = (i) => {
+
+  }
+
+
   handleClick(e) {
     this.props.changeCurrent([e.key]);
     if (this.props.app.view === 'MobileView') {
@@ -91,29 +123,71 @@ class Sidebar extends Component {
     };
     return map[key] || [];
   };
+
+  listSubMenu(items){
+
+    return(
+      <div className="isoUserDropdown">
+        {items.map(i => {
+          return (
+            <a className="lnkLanguage" href="#" key={i.key} onClick={() => this.goSubMenu(i) }>
+              {i.label}
+            </a>
+          );
+        })}
+      </div>
+    );
+  }
+
   getMenuItem = ({ singleOption, submenuStyle, submenuColor }) => {
     const { key, label, children } = singleOption;
     const url = stripTrailingSlash(this.props.url);
-    if (children) {
+    
+    if (1 == 2  && children) {
+
       return (
-        <SubMenu
-          key={key}
-          title={
+
+        <Popover
+        content={this.listSubMenu(children)}
+        trigger="click"
+        visible={this.state.isVoting}
+        onVisibleChange={() => this.setState({ isVoting: !this.state.isVoting })}
+        arrowPointAtCenter={true}
+        placement="bottomLeft"
+      >
+        <Menu.Item key={key}>
+          <Link to={`/${key}`}>
             <span className="isoMenuHolder" style={submenuColor}>
               {/* <i className={leftIcon} /> */}
               <span className="nav-text">
                 <IntlMessages id={label} />
               </span>
             </span>
+          </Link>
+        </Menu.Item>
+      </Popover>
+      );
+
+      return (
+        
+        <SubMenu
+          className="ulSubmenu"
+          key={key}
+          title={
+            <span className="isoMenuHolder" style={submenuColor}>
+              <span className="nav-text">
+              <IntlMessages id={label} />
+              </span>
+            </span>
           }
         >
-          {children.map(child => {
+          {children.map(child => {console.log(child);
             const linkTo = child.withoutDashboard
               ? `/${child.key}`
               : `${url}/${child.key}`;
             return (
-              <Menu.Item style={submenuStyle} key={child.key}>
-                <Link style={submenuColor} to={linkTo}>
+              <Menu.Item style={submenuStyle} key={child.key} >
+                <Link style={submenuColor} to={`/${key}`}>
                   <IntlMessages id={child.label} />
                 </Link>
               </Menu.Item>
@@ -122,6 +196,7 @@ class Sidebar extends Component {
         </SubMenu>
       );
     }
+    
     return (
       <Menu.Item key={key}>
         <Link to={`/${key}`}>
@@ -177,10 +252,10 @@ class Sidebar extends Component {
         >
           <Row>
             <ContentHolder style={{ overflow: 'hidden', margin: 0 }}>
-              <Col lg={2} md={4} sm={6} xs={4} >
-              <Logo collapsed={collapsed} />
+              <Col lg={4} md={4} sm={6} xs={4} >
+              <Logo collapsed={collapsed} siteConfig={siteConfig} logo={imgLogo} />
               </Col>
-              <Col lg={22} md={20} sm={18} xs={20} >
+              <Col lg={20} md={20} sm={18} xs={20} >
               <Scrollbars style={{ height: 50 }}>
                 <Menu
                   onClick={this.handleClick}

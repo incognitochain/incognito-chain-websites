@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import LayoutWrapper from '@/components/utility/layoutWrapper.js';
-import IntlMessages from '@/components/utility/intlMessages';
-import ContentHolder from '@/components/utility/contentHolder';
-import Box from '@/components/utility/box';
-import exchange from '@/services/Exchange';
-
+import TradingViewWidget from 'react-tradingview-widget';
+import Websocket from 'react-websocket';
 import { Row, Col } from 'antd';
+
+import LayoutWrapper from '@ui/utility/layoutWrapper.js';
+import IntlMessages from '@ui/utility/intlMessages';
+import ContentHolder from '@ui/utility/contentHolder';
+import Box from '@ui/utility/box';
+import Loader from '@ui/utility/loader';
+
 import { TableStyle, rowStyle, colStyle, boxStyle } from './custom.style';
 
 import DataTradeHistory from './dataTradeHistory';
@@ -16,9 +19,7 @@ import TradeHistory from './table/tradeHistory';
 import OrderBook from './table/orderBook';
 import OrderForm from './table/orderForm';
 import OpenOrder from './table/openOrder';
-
-import TradingViewWidget from 'react-tradingview-widget';
-import Websocket from 'react-websocket';
+import exchange from '@/services/Exchange';
 
 
 export default class Exchange extends Component {
@@ -31,6 +32,7 @@ export default class Exchange extends Component {
       orderBookBuy: false,
       coinBase: '',
       coinUsing: '',
+      loading: true,
     }
     
   }
@@ -61,18 +63,20 @@ export default class Exchange extends Component {
       if(!openOrders){
         this.getOpenOrders();
       }
+
+      this.setState({loading: false})
     });
   }
 
   async getOpenOrders(){
-    let openOrders = await this.getData('openOrders');console.log('getOpenOrders', openOrders);
+    let openOrders = await this.getData('openOrders');
     this.setState({openOrders});
   }
 
   async getData(type){
     let result = false;
     
-    if(type == 'tradeHistory'){
+    if(type === 'tradeHistory'){
       result = await exchange.TradeHistory(this.state.symbolCode, 1, 10);
     }
     else{
@@ -176,8 +180,11 @@ export default class Exchange extends Component {
   }
 
   render() {
-    const { symbolCode, coinBase, coinUsing } = this.state;
+    const { symbolCode, coinBase, coinUsing, loading } = this.state;
   
+    if(loading)
+      return <Loader />;
+
     return (
       <LayoutWrapper style={{ padding: 0, height: 'calc(100vh - 120px)' }}>
         <Row style={rowStyle} gutter={16} justify="start">
