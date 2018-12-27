@@ -6,7 +6,7 @@ import {withRouter} from 'react-router-dom';
 
 class Root extends React.Component {
   static propTypes = {
-    // app: PropTypes.object.isRequired,
+    app: PropTypes.object.isRequired,
   }
 
   constructor(props) {
@@ -15,7 +15,7 @@ class Root extends React.Component {
   }
 
   render() {
-    // const { app } = this.props;
+    const {app} = this.props;
     return (
       <Router/>
     );
