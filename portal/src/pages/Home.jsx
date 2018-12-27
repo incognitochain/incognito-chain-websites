@@ -13,7 +13,7 @@ import LayoutWrapper from '@ui/utility/layoutWrapper.js';
 import {Row, Col, Modal as Modals} from 'antd';
 import basicStyle from '@/settings/basicStyle';
 import Box from '@ui/utility/box';
-import Button from '@ui/utility/button';
+import Button from '@ui/uielements/button';
 import IntlMessages from '@ui/utility/intlMessages';
 
 
@@ -38,7 +38,7 @@ class Home extends React.Component {
   render() {
     const {boards, user, loading} = this.state;
     const {rowStyle, colStyle, colStyle0, boxStyle0, boxStyleBg, gutter} = basicStyle;
-    debugger;
+    debugger
     return (
       <FixedContainer>
         <LayoutWrapper>
