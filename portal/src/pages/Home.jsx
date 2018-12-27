@@ -10,13 +10,15 @@ import {
   BioWrapper
 } from "@/styles/custom.style";
 import LayoutWrapper from '@ui/utility/layoutWrapper.js';
+import {Row, Col, Modal as Modals} from 'antd';
+import basicStyle from '@/settings/basicStyle';
+import Box from '@ui/utility/box';
+import Button from '@ui/utility/button';
+import IntlMessages from '@ui/utility/intlMessages';
 
 
 class Home extends React.Component {
-  static propTypes = {
-    // abc: PropTypes.object.isRequired,
-    // abcd: PropTypes.func.isRequired,
-  }
+  static propTypes = {}
 
   constructor(props) {
     super(props);
@@ -33,78 +35,101 @@ class Home extends React.Component {
     }
   }
 
-  /*renderOldHome(){
-    return (
-      <div className="home">
-        <div className="container">
-          <div className="row">
-            <div className="col-12 col-sm-8">
-              <div className="top-block c-card">
-
-              </div>
-            </div>
-            <div className="col-12 col-sm-4">
-              <div className="c-card">
-                <div className="desc">
-                  Wanna join the
-                  Constant network -
-                  the new era of internet?
-                </div>
-                <button className="c-btn c-btn-success" type="button">Create a proposal</button>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-12 col-sm-4">
-              <div className="c-card">
-                <div className="title">Apply GOV board</div>
-                <div className="desc">Control the new internet</div>
-                <button className="c-btn c-btn-primary" type="button">Apply now</button>
-              </div>
-            </div>
-            <div className="col-12 col-sm-4">
-              <div className="c-card">
-                <div className="title">Apply DCB Board</div>
-                <div className="desc">A decentralized bank</div>
-                <button className="c-btn c-btn-primary" type="button">Apply now</button>
-              </div>
-            </div>
-            <div className="col-12 col-sm-4">
-              <div className="c-card">
-                <div className="title">Apply MCB Board</div>
-                <div className="desc">Lorem ipsum ador</div>
-                <button className="c-btn c-btn-primary" type="button">Apply now</button>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-12">
-              <div className="c-card">
-                <table>
-                  <tbody>
-
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }*/
-
   render() {
-    const { boards, user, loading } = this.state;
+    const {boards, user, loading} = this.state;
+    const {rowStyle, colStyle, colStyle0, boxStyle0, boxStyleBg, gutter} = basicStyle;
+    debugger;
     return (
-      <LayoutWrapper style={{padding: 0, height: 'calc(100vh - 120px)'}}>
-        <ProposalBox className="mainBox"
-                     title={<MessageContent id="Portal.Home.BigBox.Hello"/>}
-                     subtitle={<span className="editBio" onClick={() => this.openEditBio()}>Edit</span>}>
+      <FixedContainer>
+        <LayoutWrapper>
+          <Row style={rowStyle} gutter={gutter} justify="start">
+            <Col md={16} sm={24} xs={24} style={colStyle} className="col">
+              <Box className="mainBox"
+                   title={<IntlMessages id="Portal.Home.BigBox.Hello"/>}
+                   subtitle={<span className="editBio" onClick={() => this.openEditBio()}>Edit</span>}>
+                {
+                  user && <div className="bio">{user.Bio}</div>
+                }
+              </Box>
+            </Col>
+            <Col md={8} sm={24} xs={24} style={colStyle} className="col">
+              <Box style={boxStyle0}>
+                <ProposalBox>
+                  <div className="desc">
+                    <IntlMessages id="Portal.Home.Proposal.Description"/>
+                    <br/><span className="create"><IntlMessages id="Common.CreateNewOne"/>.</span>
+                  </div>
+
+                  <div className="action">
+                    <Button type="default" className="btn" style={{marginBottom: '1rem'}}
+                            onClick={() => this.openProposal(1)}>
+                      <IntlMessages id="Proposal.CreateDCB"/>
+                    </Button>
+                    <Button type="default" className="btn" onClick={() => this.openProposal(2)}>
+                      <IntlMessages id="Proposal.CreateGOV"/>
+                    </Button>
+                  </div>
+                </ProposalBox>
+              </Box>
+            </Col>
+          </Row>
+          <Row style={rowStyle} gutter={gutter}>
+            {
+              boards.map(box => {
+                return (
+                  <Col md={8} sm={24} xs={24} style={colStyle} key={box.key} className="col">
+                    <Box style={boxStyleBg(box.background)} className="cardBoard"
+                         title={<IntlMessages id={box.title}/>}
+                         subtitle={<IntlMessages id={box.subTitle}/>}
+                    >
+                      {
+                        box.applied ?
+                          <Button className="btnApplied">
+                            <IntlMessages id="Common.Applied"/>
+                          </Button>
+                          :
+                          <Button className="btnApply" onClick={() => this.openApplyBoard(box)}>
+                            <IntlMessages id={box.btnText}/>
+                          </Button>
+                      }
+                    </Box>
+                  </Col>);
+              })
+            }
+          </Row>
+          <TableStyle className="isoLayoutContent">
+            <Tabs className="isoTableDisplayTab">
+              {tableinfos.map(tableInfo => (
+                <TabPane tab={tableInfo.title} key={tableInfo.value}>
+                  {this.renderTable(tableInfo)}
+                </TabPane>
+              ))}
+            </Tabs>
+          </TableStyle>
+          <ShareWrapper>
+            <h3><IntlMessages id="Common.Share"/></h3>
+            <Button type="default" className="">
+              <IntlMessages id="Common.Facebook"/>
+            </Button>
+            <Button type="default" className="">
+              <IntlMessages id="Common.Twitter"/>
+            </Button>
+            <Button type="default" className="">
+              <IntlMessages id="Common.CopyLink"/>
+            </Button>
+
+          </ShareWrapper>
           {
-            user && <div className="bio">{user.Bio}</div>
+            this.renderApplyBoard()
           }
-        </ProposalBox>
-      </LayoutWrapper>
+          {
+            this.renderEditBio()
+          }
+          {
+            this.renderProposal()
+          }
+        </LayoutWrapper>
+      </FixedContainer>
     );
   }
 }
