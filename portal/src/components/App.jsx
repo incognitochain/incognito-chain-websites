@@ -4,7 +4,7 @@ import { hot } from 'react-hot-loader';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'connected-react-router';
 
-import Header from '@/components/Header';
+import Topbar from './Topbar/Topbar';
 import Footer from '@/components/Footer';
 import Root from '@/components/Root';
 
@@ -24,7 +24,7 @@ class App extends React.Component {
       <Provider store={store}>
         <ConnectedRouter history={history}>
           <>
-            <Header />
+            <Topbar url={url} />
             <main className="main">
               <Root />
             </main>
