@@ -45,11 +45,6 @@ const topMenus = [
     leftIcon: '',
   },
   {
-    key: 'portal',
-    label: 'sidebar.Portal',
-    leftIcon: '',
-  },
-  {
     key: 'voting',
     label: 'sidebar.Voting',
     leftIcon: '',

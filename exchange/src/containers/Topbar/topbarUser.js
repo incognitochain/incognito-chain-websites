@@ -101,7 +101,7 @@ class TopbarUser extends Component {
       <Button type="primary" className="btnSignup" onClick={this.onSignup} >
         <IntlMessages id="topbar.Signup" />
       </Button>
-      
+
       <Popover
         content={this.popupLanguage}
         trigger="click"
@@ -121,6 +121,9 @@ class TopbarUser extends Component {
   get popupLogin(){
     return (
       <TopbarDropdownWrapper className="isoUserDropdown">
+        <a className="isoDropdownLink" href="/profile">
+          Profile
+        </a>
         <a className="isoDropdownLink" href="# ">
           <IntlMessages id="topbar.Settings" />
         </a>

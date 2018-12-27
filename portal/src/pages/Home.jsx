@@ -1,9 +1,14 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
-// import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import { TableStyle, FixedContainer, ProposalBox, ShareWrapper, ApplyBoardWrapper, MessageContent, BioWrapper } from "@/styles/custom.style";
+import {
+  TableStyle,
+  FixedContainer,
+  ProposalBox,
+  ShareWrapper,
+  ApplyBoardWrapper,
+  MessageContent,
+  BioWrapper
+} from "@/styles/custom.style";
 import LayoutWrapper from '@ui/utility/layoutWrapper.js';
 
 
@@ -22,12 +27,13 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    const { auth } = this.state;
+    const {auth} = this.state;
     if (!auth) {
       window.location.assign('http://auth.constant.money/login');
     }
   }
-  renderOldHome(){
+
+  /*renderOldHome(){
     return (
       <div className="home">
         <div className="container">
@@ -85,21 +91,20 @@ class Home extends React.Component {
         </div>
       </div>
     );
-  }
+  }*/
 
   render() {
+    const { boards, user, loading } = this.state;
     return (
-      <FixedContainer>
-        <LayoutWrapper>
-          <ProposalBox className="mainBox"
-                  title={<MessageContent id="Portal.Home.BigBox.Hello" />}
-                  subtitle={<span className="editBio" onClick={() => this.openEditBio()}>Edit</span>} >
-                  {
-                    user && <div className="bio">{user.Bio}</div>
-                  }
-          </ProposalBox>
-        </LayoutWrapper>
-      </FixedContainer>
+      <LayoutWrapper style={{padding: 0, height: 'calc(100vh - 120px)'}}>
+        <ProposalBox className="mainBox"
+                     title={<MessageContent id="Portal.Home.BigBox.Hello"/>}
+                     subtitle={<span className="editBio" onClick={() => this.openEditBio()}>Edit</span>}>
+          {
+            user && <div className="bio">{user.Bio}</div>
+          }
+        </ProposalBox>
+      </LayoutWrapper>
     );
   }
 }

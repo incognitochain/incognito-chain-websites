@@ -121,6 +121,9 @@ class TopbarUser extends Component {
   get popupLogin(){
     return (
       <TopbarDropdownWrapper className="isoUserDropdown">
+        <a className="isoDropdownLink" href="exchange.constant.money:3003/profile">
+          Profile
+        </a>
         <a className="isoDropdownLink" href="# ">
           <IntlMessages id="topbar.Settings" />
         </a>

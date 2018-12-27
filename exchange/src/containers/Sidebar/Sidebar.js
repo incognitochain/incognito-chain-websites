@@ -45,11 +45,6 @@ const topMenus = [
     leftIcon: '',
   },
   {
-    key: 'profile',
-    label: 'sidebar.Profile',
-    leftIcon: '',
-  },
-  {
     key: 'voting',
     label: 'sidebar.Voting',
     leftIcon: '',
