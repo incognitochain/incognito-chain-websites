@@ -4,6 +4,7 @@ import { ACTIONS as CONSTANT_ACTIONS } from '@/reducers/constant/action';
 
 export default (state = {
   isNotFound: false,
+  height: window.innerHeight,
 }, action) => {
   Log.Info('Redux action', action);
   switch (action.type) {

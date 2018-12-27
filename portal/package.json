@@ -78,6 +78,7 @@
     "react-router-dom": "^4.3.1",
     "react-smooth-scrollbar": "^8.0.6",
     "redux": "^4.0.0",
+    "redux-saga": "^0.16.2",
     "redux-thunk": "^2.3.0",
     "resolve-url-loader": "^3.0.0",
     "sass-loader": "^7.1.0",

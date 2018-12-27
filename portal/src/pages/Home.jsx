@@ -15,6 +15,7 @@ import basicStyle from '@/settings/basicStyle';
 import Box from '@ui/utility/box';
 import Button from '@ui/uielements/button';
 import IntlMessages from '@ui/utility/intlMessages';
+import Tabs, {TabPane} from '@ui/uielements/tabs';
 
 
 class Home extends React.Component {
@@ -38,7 +39,7 @@ class Home extends React.Component {
   render() {
     const {boards, user, loading} = this.state;
     const {rowStyle, colStyle, colStyle0, boxStyle0, boxStyleBg, gutter} = basicStyle;
-    debugger
+
     return (
       <FixedContainer>
         <LayoutWrapper>
@@ -75,7 +76,7 @@ class Home extends React.Component {
           </Row>
           <Row style={rowStyle} gutter={gutter}>
             {
-              boards.map(box => {
+              boards && boards.map(box => {
                 return (
                   <Col md={8} sm={24} xs={24} style={colStyle} key={box.key} className="col">
                     <Box style={boxStyleBg(box.background)} className="cardBoard"
@@ -99,11 +100,6 @@ class Home extends React.Component {
           </Row>
           <TableStyle className="isoLayoutContent">
             <Tabs className="isoTableDisplayTab">
-              {tableinfos.map(tableInfo => (
-                <TabPane tab={tableInfo.title} key={tableInfo.value}>
-                  {this.renderTable(tableInfo)}
-                </TabPane>
-              ))}
             </Tabs>
           </TableStyle>
           <ShareWrapper>
@@ -119,15 +115,6 @@ class Home extends React.Component {
             </Button>
 
           </ShareWrapper>
-          {
-            this.renderApplyBoard()
-          }
-          {
-            this.renderEditBio()
-          }
-          {
-            this.renderProposal()
-          }
         </LayoutWrapper>
       </FixedContainer>
     );

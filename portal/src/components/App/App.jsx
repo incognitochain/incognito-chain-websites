@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {hot} from 'react-hot-loader';
 import {IntlProvider} from 'react-intl';
 import {Layout, LocaleProvider} from 'antd';
+import {connect} from 'react-redux';
 import {Provider} from 'react-redux';
 import {ConnectedRouter} from 'connected-react-router';
 import Topbar from '../Topbar/Topbar';
@@ -17,6 +18,9 @@ import {themeConfig} from '../../settings';
 import AppHolder from './commonStyle';
 import Root from "./Root";
 import {siteConfig} from '../../settings';
+import config, {
+  getCurrentLanguage
+} from "@/components/LanguageSwitcher/config";
 
 const {Content, Footer} = Layout;
 const {logout} = authAction;
@@ -31,8 +35,11 @@ class App extends React.Component {
 
   render() {
     const url = window.location.href;
-    const currentAppLocale = AppLocale['en'];
-    const {locale, selectedTheme, height} = this.props;
+    const {selectedTheme, height} = this.props;
+    const currentAppLocale = AppLocale[getCurrentLanguage(config.defaultLanguage || "english").locale];
+    ;
+    const appHeight = window.innerHeight;
+
     return (
       <Provider store={store}>
         <ConnectedRouter history={history}>
@@ -43,15 +50,17 @@ class App extends React.Component {
             >
               <ThemeProvider theme={themes[themeConfig.theme]}>
                 <AppHolder>
-                  <Topbar url={url}/>
-                  <Layout className="isoContentMainLayout" style={{height: height}}>
-                    <Layout className="isoContentMainLayout" style={{height: height}}>
-                      <Content className="isomorphicContent" style={{...customizedTheme.content}}>
-                        <Root></Root>
-                      </Content>
-                      <Footer style={{...customizedTheme.footer}}>
-                        {siteConfig.footerText}
-                      </Footer>
+                  <Layout style={{height: appHeight}}>
+                    <Topbar url={url}/>
+                    <Layout style={{flexDirection: 'row', overflowX: 'hidden'}}>
+                      <Layout className="isoContentMainLayout" style={{height: height}}>
+                        <Content className="isomorphicContent" style={{...customizedTheme.content}}>
+                          <Root></Root>
+                        </Content>
+                        <Footer style={{...customizedTheme.footer}}>
+                          {siteConfig.footerText}
+                        </Footer>
+                      </Layout>
                     </Layout>
                   </Layout>
                 </AppHolder>
@@ -63,5 +72,15 @@ class App extends React.Component {
     );
   }
 }
+/*
+export default connect(
+  state => ({
+    auth: state.Auth,
+    locale: state.LanguageSwitcher.language.locale,
+    selectedTheme: state.ThemeSwitcher.changeThemes.themeName,
+    height: state.App.height
+  }),
+  {logout, toggleAll}
+)(App);*/
 
 export default hot(module)(App);
