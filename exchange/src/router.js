@@ -26,7 +26,7 @@ const PublicRoutes = ({ history, isLoggedIn }) => {
         />
         <Route
           exact
-          path={'/portal'}
+          path={'/profile'}
           component={App}
         />
         <Route

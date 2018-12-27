@@ -45,8 +45,8 @@ const topMenus = [
     leftIcon: '',
   },
   {
-    key: 'portal',
-    label: 'sidebar.Portal',
+    key: 'profile',
+    label: 'sidebar.Profile',
     leftIcon: '',
   },
   {

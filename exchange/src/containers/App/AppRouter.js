@@ -38,8 +38,8 @@ class AppRouter extends Component {
         />
         <Route
           exact
-          path={'/portal'}
-          component={asyncComponent(() => import('@/containers/Portal'))}
+          path={'/profile'}
+          component={asyncComponent(() => import('@/containers/Profile'))}
         />
         <Route
           exact
