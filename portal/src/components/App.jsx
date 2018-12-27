@@ -22,7 +22,6 @@ class App extends React.Component {
   render() {
     const url = window.location.href;
     const currentAppLocale = AppLocale['en'];
-    debugger
     return (
       <Provider store={store}>
         <ConnectedRouter history={history}>
@@ -42,6 +41,6 @@ class App extends React.Component {
       </Provider>
     );
   }
-}getMenuItem
+}
 
 export default hot(module)(App);
