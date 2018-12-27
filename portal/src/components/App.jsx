@@ -20,6 +20,8 @@ class App extends React.Component {
   }
 
   render() {
+    debugger
+    const { url } = window.location.href;
     return (
       <Provider store={store}>
         <ConnectedRouter history={history}>
