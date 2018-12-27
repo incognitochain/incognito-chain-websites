@@ -91,13 +91,13 @@ class Home extends React.Component {
     return (
       <FixedContainer>
         <LayoutWrapper>
-          <Box className="mainBox"
-                  title={<IntlMessages id="Portal.Home.BigBox.Hello" />}
+          <ProposalBox className="mainBox"
+                  title={<MessageContent id="Portal.Home.BigBox.Hello" />}
                   subtitle={<span className="editBio" onClick={() => this.openEditBio()}>Edit</span>} >
                   {
                     user && <div className="bio">{user.Bio}</div>
                   }
-          </Box>
+          </ProposalBox>
         </LayoutWrapper>
       </FixedContainer>
     );
