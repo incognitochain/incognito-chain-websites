@@ -3,6 +3,9 @@ import React from 'react';
 // import { connect } from 'react-redux';
 // import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import { TableStyle, FixedContainer, ProposalBox, ShareWrapper, ApplyBoardWrapper, MessageContent, BioWrapper } from "@/styles/custom.style";
+import LayoutWrapper from '@ui/utility/layoutWrapper.js';
+
 
 class Home extends React.Component {
   static propTypes = {
@@ -24,8 +27,7 @@ class Home extends React.Component {
       window.location.assign('http://auth.constant.money/login');
     }
   }
-
-  render() {
+  renderOldHome(){
     return (
       <div className="home">
         <div className="container">
@@ -82,6 +84,22 @@ class Home extends React.Component {
           </div>
         </div>
       </div>
+    );
+  }
+
+  render() {
+    return (
+      <FixedContainer>
+        <LayoutWrapper>
+          <Box className="mainBox"
+                  title={<IntlMessages id="Portal.Home.BigBox.Hello" />}
+                  subtitle={<span className="editBio" onClick={() => this.openEditBio()}>Edit</span>} >
+                  {
+                    user && <div className="bio">{user.Bio}</div>
+                  }
+          </Box>
+        </LayoutWrapper>
+      </FixedContainer>
     );
   }
 }

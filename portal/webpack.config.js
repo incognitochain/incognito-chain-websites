@@ -133,7 +133,10 @@ module.exports = function webpackConfig(env, argv = {}) {
         globalObject: 'this',
       },
       resolve: {
-        alias: { '@': appPath('src') },
+        alias: {
+          '@': appPath('src'),
+          '@ui': appPath('src/__ui/components'),
+        },
         extensions: ['.js', '.jsx', '.scss'],
         modules: [appPath('node_modules')],
       },
