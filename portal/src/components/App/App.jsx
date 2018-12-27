@@ -16,7 +16,7 @@ import themes from '@/settings/themes';
 import {themeConfig} from '../../settings';
 import AppHolder from './commonStyle';
 import Root from "./Root";
-import { siteConfig } from '../../settings';
+import {siteConfig} from '../../settings';
 
 const {Content, Footer} = Layout;
 const {logout} = authAction;

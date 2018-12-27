@@ -1,8 +1,8 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import Router from '@/components/Router';
-import { withRouter } from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 
 class Root extends React.Component {
   static propTypes = {
@@ -17,11 +17,9 @@ class Root extends React.Component {
   render() {
     // const { app } = this.props;
     return (
-      <>
-        <Router />
-      </>
+      <Router/>
     );
   }
 }
 
-export default withRouter(connect(state => ({ app: state.app }))(Root));
+export default withRouter(connect(state => ({app: state.app}))(Root));
