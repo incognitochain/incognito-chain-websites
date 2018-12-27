@@ -26,3 +26,5 @@ yarn-debug.log*
 yarn-error.log*
 .firebaserc
 firebase-debug.log
+
+.idea
