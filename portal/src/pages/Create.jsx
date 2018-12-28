@@ -55,14 +55,17 @@ class ComponentName extends React.Component {
 
   timeConverter(UNIX_timestamp) {
     var a = new Date(UNIX_timestamp * 1000);
-    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    var months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
     var year = a.getFullYear();
     var month = months[a.getMonth()];
     var date = a.getDate();
+    if (date < 10) {
+      date = "0" + date
+    }
     var hour = a.getHours();
     var min = a.getMinutes();
     var sec = a.getSeconds();
-    var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
+    var time = date + '-' + month + '-' + year// + '-' + hour + ':' + min + ':' + sec;
     return time;
   }
 
@@ -101,7 +104,6 @@ class ComponentName extends React.Component {
 
   render() {
     const {loanParams, collateralAmount, maturity} = this.state;
-    debugger;
     return (
       <div className="create">
         <div className="container">
