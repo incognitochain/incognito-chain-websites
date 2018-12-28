@@ -21,6 +21,7 @@ import WithDirection from "@/settings/withDirection";
 import ModalStyle  from "./modal.style";
 import Input, { InputGroup, Textarea } from '@ui/uielements/input';
 import Alert from "@ui/feedback/alert";
+import BioInfo from '@/modules/Home/BioInfo';
 
 import bgGOV from '@/image/portal-bg-gov.png';
 import bgDCB from '@/image/portal-bg-dcb.png';
@@ -227,13 +228,9 @@ class Home extends React.Component {
 
     return (
       <Col md={16} sm={24} xs={24} style={colStyle} className="col">
-        <Box className="mainBox"
-            title={<IntlMessages id="Portal.Home.BigBox.Hello"/>}
-            subtitle={<span className="editBio" onClick={() => this.openEditBio()}>Edit</span>}>
-          {
-            user && <div className="bio">{user.Bio}</div>
-          }
-        </Box>
+        <BioInfo
+          user={user}
+        />
       </Col>
     );
   }
