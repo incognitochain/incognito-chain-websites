@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { palette } from 'styled-theme';
 import WithDirection from "@/settings/withDirection";
-import bgImage from '@/assets/portal-proposal-bg.png';
+import bgImage from '@/image/portal-proposal-bg.png';
 import {
   borderRadius,
 } from '@/settings/style-util';
@@ -45,7 +45,8 @@ const TableStyle = styled.div`
 const ProposalBox = styled.div`
   background: url(${bgImage}) no-repeat center right;
   background-color: none;
-  height: 276px;
+  height: 284px;
+  width: 411px;
   padding: 1rem 1.5rem;
   ${borderRadius('5px')};
 

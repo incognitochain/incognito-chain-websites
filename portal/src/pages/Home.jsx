@@ -22,6 +22,7 @@ import ModalStyle  from "./modal.style";
 import Input, { InputGroup, Textarea } from '@ui/uielements/input';
 import Alert from "@ui/feedback/alert";
 import BioInfo from '@/modules/Home/BioInfo';
+import RequestBanner from '../modules/Home/RequestBanner';
 
 import bgGOV from '@/image/portal-bg-gov.png';
 import bgDCB from '@/image/portal-bg-dcb.png';
@@ -241,25 +242,8 @@ class Home extends React.Component {
     const {rowStyle, colStyle, colStyle0, boxStyle0, boxStyleBg, gutter} = basicStyle;
 
     return (
-      <Col md={8} sm={24} xs={24} style={colStyle} className="col">
-            <Box style={boxStyle0}>
-              <ProposalBox>
-                <div className="desc">
-                  <IntlMessages id="Portal.Home.Proposal.Description"/>
-                  <br/><span className="create"><IntlMessages id="Common.CreateNewOne"/>.</span>
-                </div>
-
-                <div className="action">
-                  <Button type="default" className="btn" style={{marginBottom: '1rem'}}
-                          onClick={() => this.openProposal(1)}>
-                    <IntlMessages id="Proposal.CreateDCB"/>
-                  </Button>
-                  <Button type="default" className="btn" onClick={() => this.openProposal(2)}>
-                    <IntlMessages id="Proposal.CreateGOV"/>
-                  </Button>
-                </div>
-              </ProposalBox>
-            </Box>
+      <Col md={8} sm={24} xs={24} style={colStyle}>
+          <RequestBanner />
       </Col>
     );
   }

@@ -61,7 +61,7 @@ class BioInfo extends Component {
     return (
       <Box className="mainBox"
           title={this.getTitle(user)}
-          subtitle={<span className="editBio" onClick={() => console.log('Click Box Bio Info')}>Edit</span>}>
+      >
         <Row>
           {this.renderBioInfoMoney(availableLoan)}
           {this.renderBioInfoMoney(lended)}
