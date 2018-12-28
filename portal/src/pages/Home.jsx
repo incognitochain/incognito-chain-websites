@@ -25,6 +25,7 @@ import Alert from "@ui/feedback/alert";
 import bgGOV from '@/image/portal-bg-gov.png';
 import bgDCB from '@/image/portal-bg-dcb.png';
 import bgCMB from '@/image/portal-bg-cmb.png';
+import {connect} from "react-redux";
 
 const Modal = WithDirection(ModalStyle(Modals));
 
@@ -334,7 +335,8 @@ class Home extends React.Component {
 
 
   render() {
-    const {boards, user, loading} = this.state;
+    const {auth} = this.state;
+    debugger
     const {rowStyle, colStyle, colStyle0, boxStyle0, boxStyleBg, gutter} = basicStyle;
     return (
       <FixedContainer>
@@ -361,4 +363,11 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+export default connect(
+  state => ({
+    auth: state.Auth,
+    locale: state.LanguageSwitcher.language.locale,
+    selectedTheme: state.ThemeSwitcher.changeThemes.themeName,
+    height: state.App.height
+  }),
+)(Home);
