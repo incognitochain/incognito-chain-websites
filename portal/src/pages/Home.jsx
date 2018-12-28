@@ -215,10 +215,26 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
-    // const {auth} = this.state;
-    // if (!auth) {
-    //   window.location.assign('http://auth.constant.money/login');
-    // }
+    const {auth} = this.state;
+    if (!auth) {
+      window.location.assign('http://auth.constant.money/login');
+    }
+  }
+  renderBioInfo() {
+    const {boards, user, loading} = this.state;
+    const {rowStyle, colStyle, colStyle0, boxStyle0, boxStyleBg, gutter} = basicStyle;
+
+    return (
+      <Col md={16} sm={24} xs={24} style={colStyle} className="col">
+        <Box className="mainBox"
+            title={<IntlMessages id="Portal.Home.BigBox.Hello"/>}
+            subtitle={<span className="editBio" onClick={() => this.openEditBio()}>Edit</span>}>
+          {
+            user && <div className="bio">{user.Bio}</div>
+          }
+        </Box>
+      </Col>
+    );
   }
 
   render() {
@@ -228,15 +244,7 @@ class Home extends React.Component {
       <FixedContainer>
         <LayoutWrapper>
           <Row style={rowStyle} gutter={gutter} justify="start">
-            <Col md={16} sm={24} xs={24} style={colStyle} className="col">
-              <Box className="mainBox"
-                   title={<IntlMessages id="Portal.Home.BigBox.Hello"/>}
-                   subtitle={<span className="editBio" onClick={() => this.openEditBio()}>Edit</span>}>
-                {
-                  user && <div className="bio">{user.Bio}</div>
-                }
-              </Box>
-            </Col>
+            {this.renderBioInfo()}
             <Col md={8} sm={24} xs={24} style={colStyle} className="col">
               <Box style={boxStyle0}>
                 <ProposalBox>
