@@ -19,6 +19,7 @@ class ComponentName extends React.Component {
       loanParams: false,
       choosenLoanParam: {},
       collateralAmount: 0.0,
+      maturity: "",
     };
 
   }
@@ -36,11 +37,36 @@ class ComponentName extends React.Component {
   }
 
   chooseInterestRate(loanParam) {
+    const maturity = loanParam.Maturity // in block time
+    const maturityInSecond = maturity * (10 * 160) // 10 minutes for a new block // TODO
+    var now = new Date()
+    var nowInSecond = (now / 1000 | 0)
+    nowInSecond += (maturityInSecond - 3600)
+
+    var maturityDate = this.timeConverter(nowInSecond)
+
     this.setState({
       choosenLoanParam: loanParam,
+      maturity: maturityDate,
     });
     console.log("chosen loan param");
     console.log(loanParam);
+  }
+
+  timeConverter(UNIX_timestamp) {
+    var a = new Date(UNIX_timestamp * 1000);
+    var months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+    var year = a.getFullYear();
+    var month = months[a.getMonth()];
+    var date = a.getDate();
+    if (date < 10) {
+      date = "0" + date
+    }
+    var hour = a.getHours();
+    var min = a.getMinutes();
+    var sec = a.getSeconds();
+    var time = date + '-' + month + '-' + year// + '-' + hour + ':' + min + ':' + sec;
+    return time;
   }
 
   changeLoanAmount(self, event) {
@@ -77,7 +103,7 @@ class ComponentName extends React.Component {
   }
 
   render() {
-    const {loanParams, collateralAmount} = this.state;
+    const {loanParams, collateralAmount, maturity} = this.state;
     return (
       <div className="create">
         <div className="container">
@@ -106,16 +132,16 @@ class ComponentName extends React.Component {
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-12 col-md-4">
+                  {/*<div className="col-12 col-md-4">
                     <label>
                       START DATE
-                      <DatePicker/>
+                      <DatePicker onChan/>
                     </label>
-                  </div>
+                  </div>*/}
                   <div className="col-12 col-md-4">
                     <label>
-                      END DATE
-                      <input type="text" className="c-input c-block"/>
+                      Maturity
+                      <Input disabled={true} value={maturity}></Input>
                     </label>
                   </div>
                   <div className="col-12 col-md-4">
