@@ -11,7 +11,7 @@ import {connect} from 'react-redux';
 import Loading from './Loading';
 
 const Home = createDynamicImport(() => import('@/pages/Home'), Loading);
-const Create = createDynamicImport(() => import('@/pages/Create'), Loading);
+const Create = createDynamicImport(() => import('@/pages/Create/index'), Loading);
 
 const routers = [
   {path: '/', exact: true, component: Home},

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import Input, {InputGroup, Textarea} from '@ui/uielements/input';
-import Portal from '../services/portal'
+import Portal from '../../services/portal'
 import Button from '@ui/uielements/button';
 import DatePicker from '@ui/uielements/datePicker'
 
@@ -20,6 +20,7 @@ class ComponentName extends React.Component {
       choosenLoanParam: {},
       collateralAmount: 0.0,
       maturity: "",
+      collateralType: "ETH",
     };
 
   }
@@ -34,6 +35,12 @@ class ComponentName extends React.Component {
 
   componentWillMount() {
 
+  }
+
+  chooseCollateralType(type) {
+    this.setState({
+      collateralType: type,
+    })
   }
 
   chooseInterestRate(loanParam) {
@@ -74,19 +81,40 @@ class ComponentName extends React.Component {
     const {choosenLoanParam} = self.state
     const LiquidationStart = choosenLoanParam.LiquidationStart
     if (LiquidationStart !== undefined) {
-      var oracleRate = 118;
-      var collateralAmount = (((parseInt(val) / oracleRate) * LiquidationStart) / 100).toFixed(2);
+      var oracleRate = {'ETH': 118, 'BTC': 3674};
+      var fix = {'ETH': 2, 'BTC': 10}
+      const collateralType = self.state.collateralType
+      var rate = oracleRate[collateralType];
+      debugger
+      var collateralAmount = ((parseInt(val) / rate) * (LiquidationStart / 10000)).toFixed(fix[collateralType]);
       this.setState({
         collateralAmount: collateralAmount,
       });
     }
   }
 
+  renderCollateralType() {
+    return (
+      <div>
+        <Button onClick={() => {
+          this.chooseCollateralType("ETH")
+        }}>
+          ETH
+        </Button>
+        <Button disabled={true} onClick={() => {
+          this.chooseCollateralType("BTC")
+        }}>
+          BTC
+        </Button>
+      </div>
+    )
+  }
+
   renderInterestRates(loanParams) {
     if (loanParams !== undefined && loanParams != false) {
       var indents = loanParams.map((value, i) => {
         return (
-          <Button type="" className="" onClick={() => {
+          <Button type="" className="interest" onClick={() => {
             this.chooseInterestRate(value)
           }}>
             {(value.InterestRate / 100)} %
@@ -103,7 +131,7 @@ class ComponentName extends React.Component {
   }
 
   render() {
-    const {loanParams, collateralAmount, maturity} = this.state;
+    const {loanParams, collateralAmount, maturity, collateralType} = this.state;
     return (
       <div className="create">
         <div className="container">
@@ -120,7 +148,7 @@ class ComponentName extends React.Component {
                 <div className="row">
                   <div className="col-12 col-md-4">
                     <h3>CHOOSE YOUR COLLATERAL</h3>
-                    <input type="text" className="c-input c-block"/>
+                    {this.renderCollateralType()}
                   </div>
                   <div className="col-12 col-md-4">
                     <h3>ENTER LOAN AMOUNT</h3>
@@ -128,7 +156,7 @@ class ComponentName extends React.Component {
                   </div>
                   <div className="col-12 col-md-4">
                     <h3>COLLATERAL AMOUNT</h3>
-                    <Input disabled={true} type="number" value={collateralAmount}></Input>
+                    <Input disabled={true} type="number" value={collateralAmount}></Input>{collateralType}
                   </div>
                 </div>
                 <div className="row">
