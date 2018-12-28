@@ -265,6 +265,72 @@ class Home extends React.Component {
       </Col>
     );
   }
+  renderInfoItem(box) {
+    const {boards, user, loading} = this.state;
+    const {rowStyle, colStyle, colStyle0, boxStyle0, boxStyleBg, gutter} = basicStyle;
+    return (
+      <Col md={8} sm={24} xs={24} style={colStyle} key={box.key} className="col">
+        <Box style={boxStyleBg(box.background)} className="cardBoard"
+            title={<IntlMessages id={box.title}/>}
+            subtitle={<IntlMessages id={box.subTitle}/>}
+        >
+          {
+            box.applied ?
+              <Button className="btnApplied">
+                <IntlMessages id="Common.Applied"/>
+              </Button>
+              :
+              <Button className="btnApply" onClick={() => this.openApplyBoard(box)}>
+                <IntlMessages id={box.btnText}/>
+              </Button>
+          }
+        </Box>
+      </Col>);
+  }
+
+  renderInformation() {
+    const { boards } = this.state;
+    const { rowStyle, gutter } = basicStyle;
+    return (
+      <Row style={rowStyle} gutter={gutter}>
+        {
+          boards.map(box => this.renderInfoItem(box))
+        }
+      </Row>
+    );
+  }
+
+  renderListRequest() {
+    return (
+      <TableStyle className="isoLayoutContent">
+        <Tabs className="isoTableDisplayTab">
+          {/*tableinfos.map(tableInfo => (
+            <TabPane tab={tableInfo.title} key={tableInfo.value}>
+              {this.renderTable(tableInfo)}
+            </TabPane>
+          ))*/}
+        </Tabs>
+      </TableStyle>
+    );
+  }
+
+  renderShare() {
+    return (
+      <ShareWrapper>
+        <h3><IntlMessages id="Common.Share"/></h3>
+        <Button type="default" className="">
+          <IntlMessages id="Common.Facebook"/>
+        </Button>
+        <Button type="default" className="">
+          <IntlMessages id="Common.Twitter"/>
+        </Button>
+        <Button type="default" className="">
+          <IntlMessages id="Common.CopyLink"/>
+        </Button>
+
+    </ShareWrapper>
+    );
+  }
 
 
   render() {
@@ -277,52 +343,9 @@ class Home extends React.Component {
             {this.renderBioInfo()}
             {this.renderBanner()}
           </Row>
-          <Row style={rowStyle} gutter={gutter}>
-            {
-              boards.map(box => {
-                return (
-                  <Col md={8} sm={24} xs={24} style={colStyle} key={box.key} className="col">
-                    <Box style={boxStyleBg(box.background)} className="cardBoard"
-                         title={<IntlMessages id={box.title}/>}
-                         subtitle={<IntlMessages id={box.subTitle}/>}
-                    >
-                      {
-                        box.applied ?
-                          <Button className="btnApplied">
-                            <IntlMessages id="Common.Applied"/>
-                          </Button>
-                          :
-                          <Button className="btnApply" onClick={() => this.openApplyBoard(box)}>
-                            <IntlMessages id={box.btnText}/>
-                          </Button>
-                      }
-                    </Box>
-                  </Col>);
-              })
-            }
-          </Row>
-          <TableStyle className="isoLayoutContent">
-            <Tabs className="isoTableDisplayTab">
-              {/*tableinfos.map(tableInfo => (
-                <TabPane tab={tableInfo.title} key={tableInfo.value}>
-                  {this.renderTable(tableInfo)}
-                </TabPane>
-              ))*/}
-            </Tabs>
-          </TableStyle>
-          <ShareWrapper>
-            <h3><IntlMessages id="Common.Share"/></h3>
-            <Button type="default" className="">
-              <IntlMessages id="Common.Facebook"/>
-            </Button>
-            <Button type="default" className="">
-              <IntlMessages id="Common.Twitter"/>
-            </Button>
-            <Button type="default" className="">
-              <IntlMessages id="Common.CopyLink"/>
-            </Button>
-
-          </ShareWrapper>
+          {this.renderInformation()}
+          {this.renderListRequest()}
+          {this.renderShare()}
           {
             this.renderApplyBoard()
           }
