@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {hot} from 'react-hot-loader';
 import {IntlProvider} from 'react-intl';
 import {Layout, LocaleProvider} from 'antd';
-import {connect} from 'react-redux';
+// import {connect} from 'react-redux';
 import {Provider} from 'react-redux';
 import {ConnectedRouter} from 'connected-react-router';
 import Topbar from '../Topbar/Topbar';
@@ -72,6 +72,7 @@ class App extends React.Component {
     );
   }
 }
+
 /*
 export default connect(
   state => ({

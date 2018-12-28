@@ -36,6 +36,7 @@ export function* logout() {
   });
 }
 export function* checkAuthorization() {
+  console.log(111111);
   yield takeEvery(actions.CHECK_AUTHORIZATION, function*() {
     const token = getToken().get('idToken');
     if (token) {

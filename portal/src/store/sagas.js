@@ -1,12 +1,6 @@
-/*
-import { all } from 'redux-saga/effects';
-import authSagas from './auth/saga';
-import mailSagas from './mail/saga';
+import {spawn} from 'redux-saga/effects';
+import authSagas from '../reducers/auth/saga';
 
-export default function* rootSaga(getState) {
-  yield all([
-    mailSagas(),
-    authSagas()
-  ]);
+export default function* rootSaga() {
+  yield spawn(authSagas);
 }
-*/

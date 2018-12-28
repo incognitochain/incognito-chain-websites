@@ -1,7 +1,8 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
-// import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
+import Input, {InputGroup, Textarea} from '@ui/uielements/input';
 
 class ComponentName extends React.Component {
   static propTypes = {
@@ -31,34 +32,34 @@ class ComponentName extends React.Component {
                 <div className="row">
                   <div className="col-12 col-md-4">
                     <h3>CHOOSE YOUR COLLATERAL</h3>
-                    <input type="text" className="c-input c-block" />
+                    <input type="text" className="c-input c-block"/>
                   </div>
                   <div className="col-12 col-md-4">
                     <h3>ENTER LOAN AMOUNT</h3>
-                    <input type="text" className="c-input c-block" />
+                    <input type="text" className="c-input c-block"/>
                   </div>
                   <div className="col-12 col-md-4">
                     <h3>COLLATERAL AMOUNT</h3>
-                    <input type="text" className="c-input c-block" />
+                    <input type="text" className="c-input c-block"/>
                   </div>
                 </div>
                 <div className="row">
                   <div className="col-12 col-md-4">
                     <label>
                       START DATE
-                      <input type="text" className="c-input c-block" />
+                      <input type="text" className="c-input c-block"/>
                     </label>
                   </div>
                   <div className="col-12 col-md-4">
                     <label>
                       END DATE
-                      <input type="text" className="c-input c-block" />
+                      <input type="text" className="c-input c-block"/>
                     </label>
                   </div>
                   <div className="col-12 col-md-4">
                     <label>
                       INTEREST RATE
-                      <input type="text" className="c-input c-block" />
+                      <input type="text" className="c-input c-block"/>
                     </label>
                   </div>
                 </div>
