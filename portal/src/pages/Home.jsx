@@ -336,7 +336,6 @@ class Home extends React.Component {
 
   render() {
     const {auth} = this.state;
-    debugger
     const {rowStyle, colStyle, colStyle0, boxStyle0, boxStyleBg, gutter} = basicStyle;
     return (
       <FixedContainer>
