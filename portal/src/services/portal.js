@@ -49,4 +49,34 @@ export default class Portal {
 
     return false;
   }
+
+  static async createLoanRequest(startDate, endDate, params, loanID, colType, colAmount, loanAmount, keyDigest) {
+    var data = {
+      "StartDate": startDate,
+      "EndDate": endDate,
+      "LoanRequest": {
+        "Params": params,
+        "LoanID": loanID,
+        "CollateralType": colType,
+        "CollateralAmount": colAmount,
+        "LoanAmount": loanAmount,
+        "ReceiveAddress": "",
+        "KeyDigest": keyDigest,
+      }
+    }
+    try {
+      const response = await
+      axios(Portal.getOption({func: `/portal/borrows`, data: data, method: "POST"}));
+      if (response.status === 200) {
+        if (response.data && response.data.Result) {
+          return response.data.Result;
+        }
+      }
+    }
+    catch (e) {
+      return {error: true, message: e.message};
+    }
+
+    return false;
+  }
 }

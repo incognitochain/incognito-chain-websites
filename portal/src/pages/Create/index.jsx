@@ -6,6 +6,7 @@ import Input, {InputGroup, Textarea} from '@ui/uielements/input';
 import Portal from '../../services/portal'
 import Button from '@ui/uielements/button';
 import DatePicker from '@ui/uielements/datePicker'
+import moment from 'moment'
 
 class ComponentName extends React.Component {
   static propTypes = {
@@ -19,6 +20,7 @@ class ComponentName extends React.Component {
       loanParams: false,
       choosenLoanParam: {},
       collateralAmount: 0.0,
+      loanAmount: 0,
       maturity: "",
       collateralType: "ETH",
     };
@@ -29,6 +31,7 @@ class ComponentName extends React.Component {
     Portal.getLoanParams().then((loanParams) => {
       this.setState({
         loanParams: loanParams,
+        choosenLoanParam: loanParams[0],
       });
     })
   }
@@ -45,7 +48,7 @@ class ComponentName extends React.Component {
 
   chooseInterestRate(loanParam) {
     const maturity = loanParam.Maturity // in block time
-    const maturityInSecond = maturity * (10 * 160) // 10 minutes for a new block // TODO
+    const maturityInSecond = maturity * (0.1 * 60) // 10 minutes for a new block // TODO
     var now = new Date()
     var nowInSecond = (now / 1000 | 0)
     nowInSecond += (maturityInSecond - 3600)
@@ -58,6 +61,21 @@ class ComponentName extends React.Component {
     });
     console.log("chosen loan param");
     console.log(loanParam);
+  }
+
+  submitLoanRequest() {
+    const startDate = moment().format("YYYY-MM-DD")
+    const endDate = moment(this.state.maturity, "DD-MM-YYYY").format("YYYY-MM-DD")
+    // const endDate = this.timeConverter((Date.parse(this.state.maturity)))
+    const params = this.state.choosenLoanParam
+    const loanID = 1 + ""
+    const colType = this.state.collateralType
+    const colAmount = this.state.collateralAmount + ""
+    const loanAmount = this.state.loanAmount * 100 // format nano constant
+    const keyDigest = "";
+    Portal.createLoanRequest(startDate, endDate, params, loanID, colType, colAmount, loanAmount, keyDigest).then((result) => {
+      debugger
+    })
   }
 
   timeConverter(UNIX_timestamp) {
@@ -85,10 +103,10 @@ class ComponentName extends React.Component {
       var fix = {'ETH': 2, 'BTC': 10}
       const collateralType = self.state.collateralType
       var rate = oracleRate[collateralType];
-      debugger
       var collateralAmount = ((parseInt(val) / rate) * (LiquidationStart / 10000)).toFixed(fix[collateralType]);
       this.setState({
         collateralAmount: collateralAmount,
+        loanAmount: parseInt(val),
       });
     }
   }
@@ -183,7 +201,7 @@ class ComponentName extends React.Component {
                   I certify that I am 18 years of age or older,
                   and I agree to the Terms & Conditions.
                 </p>
-                <button className="c-btn c-btn-primary" type="button">Summit</button>
+                <Button className="c-btn c-btn-primary" onClick={() => this.submitLoanRequest()}>Summit</Button>
               </div>
             </div>
           </div>
