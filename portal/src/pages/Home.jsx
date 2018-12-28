@@ -220,6 +220,7 @@ class Home extends React.Component {
       window.location.assign('http://auth.constant.money/login');
     }
   }
+
   renderBioInfo() {
     const {boards, user, loading} = this.state;
     const {rowStyle, colStyle, colStyle0, boxStyle0, boxStyleBg, gutter} = basicStyle;
@@ -237,6 +238,35 @@ class Home extends React.Component {
     );
   }
 
+  renderBanner() {
+    const {boards, user, loading} = this.state;
+    const {rowStyle, colStyle, colStyle0, boxStyle0, boxStyleBg, gutter} = basicStyle;
+
+    return (
+      <Col md={8} sm={24} xs={24} style={colStyle} className="col">
+            <Box style={boxStyle0}>
+              <ProposalBox>
+                <div className="desc">
+                  <IntlMessages id="Portal.Home.Proposal.Description"/>
+                  <br/><span className="create"><IntlMessages id="Common.CreateNewOne"/>.</span>
+                </div>
+
+                <div className="action">
+                  <Button type="default" className="btn" style={{marginBottom: '1rem'}}
+                          onClick={() => this.openProposal(1)}>
+                    <IntlMessages id="Proposal.CreateDCB"/>
+                  </Button>
+                  <Button type="default" className="btn" onClick={() => this.openProposal(2)}>
+                    <IntlMessages id="Proposal.CreateGOV"/>
+                  </Button>
+                </div>
+              </ProposalBox>
+            </Box>
+      </Col>
+    );
+  }
+
+
   render() {
     const {boards, user, loading} = this.state;
     const {rowStyle, colStyle, colStyle0, boxStyle0, boxStyleBg, gutter} = basicStyle;
@@ -245,26 +275,7 @@ class Home extends React.Component {
         <LayoutWrapper>
           <Row style={rowStyle} gutter={gutter} justify="start">
             {this.renderBioInfo()}
-            <Col md={8} sm={24} xs={24} style={colStyle} className="col">
-              <Box style={boxStyle0}>
-                <ProposalBox>
-                  <div className="desc">
-                    <IntlMessages id="Portal.Home.Proposal.Description"/>
-                    <br/><span className="create"><IntlMessages id="Common.CreateNewOne"/>.</span>
-                  </div>
-
-                  <div className="action">
-                    <Button type="default" className="btn" style={{marginBottom: '1rem'}}
-                            onClick={() => this.openProposal(1)}>
-                      <IntlMessages id="Proposal.CreateDCB"/>
-                    </Button>
-                    <Button type="default" className="btn" onClick={() => this.openProposal(2)}>
-                      <IntlMessages id="Proposal.CreateGOV"/>
-                    </Button>
-                  </div>
-                </ProposalBox>
-              </Box>
-            </Col>
+            {this.renderBanner()}
           </Row>
           <Row style={rowStyle} gutter={gutter}>
             {
