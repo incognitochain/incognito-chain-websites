@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {hot} from 'react-hot-loader';
 import {IntlProvider} from 'react-intl';
 import {Layout, LocaleProvider} from 'antd';
@@ -40,15 +40,14 @@ class App extends React.Component {
     ;
     const appHeight = window.innerHeight;
 
-    return (
-      <Provider store={store}>
-        <ConnectedRouter history={history}>
-          <LocaleProvider locale={currentAppLocale.antd}>
-            <IntlProvider
-              locale={currentAppLocale.locale}
-              messages={currentAppLocale.messages}
-            >
-              <ThemeProvider theme={themes[themeConfig.theme]}>
+    return (<LocaleProvider locale={currentAppLocale.antd}>
+        <IntlProvider
+          locale={currentAppLocale.locale}
+          messages={currentAppLocale.messages}
+        >
+          <ThemeProvider theme={themes[themeConfig.theme]}>
+            <Provider store={store}>
+              <ConnectedRouter history={history}>
                 <AppHolder>
                   <Layout style={{height: appHeight}}>
                     <Topbar url={url}/>
@@ -64,23 +63,14 @@ class App extends React.Component {
                     </Layout>
                   </Layout>
                 </AppHolder>
-              </ThemeProvider>
-            </IntlProvider>
-          </LocaleProvider>
-        </ConnectedRouter>
-      </Provider>
-    );
+              </ConnectedRouter>
+            </Provider>
+          </ThemeProvider>
+        </IntlProvider>
+      </LocaleProvider>
+    )
+      ;
   }
 }
-/*
-export default connect(
-  state => ({
-    auth: state.Auth,
-    locale: state.LanguageSwitcher.language.locale,
-    selectedTheme: state.ThemeSwitcher.changeThemes.themeName,
-    height: state.App.height
-  }),
-  {logout, toggleAll}
-)(App);*/
 
 export default hot(module)(App);
