@@ -22,51 +22,14 @@ import ModalStyle  from "./modal.style";
 import Input, { InputGroup, Textarea } from '@ui/uielements/input';
 import Alert from "@ui/feedback/alert";
 import BioInfo from '@/modules/Home/BioInfo';
-import RequestBanner from '../modules/Home/RequestBanner';
+import RequestBanner from '@/modules/Home/RequestBanner';
+import Information from '@/modules/Home/Infomation';
 
-import bgGOV from '@/image/portal-bg-gov.png';
-import bgDCB from '@/image/portal-bg-dcb.png';
-import bgCMB from '@/image/portal-bg-cmb.png';
+
 import {connect} from "react-redux";
 
 const Modal = WithDirection(ModalStyle(Modals));
 
-
-const dataBoards = [
-  {
-    key: 3,
-    title: "Voting.Apply.Gov.Title",
-    subTitle: "Voting.Apply.Gov.Description",
-    description: "Apply GOV board for control our system base on role person in Goverment. Constant provides a mechanism for legitimate exchange that also safeguards your privacy.",
-    background: bgGOV,
-    btnAction: "",
-    btnStyle: "",
-    btnText: "Common.NowApply",
-    applied: false,
-  },
-  {
-    key: 1,
-    title: "Voting.Apply.Dcb.Title",
-    subTitle: "Voting.Apply.Dcb.Description",
-    description: "Apply DCB board for control our system base on role person in DCB. Constant provides a mechanism for legitimate exchange that also safeguards your privacy.",
-    background: bgDCB,
-    btnAction: "",
-    btnStyle: "",
-    btnText: "Common.NowApply",
-    applied: false,
-  },
-  {
-    key: 2,
-    title: "Voting.Apply.Cmb.Title",
-    subTitle: "Voting.Apply.Cmb.Description",
-    description: "Apply CMB board for control our system base on role person in CMB. Constant provides a mechanism for legitimate exchange that also safeguards your privacy.",
-    background: bgCMB,
-    btnAction: "",
-    btnStyle: "",
-    btnText: "Common.NowApply",
-    applied: false,
-  }
-];
 class Home extends React.Component {
   static propTypes = {}
 
@@ -79,8 +42,6 @@ class Home extends React.Component {
       isApplyBoard: false,
       applyBoard: false,
       address: '',
-
-      boards: dataBoards,
       user: false,
       token: false,
       loading: true,
@@ -247,38 +208,13 @@ class Home extends React.Component {
       </Col>
     );
   }
-  renderInfoItem(box) {
-    const {boards, user, loading} = this.state;
-    const {rowStyle, colStyle, colStyle0, boxStyle0, boxStyleBg, gutter} = basicStyle;
-    return (
-      <Col md={8} sm={24} xs={24} style={colStyle} key={box.key} className="col">
-        <Box style={boxStyleBg(box.background)} className="cardBoard"
-            title={<IntlMessages id={box.title}/>}
-            subtitle={<IntlMessages id={box.subTitle}/>}
-        >
-          {
-            box.applied ?
-              <Button className="btnApplied">
-                <IntlMessages id="Common.Applied"/>
-              </Button>
-              :
-              <Button className="btnApply" onClick={() => this.openApplyBoard(box)}>
-                <IntlMessages id={box.btnText}/>
-              </Button>
-          }
-        </Box>
-      </Col>);
-  }
+
 
   renderInformation() {
     const { boards } = this.state;
     const { rowStyle, gutter } = basicStyle;
     return (
-      <Row style={rowStyle} gutter={gutter}>
-        {
-          boards.map(box => this.renderInfoItem(box))
-        }
-      </Row>
+      <Information />
     );
   }
 
