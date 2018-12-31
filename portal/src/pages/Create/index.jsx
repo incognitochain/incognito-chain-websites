@@ -63,16 +63,50 @@ class ComponentName extends React.Component {
     console.log(loanParam);
   }
 
+  ethCallSmartContract() {
+    if (typeof web3 !== 'undefined') {
+      web3 = new Web3(web3.currentProvider);
+    } else {
+      // Set the provider you want from Web3.providers
+      web3 = new Web3(new Web3.providers.HttpProvider("https://rinkeby.infura.io/v3/03f57f19c3e1478fb38fb91a8f680550"));
+    }
+    var abiDefinition = JSON.parse('[{"constant":false,"inputs":[{"name":"newPrice","type":"uint256"}],"name":"updateCollateralPrice","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"lid","type":"bytes32"},{"name":"digest","type":"bytes32"},{"name":"stableCoinReceiver","type":"bytes"},{"name":"request","type":"uint256"},{"name":"offchain","type":"bytes32"}],"name":"sendCollateral","outputs":[],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[{"name":"value","type":"uint256"},{"name":"percent","type":"uint256"}],"name":"part","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"collateralAmount","type":"uint256"},{"name":"debtAmount","type":"uint256"}],"name":"collateralRatio","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"collateralPrice","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"lid","type":"bytes32"},{"name":"amount","type":"uint256"},{"name":"offchain","type":"bytes32"}],"name":"addPayment","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"lid","type":"bytes32"},{"name":"offchain","type":"bytes32"}],"name":"refundCollateral","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"collateralAmount","type":"uint256"},{"name":"debtAmount","type":"uint256"}],"name":"safelyCollateralized","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"lid","type":"bytes32"},{"name":"offchain","type":"bytes32"}],"name":"liquidate","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"name","type":"bytes32"}],"name":"get","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"newPrice","type":"uint256"}],"name":"updateAssetPrice","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"name","type":"bytes32"},{"name":"value","type":"uint256"},{"name":"offchain","type":"bytes32"}],"name":"update","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"lender","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"bytes32"}],"name":"loans","outputs":[{"name":"state","type":"uint8"},{"name":"borrower","type":"address"},{"name":"digest","type":"bytes32"},{"name":"amount","type":"uint256"},{"name":"request","type":"uint256"},{"name":"principle","type":"uint256"},{"name":"interest","type":"uint256"},{"name":"maturityDate","type":"uint256"},{"name":"escrowDeadline","type":"uint256"},{"name":"stableCoinReceiver","type":"bytes"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"assetPrice","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"lid","type":"bytes32"},{"name":"offchain","type":"bytes32"}],"name":"rejectLoan","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"","type":"bytes32"}],"name":"params","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"lid","type":"bytes32"},{"name":"key","type":"bytes32"},{"name":"offchain","type":"bytes32"}],"name":"acceptLoan","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"inputs":[{"name":"_lender","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"lid","type":"bytes32"},{"indexed":false,"name":"amount","type":"uint256"},{"indexed":false,"name":"offchain","type":"bytes32"}],"name":"__sendCollateral","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"lid","type":"bytes32"},{"indexed":false,"name":"key","type":"bytes32"},{"indexed":false,"name":"offchain","type":"bytes32"}],"name":"__acceptLoan","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"lid","type":"bytes32"},{"indexed":false,"name":"offchain","type":"bytes32"}],"name":"__rejectLoan","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"lid","type":"bytes32"},{"indexed":false,"name":"amount","type":"uint256"},{"indexed":false,"name":"offchain","type":"bytes32"}],"name":"__refundCollateral","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"lid","type":"bytes32"},{"indexed":false,"name":"offchain","type":"bytes32"}],"name":"__addPayment","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"lid","type":"bytes32"},{"indexed":false,"name":"amount","type":"uint256"},{"indexed":false,"name":"commission","type":"uint256"},{"indexed":false,"name":"offchain","type":"bytes32"}],"name":"__liquidate","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"name":"name","type":"bytes32"},{"indexed":false,"name":"value","type":"uint256"},{"indexed":false,"name":"offchain","type":"bytes32"}],"name":"__update","type":"event"}]')
+    var loanContract = web3.eth.contract(abiDefinition)
+    var contractInstance = loanContract.at('0x376eB6B3986FDe41fA4bCe7Bb0C0E6FD5a0e2Ba9');
+    contractInstance.sendCollateral("0x0", "abc", "1Uv3jP4ixNx3BkEtmUUxKXA1TXUduix3KMCWXHvLqVyA9CFfoLRZ949zTBNqDUPSzaPCZPrQKSfiEHguFazK6VeDmEk1RMLfX1kQiSqJ6", this.state.loanAmount * 100, "0x0",
+      {from: web3.eth.accounts[0]},
+      function (a) {
+        if (a !== undefined) {
+          if (a.name == "Error") {
+            return false;
+          } else {
+            return true
+          }
+        }
+      });
+  }
+
   submitLoanRequest() {
+    const loanID = 1 + ""
+    const keyDigest = "";
+
+    // call web 3 for eth
+    switch (this.state.collateralType) {
+      case "ETH":
+        this.ethCallSmartContract();
+        return
+        break;
+      default:
+        alert("Wrong Collateral type")
+    }
+
     const startDate = moment().format("YYYY-MM-DD")
     const endDate = moment(this.state.maturity, "DD-MM-YYYY").format("YYYY-MM-DD")
     // const endDate = this.timeConverter((Date.parse(this.state.maturity)))
     const params = this.state.choosenLoanParam
-    const loanID = 1 + ""
     const colType = this.state.collateralType
     const colAmount = this.state.collateralAmount + ""
     const loanAmount = this.state.loanAmount * 100 // format nano constant
-    const keyDigest = "";
     Portal.createLoanRequest(startDate, endDate, params, loanID, colType, colAmount, loanAmount, keyDigest).then((result) => {
       debugger
     })
