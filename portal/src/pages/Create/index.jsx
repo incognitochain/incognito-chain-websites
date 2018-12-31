@@ -11,6 +11,8 @@ import randomByte from 'random-bytes'
 import Web3js from 'web3'
 import PromiseJs from 'promise'
 
+import './Create.scss'
+
 class ComponentName extends React.Component {
   static propTypes = {
     // abc: PropTypes.object.isRequired,
@@ -211,7 +213,7 @@ class ComponentName extends React.Component {
     if (loanParams !== undefined && loanParams != false) {
       var indents = loanParams.map((value, i) => {
         return (
-          <Button type="" className="interest" onClick={() => {
+          <Button type="" className={`interest ` + (this.state.choosenLoanParam.InterestRate == value.InterestRate ? 'interest-selected' : '')} onClick={() => {
             this.chooseInterestRate(value)
           }}>
             {(value.InterestRate / 100)} %
@@ -228,7 +230,7 @@ class ComponentName extends React.Component {
   }
 
   render() {
-    const {loanParams, collateralAmount, maturity, collateralType, secretKey} = this.state;
+    const {loanParams, collateralAmount, maturity, collateralType, secretKey, choosenLoanParam} = this.state;
     return (
       <div className="create">
         <div className="container">
@@ -253,7 +255,9 @@ class ComponentName extends React.Component {
                   </div>
                   <div className="col-12 col-md-4">
                     <h3>COLLATERAL AMOUNT</h3>
-                    <Input disabled={true} type="number" value={collateralAmount}></Input>{collateralType}
+                    <span style={{color: "blue"}}>{collateralAmount}</span>
+                    {collateralType}<br/>
+                    <span>Collateral based on a {choosenLoanParam.InterestRate}% Loan to Value(LTV)</span>
                   </div>
                 </div>
                 <div className="row">
@@ -272,6 +276,7 @@ class ComponentName extends React.Component {
                   <div className="col-12 col-md-4">
                     <label>
                       INTEREST RATE
+                      <br/>
                       {this.renderInterestRates(loanParams)}
                     </label>
                   </div>
