@@ -259,7 +259,7 @@ class ComponentName extends React.Component {
                   </div>
                   <div className="col-12 col-md-4">
                     <h3>COLLATERAL AMOUNT</h3>
-                    <span style={{color: "blue"}}>{collateralAmount}</span>
+                    <span style={{color: "blue"}}>{collateralAmount == 0 ? "0.00" : collateralAmount}</span>
                     {collateralType}<br/>
                     <span>Collateral based on a {choosenLoanParam.InterestRate}% Loan to Value(LTV)</span>
                   </div>
