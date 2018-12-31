@@ -213,7 +213,7 @@ class ComponentName extends React.Component {
     if (loanParams !== undefined && loanParams != false) {
       var indents = loanParams.map((value, i) => {
         return (
-          <Button type="" className={`interest ${(this.state.choosenLoanParam.InterestRate == value.InterestRate ? 'interest-selected' : '')}`} onClick={() => {
+          <Button type="" className={`interestrate ${(this.state.choosenLoanParam.InterestRate == value.InterestRate ? 'interestrate-selected' : '')}`} onClick={() => {
             this.chooseInterestRate(value)
           }}>
             {(value.InterestRate / 100)} %
