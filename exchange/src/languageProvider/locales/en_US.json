@@ -396,18 +396,14 @@
   "page.signUpGooglePlus": "Sign up with Google Plus",
   "page.signUpAuth0": "Sign Up with Auth0",
   "page.signUpAlreadyAccount": "Already have an account? Sign in.",
-
   "themeSwitcher.purchase": "PURCHAGE NOW",
   "themeSwitcher.settings": "Settings",
-
   "sidebar.selectbox": "Select",
   "sidebar.frappeChart": "Frappe Charts",
   "topbar.help": "Help",
-  
   "topbar.viewAll": "View All",
   "topbar.viewCart": "View Cart",
   "topbar.totalPrice": "Total Price",
-  
   "topbar.Signin": "Sign in",
   "topbar.Signup": "Sign up",
   "topbar.Language": "Language",
@@ -415,15 +411,12 @@
   "topbar.Settings": "Settings",
   "topbar.Feedback": "Feedback",
   "topbar.Help": "Help",
-
-
   "sidebar.Market": "Market",
   "sidebar.Exchange": "Exchange",
   "sidebar.Wallet": "Wallet",
   "sidebar.Profile": "Profile",
   "sidebar.Voting": "Voting",
   "sidebar.Proposal": "Proposal",
-
   "Market.PageHeader": "Market",
   "Market.Pair": "Pair",
   "Market.LastPrice": "Last Price",
@@ -432,7 +425,6 @@
   "Market.Low": "Low",
   "Market.Change": "Change",
   "Market.DataNotFound": "Data not found matchs this criteria.",
-
   "Wallet.PageHeader": "Wallet",
   "Wallet.ConstantValue": "CST Value",
   "Wallet.SymbolName": "Name",
@@ -443,31 +435,26 @@
   "Wallet.Deposit": "Deposit",
   "Wallet.Deposit.Done": "Done",
   "Wallet.Deposit.WarningDescription": "By depositing tokens to this address, you agree to our deposit recovery policy. Depositing tokens to an address other than CONSTANT may result in your funds being lost.",
-  
   "Wallet.Withdraw": "Withdraw",
   "Wallet.Withdraw.Amount": "Amount",
   "Wallet.Withdraw.Address": "Address",
   "Wallet.Withdraw.Submit": "Withdraw",
   "Wallet.Withdraw.Cancel": "Cancel",
   "Wallet.Withdraw.WarningDescription": "Please verify your withdrawal address. We cannot refund an incorrect withdrawal. Do not withdraw directly to a crowdfund or ICO. We will not credit your account with tokens from that sale.",
-
   "Wallet.Exchange": "Exchange",
   "Wallet.Deposit.Copy": "Copy",
   "Wallet.Deposit.CopySuccess": "Copy success!",
-  
   "Exchange.PageHeader": "Exchange",
   "Exchange.TradeHistory": "Trade History",
   "Exchange.TradeHistory.Price": "Price",
   "Exchange.TradeHistory.Quantity": "Quantity",
   "Exchange.TradeHistory.Time": "Date",
   "Exchange.PriceChart": "Price Chart",
-
   "Exchange.OrderBook": "Order Book",
   "Exchange.OrderBook.Price": "Price",
   "Exchange.OrderBook.Amount": "Amount",
   "Exchange.OrderBook.Size": "Size",
   "Exchange.OrderBook.Total": "Total",
-
   "Exchange.OpenOrder": "Open Orders",
   "Exchange.OpenOrder.Price": "Price",
   "Exchange.OpenOrder.Status": "Status",
@@ -477,13 +464,11 @@
   "Exchange.OpenOrder.Quantity": "Quantity",
   "Exchange.OpenOrder.Time": "Time",
   "Exchange.OpenOrder.Fee": "Fee",
-
   "Exchange.FillOrder.Side": "Side",
   "Exchange.FillOrder.Size": "Size",
   "Exchange.FillOrder.Price": "Price",
   "Exchange.FillOrder.Fee": "Fee",
   "Exchange.FillOrder.Time": "Time",
-  
   "Exchange.OrderForm": "Order Form",
   "Exchange.OrderForm.Price": "Price",
   "Exchange.OrderForm.Amount": "Amount",
@@ -492,10 +477,8 @@
   "Exchange.OrderForm.PlaceOrderBuy": "Place Order Buy",
   "Exchange.OrderForm.PlaceOrderSell": "Place Order Sell",
   "Exchange.OrderForm.PlaceOrderSuccess": "Place order success.",
-
   "Portal.Home.BigBox.Hello": "Hello,",
-  "Portal.Home.Proposal.Description": "Wanna join the Constant network -  the new area of internet?",
-
+  "Portal.Home.Proposal.Description": "Wanna know how to loan Constant instantly",
   "Proposal": "Proposal",
   "Proposal.UnselectApplicant": "Please select proposal",
   "Proposal.CreateDCB": "DCB proposal",
@@ -519,7 +502,6 @@
   "Proposal.RefundAmount": "Refund Amount",
   "Proposal.Name": "Name",
   "Proposal.VoteProposal": "Vote this proposal",
-  
   "Voting.Applicants": "Applicants",
   "Voting.UnselectAplication": "Please select applicant",
   "Voting.Apply.Gov.Title": "Apply GOV board",
@@ -534,7 +516,6 @@
   "Voting.EditBio": "Edit your bio",
   "Voting.TokenList": "Token List",
   "Voting.VoteApplicant": "Vote this applicant",
-
   "Common.Proposals": "Proposals",
   "Common.Share": "Share to someone in need",
   "Common.Facebook": "Facebook",
