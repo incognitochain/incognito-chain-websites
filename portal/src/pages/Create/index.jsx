@@ -195,14 +195,16 @@ class ComponentName extends React.Component {
   renderCollateralType() {
     return (
       <div>
-        <Button onClick={() => {
-          this.chooseCollateralType("ETH")
-        }}>
+        <Button className={`collateral-type ${(this.state.collateralType == 'ETH' ? 'collateral-type-selected' : '')}`}
+                onClick={() => {
+                  this.chooseCollateralType("ETH")
+                }}>
           ETH
         </Button>
-        <Button disabled={true} onClick={() => {
-          this.chooseCollateralType("BTC")
-        }}>
+        <Button className={`collateral-type ${(this.state.collateralType == 'BTC' ? 'collateral-type-selected' : '')}`}
+                onClick={() => {
+                  this.chooseCollateralType("BTC")
+                }}>
           BTC
         </Button>
       </div>
@@ -213,9 +215,11 @@ class ComponentName extends React.Component {
     if (loanParams !== undefined && loanParams != false) {
       var indents = loanParams.map((value, i) => {
         return (
-          <Button type="" className={`interestrate ${(this.state.choosenLoanParam.InterestRate == value.InterestRate ? 'interestrate-selected' : '')}`} onClick={() => {
-            this.chooseInterestRate(value)
-          }}>
+          <Button type=""
+                  className={`interestrate ${(this.state.choosenLoanParam.InterestRate == value.InterestRate ? 'interestrate-selected' : '')}`}
+                  onClick={() => {
+                    this.chooseInterestRate(value)
+                  }}>
             {(value.InterestRate / 100)} %
           </Button>
         );
@@ -285,7 +289,8 @@ class ComponentName extends React.Component {
                   I certify that I am 18 years of age or older,
                   and I agree to the Terms & Conditions.
                 </p>
-                <Button className="c-btn c-btn-primary" onClick={() => this.submitLoanRequest()}>Summit</Button>
+                <Button className="c-btn c-btn-primary create-submit"
+                        onClick={() => this.submitLoanRequest()}>Submit</Button>
               </div>
             </div>
           </div>
