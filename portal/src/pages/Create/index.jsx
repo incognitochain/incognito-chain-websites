@@ -85,20 +85,20 @@ class ComponentName extends React.Component {
     var receipt = await new PromiseJs(function (resolve, reject) {
       contractInstance.methods.sendCollateral(lid, digestKey, constantPaymentAddress, loanAmount * 100, offChain).send({
         from: accounts[0],
-        value: collateralAmount
+        value: parseFloat(collateralAmount) * Math.pow(10, 18),
       }).on('transactionHash', function (hash) {
-        console.log(hash)
+        // console.log(hash)
       }).on("confirmation", function (confirmationNumber, receipt) {
-        console.log(confirmationNumber, receipt)
+        // console.log(confirmationNumber, receipt)
       }).on("receipt", function (receipt) {
-        console.log(receipt)
+        // console.log(receipt)
         var result = {
           err: null,
           data: receipt.events.__sendCollateral.returnValues,
         }
         resolve(result)
       }).on('err', function (err) {
-        console.log(err)
+        // console.log(err)
         var result = {
           err: err,
           data: null,
@@ -122,12 +122,13 @@ class ComponentName extends React.Component {
           alert(result.err)
           return
         }
-        loanID = result.lid
+        loanID = result.data.lid
+        break
       default:
         alert("Wrong Collateral type")
     }
 
-    if (loanID == "") {
+    if (loanID == "" || loanID === undefined) {
       alert("Can not create a request")
       return
     }
@@ -139,9 +140,14 @@ class ComponentName extends React.Component {
     const colType = this.state.collateralType
     const colAmount = this.state.collateralAmount + ""
     const loanAmount = this.state.loanAmount * 100 // format nano constant
-    Portal.createLoanRequest(startDate, endDate, params, loanID, colType, colAmount, loanAmount, keyDigest).then((result) => {
-      debugger
-    })
+    var result = await Portal.createLoanRequest(startDate, endDate, params, loanID, colType, colAmount, loanAmount, keyDigest)
+    console.log(result)
+    debugger
+    if (result.Error == null) {
+      alert("Success")
+    } else {
+      alert("Failure!");
+    }
   }
 
   timeConverter(UNIX_timestamp) {

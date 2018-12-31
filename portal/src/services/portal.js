@@ -65,8 +65,7 @@ export default class Portal {
       }
     }
     try {
-      const response = await
-      axios(Portal.getOption({func: `/portal/borrows`, data: data, method: "POST"}));
+      const response = await axios(Portal.getOption({func: `/portal/borrows`, data: data, method: "POST"}));
       if (response.status === 200) {
         if (response.data && response.data.Result) {
           return response.data.Result;
