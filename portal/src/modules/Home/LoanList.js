@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import {
   TableStyle,
 } from "@/styles/custom.style";
-//import Table from '@ui/uielements/table';
-import { Table, Divider, Tag } from 'antd';
+import Table from '@ui/uielements/table';
+import 'antd/dist/antd.css';
+
 
 const columns = [{
   title: 'Borrow Amount',
