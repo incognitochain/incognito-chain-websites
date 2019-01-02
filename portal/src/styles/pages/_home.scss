@@ -1,0 +1,59 @@
+.home-page {
+  background-color: #FAFAFA;
+  padding: 48px 0;
+  .c-card {
+    margin-bottom: 24px;
+  }
+  .coin-information {
+    .c-card {
+      min-height: 276px;
+    }
+    .card-create-a-proposal-container {
+      position: relative;
+      background-color: #0A85E7;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: right center;
+      color: #FFFFFF;
+      p {
+        font-size: 20px;
+        padding-right: 100px;
+      }
+      .c-btn {
+        position: absolute;
+        bottom: 36px;
+        left: 22px;
+      }
+    }
+  }
+  .apply {
+    .c-card {
+      min-height: 174px;
+      background-repeat: no-repeat;
+      background-position: right bottom;
+      .title {
+        font-size: 20px;
+      }
+      .description {
+        color: #838AA7;
+      }
+      .c-btn {
+        margin-top: 10px;
+        height: 36px;
+        line-height: 36px;
+        border: 1px solid map-get($primary, 's-900');
+        padding: 0 23px;
+        @extend .c-color-blue-900;
+        text-transform: none;
+        &:hover {
+          @extend .c-bg-blue-900;
+          color: #FFFFFF;
+          opacity: 1;
+          &:before {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
