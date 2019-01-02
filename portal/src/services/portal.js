@@ -49,4 +49,75 @@ export default class Portal {
 
     return false;
   }
+
+  static async createLoanRequest(startDate, endDate, params, loanID, colType, colAmount, loanAmount, keyDigest) {
+    var data = {
+      "StartDate": startDate,
+      "EndDate": endDate,
+      "LoanRequest": {
+        "Params": params,
+        "LoanID": loanID,
+        "CollateralType": colType,
+        "CollateralAmount": colAmount,
+        "LoanAmount": loanAmount,
+        "ReceiveAddress": "",
+        "KeyDigest": keyDigest,
+      }
+    }
+    try {
+      const response = await axios(Portal.getOption({func: `/portal/borrows`, data: data, method: "POST"}));
+      if (response.status === 200) {
+        if (response.data && response.data.Result) {
+          return response.data.Result;
+        }
+      }
+    }
+    catch (e) {
+      return {error: true, message: e.message};
+    }
+
+    return false;
+  }
+
+  static async getLoan(borrowId) {
+    try {
+      const response = await axios(Portal.getOption({func: `/portal/borrows/${borrowId}`}));
+      if (response.status === 200) {
+        if (response.data && response.data.Result) {
+          return response.data.Result;
+        } else {
+          if (response.data && response.data.Error) {
+            throw response.data.Error;
+          } else {
+            throw "Can not get data of load detail";
+          }
+        }
+      }
+      throw "Can not get data of load detail";
+    }
+    catch (e) {
+      return {error: true, message: e.message};
+    }
+  }
+
+  static async payLoan(borrowId) {
+    try {
+      const response = await axios(Portal.getOption({func: `/portal/borrows/${borrowId}/pay`, data: {}, method: "POST"}));
+      if (response.status === 200) {
+        if (response.data && response.data.Result) {
+          return response.data.Result;
+        } else {
+          if (response.data && response.data.Error) {
+            throw response.data.Error;
+          } else {
+            throw "Can not get data of load detail";
+          }
+        }
+      }
+      throw "Can not get data of load detail";
+    }
+    catch (e) {
+      throw e;
+    }
+  }
 }

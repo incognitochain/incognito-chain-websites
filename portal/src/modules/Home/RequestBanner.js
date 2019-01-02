@@ -21,7 +21,7 @@ class RequestBanner extends Component {
 
             <div className="action">
               <Button type="default" className="btn" style={{marginBottom: '1rem'}}
-                      onClick={() => console.log()}>
+                      onClick={() => {window.location.href='/create'}}>
                 <IntlMessages id="Proposal.CreateRequest"/>
               </Button>
             </div>
