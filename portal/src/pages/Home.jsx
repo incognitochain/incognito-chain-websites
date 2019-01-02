@@ -24,9 +24,17 @@ import Alert from "@ui/feedback/alert";
 import BioInfo from '@/modules/Home/BioInfo';
 import RequestBanner from '@/modules/Home/RequestBanner';
 import Information from '@/modules/Home/Infomation';
-
+import LoanList from '@/modules/Home/LoanList';
 
 import {connect} from "react-redux";
+
+import {
+  loadLoansSelector,
+} from '@/reducers/home/selector';
+
+import {
+  loadLoanList,
+} from '@/reducers/home/action';
 
 const Modal = WithDirection(ModalStyle(Modals));
 
@@ -182,6 +190,9 @@ class Home extends React.Component {
     const {auth} = this.state;
     if (!auth) {
       window.location.assign('http://auth.constant.money/login');
+    }else {
+      this.props.dispatch(loadLoanList());
+
     }
   }
 
@@ -204,7 +215,7 @@ class Home extends React.Component {
 
     return (
       <Col md={8} sm={24} xs={24} style={colStyle}>
-          <RequestBanner />
+        <RequestBanner />
       </Col>
     );
   }
@@ -220,15 +231,7 @@ class Home extends React.Component {
 
   renderListRequest() {
     return (
-      <TableStyle className="isoLayoutContent">
-        <Tabs className="isoTableDisplayTab">
-          {/*tableinfos.map(tableInfo => (
-            <TabPane tab={tableInfo.title} key={tableInfo.value}>
-              {this.renderTable(tableInfo)}
-            </TabPane>
-          ))*/}
-        </Tabs>
-      </TableStyle>
+      <LoanList />
     );
   }
 
@@ -284,6 +287,8 @@ export default connect(
     auth: state.Auth,
     locale: state.LanguageSwitcher.language.locale,
     selectedTheme: state.ThemeSwitcher.changeThemes.themeName,
-    height: state.App.height
+    height: state.App.height,
+    loanList: loadLoansSelector(state),
+
   }),
 )(Home);

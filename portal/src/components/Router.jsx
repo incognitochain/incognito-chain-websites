@@ -37,4 +37,4 @@ class Router extends React.Component {
   }
 }
 
-export default withRouter(connect(state => ({auth: state.auth}), null)(Router));
+export default withRouter(connect(state => ({auth: state.auth, home: state.home}), null)(Router));

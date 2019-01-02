@@ -1,3 +1,3 @@
 module.exports = {
-  internalAPI: 'http://localhost:8000',
+  BASE_API_URL: 'http://localhost:8000',
 };
