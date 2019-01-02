@@ -78,4 +78,25 @@ export default class Portal {
 
     return false;
   }
+
+  static async getLoan(loanID) {
+    try {
+      const response = await axios(Portal.getOption({func: `/portal/borrows/${loanID}`}));
+      if (response.status === 200) {
+        if (response.data && response.data.Result) {
+          return response.data.Result;
+        } else {
+          if (response.data && response.data.Error) {
+            throw response.data.Error;
+          } else {
+            throw "Can not get data of load detail";
+          }
+        }
+      }
+      throw "Can not get data of load detail";
+    }
+    catch (e) {
+      return {error: true, message: e.message};
+    }
+  }
 }
