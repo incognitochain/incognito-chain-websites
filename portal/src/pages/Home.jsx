@@ -229,9 +229,9 @@ class Home extends React.Component {
     );
   }
 
-  renderListRequest() {
+  renderListRequest(props) {
     return (
-      <LoanList />
+      <LoanList list={props.loanList}/>
     );
   }
 
@@ -265,7 +265,7 @@ class Home extends React.Component {
             {this.renderBanner()}
           </Row>
           {this.renderInformation()}
-          {this.renderListRequest()}
+          {this.renderListRequest(this.props)}
           {this.renderShare()}
           {
             this.renderApplyBoard()

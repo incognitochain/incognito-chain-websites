@@ -10,8 +10,9 @@ import {
 
 function* handleLoadLoans() {
   try {
-    const { data } = yield apiSaga(apiLoadLoans());
-    yield put(updateLoans({ data }));
+    const { Result } = yield apiSaga(apiLoadLoans());
+
+    yield put(updateLoans(Result));
   } catch (e) {
     console.error(e);
   }

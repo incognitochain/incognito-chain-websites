@@ -14,7 +14,7 @@ export const loadLoanList = (payload = {}) => {
   };
 };
 
-export const updateLoans = (payload = {}) => {
+export const updateLoans = (payload = []) => {
   return {
     type: 'HOME:UPDATE_LOANS',
     payload,
