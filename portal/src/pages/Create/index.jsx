@@ -173,7 +173,7 @@ class ComponentName extends React.Component {
     const {choosenLoanParam} = this.state
     const LiquidationStart = choosenLoanParam.LiquidationStart
     if (LiquidationStart !== undefined) {
-      var oracleRate = {'ETH': 118, 'BTC': 3674};
+      var oracleRate = {'ETH': 118, 'BTC': 3674};// TODO
       var fix = {'ETH': 2, 'BTC': 10}
       const collateralType = this.state.collateralType
       var rate = oracleRate[collateralType];
