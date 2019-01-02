@@ -79,9 +79,9 @@ export default class Portal {
     return false;
   }
 
-  static async getLoan(loanID) {
+  static async getLoan(borrowId) {
     try {
-      const response = await axios(Portal.getOption({func: `/portal/borrows/${loanID}`}));
+      const response = await axios(Portal.getOption({func: `/portal/borrows/${borrowId}`}));
       if (response.status === 200) {
         if (response.data && response.data.Result) {
           return response.data.Result;
@@ -97,6 +97,27 @@ export default class Portal {
     }
     catch (e) {
       return {error: true, message: e.message};
+    }
+  }
+
+  static async payLoan(borrowId) {
+    try {
+      const response = await axios(Portal.getOption({func: `/portal/borrows/${borrowId}/pay`, data: {}, method: "POST"}));
+      if (response.status === 200) {
+        if (response.data && response.data.Result) {
+          return response.data.Result;
+        } else {
+          if (response.data && response.data.Error) {
+            throw response.data.Error;
+          } else {
+            throw "Can not get data of load detail";
+          }
+        }
+      }
+      throw "Can not get data of load detail";
+    }
+    catch (e) {
+      throw e;
     }
   }
 }

@@ -5,6 +5,7 @@ import "./style.scss"
 import Portal from "@/services/portal";
 import {Icon, Row, Col, Modal as Modals} from 'antd';
 import moment from "moment"
+import Button from '@ui/uielements/button';
 
 class LoanDetail extends React.Component {
   static propTypes = {}
@@ -13,6 +14,7 @@ class LoanDetail extends React.Component {
     super(props);
     this.state = {
       loan: null,
+      id: null,
     };
   }
 
@@ -22,7 +24,19 @@ class LoanDetail extends React.Component {
       Portal.getLoan(id).then((loan) => {
         this.setState({
           loan: loan,
+          id: id,
         });
+      })
+    } catch (err) {
+      alert(err);
+    }
+  }
+
+  payNow = () => {
+    const {id} = this.state
+    try {
+      Portal.payLoan(id).then((result) => {
+        alert(result);
       })
     } catch (err) {
       alert(err);
@@ -63,7 +77,9 @@ class LoanDetail extends React.Component {
                   <Row>
                     {loan && (((loan.LoanAmount / 10000) * loan.InterestRate) + loan.LoanAmount) / 100} CST
                   </Row>
-                  <Row>Upcomming payment</Row>
+                  <Row>
+                    <Button onClick={this.payNow}>Pay now</Button>
+                  </Row>
                 </Col>
               </Row>
             </Col>
