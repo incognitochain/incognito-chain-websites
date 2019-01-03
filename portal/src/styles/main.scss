@@ -1,21 +1,10 @@
+@import '~antd/dist/antd.css';
 @import "~bootstrap-nojs/bootstrap.css";
-// @import "../../../../constant-ui/packages/base/styles/main.scss";
-@import "~@constant-ui/base/constant.scss";
+
+@import "../../../../constant-ui/packages/base/styles/main.scss";
+// @import "~@constant-ui/base/constant.scss";
+
 @import "system/main";
-@import "pages";
 
-.c-card {
-  padding: 37px 34px;
-  background-color: #fff;
-  @extend .c-shadow-100;
-  border-radius: 4px;
-  .c-button {
-    box-shadow: none;
-  }
-}
-
-.home {
-  .row {
-    margin-top: 26px;
-  }
-}
+@import "pages/home";
+@import "pages/create";

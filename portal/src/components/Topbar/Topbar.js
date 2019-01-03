@@ -39,7 +39,7 @@ class Topbar extends Component {
               onClick={toggleCollapsed}
             />
           </div> */}
-          <Sidebar url={url} locale={locale} />
+          {/* <Sidebar url={url} locale={locale} />
           <ul className="isoRight">
             <li
               onClick={() => this.setState({ selectedItem: "user" })}
@@ -47,7 +47,7 @@ class Topbar extends Component {
             >
               <TopbarUser locale={locale} />
             </li>
-          </ul>
+          </ul> */}
         </Header>
       </TopbarWrapper>
     );

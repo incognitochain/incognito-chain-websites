@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import "./style.scss"
 import Portal from "@/services/portal";
-import {Icon, Row, Col, Modal as Modals} from 'antd';
+import { Icon, Row, Col, Modal as Modals } from 'antd';
 import moment from "moment"
 import Button from '@ui/uielements/button';
 
@@ -19,7 +19,7 @@ class LoanDetail extends React.Component {
   }
 
   componentDidMount() {
-    const {id} = this.props.match.params;
+    const { id } = this.props.match.params;
     try {
       Portal.getLoan(id).then((loan) => {
         this.setState({
@@ -33,7 +33,7 @@ class LoanDetail extends React.Component {
   }
 
   payNow = () => {
-    const {id} = this.state
+    const { id } = this.state
     try {
       Portal.payLoan(id).then((result) => {
         alert(result);
@@ -44,7 +44,7 @@ class LoanDetail extends React.Component {
   }
 
   render() {
-    const {loan} = this.state;
+    const { loan } = this.state;
     return (
       <div className="loan-detail">
         <div className="container">
@@ -55,19 +55,19 @@ class LoanDetail extends React.Component {
                 <Col span={8}>
                   <Row>
                     {loan && (loan.LoanAmount / 100)}
-                    <br/>
+                    <br />
                     Constant loan
                   </Row>
                   <Row>
                     {loan && loan.InterestRate} %
-                    <br/>
+                    <br />
                     Interest rate</Row>
                 </Col>
                 <Col span={8}>
                   <Row>
                     {loan && loan.CollateralAmount}
                     {loan && loan.CollateralType}
-                    <br/>
+                    <br />
                     Collateral amount
                   </Row>
                   <Row>Monthly payment</Row>

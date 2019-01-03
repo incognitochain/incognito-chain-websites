@@ -12,7 +12,6 @@ import Table from '@ui/uielements/table';
 
 const { Column } = Table;
 
-import 'antd/dist/antd.css';
 import './LoanList.scss';
 
 const STATUS = {
@@ -36,7 +35,7 @@ class LoanList extends Component {
     };
   }
 
-  getStatusColor=(status) => {
+  getStatusColor = (status) => {
     switch (status) {
       case STATUS.APPROVED:
         return '#4ce0a5';
@@ -121,7 +120,7 @@ class LoanList extends Component {
     );
   }
 
-  renderEndDate=()=>{
+  renderEndDate = () => {
     return (
       <Column
         title="End date"
@@ -144,7 +143,7 @@ class LoanList extends Component {
         key="State"
         align="center"
         render={(text) => (
-          <span style={{color: this.getStatusColor(text)}}>
+          <span style={{ color: this.getStatusColor(text) }}>
             {text}
           </span>
         )}
@@ -157,10 +156,10 @@ class LoanList extends Component {
         title="Your Decision"
         align="center"
         render={(text, record) => {
-          //if(record.State !== STATUS.APPROVED) return <span>Wait until the borrower make their collateral</span>
+          if (record.State !== STATUS.APPROVED) return <span>Wait until the borrower make their collateral</span>
           return (
             <span>
-              <Button onClick={()=>this.handleWithdrawClick(record)}>Withdraw</Button>
+              <Button onClick={() => this.handleWithdrawClick(record)}>Withdraw</Button>
             </span>
           );
         }}

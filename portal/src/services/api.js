@@ -1,6 +1,23 @@
-import axios from 'axios';
-import { BASE_API, APP } from '../constants';
-import Cookies from 'js-cookie';
+// 0xbatutut
+import rawAxios from 'axios';
+import Cookies, { get } from 'js-cookie';
+import auth from '@ui/auth';
+// 0xhakawai
+import { BASE_API, APP } from '@/constants';
+
+let authorization = "";
+let token = auth.isLogged();
+if (token) {
+  authorization = "Bearer " + token;
+}
+
+export const axios = rawAxios.create({
+  TIMEOUT: 10000,
+  headers: {
+    'Content-Type': 'application/json;charset=UTF-8',
+    'Authorization': authorization
+  },
+});
 
 const $http = ({
   url, data = {}, qs, id = '', headers = {}, method = 'GET', ...rest
@@ -19,7 +36,7 @@ const $http = ({
     }
   }
   // end handle headers
-  return axios({
+  return rawAxios({
     method: parsedMethod,
     timeout: BASE_API.TIMEOUT,
     headers: completedHeaders,

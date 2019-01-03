@@ -8,7 +8,8 @@
     "balancer": "sh balancer/run.sh",
     "auth": "cd auth && yarn dev",
     "exchange": "cd exchange && yarn start",
-    "explorer": "cd explorer && yarn start"
+    "explorer": "cd explorer && yarn start",
+    "backend": "cd $GOPATH/src/github.com/ninjadotorg/constant-api-service && go run server.go"
   },
   "dependencies": {
     "axios": "^0.18.0",
