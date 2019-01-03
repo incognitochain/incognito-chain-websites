@@ -62,6 +62,10 @@ class Home extends React.Component {
     };
   }
 
+  handleLoanListRowClick = (record) => {
+    this.props.history.push(`/loan/:${record.ID}`)
+  }
+
   renderProposal(){
     const { isProposal, selectedProposal, nameProposal } = this.state;
 
@@ -231,7 +235,10 @@ class Home extends React.Component {
 
   renderListRequest(props) {
     return (
-      <LoanList list={props.loanList}/>
+      <LoanList
+        list={props.loanList}
+        onRowClick={this.handleLoanListRowClick}
+      />
     );
   }
 

@@ -1,56 +1,62 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Button from '@ui/uielements/button';
 
 import {
   TableStyle,
 } from "@/styles/custom.style";
+import Moment from 'react-moment';
 
 import Table from '@ui/uielements/table';
 
 const { Column, ColumnGroup } = Table;
 
 import 'antd/dist/antd.css';
+import './LoanList.scss';
 
-const columns = [{
-  title: 'Borrow Amount',
-  dataIndex: 'LoanAmount',
-  key: 'LoanAmount',
-  render: text => <div href="javascript:;">{text}</div>,
-}, {
-  title: 'Collateral',
-  dataIndex: 'CollateralAmount',
-  key: 'CollateralAmount',
-}, {
-  title: 'Interest rate',
-  dataIndex: 'InterestRate',
-  key: 'InterestRate',
-}, {
-  title: 'Start date',
-  key: 'StartDate',
-  dataIndex: 'StartDate',
-}, {
-  title: 'End date',
-  dataIndex: 'EndDate',
-  key: 'EndDate',
-},
-{
-  title: 'Status',
-  key: 'State',
-  dataIndex: 'State',
-
-},
-];
+const STATUS = {
+  PENDING: 'pending',
+  APPROVED: 'approved',
+  REJECTED: 'rejected',
+  PAYMENT: 'payment',
+};
 
 class LoanList extends Component {
   static propTypes = {
-    list: PropTypes.array.isRequired
+    list: PropTypes.array.isRequired,
+    onRowClick: PropTypes.func,
   }
+
+  getStatusColor=(status) => {
+    switch (status) {
+      case STATUS.APPROVED:
+        return '#4ce0a5';
+      case STATUS.REJECTED:
+        return 'red';
+      case STATUS.PAYMENT:
+        return 'yellow';
+      default:// Pending
+        return '#f5a458';
+    }
+  }
+
+  handleWithdrawClick=(record)=> {
+
+  }
+
+  handleOnRow = (record) => {
+    return {
+      onClick: () => { this.props.onRowClick(record); },
+    };
+  }
+
   renderBorrowAmount() {
     return (
       <Column
         title="Borrow Amount"
         dataIndex="LoanAmount"
         key="LoanAmount"
+        align="center"
         render={value => (
           <span>
             {value} CST
@@ -65,6 +71,7 @@ class LoanList extends Component {
         title="Collateral"
         dataIndex="CollateralType"
         key="CollateralType"
+        align="center"
         render={(text, record) => (
           <span>
             {text} {record.CollateralAmount}
@@ -79,6 +86,7 @@ class LoanList extends Component {
         title="Interest rate"
         dataIndex="InterestRate"
         key="InterestRate"
+        align="center"
         render={(text) => (
           <span>
             {text}%
@@ -93,24 +101,26 @@ class LoanList extends Component {
         title="Start date"
         dataIndex="StartDate"
         key="StartDate"
+        align="center"
         render={(text) => (
           <span>
-            {text}
+            <Moment format="MM-DD-YYYY">{text}</Moment>
           </span>
         )}
       />
     );
   }
 
-  renderEndDate() {
+  renderEndDate=()=>{
     return (
       <Column
         title="End date"
         dataIndex="EndDate"
         key="EndDate"
+        align="center"
         render={(text) => (
           <span>
-            {text}
+            <Moment format="MM-DD-YYYY">{text}</Moment>
           </span>
         )}
       />
@@ -122,8 +132,9 @@ class LoanList extends Component {
         title="Status"
         dataIndex="State"
         key="State"
+        align="center"
         render={(text) => (
-          <span>
+          <span style={{color: this.getStatusColor(text)}}>
             {text}
           </span>
         )}
@@ -134,20 +145,28 @@ class LoanList extends Component {
     return (
       <Column
         title="Your Decision"
-        render={(text) => (
-          <span>
-            Withdraw
-          </span>
-        )}
+        align="center"
+        render={(text, record) => {
+          if(record.State !== STATUS.APPROVED) return <span>Wait until the borrower make their collateral</span>
+          return (
+            <span>
+              <Button onClick={()=>this.handleWithdrawClick(record)}>Withdraw</Button>
+            </span>
+          );
+        }}
       />
     );
   }
 
-  render(){
+  render() {
     const { list } = this.props;
     return (
       <TableStyle className="isoLayoutContent">
-        <Table rowKey={record => record.ID} dataSource={list} >
+        <Table
+          rowKey={record => record.ID}
+          dataSource={list}
+          onRow={this.handleOnRow}
+        >
           {this.renderBorrowAmount()}
           {this.renderCollateral()}
           {this.renderInterestRate()}
