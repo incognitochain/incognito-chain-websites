@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { faBitcoin, faEthereum } from '@fortawesome/free-brands-svg-icons';
 import { faArrowRight } from '@fortawesome/pro-regular-svg-icons';
+import { faSpinnerThird } from '@fortawesome/pro-light-svg-icons';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Link from '@/components/Link';
@@ -12,6 +13,7 @@ import { API } from '@/constants';
 import dayjs from 'dayjs';
 import { Formik } from 'formik';
 import { toaster } from 'evergreen-ui';
+import Web3js from 'web3';
 
 class Create extends React.Component {
   constructor(props) {
@@ -128,11 +130,22 @@ class Create extends React.Component {
     setFieldTouched(name, true, false);
   }
 
-  handleSubmit = (values, setSubmitting) => {
-    console.log(values);
+  onlyNumber = (value, cb) => {
+    if (Number.isNaN(Number(value))) {
+      return;
+    } else {
+      cb();
+    }
   }
 
-  submitByETH = () => {
+  handleSubmit = (values, setSubmitting) => {
+    const { currentCollateral } = this.state;
+    if (currentCollateral.name === 'ETH') {
+      this.submitByETH(values);
+    }
+  }
+
+  submitByETH = (values) => {
 
   }
 
@@ -164,6 +177,10 @@ class Create extends React.Component {
                     }
                     if (!values.collateralAmount) {
                       errors.collateralAmount = 'Required';
+                    } else {
+                      if (values.loanAmount && Number(values.collateralAmount) < collateralAmountPlaceholder) {
+                        errors.collateralAmount = 'Collateral amount must greater than minimum value';
+                      }
                     }
                     if (!values.secretKey) {
                       errors.secretKey = 'Required';
@@ -192,7 +209,7 @@ class Create extends React.Component {
                     setFieldTouched,
                     setFieldValue,
                   }) => (
-                      <form onSubmit={handleSubmit}>
+                      <form onSubmit={handleSubmit} autoComplete="off">
                         <div className="create-box c-card">
                           <h2>Create a loan request</h2>
                           <div className="">
@@ -205,7 +222,7 @@ class Create extends React.Component {
                                 {collaterals.map(collateral => (
                                   <div key={collateral.name} className={`collateral-option ${currentCollateral.name === collateral.name ? 'active' : ''}`} onClick={() => {
                                     if (disabledBTC && collateral.name === 'BTC') {
-                                      toaster.warning('We are not support BTC yet');
+                                      toaster.warning('We are not support BTC yet', { duration: 10000 });
                                       return;
                                     }
                                     this.setState({ currentCollateral: collateral }, () => {
@@ -225,7 +242,13 @@ class Create extends React.Component {
                                   placeholder="100"
                                   className="input-of-create cst"
                                   value={values.loanAmount}
-                                  onChange={(e) => { this.changeLoanAmount(e, setFieldValue); this.inputChange(handleChange, setFieldTouched, "loanAmount", e); }}
+                                  autoComplete="off"
+                                  onChange={(e) => {
+                                    this.onlyNumber(e.target.value, () => {
+                                      this.inputChange(handleChange, setFieldTouched, "loanAmount", e);
+                                      this.changeLoanAmount(e, setFieldValue);
+                                    });
+                                  }}
                                   InputProps={{
                                     startAdornment: <InputAdornment position="start">CST</InputAdornment>,
                                   }}
@@ -241,13 +264,19 @@ class Create extends React.Component {
                                   placeholder={collateralAmountPlaceholder}
                                   className="input-of-create collateral"
                                   value={values.collateralAmount}
-                                  onChange={this.inputChange.bind(null, handleChange, setFieldTouched, "collateralAmount")}
+                                  autoComplete="off"
+                                  onChange={(e) => {
+                                    this.onlyNumber(e.target.value, () => {
+                                      this.inputChange(handleChange, setFieldTouched, "collateralAmount", e);
+                                    });
+                                  }}
                                   InputProps={{
                                     endAdornment: <InputAdornment position="end">{currentCollateral.name}</InputAdornment>,
                                   }}
                                 />
                                 {errors.collateralAmount && touched.collateralAmount && <span className="c-error"><span>{errors.collateralAmount}</span></span>}
                                 <div>Collateral amount based on a 35% Loan to Value (LTV).</div>
+                                <div>{values.loanAmount ? `(minimum: ${collateralAmountPlaceholder})` : ''}</div>
                               </div>
                             </div>
                           </div>
@@ -260,7 +289,10 @@ class Create extends React.Component {
                                   placeholder="*****"
                                   className="input-of-create"
                                   name="secretKey"
-                                  onChange={this.inputChange.bind(null, handleChange, setFieldTouched, "secretKey")}
+                                  autoComplete="off"
+                                  onChange={(e) => {
+                                    this.inputChange(handleChange, setFieldTouched, "secretKey", e);
+                                  }}
                                 />
                                 {errors.secretKey && touched.secretKey && <span className="c-error"><span>{errors.secretKey}</span></span>}
                               </div>
@@ -293,7 +325,10 @@ class Create extends React.Component {
                           </div>
                           <div className="row">
                             <div className="col-12">
-                              <button className="c-btn c-btn-primary submit" type="submit">Submit <FontAwesomeIcon icon={faArrowRight} /></button>
+                              <button className="c-btn c-btn-primary submit" type="submit">
+                                {isSubmitting ? <FontAwesomeIcon icon={faSpinnerThird} size="1x" spin={true} style={{ marginRight: 10 }} /> : ''}
+                                Submit <FontAwesomeIcon icon={faArrowRight} />
+                              </button>
                             </div>
                           </div>
                         </div>
