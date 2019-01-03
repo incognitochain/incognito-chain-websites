@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@ui/uielements/button';
+import { Modal, Input } from 'antd';
 
 import {
   TableStyle,
@@ -9,7 +10,7 @@ import Moment from 'react-moment';
 
 import Table from '@ui/uielements/table';
 
-const { Column, ColumnGroup } = Table;
+const { Column } = Table;
 
 import 'antd/dist/antd.css';
 import './LoanList.scss';
@@ -25,6 +26,14 @@ class LoanList extends Component {
   static propTypes = {
     list: PropTypes.array.isRequired,
     onRowClick: PropTypes.func,
+    onWithdrawClick: PropTypes.func,
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      visible: false,
+    };
   }
 
   getStatusColor=(status) => {
@@ -41,7 +50,7 @@ class LoanList extends Component {
   }
 
   handleWithdrawClick=(record)=> {
-
+    this.props.onWithdrawClick();
   }
 
   handleOnRow = (record) => {
@@ -49,6 +58,7 @@ class LoanList extends Component {
       onClick: () => { this.props.onRowClick(record); },
     };
   }
+
 
   renderBorrowAmount() {
     return (
@@ -147,7 +157,7 @@ class LoanList extends Component {
         title="Your Decision"
         align="center"
         render={(text, record) => {
-          if(record.State !== STATUS.APPROVED) return <span>Wait until the borrower make their collateral</span>
+          //if(record.State !== STATUS.APPROVED) return <span>Wait until the borrower make their collateral</span>
           return (
             <span>
               <Button onClick={()=>this.handleWithdrawClick(record)}>Withdraw</Button>

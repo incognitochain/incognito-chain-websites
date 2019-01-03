@@ -49,6 +49,7 @@ class Home extends React.Component {
       dataList: false,
       isApplyBoard: false,
       applyBoard: false,
+      isShowConfirmPass: false,
       address: '',
       user: false,
       token: false,
@@ -63,10 +64,10 @@ class Home extends React.Component {
   }
 
   handleLoanListRowClick = (record) => {
-    this.props.history.push(`/loan/:${record.ID}`)
+    this.props.history.push(`/loan/:${record.ID}`);
   }
 
-  renderProposal(){
+  renderProposal() {
     const { isProposal, selectedProposal, nameProposal } = this.state;
 
     return (
@@ -114,7 +115,7 @@ class Home extends React.Component {
     );
   }
 
-  renderEditBio(){
+  renderEditBio() {
     const { isEditBio, bio } = this.state;
 
     return (
@@ -151,7 +152,7 @@ class Home extends React.Component {
     );
   }
 
-  renderApplyBoard(){
+  renderApplyBoard() {
     const { isApplyBoard, applyBoard, address } = this.state;
     const title = applyBoard ? <IntlMessages id={applyBoard.title} /> : "";
 
@@ -238,6 +239,7 @@ class Home extends React.Component {
       <LoanList
         list={props.loanList}
         onRowClick={this.handleLoanListRowClick}
+        onWithdrawClick={this.showConfirmPassModal}
       />
     );
   }
@@ -257,6 +259,54 @@ class Home extends React.Component {
         </Button>
 
     </ShareWrapper>
+    );
+  }
+
+
+  showConfirmPassModal = () => {
+    console.log('showConfirmPassModal');
+    this.setState({
+      isShowConfirmPass: true,
+    });
+  }
+
+  handleConfirmPassOk = (e) => {
+    console.log(e);
+    this.setState({
+      isShowConfirmPass: false,
+    });
+  }
+
+  handleConfirmPassCancel = (e) => {
+    console.log(e);
+    this.setState({
+      isShowConfirmPass: false,
+    });
+  }
+
+  onChangeConfirmPass = (event) => {
+    const text = event.target.value;
+  }
+
+  renderModalConfirmPass() {
+    const { isShowConfirmPass } = this.state;
+    return (
+      <Modal
+        title="Confirm your password"
+        visible={isShowConfirmPass}
+        onOk={this.handleConfirmPassOk}
+        onCancel={this.handleConfirmPassCancel}
+
+      >
+        <div className="wrapperConfirmPass">
+          <div>Please confirm your password</div>
+          <Input
+            placeholder="Your Password"
+            type="password"
+            onChange={this.onChangeConfirmPass}
+          />
+        </div>
+      </Modal>
     );
   }
 
@@ -283,6 +333,7 @@ class Home extends React.Component {
           {
             this.renderProposal()
           }
+          { this.renderModalConfirmPass() }
         </LayoutWrapper>
       </FixedContainer>
     );
