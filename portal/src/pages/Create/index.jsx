@@ -11,6 +11,7 @@ import rawAxios from 'axios';
 import { API } from '@/constants';
 import dayjs from 'dayjs';
 import { Formik } from 'formik';
+import { toaster } from 'evergreen-ui';
 
 class Create extends React.Component {
   constructor(props) {
@@ -27,7 +28,7 @@ class Create extends React.Component {
       rates: [],
       currentRate: {},
       maturity: dayjs().format('MM-DD-YYYY'),
-      disabledBTC: false,
+      disabledBTC: true,
       price: {
         btc: 1,
         eth: 1,
@@ -76,6 +77,7 @@ class Create extends React.Component {
         this.setState({ price: { ...price, btc: Number(price_usd) } });
       }
     });
+    // TODO: fetch per xxx second
   }
 
   getTickerOfETH = () => {
@@ -89,6 +91,7 @@ class Create extends React.Component {
         this.setState({ price: { ...price, eth: Number(price_usd) } });
       }
     });
+    // TODO: fetch per xxx second
   }
 
   calcMaturity = (currentRate) => {
@@ -102,7 +105,7 @@ class Create extends React.Component {
     this.setState({ maturity: maturityFormated });
   }
 
-  changeLoanAmount = (e, setFieldValue) => {
+  changeLoanAmount = (e, setFieldValue, cb = () => { }) => {
     const { currentRate, price, currentCollateral } = this.state;
     const { LiquidationStart } = currentRate;
     const { value } = e.target;
@@ -116,7 +119,7 @@ class Create extends React.Component {
     }
 
     setFieldValue('collateralAmount', collateralAmount);
-    this.setState({ collateralAmountPlaceholder: collateralAmount || '100' });
+    this.setState({ collateralAmountPlaceholder: collateralAmount || '100' }, cb);
   }
 
   inputChange = (handleChange, setFieldTouched, name, e) => {
@@ -171,7 +174,7 @@ class Create extends React.Component {
                     return errors;
                   }}
                   validateOnBlur={false}
-                  validateOnChange={false}
+                  // validateOnChange={false}
                   onSubmit={(values, { setSubmitting }) => {
                     setTimeout(() => {
                       this.handleSubmit(values, setSubmitting);
@@ -200,7 +203,15 @@ class Create extends React.Component {
                               <div className="title">CHOOSE YOUR COLLATERAL</div>
                               <div className="input">
                                 {collaterals.map(collateral => (
-                                  <div key={collateral.name} className={`collateral-option ${currentCollateral.name === collateral.name ? 'active' : ''}`} onClick={() => { if (disabledBTC && collateral.name === 'BTC') return; this.setState({ currentCollateral: collateral }, () => { this.changeLoanAmount({ target: { value: values.loanAmount } }, setFieldValue); }); }}>
+                                  <div key={collateral.name} className={`collateral-option ${currentCollateral.name === collateral.name ? 'active' : ''}`} onClick={() => {
+                                    if (disabledBTC && collateral.name === 'BTC') {
+                                      toaster.warning('We are not support BTC yet');
+                                      return;
+                                    }
+                                    this.setState({ currentCollateral: collateral }, () => {
+                                      this.changeLoanAmount({ target: { value: values.loanAmount } }, setFieldValue);
+                                    });
+                                  }}>
                                     <FontAwesomeIcon icon={collateral.icon} size="2x" />
                                   </div>
                                 ))}

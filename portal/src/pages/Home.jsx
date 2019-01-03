@@ -10,7 +10,7 @@ import {
   BioWrapper
 } from "@/styles/custom.style";
 import Tabs, { TabPane } from '@ui/uielements/tabs';
-
+import AppLocale from "@/languageProvider";
 import LayoutWrapper from '@ui/utility/layoutWrapper.js';
 import { Row, Col, Modal as Modals } from 'antd';
 import basicStyle from '@/settings/basicStyle';
@@ -35,8 +35,37 @@ import {
 import {
   loadLoanList,
 } from '@/reducers/home/action';
+import Topbar from '@/components/Topbar/Topbar';
+import { IntlProvider } from 'react-intl';
+import { Layout, LocaleProvider } from 'antd';
+import { ThemeProvider } from 'styled-components';
+import authAction from '@/reducers/auth/actions';
+import appActions from '@/reducers/app/action';
+import themes from '@/settings/themes';
+import { themeConfig } from '@/settings';
+import AppHolder from '@/components/App/commonStyle';
+import { siteConfig } from '@/settings';
+import config, {
+  getCurrentLanguage
+} from "@/components/LanguageSwitcher/config";
+
+// 0xbatutut
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight } from '@fortawesome/pro-regular-svg-icons';
+import Link from '@/components/Link';
+import bgImage from '@/assets/create-a-proposal.svg';
+import bgApplyGOV from '@/assets/apply-gov.svg';
+import bgApplyDCB from '@/assets/apply-dcb.svg';
+import bgApplyMCB from '@/assets/apply-mcb.svg';
 
 const Modal = WithDirection(ModalStyle(Modals));
+
+const { Content, Footer } = Layout;
+const { logout } = authAction;
+const { toggleAll } = appActions;
+const customizedTheme = themes[themeConfig.theme];
 
 class Home extends React.Component {
   static propTypes = {}
@@ -255,29 +284,96 @@ class Home extends React.Component {
 
 
   render() {
-    const { auth } = this.state;
+    const url = window.location.href;
+    const { selectedTheme, height } = this.props;
+    const currentAppLocale = AppLocale[getCurrentLanguage(config.defaultLanguage || "english").locale];
+
+    const appHeight = window.innerHeight;
+    const { boards, user, loading, auth } = this.state;
     const { rowStyle, colStyle, colStyle0, boxStyle0, boxStyleBg, gutter } = basicStyle;
     return (
-      <FixedContainer>
-        <LayoutWrapper>
-          <Row style={rowStyle} gutter={gutter} justify="start">
-            {this.renderBioInfo()}
-            {this.renderBanner()}
-          </Row>
-          {this.renderInformation()}
-          {this.renderListRequest()}
-          {this.renderShare()}
-          {
-            this.renderApplyBoard()
-          }
-          {
-            this.renderEditBio()
-          }
-          {
-            this.renderProposal()
-          }
-        </LayoutWrapper>
-      </FixedContainer>
+      <LocaleProvider locale={currentAppLocale.antd}>
+        <IntlProvider
+          locale={currentAppLocale.locale}
+          messages={currentAppLocale.messages}
+        >
+          <ThemeProvider theme={themes[themeConfig.theme]}>
+            <AppHolder>
+              <Layout style={{ height: appHeight }}>
+
+                <Layout style={{ flexDirection: 'row', overflowX: 'hidden' }}>
+                  <Layout className="isoContentMainLayout" style={{ height: height }}>
+
+                    <>
+                      <div className="home-page">
+                        <section className="coin-information">
+                          <div className="container">
+                            <div className="row">
+                              <div className="col-12 col-md-6 col-lg-8">
+                                <div className="c-card">
+
+                                </div>
+                              </div>
+                              <div className="col-12 col-md-6 col-lg-4">
+                                <div className="c-card card-create-a-proposal-container" style={{ backgroundImage: `url(${bgImage})` }}>
+                                  <p>Wanna join the Constant network - the new era of Internet?</p>
+                                  <Link to="/create" className="c-btn c-bg-green">Create a proposal <FontAwesomeIcon icon={faAngleRight} /></Link>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </section>
+                        <div className="apply">
+                          <div className="container">
+                            <div className="row">
+                              <div className="col-12 col-lg-4">
+                                <div className="c-card" style={{ backgroundImage: `url(${bgApplyGOV})` }}>
+                                  <div className="title c-color-blue-1000">Apply GOV board</div>
+                                  <div className="description">Control the new internet</div>
+                                  <Link className="c-btn" to="/">Apply now <FontAwesomeIcon icon={faArrowRight} /></Link>
+                                </div>
+                              </div>
+                              <div className="col-12 col-lg-4">
+                                <div className="c-card" style={{ backgroundImage: `url(${bgApplyDCB})` }}>
+                                  <div className="title c-color-blue-1000">Apply DCB Board</div>
+                                  <div className="description">A decentralized bank</div>
+                                  <Link className="c-btn" to="/">Apply now <FontAwesomeIcon icon={faArrowRight} /></Link>
+                                </div>
+                              </div>
+                              <div className="col-12 col-lg-4">
+                                <div className="c-card" style={{ backgroundImage: `url(${bgApplyMCB})` }}>
+                                  <div className="title c-color-blue-1000">Apply MCB Board</div>
+                                  <div className="description">Lorem ipsum ador</div>
+                                  <Link className="c-btn" to="/">Apply now <FontAwesomeIcon icon={faArrowRight} /></Link>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <FixedContainer>
+                        <LayoutWrapper>
+                          {this.renderListRequest()}
+                          {this.renderShare()}
+                          {
+                            this.renderApplyBoard()
+                          }
+                          {
+                            this.renderEditBio()
+                          }
+                          {
+                            this.renderProposal()
+                          }
+                        </LayoutWrapper>
+                      </FixedContainer>
+                    </>
+                  </Layout>
+                </Layout>
+              </Layout>
+            </AppHolder>
+          </ThemeProvider>
+        </IntlProvider>
+      </LocaleProvider>
     );
   }
 }

@@ -1,12 +1,14 @@
 .create-page {
   @extend .c-bg-blue-900;
   min-height: 100vh;
+  height: auto;
   .create-hero {
-    color: #fff;
+    color: #fff !important;
     text-align: center;
     h2 {
       font-size: 36px;
       font-weight: normal !important;
+      color: #fff !important;
       text-align: center;
       letter-spacing: 0;
       line-height: 41px;
