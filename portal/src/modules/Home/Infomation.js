@@ -59,7 +59,7 @@ class Information extends Component {
     return (
       <Row style={rowStyle} gutter={gutter}>
         {
-          boards.map(box => <InfoItem item={box} />)
+          boards.map((box, index)=> <InfoItem key={index} item={box} />)
         }
       </Row>
     );
