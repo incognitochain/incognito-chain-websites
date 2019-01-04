@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import ContentHolder from '@ui/utility/contentHolder';
-import ModalStyle, { ModalContent } from "./modal.style";
-import TableWrapper , { DepositWrapper, WithdrawWrapper, MessageContent }  from './style';
+import ModalStyle from "./modal.style";
+import TableWrapper , { WithdrawWrapper, MessageContent }  from './style';
 import { Modal as Modals } from 'antd';
 import WithDirection from "@/settings/withDirection";
 import Button from "@ui/uielements/button";
 import IntlMessages from '@ui/utility/intlMessages';
-import QRCode from 'qrcode.react';
 import Alert from "@ui/feedback/alert";
-import { CopyToClipboard } from 'react-copy-to-clipboard';
 import message from '@ui/feedback/message';
 import Input, {
   InputGroup,
@@ -27,18 +25,8 @@ const isoModal = ModalStyle(Modals);
 const Modal = WithDirection(isoModal);
 
 
-const successCopy = () => {
-  const msg = "Copy success!"//<IntlMessages id="Wallet.SymbolCode" />;
-  message.success(
-    <MessageContent>
-      {msg}
-    </MessageContent>,
-    1
-  );
-};
-
-const successWithdraw = () => {
-  const msg = "Withdraw success!"//<IntlMessages id="Wallet.SymbolCode" />;
+const successBuy = () => {
+  const msg = "Buy success!"//<IntlMessages id="Wallet.SymbolCode" />;
   message.success(
     <MessageContent>
       {msg}
@@ -47,7 +35,7 @@ const successWithdraw = () => {
   );
 };
 
-const errorWithdraw = (msg) => {
+const errorBuy = (msg) => {
   message.error(
     <MessageContent>
       {msg}
@@ -77,14 +65,12 @@ export default class extends Component {
     super(props);
     this.onChange = this.onChange.bind(this);
     this.state = {
-      paymentAddress: props.paymentAddress,
-      isDeposit: false,
-      isWithdraw: false,
-      coinSelected: false,
+      isBuy: false,
       wAmount: 0,
-      wAddress: '',
       dataList: this.props.dataList.getAll(),
       loading: false,
+      isValidate: true,
+      selectedItem: null,
     };
     this.columns = [
       {
@@ -119,7 +105,9 @@ export default class extends Component {
         title: <IntlMessages id="BondMarket.Price" />,
         key: 'BuyBackPrice',
         width: 100,
-        render: obj => renderCell(obj, 'NumberCell', 'BuyBackPrice')
+        render: obj => {
+          return <span>{obj.BuyBackPrice.toLocaleString()} CONST</span>
+        }
       },
       {
         title: <IntlMessages id="BondMarket.TotalIssue" />,
@@ -155,6 +143,10 @@ export default class extends Component {
       }
     ];
   }
+  validate=({amount})=>{
+    if (amount <=0) return false;
+    return true;
+  } 
 
   onChange(pagination, filters, sorter) {
     const { dataList } = this.props;
@@ -168,124 +160,86 @@ export default class extends Component {
     }
   }
 
-  onDeposit(obj) {
-    this.setState({ isDeposit: true, coinSelected: obj });
-  }
-
-  onWithdraw(obj) {
-    this.setState({ isWithdraw: true, coinSelected: obj });
-  }
   onBuy(obj) {
-
+    this.setState({ isBuy: true, selectedItem: obj});
+    
   }
 
   changeAmount = (e) => {
     let val = e.target.value ? e.target.value : Number(e.target.value);
-    this.setState({ wAmount:  val});
-  }
-
-  changeAddress = (e) => {
-    this.setState({ wAddress: e.target.value });
-  }
-
-  onExchange(obj) {console.log(obj);
-    window.location.assign(`/exchange/${obj.SymbolCode.toUpperCase()}_BOND`);
+    this.setState({ wAmount:  val, isValidate: this.validate({amount: val})});
   }
 
   handleCancel = () => {
-    this.setState({ isDeposit: false, isWithdraw: false, });
+    this.setState({ isBuy: false});
   };
 
+  handleBuy = async () => {
+    const { wAmount, selectedItem } = this.state;
+    const params = {
+      amount: wAmount,
+      bondID: selectedItem.BondID
+    };
+    let result = await bondmarket.buy(params);
+    if(result){
+      if(result.error){
+        errorBuy(result.message);
+      }
+      else if(!result.Result){
+        errorBuy(result.Message);
+      }
+      else{
+        successBuy();
+      }
+    }
+    
+    this.setState({ isBuy: false });
+  }
 
 
-  renderWithdraw(){
-    const { coinSelected, isWithdraw, paymentAddress } = this.state;
-    const title = <IntlMessages id="Wallet.Withdraw" />;
+
+  renderBuy(){
+    const { isBuy, isValidate } = this.state;
+    const title = <IntlMessages id="BondMarket.Buy" />;
 
     return (
       <Modal
-          visible={isWithdraw}
+          visible={isBuy}
           title={title}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           footer={[
             <Button key="back" size="large" onClick={this.handleCancel}>
-              <IntlMessages id="Wallet.Withdraw.Cancel" />
+              <IntlMessages id="BondMarket.Buy.Cancel" />
             </Button>,
             <Button
               key="submit"
               type="primary"
               size="large"
               loading={this.state.loading}
-              onClick={this.handleWithdraw}
+              onClick={this.handleBuy}
             >
-              <IntlMessages id="Wallet.Withdraw.Submit" />
+              <IntlMessages id="BondMarket.Buy.Submit" />
             </Button>
           ]}
         >
           <WithdrawWrapper>
-            <div><IntlMessages id="Wallet.Withdraw.Amount" /></div>
+            <div><IntlMessages id="BondMarket.Buy.Amount" /></div>
             <InputGroup >
               <Input
-                addonAfter="CONST"
+                addonAfter="BOND"
                 placeholder="0.00"
                 onChange={(e) => this.changeAmount(e)}
               />
             </InputGroup>
-
-            <div><IntlMessages id="Wallet.Withdraw.Address" /></div>
-            <InputGroup >
-              <Input onChange={(e) => this.changeAddress(e)} />
-            </InputGroup>
           </WithdrawWrapper>
-          <Alert
+          {!isValidate && <Alert
             message={
-              <IntlMessages id="Wallet.Withdraw.WarningDescription" />
+              <IntlMessages id="BondMarket.Buy.WarningDescription" />
             }
             type="warning"
             style={{marginBottom: "10px"}}
-          />
-        </Modal>
-    );
-  }
-
-  renderDeposit(){
-    const { coinSelected, isDeposit, paymentAddress } = this.state;
-    const title = <IntlMessages id="Wallet.Deposit" />;
-
-    return (
-      <Modal
-          visible={isDeposit}
-          title={title}
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
-          footer={[
-            <Button key="back" size="large" type="primary" onClick={this.handleCancel}>
-              <IntlMessages id="Wallet.Deposit.Done" />
-            </Button>
-          ]}
-        >
-          <Alert
-            message={
-              <IntlMessages id="Wallet.Deposit.WarningDescription" />
-            }
-            type="warning"
-            style={{marginBottom: "10px"}}
-          />
-          <DepositWrapper>
-            <p className="qrcode">
-              <QRCode value={paymentAddress} size={200} renderAs="svg" />
-            </p>
-            <p className="address">
-              {paymentAddress}
-            </p>
-            <p className="action">
-              <CopyToClipboard text={paymentAddress} onCopy={successCopy}>
-                <a><IntlMessages id="Wallet.Deposit.Copy" /></a>
-              </CopyToClipboard>
-            </p>
-          </DepositWrapper>
-          
+          />}
         </Modal>
     );
   }
@@ -300,12 +254,8 @@ export default class extends Component {
           dataSource={this.state.dataList}
           className="isoSortingTable"
         />
-
         {
-          this.renderDeposit()
-        }
-        {
-          this.renderWithdraw()
+          this.renderBuy()
         }
       </ContentHolder>
     );
