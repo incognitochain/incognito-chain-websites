@@ -194,7 +194,7 @@ class Home extends React.Component {
                     <tbody>
                       {borrows.map(borrow => (
                         <tr key={borrow.ID}>
-                          <td>{borrow.ID}</td>
+                          <td><Link to={`/loan/${borrow.ID}`}>{borrow.ID}</Link></td>
                           <td>{borrow.LoanAmount} CST</td>
                           <td>{borrow.CollateralAmount} {borrow.CollateralType}</td>
                           <td>{borrow.InterestRate}%</td>
@@ -234,7 +234,7 @@ class Home extends React.Component {
                     <tbody>
                       {borrowsForLender.map(borrow => (
                         <tr key={borrow.ID}>
-                          <td>{borrow.ID}</td>
+                          <td><Link to={`/loan/${borrow.ID}`}>{borrow.ID}</Link></td>
                           <td>{borrow.LoanAmount} CST</td>
                           <td>{borrow.CollateralAmount} {borrow.CollateralType}</td>
                           <td>{borrow.InterestRate}%</td>
