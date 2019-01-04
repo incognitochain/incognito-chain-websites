@@ -9,41 +9,59 @@ import Loader from '@ui/utility/loader';
 import TableStyle from './customStyle';
 import Data from './data';
 import SortView from './tableViews/sortView';
-import wallet from '@/services/Wallet';
+import bondmarket from '@/services/BondMarket';
 
-export default class Wallet extends Component {
+const list = [
+  {
+    BondName: 'ABC',
+    BondSymbol: 'CST',
+    BondID: 1,
+    ExpiredDate: "2018-12-26T04:06:35",
+    TotalIssue: 23,
+    Available: 5,
+    Rate: 4.5,
+  },
+  {
+    BondName: 'DFC',
+    BondSymbol: 'CST',
+    BondID: 2,
+    ExpiredDate: "2018-12-26T04:06:35",
+    TotalIssue: 23,
+    Available: 5,
+    Rate: 4.5,
+  }
+];
+export default class BondMarket extends Component {
   constructor(props) {
     super(props);
     this.state = {
       auth: false,
       dataList: false,
-      paymentAddress: '',
-      listBalances: false,
+      list: false,
       loading: true,
     }
-
+    
   }
 
   async componentDidMount(){
     const token = auth.isLogged();
-    let paymentAddress = "", listBalances = [];
 
     if(token){
-      await this.getBalances();
+      await this.getData();
     }
-
+    
     this.setState({auth: token, loading: false});
   }
 
-  async getBalances(){
-    let result = await wallet.getBalances();
+  async getData(){
+    let result = await bondmarket.getBondMarketList();
     if(!result.error){
-      let listBalances = Object.values(result.ListBalances), paymentAddress = result.PaymentAddress;
-      for(let i in listBalances){
-        listBalances[i].key = i;
+      let listData = result; 
+      for(let i in listData){
+        listData[i].key = i;
       }
 
-      this.setState({paymentAddress, listBalances});
+      this.setState({list:listData});
     }
     else{
       //return false;
@@ -51,20 +69,21 @@ export default class Wallet extends Component {
   }
 
   renderTable(tableInfo) {
-    const { paymentAddress, listBalances } = this.state;
+    const { list } = this.state;
 
-    if(listBalances){
-      const data = new Data(10, listBalances);
+    if(list){
+      const data = new Data(10, list);
 
       return <TableStyle className="isoLayoutContent">
-        <SortView dataList={data} paymentAddress={paymentAddress} />
+        <SortView dataList={data}/>
       </TableStyle>;
     }
     else{
       return <p><IntlMessages id="Market.DataNotFound" /></p>;
     }
   }
-
+  
+  
   render() {
     const { paymentAddress, listBalances, loading } = this.state;
 
@@ -73,12 +92,13 @@ export default class Wallet extends Component {
 
     return (
       <LayoutWrapper>
-      <PageHeader>{<IntlMessages id="Wallet.PageHeader" />}</PageHeader>
+      <PageHeader>{<IntlMessages id="BondMarket.PageHeader" />}</PageHeader>
       {
         this.renderTable()
       }
       </LayoutWrapper>
     );
   }
+  
 }
 export { SortView, Data };

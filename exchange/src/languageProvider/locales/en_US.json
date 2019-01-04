@@ -417,6 +417,7 @@
   "sidebar.Profile": "Profile",
   "sidebar.Voting": "Voting",
   "sidebar.Proposal": "Proposal",
+  "sidebar.BondMarket": "Bond Market",
   "Market.PageHeader": "Market",
   "Market.Pair": "Pair",
   "Market.LastPrice": "Last Price",
@@ -529,5 +530,19 @@
   "Common.Cancel": "Cancel",
   "Common.Bio": "Bio",
   "Common.Votes": "Votes",
-  "Common.CreateNewOne": "Create new one"
+  "Common.CreateNewOne": "Create new one",
+  "BondMarket.PageHeader": "Bond Market",
+  "BondMarket.BondName": "Name",
+  "BondMarket.Symbol": "Symbol",
+  "BondMarket.ExpiredDate": "Buy Back Date",
+  "BondMarket.TotalIssue": "Total Issue",
+  "BondMarket.Available": "Available",
+  "BondMarket.Rate": "Rate(constant/bond)",
+  "BondMarket.Buy": "Buy",
+  "BondMarket.Logo": "Logo",
+  "BondMarket.Price": "Buy Back Price",
+  "BondMarket.Buy.Cancel": "Cancel",
+  "BondMarket.Buy.Submit": "Buy",
+  "BondMarket.Buy.Amount": "Amount",
+  "BondMarket.Buy.WarningDescription": "Please enter amount larger 0"
 }

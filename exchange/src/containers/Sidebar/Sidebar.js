@@ -68,6 +68,11 @@ const topMenus = [
     label: 'sidebar.Proposal',
     leftIcon: '',
   },
+  {
+    key: 'bond-market',
+    label: 'sidebar.BondMarket',
+    leftIcon: '',
+  },
 ];
 
 class Sidebar extends Component {
