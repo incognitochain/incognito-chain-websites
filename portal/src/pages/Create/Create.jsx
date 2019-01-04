@@ -20,6 +20,7 @@ import { detectInstalled, requestUnlockMetamask, init } from '@/reducers/metamas
 import { Dialog } from 'evergreen-ui';
 import detectBrowser from 'detect-browser';
 import { push } from 'connected-react-router';
+import { checkAuth } from '@/reducers/auth/action';
 
 class Create extends React.Component {
   static propTypes = {
@@ -27,6 +28,7 @@ class Create extends React.Component {
     metamaskDetectInstalled: PropTypes.func.isRequired,
     metamaskRequestUnlock: PropTypes.func.isRequired,
     routerPush: PropTypes.func.isRequired,
+    authCheckAuth: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -73,7 +75,8 @@ class Create extends React.Component {
     this.getTickerOfBTC();
     this.getTickerOfETH();
 
-    const { metamaskDetectInstalled, metamaskInit } = this.props;
+    const { metamaskDetectInstalled, metamaskInit, authCheckAuth } = this.props;
+    authCheckAuth();
     metamaskDetectInstalled(() => {
       metamaskInit();
     });
@@ -193,10 +196,10 @@ class Create extends React.Component {
   handleETH = async (values) => {
     const { secretKey, collateralAmount, loanAmount } = values;
     const { setSubmitting, maturity, currentRate } = this.state;
-    const { routerPush } = this.props;
+    const { routerPush, auth } = this.props;
     const { address, web3 } = this.props.metamask;
     const contractInstance = new web3.eth.Contract(abiDefinition, process.env.loanSmartContractAddress);
-    const constantPaymentAddress = '0xe70adf9aE4d5F68E80A8E2C5EA3B916Dd49C6D87'; // to-do
+    const constantPaymentAddress = auth.data.PaymentAddress;
     const digestKey = web3.utils.fromAscii(secretKey);
     const lid = web3.utils.fromAscii("");
     const offChain = web3.utils.fromAscii("");
@@ -568,4 +571,5 @@ export default connect(state => ({
   metamaskDetectInstalled: detectInstalled,
   metamaskRequestUnlock: requestUnlockMetamask,
   routerPush: push,
+  authCheckAuth: checkAuth,
 }))(Create);

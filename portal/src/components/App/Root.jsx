@@ -6,11 +6,12 @@ import Router from '@/components/Router';
 import { connect } from 'react-redux';
 import RootDialog from '@/components/Dialog/Dialog';
 import Loading from '@/components/Loading';
-import { checkAuth } from '@/reducers/auth/action';
+import { checkAuth, logout } from '@/reducers/auth/action';
 
 class Root extends React.Component {
   static propTypes = {
     app: PropTypes.object.isRequired,
+    authCheckAuth: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -29,7 +30,8 @@ class Root extends React.Component {
       );
     } else {
       if (!auth.logged) {
-        window.location.assign('http://auth.constant.money');
+        logout();
+        window.location.assign('http://auth.constant.money/login?redirect=portal.constant.money');
       } else {
         return (
           <>

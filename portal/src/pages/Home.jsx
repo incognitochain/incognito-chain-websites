@@ -10,6 +10,7 @@ import bgApplyDCB from '@/assets/apply-dcb.svg';
 import bgApplyMCB from '@/assets/apply-mcb.svg';
 import { axios } from '@/services/api';
 import { API } from '@/constants';
+import dayjs from 'dayjs';
 
 class Home extends React.Component {
   constructor(props) {
@@ -18,17 +19,28 @@ class Home extends React.Component {
     this.state = {
       loading: true,
       borrows: [],
+      borrowsForLender: [],
+      active: 1,
     }
 
     this.loadBorrows();
+    this.loadBorrows(true);
   }
 
-  loadBorrows = () => {
-    axios.get(API.LOAN_LIST).then(res => {
+  loadBorrows = (forLender = false) => {
+    let api = API.LOAN_LIST;
+    if (forLender) {
+      api = API.LOAN_LIST_FOR_LENDER;
+    }
+    axios.get(api).then(res => {
       const { data } = res;
       const { Result } = data;
       if (Result && Result.length) {
-        this.setState({ borrows: Result, loading: false });
+        let keyName = 'borrows';
+        if (forLender) {
+          keyName = 'borrowsForLender';
+        }
+        this.setState({ [keyName]: Result, loading: false });
         return;
       }
       this.setState({ loading: false });
@@ -38,8 +50,16 @@ class Home extends React.Component {
     });
   }
 
+  clickActive = (borrow, approve = true) => {
+
+  }
+
+  clickWithdraw = (borrow) => {
+
+  }
+
   render() {
-    const { loading, borrows } = this.state;
+    const { loading, borrows, borrowsForLender, active } = this.state;
     return (
       <div className="home-page">
         <section className="coin-information">
@@ -86,27 +106,97 @@ class Home extends React.Component {
             </div>
           </div>
         </div>
-        <div className="borrows-container">
+        <div className="tabs-container">
+          <div className="container">
+            <div className="row">
+              <div className="col-12">
+                <div className="c-card">
+                  <div className="tabs">
+                    <div className={`tab ${active === 0 ? 'active' : ''}`} onClick={() => this.setState({ active: 0 })}>Your borrows</div>
+                    {borrowsForLender.length ? <div className={`tab ${active === 1 ? 'active' : ''}`} onClick={() => this.setState({ active: 1 })}>Lender role</div> : ''}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="borrows-container" style={{ display: `${active === 0 ? 'block' : 'none'}` }}>
           <div className="container">
             <div className="row">
               <div className="col-12">
                 <div className="c-card c-card-no-padding">
-                  <table className="c-table">
+                  <table className="c-table-portal-home">
                     <thead>
                       <tr>
-                        <th>Borrow amount</th>
+                        <th>ID</th>
+                        <th>Amount</th>
                         <th>Collateral</th>
                         <th>Interest rate</th>
                         <th>Start date</th>
                         <th>End date</th>
                         <th>Status</th>
-                        <th>Your decision</th>
+                        <th width="364">Your decision</th>
                       </tr>
                     </thead>
                     <tbody>
                       {borrows.map(borrow => (
                         <tr key={borrow.ID}>
-                          <td></td>
+                          <td>{borrow.ID}</td>
+                          <td>{borrow.LoanAmount} CST</td>
+                          <td>{borrow.CollateralAmount} {borrow.CollateralType}</td>
+                          <td>{borrow.InterestRate}%</td>
+                          <td>{dayjs(borrow.CreatedAt).format('MM-DD-YYYY')}</td>
+                          <td>{dayjs(borrow.EndDate).format('MM-DD-YYYY')}</td>
+                          <td className={`state state-${borrow.State}`}>{borrow.State}</td>
+                          <td>
+                            {borrow.State === 'pending' ? 'Wait until the borrower make their collateral' : ''}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="borrows-container" style={{ display: `${active === 1 ? 'block' : 'none'}` }}>
+          <div className="container">
+            <div className="row">
+              <div className="col-12">
+                <div className="c-card c-card-no-padding">
+                  <table className="c-table-portal-home">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Amount</th>
+                        <th>Collateral</th>
+                        <th>Interest rate</th>
+                        <th>Start date</th>
+                        <th>End date</th>
+                        <th>Status</th>
+                        <th width="364">Your decision</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {borrowsForLender.map(borrow => (
+                        <tr key={borrow.ID}>
+                          <td>{borrow.ID}</td>
+                          <td>{borrow.LoanAmount} CST</td>
+                          <td>{borrow.CollateralAmount} {borrow.CollateralType}</td>
+                          <td>{borrow.InterestRate}%</td>
+                          <td>{dayjs(borrow.CreatedAt).format('MM-DD-YYYY')}</td>
+                          <td>{dayjs(borrow.EndDate).format('MM-DD-YYYY')}</td>
+                          <td className={`state state-${borrow.State}`}>{borrow.State}</td>
+                          {
+                            borrow.State === 'pending'
+                              ? (
+                                <td>
+                                  <button className="c-a-btn c-a-btn-approve" onClick={() => this.clickActive(borrow)}>Approve</button>
+                                  <button className="c-a-btn c-a-btn-deny" onClick={() => this.clickActive(borrow, false)}>Deny</button>
+                                </td>
+                              ) : ''
+                          }
                         </tr>
                       ))}
                     </tbody>

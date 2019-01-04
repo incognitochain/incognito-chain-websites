@@ -10,7 +10,8 @@ const API = {
   LOAN_PARAMS: 'common/loanparams',
   LOAN_SUBMIT: 'portal/borrows',
   LOAN_LIST: 'portal/borrows',
-  USER_DATA: 'voting/my_candidate',
+  LOAN_LIST_FOR_LENDER: 'portal/all_borrows',
+  USER_DATA: 'auth/me',
 };
 
 Object.keys(API).map(api => { API[api] = `${BASE}/${API[api]}`; return null; });
