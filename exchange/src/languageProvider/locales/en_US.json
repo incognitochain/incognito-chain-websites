@@ -537,8 +537,12 @@
   "BondMarket.ExpiredDate": "Buy Back Date",
   "BondMarket.TotalIssue": "Total Issue",
   "BondMarket.Available": "Available",
-  "BondMarket.Rate": "Rate",
+  "BondMarket.Rate": "Rate(constant/bond)",
   "BondMarket.Buy": "Buy",
   "BondMarket.Logo": "Logo",
-  "BondMarket.Price": "Price"
+  "BondMarket.Price": "Buy Back Price",
+  "BondMarket.Buy.Cancel": "Cancel",
+  "BondMarket.Buy.Submit": "Buy",
+  "BondMarket.Buy.Amount": "Amount",
+  "BondMarket.Buy.WarningDescription": "Please enter amount larger 0"
 }
