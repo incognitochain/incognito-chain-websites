@@ -4,7 +4,6 @@ import history from '@/store/history';
 import { ConnectedRouter } from 'connected-react-router';
 import Router from '@/components/Router';
 import { connect } from 'react-redux';
-import RootDialog from '@/components/Dialog/Dialog';
 import Loading from '@/components/Loading';
 import { checkAuth, logout } from '@/reducers/auth/action';
 
@@ -34,17 +33,9 @@ class Root extends React.Component {
         window.location.assign('http://auth.constant.money/login?redirect=portal.constant.money');
       } else {
         return (
-          <>
-            <RootDialog
-              open={app.showDialog}
-              title={app.dialogTitle}
-              content={app.dialogContent}
-              onClose={app.closeDialogFn}
-            />
-            <ConnectedRouter {...props} history={history}>
-              <Router />
-            </ConnectedRouter>
-          </>
+          <ConnectedRouter {...props} history={history}>
+            <Router />
+          </ConnectedRouter>
         );
       }
     }
