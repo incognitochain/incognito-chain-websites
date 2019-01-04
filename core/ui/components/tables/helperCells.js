@@ -4,7 +4,11 @@ import DeleteCell from './deleteCell';
 import EditableCell from './editableCell';
 import FilterDropdown from './filterDropdown';
 
-const DateCell = data => <p>{data.toLocaleString()}</p>;
+const renderDate = (date) => {
+  console.log('Date:', date.toLocaleString());
+  return date.toLocaleString();
+}
+const DateCell = data => <p>{renderDate(data)}</p>;
 const ImageCell = src => <ImageCellView src={src} />;
 const LinkCell = (link, href) => <a href={href ? href : '#'}>{link}</a>;
 const TextCell = text => <p>{text}</p>;
