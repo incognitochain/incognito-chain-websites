@@ -1,13 +1,57 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import history from '@/store/history';
+import { ConnectedRouter } from 'connected-react-router';
 import Router from '@/components/Router';
+import { connect } from 'react-redux';
+import RootDialog from '@/components/Dialog/Dialog';
+import Loading from '@/components/Loading';
+import { checkAuth } from '@/reducers/auth/action';
 
 class Root extends React.Component {
+  static propTypes = {
+    app: PropTypes.object.isRequired,
+  }
+
+  constructor(props) {
+    super(props);
+
+    const { authCheckAuth } = this.props;
+    authCheckAuth();
+  }
+
   render() {
-    return (
-      <Router />
-    );
+    const { auth, app, ...props } = this.props;
+
+    if (!auth.inited) {
+      return (
+        <Loading />
+      );
+    } else {
+      if (!auth.logged) {
+        window.location.assign('http://auth.constant.money');
+      } else {
+        return (
+          <>
+            <RootDialog
+              open={app.showDialog}
+              title={app.dialogTitle}
+              content={app.dialogContent}
+              onClose={app.closeDialogFn}
+            />
+            <ConnectedRouter {...props} history={history}>
+              <Router />
+            </ConnectedRouter>
+          </>
+        );
+      }
+    }
   }
 }
 
-export default Root;
+export default connect(state => ({
+  app: state.app,
+  auth: state.auth,
+}), ({
+  authCheckAuth: checkAuth,
+}))(Root);

@@ -25,7 +25,7 @@ const createRPCRequest = (
   storeName, firebaseWatch, actionName, method, params, successFn = emptyFn, errorFn = emptyFn,
 ) => (dispatch) => {
   dispatch({ type: actionName });
-  axios.post(`${process.env.internalAPI}`, {
+  axios.post(`${process.env.blockchainRPC}`, {
     jsonrpc: '1.0',
     method,
     params,
