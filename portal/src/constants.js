@@ -10,6 +10,7 @@ const API = {
   LOAN_PARAMS: 'common/loanparams',
   LOAN_SUBMIT: 'portal/borrows',
   LOAN_LIST: 'portal/borrows',
+  LOAN_ACTION: 'portal/borrows',
   LOAN_LIST_FOR_LENDER: 'portal/all_borrows',
   USER_DATA: 'auth/me',
 };

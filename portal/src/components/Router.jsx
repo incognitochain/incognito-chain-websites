@@ -10,7 +10,7 @@ import {
 import { connect } from 'react-redux';
 import Loading from '@/components/Loading';
 
-const Home = createDynamicImport(() => import('@/pages/Home'), Loading);
+const Home = createDynamicImport(() => import('@/pages/Home/Home'), Loading);
 const Create = createDynamicImport(() => import('@/pages/Create/Create'), Loading);
 const LoanDetail = createDynamicImport(() => import('@/pages/LoanDetail/index'), Loading);
 

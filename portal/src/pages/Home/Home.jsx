@@ -8,19 +8,24 @@ import bgImage from '@/assets/create-a-proposal.svg';
 import bgApplyGOV from '@/assets/apply-gov.svg';
 import bgApplyDCB from '@/assets/apply-dcb.svg';
 import bgApplyMCB from '@/assets/apply-mcb.svg';
-import { axios } from '@/services/api';
+import { axios, catchError } from '@/services/api';
 import { API } from '@/constants';
 import dayjs from 'dayjs';
+import { Dialog, toaster } from 'evergreen-ui';
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      loading: true,
+      isLoading: false,
       borrows: [],
       borrowsForLender: [],
       active: 1,
+      dialogApprove: false,
+      dialogDeny: false,
+      dialogWithdraw: false,
+      currentBorrow: {},
     }
 
     this.loadBorrows();
@@ -40,28 +45,76 @@ class Home extends React.Component {
         if (forLender) {
           keyName = 'borrowsForLender';
         }
-        this.setState({ [keyName]: Result, loading: false });
+        this.setState({ [keyName]: Result });
         return;
       }
-      this.setState({ loading: false });
     }).catch(e => {
+      catchError(e);
       console.log(e);
-      this.setState({ loading: false });
     });
   }
 
-  clickActive = (borrow, approve = true) => {
+  clickAction = (borrow, approve = true) => {
+    if (approve) {
+      this.setState({ dialogApprove: true, currentBorrow: borrow });
+    } else {
+      this.setState({ dialogDeny: true, currentBorrow: borrow });
+    }
+  }
 
+  action = (approve = true) => {
+    const { currentBorrow } = this.state;
+    const action = approve ? 'a' : 'r';
+    axios.post(`${API.LOAN_ACTION}/${currentBorrow.ID}/process?action=${action}`).then(res => {
+      this.loadBorrows();
+      this.loadBorrows(true);
+      this.setState({ dialogApprove: false, dialogDeny: false, isLoading: false });
+    }).catch(e => {
+      this.setState({ dialogApprove: false, dialogDeny: false, isLoading: false });
+      catchError(e);
+      toaster.warning('Have a error', e);
+    });
   }
 
   clickWithdraw = (borrow) => {
+    this.setState({ dialogWithdraw: true, currentBorrow: borrow });
+  }
+
+  withdraw = () => {
 
   }
 
   render() {
-    const { loading, borrows, borrowsForLender, active } = this.state;
+    const { isLoading, borrows, borrowsForLender, active, dialogApprove, dialogDeny, dialogWithdraw, currentBorrow } = this.state;
     return (
       <div className="home-page">
+        <Dialog
+          isShown={dialogApprove}
+          shouldCloseOnOverlayClick={false}
+          shouldCloseOnEscapePress={false}
+          title={`Approve borrow id: ${currentBorrow.ID}`}
+          cancelLabel="Cancel"
+          confirmLabel="Confirm"
+          isConfirmLoading={isLoading}
+          onCloseComplete={() => this.setState({ dialogApprove: false, isLoading: false })}
+          onConfirm={() => { this.setState({ isLoading: true }); this.action(); }}
+        >
+          Confirm your approve.
+        </Dialog>
+        <Dialog
+          isShown={dialogDeny}
+          shouldCloseOnOverlayClick={false}
+          shouldCloseOnEscapePress={false}
+          title={`Deny borrow id: ${currentBorrow.ID}`}
+          intent="danger"
+          cancelLabel="Cancel"
+          confirmLabel="Confirm"
+          isConfirmLoading={isLoading}
+          onCloseComplete={() => this.setState({ dialogDeny: false, isLoading: false })}
+          onConfirm={() => { this.setState({ isLoading: true }); this.action(false); }}
+        >
+          Confirm your deny.
+        </Dialog>
         <section className="coin-information">
           <div className="container">
             <div className="row">
@@ -192,8 +245,8 @@ class Home extends React.Component {
                             borrow.State === 'pending'
                               ? (
                                 <td>
-                                  <button className="c-a-btn c-a-btn-approve" onClick={() => this.clickActive(borrow)}>Approve</button>
-                                  <button className="c-a-btn c-a-btn-deny" onClick={() => this.clickActive(borrow, false)}>Deny</button>
+                                  <button className="c-a-btn c-a-btn-approve" onClick={() => this.clickAction(borrow)}>Approve</button>
+                                  <button className="c-a-btn c-a-btn-deny" onClick={() => this.clickAction(borrow, false)}>Deny</button>
                                 </td>
                               ) : ''
                           }

@@ -9,7 +9,7 @@ import { faSpinnerThird } from '@fortawesome/pro-light-svg-icons';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Link from '@/components/Link';
-import { axios } from '@/services/api';
+import { axios, catchError } from '@/services/api';
 import rawAxios from 'axios';
 import { API } from '@/constants';
 import dayjs from 'dayjs';
@@ -70,6 +70,8 @@ class Create extends React.Component {
           return;
         }
       }
+    }).catch(e => {
+      catchError(e);
     });
 
     this.getTickerOfBTC();
@@ -246,6 +248,7 @@ class Create extends React.Component {
         }
         setSubmitting(false);
       }).catch(e => {
+        catchError(e);
         setSubmitting(false);
       });
       // success
@@ -260,6 +263,7 @@ class Create extends React.Component {
       toaster.danger(`This transaction failed, error: ${err.toString()}`);
       // error
     }).catch(e => {
+      catchError(e);
       setSubmitting(false);
       if (e.message.includes('User denied')) {
         toaster.warning('You denied this transaction');
