@@ -7,7 +7,7 @@ import auth from '@ui/auth';
 import Loader from '@ui/utility/loader';
 
 import TableStyle from './customStyle';
-import Data from './data';
+import DataBondMarket from './dataBondMarket';
 import SortView from './tableViews/sortView';
 import bondmarket from '@/services/BondMarket';
 
@@ -72,7 +72,7 @@ export default class BondMarket extends Component {
     const { list } = this.state;
 
     if(list){
-      const data = new Data(10, list);
+      const data = new DataBondMarket(10, list);
 
       return <TableStyle className="isoLayoutContent">
         <SortView dataList={data}/>
@@ -101,4 +101,4 @@ export default class BondMarket extends Component {
   }
   
 }
-export { SortView, Data };
+export { SortView, DataBondMarket };

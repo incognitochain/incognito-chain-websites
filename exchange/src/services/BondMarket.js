@@ -4,7 +4,7 @@ import auth from '@ui/auth';
 export default class BondMarket {
 
     static getOption(param){
-      let {method, func, data} = param;
+      let {method, func, data, params} = param;
       if(!method)
         method = "GET";
   
@@ -24,6 +24,9 @@ export default class BondMarket {
   
       if(data){
         options['data'] = data;
+      }
+      if(params) {
+          options['params'] = params;
       }
   
       if(func && func.charAt(0) !== "/"){
@@ -52,7 +55,7 @@ export default class BondMarket {
     static async buy(params) {
     
         try{
-          const response = await axios(BondMarket.getOption({method: "POST", func: "/bond-market/buy", params}));
+          const response = await axios(BondMarket.getOption({method: "POST", func: '/bond-market/buy', params}));
           if (response.status === 200) {
             if(response.data && response.data.Result)
               return response.data.Result;
