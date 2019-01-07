@@ -1,17 +1,13 @@
-import App from './app';
-import AppRouter from './app/router';
-import Constant from './constant';
-import Auth from './auth/reducer';
-import home from './home/reducer';
-import LanguageSwitcher from './languageSwitcher/reducer'
-import ThemeSwitcher from './themeSwitcher/reducer'
+import app from '@/reducers/app';
+import appRouter from '@/reducers/app/router';
+import constant from '@/reducers/constant';
+import auth from '@/reducers/auth';
+import metamask from '@/reducers/metamask';
 
 export default {
-  App,
-  AppRouter,
-  Constant,
-  Auth,
-  LanguageSwitcher,
-  ThemeSwitcher,
-  home,
+  app,
+  appRouter,
+  constant,
+  auth,
+  metamask,
 };

@@ -21,7 +21,7 @@ export default class Wallet extends Component {
       listBalances: false,
       loading: true,
     }
-    
+
   }
 
   async componentDidMount(){
@@ -31,15 +31,20 @@ export default class Wallet extends Component {
     if(token){
       await this.getBalances();
     }
-    
+
     this.setState({auth: token, loading: false});
   }
 
   async getBalances(){
     let result = await wallet.getBalances();
     if(!result.error){
-      let listBalances = result.ListBalances, paymentAddress = result.PaymentAddress;
+      let listBalances = Object.values(result.ListBalances), paymentAddress = result.PaymentAddress;
       for(let i in listBalances){
+        if (listBalances[i].TokenID == "0000000000000000000000000000000000000000000000000000000000000004") {
+          // nano constant -> convert to constant
+          listBalances[i].TotalBalance =  listBalances[i].TotalBalance / 100;
+          listBalances[i].AvailableBalance =  listBalances[i].AvailableBalance / 100;
+        }
         listBalances[i].key = i;
       }
 
@@ -64,7 +69,7 @@ export default class Wallet extends Component {
       return <p><IntlMessages id="Market.DataNotFound" /></p>;
     }
   }
-  
+
   render() {
     const { paymentAddress, listBalances, loading } = this.state;
 

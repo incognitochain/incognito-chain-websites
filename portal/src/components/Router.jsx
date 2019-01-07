@@ -1,5 +1,6 @@
 import React from 'react';
 import { createDynamicImport } from '@/services/app';
+
 import {
   Switch,
   Route,
@@ -7,10 +8,10 @@ import {
   // Redirect,
 } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Loading from './Loading';
+import Loading from '@/components/Loading';
 
-const Home = createDynamicImport(() => import('@/pages/Home'), Loading);
-const Create = createDynamicImport(() => import('@/pages/Create/index'), Loading);
+const Home = createDynamicImport(() => import('@/pages/Home/Home'), Loading);
+const Create = createDynamicImport(() => import('@/pages/Create/Create'), Loading);
 const LoanDetail = createDynamicImport(() => import('@/pages/LoanDetail/index'), Loading);
 
 const routers = [
@@ -20,11 +21,6 @@ const routers = [
 ];
 
 class Router extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   render() {
     return (
       <Switch>
@@ -38,4 +34,4 @@ class Router extends React.Component {
   }
 }
 
-export default withRouter(connect(state => ({ auth: state.auth, home: state.home }), null)(Router));
+export default Router;

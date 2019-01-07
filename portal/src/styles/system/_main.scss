@@ -6,6 +6,9 @@
   .c-button {
     box-shadow: none;
   }
+  &.c-card-no-padding {
+    padding: 0;
+  }
 }
 
 svg {
