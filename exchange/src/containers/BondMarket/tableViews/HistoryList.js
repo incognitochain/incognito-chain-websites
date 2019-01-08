@@ -11,13 +11,14 @@ class HistoryItem extends Component {
         this.props.onSelectBond(name);
     }
     renderDetail(item) {
-        const { TxID, TokenID, BuyBackDate, BuyBackAvailable, Amount } = item;
+        const { TxID, TokenID, BuyBackDate,MadeBuyBackDate, Amount } = item;
         return (
             <div className="wrapperDetail">
                 <div className="TxID"><span className="title">TX#</span>{TxID}</div>
-                <div className="TokenID"><span className="title">From</span>{TokenID}</div>
-                <div className="Amount"><span className="title">Amount</span>{Amount}</div>
+                <div className="TokenID"><span className="title from">From</span>{TokenID}</div>
+                <div className="Amount"><span className="title">Amount</span>{Amount} CONST</div>
                 <div className="BuyBackDate"><span className="title">Buy Back Date</span>{BuyBackDate}</div>
+                <div className="BoughtBackAt"><span className="title">Bought Back At</span>{MadeBuyBackDate}</div>
             </div>
         );
     }
@@ -34,9 +35,12 @@ class HistoryItem extends Component {
     render() {
         const { item } = this.props;
         return (
-            <div className="wrapperHistoryItem">
-                {this.renderDetail(item)}
-                {this.renderBuyBackButton(item)}
+            <div className="wrapperItem">
+                <div className="wrapperHistoryItem">
+                    {this.renderDetail(item)}
+                    {this.renderBuyBackButton(item)}
+                </div>
+                <div className="line" />
             </div>
         );
     }

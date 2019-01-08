@@ -11,6 +11,55 @@ import bondmarket from '@/services/BondMarket';
 
 import './BondHistory.scss';
 
+const dataTest = {
+    BondBuysHistory: {
+        abddjflksjdflksdjflsdjflsdjfsdk: {
+            TotalAmount: 100,
+            BuyBackAvailable: 0,
+            BondBuys: [
+                {
+                    TxID: "KSDFJLDSKFJDSLJFDSLKJFSDKJFDKLSJSKDFDSLKFJSD",
+                    TokenID: "sdkjfdskfjdslkfjldskfjlsdkjfls",
+                    Amount: 120,
+                    BuyBackAvailable: true,
+                    BuyBackDate: "2019-01-10",
+                    MadeBuyBackDate: "2019-01-10"
+                },
+                {
+                    TxID: "sdkfjoi3uroi3uroi23foksdnvmdvorkwencmshwr3h",
+                    TokenID: "sdkjfdskfjdslkfjldskfjlsdkjfls",
+                    Amount: 120,
+                    BuyBackAvailable: true,
+                    BuyBackDate: "2019-01-10",
+                    MadeBuyBackDate: "2019-01-10"
+
+
+                }
+    
+            ]
+        },
+        ksdjflkdsjflkdsjflsdkjflskdjflskdjf: {
+            TotalAmount: 100,
+            BuyBackAvailable: 0,
+            BondBuys: [
+                {
+                    TxID: "KSDFJLDSKFJDSLJFDSLKJFSDKJFDKLSJSKDFDSLKFJSD",
+                    TokenID: "sdkjfdskfjdslkfjldskfjlsdkjfls",
+                    Amount: 120,
+                    BuyBackAvailable: true,
+                    BuyBackDate: "2019-01-10",
+                    MadeBuyBackDate: "2019-01-10"
+
+
+                }
+    
+            ]
+        }
+    }
+};
+
+
+
 export default class BondHistory extends Component {
     constructor(props) {
         super(props);
@@ -22,28 +71,33 @@ export default class BondHistory extends Component {
     }
     componentDidMount() {
         this.getData();
+        
     }
 
     async getData(){
-        let result = await bondmarket.getHistoryList();
+        //let result = await bondmarket.getHistoryList();
+        let result = dataTest;
         if(!result.error){
-            const { BondBuysHistory } = result;
-            const keys = Object.keys(BondBuysHistory); 
-            const bonds = [];
-            keys.forEach(key => {
-                let object = BondBuysHistory[key];
-                object.name = key;
-                bonds.push(object);
-
-            });
-            if(keys.length > 0) {
-                const firstKey = keys[0];
-                const selectedItem = BondBuysHistory[firstKey];
-                this.setState({
-                    selectedBondItem: selectedItem
+            const { BondBuysHistory = {} } = result;
+            if(BondBuysHistory){
+                const keys = Object.keys(BondBuysHistory); 
+                const bonds = [];
+                keys.forEach(key => {
+                    let object = BondBuysHistory[key];
+                    object.name = key;
+                    bonds.push(object);
+    
                 });
+                if(keys.length > 0) {
+                    const firstKey = keys[0];
+                    const selectedItem = BondBuysHistory[firstKey];
+                    this.setState({
+                        selectedBondItem: selectedItem
+                    });
+                }
+              this.setState({bondList:bonds, data: BondBuysHistory});
             }
-          this.setState({bondList:bonds, data: BondBuysHistory});
+            
         }
         else{
           //return false;
@@ -70,13 +124,10 @@ export default class BondHistory extends Component {
     }
     renderHistoryList() {
         const { selectedBondItem } = this.state;
-        console.log('Selected Bond Item:', selectedBondItem);
-        if(!selectedBondItem) return null;
-        const { BondBuys } = selectedBondItem;
         return (
             <div className="wrapperHistoryList">
                 <Box title="Transaction">
-                    <HistoryList list={BondBuys}/>
+                    {selectedBondItem && <HistoryList list={selectedBondItem.BondBuys}/>}
                 </Box>
             </div>
         );
