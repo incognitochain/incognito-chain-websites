@@ -40,6 +40,11 @@ export default class Wallet extends Component {
     if(!result.error){
       let listBalances = Object.values(result.ListBalances), paymentAddress = result.PaymentAddress;
       for(let i in listBalances){
+        if (listBalances[i].TokenID == "0000000000000000000000000000000000000000000000000000000000000004") {
+          // nano constant -> convert to constant
+          listBalances[i].TotalBalance =  listBalances[i].TotalBalance / 100;
+          listBalances[i].AvailableBalance =  listBalances[i].AvailableBalance / 100;
+        }
         listBalances[i].key = i;
       }
 

@@ -19,6 +19,10 @@ const routes = [
     path: '/bond-market',
     component: asyncComponent(() => import('../BondMarket')),
   },
+  {
+    path: '/bond-market/history',
+    component: asyncComponent(() => import('../BondMarket')),
+  },
 ];
 
 class AppRouter extends Component {
@@ -59,6 +63,11 @@ class AppRouter extends Component {
           exact
           path={'/bond-market'}
           component={asyncComponent(() => import('@/containers/BondMarket'))}
+        />
+        <Route
+          exact
+          path={'/bond-market/history'}
+          component={asyncComponent(() => import('@/containers/BondMarket/BondHistory'))}
         />
 {/*         
         {routes.map(singleRoute => {
