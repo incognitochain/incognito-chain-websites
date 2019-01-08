@@ -83,4 +83,20 @@ export default class BondMarket {
         
         return false;
     }
+
+    static async buyBack(params) {
+    
+      try{
+        const response = await axios(BondMarket.getOption({method: "POST", func: '/bond-market/buy-back', params}));
+        if (response.status === 200) {
+          if(response.data && response.data.Result)
+            return response.data.Result;
+        }
+      }
+      catch (e) {console.log(e);
+        return { error: true, message: e.message };
+      }
+      
+      return false;
+  }
 }
