@@ -27,5 +27,8 @@ export const catchError = (e) => {
     if (response.status === 404) {
       toaster.danger('API End Point Not Found, please contact to admin.', { duration: 10 });
     }
+    if (response.status === 502) {
+      toaster.danger('API End Point Return Error 502, please contact to admin.', { duration: 10 });
+    }
   }
 }

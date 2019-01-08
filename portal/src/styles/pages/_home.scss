@@ -1,6 +1,32 @@
 .home-page {
   background-color: #FAFAFA;
   padding: 48px 0;
+  .hello {
+    font-size: 22px;
+    @extend .c-color-blue-900;
+    margin-bottom: 40px;
+  }
+  .stats-container {
+    > div {
+      position: relative;
+      &:not(:last-of-type):after {
+        content: '';
+        display: block;
+        height: 80%;
+        @extend .c-bg-gray-200;
+        width: 1px;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+      }
+      .value {
+        padding: 7px 0;
+        font-size: 27px;
+        @extend .c-color-blue-900;
+      }
+    }
+  }
   .c-card {
     margin-bottom: 24px;
   }
