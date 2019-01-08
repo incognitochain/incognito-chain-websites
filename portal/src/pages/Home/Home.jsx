@@ -159,7 +159,7 @@ class Home extends React.Component {
           cancelLabel="Cancel"
           confirmLabel="Confirm"
           isConfirmLoading={isLoading}
-          onCloseComplete={() => this.setState({ dialogDeny: false, isLoading: false })}
+          onCloseComplete={() => this.setState({ dialogWithdraw: false, isLoading: false })}
           onConfirm={() => { this.setState({ isLoading: true }); this.withdraw(); }}
         >
           <div>Please input your backup code you were added when create.</div>
