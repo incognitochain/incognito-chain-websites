@@ -3,7 +3,7 @@ import axios from 'axios';
 import Box from '@ui/utility/box';
 
 import LayoutWrapper from '@ui/utility/layoutWrapper.js';
-
+import BreadcrumbBar from '@/containers/Breadcrumb/Breadcrumb';
 import HistoryList from '@/containers/BondMarket/tableViews/HistoryList';
 import BondList from '@/containers/BondMarket/tableViews/BondList';
 import Input, {
@@ -261,9 +261,31 @@ export default class BondHistory extends Component {
         );
       }
 
+      renderBreadcrumb() {
+        const urls = [
+          {
+            name: "Bond Market",
+            url: "/bond-market"
+          },
+          {
+            name: "History",
+            url: "/bond-market/history"
+          }
+    
+        ];
+    
+        
+        return (
+          <BreadcrumbBar urls={urls}/>
+        );
+    
+      }
+
 
     render(){
         return (
+            <div className="">
+            {this.renderBreadcrumb()}
             <LayoutWrapper>
                 <div className="wrapperBondHistory">
                     {this.renderBondList()}
@@ -271,6 +293,7 @@ export default class BondHistory extends Component {
                 </div>
                 {this.renderBuyModal()}
             </LayoutWrapper>
+            </div>
             );
     }
 }

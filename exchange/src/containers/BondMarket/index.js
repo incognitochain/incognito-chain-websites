@@ -5,11 +5,14 @@ import PageHeader from '@ui/utility/pageHeader';
 import IntlMessages from '@ui/utility/intlMessages';
 import auth from '@ui/auth';
 import Loader from '@ui/utility/loader';
+import BreadcrumbBar from '@/containers/Breadcrumb/Breadcrumb';
+import { Link } from 'react-router-dom';
 
 import TableStyle from './customStyle';
 import DataBondMarket from './dataBondMarket';
 import SortView from './tableViews/sortView';
 import bondmarket from '@/services/BondMarket';
+
 
 export default class BondMarket extends Component {
   constructor(props) {
@@ -62,6 +65,26 @@ export default class BondMarket extends Component {
       return <p><IntlMessages id="Market.DataNotFound" /></p>;
     }
   }
+
+  renderBreadcrumb() {
+    const urls = [
+      {
+        name: "Bond Market",
+        url: "/bond-market"
+      },
+      {
+        name: "History",
+        url: "/bond-market/history"
+      }
+
+    ];
+
+    
+    return (
+      <BreadcrumbBar urls={urls}/>
+    );
+
+  }
   
   
   render() {
@@ -71,12 +94,15 @@ export default class BondMarket extends Component {
       return <Loader />;
 
     return (
-      <LayoutWrapper>
-      <PageHeader>{<IntlMessages id="BondMarket.PageHeader" />}</PageHeader>
-      {
-        this.renderTable()
-      }
-      </LayoutWrapper>
+      <div>
+        {this.renderBreadcrumb()}
+        <LayoutWrapper>
+        <PageHeader>{<IntlMessages id="BondMarket.PageHeader" />}</PageHeader>
+        {
+          this.renderTable()
+        }
+        </LayoutWrapper>
+      </div>
     );
   }
   
