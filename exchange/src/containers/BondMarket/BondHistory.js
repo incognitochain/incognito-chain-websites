@@ -6,6 +6,18 @@ import LayoutWrapper from '@ui/utility/layoutWrapper.js';
 
 import HistoryList from '@/containers/BondMarket/tableViews/HistoryList';
 import BondList from '@/containers/BondMarket/tableViews/BondList';
+import Input, {
+    InputGroup,
+  } from '@ui/uielements/input';
+import { WithdrawWrapper, MessageContent }  from './tableViews/style';
+import IntlMessages from '@ui/utility/intlMessages';
+import Alert from "@ui/feedback/alert";
+import Button from '@ui/uielements/button';
+
+import ModalStyle from "./tableViews/modal.style";
+import { Modal as Modals } from 'antd';
+import WithDirection from "@/settings/withDirection";
+import message from '@ui/feedback/message';
 
 import bondmarket from '@/services/BondMarket';
 
@@ -58,7 +70,29 @@ const dataTest = {
     }
 };
 
+const successBuy = () => {
+    const msg = "Buy success!"//<IntlMessages id="Wallet.SymbolCode" />;
+    message.success(
+      <MessageContent>
+        {msg}
+      </MessageContent>,
+      2
+    );
+  };
+  
+  const errorBuy = (msg) => {
+    message.error(
+      <MessageContent>
+        {msg}
+      </MessageContent>,
+      2
+    );
+  };
 
+
+
+const isoModal = ModalStyle(Modals);
+const Modal = WithDirection(isoModal);
 
 export default class BondHistory extends Component {
     constructor(props) {
@@ -66,7 +100,10 @@ export default class BondHistory extends Component {
         this.state = {
             bondList: [],
             data: {},
-            selectedBondItem: null
+            selectedBondItem: null,
+            isBuyBack: false,
+            isValidate: true,
+            clickedItem: null,
         }
     }
     componentDidMount() {
@@ -103,17 +140,59 @@ export default class BondHistory extends Component {
           //return false;
         }
       }
+
+    validate=({amount})=>{
+    if (amount <=0) return false;
+    return true;
+    } 
+
     handleOnBondClick=(key)=> {
-        console.log('On click key:', key);
         const { data } = this.state;
         const selectedItem = data[key];
         this.setState({
             selectedBondItem: selectedItem
         });
     }
+    handleBuyBack=(item)=> {
+        this.setState({isBuyBack: true, clickedItem: item});
+    }
+
+    handleCancel = () => {
+        this.setState({ isBuyBack: false});
+      };
+
+    handleOnBuyClick = async () => {
+        const { wAmount, isValidate, clickedItem } = this.state;
+        if(isValidate) {
+            const params = {
+            amount: wAmount,
+            buyBondID: clickedItem.TokenID,
+            };
+            console.log('Params:', params);
+            /*
+            let result = await bondmarket.buyBack(params);
+            if(result){
+            if(result.error){
+                errorBuy(result.message);
+            }
+            else if(!result.Result){
+                errorBuy(result.Message);
+            }
+            else{
+                successBuy();
+            }
+            }
+            */
+            this.setState({ isBuyBack: false });
+        }  
+    }
+    changeAmount = (e) => {
+        let val = e.target.value ? e.target.value : Number(e.target.value);
+        this.setState({ wAmount:  val, isValidate: this.validate({amount:val})});
+      }
+
     renderBondList() {
         const { bondList } = this.state;
-        console.log('Bond List:', bondList);
         return (
             <div className="wrapperBondList">
                 <Box title="Bond List">
@@ -122,16 +201,67 @@ export default class BondHistory extends Component {
             </div>
         );
     }
+
     renderHistoryList() {
         const { selectedBondItem } = this.state;
         return (
             <div className="wrapperHistoryList">
                 <Box title="Transaction">
-                    {selectedBondItem && <HistoryList list={selectedBondItem.BondBuys}/>}
+                    {selectedBondItem && <HistoryList 
+                        list={selectedBondItem.BondBuys}
+                        onBuyBack={this.handleBuyBack}/>}
                 </Box>
             </div>
         );
     }
+
+    renderBuyModal(){
+        const { isBuyBack, isValidate } = this.state;
+        const title = <IntlMessages id="BondMarket.Buy" />;
+    
+        return (
+          <Modal
+              visible={isBuyBack}
+              title={title}
+              onOk={this.handleOk}
+              onCancel={this.handleCancel}
+              footer={[
+                <Button key="back" size="large" onClick={this.handleCancel}>
+                  <IntlMessages id="BondMarket.Buy.Cancel" />
+                </Button>,
+                <Button
+                  key="submit"
+                  type="primary"
+                  size="large"
+                  loading={this.state.loading}
+                  onClick={this.handleOnBuyClick}
+                >
+                  <IntlMessages id="BondMarket.Buy.Submit" />
+                </Button>
+              ]}
+            >
+              <WithdrawWrapper>
+                <div><IntlMessages id="BondMarket.Buy.Amount" /></div>
+                <InputGroup >
+                  <Input
+                    addonAfter="BOND"
+                    placeholder="0.00"
+                    onChange={(e) => this.changeAmount(e)}
+                  />
+                </InputGroup>                
+              </WithdrawWrapper>
+              {!isValidate && <Alert
+                message={
+                  <IntlMessages id="BondMarket.BuyBack.WarningDescription" />
+                }
+                type="warning"
+                style={{marginBottom: "10px"}}
+              />}
+            </Modal>
+        );
+      }
+
+
     render(){
         return (
             <LayoutWrapper>
@@ -139,6 +269,7 @@ export default class BondHistory extends Component {
                     {this.renderBondList()}
                     {this.renderHistoryList()}
                 </div>
+                {this.renderBuyModal()}
             </LayoutWrapper>
             );
     }

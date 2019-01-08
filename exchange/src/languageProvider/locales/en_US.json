@@ -544,5 +544,6 @@
   "BondMarket.Buy.Cancel": "Cancel",
   "BondMarket.Buy.Submit": "Buy",
   "BondMarket.Buy.Amount": "Amount",
-  "BondMarket.Buy.WarningDescription": "Please enter amount and rate larger than 0"
+  "BondMarket.Buy.WarningDescription": "Please enter amount and rate larger than 0",
+  "BondMarket.BuyBack.WarningDescription": "Please enter amount larger than 0"
 }
