@@ -44,6 +44,11 @@ const PublicRoutes = ({ history, isLoggedIn }) => {
           path={'/bond-market'}
           component={App}
         />
+        <Route
+          exact
+          path={'/bond-market/history'}
+          component={App}
+        />
       </div>
     </ConnectedRouter>
   );

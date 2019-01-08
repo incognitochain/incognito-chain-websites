@@ -11,26 +11,6 @@ import DataBondMarket from './dataBondMarket';
 import SortView from './tableViews/sortView';
 import bondmarket from '@/services/BondMarket';
 
-const list = [
-  {
-    BondName: 'ABC',
-    BondSymbol: 'CST',
-    BondID: 1,
-    ExpiredDate: "2018-12-26T04:06:35",
-    TotalIssue: 23,
-    Available: 5,
-    Rate: 4.5,
-  },
-  {
-    BondName: 'DFC',
-    BondSymbol: 'CST',
-    BondID: 2,
-    ExpiredDate: "2018-12-26T04:06:35",
-    TotalIssue: 23,
-    Available: 5,
-    Rate: 4.5,
-  }
-];
 export default class BondMarket extends Component {
   constructor(props) {
     super(props);
