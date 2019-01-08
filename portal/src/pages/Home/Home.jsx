@@ -11,7 +11,8 @@ import bgApplyMCB from '@/assets/apply-mcb.svg';
 import { axios, catchError } from '@/services/api';
 import { API } from '@/constants';
 import dayjs from 'dayjs';
-import { Dialog, toaster } from 'evergreen-ui';
+import { Dialog, toaster, TextInput } from 'evergreen-ui';
+import { isEmpty } from 'lodash';
 
 class Home extends React.Component {
   constructor(props) {
@@ -21,15 +22,32 @@ class Home extends React.Component {
       isLoading: false,
       borrows: [],
       borrowsForLender: [],
-      active: 1,
+      active: 0,
       dialogApprove: false,
       dialogDeny: false,
       dialogWithdraw: false,
       currentBorrow: {},
+      secretKey: '',
+      stats: {},
     }
 
     this.loadBorrows();
     this.loadBorrows(true);
+    this.loadStats();
+  }
+
+  loadStats = () => {
+    axios.get(API.STATS).then(res => {
+      const { data } = res;
+      if (data) {
+        const { Result } = data;
+        if (Result) {
+          this.setState({ stats: Result });
+        }
+      }
+    }).catch(e => {
+      catchError(e);
+    })
   }
 
   loadBorrows = (forLender = false) => {
@@ -68,9 +86,9 @@ class Home extends React.Component {
     axios.post(`${API.LOAN_ACTION}/${currentBorrow.ID}/process?action=${action}`).then(res => {
       this.loadBorrows();
       this.loadBorrows(true);
-      this.setState({ dialogApprove: false, dialogDeny: false, isLoading: false });
+      this.setState({ dialogApprove: false, dialogDeny: false, dialogWithdraw: false, isLoading: false });
     }).catch(e => {
-      this.setState({ dialogApprove: false, dialogDeny: false, isLoading: false });
+      this.setState({ dialogApprove: false, dialogDeny: false, dialogWithdraw: false, isLoading: false });
       catchError(e);
       toaster.warning('Have a error', e);
     });
@@ -81,11 +99,29 @@ class Home extends React.Component {
   }
 
   withdraw = () => {
-
+    const { currentBorrow, secretKey } = this.state;
+    axios.post(`${API.LOAN_ACTION}/${currentBorrow.ID}/withdraw?key=${secretKey}`).then(res => {
+      this.loadBorrows();
+      this.loadBorrows(true);
+      const { data } = res;
+      if (data) {
+        const { Error: ResultError } = data;
+        const { Code } = ResultError;
+        if (Code < 1) {
+          toaster.warning(ResultError.Message);
+        }
+      }
+      this.setState({ dialogApprove: false, dialogDeny: false, dialogWithdraw: false, isLoading: false, secretKey: '' });
+    }).catch(e => {
+      this.setState({ dialogApprove: false, dialogDeny: false, dialogWithdraw: false, isLoading: false, secretKey: '' });
+      catchError(e);
+      toaster.warning('Have a error', e);
+    });
   }
 
   render() {
-    const { isLoading, borrows, borrowsForLender, active, dialogApprove, dialogDeny, dialogWithdraw, currentBorrow } = this.state;
+    const { stats, secretKey, isLoading, borrows, borrowsForLender, active, dialogApprove, dialogDeny, dialogWithdraw, currentBorrow } = this.state;
+    const hasStats = !isEmpty(stats);
     return (
       <div className="home-page">
         <Dialog
@@ -115,13 +151,51 @@ class Home extends React.Component {
         >
           Confirm your deny.
         </Dialog>
+        <Dialog
+          isShown={dialogWithdraw}
+          shouldCloseOnOverlayClick={false}
+          shouldCloseOnEscapePress={false}
+          title={`Withdraw borrow id: ${currentBorrow.ID}`}
+          cancelLabel="Cancel"
+          confirmLabel="Confirm"
+          isConfirmLoading={isLoading}
+          onCloseComplete={() => this.setState({ dialogDeny: false, isLoading: false })}
+          onConfirm={() => { this.setState({ isLoading: true }); this.withdraw(); }}
+        >
+          <div>Please input your backup code you were added when create.</div>
+          <div>
+            <TextInput autoComplete="off" type="password" style={{ display: 'block', margin: '10px 0' }} value={secretKey} onChange={e => this.setState({ secretKey: e.target.value })} />
+          </div>
+        </Dialog>
         <section className="coin-information">
           <div className="container">
             <div className="row">
               <div className="col-12 col-md-6 col-lg-8">
-                <div className="c-card">
-
-                </div>
+                {hasStats ? (
+                  <div className="c-card">
+                    <div className="hello">Hello, {stats.Username}</div>
+                    <div className="row stats-container">
+                      <div className="col-12 col-lg-3 stats">
+                        <div className="value">{Number(stats.TotalConstantPending).toFixed(2)} CST</div>
+                        <div>Are pending</div>
+                      </div>
+                      <div className="col-12 col-lg-3 stats">
+                        <div className="value">{Number(stats.TotalConstantApproved).toFixed(2)} CST</div>
+                        <div>Has been approved</div>
+                      </div>
+                      <div className="col-12 col-lg-3 stats">
+                        <div className="value">{Number(stats.TotalConstantRejected).toFixed(2)} CST</div>
+                        <div>Has been rejected</div>
+                      </div>
+                      <div className="col-12 col-lg-3 stats">
+                        {stats.Collaterals.map(collateral => (
+                          <div key={collateral.Type} className="value">{Number(collateral.Amount).toFixed(2)} {collateral.Type}</div>
+                        ))}
+                        <div>Collaterals</div>
+                      </div>
+                    </div>
+                  </div>
+                ) : ''}
               </div>
               <div className="col-12 col-md-6 col-lg-4">
                 <div className="c-card card-create-a-proposal-container" style={{ backgroundImage: `url(${bgImage})` }}>
@@ -203,6 +277,9 @@ class Home extends React.Component {
                           <td className={`state state-${borrow.State}`}>{borrow.State}</td>
                           <td>
                             {borrow.State === 'pending' ? 'Wait until the borrower make their collateral' : ''}
+                            {borrow.State === 'ready' ? (
+                              <button className="c-a-btn" onClick={() => this.clickWithdraw(borrow)}>Withdraw</button>
+                            ) : ''}
                           </td>
                         </tr>
                       ))}

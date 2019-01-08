@@ -233,9 +233,9 @@ class Create extends React.Component {
           "LoanID": loanID,
           "CollateralType": 'ETH',
           "CollateralAmount": collateralAmount,
-          "LoanAmount": Number(loanAmount),
+          "LoanAmount": parseInt(Number(loanAmount) * 100, 10),
           "ReceiveAddress": "",
-          "KeyDigest": "",
+          "KeyDigest": web3.utils.soliditySha3(web3.utils.toHex(secretKey)),
         }
       };
 

@@ -12,12 +12,12 @@ import Loading from '@/components/Loading';
 
 const Home = createDynamicImport(() => import('@/pages/Home/Home'), Loading);
 const Create = createDynamicImport(() => import('@/pages/Create/Create'), Loading);
-const LoanDetail = createDynamicImport(() => import('@/pages/LoanDetail/index'), Loading);
+const Loan = createDynamicImport(() => import('@/pages/Loan/Loan'), Loading);
 
 const routers = [
   { path: '/', exact: true, component: Home },
   { path: '/create', exact: true, component: Create },
-  { path: '/loan/:id', exact: true, component: LoanDetail },
+  { path: '/loan/:id', exact: true, component: Loan },
 ];
 
 class Router extends React.Component {

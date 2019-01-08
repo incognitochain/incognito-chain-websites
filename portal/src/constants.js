@@ -7,7 +7,9 @@ if (isProduction) {
 }
 
 const API = {
+  STATS: 'portal/borrows_stats',
   LOAN_PARAMS: 'common/loanparams',
+  LOAN_DETAIL: 'portal/borrows',
   LOAN_SUBMIT: 'portal/borrows',
   LOAN_LIST: 'portal/borrows',
   LOAN_ACTION: 'portal/borrows',
