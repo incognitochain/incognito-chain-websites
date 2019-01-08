@@ -12,6 +12,7 @@ import Input, {
   InputGroup,
 } from '@ui/uielements/input';
 import bondmarket from '@/services/BondMarket';
+import { nanoToConstant } from '@/helpers/utility';
 
 import {
   DateCell,
@@ -67,6 +68,7 @@ export default class extends Component {
     this.state = {
       isBuy: false,
       wAmount: 0,
+      wRate: 0,
       dataList: this.props.dataList.getAll(),
       loading: false,
       isValidate: true,
@@ -106,7 +108,7 @@ export default class extends Component {
         key: 'BuyBackPrice',
         width: 100,
         render: obj => {
-          return <span>{obj.BuyBackPrice.toLocaleString()} CONST</span>
+          return <span>{nanoToConstant(obj.BuyBackPrice).toLocaleString()} CONST</span>
         }
       },
       {
@@ -125,7 +127,7 @@ export default class extends Component {
         title: <IntlMessages id="BondMarket.Rate" />,
         key: 'Rate',
         width: 100,
-        render: obj => renderCell(obj, 'NumberCell', 'Rate')
+        render: obj => <span>{nanoToConstant(obj.Rate).toLocaleString()}</span>
       },
       {
         title: "",
@@ -143,8 +145,9 @@ export default class extends Component {
       }
     ];
   }
-  validate=({amount})=>{
+  validate=({amount, rate})=>{
     if (amount <=0) return false;
+    if (rate <=0) return false;
     return true;
   } 
 
@@ -167,7 +170,12 @@ export default class extends Component {
 
   changeAmount = (e) => {
     let val = e.target.value ? e.target.value : Number(e.target.value);
-    this.setState({ wAmount:  val, isValidate: this.validate({amount: val})});
+    this.setState({ wAmount:  val});
+  }
+
+  changeRate = (e) => {
+    let val = e.target.value ? e.target.value : Number(e.target.value);
+    this.setState({ wRate:  val});
   }
 
   handleCancel = () => {
@@ -175,25 +183,30 @@ export default class extends Component {
   };
 
   handleBuy = async () => {
-    const { wAmount, selectedItem } = this.state;
-    const params = {
-      amount: wAmount,
-      bondID: selectedItem.BondID
-    };
-    let result = await bondmarket.buy(params);
-    if(result){
-      if(result.error){
-        errorBuy(result.message);
+    const { wAmount, wRate, selectedItem } = this.state;
+    const isValidate = this.validate({amount: wAmount, rate: wRate})
+    if(isValidate) {
+      const params = {
+        amount: wAmount,
+        bondID: selectedItem.BondID,
+        rate: wRate
+      };
+      let result = await bondmarket.buy(params);
+      if(result){
+        if(result.error){
+          errorBuy(result.message);
+        }
+        else if(!result.Result){
+          errorBuy(result.Message);
+        }
+        else{
+          successBuy();
+        }
       }
-      else if(!result.Result){
-        errorBuy(result.Message);
-      }
-      else{
-        successBuy();
-      }
-    }
-    
-    this.setState({ isBuy: false });
+      this.setState({ isBuy: false, isValidate });
+    }else {
+      this.setState({ isValidate});
+    }   
   }
 
 
@@ -232,6 +245,15 @@ export default class extends Component {
                 onChange={(e) => this.changeAmount(e)}
               />
             </InputGroup>
+            <div><IntlMessages id="BondMarket.Rate" /></div>
+            <InputGroup >
+              <Input
+                //addonAfter="BOND"
+                placeholder="0.00"
+                onChange={(e) => this.changeRate(e)}
+              />
+            </InputGroup>
+            
           </WithdrawWrapper>
           {!isValidate && <Alert
             message={

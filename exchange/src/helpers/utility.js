@@ -66,3 +66,6 @@ export function timeDifference(givenTime) {
   };
   return getTime();
 }
+export function nanoToConstant(value) {
+  return value / 100;
+}
