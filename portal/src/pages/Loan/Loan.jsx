@@ -84,15 +84,15 @@ class Loan extends React.Component {
                       <div className="col-12 col-lg-7 left-line">
                         <div className="row">
                           <div className="col-12 col-lg-6 value-container">
-                            <div className="value c-color-green-500">{data.LoanAmount} CST</div>
+                            <div className="value c-color-green-500">{data.LoanAmount.constant()} CST</div>
                             <div>Constant Loan</div>
                           </div>
                           <div className="col-12 col-lg-6 value-container">
-                            <div className="value">{data.CollateralAmount} {data.CollateralType}</div>
+                            <div className="value">{data.CollateralAmount.coinUnitFormat(data.CollateralType)} {data.CollateralType}</div>
                             <div>Collateral amount</div>
                           </div>
                           <div className="col-12 col-lg-6 value-container">
-                            <div className="value">{data.InterestRate}</div>
+                            <div className="value">{data.InterestRate} %</div>
                             <div>Interest rate</div>
                           </div>
                           <div className="col-12 col-lg-6 value-container">

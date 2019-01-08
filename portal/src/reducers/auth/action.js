@@ -12,7 +12,7 @@ export const checkAuth = () => dispatch => {
   axios.get(API.USER_DATA).then(res => {
     const { data } = res;
     if (data && !isEmpty(data)) {
-      dispatch({ type: ACTIONS.LOGGED, logged: true, payload: data });
+      dispatch({ type: ACTIONS.LOGGED, logged: true, payload: data.Result });
     }
   }).catch(e => {
     dispatch({ type: ACTIONS.LOGGED, logged: false });

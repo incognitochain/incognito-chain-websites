@@ -83,7 +83,7 @@ class Home extends React.Component {
   action = (approve = true) => {
     const { currentBorrow } = this.state;
     const action = approve ? 'a' : 'r';
-    axios.post(`${API.LOAN_ACTION}/${currentBorrow.ID}/process?action=${action}`).then(res => {
+    axios.post(`${API.LOAN_ACTION}/${currentBorrow.LoanID}/process?action=${action}`).then(res => {
       this.loadBorrows();
       this.loadBorrows(true);
       this.setState({ dialogApprove: false, dialogDeny: false, dialogWithdraw: false, isLoading: false });
@@ -100,7 +100,7 @@ class Home extends React.Component {
 
   withdraw = () => {
     const { currentBorrow, secretKey } = this.state;
-    axios.post(`${API.LOAN_ACTION}/${currentBorrow.ID}/withdraw?key=${secretKey}`).then(res => {
+    axios.post(`${API.LOAN_ACTION}/${currentBorrow.LoanID}/withdraw?key=a${secretKey}`).then(res => {
       this.loadBorrows();
       this.loadBorrows(true);
       const { data } = res;
@@ -128,7 +128,7 @@ class Home extends React.Component {
           isShown={dialogApprove}
           shouldCloseOnOverlayClick={false}
           shouldCloseOnEscapePress={false}
-          title={`Approve borrow id: ${currentBorrow.ID}`}
+          title={`Approve borrow id: ${currentBorrow.LoanID && currentBorrow.LoanID.substr(0, 5)}...`}
           cancelLabel="Cancel"
           confirmLabel="Confirm"
           isConfirmLoading={isLoading}
@@ -141,7 +141,7 @@ class Home extends React.Component {
           isShown={dialogDeny}
           shouldCloseOnOverlayClick={false}
           shouldCloseOnEscapePress={false}
-          title={`Deny borrow id: ${currentBorrow.ID}`}
+          title={`Deny borrow id: ${currentBorrow.LoanID && currentBorrow.LoanID.substr(0, 5)}...`}
           intent="danger"
           cancelLabel="Cancel"
           confirmLabel="Confirm"
@@ -155,7 +155,7 @@ class Home extends React.Component {
           isShown={dialogWithdraw}
           shouldCloseOnOverlayClick={false}
           shouldCloseOnEscapePress={false}
-          title={`Withdraw borrow id: ${currentBorrow.ID}`}
+          title={`Withdraw borrow id: ${currentBorrow.LoanID && currentBorrow.LoanID.substr(0, 5)}...`}
           cancelLabel="Cancel"
           confirmLabel="Confirm"
           isConfirmLoading={isLoading}
@@ -176,20 +176,20 @@ class Home extends React.Component {
                     <div className="hello">Hello, {stats.Username}</div>
                     <div className="row stats-container">
                       <div className="col-12 col-lg-3 stats">
-                        <div className="value">{Number(stats.TotalConstantPending).toFixed(2)} CST</div>
+                        <div className="value">{Number(stats.TotalConstantPending).numberFormat().commarize()} CST</div>
                         <div>Are pending</div>
                       </div>
                       <div className="col-12 col-lg-3 stats">
-                        <div className="value">{Number(stats.TotalConstantApproved).toFixed(2)} CST</div>
+                        <div className="value">{Number(stats.TotalConstantApproved).numberFormat().commarize()} CST</div>
                         <div>Has been approved</div>
                       </div>
                       <div className="col-12 col-lg-3 stats">
-                        <div className="value">{Number(stats.TotalConstantRejected).toFixed(2)} CST</div>
+                        <div className="value">{Number(stats.TotalConstantRejected).numberFormat().commarize()} CST</div>
                         <div>Has been rejected</div>
                       </div>
                       <div className="col-12 col-lg-3 stats">
-                        {stats.Collaterals.map(collateral => (
-                          <div key={collateral.Type} className="value">{Number(collateral.Amount).toFixed(2)} {collateral.Type}</div>
+                        {stats.Collaterals && stats.Collaterals.map(collateral => (
+                          <div key={collateral.Type} className="value">{Number(collateral.Amount).numberFormat().commarize()} {collateral.Type}</div>
                         ))}
                         <div>Collaterals</div>
                       </div>
@@ -262,22 +262,22 @@ class Home extends React.Component {
                         <th>Start date</th>
                         <th>End date</th>
                         <th>Status</th>
-                        <th width="364">Your decision</th>
+                        <th width="324">Your decision</th>
                       </tr>
                     </thead>
                     <tbody>
                       {borrows.map(borrow => (
-                        <tr key={borrow.ID}>
-                          <td><Link to={`/loan/${borrow.ID}`}>{borrow.ID}</Link></td>
-                          <td>{borrow.LoanAmount} CST</td>
-                          <td>{borrow.CollateralAmount} {borrow.CollateralType}</td>
+                        <tr key={borrow.LoanID}>
+                          <td><Link to={`/loan/${borrow.LoanID}`}>{borrow.LoanID.substr(0, 5)}...</Link></td>
+                          <td>{parseFloat(borrow.LoanAmount / 100).numberFormat()} CST</td>
+                          <td>{borrow.CollateralAmount.coinUnitFormat(borrow.CollateralType)} {borrow.CollateralType}</td>
                           <td>{borrow.InterestRate}%</td>
                           <td>{dayjs(borrow.CreatedAt).format('MM-DD-YYYY')}</td>
                           <td>{dayjs(borrow.EndDate).format('MM-DD-YYYY')}</td>
                           <td className={`state state-${borrow.State}`}>{borrow.State}</td>
                           <td>
                             {borrow.State === 'pending' ? 'Wait until the borrower make their collateral' : ''}
-                            {borrow.State === 'ready' ? (
+                            {borrow.State === 'approved' ? (
                               <button className="c-a-btn" onClick={() => this.clickWithdraw(borrow)}>Withdraw</button>
                             ) : ''}
                           </td>
@@ -305,15 +305,15 @@ class Home extends React.Component {
                         <th>Start date</th>
                         <th>End date</th>
                         <th>Status</th>
-                        <th width="364">Your decision</th>
+                        <th width="324">Your decision</th>
                       </tr>
                     </thead>
                     <tbody>
                       {borrowsForLender.map(borrow => (
-                        <tr key={borrow.ID}>
-                          <td><Link to={`/loan/${borrow.ID}`}>{borrow.ID}</Link></td>
-                          <td>{borrow.LoanAmount} CST</td>
-                          <td>{borrow.CollateralAmount} {borrow.CollateralType}</td>
+                        <tr key={borrow.LoanID}>
+                          <td><Link to={`/loan/${borrow.LoanID}`}>{borrow.LoanID.substr(0, 5)}...</Link></td>
+                          <td>{parseFloat(borrow.LoanAmount / 100).toExponential(2)} CST</td>
+                          <td>{borrow.CollateralAmount.coinUnitFormat(borrow.CollateralType)} {borrow.CollateralType}</td>
                           <td>{borrow.InterestRate}%</td>
                           <td>{dayjs(borrow.CreatedAt).format('MM-DD-YYYY')}</td>
                           <td>{dayjs(borrow.EndDate).format('MM-DD-YYYY')}</td>

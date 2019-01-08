@@ -11,7 +11,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Link from '@/components/Link';
 import { axios, catchError } from '@/services/api';
 import rawAxios from 'axios';
-import { API } from '@/constants';
+import { API, BLOCKCHAIN } from '@/constants';
 import dayjs from 'dayjs';
 import { Formik } from 'formik';
 import { toaster } from 'evergreen-ui';
@@ -129,7 +129,7 @@ class Create extends React.Component {
   calcMaturity = (currentRate) => {
     const { currentCollateral } = this.state;
     const maturity = currentRate.Maturity || currentCollateral.Maturity; // in block time
-    const maturityInSecond = maturity * (0.1 * 60); // 10 minutes for a new block // TODO
+    const maturityInSecond = maturity * (BLOCKCHAIN.BLOCK_IN_SECOND); // 10 minutes for a new block // TODO
     const now = new Date();
     let nowInSecond = (now / 1000 | 0);
     nowInSecond += (maturityInSecond - 3600);
@@ -196,17 +196,22 @@ class Create extends React.Component {
   }
 
   handleETH = async (values) => {
-    const { secretKey, collateralAmount, loanAmount } = values;
+    const { secretKey: rawSecretKey, collateralAmount, loanAmount } = values;
     const { setSubmitting, maturity, currentRate } = this.state;
     const { routerPush, auth } = this.props;
     const { address, web3 } = this.props.metamask;
+
+    const secretKey = `a${rawSecretKey}`;
+
     const contractInstance = new web3.eth.Contract(abiDefinition, process.env.loanSmartContractAddress);
+
     const constantPaymentAddress = auth.data.PaymentAddress;
     const digestKey = web3.utils.fromAscii(secretKey);
     const lid = web3.utils.fromAscii("");
     const offChain = web3.utils.fromAscii("");
     const accounts = await web3.eth.getAccounts();
-    contractInstance.methods.sendCollateral(lid, digestKey, constantPaymentAddress, loanAmount * 100, offChain).send({
+
+    contractInstance.methods.sendCollateral(lid, digestKey, web3.utils.toHex(constantPaymentAddress), parseInt(Number(loanAmount) * 100, 10), offChain).send({
       from: accounts[0],
       value: parseFloat(collateralAmount) * Math.pow(10, 18),
     }).on('transactionHash', (hash) => {
@@ -215,42 +220,46 @@ class Create extends React.Component {
     }).on("confirmation", function (confirmationNumber, receipt) {
       console.log(confirmationNumber, receipt);
     }).on("receipt", function (receipt) {
+      try {
+        const result = {
+          err: null,
+          data: receipt.events.__sendCollateral.returnValues,
+        };
 
-      const result = {
-        err: null,
-        data: receipt.events.__sendCollateral.returnValues,
-      };
+        const loanID = result.data.lid;
+        const startDate = dayjs().format('YYYY-MM-DD');
+        const endDate = dayjs(maturity).format('YYYY-MM-DD');
 
-      const loanID = result.data.lid;
-      const startDate = dayjs().format('YYYY-MM-DD');
-      const endDate = dayjs(maturity).format('YYYY-MM-DD');
-
-      const data = {
-        "StartDate": startDate,
-        "EndDate": endDate,
-        "LoanRequest": {
-          "Params": currentRate,
-          "LoanID": loanID,
-          "CollateralType": 'ETH',
-          "CollateralAmount": collateralAmount,
-          "LoanAmount": parseInt(Number(loanAmount) * 100, 10),
-          "ReceiveAddress": "",
-          "KeyDigest": web3.utils.soliditySha3(web3.utils.toHex(secretKey)),
-        }
-      };
-
-      axios.post(API.LOAN_SUBMIT, data).then(res => {
-        if (res.status === 200) {
-          if (res.data && res.data.Result) {
-            const { Result } = res.data;
-            routerPush(`/loan/${Result.ID}`);
+        const data = {
+          "StartDate": startDate,
+          "EndDate": endDate,
+          "LoanRequest": {
+            "Params": currentRate,
+            "LoanID": loanID.substr(2),
+            "CollateralType": 'ETH',
+            "CollateralAmount": collateralAmount.etherToWei(),
+            "LoanAmount": parseInt(Number(loanAmount) * 100, 10),
+            "ReceiveAddress": "",
+            "KeyDigest": web3.utils.soliditySha3(web3.utils.toHex(secretKey)).substr(2),
           }
-        }
-        setSubmitting(false);
-      }).catch(e => {
-        catchError(e);
-        setSubmitting(false);
-      });
+        };
+
+        axios.post(API.LOAN_SUBMIT, data).then(res => {
+          if (res.status === 200) {
+            if (res.data && res.data.Result) {
+              const { Result } = res.data;
+              routerPush(`/loan/${Result.ID}`);
+            }
+          }
+          setSubmitting(false);
+        }).catch(e => {
+          console.log(e);
+          catchError(e);
+          setSubmitting(false);
+        });
+      } catch (e) {
+        console.log(e);
+      }
       // success
     }).on('err', function (err) {
       console.log(err);
@@ -268,6 +277,7 @@ class Create extends React.Component {
       if (e.message.includes('User denied')) {
         toaster.warning('You denied this transaction');
       }
+      console.log(e);
     });
   }
 

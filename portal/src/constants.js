@@ -17,6 +17,10 @@ const API = {
   USER_DATA: 'auth/me',
 };
 
+const BLOCKCHAIN = {
+  BLOCK_IN_SECOND: 600,
+};
+
 Object.keys(API).map(api => { API[api] = `${BASE}/${API[api]}`; return null; });
 
-module.exports = { API };
+module.exports = { API, BLOCKCHAIN };
