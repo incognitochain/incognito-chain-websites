@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { faBitcoin, faEthereum } from '@fortawesome/free-brands-svg-icons';
 import { faArrowRight } from '@fortawesome/pro-regular-svg-icons';
 import { faSpinnerThird } from '@fortawesome/pro-light-svg-icons';
@@ -14,16 +14,16 @@ import rawAxios from 'axios';
 import { API, BLOCKCHAIN } from '@/constants';
 import dayjs from 'dayjs';
 import { Formik } from 'formik';
-import { toaster } from 'evergreen-ui';
+import { toaster, Dialog } from 'evergreen-ui';
 import abiDefinition from '@/pages/Create/abiDefinition';
 import { detectInstalled, requestUnlockMetamask, init } from '@/reducers/metamask/action';
-import { Dialog } from 'evergreen-ui';
 import detectBrowser from 'detect-browser';
 import { push } from 'connected-react-router';
 import { checkAuth } from '@/reducers/auth/action';
 
 class Create extends React.Component {
   static propTypes = {
+    metamask: PropTypes.object.isRequired,
     metamaskInit: PropTypes.func.isRequired,
     metamaskDetectInstalled: PropTypes.func.isRequired,
     metamaskRequestUnlock: PropTypes.func.isRequired,
@@ -56,10 +56,9 @@ class Create extends React.Component {
       dialogUnlock: false,
       dialogWantUsePrivateKey: false,
       status: '',
-      finish: false,
     };
 
-    axios.get(API.LOAN_PARAMS).then(res => {
+    axios.get(API.LOAN_PARAMS).then((res) => {
       const { data } = res;
       if (data) {
         const { Result } = data;
@@ -67,10 +66,9 @@ class Create extends React.Component {
           const currentRate = Result[0];
           this.setState({ rates: Result, currentRate });
           this.calcMaturity(currentRate);
-          return;
         }
       }
-    }).catch(e => {
+    }).catch((e) => {
       catchError(e);
     });
 
@@ -100,12 +98,12 @@ class Create extends React.Component {
     https://www.bitstamp.net/api/ticker/
     https://blockchain.info/ticker
     */
-    rawAxios.get('https://api.coinmarketcap.com/v1/ticker/bitcoin/').then(res => {
+    rawAxios.get('https://api.coinmarketcap.com/v1/ticker/bitcoin/').then((res) => {
       const { data } = res;
       if (data && data.length) {
-        const { price_usd } = data[0];
+        const { price_usd: priceUsd } = data[0];
         const { price } = this.state;
-        this.setState({ price: { ...price, btc: Number(price_usd) } });
+        this.setState({ price: { ...price, btc: Number(priceUsd) } });
       }
     });
     // TODO: fetch per xxx second
@@ -114,12 +112,12 @@ class Create extends React.Component {
   getTickerOfETH = () => {
     /*
     */
-    rawAxios.get('https://api.coinmarketcap.com/v1/ticker/ethereum/').then(res => {
+    rawAxios.get('https://api.coinmarketcap.com/v1/ticker/ethereum/').then((res) => {
       const { data } = res;
       if (data && data.length) {
-        const { price_usd } = data[0];
+        const { price_usd: priceUsd } = data[0];
         const { price } = this.state;
-        this.setState({ price: { ...price, eth: Number(price_usd) } });
+        this.setState({ price: { ...price, eth: Number(priceUsd) } });
       }
     });
     // TODO: fetch per xxx second
@@ -129,7 +127,8 @@ class Create extends React.Component {
   calcMaturity = (currentRate) => {
     const { currentCollateral } = this.state;
     const maturity = currentRate.Maturity || currentCollateral.Maturity; // in block time
-    const maturityInSecond = maturity * (BLOCKCHAIN.BLOCK_IN_SECOND); // 10 minutes for a new block // TODO
+    // 10 minutes for a new block // TODO
+    const maturityInSecond = maturity * (BLOCKCHAIN.BLOCK_IN_SECOND);
     const now = new Date();
     let nowInSecond = (now / 1000 | 0);
     nowInSecond += (maturityInSecond - 3600);
@@ -142,7 +141,7 @@ class Create extends React.Component {
     const { currentRate, price, currentCollateral } = this.state;
     const { LiquidationStart } = currentRate;
     const { value } = e.target;
-    const fix = { 'ETH': 2, 'BTC': 10 };
+    const fix = { ETH: 2, BTC: 10 };
     let collateralAmount = value;
 
     if (LiquidationStart && value) {
@@ -162,9 +161,7 @@ class Create extends React.Component {
   }
 
   onlyNumber = (value, cb) => {
-    if (Number.isNaN(Number(value))) {
-      return;
-    } else {
+    if (!Number.isNaN(Number(value))) {
       cb();
     }
   }
@@ -198,8 +195,8 @@ class Create extends React.Component {
   handleETH = async (values) => {
     const { secretKey: rawSecretKey, collateralAmount, loanAmount } = values;
     const { setSubmitting, maturity, currentRate } = this.state;
-    const { routerPush, auth } = this.props;
-    const { address, web3 } = this.props.metamask;
+    const { routerPush, auth, metamask } = this.props;
+    const { web3 } = metamask;
 
     const secretKey = `a${rawSecretKey}`;
 
@@ -207,8 +204,8 @@ class Create extends React.Component {
 
     const constantPaymentAddress = auth.data.PaymentAddress;
     const digestKey = web3.utils.fromAscii(secretKey);
-    const lid = web3.utils.fromAscii("");
-    const offChain = web3.utils.fromAscii("");
+    const lid = web3.utils.fromAscii('');
+    const offChain = web3.utils.fromAscii('');
     const accounts = await web3.eth.getAccounts();
 
     contractInstance.methods.sendCollateral(lid, digestKey, web3.utils.toHex(constantPaymentAddress), parseInt(Number(loanAmount) * 100, 10), offChain).send({
@@ -217,78 +214,80 @@ class Create extends React.Component {
     }).on('transactionHash', (hash) => {
       console.log('transactionHash', hash);
       this.setState({ status: 'Waiting for this transaction complete. (~2 mins)' });
-    }).on("confirmation", function (confirmationNumber, receipt) {
+    }).on('confirmation', (confirmationNumber, receipt) => {
       console.log(confirmationNumber, receipt);
-    }).on("receipt", function (receipt) {
-      try {
-        const result = {
-          err: null,
-          data: receipt.events.__sendCollateral.returnValues,
-        };
+    })
+      .on('receipt', (receipt) => {
+        try {
+          const result = {
+            err: null,
+            data: receipt.events.__sendCollateral.returnValues,
+          };
 
-        const loanID = result.data.lid;
-        const startDate = dayjs().format('YYYY-MM-DD');
-        const endDate = dayjs(maturity).format('YYYY-MM-DD');
+          const loanID = result.data.lid;
+          const startDate = dayjs().format('YYYY-MM-DD');
+          const endDate = dayjs(maturity).format('YYYY-MM-DD');
 
-        const data = {
-          "StartDate": startDate,
-          "EndDate": endDate,
-          "LoanRequest": {
-            "Params": currentRate,
-            "LoanID": loanID.substr(2),
-            "CollateralType": 'ETH',
-            "CollateralAmount": collateralAmount.etherToWei(),
-            "LoanAmount": parseInt(Number(loanAmount) * 100, 10),
-            "ReceiveAddress": "",
-            "KeyDigest": web3.utils.soliditySha3(web3.utils.toHex(secretKey)).substr(2),
-          }
-        };
+          const data = {
+            StartDate: startDate,
+            EndDate: endDate,
+            LoanRequest: {
+              Params: currentRate,
+              LoanID: loanID.substr(2),
+              CollateralType: 'ETH',
+              CollateralAmount: collateralAmount.etherToWei(),
+              LoanAmount: parseInt(Number(loanAmount) * 100, 10),
+              ReceiveAddress: '',
+              KeyDigest: web3.utils.soliditySha3(web3.utils.toHex(secretKey)).substr(2),
+            },
+          };
 
-        axios.post(API.LOAN_SUBMIT, data).then(res => {
-          if (res.status === 200) {
-            if (res.data && res.data.Result) {
-              const { Result } = res.data;
-              routerPush(`/loan/${Result.LoanID}`);
+          axios.post(API.LOAN_SUBMIT, data).then((res) => {
+            if (res.status === 200) {
+              if (res.data && res.data.Result) {
+                const { Result } = res.data;
+                routerPush(`/loan/${Result.LoanID}`);
+              }
             }
-          }
-          setSubmitting(false);
-        }).catch(e => {
+            setSubmitting(false);
+          }).catch((e) => {
+            console.log(e);
+            catchError(e);
+            setSubmitting(false);
+          });
+        } catch (e) {
           console.log(e);
-          catchError(e);
-          setSubmitting(false);
-        });
-      } catch (e) {
+        }
+        // success
+      })
+      .on('err', (err) => {
+        console.log(err);
+        const result = {
+          err,
+          data: null,
+        };
+        console.log(result);
+        setSubmitting(false);
+        toaster.danger(`This transaction failed, error: ${err.toString()}`);
+        // error
+      })
+      .catch((e) => {
+        catchError(e);
+        setSubmitting(false);
+        if (e.message.includes('User denied')) {
+          toaster.warning('You denied this transaction');
+        }
         console.log(e);
-      }
-      // success
-    }).on('err', function (err) {
-      console.log(err);
-      const result = {
-        err: err,
-        data: null,
-      }
-      console.log(result);
-      setSubmitting(false);
-      toaster.danger(`This transaction failed, error: ${err.toString()}`);
-      // error
-    }).catch(e => {
-      catchError(e);
-      setSubmitting(false);
-      if (e.message.includes('User denied')) {
-        toaster.warning('You denied this transaction');
-      }
-      console.log(e);
-    });
+      });
   }
 
   linkMetamask = () => {
     const browser = detectBrowser.detect();
     switch (browser && browser.name) {
       case 'chrome':
-        return (<a href="https://chrome.google.com/webstore/detail/nkbihfbeogaeaoehlefnkodbefgpgknn" target="_blank">get Chrome extension</a>);
+        return (<a href="https://chrome.google.com/webstore/detail/nkbihfbeogaeaoehlefnkodbefgpgknn" target="_blank" rel="noopener noreferrer">get Chrome extension</a>);
       case 'firefox':
-        return (<a href="https://addons.mozilla.org/en-US/firefox/addon/ether-metamask/" target="_blank">get Firefox extension</a>);
-        break;
+        return (<a href="https://addons.mozilla.org/en-US/firefox/addon/ether-metamask/" target="_blank" rel="noopener noreferrer">get Firefox extension</a>);
       default:
         return 'Please use brower based on Chrome, Firefox or Brave';
     }
@@ -307,12 +306,13 @@ class Create extends React.Component {
       this.submitByETH(values, setSubmitting);
     }
     if (currentCollateral.name === 'BTC') {
-
+      this.submitByBTC(values, setSubmitting);
     }
   }
 
   submitByETH = (values, setSubmitting) => {
-    const { installed } = this.props.metamask;
+    const { metamask } = this.props;
+    const { installed } = metamask;
 
     if (installed) {
       this.showAskUnlock(values, setSubmitting);
@@ -321,13 +321,22 @@ class Create extends React.Component {
     }
   }
 
-  submitByBTC = (values) => {
-
+  submitByBTC = (values, setSubmitting) => {
+    setSubmitting(false);
   }
 
   //
   render() {
-    const { status, collaterals, currentCollateral, rates, currentRate, maturity, disabledBTC, collateralAmountPlaceholder, dialogInstall, dialogUnlock, dialogWantUsePrivateKey } = this.state;
+    const {
+      status,
+      collaterals,
+      currentCollateral,
+      rates,
+      currentRate,
+      maturity, disabledBTC, collateralAmountPlaceholder, dialogInstall, dialogUnlock,
+      dialogWantUsePrivateKey,
+      setSubmitting: stateSetSubmitting,
+    } = this.state;
 
     return (
       <div className="create-page">
@@ -356,7 +365,9 @@ class Create extends React.Component {
           onConfirm={() => { window.location.reload(); }}
           onCancel={() => this.setState({ dialogInstall: false, wantUsePrivateKey: true, dialogWantUsePrivateKey: true })}
         >
-          You need to install Metamask ({this.linkMetamask()}) or import your Ethereum Private Key to continue.
+          You need to install Metamask (
+          {this.linkMetamask()}
+          ) or import your Ethereum Private Key to continue.
         </Dialog>
         <Dialog
           isShown={dialogUnlock}
@@ -367,7 +378,7 @@ class Create extends React.Component {
           onCloseComplete={() => this.setState({ dialogUnlock: false })}
           cancelLabel="Use my Ethereum Private Key"
           confirmLabel="I have unlocked MetaMask"
-          onConfirm={() => { this.showAskUnlock(this.state.setSubmitting); }}
+          onConfirm={() => { this.showAskUnlock(stateSetSubmitting); }}
           onCancel={() => this.setState({ dialogUnlock: false, wantUsePrivateKey: true, dialogWantUsePrivateKey: true })}
         >
           You need to unlock your Metamask or import your Ethereum Private Key to continue.
@@ -387,18 +398,18 @@ class Create extends React.Component {
             <div className="row">
               <div className="col-12">
                 <Formik
-                  initialValues={{ loanAmount: '', collateralAmount: '', secretKey: '', policy: false }}
-                  validate={values => {
-                    let errors = {};
+                  initialValues={{
+                    loanAmount: '', collateralAmount: '', secretKey: '', policy: false,
+                  }}
+                  validate={(values) => {
+                    const errors = {};
                     if (!values.loanAmount) {
                       errors.loanAmount = 'Required';
                     }
                     if (!values.collateralAmount) {
                       errors.collateralAmount = 'Required';
-                    } else {
-                      if (values.loanAmount && Number(values.collateralAmount) < collateralAmountPlaceholder) {
-                        errors.collateralAmount = 'Collateral amount must greater than minimum value';
-                      }
+                    } else if (values.loanAmount && Number(values.collateralAmount) < collateralAmountPlaceholder) {
+                      errors.collateralAmount = 'Collateral amount must greater than minimum value';
                     }
                     if (!values.secretKey) {
                       errors.secretKey = 'Required';
@@ -421,7 +432,6 @@ class Create extends React.Component {
                     errors,
                     touched,
                     handleChange,
-                    handleBlur,
                     handleSubmit,
                     isSubmitting,
                     setFieldTouched,
@@ -437,31 +447,47 @@ class Create extends React.Component {
                           hasFooter={false}
                         >
                           <div style={{ textAlign: 'center', margin: '20px 0' }}>
-                            <div> <FontAwesomeIcon icon={faSpinnerThird} size="3x" spin={true} color="##2D4EF5" /></div>
+                            <div>
+                              {' '}
+                              <FontAwesomeIcon icon={faSpinnerThird} size="3x" spin color="##2D4EF5" />
+                            </div>
                             <div style={{ marginTop: 10 }}>Loading....</div>
                             <div>{status}</div>
-                            <div style={{ color: '#ff0000' }}><strong>PLEASE DON'T CLOSE THIS TAB</strong></div>
+                            <div style={{ color: '#ff0000' }}>
+                              <strong>
+                                {"PLEASE DON'T CLOSE THIS TAB"}
+                              </strong>
+                            </div>
                           </div>
                         </Dialog>
                         <div className="create-box c-card">
                           <h2>Create a loan request</h2>
                           <div className="">
-                            Or <Link to="/"><FontAwesomeIcon icon={faAngleLeft} /> Back to home</Link>
+                            {'Or '}
+                            <Link to="/">
+                              <FontAwesomeIcon icon={faAngleLeft} />
+                              {' '}
+                              Back to home
+                          </Link>
                           </div>
                           <div className="row input-container input-container-first">
                             <div className="col-12 col-md-12 col-lg-4">
                               <div className="title">CHOOSE YOUR COLLATERAL</div>
                               <div className="input">
                                 {collaterals.map(collateral => (
-                                  <div key={collateral.name} className={`collateral-option ${currentCollateral.name === collateral.name ? 'active' : ''}`} onClick={() => {
-                                    if (disabledBTC && collateral.name === 'BTC') {
-                                      toaster.warning('We don\'t support BTC yet', { duration: 10000 });
-                                      return;
-                                    }
-                                    this.setState({ currentCollateral: collateral }, () => {
-                                      this.changeLoanAmount({ target: { value: values.loanAmount } }, setFieldValue);
-                                    });
-                                  }}>
+                                  <div
+                                    key={collateral.name}
+                                    className={`collateral-option ${currentCollateral.name === collateral.name ? 'active' : ''}`}
+                                    onClick={() => {
+                                      if (disabledBTC && collateral.name === 'BTC') {
+                                        toaster.warning('We don\'t support BTC yet', { duration: 10000 });
+                                        return;
+                                      }
+                                      this.setState({ currentCollateral: collateral }, () => {
+                                        this.changeLoanAmount({ target: { value: values.loanAmount } }, setFieldValue);
+                                      });
+                                    }}
+                                  >
                                     <FontAwesomeIcon icon={collateral.icon} size="2x" />
                                   </div>
                                 ))}
@@ -478,7 +504,7 @@ class Create extends React.Component {
                                   autoComplete="off"
                                   onChange={(e) => {
                                     this.onlyNumber(e.target.value, () => {
-                                      this.inputChange(handleChange, setFieldTouched, "loanAmount", e);
+                                      this.inputChange(handleChange, setFieldTouched, 'loanAmount', e);
                                       this.changeLoanAmount(e, setFieldValue);
                                     });
                                   }}
@@ -500,7 +526,7 @@ class Create extends React.Component {
                                   autoComplete="off"
                                   onChange={(e) => {
                                     this.onlyNumber(e.target.value, () => {
-                                      this.inputChange(handleChange, setFieldTouched, "collateralAmount", e);
+                                      this.inputChange(handleChange, setFieldTouched, 'collateralAmount', e);
                                     });
                                   }}
                                   InputProps={{
@@ -524,7 +550,7 @@ class Create extends React.Component {
                                   name="secretKey"
                                   autoComplete="off"
                                   onChange={(e) => {
-                                    this.inputChange(handleChange, setFieldTouched, "secretKey", e);
+                                    this.inputChange(handleChange, setFieldTouched, 'secretKey', e);
                                   }}
                                 />
                                 {errors.secretKey && touched.secretKey && <span className="c-error"><span>{errors.secretKey}</span></span>}
@@ -545,22 +571,29 @@ class Create extends React.Component {
                               <div className="title">INTEREST RATE</div>
                               <div className="input">
                                 {rates.map(rate => (
-                                  <div key={rate.InterestRate} className={`rate ${rate.InterestRate === currentRate.InterestRate ? 'active' : ''}`} onClick={() => { this.setState({ currentRate: rate }); this.calcMaturity(rate); }}>{(rate.InterestRate / 100).toFixed(2)}%</div>
+                                  <div key={rate.InterestRate} className={`rate ${rate.InterestRate === currentRate.InterestRate ? 'active' : ''}`} onClick={() => { this.setState({ currentRate: rate }); this.calcMaturity(rate); }}>
+                                    {(rate.InterestRate / 100).toFixed(2)}
+                                    {' %'}
+                                  </div>
                                 ))}
                               </div>
                             </div>
                           </div>
                           <div className="row">
                             <div className="col-12">
-                              <label><input type="checkbox" name="policy" value={values.policy} onChange={handleChange} /> I certify that I am 18 years of age or older, and I agree to the Terms & Conditions.</label>
+                              <label>
+                                <input type="checkbox" name="policy" value={values.policy} onChange={handleChange} />
+                                {' I certify that I am 18 years of age or older, and I agree to the Terms & Conditions.'}
+                              </label>
                               {errors.policy && touched.policy && <span className="c-error"><span>{errors.policy}</span></span>}
                             </div>
                           </div>
                           <div className="row">
                             <div className="col-12">
                               <button className="c-btn c-btn-primary submit" type="submit">
-                                {isSubmitting ? <FontAwesomeIcon icon={faSpinnerThird} size="1x" spin={true} style={{ marginRight: 10 }} /> : ''}
-                                Submit <FontAwesomeIcon icon={faArrowRight} />
+                                {isSubmitting ? <FontAwesomeIcon icon={faSpinnerThird} size="1x" spin style={{ marginRight: 10 }} /> : ''}
+                                {'Submit '}
+                                <FontAwesomeIcon icon={faArrowRight} />
                               </button>
                             </div>
                           </div>

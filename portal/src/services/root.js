@@ -1,12 +1,12 @@
 import Web3 from 'web3';
 
-function commarize(min) {
-  min = min || 1e3;
+function commarize(rawMin) {
+  const min = rawMin || 1e3;
   if (this >= min) {
-    const units = ["k", "M", "B", "T", "P", "E", "Z", "Y"];
+    const units = ['k', 'M', 'B', 'T', 'P', 'E', 'Z', 'Y'];
     const order = Math.floor(Math.log(this) / Math.log(1000));
     const unitname = units[(order - 1)];
-    const num = Math.floor(this / 1000 ** order);
+    const num = Math.floor((this / 1000) ** order);
     return num + unitname;
   }
   return this.toLocaleString();
@@ -14,7 +14,7 @@ function commarize(min) {
 
 function coinUnitFormat(type) {
   if (type === 'ETH') {
-    return Web3.utils.fromWei(this, 'ether');
+    return Web3.utils.fromWei(this.toString(), 'ether');
   }
   return this;
 }
@@ -24,15 +24,14 @@ function etherToWei() {
 }
 
 function numberFormat() {
-  let number = Number(this);
+  const number = Number(this);
   if (Number.isNaN(number)) {
     return this;
   }
   if (number === parseInt(number, 10)) {
     return number;
-  } else {
-    return number.toFixed(2);
   }
+  return number.toFixed(2);
 }
 
 function constant() {
@@ -55,4 +54,3 @@ Number.prototype.etherToWei = etherToWei;
 
 String.prototype.numberFormat = numberFormat;
 Number.prototype.numberFormat = numberFormat;
-

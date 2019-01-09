@@ -17,7 +17,9 @@ class Header extends React.Component {
   render() {
     return (
       <header className="c-header">
+        <div className="logo-container">
 
+        </div>
       </header>
     );
   }

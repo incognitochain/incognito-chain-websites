@@ -1,18 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { axios, catchError } from '@/services/api';
 import { API } from '@/constants';
 import dayjs from 'dayjs';
-// import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleRight, faAngleLeft, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
-// import {  } from '@fortawesome/pro-regular-svg-icons';
+import { faAngleLeft, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import Link from '@/components/Link';
 
 class Loan extends React.Component {
   static propTypes = {
-    // abc: PropTypes.object.isRequired,
-    // abcd: PropTypes.func.isRequired,
+    match: PropTypes.object.isRequired,
   }
 
   constructor(props) {
@@ -34,7 +31,7 @@ class Loan extends React.Component {
   }
 
   loadLoan = (id) => {
-    axios.get(`${API.LOAN_DETAIL}/${id}`).then(res => {
+    axios.get(`${API.LOAN_DETAIL}/${id}`).then((res) => {
       const { data } = res;
       if (data) {
         const { Result } = data;
@@ -42,14 +39,14 @@ class Loan extends React.Component {
           this.setState({ inited: true, data: Result });
         }
       }
-    }).catch(e => {
+    }).catch((e) => {
       catchError(e);
       this.setState({ inited: true, data: {}, error: e });
     });
   }
 
   payLoan = (id) => {
-    axios.post(`${API.LOAN_DETAIL}/${id}/pay`).then(res => {
+    axios.post(`${API.LOAN_DETAIL}/${id}/pay`).then((res) => {
       const { data } = res;
       if (data) {
         const { Result } = data;
@@ -57,7 +54,7 @@ class Loan extends React.Component {
           console.log(Result);
         }
       }
-    }).catch(e => {
+    }).catch((e) => {
       catchError(e);
     });
   }
@@ -76,7 +73,10 @@ class Loan extends React.Component {
                   <div className="title">
                     Loan information
                     <div className="back">
-                      <Link to="/"><FontAwesomeIcon icon={faAngleLeft} /> Back to home</Link>
+                      <Link to="/">
+                        <FontAwesomeIcon icon={faAngleLeft} />
+                        {' Back to home'}
+                      </Link>
                     </div>
                   </div>
                   <div className="loan-information-content">
@@ -84,19 +84,29 @@ class Loan extends React.Component {
                       <div className="col-12 col-lg-7 left-line">
                         <div className="row">
                           <div className="col-12 col-lg-6 value-container">
-                            <div className="value c-color-green-500">{data.LoanAmount.constant()} CST</div>
+                            <div className="value c-color-green-500">
+                              {data.LoanAmount.constant()}
+                              {' CST'}
+                            </div>
                             <div>Constant Loan</div>
                           </div>
                           <div className="col-12 col-lg-6 value-container">
-                            <div className="value">{data.CollateralAmount.coinUnitFormat(data.CollateralType)} {data.CollateralType}</div>
+                            <div className="value">
+                              {data.CollateralAmount.coinUnitFormat(data.CollateralType)}
+                              {' '}
+                              {data.CollateralType}
+                            </div>
                             <div>Collateral amount</div>
                           </div>
                           <div className="col-12 col-lg-6 value-container">
-                            <div className="value">{data.InterestRate} %</div>
+                            <div className="value">
+                              {(data.InterestRate / 100).numberFormat()}
+                              {' %'}
+                            </div>
                             <div>Interest rate</div>
                           </div>
                           <div className="col-12 col-lg-6 value-container">
-                            <div className="value"></div>
+                            <div className="value" />
                             <div>Monthly payment</div>
                           </div>
                         </div>
@@ -108,9 +118,12 @@ class Loan extends React.Component {
                           </div>
                           <div className="col-10">
                             <div>Upcoming payment</div>
-                            <div className="value c-color-blue-700">{(((data.LoanAmount / 10000) * data.InterestRate) + data.LoanAmount) / 100} CST</div>
+                            <div className="value c-color-blue-700">
+                              {(((data.LoanAmount / 10000) * data.InterestRate) + data.LoanAmount) / 100}
+                              {' CST'}
+                            </div>
                             <div>
-                              <button className="c-btn c-btn-primary" onClick={() => this.payLoan(data.ID)}>Pay now</button>
+                              <button type="button" className="c-btn c-btn-primary" onClick={() => this.payLoan(data.ID)}>Pay now</button>
                             </div>
                           </div>
                         </div>
@@ -139,7 +152,7 @@ class Loan extends React.Component {
                         </tr>
                         <tr>
                           <td>Tx Hash</td>
-                          <td>{data.ConstantLoanRequestTxID}</td>
+                          <td className="tx">{data.ConstantLoanRequestTxID}</td>
                         </tr>
                       </tbody>
                     </table>
