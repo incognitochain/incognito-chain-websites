@@ -1,7 +1,7 @@
 .c-header {
   position: relative;
   min-height: 60px;
-  z-index: 1001;
+  z-index: 11;
   height: auto;
   .logo-container {
     img {
@@ -147,7 +147,7 @@
   background-color: #ffffff;
   @extend .c-shadow-100;
   position: relative;
-  z-index: 1000;
+  z-index: 10;
   ul {
     list-style: none;
     margin: 0;

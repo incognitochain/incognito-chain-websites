@@ -7,7 +7,9 @@ const Layout = ({ children, showSubHeader, footerType }) => (
   <>
     <Header />
     <SubHeader show={showSubHeader} />
-    {children}
+    <main>
+      {children}
+    </main>
     <Footer type={footerType} />
   </>
 );

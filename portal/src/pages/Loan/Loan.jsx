@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import Link from '@/components/Link';
 import Layout from '@/components/App/Layout';
+import { faExchangeAlt } from '@fortawesome/pro-regular-svg-icons';
 
 class Loan extends React.Component {
   static propTypes = {
@@ -129,6 +130,12 @@ class Loan extends React.Component {
                               </div>
                             </div>
                           </div>
+                        </div>
+                        <div className="col-12">
+                          <Link to={`/txs/${data.LoanID}`}>
+                            <FontAwesomeIcon icon={faExchangeAlt} />
+                            {' Go to transactions page'}
+                          </Link>
                         </div>
                       </div>
                     </div>
