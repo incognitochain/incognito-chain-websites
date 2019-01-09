@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import Box from '@ui/utility/box';
 
 import LayoutWrapper from '@ui/utility/layoutWrapper.js';
@@ -20,6 +19,7 @@ import WithDirection from "@/settings/withDirection";
 import message from '@ui/feedback/message';
 
 import bondmarket from '@/services/BondMarket';
+import Loader from '@ui/utility/loader';
 
 import './BondHistory.scss';
 
@@ -104,6 +104,9 @@ export default class BondHistory extends Component {
             isBuyBack: false,
             isValidate: true,
             clickedItem: null,
+            loading: true,
+            loadingBuy: false,
+
         }
     }
     componentDidMount() {
@@ -112,6 +115,7 @@ export default class BondHistory extends Component {
     }
 
     async getData(){
+        this.setState({ loading: true });
         let result = await bondmarket.getHistoryList();
         //let result = dataTest;
         if(!result.error){
@@ -139,6 +143,8 @@ export default class BondHistory extends Component {
         else{
           //return false;
         }
+        this.setState({ loading: false });
+
       }
 
     validate=({amount})=>{
@@ -164,6 +170,7 @@ export default class BondHistory extends Component {
     handleOnBuyClick = async () => {
         const { wAmount, isValidate, clickedItem } = this.state;
         if(isValidate) {
+            this.setState({ loadingBuy: true });
             const params = {
             amount: wAmount,
             buyBondID: clickedItem.ID,
@@ -172,18 +179,19 @@ export default class BondHistory extends Component {
             
             let result = await bondmarket.buyBack(params);
             if(result){
-                if(result.error){
+                if(result === true){
+                    successBuy();
+                }
+                else if(result.error){
                     errorBuy(result.message);
                 }
                 else if(!result.Result){
                     errorBuy(result.Message);
                 }
-                else{
-                    successBuy();
-                }
+               
             }
             
-            this.setState({ isBuyBack: false });
+            this.setState({ isBuyBack: false, loadingBuy: false });
         }  
     }
     changeAmount = (e) => {
@@ -233,7 +241,7 @@ export default class BondHistory extends Component {
                   key="submit"
                   type="primary"
                   size="large"
-                  loading={this.state.loading}
+                  loading={this.state.loadingBuy}
                   onClick={this.handleOnBuyClick}
                 >
                   <IntlMessages id="BondMarket.Buy.Submit" />
@@ -283,6 +291,8 @@ export default class BondHistory extends Component {
 
 
     render(){
+        const { loading } = this.state;
+        if(loading) return <Loader />
         return (
             <div className="">
             {this.renderBreadcrumb()}

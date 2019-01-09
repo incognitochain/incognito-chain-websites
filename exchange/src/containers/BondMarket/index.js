@@ -6,7 +6,6 @@ import IntlMessages from '@ui/utility/intlMessages';
 import auth from '@ui/auth';
 import Loader from '@ui/utility/loader';
 import BreadcrumbBar from '@/containers/Breadcrumb/Breadcrumb';
-import { Link } from 'react-router-dom';
 
 import TableStyle from './customStyle';
 import DataBondMarket from './dataBondMarket';
