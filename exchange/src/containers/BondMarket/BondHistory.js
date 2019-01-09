@@ -172,15 +172,16 @@ export default class BondHistory extends Component {
             
             let result = await bondmarket.buyBack(params);
             if(result){
-                if(result.error){
+                if(result === true){
+                    successBuy();
+                }
+                else if(result.error){
                     errorBuy(result.message);
                 }
                 else if(!result.Result){
                     errorBuy(result.Message);
                 }
-                else{
-                    successBuy();
-                }
+               
             }
             
             this.setState({ isBuyBack: false });

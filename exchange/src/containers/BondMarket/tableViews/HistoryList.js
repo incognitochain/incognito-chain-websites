@@ -28,7 +28,7 @@ class HistoryItem extends Component {
     }
     renderBuyBackButton(item) {
         const { BuyBackAvailable } = item;
-        //if (!BuyBackAvailable) return false;
+        if (!BuyBackAvailable) return false;
         return (
             <Button type="primary" size="large" onClick={()=>this.handleOnBuyBack()}>
             Buy Back
