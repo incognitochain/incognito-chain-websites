@@ -193,16 +193,18 @@ export default class extends Component {
         rate: wRate
       };
       let result = await bondmarket.buy(params);
+      console.log('Result:', result);
       if(result){
-        if(result.error){
+        if(result === true){
+          successBuy();
+        }
+        else if(result.error){
           errorBuy(result.message);
         }
         else if(!result.Result){
           errorBuy(result.Message);
         }
-        else{
-          successBuy();
-        }
+        
       }
       this.setState({ isBuy: false, isValidate, loading: false});
     }else {

@@ -166,23 +166,23 @@ export default class BondHistory extends Component {
         if(isValidate) {
             const params = {
             amount: wAmount,
-            buyBondID: clickedItem.TokenID,
+            buyBondID: clickedItem.ID,
             };
             console.log('Params:', params);
-            /*
+            
             let result = await bondmarket.buyBack(params);
             if(result){
-            if(result.error){
-                errorBuy(result.message);
+                if(result.error){
+                    errorBuy(result.message);
+                }
+                else if(!result.Result){
+                    errorBuy(result.Message);
+                }
+                else{
+                    successBuy();
+                }
             }
-            else if(!result.Result){
-                errorBuy(result.Message);
-            }
-            else{
-                successBuy();
-            }
-            }
-            */
+            
             this.setState({ isBuyBack: false });
         }  
     }
