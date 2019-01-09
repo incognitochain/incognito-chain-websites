@@ -37,6 +37,7 @@ export default class BondMarket extends Component {
   }
 
   async getData(){
+    this.setState({ loading: true});
     let result = await bondmarket.getBondMarketList();
     if(!result.error){
       let listData = result; 

@@ -186,6 +186,7 @@ export default class extends Component {
     const { wAmount, wRate, selectedItem } = this.state;
     const isValidate = this.validate({amount: wAmount, rate: wRate})
     if(isValidate) {
+      this.setState({loading: true});
       const params = {
         amount: wAmount,
         bondID: selectedItem.BondID,
@@ -203,7 +204,7 @@ export default class extends Component {
           successBuy();
         }
       }
-      this.setState({ isBuy: false, isValidate });
+      this.setState({ isBuy: false, isValidate, loading: false});
     }else {
       this.setState({ isValidate});
     }   
