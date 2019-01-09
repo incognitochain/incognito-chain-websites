@@ -248,7 +248,7 @@ class Create extends React.Component {
           if (res.status === 200) {
             if (res.data && res.data.Result) {
               const { Result } = res.data;
-              routerPush(`/loan/${Result.ID}`);
+              routerPush(`/loan/${Result.LoanID}`);
             }
           }
           setSubmitting(false);
