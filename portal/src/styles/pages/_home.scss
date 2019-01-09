@@ -9,16 +9,18 @@
   .stats-container {
     > div {
       position: relative;
-      &:not(:last-of-type):after {
-        content: '';
-        display: block;
-        height: 80%;
-        @extend .c-bg-gray-200;
-        width: 1px;
-        position: absolute;
-        top: 50%;
-        right: 0;
-        transform: translateY(-50%);
+      @include breakpoint('lg') {
+        &:not(:last-of-type):after {
+          content: '';
+          display: block;
+          height: 80%;
+          background-color: map-get($map: $gray, $key: 's-200');
+          width: 1px;
+          position: absolute;
+          top: 50%;
+          right: 0;
+          transform: translateY(-50%);
+        }
       }
       .value {
         padding: 7px 0;

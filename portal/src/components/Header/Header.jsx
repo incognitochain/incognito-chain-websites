@@ -5,6 +5,7 @@ import Link from '@/components/Link';
 import Logo from '@/assets/logo.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTimes } from '@fortawesome/pro-light-svg-icons';
 
 class Header extends React.Component {
   static propTypes = {
@@ -14,12 +15,20 @@ class Header extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      showMenu: false,
+    };
+  }
+
+  toggleMenu = () => {
+    const { showMenu } = this.state;
+    this.setState({ showMenu: !showMenu });
   }
 
   render() {
     const { auth } = this.props;
     const { data } = auth;
+    const { showMenu } = this.state;
 
     return (
       <header className="c-header">
@@ -31,8 +40,11 @@ class Header extends React.Component {
                   <img src={Logo} alt="Logo" />
                   {' onstant'}
                 </a>
+                <div className="hamburger" onClick={this.toggleMenu}>
+                  <FontAwesomeIcon style={{ marginRight: showMenu ? 5 : 0 }} icon={showMenu ? faTimes : faBars} />
+                </div>
               </div>
-              <div className="menu-container">
+              <div className={`menu-container ${showMenu ? 'show' : 'hide'}`}>
                 <ul>
                   {/* <li><a href="http://constant.money" target="_blank" rel="noopener noreferrer">Home</a></li> */}
                   <li><Link to="/">Portal</Link></li>
@@ -65,8 +77,8 @@ class Header extends React.Component {
                   <li><Link to="/">FAQ</Link></li>
                 </ul>
               </div>
-              <div className="auth-container">
-                {`${data.FirstName} `}
+              <div className={`auth-container ${showMenu ? 'show' : 'hide'}`}>
+                <span className="firstname">{`${data.FirstName} `}</span>
                 <FontAwesomeIcon icon={faUserCircle} size="2x" />
                 <FontAwesomeIcon icon={faAngleDown} />
               </div>

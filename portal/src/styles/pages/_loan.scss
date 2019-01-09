@@ -44,22 +44,31 @@
   }
   .left-line {
     position: relative;
-    &:after {
-      content: '';
-      display: block;
-      height: 80%;
-      @extend .c-bg-gray-200;
-      width: 1px;
-      position: absolute;
-      top: 50%;
-      right: 0;
-      transform: translateY(-50%);
+
+    @include breakpoint('md') {
+      &:after {
+        content: '';
+        display: block;
+        height: 80%;
+        background-color: map-get($map: $gray, $key: 's-200');
+        width: 1px;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+      }
     }
   }
   .upcoming {
     padding-left: 30px;
+    @include breakpoint-max('md') {
+      padding-left: 15px;
+    }
     .icon {
       padding-top: 7px;
+      @include breakpoint-max('md') {
+        display: none;
+      }
     }
     .value {
       padding: 10px;

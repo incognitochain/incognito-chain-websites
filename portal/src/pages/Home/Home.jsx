@@ -372,7 +372,7 @@ class Home extends React.Component {
                               </Link>
                             </td>
                             <td>
-                              {parseFloat(borrow.LoanAmount / 100).toExponential(2)}
+                              {parseFloat(borrow.LoanAmount / 100).numberFormat()}
                               {' CST'}
                             </td>
                             <td>

@@ -1,7 +1,26 @@
 .c-header {
+  position: relative;
+  min-height: 60px;
+  z-index: 1001;
+  height: auto;
   .logo-container {
+    img {
+      cursor: pointer;
+      user-select: none;
+    }
     font-weight: 100;
     font-size: 23px;
+    @include breakpoint-max('sm') {
+      float: none;
+    }
+    .hamburger {
+      cursor: pointer;
+      user-select: none;
+      float: right;
+      @include breakpoint('sm') {
+        display: none;
+      }
+    }
   }
   a {
     &:hover {
@@ -10,13 +29,44 @@
     }
   }
   .menu-container {
+    @include breakpoint-max('sm') {
+      display: none;
+      &.show {
+        display: block;
+      }
+      float: none;
+      ul {
+        padding: 0;
+        line-height: 40px;
+      }
+    }
     ul {
       list-style: none;
+      margin: 0;
+      @include breakpoint-between('sm', 'lg') {
+        padding: 0;
+      }
       li {
-        display: inline-block;
+        @include breakpoint('sm') {
+          display: inline-block;
+        }
         a {
           display: block;
           margin-right: 25px;
+        }
+        @include breakpoint-between('sm', 'md') {
+          a {
+            font-size: 75%;
+            margin-left: 15px;
+            margin-right: 0;
+          }
+        }
+        @include breakpoint-between('md', 'lg') {
+          a {
+            font-size: 80%;
+            margin-left: 15px;
+            margin-right: 0;
+          }
         }
       }
     }
@@ -26,6 +76,23 @@
     svg {
       margin-left: 7px;
       vertical-align: middle;
+    }
+    @include breakpoint-max('lg') {
+      // .firstname {
+      //   display: none;
+      // }
+    }
+    @include breakpoint-max('sm') {
+      line-height: 40px;
+      float: none;
+      margin-bottom: 20px;
+      display: none;
+      &.show {
+        display: block;
+      }
+      svg {
+        height: 27px !important;
+      }
     }
   }
   box-shadow: none;

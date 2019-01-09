@@ -4,6 +4,7 @@
     padding: 10px;
   }
   .tabs {
+    user-select: none;
     > div {
       cursor: pointer;
       @extend .c-color-blue-700;
