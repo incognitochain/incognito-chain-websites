@@ -6,7 +6,7 @@ import Router from '@/components/Router';
 import { connect } from 'react-redux';
 import Loading from '@/components/Loading';
 import { checkAuth, logout } from '@/reducers/auth/action';
-import Header from '@/components/Header/Header';
+
 require('@/services/root');
 
 class Root extends React.Component {
@@ -29,21 +29,20 @@ class Root extends React.Component {
       return (
         <Loading />
       );
-    } else {
-      if (!auth.logged) {
-        logout();
-        window.location.assign('http://auth.constant.money/login?redirect=portal.constant.money');
-      } else {
-        return (
-          <>
-            <Header />
-            <ConnectedRouter {...props} history={history}>
-              <Router />
-            </ConnectedRouter>
-          </>
-        );
-      }
     }
+
+    if (!auth.logged) {
+      logout();
+      window.location.assign('http://auth.constant.money/login?redirect=portal.constant.money');
+    } else {
+      return (
+        <ConnectedRouter {...props} history={history}>
+          <Router />
+        </ConnectedRouter>
+      );
+    }
+
+    return <Loading />;
   }
 }
 

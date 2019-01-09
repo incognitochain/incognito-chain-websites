@@ -6,6 +6,7 @@ import dayjs from 'dayjs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import Link from '@/components/Link';
+import Layout from '@/components/App/Layout';
 
 class Loan extends React.Component {
   static propTypes = {
@@ -64,66 +65,68 @@ class Loan extends React.Component {
     if (!inited || error) return <div />;
 
     return (
-      <div className="loan-page">
-        <section className="loan-information">
-          <div className="container">
-            <div className="row">
-              <div className="col-12 col-md-6 col-lg-8">
-                <div className="c-card">
-                  <div className="title">
-                    Loan information
-                    <div className="back">
-                      <Link to="/">
-                        <FontAwesomeIcon icon={faAngleLeft} />
-                        {' Back to home'}
-                      </Link>
+      <Layout>
+        <div className="loan-page">
+          <section className="loan-information">
+            <div className="container">
+              <div className="row">
+                <div className="col-12 col-md-6 col-lg-8">
+                  <div className="c-card">
+                    <div className="title">
+                      Loan information
+                      <div className="back">
+                        <Link to="/">
+                          <FontAwesomeIcon icon={faAngleLeft} />
+                          {' Back to home'}
+                        </Link>
+                      </div>
                     </div>
-                  </div>
-                  <div className="loan-information-content">
-                    <div className="row">
-                      <div className="col-12 col-lg-7 left-line">
-                        <div className="row">
-                          <div className="col-12 col-lg-6 value-container">
-                            <div className="value c-color-green-500">
-                              {data.LoanAmount.constant()}
-                              {' CST'}
+                    <div className="loan-information-content">
+                      <div className="row">
+                        <div className="col-12 col-lg-7 left-line">
+                          <div className="row">
+                            <div className="col-12 col-lg-6 value-container">
+                              <div className="value c-color-green-500">
+                                {data.LoanAmount.constant()}
+                                {' CST'}
+                              </div>
+                              <div>Constant Loan</div>
                             </div>
-                            <div>Constant Loan</div>
-                          </div>
-                          <div className="col-12 col-lg-6 value-container">
-                            <div className="value">
-                              {data.CollateralAmount.coinUnitFormat(data.CollateralType)}
-                              {' '}
-                              {data.CollateralType}
+                            <div className="col-12 col-lg-6 value-container">
+                              <div className="value">
+                                {data.CollateralAmount.coinUnitFormat(data.CollateralType)}
+                                {' '}
+                                {data.CollateralType}
+                              </div>
+                              <div>Collateral amount</div>
                             </div>
-                            <div>Collateral amount</div>
-                          </div>
-                          <div className="col-12 col-lg-6 value-container">
-                            <div className="value">
-                              {(data.InterestRate / 100).numberFormat()}
-                              {' %'}
+                            <div className="col-12 col-lg-6 value-container">
+                              <div className="value">
+                                {(data.InterestRate / 100).numberFormat()}
+                                {' %'}
+                              </div>
+                              <div>Interest rate</div>
                             </div>
-                            <div>Interest rate</div>
-                          </div>
-                          <div className="col-12 col-lg-6 value-container">
-                            <div className="value" />
-                            <div>Monthly payment</div>
+                            <div className="col-12 col-lg-6 value-container">
+                              <div className="value" />
+                              <div>Monthly payment</div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="col-12 col-lg-5 upcoming">
-                        <div className="row">
-                          <div className="col-2 icon">
-                            <FontAwesomeIcon icon={faExclamationTriangle} size="2x" color="#F55656" />
-                          </div>
-                          <div className="col-10">
-                            <div>Upcoming payment</div>
-                            <div className="value c-color-blue-700">
-                              {(((data.LoanAmount / 10000) * data.InterestRate) + data.LoanAmount) / 100}
-                              {' CST'}
+                        <div className="col-12 col-lg-5 upcoming">
+                          <div className="row">
+                            <div className="col-2 icon">
+                              <FontAwesomeIcon icon={faExclamationTriangle} size="2x" color="#F55656" />
                             </div>
-                            <div>
-                              <button type="button" className="c-btn c-btn-primary" onClick={() => this.payLoan(data.ID)}>Pay now</button>
+                            <div className="col-10">
+                              <div>Upcoming payment</div>
+                              <div className="value c-color-blue-700">
+                                {(((data.LoanAmount / 10000) * data.InterestRate) + data.LoanAmount) / 100}
+                                {' CST'}
+                              </div>
+                              <div>
+                                <button type="button" className="c-btn c-btn-primary" onClick={() => this.payLoan(data.ID)}>Pay now</button>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -131,38 +134,38 @@ class Loan extends React.Component {
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="col-12 col-md-6 col-lg-4">
-                <div className="c-card">
-                  <div className="title">Summary</div>
-                  <div className="loan-summary-content">
-                    <table>
-                      <tbody>
-                        <tr>
-                          <td>Status</td>
-                          <td className="status">{data.State}</td>
-                        </tr>
-                        <tr>
-                          <td>Start date</td>
-                          <td>{dayjs(data.StartDate).format('MM-DD-YYYY')}</td>
-                        </tr>
-                        <tr>
-                          <td>End date</td>
-                          <td>{dayjs(data.EndDate).format('MM-DD-YYYY')}</td>
-                        </tr>
-                        <tr>
-                          <td>Tx Hash</td>
-                          <td className="tx">{data.ConstantLoanRequestTxID}</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                <div className="col-12 col-md-6 col-lg-4">
+                  <div className="c-card">
+                    <div className="title">Summary</div>
+                    <div className="loan-summary-content">
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td>Status</td>
+                            <td className="status">{data.State}</td>
+                          </tr>
+                          <tr>
+                            <td>Start date</td>
+                            <td>{dayjs(data.StartDate).format('MM-DD-YYYY')}</td>
+                          </tr>
+                          <tr>
+                            <td>End date</td>
+                            <td>{dayjs(data.EndDate).format('MM-DD-YYYY')}</td>
+                          </tr>
+                          <tr>
+                            <td>Tx Hash</td>
+                            <td className="tx">{data.ConstantLoanRequestTxID}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
-      </div>
+          </section>
+        </div>
+      </Layout>
     );
   }
 }

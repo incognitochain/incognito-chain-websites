@@ -1,0 +1,35 @@
+.c-footer {
+  padding: 0 0 40px;
+  text-align: center;
+  @extend .c-color-blue-800;
+  ul {
+    li {
+      display: inline-block;
+      padding: 0 20px;
+      position: relative;
+      &:not(:last-of-type):after {
+        content: '';
+        @extend .c-bg-blue-800;
+        width: 2px;
+        height: 2px;
+        border-radius: 100%;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 0;
+      }
+    }
+  }
+  &.second {
+    @extend .c-bg-blue-900;
+    color: #ffffff;
+    a {
+      color: #ffffff;
+    }
+    li {
+      &:after {
+        background-color: #ffffff !important;
+      }
+    }
+  }
+}

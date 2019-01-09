@@ -1,0 +1,60 @@
+.c-header {
+  .logo-container {
+    font-weight: 100;
+    font-size: 23px;
+  }
+  a {
+    &:hover {
+      text-decoration: none;
+      opacity: 0.8;
+    }
+  }
+  .menu-container {
+    ul {
+      list-style: none;
+      li {
+        display: inline-block;
+        a {
+          display: block;
+          margin-right: 25px;
+        }
+      }
+    }
+  }
+  .auth-container {
+    cursor: pointer;
+    svg {
+      margin-left: 7px;
+      vertical-align: middle;
+    }
+  }
+  box-shadow: none;
+}
+
+.c-sub-header {
+  height: 60px;
+  line-height: 60px;
+  background-color: #ffffff;
+  @extend .c-shadow-100;
+  position: relative;
+  z-index: 1000;
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    li {
+      display: inline-block;
+      a {
+        display: block;
+        margin-right: 25px;
+      }
+    }
+  }
+  a {
+    @extend .c-color-blue-600;
+    text-decoration: none;
+    &:hover {
+      @extend .c-color-blue-900;
+    }
+  }
+}
