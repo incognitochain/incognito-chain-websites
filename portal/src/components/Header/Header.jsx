@@ -17,7 +17,18 @@ class Header extends React.Component {
     super(props);
     this.state = {
       showMenu: false,
+      authMenu: false,
+      // subMenu: {},
     };
+  }
+
+
+  eventAuthMenu = (e) => {
+    const container = document.getElementById('auth');
+    if (e.target !== container && !container.contains(e.target)) {
+      window.document.body.removeEventListener('click', this.eventAuthMenu);
+      this.setState({ authMenu: false });
+    }
   }
 
   toggleMenu = () => {
@@ -25,10 +36,20 @@ class Header extends React.Component {
     this.setState({ showMenu: !showMenu });
   }
 
+  toggleAuthMenu = () => {
+    const { authMenu } = this.state;
+    if (authMenu) {
+      window.document.body.removeEventListener('click', this.eventAuthMenu);
+    } else {
+      window.document.body.addEventListener('click', this.eventAuthMenu);
+    }
+    this.setState({ authMenu: !authMenu });
+  }
+
   render() {
     const { auth } = this.props;
     const { data } = auth;
-    const { showMenu } = this.state;
+    const { showMenu, authMenu } = this.state;
 
     return (
       <header className="c-header">
@@ -45,7 +66,7 @@ class Header extends React.Component {
                 </div>
               </div>
               <div className={`menu-container ${showMenu ? 'show' : 'hide'}`}>
-                <ul>
+                <ul className="menu">
                   {/* <li><a href="http://constant.money" target="_blank" rel="noopener noreferrer">Home</a></li> */}
                   <li><Link to="/">Portal</Link></li>
                   <li>
@@ -53,6 +74,11 @@ class Header extends React.Component {
                       {'Introduction '}
                       <FontAwesomeIcon icon={faAngleDown} />
                     </Link>
+                    <ul className="sub-menu">
+                      <li><Link to="/">Test</Link></li>
+                      <li><Link to="/">Test</Link></li>
+                      <li><Link to="/">Test</Link></li>
+                    </ul>
                   </li>
                   <li>
                     <Link to="/">
@@ -78,9 +104,19 @@ class Header extends React.Component {
                 </ul>
               </div>
               <div className={`auth-container ${showMenu ? 'show' : 'hide'}`}>
-                <span className="firstname">{`${data.FirstName} `}</span>
-                <FontAwesomeIcon icon={faUserCircle} size="2x" />
-                <FontAwesomeIcon icon={faAngleDown} />
+                <ul className="menu">
+                  <li>
+                    <div className="auth" id="auth" onClick={this.toggleAuthMenu}>
+                      <span className="firstname">{`${data.FirstName} `}</span>
+                      <FontAwesomeIcon icon={faUserCircle} size="2x" />
+                      <FontAwesomeIcon icon={faAngleDown} />
+                    </div>
+                    <ul className={`sub-menu ${authMenu ? 'show' : ''}`}>
+                      <li><a href="http://auth.constant.money" target="_blank" rel="noopener noreferrer">Profile</a></li>
+                      <li><Link to="/">Logout</Link></li>
+                    </ul>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
