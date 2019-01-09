@@ -112,8 +112,8 @@ export default class BondHistory extends Component {
     }
 
     async getData(){
-        //let result = await bondmarket.getHistoryList();
-        let result = dataTest;
+        let result = await bondmarket.getHistoryList();
+        //let result = dataTest;
         if(!result.error){
             const { BondBuysHistory = {} } = result;
             if(BondBuysHistory){
