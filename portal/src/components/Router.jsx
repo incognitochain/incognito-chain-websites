@@ -13,6 +13,7 @@ const routers = [
   { path: '/create', exact: true, component: Create },
   { path: '/loan/:id', exact: true, component: Loan },
   { path: '/txs', exact: true, component: Transactions },
+  { path: '/txs/:id', exact: true, component: Transactions },
 ];
 
 class Router extends React.Component {

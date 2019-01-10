@@ -1,4 +1,27 @@
 .txs-page {
   background-color: #FAFAFA;
   padding: 48px 0;
+  .borrows {
+    padding: 10px 30px;
+    a {
+      display: block;
+      text-decoration: none;
+      @extend .c-color-blue-900;
+      padding: 27px 0;
+    }
+    >a:not(:last-of-type) {
+      border-bottom: 1px solid #D8D8D8;
+    }
+  }
+  .tx {
+    display: inline-block;
+    vertical-align: top;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 200px;
+  }
+  .transaction {
+    margin-bottom: 20px;
+  }
 }
