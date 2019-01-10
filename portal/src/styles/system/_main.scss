@@ -44,4 +44,7 @@ main {
   &.ready {
     @extend .c-color-orange-300;
   }
+  &.payment {
+    @extend .c-color-blue-900;
+  }
 }

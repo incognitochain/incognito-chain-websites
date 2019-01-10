@@ -7,6 +7,7 @@ const Home = createDynamicImport(() => import('@/pages/Home/Home'), Loading);
 const Create = createDynamicImport(() => import('@/pages/Create/Create'), Loading);
 const Loan = createDynamicImport(() => import('@/pages/Loan/Loan'), Loading);
 const Transactions = createDynamicImport(() => import('@/pages/Txs/Txs'), Loading);
+const NotFound = createDynamicImport(() => import('@/pages/NotFound'), Loading);
 
 const routers = [
   { path: '/', exact: true, component: Home },
@@ -29,7 +30,9 @@ class Router extends React.Component {
           routers.map(route => (
             <Route key={route.path} {...route} />
           ))
+
         }
+        <Route component={NotFound} />
       </Switch>
     );
   }

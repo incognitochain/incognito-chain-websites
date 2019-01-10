@@ -8,6 +8,8 @@ import { faAngleLeft, faExclamationTriangle } from '@fortawesome/free-solid-svg-
 import Link from '@/components/Link';
 import Layout from '@/components/App/Layout';
 import { faExchangeAlt } from '@fortawesome/pro-regular-svg-icons';
+import { Dialog, toaster, TextInput } from 'evergreen-ui';
+import NotFound from '@/pages/NotFound';
 
 class Loan extends React.Component {
   static propTypes = {
@@ -29,6 +31,11 @@ class Loan extends React.Component {
       inited: false,
       data: {},
       error: null,
+      id,
+      dialogPay: false,
+      isLoading: false,
+      pay: '',
+      valid: true,
     };
   }
 
@@ -38,37 +45,115 @@ class Loan extends React.Component {
       if (data) {
         const { Result } = data;
         if (Result) {
-          this.setState({ inited: true, data: Result });
+          let pay = '';
+          const { BorrowPaymentInfo } = Result;
+          if (BorrowPaymentInfo) {
+            pay = (BorrowPaymentInfo.Interest + BorrowPaymentInfo.Principle).constant();
+          }
+          this.setState({ inited: true, data: Result, pay });
         }
       }
     }).catch((e) => {
-      catchError(e);
       this.setState({ inited: true, data: {}, error: e });
     });
   }
 
-  payLoan = (id) => {
-    axios.post(`${API.LOAN_DETAIL}/${id}/pay`).then((res) => {
+  clickPayLoan = () => {
+    this.setState({ dialogPay: true });
+  }
+
+  payLoan = () => {
+    const { id, pay } = this.state;
+    axios.post(`${API.LOAN_DETAIL}/${id}/pay?amount=${parseInt(Number(pay) * 100, 10)}`).then((res) => {
       const { data } = res;
       if (data) {
         const { Result } = data;
         if (Result) {
+          toaster.success('Pay success!');
           console.log(Result);
+          this.setState({ isLoading: false, dialogPay: false });
+          this.loadLoan(id);
         }
       }
     }).catch((e) => {
+      this.setState({ isLoading: false, dialogPay: false });
       catchError(e);
     });
   }
 
+  onlyNumber = (value, cb) => {
+    if (!Number.isNaN(Number(value))) {
+      cb();
+    }
+  }
+
   render() {
-    const { inited, error, data } = this.state;
-    if (!inited || error) return <div />;
+    const {
+      inited, error, data, dialogPay, id, isLoading, pay, valid,
+    } = this.state;
+
+    if (!inited) {
+      return (
+        <Layout>
+          <div />
+        </Layout>
+      );
+    }
+
+    if (error) {
+      return <NotFound />;
+    }
 
     const { BorrowPaymentInfo } = data;
 
     return (
       <Layout>
+        <Dialog
+          isShown={dialogPay}
+          shouldCloseOnOverlayClick={false}
+          shouldCloseOnEscapePress={false}
+          title={`Pay for loan id: ${id.substr(0, 5)}...`}
+          cancelLabel="Cancel"
+          confirmLabel="Pay"
+          isConfirmLoading={isLoading}
+          onCloseComplete={() => this.setState({
+            dialogPay: false, isLoading: false, pay: (BorrowPaymentInfo.Interest + BorrowPaymentInfo.Principle).constant(), valid: true,
+          })}
+          onConfirm={() => {
+            if (valid) {
+              this.setState({ isLoading: true }); this.payLoan();
+            }
+          }}
+        >
+          <div>
+            {'Please enter your amount you want to pay, must '}
+            &le;
+            {' '}
+            {(BorrowPaymentInfo.Interest + BorrowPaymentInfo.Principle).constant().numberFormat()}
+            {' CST'}
+          </div>
+          <div>
+            <TextInput
+              autoComplete="off"
+              type="text"
+              style={{ display: 'block', margin: '10px 0' }}
+              value={pay}
+              onChange={(e) => {
+                this.onlyNumber(e.target.value, () => {
+                  const inputValid = Number(e.target.value) > Number(BorrowPaymentInfo.Interest + BorrowPaymentInfo.Principle).constant();
+                  this.setState({ pay: e.target.value, valid: !inputValid });
+                });
+              }}
+            />
+          </div>
+          <div className="c-error" style={{ display: `${!valid ? 'block' : 'none'}` }}>
+            {'Must '}
+            &le;
+            {' '}
+            {(BorrowPaymentInfo.Interest + BorrowPaymentInfo.Principle).constant().numberFormat()}
+            {' CST'}
+          </div>
+        </Dialog>
         <div className="loan-page">
           <section className="loan-information">
             <div className="container">
@@ -131,7 +216,9 @@ class Loan extends React.Component {
                                 {' CST'}
                               </div>
                               <div>
-                                {BorrowPaymentInfo.Interest + BorrowPaymentInfo.Principle > 0 ? <button type="button" className="c-btn c-btn-primary" onClick={() => this.payLoan(data.ID)}>Pay now</button> : ''}
+                                {BorrowPaymentInfo.Interest + BorrowPaymentInfo.Principle > 0 ? (
+                                  <button type="button" className="c-btn c-btn-primary" onClick={() => this.clickPayLoan()}>Pay now</button>
+                                ) : ''}
                               </div>
                             </div>
                           </div>
