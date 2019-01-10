@@ -204,10 +204,12 @@ class Create extends React.Component {
     const contractInstance = new web3.eth.Contract(abiDefinition, process.env.loanSmartContractAddress);
 
     const constantPaymentAddress = auth.data.PaymentAddress;
-    const digestKey = web3.utils.fromAscii(secretKey);
+    const digestKey = web3.utils.soliditySha3(web3.utils.toHex(secretKey));
     const lid = web3.utils.fromAscii('');
     const offChain = web3.utils.fromAscii('');
     const accounts = await web3.eth.getAccounts();
+
+    console.log(digestKey);
 
     contractInstance.methods.sendCollateral(lid, digestKey, web3.utils.toHex(constantPaymentAddress), parseInt(Number(loanAmount) * 100, 10), offChain).send({
       from: accounts[0],
@@ -244,7 +246,7 @@ class Create extends React.Component {
               CollateralAmount: collateralAmount.etherToWei(),
               LoanAmount: parseInt(Number(loanAmount) * 100, 10),
               ReceiveAddress: '',
-              KeyDigest: web3.utils.soliditySha3(web3.utils.toHex(secretKey)).substr(2),
+              KeyDigest: digestKey.substr(2),
             },
           };
 
@@ -262,6 +264,8 @@ class Create extends React.Component {
             setSubmitting(false);
           });
         } catch (e) {
+          toaster.danger('Lỗi by @duybao');
+          setSubmitting(false);
           console.log(e);
         }
         // success

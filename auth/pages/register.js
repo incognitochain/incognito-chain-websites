@@ -6,6 +6,7 @@ import Head from 'next/head';
 import { Formik } from 'formik';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import env from '../../.env.js';
 
 import '../auth.scss';
 
@@ -43,14 +44,14 @@ class Register extends React.Component {
 
     axios({
       method: 'POST',
-      url: `http://localhost:8888/auth/register`,
+      url: `http://${env.serviceAPI}/auth/register`,
       data,
     })
       .then((res) => {
         if (res && res.data && res.data.Result && res.data.Result.Message && res.data.Result.Message === 'register successfully') {
           axios({
             method: 'POST',
-            url: `http://localhost:8888/auth/login`,
+            url: `http://${env.serviceAPI}/auth/login`,
             data,
           })
             .then((res) => {

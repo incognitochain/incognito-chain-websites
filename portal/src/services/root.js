@@ -7,7 +7,7 @@ function commarize(rawMin) {
     const order = Math.floor(Math.log(this) / Math.log(1000));
     const unitname = units[(order - 1)];
     const num = Math.floor((this / 1000) ** order);
-    return num + unitname;
+    return `${(`${num}.${this.toString().substr(1, 3)}`).numberFormat()}${unitname}`;
   }
   return this.toLocaleString();
 }
