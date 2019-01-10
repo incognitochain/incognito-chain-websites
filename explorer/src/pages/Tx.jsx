@@ -46,8 +46,7 @@ class Tx extends React.Component {
     }
 
     specTx = specTx.data;
-
-    const chainId = 1;
+    const chainId = specTx.ChainId + 1;
 
     return (
       <div className="c-explorer-page c-explorer-page-tx">
