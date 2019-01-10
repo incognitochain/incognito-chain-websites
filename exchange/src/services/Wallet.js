@@ -49,6 +49,23 @@ export default class Wallet {
     
     return false;
   }
+  static async getConstantBalance() {
+    const result = await Wallet.getBalances();
+    const { ListBalances } = result;
+    console.log('List Balance:', ListBalances);
+    let listBalances = Object.values(result.ListBalances);
+
+    let constantBalance = null;
+    for(let i in listBalances){
+      if (listBalances[i].TokenID === "0000000000000000000000000000000000000000000000000000000000000004") {
+        // nano constant -> convert to constant
+        listBalances[i].TotalBalance =  listBalances[i].TotalBalance / 100;
+        listBalances[i].AvailableBalance =  listBalances[i].AvailableBalance / 100;
+        constantBalance = listBalances[i];
+      }
+    }
+    return constantBalance
+  }
 
   static async send(PaymentAddress, Amount) {
     let data = {
