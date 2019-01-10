@@ -112,7 +112,7 @@ class Header extends React.Component {
                       <FontAwesomeIcon icon={faAngleDown} />
                     </div>
                     <ul className={`sub-menu ${authMenu ? 'show' : ''}`}>
-                      <li><a href="http://auth.constant.money" target="_blank" rel="noopener noreferrer">Profile</a></li>
+                      <li><a href="http://exchange.constant.money/profile" target="_blank" rel="noopener noreferrer">Profile</a></li>
                       <li><Link to="/">Logout</Link></li>
                     </ul>
                   </li>

@@ -65,6 +65,8 @@ class Loan extends React.Component {
     const { inited, error, data } = this.state;
     if (!inited || error) return <div />;
 
+    const { BorrowPaymentInfo } = data;
+
     return (
       <Layout>
         <div className="loan-page">
@@ -109,8 +111,11 @@ class Loan extends React.Component {
                               <div>Interest rate</div>
                             </div>
                             <div className="col-12 col-lg-6 value-container">
-                              <div className="value" />
-                              <div>Monthly payment</div>
+                              <div className="value">
+                                {BorrowPaymentInfo.Interest}
+                                {' CST'}
+                              </div>
+                              <div>Loan Profit</div>
                             </div>
                           </div>
                         </div>
@@ -122,11 +127,11 @@ class Loan extends React.Component {
                             <div className="col-10">
                               <div>Upcoming payment</div>
                               <div className="value c-color-blue-700">
-                                {(((data.LoanAmount / 10000) * data.InterestRate) + data.LoanAmount) / 100}
+                                {(BorrowPaymentInfo.Interest + BorrowPaymentInfo.Principle).constant().numberFormat()}
                                 {' CST'}
                               </div>
                               <div>
-                                <button type="button" className="c-btn c-btn-primary" onClick={() => this.payLoan(data.ID)}>Pay now</button>
+                                {data.State !== 'pending' ? <button type="button" className="c-btn c-btn-primary" onClick={() => this.payLoan(data.ID)}>Pay now</button> : ''}
                               </div>
                             </div>
                           </div>
@@ -149,7 +154,7 @@ class Loan extends React.Component {
                         <tbody>
                           <tr>
                             <td>Status</td>
-                            <td className="status">{data.State}</td>
+                            <td className={`c-status ${data.State}`}>{data.State}</td>
                           </tr>
                           <tr>
                             <td>Start date</td>
@@ -160,8 +165,8 @@ class Loan extends React.Component {
                             <td>{dayjs(data.EndDate).format('MM-DD-YYYY')}</td>
                           </tr>
                           <tr>
-                            <td>Tx Hash</td>
-                            <td className="tx">{data.ConstantLoanRequestTxID}</td>
+                            <td>Loan Tx Hash</td>
+                            <td className="tx"><a href={`http://explorer.constant.money/tx/${data.ConstantLoanRequestTxID}`} target="_blank" rel="noopener noreferrer">{data.ConstantLoanRequestTxID}</a></td>
                           </tr>
                         </tbody>
                       </table>

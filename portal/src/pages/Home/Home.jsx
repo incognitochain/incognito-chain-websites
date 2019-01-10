@@ -328,7 +328,7 @@ class Home extends React.Component {
                             </td>
                             <td>{dayjs(borrow.CreatedAt).format('MM-DD-YYYY')}</td>
                             <td>{dayjs(borrow.EndDate).format('MM-DD-YYYY')}</td>
-                            <td className={`state state-${borrow.State}`}>{borrow.State}</td>
+                            <td className={`c-status ${borrow.State}`}>{borrow.State}</td>
                             <td>
                               {borrow.State === 'pending' ? 'Wait until the borrower make their collateral' : ''}
                               {borrow.State === 'approved' ? (
@@ -386,7 +386,7 @@ class Home extends React.Component {
                             </td>
                             <td>{dayjs(borrow.CreatedAt).format('MM-DD-YYYY')}</td>
                             <td>{dayjs(borrow.EndDate).format('MM-DD-YYYY')}</td>
-                            <td className={`state state-${borrow.State}`}>{borrow.State}</td>
+                            <td className={`c-status ${borrow.State}`}>{borrow.State}</td>
                             {
                               borrow.State === 'pending'
                                 ? (

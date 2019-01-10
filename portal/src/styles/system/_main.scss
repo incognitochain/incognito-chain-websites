@@ -25,5 +25,23 @@ svg {
 }
 
 main {
-  min-height: 100vh;
+  min-height: calc(100vh - 240px);
+}
+
+.c-status {
+  &::first-letter {
+    text-transform: uppercase !important;
+  }
+  &.pending {
+    @extend .c-color-orange-500;
+  }
+  &.approved {
+    @extend .c-color-green-500;
+  }
+  &.withdrawn {
+    @extend .c-color-green-900;
+  }
+  &.ready {
+    @extend .c-color-orange-300;
+  }
 }
