@@ -54,6 +54,22 @@
       }
     }
   }
+  .summary {
+    .c-card {
+      padding: 15px 20px;
+      &:after {
+        content: '';
+        display: table;
+        clear: both;
+      }
+    }
+    .title {
+      font-size: 110%;
+    }
+    .description {
+      margin-top: 10px;
+    }
+  }
   .apply {
     .c-card {
       min-height: 174px;

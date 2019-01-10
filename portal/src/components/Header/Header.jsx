@@ -73,9 +73,9 @@ class Header extends React.Component {
                 <ul className="menu">
                   {/* <li><a href="http://constant.money" target="_blank" rel="noopener noreferrer">Home</a></li> */}
                   <li><Link to="/">Home</Link></li>
-                  <li><Link to="/">Loan</Link></li>
-                  <li><Link to="/">About</Link></li>
-                  <li><Link to="/">FAQ</Link></li>
+                  <li><Link to="/loan">Loan</Link></li>
+                  <li><Link to="/about">About</Link></li>
+                  <li><Link to="/faq">FAQ</Link></li>
                   {/* <li>
                     <Link to="/">
                       {'Introduction '}

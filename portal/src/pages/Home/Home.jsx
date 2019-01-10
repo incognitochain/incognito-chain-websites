@@ -14,6 +14,7 @@ import dayjs from 'dayjs';
 import { Dialog, toaster, TextInput } from 'evergreen-ui';
 import { isEmpty } from 'lodash';
 import Layout from '@/components/App/Layout';
+import Logo from '@/assets/logo.svg';
 
 class Home extends React.Component {
   constructor(props) {
@@ -30,20 +31,31 @@ class Home extends React.Component {
       currentBorrow: {},
       secretKey: '',
       stats: {},
+      statsAll: {},
     };
 
     this.loadBorrows();
     this.loadBorrows(true);
     this.loadStats();
+    this.loadStats(true);
   }
 
-  loadStats = () => {
-    axios.get(API.STATS).then((res) => {
+  loadStats = (all = false) => {
+    let api = API.STATS;
+    if (all) {
+      api = API.STATS_ALL;
+    }
+    axios.get(api).then((res) => {
       const { data } = res;
       if (data) {
         const { Result } = data;
         if (Result) {
-          this.setState({ stats: Result });
+          let stats = 'stats';
+          if (all) {
+            stats = 'statsAll';
+          }
+          console.log(Result);
+          this.setState({ [stats]: Result });
         }
       }
     }).catch((e) => {
@@ -134,7 +146,7 @@ class Home extends React.Component {
 
   render() {
     const {
-      stats, secretKey, isLoading, borrows, borrowsForLender, active, dialogApprove, dialogDeny, dialogWithdraw, currentBorrow,
+      stats, secretKey, isLoading, borrows, borrowsForLender, active, dialogApprove, dialogDeny, dialogWithdraw, currentBorrow, statsAll,
     } = this.state;
     const hasStats = !isEmpty(stats);
     return (
@@ -241,7 +253,49 @@ class Home extends React.Component {
               </div>
             </div>
           </section>
-          <div className="apply">
+          <div className="summary">
+            <div className="container">
+              <div className="row">
+                <div className="col-12 col-lg-3">
+                  <div className="c-card">
+                    <img src={Logo} alt="Logo" style={{ float: 'left', marginRight: 15, marginTop: 5 }} />
+                    <div style={{ float: 'left' }}>
+                      <div className="title c-color-blue-1000">Borrows requested</div>
+                      <div className="description">{statsAll.TotalBorrowsRequested}</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-12 col-lg-3">
+                  <div className="c-card">
+                    <img src={Logo} alt="Logo" style={{ float: 'left', marginRight: 15, marginTop: 5 }} />
+                    <div style={{ float: 'left' }}>
+                      <div className="title c-color-blue-1000">Borrows approved</div>
+                      <div className="description">{statsAll.TotalRequestsApproved}</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-12 col-lg-3">
+                  <div className="c-card">
+                    <img src={Logo} alt="Logo" style={{ float: 'left', marginRight: 15, marginTop: 5 }} />
+                    <div style={{ float: 'left' }}>
+                      <div className="title c-color-blue-1000">Constants approved</div>
+                      <div className="description">{statsAll.TotalConstantsApproved}</div>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-12 col-lg-3">
+                  <div className="c-card">
+                    <img src={Logo} alt="Logo" style={{ float: 'left', marginRight: 15, marginTop: 5 }} />
+                    <div style={{ float: 'left' }}>
+                      <div className="title c-color-blue-1000">Constants withdrawn</div>
+                      <div className="description">{statsAll.TotalConstantsWithdrawn}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="apply" style={{ display: 'none' }}>
             <div className="container">
               <div className="row">
                 <div className="col-12 col-lg-4">
@@ -311,7 +365,7 @@ class Home extends React.Component {
                       </thead>
                       <tbody>
                         {borrows.map(borrow => (
-                          <tr key={borrow.LoanID}>
+                          <tr key={borrow.ID}>
                             <td>
                               <Link to={`/loan/${borrow.LoanID}`}>
                                 {borrow.LoanID.substr(0, 5)}
@@ -369,7 +423,7 @@ class Home extends React.Component {
                       </thead>
                       <tbody>
                         {borrowsForLender.map(borrow => (
-                          <tr key={borrow.LoanID}>
+                          <tr key={borrow.ID}>
                             <td>
                               <Link to={`/loan/${borrow.LoanID}`}>
                                 {borrow.LoanID.substr(0, 5)}

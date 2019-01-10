@@ -479,10 +479,9 @@ class Create extends React.Component {
                             <h2>Create a loan request</h2>
                             <div className="">
                               {'Or '}
-                              <Link to="/">
+                              <Link to="/loan">
                                 <FontAwesomeIcon icon={faAngleLeft} />
-                                {' '}
-                                Back to home
+                                {' Back to dashboard'}
                               </Link>
                             </div>
                             <div className="row input-container input-container-first">
