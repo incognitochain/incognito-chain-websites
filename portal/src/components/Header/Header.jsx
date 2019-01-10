@@ -6,6 +6,7 @@ import Logo from '@/assets/logo.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { faBars, faTimes } from '@fortawesome/pro-light-svg-icons';
+import Cookies from 'js-cookie';
 
 class Header extends React.Component {
   static propTypes = {
@@ -44,6 +45,12 @@ class Header extends React.Component {
       window.document.body.addEventListener('click', this.eventAuthMenu);
     }
     this.setState({ authMenu: !authMenu });
+  }
+
+  logout = (e) => {
+    e.preventDefault();
+    Cookies.remove('auth', { domain: '.constant.money', path: '/' });
+    window.location.assign('http://auth.constant.money/login?redirect=portal.constant.money');
   }
 
   render() {
@@ -99,7 +106,7 @@ class Header extends React.Component {
                     </div>
                     <ul className={`sub-menu ${authMenu ? 'show' : ''}`}>
                       <li><a href="http://exchange.constant.money/profile" target="_blank" rel="noopener noreferrer">Profile</a></li>
-                      <li><Link to="/">Logout</Link></li>
+                      <li><Link to="/" onClick={this.logout}>Logout</Link></li>
                     </ul>
                   </li>
                 </ul>
