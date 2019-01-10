@@ -29,7 +29,7 @@ class SubHeader extends React.Component {
             <div className="col-12">
               <ul>
                 <li>
-                  <Link to="/">
+                  <Link to="/loan">
                     <FontAwesomeIcon icon={faFontAwesomeAlt} />
                     {' Dashboard'}
                   </Link>

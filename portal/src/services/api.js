@@ -1,11 +1,9 @@
 import rawAxios from 'axios';
-import Cookies, { get } from 'js-cookie';
-import auth from '@ui/auth';
-import { BASE_API, APP } from '@/constants';
+import Cookies from 'js-cookie';
 import { toaster } from 'evergreen-ui';
 
-let authorization = "";
-let token = auth.isLogged();
+let authorization = '';
+const token = Cookies.get('auth') || '';
 if (token) {
   authorization = `Bearer ${token}`;
 }
@@ -14,13 +12,19 @@ export const axios = rawAxios.create({
   TIMEOUT: 10000,
   headers: {
     'Content-Type': 'application/json;charset=UTF-8',
-    'Authorization': authorization
+    Authorization: authorization,
   },
 });
 
+let networkError = new Date();
+
 export const catchError = (e) => {
   if (e.toString() === 'Error: Network Error') {
-    toaster.danger('Network Error, please check your connection.');
+    const currentNetworkError = new Date();
+    if (currentNetworkError - networkError > 1000) {
+      networkError = new Date();
+      toaster.danger('Network Error, please check your connection.');
+    }
   }
   const { response } = e;
   if (response) {
@@ -31,4 +35,4 @@ export const catchError = (e) => {
       toaster.danger('API End Point Return Error 502, please contact to admin.', { duration: 10 });
     }
   }
-}
+};

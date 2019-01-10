@@ -11,7 +11,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // const PrepackWebpackPlugin = require('prepack-webpack-plugin').default;
 
 const appPath = filepath => path.resolve(__dirname, filepath);
-const appEnv = require('./.env.js');
+const appEnv = require('../.env.js');
 
 module.exports = function webpackConfig(env, argv = {}) {
   const isProduction = argv.mode === 'production';

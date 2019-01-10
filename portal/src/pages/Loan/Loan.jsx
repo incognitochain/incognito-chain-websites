@@ -163,9 +163,9 @@ class Loan extends React.Component {
                     <div className="title">
                       Loan information
                       <div className="back">
-                        <Link to="/">
+                        <Link to="/loan">
                           <FontAwesomeIcon icon={faAngleLeft} />
-                          {' Back to home'}
+                          {' Back to dashboard'}
                         </Link>
                       </div>
                     </div>

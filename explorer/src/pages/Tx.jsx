@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getTx } from '@/reducers/constant/action';
 import TxComponent from '@/components/Tx';
+import { isEmpty } from 'lodash';
 
 class Tx extends React.Component {
   static propTypes = {
@@ -41,12 +42,12 @@ class Tx extends React.Component {
 
     let specTx = tx[txHash];
 
-    if (!specTx) {
+    if (!(specTx && !isEmpty(specTx.data))) {
       return null;
     }
 
     specTx = specTx.data;
-    const chainId = specTx.ChainId + 1;
+    const chainId = (specTx ?.ChainId || 0) + 1;
 
     return (
       <div className="c-explorer-page c-explorer-page-tx">

@@ -4,13 +4,15 @@ import { Switch, Route } from 'react-router-dom';
 import Loading from '@/components/Loading';
 
 const Home = createDynamicImport(() => import('@/pages/Home/Home'), Loading);
+const Landing = createDynamicImport(() => import('@/pages/Landing/Landing'), Loading);
 const Create = createDynamicImport(() => import('@/pages/Create/Create'), Loading);
 const Loan = createDynamicImport(() => import('@/pages/Loan/Loan'), Loading);
 const Transactions = createDynamicImport(() => import('@/pages/Txs/Txs'), Loading);
 const NotFound = createDynamicImport(() => import('@/pages/NotFound'), Loading);
 
 const routers = [
-  { path: '/', exact: true, component: Home },
+  { path: '/', exact: true, component: Landing },
+  { path: '/loan', exact: true, component: Home },
   { path: '/create', exact: true, component: Create },
   { path: '/loan/:id', exact: true, component: Loan },
   { path: '/txs', exact: true, component: Transactions },
