@@ -112,11 +112,11 @@ export default class extends Component {
         render: obj => renderCell(obj, 'DateCell', 'BuyBackDate')
       },
       {
-        title: <IntlMessages id="BondMarket.Price" />,
+        title: <span><IntlMessages id="BondMarket.Price" />(CONST)</span>,
         key: 'BuyBackPrice',
         width: 100,
         render: obj => {
-          return <span>{nanoToConstant(obj.BuyBackPrice).toLocaleString()} CONST</span>
+          return <span>{nanoToConstant(obj.BuyBackPrice).toLocaleString()}</span>
         }
       },
       {
