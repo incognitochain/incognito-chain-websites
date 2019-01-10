@@ -15,7 +15,9 @@
     table {
       width: 100%;
       td {
-        @extend .c-color-blue-900;
+        &:first-of-type {
+          @extend .c-color-blue-900;
+        }
         padding: 10px 0;
         &:first-of-type {
           &::after {

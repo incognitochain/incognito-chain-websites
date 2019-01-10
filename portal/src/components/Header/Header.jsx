@@ -57,10 +57,14 @@ class Header extends React.Component {
           <div className="row">
             <div className="col-12">
               <div className="logo-container">
-                <a href="http://constant.money" target="_blank" rel="noopener noreferrer">
+                {/* <a href="http://constant.money" target="_blank" rel="noopener noreferrer">
                   <img src={Logo} alt="Logo" />
                   {' onstant'}
-                </a>
+                </a> */}
+                <Link to="/">
+                  <img src={Logo} alt="Logo" />
+                  {' onstant'}
+                </Link>
                 <div className="hamburger" onClick={this.toggleMenu}>
                   <FontAwesomeIcon style={{ marginRight: showMenu ? 5 : 0 }} icon={showMenu ? faTimes : faBars} />
                 </div>
@@ -68,8 +72,11 @@ class Header extends React.Component {
               <div className={`menu-container ${showMenu ? 'show' : 'hide'}`}>
                 <ul className="menu">
                   {/* <li><a href="http://constant.money" target="_blank" rel="noopener noreferrer">Home</a></li> */}
-                  <li><Link to="/">Portal</Link></li>
-                  <li>
+                  <li><Link to="/">Home</Link></li>
+                  <li><Link to="/">Loan</Link></li>
+                  <li><Link to="/">About</Link></li>
+                  <li><Link to="/">FAQ</Link></li>
+                  {/* <li>
                     <Link to="/">
                       {'Introduction '}
                       <FontAwesomeIcon icon={faAngleDown} />
@@ -79,28 +86,7 @@ class Header extends React.Component {
                       <li><Link to="/">Test</Link></li>
                       <li><Link to="/">Test</Link></li>
                     </ul>
-                  </li>
-                  <li>
-                    <Link to="/">
-                      {'Resource '}
-                      <FontAwesomeIcon icon={faAngleDown} />
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/">
-                      <>
-                        {'Innovation '}
-                        <FontAwesomeIcon icon={faAngleDown} />
-                      </>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/">
-                      {'Paricipate '}
-                      <FontAwesomeIcon icon={faAngleDown} />
-                    </Link>
-                  </li>
-                  <li><Link to="/">FAQ</Link></li>
+                  </li> */}
                 </ul>
               </div>
               <div className={`auth-container ${showMenu ? 'show' : 'hide'}`}>
@@ -112,7 +98,7 @@ class Header extends React.Component {
                       <FontAwesomeIcon icon={faAngleDown} />
                     </div>
                     <ul className={`sub-menu ${authMenu ? 'show' : ''}`}>
-                      <li><a href="http://auth.constant.money" target="_blank" rel="noopener noreferrer">Profile</a></li>
+                      <li><a href="http://exchange.constant.money/profile" target="_blank" rel="noopener noreferrer">Profile</a></li>
                       <li><Link to="/">Logout</Link></li>
                     </ul>
                   </li>

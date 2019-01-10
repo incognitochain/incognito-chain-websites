@@ -31,7 +31,7 @@ class Block extends React.Component {
       nextProps.block[prevState.blockHash] ?.updatedAt
         !== prevState.block[prevState.blockHash] ?.updatedAt
     ) {
-      if (!nextProps.block[prevState.blockHash].data.NextBlockHash) {
+      if (!nextProps.block[prevState.blockHash] ?.data ?.NextBlockHash) {
         return { block: nextProps.block, isLatest: true };
       }
       return { block: nextProps.block, isLatest: false };

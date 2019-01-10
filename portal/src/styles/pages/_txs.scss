@@ -12,6 +12,11 @@
     >a:not(:last-of-type) {
       border-bottom: 1px solid #D8D8D8;
     }
+    .borrow {
+      &.active {
+        font-weight: 600;
+      }
+    }
   }
   .tx {
     display: inline-block;
