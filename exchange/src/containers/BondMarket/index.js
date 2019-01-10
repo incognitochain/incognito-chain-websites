@@ -50,6 +50,9 @@ export default class BondMarket extends Component {
       //return false;
     }
   }
+  handleOnBuySuccess = () => {
+    this.getData();
+  }
 
   renderTable(tableInfo) {
     const { list } = this.state;
@@ -58,7 +61,7 @@ export default class BondMarket extends Component {
       const data = new DataBondMarket(10, list);
 
       return <TableStyle className="isoLayoutContent">
-        <SortView dataList={data}/>
+        <SortView dataList={data} onBuySuccess={this.handleOnBuySuccess}/>
       </TableStyle>;
     }
     else{
