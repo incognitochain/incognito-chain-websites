@@ -7,18 +7,23 @@ export const ACTIONS = {
   LOGGED: 'AUTH_LOGGED',
 };
 
-export const checkAuth = () => dispatch => {
-  const auth = Cookies.get('auth');
-  axios.get(API.USER_DATA).then(res => {
+export const checkAuth = () => (dispatch) => {
+  axios.get(API.USER_DATA).then((res) => {
     const { data } = res;
     if (data && !isEmpty(data)) {
-      dispatch({ type: ACTIONS.LOGGED, logged: true, payload: data.Result });
+      const { Result } = data;
+      if (!isEmpty(Result)) {
+        dispatch({ type: ACTIONS.LOGGED, logged: true, payload: data.Result });
+        return true;
+      }
     }
-  }).catch(e => {
+    dispatch({ type: ACTIONS.LOGGED, logged: false });
+    return false;
+  }).catch(() => {
     dispatch({ type: ACTIONS.LOGGED, logged: false });
   });
 };
 
 export const logout = () => {
   Cookies.remove('auth', { domain: '.constant.money', path: '/' });
-}
+};

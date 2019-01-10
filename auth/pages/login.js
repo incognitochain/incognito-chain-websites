@@ -5,6 +5,8 @@ import axios from 'axios';
 import { Formik } from 'formik';
 import Cookies from 'js-cookie';
 import env from '../../.env.js';
+import queryString from 'query-string';
+import { isEmpty } from 'lodash';
 
 import '../auth.scss';
 
@@ -21,19 +23,52 @@ class Index extends React.Component {
     super(props);
     this.state = {
       error: '',
+      checkAuth: false,
+      redirect: '',
     };
   }
 
   componentDidMount() {
-    this.checkAuth();
+    const parsed = queryString.parse(location.search);
+    let redirect = '';
+    const { redirect: rawRedirect } = parsed;
+    if (/^((?!\/).)*constant.money/.test(rawRedirect)) {
+      redirect = rawRedirect;
+    }
+    this.setState({ redirect });
+    this.checkAuth(redirect);
   }
 
-  checkAuth = () => {
-
+  checkAuth = (redirect) => {
+    const token = Cookies.get('auth') || '';
+    const authorization = `Bearer ${token}`;
+    axios.get(`${env.serviceAPI}/auth/me`, {
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        Authorization: authorization,
+      },
+    }).then((res) => {
+      const { data } = res;
+      if (data && !isEmpty(data)) {
+        const { Result } = data;
+        if (!isEmpty(Result)) {
+          if (redirect) {
+            document.location.assign(`//${redirect}`);
+          } else {
+            document.location.assign('//exchange.constant.money');
+          }
+          return;
+        }
+      }
+      this.setState({ checkAuth: true });
+    }).catch(() => {
+      this.setState({ checkAuth: true });
+    });
   }
 
   handleSubmit = (values, setSubmitting) => {
     const { email, password } = values;
+    const { redirect } = this.state;
 
     const data = {
       Email: email,
@@ -48,7 +83,11 @@ class Index extends React.Component {
       .then((res) => {
         if (res.data && res.data.Result && res.data.Result.Token) {
           Cookies.set('auth', res.data.Result.Token, { domain: '.constant.money', expires: 30 });
-          document.location.assign('//exchange.constant.money');
+          if (redirect) {
+            document.location.assign(`//${redirect}`);
+          } else {
+            document.location.assign('//exchange.constant.money');
+          }
         } else {
           this.setState({ error: 'Invalid email or password' });
         }
@@ -62,7 +101,8 @@ class Index extends React.Component {
   }
 
   render() {
-    const { error } = this.state;
+    const { error, checkAuth } = this.state;
+    if (!checkAuth) return <div />;
     return (
       <>
         <Head>
