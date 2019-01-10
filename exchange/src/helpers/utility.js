@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { Map } from 'immutable';
 
 export function clearToken() {
@@ -68,4 +70,9 @@ export function timeDifference(givenTime) {
 }
 export function nanoToConstant(value) {
   return value / 100;
+}
+
+export function formatDateWithoutTime(value) {
+  console.log('Date Value:', value);
+  return new Intl.DateTimeFormat('en-US').format(value);
 }
