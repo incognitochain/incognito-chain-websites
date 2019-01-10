@@ -18,7 +18,8 @@
 
     }
     .wrapperDetail {
-        display: flex;
+       // display: flex;
+       width: 100%;
     }
     .title {
         width: 125px;
@@ -33,14 +34,23 @@
     }
     .TokenID {
         color: #2c3d8f;
+        text-overflow: ellipsis;
+        overflow: hidden;         /*prevent text from being shown outside the border */
+        white-space: nowrap;      /*keep text on one line */
+
+
     }
     .from {
         color: #b8bccc;
     }
 }
+.wrapperBond {
+    padding: (10px 0);
+
+}
 
 .wrapperBondItem {
-    padding: (10px 0);
+    display: flex;
     .historyName {
         word-wrap: break-word;
         color: #212c61;
@@ -50,6 +60,9 @@
     }
     .buyBackAvailable {
         color: #838aa6;
+    }
+    .detail {
+        margin: (0 10px);
     }
 
 }
