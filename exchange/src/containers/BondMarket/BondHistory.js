@@ -181,6 +181,7 @@ export default class BondHistory extends Component {
             if(result){
                 if(result === true){
                     successBuy();
+                    this.getData();
                 }
                 else if(result.error){
                     errorBuy(result.message);

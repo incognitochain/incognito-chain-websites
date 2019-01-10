@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ContentHolder from '@ui/utility/contentHolder';
+import PropTypes from 'prop-types';
 import ModalStyle from "./modal.style";
 import TableWrapper , { WithdrawWrapper, MessageContent }  from './style';
 import { Modal as Modals } from 'antd';
@@ -62,6 +63,9 @@ const renderCell = (object, type, key) => {
 };
 
 export default class extends Component {
+  static propType = {
+    onBuySuccess: PropTypes.func
+  }
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
@@ -197,6 +201,7 @@ export default class extends Component {
       if(result){
         if(result === true){
           successBuy();
+          this.props.onBuySuccess();
         }
         else if(result.error){
           errorBuy(result.message);
