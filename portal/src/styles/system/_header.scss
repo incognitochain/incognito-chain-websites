@@ -55,6 +55,9 @@
         a {
           display: block;
           margin-right: 25px;
+          &.active {
+            color: map-get($map: $green, $key: 's-500');
+          }
         }
         @include breakpoint-between('sm', 'md') {
           a {
@@ -156,7 +159,8 @@
       display: inline-block;
       a {
         display: block;
-        margin-right: 25px;
+        padding: 0 10px;
+        margin-right: 10px;
       }
     }
   }
@@ -165,6 +169,21 @@
     text-decoration: none;
     &:hover {
       @extend .c-color-blue-900;
+    }
+    &.active {
+      font-weight: 600;
+      @extend .c-color-blue-900;
+      position: relative;
+      &:after {
+        content: '';
+        height: 2px;
+        width: 100%;
+        bottom: 0;
+        left: 0;
+        @extend .c-bg-blue-900;
+        display: block;
+        position: absolute;
+      }
     }
   }
 }
