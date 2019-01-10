@@ -12,6 +12,8 @@ import message from '@ui/feedback/message';
 import Input, {
   InputGroup,
 } from '@ui/uielements/input';
+
+import InputNumber from '@ui/uielements/InputNumber';
 import bondmarket from '@/services/BondMarket';
 import { nanoToConstant } from '@/helpers/utility';
 
@@ -172,13 +174,20 @@ export default class extends Component {
     
   }
 
-  changeAmount = (e) => {
-    let val = e.target.value ? e.target.value : Number(e.target.value);
+  changeAmount = (val) => {
+    //let val = e.target.value ? e.target.value : Number(e.target.value);
+    const { selectedItem } = this.state;
+    const { Available = 1 } = selectedItem;  
+    if(val >= Available){
+      val = Available;
+    }
+    
     this.setState({ wAmount:  val});
   }
 
-  changeRate = (e) => {
-    let val = e.target.value ? e.target.value : Number(e.target.value);
+  changeRate = (val) => {
+    //let val = e.target.value ? e.target.value : Number(e.target.value);
+
     this.setState({ wRate:  val});
   }
 
@@ -220,7 +229,7 @@ export default class extends Component {
 
 
   renderBuy(){
-    const { isBuy, isValidate } = this.state;
+    const { isBuy, isValidate, selectedItem, wAmount, wRate } = this.state;
     const title = <IntlMessages id="BondMarket.Buy" />;
 
     return (
@@ -247,17 +256,25 @@ export default class extends Component {
           <WithdrawWrapper>
             <div><IntlMessages id="BondMarket.Buy.Amount" /></div>
             <InputGroup >
-              <Input
+              <InputNumber
                 addonAfter="BOND"
-                placeholder="0.00"
+                placeholder="0"
+                min={1} max={selectedItem ? selectedItem.Available : 1}
+                step={1}
+                precision={0}
+                value={wAmount}
                 onChange={(e) => this.changeAmount(e)}
               />
             </InputGroup>
             <div><IntlMessages id="BondMarket.Rate" /></div>
             <InputGroup >
-              <Input
+              <InputNumber
                 //addonAfter="BOND"
-                placeholder="0.00"
+                placeholder="0.0"
+                value={wRate}
+                step={0.1}
+                precision={1}
+                min={selectedItem ? nanoToConstant(selectedItem.Rate) : 0.1}
                 onChange={(e) => this.changeRate(e)}
               />
             </InputGroup>
