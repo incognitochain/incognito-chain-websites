@@ -389,7 +389,7 @@ class Home extends React.Component {
                             <td>{dayjs(borrow.EndDate).format('MM-DD-YYYY')}</td>
                             <td className={`c-status ${borrow.State}`}>{borrow.State}</td>
                             <td>
-                              {borrow.State === 'pending' ? 'Wait until the borrower make their collateral' : ''}
+                              {borrow.State === 'pending' ? 'Waiting for permission from lenders' : ''}
                               {borrow.State === 'approved' ? (
                                 <button className="c-a-btn" onClick={() => this.clickWithdraw(borrow)} type="button">Withdraw</button>
                               ) : ''}
