@@ -109,10 +109,15 @@ class Home extends React.Component {
       this.loadBorrows(true);
       const { data } = res;
       if (data) {
-        const { Error: ResultError } = data;
-        const { Code } = ResultError;
-        if (Code < 1) {
-          toaster.warning(ResultError.Message);
+        const { Error: ResultError, Result } = data;
+        if (ResultError) {
+          const { Code } = ResultError;
+          if (Code && Code < 1) {
+            toaster.warning(ResultError.Message);
+          }
+        }
+        if (Result) {
+          toaster.success('Withdraw success!');
         }
       }
       this.setState({

@@ -131,7 +131,7 @@ class Loan extends React.Component {
                                 {' CST'}
                               </div>
                               <div>
-                                {data.State !== 'pending' ? <button type="button" className="c-btn c-btn-primary" onClick={() => this.payLoan(data.ID)}>Pay now</button> : ''}
+                                {BorrowPaymentInfo.Interest + BorrowPaymentInfo.Principle > 0 ? <button type="button" className="c-btn c-btn-primary" onClick={() => this.payLoan(data.ID)}>Pay now</button> : ''}
                               </div>
                             </div>
                           </div>
