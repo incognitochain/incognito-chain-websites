@@ -197,7 +197,7 @@ class Loan extends React.Component {
                             </div>
                             <div className="col-12 col-lg-6 value-container">
                               <div className="value">
-                                {BorrowPaymentInfo.Interest}
+                                {(BorrowPaymentInfo.Interest / 100).numberFormat()}
                                 {' CST'}
                               </div>
                               <div>Loan Profit</div>
