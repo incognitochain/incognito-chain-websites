@@ -49,6 +49,8 @@ export default class BondMarket extends Component {
     else{
       //return false;
     }
+    this.setState({loading: false});
+
   }
   handleOnBuySuccess = () => {
     this.getData();
