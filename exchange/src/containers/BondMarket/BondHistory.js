@@ -194,6 +194,10 @@ export default class BondHistory extends Component {
             this.setState({ isBuyBack: false, loadingBuy: false });
         }  
     }
+
+    handleOnHistoryItem = (item) => {
+        this.props.history.push(`/tx/${item.TxID}`)
+    }
     changeAmount = (e) => {
         let val = e.target.value ? e.target.value : Number(e.target.value);
         this.setState({ wAmount:  val, isValidate: this.validate({amount:val})});
@@ -217,7 +221,8 @@ export default class BondHistory extends Component {
                 <Box title="Transaction">
                     {selectedBondItem && <HistoryList 
                         list={selectedBondItem.BondBuys}
-                        onBuyBack={this.handleBuyBack}/>}
+                        onBuyBack={this.handleBuyBack}
+                        onClickDetail={this.handleOnHistoryItem}/>}
                 </Box>
             </div>
         );

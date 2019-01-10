@@ -11,16 +11,24 @@ import {
 class HistoryItem extends Component {
     static propTypes = {
         item: PropTypes.object.isRequired,
-        onBuyBack: PropTypes.func
+        onBuyBack: PropTypes.func,
+        onClickDetail: PropTypes.func,
     }
     handleOnBuyBack=()=> {
         const { item, onBuyBack } = this.props;
         onBuyBack(item);
     }
+
+    handleOnClickDetai = () => {
+        const { item, onClickDetail } = this.props;
+        onClickDetail(item);
+
+    }
     renderDetail(item) {
         const { TxID, TokenID, BuyBackDate,MadeBuyBackDate, Amount, TokenImage } = item;
         return (
-            <div className="wrapperDetail">
+            <div className="wrapperDetail"
+            onClick={this.handleOnClickDetai}>
                 <div className="title">
                 <Tooltip placement="topLeft" title={TxID}>
                     <span>{ImageCell(TokenImage)}</span>
@@ -79,14 +87,14 @@ export default class HistoryList extends Component {
     
     
     render(){
-        const { list, onBuyBack } = this.props;
+        const { list, onBuyBack, onClickDetail } = this.props;
         return (
             <div className="HistoryList">
             {list.map((item, index)=>
                 <HistoryItem key={index}
                     item={item}
                     onBuyBack={onBuyBack}
-
+                    onClickDetail={onClickDetail}
                 />
             )}
             </div>
