@@ -49,6 +49,7 @@ class Register extends React.Component {
         'Content-Type': 'application/json;charset=UTF-8',
         Authorization: authorization,
       },
+      timeout: 1000,
     }).then((res) => {
       const { data } = res;
       if (data && !isEmpty(data)) {
