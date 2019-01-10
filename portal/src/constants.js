@@ -1,9 +1,9 @@
 const isProduction = process.env.MODE !== 'dev' && process.env.NODE_ENV === 'production';
 
-let BASE = 'http://localhost:8888';
+const BASE = process.env.serviceAPI;
 
 if (isProduction) {
-  BASE = 'http://localhost:8888';
+  console.log('production');
 }
 
 const API = {
@@ -21,6 +21,6 @@ const BLOCKCHAIN = {
   BLOCK_IN_SECOND: 600,
 };
 
-Object.keys(API).map(api => { API[api] = `${BASE}/${API[api]}`; return null; });
+Object.keys(API).map((api) => { API[api] = `${BASE}/${API[api]}`; return null; });
 
 module.exports = { API, BLOCKCHAIN };

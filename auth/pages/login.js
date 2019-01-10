@@ -4,6 +4,7 @@ import Head from 'next/head';
 import axios from 'axios';
 import { Formik } from 'formik';
 import Cookies from 'js-cookie';
+import env from '../../.env.js';
 
 import '../auth.scss';
 
@@ -41,7 +42,7 @@ class Index extends React.Component {
 
     axios({
       method: 'POST',
-      url: `http://localhost:8888/auth/login`,
+      url: `${env.serviceAPI}/auth/login`,
       data,
     })
       .then((res) => {
