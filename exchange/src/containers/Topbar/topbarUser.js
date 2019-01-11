@@ -75,7 +75,7 @@ class TopbarUser extends Component {
         </div>
       </Popover>
 
-      <Popover
+      {/*<Popover
         content={this.popupLanguage}
         trigger="click"
         visible={this.state.isLang}
@@ -86,7 +86,7 @@ class TopbarUser extends Component {
         <Button type="default" className="btnLanguage" >
           <IntlMessages id="topbar.Language" />
         </Button>
-      </Popover>
+      </Popover>*/}
 
     </TopbarUserWrapper>
   }

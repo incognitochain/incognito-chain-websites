@@ -278,6 +278,12 @@ const SidebarWrapper = styled.div`
     }
 
   }
+  .sub-menu-button {
+    background-color: transparent !important;
+    color: #b0b6d1 !important;
+    border: 0px !important;
+    width: 100%;
+  }
  
 `;
 

@@ -19,8 +19,6 @@ import imgLogo from '@/image/logo.png';
 import { siteConfig } from '@/settings';
 import { Button } from 'antd';
 
-import './Sidebar.scss';
-
 const { Sider } = Layout;
 
 const {
