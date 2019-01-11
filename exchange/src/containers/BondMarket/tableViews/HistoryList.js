@@ -27,10 +27,10 @@ class HistoryItem extends Component {
     
     renderDetail(item) {
         const { TxID, TokenID, BuyBackDate,MadeBuyBackDate, Amount, TokenImage } = item;
-        const url = `http://explorer.constant.money/tx/${TokenID}`;
+        const url = `http://explorer.constant.money/tx/${TxID}`;
         return (
             <div className="wrapperDetail">
-                <div className="TxID"><span className="title">TX#</span><a href={url}>{TokenID}</a></div>
+                <div className="TxID"><span className="title">TX#</span><a href={url}>{TxID}</a></div>
                 <div className="Amount"><span className="title">Amount</span>{Amount} CONST</div>
                 {BuyBackDate && <div className="BuyBackDate"><span className="title">Buy Back Date</span>{BuyBackDate}</div>}
                 {MadeBuyBackDate && <div className="BoughtBackAt"><span className="title">Bought Back At</span>{MadeBuyBackDate}</div>}
