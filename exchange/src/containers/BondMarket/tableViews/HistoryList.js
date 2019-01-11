@@ -30,7 +30,7 @@ class HistoryItem extends Component {
         const url = `http://explorer.constant.money/tx/${TxID}`;
         return (
             <div className="wrapperDetail">
-                <div className="TxID"><span className="title">TX#</span><a href={url}>{TxID}</a></div>
+                <div className="TxID"><span className="title">TX#</span><a target="_blank" href={url}>{TxID}</a></div>
                 <div className="Amount"><span className="title">Amount</span>{Amount} CONST</div>
                 {BuyBackDate && <div className="BuyBackDate"><span className="title">Buy Back Date</span>{BuyBackDate}</div>}
                 {MadeBuyBackDate && <div className="BoughtBackAt"><span className="title">Bought Back At</span>{MadeBuyBackDate}</div>}
@@ -39,7 +39,6 @@ class HistoryItem extends Component {
         );
     }
     renderBuyBackButton(item) {
-        const { BuyBackAvailable } = item;
         if (!BuyBackAvailable) return false;
         return (
             <Button type="primary" size="large" onClick={()=>this.handleOnBuyBack()}>
