@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import { Layout } from 'antd';
 import Scrollbars from '@ui/utility/customScrollBar.js';
 import Menu from '@ui/uielements/menu';
+import { Dropdown, Icon } from 'antd';
+
 import IntlMessages from '@ui/utility/intlMessages';
 import SidebarWrapper from './sidebar.style';
 import appActions from '../../redux/app/actions';
@@ -18,6 +20,8 @@ import { siteConfig } from '@/settings';
 import Popover from '@ui/uielements/popover';
 
 const SubMenu = Menu.SubMenu;
+const MenuItemGroup = Menu.ItemGroup;
+
 const { Sider } = Layout;
 
 const {
@@ -32,6 +36,20 @@ const stripTrailingSlash = str => {
   }
   return str;
 };
+
+const subMenuVoting = (
+  <Menu>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">1st menu item</a>
+    </Menu.Item>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">2nd menu item</a>
+    </Menu.Item>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">3rd menu item</a>
+    </Menu.Item>
+  </Menu>
+);
 
 const topMenus = [
   {
@@ -86,10 +104,6 @@ class Sidebar extends Component {
     this.onOpenChange = this.onOpenChange.bind(this);
   }
 
-  goSubMenu = (i) => {
-
-  }
-
 
   handleClick(e) {
     this.props.changeCurrent([e.key]);
@@ -124,88 +138,61 @@ class Sidebar extends Component {
     return map[key] || [];
   };
 
-  listSubMenu(items){
+  getSubMenuItem(child, submenuColor){
+    const url = stripTrailingSlash(this.props.url);
 
-    return(
-      <div className="isoUserDropdown">
-        {items.map(i => {
-          return (
-            <a className="lnkLanguage" href="#" key={i.key} onClick={() => this.goSubMenu(i) }>
-              {i.label}
-            </a>
-          );
-        })}
-      </div>
+    const linkTo = child.withoutDashboard
+              ? `/${child.key}`
+              : `${url}/${child.key}`;
+    return (
+      <Menu.Item key={child.key}>
+        <Link style={submenuColor} to={linkTo}>
+          <IntlMessages id={child.label} />
+        </Link>
+      </Menu.Item>
+    );
+  }
+
+  getSubMenu = (children) => {
+    
+    return (
+      <Menu>
+        {children.map((item)=> this.getSubMenuItem(item))}
+      </Menu>
+    );
+    
+  }
+  renderMainMenuText({submenuColor, label}) {
+    return (
+      <span className="isoMenuHolder" style={submenuColor}>
+      <span className="nav-text">
+        <IntlMessages id={label} />
+      </span>
+      </span>
+    );
+  }
+
+  renderDropdownMainMenuText({submenuStyle, submenuColor, children, label, url}) {
+    
+    return (
+      <Dropdown overlay={this.getSubMenu(children, submenuColor)}>
+        <span className="ant-dropdown-link" href="#">
+          <IntlMessages id={label} />
+          <Icon type="down" />
+        </span>
+      </Dropdown>
     );
   }
 
   getMenuItem = ({ singleOption, submenuStyle, submenuColor }) => {
     const { key, label, children } = singleOption;
-    const url = stripTrailingSlash(this.props.url);
-    
-    if (1 == 2  && children) {
-
-      return (
-
-        <Popover
-        content={this.listSubMenu(children)}
-        trigger="click"
-        visible={this.state.isVoting}
-        onVisibleChange={() => this.setState({ isVoting: !this.state.isVoting })}
-        arrowPointAtCenter={true}
-        placement="bottomLeft"
-      >
-        <Menu.Item key={key}>
-          <Link to={`/${key}`}>
-            <span className="isoMenuHolder" style={submenuColor}>
-              {/* <i className={leftIcon} /> */}
-              <span className="nav-text">
-                <IntlMessages id={label} />
-              </span>
-            </span>
-          </Link>
-        </Menu.Item>
-      </Popover>
-      );
-
-      return (
-        
-        <SubMenu
-          className="ulSubmenu"
-          key={key}
-          title={
-            <span className="isoMenuHolder" style={submenuColor}>
-              <span className="nav-text">
-              <IntlMessages id={label} />
-              </span>
-            </span>
-          }
-        >
-          {children.map(child => {console.log(child);
-            const linkTo = child.withoutDashboard
-              ? `/${child.key}`
-              : `${url}/${child.key}`;
-            return (
-              <Menu.Item style={submenuStyle} key={child.key} >
-                <Link style={submenuColor} to={`/${key}`}>
-                  <IntlMessages id={child.label} />
-                </Link>
-              </Menu.Item>
-            );
-          })}
-        </SubMenu>
-      );
-    }
     
     return (
       <Menu.Item key={key}>
         <Link to={`/${key}`}>
-          <span className="isoMenuHolder" style={submenuColor}>
-            {/* <i className={leftIcon} /> */}
-            <span className="nav-text">
-              <IntlMessages id={label} />
-            </span>
-          </span>
+          {children ? this.renderDropdownMainMenuText({submenuStyle, submenuColor, children, label})
+            : 
+            this.renderMainMenuText({submenuColor, label})}
         </Link>
       </Menu.Item>
     );
