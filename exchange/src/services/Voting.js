@@ -18,10 +18,10 @@ export default class Voting {
       authorization = "Bearer " + token;
     }
 
-    let url = 'http://localhost:8888',
+    let url = process.env.serviceAPI,
     options = {
       method,
-      headers: { 
+      headers: {
         'Content-Type': 'application/json;charset=UTF-8',
         'Authorization': authorization
       }
@@ -42,15 +42,15 @@ export default class Voting {
   static async listCookedCandidate(boardType){
     let list = [];
     const result = await this.listCandidate(boardType);console.log(result);
-    
+
     if(result){
       if(result.error){
         return {error: true, message: 'Please login first'};
       }
       else{
         for(let c of result){
-        
-          list.push({...c.User, 
+
+          list.push({...c.User,
             VoteNum: c.VoteNum,
             CMB: c.CMB,
             GOV: c.GOV,
@@ -79,7 +79,7 @@ export default class Voting {
     catch (e) {
       return { error: true, message: e.message };
     }
-    
+
     return false;
   }
 
@@ -98,7 +98,7 @@ export default class Voting {
     catch (e) {
       return { error: true, message: e.message };
     }
-    
+
     return false;
   }
 
@@ -120,7 +120,7 @@ export default class Voting {
     catch (e) {
       return { error: true, message: e.message };
     }
-    
+
     return false;
   }
 
@@ -142,7 +142,7 @@ export default class Voting {
     catch (e) {
       return { error: true, message: e.message };
     }
-    
+
     return false;
   }
 
@@ -163,7 +163,7 @@ export default class Voting {
     catch (e) {
       return { error: true, message: e.message };
     }
-    
+
     return false;
   }
 
@@ -183,7 +183,7 @@ export default class Voting {
     catch (e) {
       return { error: true, message: e.message };
     }
-    
+
     return false;
   }
 
@@ -208,7 +208,7 @@ export default class Voting {
     catch (e) {
       return { error: true, message: e.message };
     }
-    
+
     return false;
   }
 
@@ -227,7 +227,7 @@ export default class Voting {
     catch (e) {
       return { error: true, message: e.message };
     }
-    
+
     return false;
   }
 }

@@ -70,19 +70,15 @@ const topMenus = [
     leftIcon: '',
     children: [
       {
-        label: 'sidebar.VotingDCBBoard',
+        label: 'sidebar.VotingBoard',
         key: 'voting'
       },
       {
-        label: 'sidebar.VotingGOVBoard',
-        key: 'voting'
-      }
+        key: 'proposal',
+        label: 'sidebar.Proposal',
+        leftIcon: '',
+      },
     ]
-  },
-  {
-    key: 'proposal',
-    label: 'sidebar.Proposal',
-    leftIcon: '',
   },
   {
     key: 'bond-market',

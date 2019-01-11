@@ -34,7 +34,7 @@ export default class Exchange extends Component {
       coinUsing: '',
       loading: true,
     }
-    
+
   }
 
   componentDidMount(){
@@ -75,19 +75,19 @@ export default class Exchange extends Component {
 
   async getData(type){
     let result = false;
-    
+
     if(type === 'tradeHistory'){
       result = await exchange.TradeHistory(this.state.symbolCode, 1, 10);
     }
     else{
       result = await exchange.OpenOrders(this.state.symbolCode, 1, 10);
     }
-    
+
     if(result && result.length){
       for(let i in result){
         result[i].key = i;
       }
-      
+
       return result;
     }
 
@@ -163,7 +163,7 @@ export default class Exchange extends Component {
     }
     else{
       return "";
-    } 
+    }
   }
 
   renderOrderBookSell(){
@@ -176,12 +176,12 @@ export default class Exchange extends Component {
     }
     else{
       return "";
-    } 
+    }
   }
 
   render() {
     const { symbolCode, coinBase, coinUsing, loading } = this.state;
-  
+
     if(loading)
       return <Loader />;
 
@@ -201,7 +201,7 @@ export default class Exchange extends Component {
                 {
                   this.renderOrderBookSell()
                 }
-                <Websocket url='ws://localhost:8888/exchange/ws/trades'
+                <Websocket url={`ws://${process.env.serviceAPI}/exchange/ws/trades`}
                   onMessage={this.handleOpenBook.bind(this)}/>
               </Box>
             </Col>
@@ -223,13 +223,13 @@ export default class Exchange extends Component {
                 {
                   this.renderOpenOrder()
                 }
-              </ContentHolder>              
+              </ContentHolder>
               </Box>
             </Col>
             <Col md={5} sm={8} xs={24} style={colStyle} >
               <Box title={this.headerBox("Exchange.TradeHistory", "ion-ios-list-outline", "#1f2d83")} style={boxStyle}>
                 {
-                  this.renderTradeHistory()                  
+                  this.renderTradeHistory()
                 }
               </Box>
             </Col>

@@ -12,7 +12,7 @@ export default class Portal {
       authorization = "Bearer " + token;
     }
 
-    let url = 'http://localhost:8888',
+    let url = process.env.serviceAPI,
       options = {
         method,
         headers: {

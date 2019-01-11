@@ -13,10 +13,10 @@ export default class Auth {
       authorization = "Bearer " + token;
     }
 
-    let url = 'http://localhost:8888',
+    let url = process.env.serviceAPI,
     options = {
       method,
-      headers: { 
+      headers: {
         'Content-Type': 'application/json;charset=UTF-8',
         'Authorization': authorization
       }
@@ -41,7 +41,7 @@ export default class Auth {
 
   static async update(param={}) {
     let data = {};
-    
+
     if(param.FirstName) data['FirstName'] = param.FirstName;
     if(param.LastName) data['LastName'] = param.LastName;
     if(param.UserName) data['UserName'] = param.UserName;
@@ -57,7 +57,7 @@ export default class Auth {
     catch (e) {console.log(e);
       return { error: true, message: e.message };
     }
-    
+
     return false;
   }
 }

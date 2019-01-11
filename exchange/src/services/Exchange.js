@@ -12,11 +12,11 @@ export default class Exchange {
     if(token){
       authorization = "Bearer " + token;
     }
-    
-    let url = 'http://localhost:8888',
+
+    let url = process.env.serviceAPI,
     options = {
       method: method,
-      headers: { 
+      headers: {
         'Content-Type': 'application/json;charset=UTF-8',
         'Authorization': authorization
       }
@@ -46,7 +46,7 @@ export default class Exchange {
     catch (e) {
       return { error: true, message: e.message };
     }
-    
+
     return false;
   }
 
@@ -62,7 +62,7 @@ export default class Exchange {
     catch (e) {
       return { error: true, message: e.message };
     }
-    
+
     return false;
   }
 
@@ -78,7 +78,7 @@ export default class Exchange {
     catch (e) {
       return { error: true, message: e.message };
     }
-    
+
     return false;
   }
 
@@ -95,7 +95,7 @@ export default class Exchange {
     catch (e) {
       return { error: true, message: e.message };
     }
-    
+
     return false;
   }
 }
