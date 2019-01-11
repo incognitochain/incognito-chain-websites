@@ -4,10 +4,10 @@ export default class Market {
 
   static getOption(func, data){
     //const auth = "Basic " + new Buffer(server.username+':'+server.password).toString('base64');
-    let url = 'http://localhost:8888',
+    let url = process.env.serviceAPI,
     options = {
       method: 'GET',
-      headers: { 
+      headers: {
         'Content-Type': 'application/json;charset=UTF-8',
         //'Authorization': auth
       }
@@ -37,7 +37,7 @@ export default class Market {
     catch (e) {
       return { error: true, message: e.message };
     }
-    
+
     return false;
   }
 
@@ -53,7 +53,7 @@ export default class Market {
     catch (e) {
       return { error: true, message: e.message };
     }
-    
+
     return false;
   }
 }

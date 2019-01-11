@@ -7,32 +7,32 @@ export default class BondMarket {
       let {method, func, data, params} = param;
       if(!method)
         method = "GET";
-  
+
       let authorization = "", token = auth.isLogged();
       if(token){
         authorization = "Bearer " + token;
       }
-  
-      let url = 'http://localhost:8888',
+
+      let url = process.env.serviceAPI,
       options = {
         method,
-        headers: { 
+        headers: {
           'Content-Type': 'application/json;charset=UTF-8',
           'Authorization': authorization
         }
       };
-  
+
       if(data){
         options['data'] = data;
       }
       if(params) {
           options['params'] = params;
       }
-  
+
       if(func && func.charAt(0) !== "/"){
         url += "/";
       }
-  
+
       options['url'] = url + func;
       return options;
     }
@@ -49,11 +49,11 @@ export default class BondMarket {
         catch (e) {console.log(e);
           return { error: true, message: e.message };
         }
-        
+
         return false;
     }
     static async buy(params) {
-    
+
         try{
           const response = await axios(BondMarket.getOption({method: "POST", func: '/bond-market/buy', params}));
           if (response.status === 200) {
@@ -64,7 +64,7 @@ export default class BondMarket {
         catch (e) {console.log(e);
           return { error: true, message: e.message };
         }
-        
+
         return false;
     }
 
@@ -80,12 +80,12 @@ export default class BondMarket {
         catch (e) {console.log(e);
           return { error: true, message: e.message };
         }
-        
+
         return false;
     }
 
     static async buyBack(params) {
-    
+
       try{
         const response = await axios(BondMarket.getOption({method: "POST", func: '/bond-market/buy-back', params}));
         if (response.status === 200) {
@@ -96,7 +96,7 @@ export default class BondMarket {
       catch (e) {console.log(e);
         return { error: true, message: e.message };
       }
-      
+
       return false;
   }
 }

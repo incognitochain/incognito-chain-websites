@@ -13,10 +13,10 @@ export default class Wallet {
       authorization = "Bearer " + token;
     }
 
-    let url = 'http://localhost:8888',
+    let url = process.env.serviceAPI,
     options = {
       method,
-      headers: { 
+      headers: {
         'Content-Type': 'application/json;charset=UTF-8',
         'Authorization': authorization
       }
@@ -46,7 +46,7 @@ export default class Wallet {
     catch (e) {console.log(e);
       return { error: true, message: e.message };
     }
-    
+
     return false;
   }
   static async getConstantBalance() {
@@ -86,7 +86,7 @@ export default class Wallet {
     catch (e) {console.log(e);
       return { error: true, message: e.message };
     }
-    
+
     return false;
   }
 }
