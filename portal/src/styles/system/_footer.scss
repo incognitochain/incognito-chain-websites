@@ -1,5 +1,5 @@
 .c-footer {
-  padding: 0 0 20px;
+  padding: 0 0 40px;
   text-align: center;
   @extend .c-color-blue-800;
   ul {
@@ -11,7 +11,7 @@
       position: relative;
       &:not(:last-of-type):after {
         content: '';
-        @extend .c-bg-blue-800;
+        background-color: #999999;
         width: 2px;
         height: 2px;
         border-radius: 100%;
@@ -20,11 +20,18 @@
         transform: translateY(-50%);
         right: 0;
       }
+      a {
+        color: #999999;
+      }
+      color: #999999;
     }
   }
   &.second {
     @extend .c-bg-blue-900;
-    color: #ffffff;
+    color: #ffffff !important;
+    li {
+      color: #ffffff !important;
+    }
     a {
       color: #ffffff;
     }
@@ -33,5 +40,35 @@
         background-color: #ffffff !important;
       }
     }
+  }
+}
+.share-container {
+  padding-bottom: 54px;
+  @extend .c-color-blue-900;
+  text-align: center;
+  .title {
+    font-size: 20px;
+    margin-bottom: 27px;
+  }
+  .shares {
+    margin: 20px 0;
+  }
+  .c-a-btn {
+    padding: 15px 45px;
+    margin-right: 15px;
+    display: inline-block;
+    text-decoration: none;
+    @extend .c-color-blue-900;
+    font-size: 110%;
+    svg {
+      margin-right: 10px;
+    }
+  }
+  &.second {
+    padding-bottom: 20px;
+    .title {
+      color: #ffffff;
+    }
+    @extend .c-bg-blue-900;
   }
 }
