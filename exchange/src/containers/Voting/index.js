@@ -100,7 +100,7 @@ class Voting extends Component {
     if(auth.isLogged()){console.log(boardType.value);
       const result = await voting.listCookedCandidate(boardType.value);
       if(result){
-        this.props.storeMails(result);
+        //this.props.storeMails(result);
       }
     } 
     this.setState({loading: false, boardType});

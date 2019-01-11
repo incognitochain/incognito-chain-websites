@@ -276,7 +276,9 @@ const SidebarWrapper = styled.div`
 
       
     }
+
   }
+ 
 `;
 
 export default WithDirection(SidebarWrapper);

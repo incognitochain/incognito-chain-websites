@@ -17,10 +17,9 @@ import { Row, Col } from 'antd';
 import ContentHolder from '@ui/utility/contentHolder';
 import imgLogo from '@/image/logo.png';
 import { siteConfig } from '@/settings';
-import Popover from '@ui/uielements/popover';
+import { Button } from 'antd';
 
-const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
+import './Sidebar.scss';
 
 const { Sider } = Layout;
 
@@ -37,20 +36,6 @@ const stripTrailingSlash = (str) => {
   return str;
 };
 
-
-const menu = (
-  <Menu>
-    <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">1st menu item</a>
-    </Menu.Item>
-    <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">2nd menu item</a>
-    </Menu.Item>
-    <Menu.Item>
-      <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">3rd menu item</a>
-    </Menu.Item>
-  </Menu>
-);
 
 
 const topMenus = [
@@ -172,13 +157,14 @@ class Sidebar extends Component {
   renderDropdownMainMenuText({submenuStyle, submenuColor, children, label, key}) {
 
     return (
-      <Dropdown overlay={this.getSubMenu(children, submenuColor, submenuStyle)}
-      onClick={()=> console.log('Click')}>
-        <span className="ant-dropdown-link">
-          <IntlMessages id={label} />
-          <Icon type="down" />
-        </span>
-      </Dropdown>
+      <Link  to={`/${key}`}>
+        <Dropdown overlay={this.getSubMenu(children, submenuColor, submenuStyle)}>
+          <Button className="sub-menu-button">
+            <IntlMessages id={label} />
+            <Icon type="down" />
+          </Button>
+        </Dropdown>
+      </Link>
     );
   }
 
@@ -186,8 +172,8 @@ class Sidebar extends Component {
     const { key, label, children } = singleOption;
 
     return (
-      <Menu.Item key={key}>
-        {children ? this.renderDropdownMainMenuText({submenuStyle, submenuColor, children, label})
+      <Menu.Item key={key} style={{width: '150px'}}>
+        {children ? this.renderDropdownMainMenuText({submenuStyle, submenuColor, children, label, key})
           :
           this.renderMainMenuText({submenuColor, label, key})}
       </Menu.Item>
