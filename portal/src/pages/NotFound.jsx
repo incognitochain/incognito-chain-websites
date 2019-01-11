@@ -18,10 +18,12 @@ class NotFound extends React.Component {
   render() {
     return (
       <Layout>
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              Page Not Found
+        <div className="not-found-page">
+          <div className="container">
+            <div className="row">
+              <div className="col-12">
+                <div className="content">Page Not Found</div>
+              </div>
             </div>
           </div>
         </div>

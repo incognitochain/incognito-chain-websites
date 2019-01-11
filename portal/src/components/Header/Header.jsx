@@ -6,11 +6,12 @@ import Logo from '@/assets/logo.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { faBars, faTimes } from '@fortawesome/pro-light-svg-icons';
+import Cookies from 'js-cookie';
 
 class Header extends React.Component {
   static propTypes = {
     auth: PropTypes.object.isRequired,
-    // abcd: PropTypes.func.isRequired,
+    router: PropTypes.object.isRequired,
   }
 
   constructor(props) {
@@ -46,10 +47,18 @@ class Header extends React.Component {
     this.setState({ authMenu: !authMenu });
   }
 
+  logout = (e) => {
+    e.preventDefault();
+    Cookies.remove('auth', { domain: '.constant.money', path: '/' });
+    window.location.assign('http://auth.constant.money/login?redirect=portal.constant.money');
+  }
+
   render() {
-    const { auth } = this.props;
+    const { auth, router } = this.props;
     const { data } = auth;
     const { showMenu, authMenu } = this.state;
+    const { location } = router;
+    const { pathname } = location;
 
     return (
       <header className="c-header">
@@ -72,10 +81,10 @@ class Header extends React.Component {
               <div className={`menu-container ${showMenu ? 'show' : 'hide'}`}>
                 <ul className="menu">
                   {/* <li><a href="http://constant.money" target="_blank" rel="noopener noreferrer">Home</a></li> */}
-                  <li><Link to="/">Home</Link></li>
-                  <li><Link to="/loan">Loan</Link></li>
-                  <li><Link to="/about">About</Link></li>
-                  <li><Link to="/faq">FAQ</Link></li>
+                  <li><Link to="/" className={`${pathname === '/' ? 'active' : ''}`}>Home</Link></li>
+                  <li><Link to="/loan" className={`${pathname === '/loan' ? 'active' : ''}`}>Loan</Link></li>
+                  <li><Link to="/about" className={`${pathname === '/about' ? 'active' : ''}`}>About</Link></li>
+                  <li><Link to="/faq" className={`${pathname === '/faq' ? 'active' : ''}`}>FAQ</Link></li>
                   {/* <li>
                     <Link to="/">
                       {'Introduction '}
@@ -99,7 +108,7 @@ class Header extends React.Component {
                     </div>
                     <ul className={`sub-menu ${authMenu ? 'show' : ''}`}>
                       <li><a href="http://exchange.constant.money/profile" target="_blank" rel="noopener noreferrer">Profile</a></li>
-                      <li><Link to="/">Logout</Link></li>
+                      <li><Link to="/" onClick={this.logout}>Logout</Link></li>
                     </ul>
                   </li>
                 </ul>
@@ -112,4 +121,4 @@ class Header extends React.Component {
   }
 }
 
-export default connect(state => ({ auth: state.auth }))(Header);
+export default connect(state => ({ auth: state.auth, router: state.router }))(Header);

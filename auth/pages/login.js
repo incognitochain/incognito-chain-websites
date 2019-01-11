@@ -47,6 +47,7 @@ class Index extends React.Component {
         'Content-Type': 'application/json;charset=UTF-8',
         Authorization: authorization,
       },
+      timeout: 1000,
     }).then((res) => {
       const { data } = res;
       if (data && !isEmpty(data)) {
@@ -101,7 +102,7 @@ class Index extends React.Component {
   }
 
   render() {
-    const { error, checkAuth } = this.state;
+    const { error, checkAuth, redirect } = this.state;
     if (!checkAuth) return <div />;
     return (
       <>
@@ -200,13 +201,13 @@ class Index extends React.Component {
                               {errors.password && touched.password && <span className="c-error">{errors.password}</span>}
                             </div>
                             <div className="c-field">
-                              Having some trouble? <a href="/forgot-password">Get help logging in</a>
+                              Having some trouble? <a href={`/forgot-password${redirect ? `?redirect=${redirect}` : ''}`}>Get help logging in</a>
                             </div>
                             <div className="c-field c-submit">
                               <button className="c-btn c-btn-primary c-block" type="submit">Login</button>
                             </div>
                             <div className="auth-route">
-                              New to Constant? <a href="/register">Create an account.</a>
+                              New to Constant? <a href={`/register${redirect ? `?redirect=${redirect}` : ''}`}>Create an account.</a>
                             </div>
                           </form>
                         )

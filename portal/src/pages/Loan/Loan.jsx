@@ -104,7 +104,7 @@ class Loan extends React.Component {
       return <NotFound />;
     }
 
-    const { BorrowPaymentInfo } = data;
+    const { BorrowPaymentInfo, IsOwner } = data;
 
     return (
       <Layout>
@@ -216,7 +216,7 @@ class Loan extends React.Component {
                                 {' CST'}
                               </div>
                               <div>
-                                {BorrowPaymentInfo.Interest + BorrowPaymentInfo.Principle > 0 ? (
+                                {IsOwner && BorrowPaymentInfo.Interest + BorrowPaymentInfo.Principle > 0 ? (
                                   <button type="button" className="c-btn c-btn-primary" onClick={() => this.clickPayLoan()}>Pay now</button>
                                 ) : ''}
                               </div>

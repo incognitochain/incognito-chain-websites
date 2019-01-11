@@ -7,6 +7,8 @@ import { Formik } from 'formik';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import env from '../../.env.js';
+import queryString from 'query-string';
+import { isEmpty } from 'lodash';
 
 import '../auth.scss';
 
@@ -24,7 +26,49 @@ class Register extends React.Component {
     super(props);
     this.state = {
       error: '',
+      redirect: '',
     };
+  }
+
+  componentDidMount() {
+    const parsed = queryString.parse(location.search);
+    let redirect = '';
+    const { redirect: rawRedirect } = parsed;
+    if (/^((?!\/).)*constant.money/.test(rawRedirect)) {
+      redirect = rawRedirect;
+    }
+    this.setState({ redirect });
+    this.checkAuth(redirect);
+  }
+
+  checkAuth = (redirect) => {
+    const token = Cookies.get('auth') || '';
+    const authorization = `Bearer ${token}`;
+    axios.get(`${env.serviceAPI}/auth/me`, {
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        Authorization: authorization,
+      },
+      timeout: 1000,
+    }).then((res) => {
+      const { data } = res;
+      if (data && !isEmpty(data)) {
+        const { Result } = data;
+        console.log(Result);
+        if (!isEmpty(Result)) {
+          if (redirect) {
+            document.location.assign(`//${redirect}`);
+          } else {
+            document.location.assign('//exchange.constant.money');
+          }
+          return;
+        }
+      }
+      this.setState({ checkAuth: true });
+    }).catch((e) => {
+      console.log(e);
+      this.setState({ checkAuth: true });
+    });
   }
 
   handleSubmit = (values, setSubmitting) => {
@@ -40,6 +84,8 @@ class Register extends React.Component {
       ConfirmPassword: confirmPassword,
       Type: 'borrower',
       PublicKey: '',
+      checkAuth: false,
+      redirect: '',
     };
 
     axios({
@@ -75,7 +121,9 @@ class Register extends React.Component {
   }
 
   render() {
-    const { error } = this.state;
+    const { error, checkAuth, redirect } = this.state;
+    if (!checkAuth) return <div />;
+
     return (
       <>
         <Head>
@@ -248,7 +296,7 @@ class Register extends React.Component {
                               <button className="c-btn c-btn-primary c-block" type="submit">Register</button>
                             </div>
                             <div className="auth-route">
-                              If you already have a Constant account <a href="/login">Login</a>
+                              If you already have a Constant account <a href={`/login${redirect ? `?redirect=${redirect}` : ''}`}>Login</a>
                             </div>
                           </form>
                         )

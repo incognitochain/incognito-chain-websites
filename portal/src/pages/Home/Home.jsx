@@ -209,21 +209,24 @@ class Home extends React.Component {
                         <div className="col-12 col-lg-3 stats">
                           <div className="value">
                             {Number(stats.TotalConstantPending).constant().numberFormat().commarize()}
-                            {' CST'}
+                            {' '}
+                            <sup>CST</sup>
                           </div>
                           <div>Are pending</div>
                         </div>
                         <div className="col-12 col-lg-3 stats">
                           <div className="value">
                             {Number(stats.TotalConstantApproved).constant().numberFormat().commarize()}
-                            {' CST'}
+                            {' '}
+                            <sup>CST</sup>
                           </div>
                           <div>Has been approved</div>
                         </div>
                         <div className="col-12 col-lg-3 stats">
                           <div className="value">
                             {Number(stats.TotalConstantRejected).constant().numberFormat().commarize()}
-                            {' CST'}
+                            {' '}
+                            <sup>CST</sup>
                           </div>
                           <div>Has been rejected</div>
                         </div>
@@ -232,7 +235,7 @@ class Home extends React.Component {
                             <div key={collateral.Type} className="value">
                               {Number(collateral.Amount).coinUnitFormat(collateral.Type).numberFormat().commarize()}
                               {' '}
-                              {collateral.Type}
+                              <sup>{collateral.Type}</sup>
                             </div>
                           ))}
                           <div>Collaterals</div>
@@ -389,7 +392,7 @@ class Home extends React.Component {
                             <td>{dayjs(borrow.EndDate).format('MM-DD-YYYY')}</td>
                             <td className={`c-status ${borrow.State}`}>{borrow.State}</td>
                             <td>
-                              {borrow.State === 'pending' ? 'Wait until the borrower make their collateral' : ''}
+                              {borrow.State === 'pending' ? 'Waiting for permission from lenders' : ''}
                               {borrow.State === 'approved' ? (
                                 <button className="c-a-btn" onClick={() => this.clickWithdraw(borrow)} type="button">Withdraw</button>
                               ) : ''}

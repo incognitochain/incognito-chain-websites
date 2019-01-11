@@ -18,10 +18,12 @@ class Landing extends React.Component {
   render() {
     return (
       <Layout showSubHeader={false}>
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              Landing page
+        <div className="landing-page">
+          <div className="container">
+            <div className="row">
+              <div className="col-12">
+                <div className="content">Landing page</div>
+              </div>
             </div>
           </div>
         </div>

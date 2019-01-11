@@ -3,6 +3,10 @@ import React from 'react';
 import Head from 'next/head';
 import axios from 'axios';
 import formik from 'formik';
+import queryString from 'query-string';
+import Cookies from 'js-cookie';
+import env from '../../.env.js';
+import { isEmpty } from 'lodash';
 
 import '../auth.scss';
 
@@ -17,18 +21,55 @@ class ResetPassword extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      redirect: '',
+      checkAuth: false,
+    };
   }
 
   componentDidMount() {
-    this.checkAuth();
+    const parsed = queryString.parse(location.search);
+    let redirect = '';
+    const { redirect: rawRedirect } = parsed;
+    if (/^((?!\/).)*constant.money/.test(rawRedirect)) {
+      redirect = rawRedirect;
+    }
+    this.setState({ redirect });
+    this.checkAuth(redirect);
   }
 
-  checkAuth = () => {
-
+  checkAuth = (redirect) => {
+    const token = Cookies.get('auth') || '';
+    const authorization = `Bearer ${token}`;
+    axios.get(`${env.serviceAPI}/auth/me`, {
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        Authorization: authorization,
+      },
+      timeout: 1000,
+    }).then((res) => {
+      const { data } = res;
+      if (data && !isEmpty(data)) {
+        const { Result } = data;
+        if (!isEmpty(Result)) {
+          if (redirect) {
+            document.location.assign(`//${redirect}`);
+          } else {
+            document.location.assign('//exchange.constant.money');
+          }
+          return;
+        }
+      }
+      this.setState({ checkAuth: true });
+    }).catch(() => {
+      this.setState({ checkAuth: true });
+    });
   }
 
   render() {
+    const { error, checkAuth, redirect } = this.state;
+    if (!checkAuth) return <div />;
+
     return (
       <>
         <Head>

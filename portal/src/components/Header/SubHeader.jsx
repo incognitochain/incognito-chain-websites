@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import Link from '@/components/Link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFontAwesomeAlt } from '@fortawesome/free-brands-svg-icons';
@@ -9,6 +9,7 @@ import { faExchangeAlt } from '@fortawesome/pro-regular-svg-icons';
 class SubHeader extends React.Component {
   static propTypes = {
     show: PropTypes.bool,
+    router: PropTypes.object.isRequired,
   }
 
   static defaultProps = {
@@ -21,7 +22,10 @@ class SubHeader extends React.Component {
   }
 
   render() {
-    const { show } = this.props;
+    const { show, router } = this.props;
+    const { location } = router;
+    const { pathname } = location;
+
     return (
       <header className="c-sub-header" style={{ display: `${show ? 'block' : 'none'}` }}>
         <div className="container">
@@ -29,13 +33,13 @@ class SubHeader extends React.Component {
             <div className="col-12">
               <ul>
                 <li>
-                  <Link to="/loan">
+                  <Link to="/loan" className={`${pathname.startsWith('/loan') ? 'active' : ''}`}>
                     <FontAwesomeIcon icon={faFontAwesomeAlt} />
                     {' Dashboard'}
                   </Link>
                 </li>
                 <li>
-                  <Link to="/txs">
+                  <Link to="/txs" className={`${pathname.startsWith('/txs') ? 'active' : ''}`}>
                     <FontAwesomeIcon icon={faExchangeAlt} />
                     {' Transaction'}
                   </Link>
@@ -49,4 +53,4 @@ class SubHeader extends React.Component {
   }
 }
 
-export default SubHeader;
+export default connect(state => ({ router: state.router }))(SubHeader);
