@@ -13,8 +13,8 @@ const Footer = ({ type }) => (
           <div className="col-12">
             <ul>
               <li>{`${dayjs().format('YYYY')} constant`}</li>
-              <li><Link to="/">Loan terms</Link></li>
-              <li><Link to="/">Privacy policy</Link></li>
+              <li><Link to="/terms">Loan terms</Link></li>
+              <li><Link to="/policy">Privacy policy</Link></li>
             </ul>
           </div>
         </div>
