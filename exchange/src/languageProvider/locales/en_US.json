@@ -416,6 +416,8 @@
   "sidebar.Wallet": "Wallet",
   "sidebar.Profile": "Profile",
   "sidebar.Voting": "Voting",
+  "sidebar.VotingDCBBoard": "DCB Board",
+  "sidebar.VotingGOVBoard": "GOV Board",
   "sidebar.Proposal": "Proposal",
   "sidebar.BondMarket": "Bond Market",
   "Market.PageHeader": "Market",

@@ -30,7 +30,7 @@ const {
   changeCurrent,
   toggleCollapsed
 } = appActions;
-const stripTrailingSlash = str => {
+const stripTrailingSlash = (str) => {
   if (str.substr(-1) === '/') {
     return str.substr(0, str.length - 1);
   }
@@ -55,16 +55,12 @@ const topMenus = [
     leftIcon: '',
     children: [
       {
-        label: 'sidebar.Voting',
-        key: '1'
+        label: 'sidebar.VotingDCBBoard',
+        key: 'voting'
       },
       {
-        label: 'sidebar.Voting',
-        key: '2'
-      },
-      {
-        label: 'sidebar.Voting',
-        key: '3'
+        label: 'sidebar.VotingGOVBoard',
+        key: 'voting'
       }
     ]
   },
@@ -127,10 +123,9 @@ class Sidebar extends Component {
 
   getSubMenuItem(child, submenuColor){
     const url = stripTrailingSlash(this.props.url);
-
     const linkTo = child.withoutDashboard
               ? `/${child.key}`
-              : `${url}/${child.key}`;
+              : `/${child.key}`;
     return (
       <Menu.Item key={child.key}>
         <Link style={submenuColor} to={linkTo}>
@@ -141,13 +136,13 @@ class Sidebar extends Component {
   }
 
   getSubMenu = (children) => {
-    
+
     return (
       <Menu>
         {children.map((item)=> this.getSubMenuItem(item))}
       </Menu>
     );
-    
+
   }
   renderMainMenuText({submenuColor, label}) {
     return (
@@ -160,7 +155,7 @@ class Sidebar extends Component {
   }
 
   renderDropdownMainMenuText({submenuStyle, submenuColor, children, label, url}) {
-    
+
     return (
       <Dropdown overlay={this.getSubMenu(children, submenuColor)}>
         <span className="ant-dropdown-link" href="#">
@@ -173,12 +168,12 @@ class Sidebar extends Component {
 
   getMenuItem = ({ singleOption, submenuStyle, submenuColor }) => {
     const { key, label, children } = singleOption;
-    
+
     return (
       <Menu.Item key={key}>
         <Link to={`/${key}`}>
           {children ? this.renderDropdownMainMenuText({submenuStyle, submenuColor, children, label})
-            : 
+            :
             this.renderMainMenuText({submenuColor, label})}
         </Link>
       </Menu.Item>
