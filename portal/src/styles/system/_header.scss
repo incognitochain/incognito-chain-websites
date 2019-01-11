@@ -165,7 +165,7 @@
     }
   }
   a {
-    @extend .c-color-blue-600;
+    color: #999999;
     text-decoration: none;
     &:hover {
       @extend .c-color-blue-900;
