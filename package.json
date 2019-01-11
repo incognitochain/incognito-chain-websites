@@ -8,6 +8,7 @@
     "balancer": "sh balancer/run.sh",
     "auth": "cd auth && yarn dev",
     "exchange": "cd exchange && yarn start",
+    "portal": "cd portal && yarn dev",
     "explorer": "cd explorer && yarn start",
     "backend": "cd $GOPATH/src/github.com/ninjadotorg/constant-api-service && go run server.go"
   },
