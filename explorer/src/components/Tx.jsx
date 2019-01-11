@@ -51,7 +51,7 @@ class Tx extends React.Component {
         <tr>
           <td>Metadata</td>
           <td>
-            <pre>{tx.MetaData}</pre>
+            <pre>{tx.Metadata}</pre>
           </td>
         </tr>
         </tbody>
