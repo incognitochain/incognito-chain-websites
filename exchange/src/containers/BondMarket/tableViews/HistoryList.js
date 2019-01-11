@@ -5,7 +5,7 @@ import { Tooltip } from 'antd';
 import { formatDateWithoutTime } from '@/helpers/utility';
 import {
     ImageCell,
-   
+
   } from '@ui/tables/helperCells';
 
 class HistoryItem extends Component {
@@ -24,7 +24,7 @@ class HistoryItem extends Component {
         onClickDetail(item);
 
     }
-    
+
     renderDetail(item) {
         const { TxID, TokenID, BuyBackDate,MadeBuyBackDate, Amount, TokenImage } = item;
         const url = `http://explorer.constant.money/tx/${TxID}`;
@@ -34,11 +34,12 @@ class HistoryItem extends Component {
                 <div className="Amount"><span className="title">Amount</span>{Amount} CONST</div>
                 {BuyBackDate && <div className="BuyBackDate"><span className="title">Buy Back Date</span>{BuyBackDate}</div>}
                 {MadeBuyBackDate && <div className="BoughtBackAt"><span className="title">Bought Back At</span>{MadeBuyBackDate}</div>}
-            
+
             </div>
         );
     }
     renderBuyBackButton(item) {
+        const { BuyBackAvailable } = item;
         if (!BuyBackAvailable) return false;
         return (
             <Button type="primary" size="large" onClick={()=>this.handleOnBuyBack()}>
@@ -46,7 +47,7 @@ class HistoryItem extends Component {
             </Button>
         );
     }
-    
+
     render() {
         const { item } = this.props;
         return (
@@ -75,11 +76,11 @@ export default class HistoryList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-        } 
+        }
     }
 
-    
-    
+
+
     render(){
         const { list, onBuyBack, onClickDetail } = this.props;
         return (
