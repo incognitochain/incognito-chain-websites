@@ -38,6 +38,21 @@ const stripTrailingSlash = (str) => {
 };
 
 
+const menu = (
+  <Menu>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">1st menu item</a>
+    </Menu.Item>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">2nd menu item</a>
+    </Menu.Item>
+    <Menu.Item>
+      <a target="_blank" rel="noopener noreferrer" href="http://www.tmall.com/">3rd menu item</a>
+    </Menu.Item>
+  </Menu>
+);
+
+
 const topMenus = [
   {
     key: '',
@@ -121,7 +136,7 @@ class Sidebar extends Component {
     return map[key] || [];
   };
 
-  getSubMenuItem(child, submenuColor){
+  getSubMenuItem(child, submenuColor, submenuStyle){
     const url = stripTrailingSlash(this.props.url);
     const linkTo = child.withoutDashboard
               ? `/${child.key}`
@@ -135,30 +150,35 @@ class Sidebar extends Component {
     );
   }
 
-  getSubMenu = (children) => {
+  getSubMenu = (children, submenuColor, submenuStyle) => {
 
     return (
       <Menu>
-        {children.map((item)=> this.getSubMenuItem(item))}
+        {children.map((item)=> this.getSubMenuItem(item, submenuColor, submenuStyle))}
       </Menu>
     );
 
   }
-  renderMainMenuText({submenuColor, label}) {
+  renderMainMenuText({submenuColor, label, key}) {
     return (
-      <span className="isoMenuHolder" style={submenuColor}>
-      <span className="nav-text">
-        <IntlMessages id={label} />
-      </span>
-      </span>
+      <Link  to={`/${key}`}>
+        <span className="isoMenuHolder" style={submenuColor}>
+        <span className="nav-text">
+          <IntlMessages id={label} />
+        </span>
+        </span>
+      </Link>
     );
   }
 
-  renderDropdownMainMenuText({submenuStyle, submenuColor, children, label, url}) {
+  
+
+  renderDropdownMainMenuText({submenuStyle, submenuColor, children, label, key}) {
 
     return (
-      <Dropdown overlay={this.getSubMenu(children, submenuColor)}>
-        <span className="ant-dropdown-link" href="#">
+      <Dropdown overlay={this.getSubMenu(children, submenuColor, submenuStyle)}
+      onClick={()=> console.log('Click')}>
+        <span className="ant-dropdown-link">
           <IntlMessages id={label} />
           <Icon type="down" />
         </span>
@@ -171,11 +191,9 @@ class Sidebar extends Component {
 
     return (
       <Menu.Item key={key}>
-        <Link to={`/${key}`}>
-          {children ? this.renderDropdownMainMenuText({submenuStyle, submenuColor, children, label})
-            :
-            this.renderMainMenuText({submenuColor, label})}
-        </Link>
+        {children ? this.renderDropdownMainMenuText({submenuStyle, submenuColor, children, label})
+          :
+          this.renderMainMenuText({submenuColor, label, key})}
       </Menu.Item>
     );
   };
