@@ -1,0 +1,9 @@
+{
+  "name": "balancer.dev",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "push": "sh push-image.sh",
+    "push:dev": "sh push-image.dev.sh"
+  }
+}

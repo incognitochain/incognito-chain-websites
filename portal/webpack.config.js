@@ -43,7 +43,7 @@ module.exports = function webpackConfig(env, argv = {}) {
           use: [
             'style-loader',
             'css-loader',
-            'postcss-loader',
+            // 'postcss-loader',
             {
               loader: 'resolve-url-loader',
               options: {
@@ -96,7 +96,7 @@ module.exports = function webpackConfig(env, argv = {}) {
           use: [
             MiniCssExtractPlugin.loader,
             'css-loader',
-            'postcss-loader',
+            // 'postcss-loader',
             {
               loader: 'resolve-url-loader',
               options: {

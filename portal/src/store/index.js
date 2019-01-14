@@ -9,10 +9,11 @@ import history from '@/store/history';
 
 const rootReducer = combineReducers({
   ...reducers,
+  router: connectRouter(history),
 });
 
 const store = createStore(
-  connectRouter(history)(rootReducer),
+  rootReducer,
   {},
   compose(
     applyMiddleware(routerMiddleware(history)),

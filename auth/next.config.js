@@ -20,6 +20,10 @@ const nextConfig = withSass({
 nextConfig.exportPathMap = () => {
   return {
     '/': { page: '/' },
+    '/login': { page: '/login' },
+    '/register': { page: '/register' },
+    '/forgot-password': { page: '/forgot-password' },
+    '/reset-password': { page: '/reset-password' },
   };
 };
 

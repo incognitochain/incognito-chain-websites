@@ -29,3 +29,10 @@ firebase-debug.log
 
 .idea
 .env.js
+
+version
+version.dev
+keys/*.key
+
+docker-compose.yml
+docker-compose.dev.yml

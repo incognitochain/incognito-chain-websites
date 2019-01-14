@@ -1,11 +1,14 @@
 {
-  "name": "constant-auth",
+  "name": "constant-auth-website",
   "version": "0.0.1",
   "author": "0xbatutut <39509105+0xbatutut@users.noreply.github.com>",
-  "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "next -p 3001 -H 0.0.0.0"
+    "dev": "next -p 3001 -H 0.0.0.0",
+    "build": "next build && next export -o dist",
+    "build:dev": "cross-env PROD_MODE=dev next build && next export -o dist",
+    "push": "sh push-image.sh",
+    "push:dev": "sh push-image.dev.sh"
   },
   "devDependencies": {
     "@constant-core-ui/base": "^0.0.2",
@@ -24,6 +27,7 @@
     "react-ga": "^2.5.3"
   },
   "dependencies": {
+    "cross-env": "^5.2.0",
     "js-cookie": "^2.2.0",
     "query-string": "^6.2.0"
   }

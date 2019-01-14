@@ -1,0 +1,22 @@
+version: '3'
+services:
+  nginx:
+    image: registry.gitlab.com/ninjadotorg/constant-websites/nginx-dev:${VERSION}
+    ports:
+    - '80:80'
+  auth:
+    image: registry.gitlab.com/ninjadotorg/constant-websites/auth-dev:${VERSION}
+    expose:
+    - '3001'
+  exchange:
+    image: registry.gitlab.com/ninjadotorg/constant-websites/exchange-dev:${VERSION}
+    expose:
+    - '3003'
+  portal:
+    image: registry.gitlab.com/ninjadotorg/constant-websites/portal-dev:${VERSION}
+    expose:
+    - '3005'
+  explorer:
+    image: registry.gitlab.com/ninjadotorg/constant-websites/explorer-dev:${VERSION}
+    expose:
+    - '3004'

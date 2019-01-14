@@ -17,7 +17,7 @@ import { Formik } from 'formik';
 import { toaster, Dialog } from 'evergreen-ui';
 import abiDefinition from '@/pages/Create/abiDefinition';
 import { detectInstalled, requestUnlockMetamask, init } from '@/reducers/metamask/action';
-import detectBrowser from 'detect-browser';
+import { detect } from 'detect-browser';
 import { push } from 'connected-react-router';
 import { checkAuth } from '@/reducers/auth/action';
 import Layout from '@/components/App/Layout';
@@ -292,7 +292,7 @@ class Create extends React.Component {
   }
 
   linkMetamask = () => {
-    const browser = detectBrowser.detect();
+    const browser = detect();
     switch (browser && browser.name) {
       case 'chrome':
         return (<a href="https://chrome.google.com/webstore/detail/nkbihfbeogaeaoehlefnkodbefgpgknn" target="_blank" rel="noopener noreferrer">get Chrome extension</a>);
