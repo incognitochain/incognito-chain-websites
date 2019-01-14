@@ -4,5 +4,6 @@ VERSION=$1
 
 sed -e "s|\${VERSION}|${VERSION}|" ./docker-compose.dev.format.yml > ./docker-compose.dev.yml
 
+docker-compose -f docker-compose.dev.yml pull
 docker-compose -f docker-compose.dev.yml down
 docker-compose -f docker-compose.dev.yml up -d
