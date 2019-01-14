@@ -85,6 +85,7 @@ class Header extends React.Component {
                   <li><Link to="/loan" className={`${pathname === '/loan' ? 'active' : ''}`}>Loan</Link></li>
                   <li><Link to="/about" className={`${pathname === '/about' ? 'active' : ''}`}>About</Link></li>
                   <li><Link to="/faq" className={`${pathname === '/faq' ? 'active' : ''}`}>FAQ</Link></li>
+                  <li><a href="//exchange.constant.money">Exchange</a></li>
                   {/* <li>
                     <Link to="/">
                       {'Introduction '}

@@ -18,6 +18,7 @@ import ContentHolder from '@ui/utility/contentHolder';
 import imgLogo from '@/image/logo.png';
 import { siteConfig } from '@/settings';
 import { Button } from 'antd';
+import sidebarStyle from './sidebar.style';
 
 const { Sider } = Layout;
 
@@ -150,7 +151,7 @@ class Sidebar extends Component {
     );
   }
 
-  
+
 
   renderDropdownMainMenuText({submenuStyle, submenuColor, children, label, key}) {
 
@@ -236,6 +237,15 @@ class Sidebar extends Component {
                   {topMenus.map(singleOption =>
                     this.getMenuItem({ submenuStyle, submenuColor, singleOption })
                   )}
+                  <Menu.Item style={{width: '150px'}}>
+                    <a href="//portal.constant.money">
+                      <span className="isoMenuHolder" style={submenuColor}>
+                      <span className="nav-text">
+                        <IntlMessages id="sidebar.Portal" />
+                      </span>
+                      </span>
+                    </a>
+                  </Menu.Item>
                 </Menu>
               </Scrollbars>
               </Col>
