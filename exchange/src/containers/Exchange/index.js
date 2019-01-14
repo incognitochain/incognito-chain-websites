@@ -201,7 +201,7 @@ export default class Exchange extends Component {
                 {
                   this.renderOrderBookSell()
                 }
-                <Websocket url={`ws://${process.env.serviceAPI}/exchange/ws/trades`}
+                <Websocket url={`${process.env.serviceWSAPI}/exchange/ws/trades`}
                   onMessage={this.handleOpenBook.bind(this)}/>
               </Box>
             </Col>
