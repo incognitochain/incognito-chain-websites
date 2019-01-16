@@ -1,4 +1,4 @@
-VERSION="0.0.1"
+VERSION="0.0.2"
 CURRENT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 if [[ $(docker ps -a -q --format {{.Names}} | grep constant-nginx) ]]; then

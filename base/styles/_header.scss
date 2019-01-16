@@ -1,0 +1,225 @@
+.c-header {
+  height: 60px;
+  line-height: 60px;
+  @extend .c-shadow-200;
+  @extend .c-bg-blue-900;
+  position: relative;
+  z-index: 100;
+  font-size: 16px;
+  color: #fff;
+  a {
+    color: #fff;
+  }
+  .logo-container {
+    float: left;
+  }
+  .logo-text-container {
+    float: left;
+  }
+  .menu-container {
+    float: left;
+    .menu-item {
+      padding: 0 15px;
+      display: inline-block;
+      svg {
+        margin-left: 10px;
+      }
+      ul {
+        display: none;
+      }
+    }
+  }
+  .auth-container {
+    float: right;
+  }
+}
+
+.c-header {
+  position: relative;
+  min-height: 60px;
+  z-index: 11;
+  height: auto;
+  .logo-container {
+    img {
+      cursor: pointer;
+      user-select: none;
+    }
+    font-weight: 100;
+    font-size: 23px;
+    @include breakpoint-max('sm') {
+      float: none;
+    }
+    .hamburger {
+      cursor: pointer;
+      user-select: none;
+      float: right;
+      @include breakpoint('sm') {
+        display: none;
+      }
+    }
+  }
+  a {
+    &:hover {
+      text-decoration: none;
+      opacity: 0.8;
+    }
+  }
+  .menu-container {
+    @include breakpoint-max('sm') {
+      display: none;
+      &.show {
+        display: block;
+      }
+      float: none;
+      ul {
+        line-height: 40px;
+      }
+      .menu {
+        padding: 0;
+      }
+    }
+    ul.menu {
+      list-style: none;
+      margin: 0;
+      @include breakpoint-between('sm', 'lg') {
+        padding: 0;
+      }
+      li {
+        @include breakpoint('sm') {
+          display: inline-block;
+        }
+        a {
+          display: block;
+          margin-right: 25px;
+          &.active {
+            color: map-get($map: $green, $key: 's-500');
+          }
+        }
+        @include breakpoint-between('sm', 'md') {
+          a {
+            font-size: 75%;
+            margin-left: 15px;
+            margin-right: 0;
+          }
+        }
+        @include breakpoint-between('md', 'lg') {
+          a {
+            font-size: 80%;
+            margin-left: 15px;
+            margin-right: 0;
+          }
+        }
+      }
+    }
+  }
+  .auth-container {
+    .auth {
+      user-select: none;
+      cursor: pointer;
+    }
+    ul.menu {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    svg {
+      margin-left: 7px;
+      vertical-align: middle;
+    }
+    @include breakpoint-max('lg') {
+      // .firstname {
+      //   display: none;
+      // }
+    }
+    @include breakpoint-max('sm') {
+      line-height: 40px;
+      float: none;
+      margin-bottom: 20px;
+      display: none;
+      &.show {
+        display: block;
+      }
+      svg {
+        height: 27px !important;
+      }
+    }
+    .sub-menu {
+      right: 0;
+    }
+  }
+  @include breakpoint('sm') {
+    li {
+      position: relative;
+      .sub-menu {
+        display: none;
+        &.show {
+          display: block;
+        }
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        position: absolute;
+        min-width: 150px;
+        background-color: #ffffff;
+        margin-top: -10px;
+        color: #212B63;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+        li {
+          display: block !important;
+          a {
+            color: #212B63;
+            display: block;
+            padding: 15px 20px;
+            line-height: 20px;
+          }
+        }
+      }
+    }
+  }
+  box-shadow: none;
+}
+
+.c-sub-header {
+  height: 60px;
+  line-height: 60px;
+  background-color: #ffffff;
+  @extend .c-shadow-100;
+  position: relative;
+  z-index: 10;
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    li {
+      display: inline-block;
+      a {
+        display: block;
+        padding: 0 10px;
+        margin-right: 10px;
+      }
+    }
+  }
+  a {
+    color: #999999;
+    text-decoration: none;
+    &:hover {
+      @extend .c-color-blue-900;
+    }
+    &.active {
+      font-weight: 600;
+      @extend .c-color-blue-900;
+      position: relative;
+      &:after {
+        content: '';
+        height: 2px;
+        width: 100%;
+        bottom: 0;
+        left: 0;
+        @extend .c-bg-blue-900;
+        display: block;
+        position: absolute;
+      }
+    }
+  }
+}

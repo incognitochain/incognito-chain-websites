@@ -1,0 +1,21 @@
+.c-input {
+  height: 50px;
+  line-height: 50px;
+  @extend .c-shadow-200;
+  border: none;
+  outline: 0;
+  padding: 0 12px;
+  font-size: 14px;
+  border-radius: 3px;
+  &:hover, &:active {
+    @extend .c-shadow-400;
+  }
+}
+
+label {
+  display: block;
+  .c-input {
+    margin-top: 8px;
+    display: block;
+  }
+}

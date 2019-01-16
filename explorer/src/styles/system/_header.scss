@@ -2,13 +2,13 @@
   position: relative;
   z-index: 5;
   background-color: get-color('c-white');
-  height: 80px;
+  height: 100px;
   position: fixed;
   width: 100%;
   top: 0;
   left: 0;
   .logo-container {
-    line-height: 80px;
+    // line-height: 80px;
     float: left;
     .logo {
       float: left;
@@ -39,12 +39,12 @@
   }
   .menu {
     user-select: none;
-    height: 80px;
+    height: 40px;
     float: right;
     position: relative;
     ul {
       height: 40px;
-      top: 50%;
+      // top: 50%;
       right: 0;
       line-height: 40px;
       position: absolute;

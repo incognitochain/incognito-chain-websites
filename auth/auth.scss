@@ -1,4 +1,9 @@
-@import '../core/base/main.scss';
+@import "./node_modules/bootstrap-nojs/bootstrap.css";
+@import "../base/styles/main.scss";
+
+body {
+  min-height: 100vh;
+}
 
 .auth-page {
   max-width: 500px;
@@ -15,4 +20,9 @@
 
 .auth-route {
   text-align: center;
+}
+
+svg {
+  display: inline-block;
+  width: 1em;
 }

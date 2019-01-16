@@ -1,44 +1,49 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
-// import { Link } from 'react-router-dom';
-import auth from '../components/auth';
-import Cookies from 'js-cookie';
+import { checkAuth, logout } from '@/services/auth';
+import Header from '@/components/Header';
+import LoadingPage from '@/components/LoadingPage';
+import '@/auth.scss';
 
 class Index extends React.Component {
-  static propTypes = {
-    // abc: PropTypes.object.isRequired,
-    // abcd: PropTypes.func.isRequired,
-  }
-
   constructor(props) {
     super(props);
-    this.state = {
-      isLogged: false,
-    };
-  }
 
-  componentDidMount() {
-    if (auth.isLogged()) {
-      this.setState({ isLogged: true });
-    } else {
-      window.location.assign('/login');
+    this.state = {
+      inited: false,
+      isLogged: false,
+      user: {},
     }
   }
-
-  logout = (e) => {
-    e.preventDefault();
-    Cookies.remove('auth', { domain: '.constant.money', path: '/' });
-    window.location.assign('/login');
+  componentDidMount() {
+    checkAuth((isLogged, user, error) => {
+      if (isLogged) {
+        this.setState({ isLogged, inited: true, user });
+      }
+    });
   }
 
   render() {
-    const { isLogged } = this.state;
+    const { isLogged, inited, user } = this.state;
+
+    if (!inited) {
+      return <LoadingPage />;
+    }
 
     return (
-      <div>
-        {isLogged ? <a href="/" onClick={this.logout}>Logout</a> : ''}
-      </div>
+      <>
+        <Header user={user} />
+        <div className="setting-page page">
+          <div className="container">
+            <div className="row">
+              <div className="col-12">
+                <div className="c-card">
+                  a
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
     );
   }
 }

@@ -6,7 +6,6 @@ import dayjs from 'dayjs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import Link from '@/components/Link';
-import Layout from '@/components/App/Layout';
 import { faExchangeAlt } from '@fortawesome/pro-regular-svg-icons';
 import { Dialog, toaster, TextInput } from 'evergreen-ui';
 import NotFound from '@/pages/NotFound';
@@ -94,9 +93,7 @@ class Loan extends React.Component {
 
     if (!inited) {
       return (
-        <Layout>
-          <div />
-        </Layout>
+        <div />
       );
     }
 
@@ -107,7 +104,7 @@ class Loan extends React.Component {
     const { BorrowPaymentInfo, IsOwner } = data;
 
     return (
-      <Layout>
+      <>
         <Dialog
           isShown={dialogPay}
           shouldCloseOnOverlayClick={false}
@@ -264,7 +261,7 @@ class Loan extends React.Component {
             </div>
           </section>
         </div>
-      </Layout>
+      </>
     );
   }
 }

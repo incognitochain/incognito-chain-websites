@@ -1,16 +1,3 @@
-.c-card {
-  padding: 37px 34px;
-  background-color: #fff;
-  @extend .c-shadow-100;
-  border-radius: 4px;
-  .c-button {
-    box-shadow: none;
-  }
-  &.c-card-no-padding {
-    padding: 0;
-  }
-}
-
 svg {
   width: 1em;
 }

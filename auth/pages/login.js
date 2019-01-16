@@ -1,70 +1,28 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import Head from 'next/head';
 import axios from 'axios';
 import { Formik } from 'formik';
+import env from '💯/.env.js';
 import Cookies from 'js-cookie';
-import env from '../../.env.js';
-import queryString from 'query-string';
-import { isEmpty } from 'lodash';
+import LoadingPage from '@/components/LoadingPage';
+import { authPagesCombo } from '@/services/auth.js';
+import Header from '@/components/Header';
+import '@/auth.scss';
 
-import '../auth.scss';
+const title = "title";
+const description = "";
 
-const title = 'Account login - Constant: untraceable, constant, digital cash.';
-const description = 'Login to account dashboard of constant.money';
-
-class Index extends React.Component {
-  static propTypes = {
-    // abc: PropTypes.object.isRequired,
-    // abcd: PropTypes.func.isRequired,
-  }
-
+class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      inited: false,
       error: '',
-      checkAuth: false,
-      redirect: '',
     };
   }
 
   componentDidMount() {
-    const parsed = queryString.parse(location.search);
-    let redirect = '';
-    const { redirect: rawRedirect } = parsed;
-    if (/^((?!\/).)*constant.money/.test(rawRedirect)) {
-      redirect = rawRedirect;
-    }
-    this.setState({ redirect });
-    this.checkAuth(redirect);
-  }
-
-  checkAuth = (redirect) => {
-    const token = Cookies.get('auth') || '';
-    const authorization = `Bearer ${token}`;
-    axios.get(`${env.serviceAPI}/auth/me`, {
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-        Authorization: authorization,
-      },
-      timeout: 1000,
-    }).then((res) => {
-      const { data } = res;
-      if (data && !isEmpty(data)) {
-        const { Result } = data;
-        if (!isEmpty(Result)) {
-          if (redirect) {
-            document.location.assign(`//${redirect}`);
-          } else {
-            document.location.assign('//exchange.constant.money');
-          }
-          return;
-        }
-      }
-      this.setState({ checkAuth: true });
-    }).catch(() => {
-      this.setState({ checkAuth: true });
-    });
+    authPagesCombo(this.setState.bind(this));
   }
 
   handleSubmit = (values, setSubmitting) => {
@@ -87,7 +45,7 @@ class Index extends React.Component {
           if (redirect) {
             document.location.assign(`//${redirect}`);
           } else {
-            document.location.assign('//exchange.constant.money');
+            document.location.assign('//user.constant.money');
           }
         } else {
           this.setState({ error: 'Invalid email or password' });
@@ -102,8 +60,10 @@ class Index extends React.Component {
   }
 
   render() {
-    const { error, checkAuth, redirect } = this.state;
-    if (!checkAuth) return <div />;
+    const { inited, error } = this.state;
+    // if (!inited) return <LoadingPage />;
+    if (!inited) return <div />;
+
     return (
       <>
         <Head>
@@ -126,6 +86,7 @@ class Index extends React.Component {
           <meta name="twitter:site" content="@ninjadotorg" />
           <meta name="twitter:creator" content="@ninjadotorg" />
         </Head>
+        <Header hideAuthMenu={true} />
         <div className="page-account">
           <div className="container">
             <div className="row">
@@ -164,10 +125,13 @@ class Index extends React.Component {
                         handleBlur,
                         handleSubmit,
                         isSubmitting,
-                        /* and other goodies */
                       }) => (
                           <form onSubmit={handleSubmit}>
-                            {error && <div className="c-field" style={{ textAlign: 'center' }}><span className="c-error">{error}</span></div>}
+                            {error && (
+                              <div className="c-field" style={{ textAlign: 'center' }}>
+                                <span className="c-error">{error}</span>
+                              </div>
+                            )}
                             <div className="c-field">
                               <label>
                                 Email
@@ -201,13 +165,13 @@ class Index extends React.Component {
                               {errors.password && touched.password && <span className="c-error">{errors.password}</span>}
                             </div>
                             <div className="c-field">
-                              Having some trouble? <a href={`/forgot-password${redirect ? `?redirect=${redirect}` : ''}`}>Get help logging in</a>
+                              Having some trouble? <a href={`/forgot-password`}>Get help logging in</a>
                             </div>
                             <div className="c-field c-submit">
                               <button className="c-btn c-btn-primary c-block" type="submit">Login</button>
                             </div>
                             <div className="auth-route">
-                              New to Constant? <a href={`/register${redirect ? `?redirect=${redirect}` : ''}`}>Create an account.</a>
+                              New to Constant? <a href={`/register`}>Create an account.</a>
                             </div>
                           </form>
                         )
@@ -223,4 +187,4 @@ class Index extends React.Component {
   }
 }
 
-export default Index;
+export default Login;

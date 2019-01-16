@@ -26,9 +26,9 @@ Suggestion: `gas mask` (https://github.com/2ndalpha/gasmask)
 yarn balancer
 ```
 
-## Auth website / SSO
+## Auth website / User / Profile / SSO
 
-> http://auth.constant.money
+> http://user.constant.money
 
 > port: `3001`
 

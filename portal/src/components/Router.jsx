@@ -2,6 +2,7 @@ import React from 'react';
 import { createDynamicImport } from '@/services/app';
 import { Switch, Route } from 'react-router-dom';
 import Loading from '@/components/Loading';
+import Layout from '@/components/App/Layout';
 
 const Home = createDynamicImport(() => import('@/pages/Home/Home'), Loading);
 const Landing = createDynamicImport(() => import('@/pages/Landing/Landing'), Loading);
@@ -13,7 +14,9 @@ const NotFound = createDynamicImport(() => import('@/pages/NotFound'), Loading);
 const routers = [
   { path: '/', exact: true, component: Landing },
   { path: '/loan', exact: true, component: Home },
-  { path: '/create', exact: true, component: Create },
+  {
+    path: '/create', exact: true, component: Create, layoutOptions: { showSubHeader: false, footerType: 2 },
+  },
   { path: '/loan/:id', exact: true, component: Loan },
   { path: '/txs', exact: true, component: Transactions },
   { path: '/txs/:id', exact: true, component: Transactions },
@@ -29,12 +32,31 @@ class Router extends React.Component {
     return (
       <Switch>
         {
-          routers.map(route => (
-            <Route key={route.path} {...route} />
-          ))
-
+          routers.map((rawRoute) => {
+            let options = {};
+            const { component: Component, layoutOptions, ...route } = rawRoute;
+            if (layoutOptions) {
+              options = { ...layoutOptions };
+            }
+            return (
+              <Route
+                key={route.path}
+                {...route}
+                render={props => (
+                  <Layout {...options}>
+                    <Component {...props} />
+                  </Layout>
+                )}
+              />
+            );
+          })
         }
-        <Route component={NotFound} />
+        <Route render={props => (
+          <Layout>
+            <NotFound {...props} />
+          </Layout>
+        )}
+        />
       </Switch>
     );
   }

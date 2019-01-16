@@ -1,7 +1,7 @@
 #root {
   min-height: 100vh;
   background-color: get-gray('black-squeeze');
-  padding-top: 80px;
+  padding-top: 120px;
   padding-bottom: 40px;
 }
 
@@ -13,13 +13,13 @@ a {
 }
 
 .block {
-  @extend .c-bg-white;
-  @extend .c-shadow-box;
+  background-color: #ffffff;
+  @extend .c-shadow-100;
   margin-bottom: 20px;
   padding-bottom: 20px;
   .block-heading {
     @extend .h5;
-    @extend .c-border-bottom;
+    border-bottom: 1px solid #c5c5c5;
     padding: 20px 0 0;
     margin: 0 20px;
   }

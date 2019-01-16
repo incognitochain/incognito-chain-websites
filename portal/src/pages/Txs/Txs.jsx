@@ -1,12 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Layout from '@/components/App/Layout';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faExchangeAlt } from '@fortawesome/pro-regular-svg-icons';
 import Link from '@/components/Link';
 import { axios, catchError } from '@/services/api';
 import { API } from '@/constants';
-// import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 
 class Transactions extends React.Component {
   static propTypes = {
@@ -102,65 +98,63 @@ class Transactions extends React.Component {
 
     if (!inited) {
       return (
-        <Layout />
+        <div />
       );
     }
 
     return (
-      <Layout>
-        <div className="txs-page">
-          <div className="container">
-            <div className="row">
-              <div className="col-12 col-md-4">
-                <div className="c-card c-card-no-padding borrows">
-                  {borrows.length ? borrows.map(borrow => (
-                    <Link to={`/txs/${borrow.LoanID}`} key={borrow.ID} className={`borrow ${id === borrow.LoanID ? 'active' : ''}`}>
-                      <div>
-                        {'LoanID: '}
-                        <span className="tx">
-                          {borrow.LoanID}
-                        </span>
-                      </div>
-                      <div>
-                        {'Amount: '}
-                        {parseFloat(borrow.LoanAmount / 100).numberFormat()}
-                        {' CST'}
-                      </div>
-                    </Link>
-                  )) : 'Empty'}
-                </div>
+      <div className="txs-page">
+        <div className="container">
+          <div className="row">
+            <div className="col-12 col-md-4">
+              <div className="c-card c-card-no-padding borrows">
+                {borrows.length ? borrows.map(borrow => (
+                  <Link to={`/txs/${borrow.LoanID}`} key={borrow.ID} className={`borrow ${id === borrow.LoanID ? 'active' : ''}`}>
+                    <div>
+                      {'LoanID: '}
+                      <span className="tx">
+                        {borrow.LoanID}
+                      </span>
+                    </div>
+                    <div>
+                      {'Amount: '}
+                      {parseFloat(borrow.LoanAmount / 100).numberFormat()}
+                      {' CST'}
+                    </div>
+                  </Link>
+                )) : 'Empty'}
               </div>
-              <div className="col-12 col-md-8">
-                <div className="c-card">
-                  <div className="transactions-container">
-                    {transactionsLoading ? 'Loading ... ' : ''}
-                    {!transactionsLoading && id ? (
-                      <Link to={`/loan/${id}`} style={{ marginBottom: 20, display: 'block' }}>
-                        {/* <FontAwesomeIcon icon={faAngleLeft} /> */}
-                        {' Go to loan detail'}
-                      </Link>
-                    ) : ''}
-                    {!transactionsLoading && transactions.length ? transactions.map(transaction => (
-                      <div key={transaction.Hash} className="transaction">
-                        <div>
-                          {'TX#: '}
-                          <a href={`http://explorer.constant.money/tx/${transaction.Hash}`} target="_blank" rel="noopener noreferrer">{transaction.Hash}</a>
-                        </div>
-                        <div>{`Chain ID: ${transaction.ChainId}`}</div>
-                        <div>
-                          {'Type: '}
-                          <span className={`c-status ${transaction.Type}`}>{transaction.Type}</span>
-                        </div>
+            </div>
+            <div className="col-12 col-md-8">
+              <div className="c-card">
+                <div className="transactions-container">
+                  {transactionsLoading ? 'Loading ... ' : ''}
+                  {!transactionsLoading && id ? (
+                    <Link to={`/loan/${id}`} style={{ marginBottom: 20, display: 'block' }}>
+                      {/* <FontAwesomeIcon icon={faAngleLeft} /> */}
+                      {' Go to loan detail'}
+                    </Link>
+                  ) : ''}
+                  {!transactionsLoading && transactions.length ? transactions.map(transaction => (
+                    <div key={transaction.Hash} className="transaction">
+                      <div>
+                        {'TX#: '}
+                        <a href={`http://explorer.constant.money/tx/${transaction.Hash}`} target="_blank" rel="noopener noreferrer">{transaction.Hash}</a>
                       </div>
-                    )) : ''}
-                    {!id ? 'Please select a specific borrow on sidebar' : ''}
-                  </div>
+                      <div>{`Chain ID: ${transaction.ChainId}`}</div>
+                      <div>
+                        {'Type: '}
+                        <span className={`c-status ${transaction.Type}`}>{transaction.Type}</span>
+                      </div>
+                    </div>
+                  )) : ''}
+                  {!id ? 'Please select a specific borrow on sidebar' : ''}
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </Layout>
+      </div>
     );
   }
 }

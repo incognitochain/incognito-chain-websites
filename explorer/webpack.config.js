@@ -28,7 +28,7 @@ module.exports = function webpackConfig(env, argv = {}) {
       host: '0.0.0.0',
       watchContentBase: true,
       stats,
-      port: '3004',
+      port: '3002',
       disableHostCheck: true,
       publicPath: '/',
       historyApiFallback: {
@@ -43,7 +43,7 @@ module.exports = function webpackConfig(env, argv = {}) {
           use: [
             'style-loader',
             'css-loader',
-            'postcss-loader',
+            // 'postcss-loader',
             {
               loader: 'resolve-url-loader',
               options: {
@@ -57,7 +57,7 @@ module.exports = function webpackConfig(env, argv = {}) {
           use: [
             'style-loader',
             'css-loader',
-            'postcss-loader',
+            // 'postcss-loader',
             {
               loader: 'resolve-url-loader',
               options: {
@@ -96,7 +96,7 @@ module.exports = function webpackConfig(env, argv = {}) {
           use: [
             MiniCssExtractPlugin.loader,
             'css-loader',
-            'postcss-loader',
+            // 'postcss-loader',
             {
               loader: 'resolve-url-loader',
               options: {
@@ -133,7 +133,10 @@ module.exports = function webpackConfig(env, argv = {}) {
         globalObject: 'this',
       },
       resolve: {
-        alias: { '@': appPath('src') },
+        alias: {
+          '@': appPath('src'),
+          '@ui': appPath('src/__ui/components'),
+        },
         extensions: ['.js', '.jsx', '.scss'],
         modules: [appPath('node_modules')],
       },

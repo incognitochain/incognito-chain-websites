@@ -5,6 +5,7 @@ module.exports = {
     "browser": true,
   },
   "rules": {
+    "max-len": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/forbid-prop-types": "off",
     // will turn on later

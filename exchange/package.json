@@ -92,7 +92,7 @@
     "workbox-webpack-plugin": "3.6.2"
   },
   "scripts": {
-    "start": "cross-env PORT=3003 node scripts/start.js",
+    "start": "cross-env PORT=3004 node scripts/start.js",
     "build": "node scripts/build.js",
     "build:dev": "cross-env PROD_MODE=dev node scripts/build.js",
     "push": "sh push-image.sh",

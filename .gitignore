@@ -7,9 +7,8 @@ node_modules
 coverage
 
 # production
+.next
 dist
-build
-__ui
 __snapshots__
 
 # misc

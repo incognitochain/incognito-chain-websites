@@ -50,7 +50,7 @@ class Header extends React.Component {
   logout = (e) => {
     e.preventDefault();
     Cookies.remove('auth', { domain: '.constant.money', path: '/' });
-    window.location.assign('http://auth.constant.money/login?redirect=portal.constant.money');
+    window.location.assign('//user.constant.money/login?redirect=portal.constant.money');
   }
 
   render() {
@@ -66,10 +66,6 @@ class Header extends React.Component {
           <div className="row">
             <div className="col-12">
               <div className="logo-container">
-                {/* <a href="http://constant.money" target="_blank" rel="noopener noreferrer">
-                  <img src={Logo} alt="Logo" />
-                  {' onstant'}
-                </a> */}
                 <Link to="/">
                   <img src={Logo} alt="Logo" />
                   {' onstant'}
@@ -80,23 +76,12 @@ class Header extends React.Component {
               </div>
               <div className={`menu-container ${showMenu ? 'show' : 'hide'}`}>
                 <ul className="menu">
-                  {/* <li><a href="http://constant.money" target="_blank" rel="noopener noreferrer">Home</a></li> */}
-                  <li><Link to="/" className={`${pathname === '/' ? 'active' : ''}`}>Home</Link></li>
-                  <li><Link to="/loan" className={`${pathname === '/loan' ? 'active' : ''}`}>Loan</Link></li>
-                  <li><Link to="/about" className={`${pathname === '/about' ? 'active' : ''}`}>About</Link></li>
-                  <li><Link to="/faq" className={`${pathname === '/faq' ? 'active' : ''}`}>FAQ</Link></li>
+                  <li><a href="//user.constant.money">User</a></li>
+                  <li><a href="//explorer.constant.money">Explorer</a></li>
+                  <li><Link to="/" className="active">Loan</Link></li>
                   <li><a href="//exchange.constant.money">Exchange</a></li>
-                  {/* <li>
-                    <Link to="/">
-                      {'Introduction '}
-                      <FontAwesomeIcon icon={faAngleDown} />
-                    </Link>
-                    <ul className="sub-menu">
-                      <li><Link to="/">Test</Link></li>
-                      <li><Link to="/">Test</Link></li>
-                      <li><Link to="/">Test</Link></li>
-                    </ul>
-                  </li> */}
+                  <li><Link to="/about">About</Link></li>
+                  <li><Link to="/faq">FAQ</Link></li>
                 </ul>
               </div>
               <div className={`auth-container ${showMenu ? 'show' : 'hide'}`}>
@@ -108,7 +93,7 @@ class Header extends React.Component {
                       <FontAwesomeIcon icon={faAngleDown} />
                     </div>
                     <ul className={`sub-menu ${authMenu ? 'show' : ''}`}>
-                      <li><a href="http://exchange.constant.money/profile" target="_blank" rel="noopener noreferrer">Profile</a></li>
+                      <li><a href="//user.constant.money/profile">Profile</a></li>
                       <li><Link to="/" onClick={this.logout}>Logout</Link></li>
                     </ul>
                   </li>

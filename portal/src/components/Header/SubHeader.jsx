@@ -5,6 +5,8 @@ import Link from '@/components/Link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFontAwesomeAlt } from '@fortawesome/free-brands-svg-icons';
 import { faExchangeAlt } from '@fortawesome/pro-regular-svg-icons';
+import { faHome } from '@fortawesome/pro-light-svg-icons';
+import cn from '@sindresorhus/class-names';
 
 class SubHeader extends React.Component {
   static propTypes = {
@@ -33,13 +35,19 @@ class SubHeader extends React.Component {
             <div className="col-12">
               <ul>
                 <li>
-                  <Link to="/loan" className={`${pathname.startsWith('/loan') ? 'active' : ''}`}>
+                  <Link to="/" className={cn({ active: pathname === '/' })}>
+                    <FontAwesomeIcon icon={faHome} />
+                    {' Landing'}
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/loan" className={cn({ active: pathname.startsWith('/loan') })}>
                     <FontAwesomeIcon icon={faFontAwesomeAlt} />
                     {' Dashboard'}
                   </Link>
                 </li>
                 <li>
-                  <Link to="/txs" className={`${pathname.startsWith('/txs') ? 'active' : ''}`}>
+                  <Link to="/txs" className={cn({ active: pathname.startsWith('/txs') })}>
                     <FontAwesomeIcon icon={faExchangeAlt} />
                     {' Transaction'}
                   </Link>

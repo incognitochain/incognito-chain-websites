@@ -1,74 +1,24 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
-// import { Link } from 'react-router-dom';
-import Head from 'next/head';
-import { Formik } from 'formik';
 import axios from 'axios';
-import Cookies from 'js-cookie';
-import env from '../../.env.js';
-import queryString from 'query-string';
-import { isEmpty } from 'lodash';
-
-import '../auth.scss';
-
+import { Formik } from 'formik';
+import env from '💯/.env.js';
+import LoadingPage from '@/components/LoadingPage';
+import { authPagesCombo } from '@/services/auth.js';
+import Head from '@/components/Head';
+import Header from '@/components/Header';
+import '@/auth.scss';
 
 const title = 'Account register - Constant: untraceable, constant, digital cash.';
 const description = 'Register a account for account dashboard of constant.money';
 
 class Register extends React.Component {
-  static propTypes = {
-    // abc: PropTypes.object.isRequired,
-    // abcd: PropTypes.func.isRequired,
-  }
-
   constructor(props) {
     super(props);
-    this.state = {
-      error: '',
-      redirect: '',
-    };
+    this.state = { inited: false, error: '' };
   }
 
   componentDidMount() {
-    const parsed = queryString.parse(location.search);
-    let redirect = '';
-    const { redirect: rawRedirect } = parsed;
-    if (/^((?!\/).)*constant.money/.test(rawRedirect)) {
-      redirect = rawRedirect;
-    }
-    this.setState({ redirect });
-    this.checkAuth(redirect);
-  }
-
-  checkAuth = (redirect) => {
-    const token = Cookies.get('auth') || '';
-    const authorization = `Bearer ${token}`;
-    axios.get(`${env.serviceAPI}/auth/me`, {
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-        Authorization: authorization,
-      },
-      timeout: 1000,
-    }).then((res) => {
-      const { data } = res;
-      if (data && !isEmpty(data)) {
-        const { Result } = data;
-        console.log(Result);
-        if (!isEmpty(Result)) {
-          if (redirect) {
-            document.location.assign(`//${redirect}`);
-          } else {
-            document.location.assign('//exchange.constant.money');
-          }
-          return;
-        }
-      }
-      this.setState({ checkAuth: true });
-    }).catch((e) => {
-      console.log(e);
-      this.setState({ checkAuth: true });
-    });
+    authPagesCombo(this.setState.bind(this));
   }
 
   handleSubmit = (values, setSubmitting) => {
@@ -121,31 +71,16 @@ class Register extends React.Component {
   }
 
   render() {
-    const { error, checkAuth, redirect } = this.state;
-    if (!checkAuth) return <div />;
+    const { inited, error } = this.state;
+    if (!inited) return <LoadingPage />;
 
     return (
       <>
-        <Head>
-          <title>{title}</title>
-          <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-          <meta name="description" content={description} />
-          <link rel="apple-touch-icon" sizes="180x180" href="/static/icons/apple-touch-icon.png" />
-          <link rel="icon" type="image/png" sizes="32x32" href="/static/icons/favicon-32x32.png" />
-          <link rel="icon" type="image/png" sizes="16x16" href="/static/icons/favicon-16x16.png" />
-          <link rel="manifest" href="/static/icons/site.webmanifest" />
-          <link rel="mask-icon" href="/static/icons/safari-pinned-tab.svg" color="#0a2240" />
-          <meta name="msapplication-TileColor" content="#0a2240" />
-          <meta name="theme-color" content="#0a2240" />
-          <meta property="og:url" content="https://auth.constant.money/register" />
-          <meta property="og:type" content="website" />
-          <meta property="og:title" content={title} />
-          <meta property="og:description" content={description} />
-          <meta property="og:image" content="https://constant.money/static/images/preview.png" />
-          <meta name="twitter:card" content="summary" />
-          <meta name="twitter:site" content="@ninjadotorg" />
-          <meta name="twitter:creator" content="@ninjadotorg" />
-        </Head>
+        <Head
+          title=""
+          description=""
+        />
+        <Header hideAuthMenu={true} />
         <div className="page-account">
           <div className="container">
             <div className="row">
@@ -202,18 +137,21 @@ class Register extends React.Component {
                         handleBlur,
                         handleSubmit,
                         isSubmitting,
-                        /* and other goodies */
                       }) => (
                           <form onSubmit={handleSubmit}>
                             <div className="row">
                               <div className="col-12">
-                                {error && <div className="c-field" style={{ textAlign: 'center' }}><span className="c-error">{error}</span></div>}
+                                {error && (
+                                  <div className="c-field" style={{ textAlign: 'center' }}>
+                                    <span className="c-error">{error}</span>
+                                  </div>
+                                )}
                               </div>
                               <div className="col-6">
                                 <div className="c-field">
                                   <label>
                                     First name
-                                <input
+                                    <input
                                       type="text"
                                       className="c-input c-block"
                                       placeholder="First name"
@@ -296,7 +234,7 @@ class Register extends React.Component {
                               <button className="c-btn c-btn-primary c-block" type="submit">Register</button>
                             </div>
                             <div className="auth-route">
-                              If you already have a Constant account <a href={`/login${redirect ? `?redirect=${redirect}` : ''}`}>Login</a>
+                              If you already have a Constant account <a href={`/login`}>Login</a>
                             </div>
                           </form>
                         )

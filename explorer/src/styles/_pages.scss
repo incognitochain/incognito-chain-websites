@@ -13,8 +13,8 @@
       padding-bottom: 0;
     }
     .home-search {
-      background-color: get-gray('endeavour2');
-      color: get-color('c-white');
+      @extend .c-bg-blue-900;
+      color: #ffffff;
       border-radius: 10px;
       .title {
         font-weight: bold;
@@ -35,7 +35,10 @@
           padding: 20px 0;
           text-align: center;
           &:hover {
-            background-color: lighten(get-gray('black-haze'), 1%);
+            background-color: map-get($map: $blue, $key: 's-900');
+            .data, .title {
+              color: #ffffff !important;
+            }
           }
           .data {
             font-weight: bold;
@@ -43,7 +46,7 @@
             line-height: 22px;
           }
           .title {
-            color: get-gray('bali-hai');
+            @extend .c-color-gray-600;
           }
         }
       }
