@@ -40,7 +40,7 @@ export default class BondMarket {
     static async getBondMarketList() {
 
         try{
-          const response = await axios(BondMarket.getOption({func: "/bond-market/bonds"}));
+          const response = await axios(BondMarket.getOption({func: "/bond-market/gov/bonds"}));
           if (response.status === 200) {
             if(response.data && response.data.Result)
               return response.data.Result;
@@ -55,7 +55,7 @@ export default class BondMarket {
     static async buy(params) {
 
         try{
-          const response = await axios(BondMarket.getOption({method: "POST", func: '/bond-market/buy', params}));
+          const response = await axios(BondMarket.getOption({method: "POST", func: '/bond-market/gov/buy', params}));
           if (response.status === 200) {
             if(response.data && response.data.Result)
               return response.data.Result;
@@ -71,7 +71,7 @@ export default class BondMarket {
     static async getHistoryList() {
 
         try{
-          const response = await axios(BondMarket.getOption({func: "/bond-market/buy/history"}));
+          const response = await axios(BondMarket.getOption({func: "/bond-market/gov/buy/history"}));
           if (response.status === 200) {
             if(response.data && response.data.Result)
               return response.data.Result;
@@ -87,7 +87,7 @@ export default class BondMarket {
     static async buyBack(params) {
 
       try{
-        const response = await axios(BondMarket.getOption({method: "POST", func: '/bond-market/buy-back', params}));
+        const response = await axios(BondMarket.getOption({method: "POST", func: '/bond-market/gov/buy-back', params}));
         if (response.status === 200) {
           if(response.data && response.data.Result)
             return response.data.Result;
