@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Link from '@/components/Link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExchangeAlt } from '@fortawesome/pro-regular-svg-icons';
-import { faUserAlt, faWallet } from '@fortawesome/pro-light-svg-icons';
+import { faUserAlt, faWallet, faCog } from '@fortawesome/pro-light-svg-icons';
 import cn from '@sindresorhus/class-names';
 
 class SubHeader extends React.Component {
@@ -49,6 +49,12 @@ class SubHeader extends React.Component {
                   <Link to="/proposals" className={cn({ active: pathname.startsWith('/proposals') })}>
                     <FontAwesomeIcon icon={faExchangeAlt} />
                     {' Proposals'}
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/setting" className={cn({ active: pathname.startsWith('/setting') })}>
+                    <FontAwesomeIcon icon={faCog} />
+                    {' Setting'}
                   </Link>
                 </li>
               </ul>

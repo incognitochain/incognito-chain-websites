@@ -138,7 +138,7 @@ class Login extends React.Component {
                           </label>
                           {errors.password && touched.password && <span className="c-error">{errors.password}</span>}
                         </div>
-                        <div className="c-field">
+                        <div className="c-field" style={{ display: 'none' }}>
                           Having some trouble?
                           {' '}
                           <a href="/forgot-password">Get help logging in</a>

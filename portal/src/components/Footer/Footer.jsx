@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
-import Link from '@/components/Link';
 import Social from './Social';
 
 const Footer = ({ type }) => (
@@ -13,8 +12,8 @@ const Footer = ({ type }) => (
           <div className="col-12">
             <ul>
               <li>{`${dayjs().format('YYYY')} constant`}</li>
-              <li><Link to="/terms">Loan terms</Link></li>
-              <li><Link to="/policy">Privacy policy</Link></li>
+              <li><a href="//user.constant.money/terms">Terms</a></li>
+              <li><a href="//user.constant.money/policy">Privacy policy</a></li>
             </ul>
           </div>
         </div>
