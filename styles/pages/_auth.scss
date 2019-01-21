@@ -1,0 +1,18 @@
+.auth-page {
+  padding: 50px 0;
+  .auth-form {
+    max-width: 500px;
+    margin: 0 auto;
+    .title {
+      @extend .h4;
+      text-align: center;
+      margin: 30px 0;
+    }
+  }
+  .auth-route {
+    a {
+      margin-top: 20px;
+      display: inline-block;
+    }
+  }
+}

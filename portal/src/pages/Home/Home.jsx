@@ -2,12 +2,8 @@ import React from 'react';
 // import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
-import { faArrowRight } from '@fortawesome/pro-regular-svg-icons';
 import Link from '@/components/Link';
 import bgImage from '@/assets/create-a-proposal.svg';
-import bgApplyGOV from '@/assets/apply-gov.svg';
-import bgApplyDCB from '@/assets/apply-dcb.svg';
-import bgApplyMCB from '@/assets/apply-mcb.svg';
 import { axios, catchError } from '@/services/api';
 import { API } from '@/constants';
 import dayjs from 'dayjs';
@@ -240,7 +236,9 @@ class Home extends React.Component {
                       </div>
                     </div>
                   </div>
-                ) : ''}
+                ) : (
+                  <div className="c-card" />
+                )}
               </div>
               <div className="col-12 col-md-6 col-lg-4">
                 <div className="c-card card-create-a-proposal-container" style={{ backgroundImage: `url(${bgImage})` }}>
@@ -291,42 +289,6 @@ class Home extends React.Component {
                     <div className="title c-color-blue-1000">Constants withdrawn</div>
                     <div className="description">{statsAll.TotalConstantsWithdrawn}</div>
                   </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="apply" style={{ display: 'none' }}>
-          <div className="container">
-            <div className="row">
-              <div className="col-12 col-lg-4">
-                <div className="c-card" style={{ backgroundImage: `url(${bgApplyGOV})` }}>
-                  <div className="title c-color-blue-1000">Apply GOV board</div>
-                  <div className="description">Control the new internet</div>
-                  <Link className="c-btn" to="/">
-                    {'Apply now '}
-                    <FontAwesomeIcon icon={faArrowRight} />
-                  </Link>
-                </div>
-              </div>
-              <div className="col-12 col-lg-4">
-                <div className="c-card" style={{ backgroundImage: `url(${bgApplyDCB})` }}>
-                  <div className="title c-color-blue-1000">Apply DCB Board</div>
-                  <div className="description">A decentralized bank</div>
-                  <Link className="c-btn" to="/">
-                    {'Apply now '}
-                    <FontAwesomeIcon icon={faArrowRight} />
-                  </Link>
-                </div>
-              </div>
-              <div className="col-12 col-lg-4">
-                <div className="c-card" style={{ backgroundImage: `url(${bgApplyMCB})` }}>
-                  <div className="title c-color-blue-1000">Apply MCB Board</div>
-                  <div className="description">Lorem ipsum ador</div>
-                  <Link className="c-btn" to="/">
-                    {'Apply now '}
-                    <FontAwesomeIcon icon={faArrowRight} />
-                  </Link>
                 </div>
               </div>
             </div>

@@ -4,7 +4,7 @@ cwd=$(pwd)
 VERSION=$(date +%Y%m%d%H%M%S)
 
 cd $cwd
-cd auth
+cd user
 yarn install
 yarn build:dev
 yarn push:dev ${VERSION}

@@ -20,7 +20,6 @@ import { detectInstalled, requestUnlockMetamask, init } from '@/reducers/metamas
 import { detect } from 'detect-browser';
 import { push } from 'connected-react-router';
 import { checkAuth } from '@/reducers/auth/action';
-import Layout from '@/components/App/Layout';
 
 class Create extends React.Component {
   static propTypes = {
@@ -452,167 +451,167 @@ class Create extends React.Component {
                     setFieldValue,
                     isValid,
                   }) => (
-                      <form onSubmit={handleSubmit} autoComplete="off">
-                        <Dialog
-                          isShown={isValid && isSubmitting && !dialogInstall && !dialogUnlock && !dialogWantUsePrivateKey}
-                          shouldCloseOnOverlayClick={false}
-                          shouldCloseOnEscapePress={false}
-                          hasHeader={false}
-                          hasFooter={false}
-                        >
-                          <div style={{ textAlign: 'center', margin: '20px 0' }}>
-                            <div>
-                              {' '}
-                              <FontAwesomeIcon icon={faSpinnerThird} size="3x" spin color="##2D4EF5" />
-                            </div>
-                            <div style={{ marginTop: 10 }}>Loading....</div>
-                            <div>{status}</div>
-                            <div style={{ color: '#ff0000' }}>
-                              <strong>
-                                {"PLEASE DON'T CLOSE THIS TAB"}
-                              </strong>
-                            </div>
+                    <form onSubmit={handleSubmit} autoComplete="off">
+                      <Dialog
+                        isShown={isValid && isSubmitting && !dialogInstall && !dialogUnlock && !dialogWantUsePrivateKey}
+                        shouldCloseOnOverlayClick={false}
+                        shouldCloseOnEscapePress={false}
+                        hasHeader={false}
+                        hasFooter={false}
+                      >
+                        <div style={{ textAlign: 'center', margin: '20px 0' }}>
+                          <div>
+                            {' '}
+                            <FontAwesomeIcon icon={faSpinnerThird} size="3x" spin color="##2D4EF5" />
                           </div>
-                        </Dialog>
-                        <div className="create-box c-card">
-                          <h2>Create a loan request</h2>
-                          <div className="">
-                            {'Or '}
-                            <Link to="/loan">
-                              <FontAwesomeIcon icon={faAngleLeft} />
-                              {' Back to dashboard'}
-                            </Link>
+                          <div style={{ marginTop: 10 }}>Loading....</div>
+                          <div>{status}</div>
+                          <div style={{ color: '#ff0000' }}>
+                            <strong>
+                              {"PLEASE DON'T CLOSE THIS TAB"}
+                            </strong>
                           </div>
-                          <div className="row input-container input-container-first">
-                            <div className="col-12 col-md-12 col-lg-4">
-                              <div className="title">CHOOSE YOUR COLLATERAL</div>
-                              <div className="input">
-                                {collaterals.map(collateral => (
-                                  <div
-                                    key={collateral.name}
-                                    className={`collateral-option ${currentCollateral.name === collateral.name ? 'active' : ''}`}
-                                    onClick={() => {
-                                      if (disabledBTC && collateral.name === 'BTC') {
-                                        toaster.warning('We don\'t support BTC yet', { duration: 10000 });
-                                        return;
-                                      }
-                                      this.setState({ currentCollateral: collateral }, () => {
-                                        this.changeLoanAmount({ target: { value: values.loanAmount } }, setFieldValue);
-                                      });
-                                    }}
-                                  >
-                                    <FontAwesomeIcon icon={collateral.icon} size="2x" />
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                            <div className="col-12 col-md-6 col-lg-4">
-                              <div className="title">ENTER LOAN AMOUNT</div>
-                              <div className="input">
-                                <TextField
-                                  name="loanAmount"
-                                  placeholder="100"
-                                  className="input-of-create cst"
-                                  value={values.loanAmount}
-                                  autoComplete="off"
-                                  onChange={(e) => {
-                                    this.onlyNumber(e.target.value, () => {
-                                      this.inputChange(handleChange, setFieldTouched, 'loanAmount', e);
-                                      this.changeLoanAmount(e, setFieldValue);
+                        </div>
+                      </Dialog>
+                      <div className="create-box c-card">
+                        <h2>Create a loan request</h2>
+                        <div className="">
+                          {'Or '}
+                          <Link to="/loan">
+                            <FontAwesomeIcon icon={faAngleLeft} />
+                            {' Back to dashboard'}
+                          </Link>
+                        </div>
+                        <div className="row input-container input-container-first">
+                          <div className="col-12 col-md-12 col-lg-4">
+                            <div className="title">CHOOSE YOUR COLLATERAL</div>
+                            <div className="input">
+                              {collaterals.map(collateral => (
+                                <div
+                                  key={collateral.name}
+                                  className={`collateral-option ${currentCollateral.name === collateral.name ? 'active' : ''}`}
+                                  onClick={() => {
+                                    if (disabledBTC && collateral.name === 'BTC') {
+                                      toaster.warning('We don\'t support BTC yet', { duration: 10000 });
+                                      return;
+                                    }
+                                    this.setState({ currentCollateral: collateral }, () => {
+                                      this.changeLoanAmount({ target: { value: values.loanAmount } }, setFieldValue);
                                     });
                                   }}
-                                  InputProps={{
-                                    startAdornment: <InputAdornment position="start">CST</InputAdornment>,
-                                  }}
-                                />
-                                {errors.loanAmount && touched.loanAmount && <span className="c-error"><span>{errors.loanAmount}</span></span>}
-                              </div>
-                            </div>
-                            <div className="col-12 col-md-6 col-lg-4">
-                              <div className="title">COLLATERAL AMOUNT</div>
-                              <div className="input">
-                                <TextField
-                                  name="collateralAmount"
-                                  placeholder={collateralAmountPlaceholder}
-                                  className="input-of-create collateral"
-                                  value={values.collateralAmount}
-                                  autoComplete="off"
-                                  onChange={(e) => {
-                                    this.onlyNumber(e.target.value, () => {
-                                      this.inputChange(handleChange, setFieldTouched, 'collateralAmount', e);
-                                    });
-                                  }}
-                                  InputProps={{
-                                    endAdornment: <InputAdornment position="end">{currentCollateral.name}</InputAdornment>,
-                                  }}
-                                />
-                                {errors.collateralAmount && touched.collateralAmount && <span className="c-error"><span>{errors.collateralAmount}</span></span>}
-                                <div>Collateral amount based on a 35% Loan to Value (LTV).</div>
-                                <div>{values.loanAmount ? `(minimum: ${collateralAmountPlaceholder})` : ''}</div>
-                              </div>
+                                >
+                                  <FontAwesomeIcon icon={collateral.icon} size="2x" />
+                                </div>
+                              ))}
                             </div>
                           </div>
-                          <div className="row input-container">
-                            <div className="col-12 col-md-4">
-                              <div className="title">Your Backup Code</div>
-                              <div className="input">
-                                <TextField
-                                  type="password"
-                                  placeholder="*****"
-                                  className="input-of-create"
-                                  name="secretKey"
-                                  autoComplete="off"
-                                  onChange={(e) => {
-                                    this.inputChange(handleChange, setFieldTouched, 'secretKey', e);
-                                  }}
-                                />
-                                {errors.secretKey && touched.secretKey && <span className="c-error"><span>{errors.secretKey}</span></span>}
-                              </div>
-                            </div>
-                            <div className="col-12 col-md-4">
-                              <div className="title">Maturity</div>
-                              <div className="input">
-                                <TextField
-                                  placeholder="100"
-                                  className="input-of-create maturity"
-                                  value={maturity}
-                                  disabled
-                                />
-                              </div>
-                            </div>
-                            <div className="col-12 col-md-4">
-                              <div className="title">INTEREST RATE</div>
-                              <div className="input">
-                                {rates.map(rate => (
-                                  <div key={rate.InterestRate} className={`rate ${rate.InterestRate === currentRate.InterestRate ? 'active' : ''}`} onClick={() => { this.setState({ currentRate: rate }); this.calcMaturity(rate); }}>
-                                    {(rate.InterestRate / 100).toFixed(2)}
-                                    {' %'}
-                                  </div>
-                                ))}
-                              </div>
+                          <div className="col-12 col-md-6 col-lg-4">
+                            <div className="title">ENTER LOAN AMOUNT</div>
+                            <div className="input">
+                              <TextField
+                                name="loanAmount"
+                                placeholder="100"
+                                className="input-of-create cst"
+                                value={values.loanAmount}
+                                autoComplete="off"
+                                onChange={(e) => {
+                                  this.onlyNumber(e.target.value, () => {
+                                    this.inputChange(handleChange, setFieldTouched, 'loanAmount', e);
+                                    this.changeLoanAmount(e, setFieldValue);
+                                  });
+                                }}
+                                InputProps={{
+                                  startAdornment: <InputAdornment position="start">CST</InputAdornment>,
+                                }}
+                              />
+                              {errors.loanAmount && touched.loanAmount && <span className="c-error"><span>{errors.loanAmount}</span></span>}
                             </div>
                           </div>
-                          <div className="row">
-                            <div className="col-12">
-                              <label>
-                                <input type="checkbox" name="policy" value={values.policy} onChange={handleChange} />
-                                {' I certify that I am 18 years of age or older, and I agree to the Terms & Conditions.'}
-                              </label>
-                              {errors.policy && touched.policy && <span className="c-error"><span>{errors.policy}</span></span>}
-                            </div>
-                          </div>
-                          <div className="row">
-                            <div className="col-12">
-                              <button className="c-btn c-btn-primary submit" type="submit">
-                                {isSubmitting ? <FontAwesomeIcon icon={faSpinnerThird} size="1x" spin style={{ marginRight: 10 }} /> : ''}
-                                {'Submit '}
-                                <FontAwesomeIcon icon={faArrowRight} />
-                              </button>
+                          <div className="col-12 col-md-6 col-lg-4">
+                            <div className="title">COLLATERAL AMOUNT</div>
+                            <div className="input">
+                              <TextField
+                                name="collateralAmount"
+                                placeholder={collateralAmountPlaceholder}
+                                className="input-of-create collateral"
+                                value={values.collateralAmount}
+                                autoComplete="off"
+                                onChange={(e) => {
+                                  this.onlyNumber(e.target.value, () => {
+                                    this.inputChange(handleChange, setFieldTouched, 'collateralAmount', e);
+                                  });
+                                }}
+                                InputProps={{
+                                  endAdornment: <InputAdornment position="end">{currentCollateral.name}</InputAdornment>,
+                                }}
+                              />
+                              {errors.collateralAmount && touched.collateralAmount && <span className="c-error"><span>{errors.collateralAmount}</span></span>}
+                              <div>Collateral amount based on a 35% Loan to Value (LTV).</div>
+                              <div>{values.loanAmount ? `(minimum: ${collateralAmountPlaceholder})` : ''}</div>
                             </div>
                           </div>
                         </div>
-                      </form>
-                    )}
+                        <div className="row input-container">
+                          <div className="col-12 col-md-4">
+                            <div className="title">Your Backup Code</div>
+                            <div className="input">
+                              <TextField
+                                type="password"
+                                placeholder="*****"
+                                className="input-of-create"
+                                name="secretKey"
+                                autoComplete="off"
+                                onChange={(e) => {
+                                  this.inputChange(handleChange, setFieldTouched, 'secretKey', e);
+                                }}
+                              />
+                              {errors.secretKey && touched.secretKey && <span className="c-error"><span>{errors.secretKey}</span></span>}
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-4">
+                            <div className="title">Maturity</div>
+                            <div className="input">
+                              <TextField
+                                placeholder="100"
+                                className="input-of-create maturity"
+                                value={maturity}
+                                disabled
+                              />
+                            </div>
+                          </div>
+                          <div className="col-12 col-md-4">
+                            <div className="title">INTEREST RATE</div>
+                            <div className="input">
+                              {rates.map(rate => (
+                                <div key={rate.InterestRate} className={`rate ${rate.InterestRate === currentRate.InterestRate ? 'active' : ''}`} onClick={() => { this.setState({ currentRate: rate }); this.calcMaturity(rate); }}>
+                                  {(rate.InterestRate / 100).toFixed(2)}
+                                  {' %'}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-12">
+                            <label>
+                              <input type="checkbox" name="policy" value={values.policy} onChange={handleChange} />
+                              {' I certify that I am 18 years of age or older, and I agree to the Terms & Conditions.'}
+                            </label>
+                            {errors.policy && touched.policy && <span className="c-error"><span>{errors.policy}</span></span>}
+                          </div>
+                        </div>
+                        <div className="row">
+                          <div className="col-12">
+                            <button className="c-btn c-btn-primary submit" type="submit">
+                              {isSubmitting ? <FontAwesomeIcon icon={faSpinnerThird} size="1x" spin style={{ marginRight: 10 }} /> : ''}
+                              {'Submit '}
+                              <FontAwesomeIcon icon={faArrowRight} />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  )}
                 </Formik>
               </div>
             </div>

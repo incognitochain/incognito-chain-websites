@@ -11,7 +11,7 @@ import Cookies from 'js-cookie';
 class Header extends React.Component {
   static propTypes = {
     auth: PropTypes.object.isRequired,
-    router: PropTypes.object.isRequired,
+    // router: PropTypes.object.isRequired,
   }
 
   constructor(props) {
@@ -54,11 +54,14 @@ class Header extends React.Component {
   }
 
   render() {
-    const { auth, router } = this.props;
+    const {
+      auth,
+      // router,
+    } = this.props;
     const { data } = auth;
     const { showMenu, authMenu } = this.state;
-    const { location } = router;
-    const { pathname } = location;
+    // const { location } = router;
+    // const { pathname } = location;
 
     return (
       <header className="c-header">
@@ -93,7 +96,7 @@ class Header extends React.Component {
                       <FontAwesomeIcon icon={faAngleDown} />
                     </div>
                     <ul className={`sub-menu ${authMenu ? 'show' : ''}`}>
-                      <li><a href="//user.constant.money/profile">Profile</a></li>
+                      <li><a href="//user.constant.money">Profile</a></li>
                       <li><Link to="/" onClick={this.logout}>Logout</Link></li>
                     </ul>
                   </li>

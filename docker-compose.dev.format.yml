@@ -4,8 +4,8 @@ services:
     image: registry.gitlab.com/ninjadotorg/constant-websites/nginx-dev:${VERSION}
     ports:
     - '80:80'
-  auth:
-    image: registry.gitlab.com/ninjadotorg/constant-websites/auth-dev:${VERSION}
+  user:
+    image: registry.gitlab.com/ninjadotorg/constant-websites/user-dev:${VERSION}
     expose:
     - '3001'
   exchange:

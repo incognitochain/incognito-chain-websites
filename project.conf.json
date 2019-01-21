@@ -1,0 +1,14 @@
+{
+  "user": {
+    "port": 3001
+  },
+  "explorer": {
+    "port": 3002
+  },
+  "portal": {
+    "port": 3003
+  },
+  "exchange": {
+    "port": 3004
+  }
+}

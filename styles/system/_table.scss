@@ -1,0 +1,57 @@
+.c-table {
+  tr {
+    td {
+      padding-top: 9px;
+      padding-bottom: 9px;
+      padding-right: 15px;
+      &:last-of-type {
+        padding-right: 0;
+      }
+    }
+    &:last-of-type {
+      td {
+        border-bottom-color: transparent;
+      }
+    }
+  }
+  &.c-table-list {
+    tr {
+      td {
+        &:first-of-type {
+          &:after {
+            content: ':';
+            padding-left: 2px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.c-table-user-wallet {
+  table-layout:fixed;
+  min-width: 1100px;
+  width: 100%;
+  font-size: 93%;
+  letter-spacing: 0.1px;
+  thead {
+    background-color: #F7F8FA;
+    th {
+      padding: 10px 20px;
+      @extend .c-color-blue-700;
+      font-weight: normal;
+    }
+  }
+  tbody {
+    td {
+      line-height: 33px;
+      padding: 21px 20px;
+    }
+    tr {
+      border-bottom: 1px solid map-get($gray, 's-200');
+    }
+  }
+  .c-a-btn {
+    padding: 5px;
+  }
+}
