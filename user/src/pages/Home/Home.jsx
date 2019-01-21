@@ -10,7 +10,7 @@ import bgApplyMCB from '@/assets/apply-mcb.svg';
 import { axios, catchError } from '@/services/api';
 import { API } from '@/constants';
 import cn from '@sindresorhus/class-names';
-import { Dialog, toaster, TextInput } from 'evergreen-ui';
+import { toaster } from 'evergreen-ui';
 
 const CheckInit = ({ children, inited }) => {
   if (!inited) {
@@ -68,10 +68,10 @@ class Home extends React.Component {
     axios.get(API.VOTING_DATA).then((res) => {
       const { data } = res;
       if (data) {
-        const { Result } = data;
-        if (Result) {
+        const { Result, Error: resError } = data;
+        if (!resError) {
           this.setState({
-            candidate: Result,
+            candidate: Result || {},
             inited: true,
           });
         }
