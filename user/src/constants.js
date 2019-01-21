@@ -19,6 +19,8 @@ const API = {
   WALLET_BALANCES: 'wallet/balances',
   VOTING_DATA: 'voting/my_candidate',
   VOTING_APPLY: 'voting/candidate',
+  VOTING_LIST: 'voting/candidates',
+  VOTING_VOTE: 'voting/candidate/vote',
 };
 
 const BLOCKCHAIN = {

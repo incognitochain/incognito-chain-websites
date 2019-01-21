@@ -44,27 +44,6 @@ const topMenus = [
     leftIcon: '',
   },
   {
-    key: 'wallet',
-    label: 'sidebar.Wallet',
-    leftIcon: '',
-  },
-  {
-    key: 'voting',
-    label: 'sidebar.Voting',
-    leftIcon: '',
-    children: [
-      {
-        label: 'sidebar.VotingBoard',
-        key: 'voting'
-      },
-      {
-        key: 'proposal',
-        label: 'sidebar.Proposal',
-        leftIcon: '',
-      },
-    ]
-  },
-  {
     key: 'bond-market',
     label: 'sidebar.BondMarket',
     leftIcon: '',
@@ -234,18 +213,36 @@ class Sidebar extends Component {
                   selectedKeys={app.current}
                   onOpenChange={this.onOpenChange}
                 >
-                  {topMenus.map(singleOption =>
-                    this.getMenuItem({ submenuStyle, submenuColor, singleOption })
-                  )}
                   <Menu.Item style={{width: '150px'}}>
-                    <a href="//portal.constant.money">
+                    <a href="//user.constant.money">
                       <span className="isoMenuHolder" style={submenuColor}>
                       <span className="nav-text">
-                        <IntlMessages id="sidebar.Portal" />
+                        User
                       </span>
                       </span>
                     </a>
                   </Menu.Item>
+                  <Menu.Item style={{width: '150px'}}>
+                    <a href="//explorer.constant.money">
+                      <span className="isoMenuHolder" style={submenuColor}>
+                      <span className="nav-text">
+                        Explorer
+                      </span>
+                      </span>
+                    </a>
+                  </Menu.Item>
+                  <Menu.Item style={{width: '150px'}}>
+                    <a href="//portal.constant.money">
+                      <span className="isoMenuHolder" style={submenuColor}>
+                      <span className="nav-text">
+                        Loan
+                      </span>
+                      </span>
+                    </a>
+                  </Menu.Item>
+                  {topMenus.map(singleOption =>
+                    this.getMenuItem({ submenuStyle, submenuColor, singleOption })
+                  )}
                 </Menu>
               </Scrollbars>
               </Col>

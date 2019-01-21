@@ -42,11 +42,11 @@ class TopbarUser extends Component {
   }
 
   onSignin(){
-    window.location.href = 'http://auth.constant.money';
+    window.location.href = 'http://user.constant.money';
   }
 
   onSignup(){
-    window.location.href = 'http://auth.constant.money/register';
+    window.location.href = 'http://user.constant.money/register';
   }
 
   onLogout(){

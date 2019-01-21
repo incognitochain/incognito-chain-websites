@@ -1,0 +1,30 @@
+.proposals-page {
+  .empty {
+    text-align: center;
+  }
+  .left-side {
+    .title {
+      font-weight: bold;
+      @extend .c-color-blue-900;
+      margin-bottom: 50px;
+    }
+    .content {
+      .applicant {
+        cursor: pointer;
+        margin: 10px 0;
+        border: 1px solid rgb(226, 226, 226);
+        padding: 5px;
+        border-radius: 3px;
+        .email {
+          font-weight: 500;
+          @extend .c-color-blue-900;
+          padding: 5px 0;
+          display: inline-block;
+        }
+        &:hover, &.active {
+          @extend .c-bg-blue-100;
+        }
+      }
+    }
+  }
+}

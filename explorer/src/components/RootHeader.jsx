@@ -81,8 +81,8 @@ class Header extends React.Component {
                   <li><Link to="/" className="active">Explorer</Link></li>
                   <li><a href="//portal.constant.money">Loan</a></li>
                   <li><a href="//exchange.constant.money">Exchange</a></li>
-                  <li><Link to="/about">About</Link></li>
-                  <li><Link to="/faq">FAQ</Link></li>
+                  <li><a href="//user.constant.money/about">About</a></li>
+                  <li><a href="//user.constant.money/faq">FAQ</a></li>
                 </ul>
               </div>
               {!hideAuthMenu ? (
