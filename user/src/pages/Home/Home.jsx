@@ -15,6 +15,7 @@ import bgImage from '@/assets/create-a-proposal.svg';
 import {
   Dialog, Textarea, toaster,
 } from 'evergreen-ui';
+import { checkAuth } from '@/reducers/auth/action';
 
 const CheckInit = ({ children, inited }) => {
   if (!inited) {
@@ -31,11 +32,13 @@ const Applied = ({ applied, children }) => {
 class Home extends React.Component {
   static propTypes = {
     auth: PropTypes.object.isRequired,
-    // abcd: PropTypes.func.isRequired,
+    authCheckAuth: PropTypes.func.isRequired,
   }
 
   constructor(props) {
     super(props);
+    const { auth } = props;
+
     this.state = {
       candidate: {},
       inited: false,
@@ -44,9 +47,18 @@ class Home extends React.Component {
       dialogDCBProposal: false,
       dialogGOVProposal: false,
       isLoading: false,
+      bio: auth.data.Bio,
+      oldBio: auth.data.Bio,
     };
 
     this.loadUserCandidate();
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.auth.data.Bio !== prevState.oldBio) {
+      return { bio: nextProps.auth.data.Bio, oldBio: nextProps.auth.data.Bio };
+    }
+    return null;
   }
 
   apply = (type, ev, denyCall) => {
@@ -91,6 +103,13 @@ class Home extends React.Component {
 
   submitBio = () => {
     const { bio } = this.state;
+    const { authCheckAuth } = this.props;
+
+    if (!bio) {
+      toaster.warning('Bio is required');
+      return;
+    }
+
     axios.put(API.USER_UPDATE, {
       Bio: bio,
     }).then((res) => {
@@ -99,6 +118,7 @@ class Home extends React.Component {
       if (Result) {
         this.setState({ isLoading: false, dialogBio: false });
         toaster.success('Updated your bio');
+        authCheckAuth();
       } else {
         toaster.warning('Error update profile');
       }
@@ -111,15 +131,9 @@ class Home extends React.Component {
 
   render() {
     const {
-      candidate, inited, dialogBio, dialogDCBProposal, dialogGOVProposal, isLoading, bio: rawBio,
+      candidate, inited, dialogBio, dialogDCBProposal, dialogGOVProposal, isLoading, bio,
     } = this.state;
     const { auth } = this.props;
-
-    let bio = '';
-
-    if (auth.data.Bio) {
-      bio = rawBio || auth.data.Bio || '';
-    }
 
     return (
       <div className="page user-page home-page">
@@ -241,4 +255,6 @@ class Home extends React.Component {
   }
 }
 
-export default connect(state => ({ auth: state.auth }))(Home);
+export default connect(state => ({ auth: state.auth }), ({
+  authCheckAuth: checkAuth,
+}))(Home);
