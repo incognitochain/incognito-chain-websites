@@ -27,7 +27,7 @@ const list = [
   },
 ];
 
-class Proposals extends React.Component {
+class Voting extends React.Component {
   static propTypes = {
     // abc: PropTypes.object.isRequired,
     // abcd: PropTypes.func.isRequired,
@@ -48,7 +48,7 @@ class Proposals extends React.Component {
 
   loadCandidatesList = (type) => {
     const { currentType } = this.state;
-    axios.get(`${API.PROPOSAL_LIST}?board_type=${type || currentType}`).then((res) => {
+    axios.get(`${API.VOTING_LIST}?board_type=${type || currentType}`).then((res) => {
       const { data } = res;
       if (data) {
         const { Result } = data;
@@ -69,7 +69,7 @@ class Proposals extends React.Component {
 
   vote = () => {
     const { currentApplicant, amount, currentType } = this.state;
-    axios.post(API.PROPOSAL_VOTE, {
+    axios.post(API.VOTING_VOTE, {
       BoardType: currentType,
       CandidateID: currentApplicant.ID,
       VoteAmount: Number(amount),
@@ -149,7 +149,7 @@ class Proposals extends React.Component {
               <div className="col-12 col-lg-3 left-side">
                 <div className="c-card">
                   <div className="title">
-                    <span>Proposals</span>
+                    <span>Applicants</span>
                     <div className="select" style={{ float: 'right' }}>
                       <Select
                         value={currentType}
@@ -182,7 +182,7 @@ class Proposals extends React.Component {
                 <div className="c-card">
                   {isEmpty(currentApplicant) && (
                     <div className="empty">
-                      Please select proposal
+                      Please select applicant
                     </div>
                   )}
                   {
@@ -204,7 +204,7 @@ class Proposals extends React.Component {
                 <div className="c-card">
                   {isEmpty(currentApplicant) && (
                     <div className="empty">
-                      Please select proposal
+                      Please select applicant
                     </div>
                   )}
                   {
@@ -212,7 +212,7 @@ class Proposals extends React.Component {
                       <div className="right-bar">
                         <div>{`Voted: ${currentApplicant.VoteNum}`}</div>
                         <button className="c-btn c-btn-primary" type="button" style={{ marginTop: 10 }} onClick={() => { this.setState({ dialogVote: true }); }}>
-                          Vote this proposal
+                          Vote this applicant
                         </button>
                         <div className="title">Token list</div>
                         <div className="token-list">
@@ -246,4 +246,4 @@ class Proposals extends React.Component {
   }
 }
 
-export default Proposals;
+export default Voting;

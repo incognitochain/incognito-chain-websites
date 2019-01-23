@@ -13,6 +13,7 @@ const Login = createDynamicImport(() => import('@/pages/Auth/Login'), Loading);
 const ResetPassword = createDynamicImport(() => import('@/pages/Auth/ResetPassword'), Loading);
 const ForgotPassword = createDynamicImport(() => import('@/pages/Auth/ForgotPassword'), Loading);
 const Wallet = createDynamicImport(() => import('@/pages/Wallet/Wallet'), Loading);
+const Voting = createDynamicImport(() => import('@/pages/Voting/Voting'), Loading);
 const Proposals = createDynamicImport(() => import('@/pages/Voting/Proposals'), Loading);
 const NotFound = createDynamicImport(() => import('@/pages/NotFound'), Loading);
 
@@ -22,6 +23,9 @@ const routers = [
   },
   {
     path: '/wallet', exact: true, component: Wallet, needLogged: true, needLayout: true,
+  },
+  {
+    path: '/voting', exact: true, component: Voting, needLogged: true, needLayout: true,
   },
   {
     path: '/proposals', exact: true, component: Proposals, needLogged: true, needLayout: true,

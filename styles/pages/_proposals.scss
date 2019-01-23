@@ -27,4 +27,30 @@
       }
     }
   }
+  .bio {
+    @extend .c-color-blue-900;
+    .bio-header {
+      margin-bottom: 30px;
+    }
+  }
+  .right-bar {
+    .title {
+      margin: 20px 0;
+      font-weight: 500;
+      font-size: 110%;
+      @extend .c-color-blue-900;
+    }
+    .token-list {
+      width: 100%;
+      overflow-x: scroll;
+    }
+    table {
+      overflow-x: scroll;
+      width: 100%;
+      td:first-of-type {
+        @extend .c-color-blue-900;
+        margin-right: 7px;
+      }
+    }
+  }
 }

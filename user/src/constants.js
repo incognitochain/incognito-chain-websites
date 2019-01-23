@@ -21,6 +21,8 @@ const API = {
   VOTING_APPLY: 'voting/candidate',
   VOTING_LIST: 'voting/candidates',
   VOTING_VOTE: 'voting/candidate/vote',
+  PROPOSAL_LIST: 'voting/proposals',
+  PROPOSAL_VOTE: 'voting/proposal/vote',
 };
 
 const BLOCKCHAIN = {

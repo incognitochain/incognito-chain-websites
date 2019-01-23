@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Link from '@/components/Link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExchangeAlt } from '@fortawesome/pro-regular-svg-icons';
-import { faUserAlt, faWallet, faCog } from '@fortawesome/pro-light-svg-icons';
+import {
+  faUserAlt, faWallet, faCog, faPollH, faBallotCheck,
+} from '@fortawesome/pro-light-svg-icons';
 import cn from '@sindresorhus/class-names';
 
 class SubHeader extends React.Component {
@@ -46,9 +47,15 @@ class SubHeader extends React.Component {
                   </Link>
                 </li>
                 <li>
+                  <Link to="/voting" className={cn({ active: pathname.startsWith('/voting') })}>
+                    <FontAwesomeIcon icon={faPollH} />
+                    {' Voting'}
+                  </Link>
+                </li>
+                <li>
                   <Link to="/proposals" className={cn({ active: pathname.startsWith('/proposals') })}>
-                    <FontAwesomeIcon icon={faExchangeAlt} />
-                    {' Proposals'}
+                    <FontAwesomeIcon icon={faBallotCheck} />
+                    {' Proposal'}
                   </Link>
                 </li>
                 <li>
