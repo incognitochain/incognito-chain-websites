@@ -60,7 +60,31 @@ class Wallet extends React.Component {
 
   withdraw =() => {
     const { currentBalance, withdrawAddress, amount } = this.state;
-    console.log(currentBalance, withdrawAddress, amount);
+    let realAmount = Number(amount);
+
+    if (currentBalance.SymbolName === 'CONST') {
+      realAmount *= 100;
+    }
+
+    axios.post(API.WALLET_WITHDRAW, {
+      IsPrivacy: currentBalance.IsPrivacy,
+      Amount: realAmount,
+      TokenID: currentBalance.TokenID,
+      PaymentAddress: withdrawAddress,
+    }).then((res) => {
+      const { data } = res;
+      const { Result } = data;
+      if (Result) {
+        toaster.success('Withdraw success!');
+      } else {
+        toaster.warning('Withdraw fault!');
+      }
+      this.setState({ isLoading: false, dialogWithdraw: false });
+    }).catch((e) => {
+      toaster.warning('Withdraw fault!');
+      this.setState({ isLoading: false, dialogWithdraw: false });
+      catchError(e);
+    });
   }
 
   onlyNumber = (value, cb) => {
@@ -173,7 +197,7 @@ class Wallet extends React.Component {
                           <td>{balance.ConstantValue}</td>
                           <td>
                             <button className="c-a-btn" type="button" onClick={() => { this.setState({ dialogDeposit: true }); }}>Deposit</button>
-                            <button className="c-a-btn" type="button" onClick={() => { this.setState({ dialogWithdraw: true, currentBalance: balance }); }}>Withdraw</button>
+                            {balance.Withdrawable ? <button className="c-a-btn" type="button" onClick={() => { this.setState({ dialogWithdraw: true, currentBalance: balance }); }}>Withdraw</button> : ''}
                             <a href={`//exchange.constant.money/exchange/${balance.SymbolCode?.toUpperCase()}_BOND`} target="_blank" rel="noopener noreferrer" className="c-a-btn">
                               Exchange
                             </a>

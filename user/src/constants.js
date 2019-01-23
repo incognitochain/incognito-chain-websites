@@ -17,6 +17,7 @@ const API = {
   LOAN_LIST_FOR_LENDER: 'portal/all_borrows',
   USER_DATA: 'auth/me',
   WALLET_BALANCES: 'wallet/balances',
+  WALLET_WITHDRAW: 'wallet/withdraw',
   VOTING_DATA: 'voting/my_candidate',
   VOTING_APPLY: 'voting/candidate',
   VOTING_LIST: 'voting/candidates',
