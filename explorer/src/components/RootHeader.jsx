@@ -79,7 +79,7 @@ class Header extends React.Component {
                 <ul className="menu">
                   <li><a href="//user.constant.money">User</a></li>
                   <li><Link to="/" className="active">Explorer</Link></li>
-                  <li><a href="//portal.constant.money">Loan</a></li>
+                  <li><a href="//portal.constant.money">Portal</a></li>
                   <li><a href="//exchange.constant.money">Exchange</a></li>
                   <li><a href="//user.constant.money/about">About</a></li>
                   <li><a href="//user.constant.money/faq">FAQ</a></li>

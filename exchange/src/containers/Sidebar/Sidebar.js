@@ -235,7 +235,7 @@ class Sidebar extends Component {
                     <a href="//portal.constant.money">
                       <span className="isoMenuHolder" style={submenuColor}>
                       <span className="nav-text">
-                        Loan
+                        Portal
                       </span>
                       </span>
                     </a>
