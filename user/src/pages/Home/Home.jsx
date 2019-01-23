@@ -107,6 +107,7 @@ class Home extends React.Component {
 
     if (!bio) {
       toaster.warning('Bio is required');
+      this.setState({ isLoading: false });
       return;
     }
 
