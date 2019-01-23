@@ -1,16 +1,20 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Link from '@/components/Link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight } from '@fortawesome/pro-regular-svg-icons';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight, faEdit } from '@fortawesome/pro-regular-svg-icons';
 import bgApplyGOV from '@/assets/apply-gov.svg';
 import bgApplyDCB from '@/assets/apply-dcb.svg';
 import bgApplyMCB from '@/assets/apply-mcb.svg';
 import { axios, catchError } from '@/services/api';
 import { API } from '@/constants';
 import cn from '@sindresorhus/class-names';
-import { toaster } from 'evergreen-ui';
+import bgImage from '@/assets/create-a-proposal.svg';
+import {
+  Dialog, Textarea, toaster,
+} from 'evergreen-ui';
 
 const CheckInit = ({ children, inited }) => {
   if (!inited) {
@@ -26,7 +30,7 @@ const Applied = ({ applied, children }) => {
 
 class Home extends React.Component {
   static propTypes = {
-    // abc: PropTypes.object.isRequired,
+    auth: PropTypes.object.isRequired,
     // abcd: PropTypes.func.isRequired,
   }
 
@@ -36,6 +40,10 @@ class Home extends React.Component {
       candidate: {},
       inited: false,
       address: '',
+      dialogBio: false,
+      dialogDCBProposal: false,
+      dialogGOVProposal: false,
+      isLoading: false,
     };
 
     this.loadUserCandidate();
@@ -81,11 +89,99 @@ class Home extends React.Component {
     });
   }
 
+  submitBio = () => {
+    const { bio } = this.state;
+    axios.put(API.USER_UPDATE, {
+      Bio: bio,
+    }).then((res) => {
+      const { data } = res;
+      const { Result } = data;
+      if (Result) {
+        this.setState({ isLoading: false, dialogBio: false });
+        toaster.success('Updated your bio');
+      } else {
+        toaster.warning('Error update profile');
+      }
+    }).catch((e) => {
+      this.setState({ isLoading: false, dialogBio: false });
+      toaster.warning('Error update profile');
+      catchError(e);
+    });
+  }
+
   render() {
-    const { candidate, inited } = this.state;
+    const {
+      candidate, inited, dialogBio, dialogDCBProposal, dialogGOVProposal, isLoading, bio: rawBio,
+    } = this.state;
+    const { auth } = this.props;
+
+    let bio = '';
+
+    if (auth.data.Bio) {
+      bio = rawBio || auth.data.Bio || '';
+    }
 
     return (
-      <div className="page user-page">
+      <div className="page user-page home-page">
+        <Dialog
+          isShown={dialogBio}
+          shouldCloseOnOverlayClick={false}
+          shouldCloseOnEscapePress={false}
+          title="Edit your bio"
+          confirmLabel="Submit"
+          isConfirmLoading={isLoading}
+          onCloseComplete={() => this.setState({
+            dialogBio: false, isLoading: false, bio: auth.data.Bio,
+          })}
+          onConfirm={() => { this.setState({ isLoading: true }); this.submitBio(); }}
+        >
+          <div className="withdraw-dialog">
+            <div style={{ margin: '0' }}>
+              <Textarea
+                label="Your bio"
+                placeholder="..."
+                autoComplete="off"
+                width="100%"
+                value={bio}
+                onChange={(e) => {
+                  this.setState({ bio: e.target.value });
+                }}
+              />
+            </div>
+          </div>
+        </Dialog>
+        <div className="coin-information">
+          <div className="container">
+            <div className="row">
+              <div className="col-12 col-lg-8">
+                <div className="c-card">
+                  <div className="hello">
+                    {`Hello, ${auth.data.FirstName}`}
+                    <div className="edit" onClick={() => { this.setState({ dialogBio: true }); }}><FontAwesomeIcon icon={faEdit} /></div>
+                  </div>
+                  <div>{`${auth.data.Bio}`}</div>
+                </div>
+              </div>
+              <div className="col-12 col-lg-4">
+                <div className="c-card card-create-a-proposal-container" style={{ backgroundImage: `url(${bgImage})` }}>
+                  <p>
+                    Wanna know how to loan Constant instantly
+                    <br />
+                    <i>Create new one.</i>
+                  </p>
+                  <Link to="/" className="c-btn c-bg-green">
+                    {'DCB '}
+                    <FontAwesomeIcon icon={faAngleRight} />
+                  </Link>
+                  <Link to="/" className="c-btn c-bg-green">
+                    {'GOV '}
+                    <FontAwesomeIcon icon={faAngleRight} />
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <div className="apply">
           <div className="container">
             <div className="row">
@@ -145,4 +241,4 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+export default connect(state => ({ auth: state.auth }))(Home);

@@ -33,6 +33,10 @@
     margin-bottom: 24px;
   }
   .coin-information {
+    .edit {
+      float: right;
+      cursor: pointer;
+    }
     .c-card {
       min-height: 276px;
     }
@@ -48,9 +52,8 @@
         padding-right: 100px;
       }
       .c-btn {
-        position: absolute;
-        bottom: 36px;
-        left: 22px;
+        padding: 0 20px;
+        margin-right: 20px;
       }
     }
   }

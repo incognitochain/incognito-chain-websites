@@ -23,6 +23,7 @@ const API = {
   VOTING_VOTE: 'voting/candidate/vote',
   PROPOSAL_LIST: 'voting/proposals',
   PROPOSAL_VOTE: 'voting/proposal/vote',
+  USER_UPDATE: 'auth/update',
 };
 
 const BLOCKCHAIN = {
