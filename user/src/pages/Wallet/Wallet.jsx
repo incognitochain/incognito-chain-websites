@@ -191,8 +191,8 @@ class Wallet extends React.Component {
                         <tr key={balance.TokenID}>
                           <td className="name">{balance.SymbolName}</td>
                           <td style={{ textTransform: 'uppercase', fontSize: '80%' }}>{balance.SymbolCode}</td>
-                          <td>{balance.AvailableBalance}</td>
                           <td>{balance.TotalBalance}</td>
+                          <td>{balance.AvailableBalance}</td>
                           <td>{balance.InOrder}</td>
                           <td>{balance.ConstantValue}</td>
                           <td>
