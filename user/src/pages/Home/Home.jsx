@@ -153,6 +153,7 @@ class Home extends React.Component {
           <div className="withdraw-dialog">
             <div style={{ margin: '0' }}>
               <Textarea
+                rows={15}
                 label="Your bio"
                 placeholder="..."
                 autoComplete="off"
@@ -174,7 +175,7 @@ class Home extends React.Component {
                     {`Hello, ${auth.data.FirstName}`}
                     <div className="edit" onClick={() => { this.setState({ dialogBio: true }); }}><FontAwesomeIcon icon={faEdit} /></div>
                   </div>
-                  <div>{`${auth.data.Bio}`}</div>
+                  <div dangerouslySetInnerHTML={{ __html: `<p>${auth.data.Bio.replace(/\n{2,}/g, '</p><p>').replace(/\n/g, '<br>')}</p>` }} />
                 </div>
               </div>
               <div className="col-12 col-lg-4">

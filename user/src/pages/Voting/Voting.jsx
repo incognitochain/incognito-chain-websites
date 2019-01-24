@@ -193,7 +193,7 @@ class Voting extends React.Component {
                           <div className="name">{`${currentApplicant.User.FirstName} ${currentApplicant.User.LastName}`}</div>
                         </div>
                         <div className="bio-content">
-                          {`${currentApplicant.User.Bio}`}
+                          <div dangerouslySetInnerHTML={{ __html: `<p>${currentApplicant.User.Bio.replace(/\n{2,}/g, '</p><p>').replace(/\n/g, '<br>')}</p>` }} />
                         </div>
                       </div>
                     )
