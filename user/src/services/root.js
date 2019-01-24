@@ -40,17 +40,27 @@ function constant() {
   return number.numberFormat();
 }
 
-Number.prototype.commarize = commarize;
-String.prototype.commarize = commarize;
+function autoLabel() {
+  return this.replace('u s d', 'USD')
+    .replace('g o v', 'GOV')
+    .replace('d c b', 'DCB')
+    .replace('c m b', 'CMB')
+    .replace('i d', 'ID');
+}
 
-Number.prototype.constant = constant;
-String.prototype.constant = constant;
+Number.prototype.commarize = commarize; // eslint-disable-line
+String.prototype.commarize = commarize; // eslint-disable-line
 
-String.prototype.coinUnitFormat = coinUnitFormat;
-Number.prototype.coinUnitFormat = coinUnitFormat;
+Number.prototype.constant = constant; // eslint-disable-line
+String.prototype.constant = constant; // eslint-disable-line
 
-String.prototype.etherToWei = etherToWei;
-Number.prototype.etherToWei = etherToWei;
+String.prototype.coinUnitFormat = coinUnitFormat; // eslint-disable-line
+Number.prototype.coinUnitFormat = coinUnitFormat; // eslint-disable-line
 
-String.prototype.numberFormat = numberFormat;
-Number.prototype.numberFormat = numberFormat;
+String.prototype.etherToWei = etherToWei; // eslint-disable-line
+Number.prototype.etherToWei = etherToWei; // eslint-disable-line
+
+String.prototype.numberFormat = numberFormat; // eslint-disable-line
+Number.prototype.numberFormat = numberFormat; // eslint-disable-line
+
+String.prototype.autoLabel = autoLabel; // eslint-disable-line

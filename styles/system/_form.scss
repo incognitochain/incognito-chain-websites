@@ -3,3 +3,19 @@
     margin-top: 30px;
   }
 }
+
+fieldset {
+  padding: 20px;
+  border: 1px solid #e0e0e0;
+  margin-bottom: 20px;
+  background-color: lighten(map-get($map: $blue, $key: 's-100'), 2);
+  legend {
+    margin-bottom: 0;
+    font-size: 100%;
+    display: inline-block;
+    width: auto;
+    &::first-letter {
+      text-transform: uppercase;
+    }
+  }
+}

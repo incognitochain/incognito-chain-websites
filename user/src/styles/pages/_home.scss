@@ -41,6 +41,7 @@
       min-height: 276px;
     }
     .card-create-a-proposal-container {
+      padding: 20px 33px;
       position: relative;
       background-color: #0A85E7;
       background-size: cover;
@@ -54,6 +55,7 @@
       .c-btn {
         padding: 0 20px;
         margin-right: 20px;
+        margin-bottom: 20px;
       }
     }
   }
@@ -101,6 +103,14 @@
           }
         }
       }
+    }
+  }
+}
+
+.proposal-submit-form {
+  label {
+    &:first-letter {
+      text-transform: uppercase;
     }
   }
 }

@@ -13,9 +13,13 @@ import { API } from '@/constants';
 import cn from '@sindresorhus/class-names';
 import bgImage from '@/assets/create-a-proposal.svg';
 import {
-  Dialog, Textarea, toaster,
+  Dialog, Textarea, toaster, TextInputField,
 } from 'evergreen-ui';
 import { checkAuth } from '@/reducers/auth/action';
+import { Formik } from 'formik';
+import { jsonToKeyValue, jsonToFormat } from '@/services/data';
+import { isEmpty } from 'lodash';
+import toSpace from 'to-space-case';
 
 const CheckInit = ({ children, inited }) => {
   if (!inited) {
@@ -49,9 +53,17 @@ class Home extends React.Component {
       isLoading: false,
       bio: auth.data.Bio,
       oldBio: auth.data.Bio,
+      dcbParams: {},
+      dcbFormat: {},
+      dcbFields: {},
+      govParams: {},
+      govFormat: {},
+      govFields: {},
     };
 
     this.loadUserCandidate();
+    this.loadGovParams();
+    this.loadDcbParams();
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -59,29 +71,6 @@ class Home extends React.Component {
       return { bio: nextProps.auth.data.Bio, oldBio: nextProps.auth.data.Bio };
     }
     return null;
-  }
-
-  apply = (type, ev, denyCall) => {
-    ev.preventDefault();
-    const { address } = this.state;
-
-    if (!denyCall) {
-      axios.post(API.VOTING_APPLY, {
-        PaymentAddress: address,
-        BoardType: type,
-      }).then((res) => {
-        const { data } = res;
-        if (data) {
-          const { Result } = data;
-          if (Result) {
-            this.loadUserCandidate();
-            toaster.success('Apply success!');
-          }
-        }
-      }).catch((e) => {
-        catchError(e);
-      });
-    }
   }
 
   loadUserCandidate = () => {
@@ -94,6 +83,44 @@ class Home extends React.Component {
             candidate: Result || {},
             inited: true,
           });
+        }
+      }
+    }).catch((e) => {
+      catchError(e);
+    });
+  }
+
+  loadGovParams = () => {
+    axios.get(API.VOTING_GOV_PARAMS).then((res) => {
+      const { data } = res;
+      if (data) {
+        const { Result } = data;
+        if (Result) {
+          const { GOVParams } = Result;
+          if (GOVParams) {
+            const govFields = jsonToKeyValue(GOVParams);
+            const govFormat = jsonToFormat(GOVParams);
+            this.setState({ govParams: GOVParams, govFields, govFormat });
+          }
+        }
+      }
+    }).catch((e) => {
+      catchError(e);
+    });
+  }
+
+  loadDcbParams = () => {
+    axios.get(API.VOTING_DCB_PARAMS).then((res) => {
+      const { data } = res;
+      if (data) {
+        const { Result } = data;
+        if (Result) {
+          const { DCBParams } = Result;
+          if (DCBParams) {
+            const dcbFields = jsonToKeyValue(DCBParams);
+            const dcbFormat = jsonToFormat(DCBParams);
+            this.setState({ dcbParams: DCBParams, dcbFields, dcbFormat });
+          }
         }
       }
     }).catch((e) => {
@@ -130,9 +157,44 @@ class Home extends React.Component {
     });
   }
 
+  submitCreateDCB = (values, setSubmitting) => {
+    console.log('values, setSubmitting', values, setSubmitting);
+    const { dcbParams, dcbFields, dcbFormat } = this.state;
+    console.log(dcbParams, dcbFields, dcbFormat);
+  }
+
+  submitCreateGOV = (values, setSubmitting) => {
+    console.log('values, setSubmitting', values, setSubmitting);
+    const { govParams, govFields, govFormat } = this.state;
+    console.log(govParams, govFields, govFormat);
+  }
+
+  apply = (type, ev, denyCall) => {
+    ev.preventDefault();
+    const { address } = this.state;
+
+    if (!denyCall) {
+      axios.post(API.VOTING_APPLY, {
+        PaymentAddress: address,
+        BoardType: type,
+      }).then((res) => {
+        const { data } = res;
+        if (data) {
+          const { Result } = data;
+          if (Result) {
+            this.loadUserCandidate();
+            toaster.success('Apply success!');
+          }
+        }
+      }).catch((e) => {
+        catchError(e);
+      });
+    }
+  }
+
   render() {
     const {
-      candidate, inited, dialogBio, dialogDCBProposal, dialogGOVProposal, isLoading, bio,
+      candidate, inited, dialogBio, dialogDCBProposal, dialogGOVProposal, isLoading, bio, govFields, dcbFields,
     } = this.state;
     const { auth } = this.props;
 
@@ -166,6 +228,236 @@ class Home extends React.Component {
             </div>
           </div>
         </Dialog>
+        <Dialog
+          isShown={dialogDCBProposal}
+          shouldCloseOnOverlayClick={false}
+          shouldCloseOnEscapePress={false}
+          title="Create a DCB Proposal"
+          confirmLabel="Submit"
+          isConfirmLoading={isLoading}
+          onCloseComplete={() => this.setState({
+            dialogDCBProposal: false, isLoading: false,
+          })}
+          onConfirm={() => { this.setState({ isLoading: true }); this.submitCreateDCB(); }}
+        >
+          <Formik
+            initialValues={{
+              Name: '',
+              ...dcbFields,
+              ExecuteDuration: 0,
+              Explanation: '',
+            }}
+            validate={(values) => {
+              const errors = {};
+              Object.keys(dcbFields).map((key) => {
+                if (values[key] === '' || values[key] === null || values[key] === undefined) errors[key] = 'Required';
+                return null;
+              });
+              if (!isEmpty(errors)) this.setState({ isLoading: false });
+              return errors;
+            }}
+            ref={(node) => { this.govForm = node; return null; }}
+            validateOnBlur={false}
+            validateOnChange={false}
+            onSubmit={(values, { setSubmitting }) => {
+              setTimeout(() => {
+                this.submitCreateGOV(values, setSubmitting);
+              }, 400);
+            }}
+          >
+            {
+              ({
+                values,
+                errors,
+                touched,
+                handleSubmit,
+                setFieldValue,
+              }) => (
+                <form onSubmit={handleSubmit} className="proposal-submit-form">
+                  <div>
+                    <TextInputField
+                      label="Name"
+                      name="Name"
+                      placeholder=""
+                      value={values.Name}
+                      onChange={(e) => {
+                        setFieldValue('Name', e.target.value);
+                      }}
+                    />
+                    {errors.Name && touched.Name && <span className="c-error">{errors.Name}</span>}
+                  </div>
+                  {Object.keys(dcbFields).map((field) => {
+                    if (field.startsWith('Array.')) {
+                      return (
+                        <fieldset>
+                          <legend>
+                            {toSpace(field.replace('Array.', '').replace('.', '')).autoLabel()}
+                          </legend>
+                          {Object.keys(dcbFields[field]).map(f => (
+                            <div key={f}>
+                              <TextInputField
+                                label={toSpace(f.replace('Array.', '').replace('.', '')).autoLabel()}
+                                name={f}
+                                placeholder=""
+                                value={values[f]}
+                                onChange={(e) => {
+                                  setFieldValue(f, e.target.value);
+                                }}
+                                validationMessage={(errors[f] && touched[f] && errors[f]) || null}
+                              />
+                            </div>
+                          ))}
+                        </fieldset>
+                      );
+                    }
+                    return (
+                      <div key={field}>
+                        <TextInputField
+                          label={toSpace(field.replace('Array.', '').replace('.', '')).autoLabel()}
+                          name={field}
+                          placeholder=""
+                          value={values[field]}
+                          onChange={(e) => {
+                            setFieldValue(field, e.target.value);
+                          }}
+                          validationMessage={(errors[field] && touched[field] && errors[field]) || null}
+                        />
+                      </div>
+                    );
+                  })}
+                  <div>
+                    <TextInputField
+                      label="Execute duration"
+                      name="ExecuteDuration"
+                      placeholder=""
+                      value={values.ExecuteDuration}
+                      onChange={(e) => {
+                        setFieldValue('ExecuteDuration', e.target.value);
+                      }}
+                    />
+                    {errors.ExecuteDuration && touched.ExecuteDuration && <span className="c-error">{errors.ExecuteDuration}</span>}
+                  </div>
+                  <div>
+                    <TextInputField
+                      label="Explanation"
+                      name="Explanation"
+                      placeholder=""
+                      value={values.Explanation}
+                      onChange={(e) => {
+                        setFieldValue('Explanation', e.target.value);
+                      }}
+                    />
+                    {errors.Explanation && touched.Explanation && <span className="c-error">{errors.Explanation}</span>}
+                  </div>
+                </form>
+              )
+            }
+          </Formik>
+        </Dialog>
+        <Dialog
+          isShown={dialogGOVProposal}
+          shouldCloseOnOverlayClick={false}
+          shouldCloseOnEscapePress={false}
+          title="Create a GOV Proposal"
+          confirmLabel="Submit"
+          isConfirmLoading={isLoading}
+          onCloseComplete={() => this.setState({
+            dialogGOVProposal: false, isLoading: false,
+          })}
+          onConfirm={() => {
+            this.setState({ isLoading: true });
+            this.govForm.submitForm();
+          }}
+        >
+          <Formik
+            initialValues={{
+              Name: '',
+              ...govFields,
+              ExecuteDuration: 0,
+              Explanation: '',
+            }}
+            validate={(values) => {
+              const errors = {};
+              Object.keys(govFields).map((key) => {
+                if (values[key] === '' || values[key] === null || values[key] === undefined) errors[key] = 'Required';
+                return null;
+              });
+              if (!isEmpty(errors)) this.setState({ isLoading: false });
+              return errors;
+            }}
+            ref={(node) => { this.govForm = node; return null; }}
+            validateOnBlur={false}
+            validateOnChange={false}
+            onSubmit={(values, { setSubmitting }) => {
+              setTimeout(() => {
+                this.submitCreateGOV(values, setSubmitting);
+              }, 400);
+            }}
+          >
+            {
+              ({
+                values,
+                errors,
+                touched,
+                handleSubmit,
+                setFieldValue,
+              }) => (
+                <form onSubmit={handleSubmit} className="proposal-submit-form">
+                  <div>
+                    <TextInputField
+                      label="Name"
+                      name="Name"
+                      placeholder=""
+                      value={values.Name}
+                      onChange={(e) => {
+                        setFieldValue('Name', e.target.value);
+                      }}
+                    />
+                    {errors.Name && touched.Name && <span className="c-error">{errors.Name}</span>}
+                  </div>
+                  {Object.keys(govFields).map(field => (
+                    <div key={field}>
+                      <TextInputField
+                        label={toSpace(field.replace('.', '')).replace('g o v', 'GOV').replace('d c b', 'DCB')}
+                        name={field}
+                        placeholder=""
+                        value={values[field]}
+                        onChange={(e) => {
+                          setFieldValue(field, e.target.value);
+                        }}
+                        validationMessage={(errors[field] && touched[field] && errors[field]) || null}
+                      />
+                    </div>
+                  ))}
+                  <div>
+                    <TextInputField
+                      label="Execute duration"
+                      name="ExecuteDuration"
+                      placeholder=""
+                      value={values.ExecuteDuration}
+                      onChange={(e) => {
+                        setFieldValue('ExecuteDuration', e.target.value);
+                      }}
+                    />
+                    {errors.ExecuteDuration && touched.ExecuteDuration && <span className="c-error">{errors.ExecuteDuration}</span>}
+                  </div>
+                  <div>
+                    <TextInputField
+                      label="Explanation"
+                      name="Explanation"
+                      placeholder=""
+                      value={values.Explanation}
+                      onChange={(e) => {
+                        setFieldValue('Explanation', e.target.value);
+                      }}
+                    />
+                    {errors.Explanation && touched.Explanation && <span className="c-error">{errors.Explanation}</span>}
+                  </div>
+                </form>
+              )
+            }
+          </Formik>
+        </Dialog>
         <div className="coin-information">
           <div className="container">
             <div className="row">
@@ -185,14 +477,14 @@ class Home extends React.Component {
                     <br />
                     <i>Create new one.</i>
                   </p>
-                  <Link to="/" className="c-btn c-bg-green">
-                    {'DCB '}
+                  <button className="c-btn c-bg-green" type="button" onClick={() => { this.setState({ dialogDCBProposal: true }); }}>
+                    {'DCB Proposal '}
                     <FontAwesomeIcon icon={faAngleRight} />
-                  </Link>
-                  <Link to="/" className="c-btn c-bg-green">
-                    {'GOV '}
+                  </button>
+                  <button className="c-btn c-bg-green" type="button" onClick={() => { this.setState({ dialogGOVProposal: true }); }}>
+                    {'GOV Proposal '}
                     <FontAwesomeIcon icon={faAngleRight} />
-                  </Link>
+                  </button>
                 </div>
               </div>
             </div>

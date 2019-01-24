@@ -22,6 +22,8 @@ const API = {
   VOTING_APPLY: 'voting/candidate',
   VOTING_LIST: 'voting/candidates',
   VOTING_VOTE: 'voting/candidate/vote',
+  VOTING_DCB_PARAMS: 'voting/dcbparams',
+  VOTING_GOV_PARAMS: 'voting/govparams',
   PROPOSAL_LIST: 'voting/proposals',
   PROPOSAL_VOTE: 'voting/proposal/vote',
   USER_UPDATE: 'auth/update',
