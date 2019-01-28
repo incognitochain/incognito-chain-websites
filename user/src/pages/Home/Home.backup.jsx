@@ -4,9 +4,7 @@ import { connect } from 'react-redux';
 import Link from '@/components/Link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
-import {
-  faArrowRight, faEdit, faPlus, faMinus,
-} from '@fortawesome/pro-regular-svg-icons';
+import { faArrowRight, faEdit, faPlus } from '@fortawesome/pro-regular-svg-icons';
 import bgApplyGOV from '@/assets/apply-gov.svg';
 import bgApplyDCB from '@/assets/apply-dcb.svg';
 import bgApplyMCB from '@/assets/apply-mcb.svg';
@@ -18,7 +16,7 @@ import {
   Dialog, Textarea, toaster, TextInputField,
 } from 'evergreen-ui';
 import { checkAuth } from '@/reducers/auth/action';
-import { Formik, FieldArray } from 'formik';
+import { Formik } from 'formik';
 import { jsonToKeyValue, jsonToFormat } from '@/services/data';
 import { isEmpty } from 'lodash';
 import toSpace from 'to-space-case';
@@ -198,17 +196,16 @@ class Home extends React.Component {
 
   render() {
     const {
-      inited,
-      isLoading,
-      dialogBio,
-      dialogDCBProposal,
-      // dialogGOVProposal,
-      bio,
-      candidate,
+      candidate, inited, dialogBio, dialogDCBProposal, dialogGOVProposal, isLoading, bio, govFields, dcbFields,
+      dcbFormat,
       dcbParams,
-      // govParams,
+      govParams,
     } = this.state;
     const { auth } = this.props;
+
+    console.log('dcbFields|', JSON.stringify(dcbFields));
+    console.log(JSON.stringify(dcbFormat));
+
     return (
       <div className="page user-page home-page">
         <Dialog
@@ -247,15 +244,9 @@ class Home extends React.Component {
           confirmLabel="Submit"
           isConfirmLoading={isLoading}
           onCloseComplete={() => this.setState({
-            dialogDCBProposal: false,
-            isLoading: false,
+            dialogDCBProposal: false, isLoading: false,
           })}
-          onConfirm={() => {
-            this.setState({
-              isLoading: true,
-            });
-            this.submitCreateDCB();
-          }}
+          onConfirm={() => { this.setState({ isLoading: true }); this.submitCreateDCB(); }}
         >
           <Formik
             initialValues={{
@@ -269,10 +260,7 @@ class Home extends React.Component {
               console.log(values);
               return errors;
             }}
-            ref={(node) => {
-              this.govForm = node;
-              return null;
-            }}
+            ref={(node) => { this.govForm = node; return null; }}
             validateOnBlur={false}
             validateOnChange={false}
             onSubmit={(values, { setSubmitting }) => {
@@ -302,235 +290,202 @@ class Home extends React.Component {
                     />
                     {errors.Name && touched.Name && <span className="c-error">{errors.Name}</span>}
                   </div>
-                  {'List sale'}
-                  <FieldArray
-                    name="dcbParams.ListSaleData"
-                    render={arrayHelpers => (
-                      <div>
-                        {values.dcbParams.ListSaleData.map((sale, index) => (
-                          <fieldset key={index}>
-                            <legend>Sale</legend>
-                            <div className="row">
-                              <div className="col-12">
-                                <TextInputField
-                                  label="SaleID"
-                                  name={`dcbParams.ListSaleData.${index}.SaleID`}
-                                  placeholder=""
-                                  value={values.dcbParams.ListSaleData[index]?.SaleID}
-                                  onChange={(e) => {
-                                    setFieldValue(`dcbParams.ListSaleData.${index}.SaleID`, e.target.value);
-                                  }}
-                                />
-                                {
-                                  errors.dcbParams?.ListSaleData[index]?.SaleID && touched.dcbParams?.ListSaleData[index]?.SaleID && (
-                                    <span className="c-error">
-                                      {errors.dcbParams?.ListSaleData[index]?.SaleID}
-                                    </span>
-                                  )
-                                }
-                                <TextInputField
-                                  label="End block"
-                                  name={`dcbParams.ListSaleData.${index}.EndBlock`}
-                                  placeholder=""
-                                  value={values.dcbParams.ListSaleData[index]?.EndBlock}
-                                  onChange={(e) => {
-                                    setFieldValue(`dcbParams.ListSaleData.${index}.EndBlock`, e.target.value);
-                                  }}
-                                />
-                                {
-                                  errors.dcbParams?.ListSaleData[index]?.EndBlock && touched.dcbParams?.ListSaleData[index]?.EndBlock && (
-                                    <span className="c-error">
-                                      {errors.dcbParams?.ListSaleData[index]?.EndBlock}
-                                    </span>
-                                  )
-                                }
-                                <TextInputField
-                                  label="Buying asset"
-                                  name={`dcbParams.ListSaleData.${index}.BuyingAsset`}
-                                  placeholder=""
-                                  value={values.dcbParams.ListSaleData[index]?.BuyingAsset}
-                                  onChange={(e) => {
-                                    setFieldValue(`dcbParams.ListSaleData.${index}.BuyingAsset`, e.target.value);
-                                  }}
-                                />
-                                {
-                                      errors.dcbParams?.ListSaleData[index]?.BuyingAsset && touched.dcbParams?.ListSaleData[index]?.BuyingAsset && (
-                                        <span className="c-error">
-                                          {errors.dcbParams?.ListSaleData[index]?.BuyingAsset}
-                                        </span>
-                                      )
-                                    }
-                                <TextInputField
-                                  label="Buying amount"
-                                  name={`dcbParams.ListSaleData.${index}.BuyingAmount`}
-                                  placeholder=""
-                                  value={values.dcbParams.ListSaleData[index]?.BuyingAmount}
-                                  onChange={(e) => {
-                                    setFieldValue(`dcbParams.ListSaleData.${index}.BuyingAmount`, e.target.value);
-                                  }}
-                                />
-                                {
-                                  errors.dcbParams?.ListSaleData[index]?.BuyingAmount && touched.dcbParams?.ListSaleData[index]?.BuyingAmount && (
-                                    <span className="c-error">
-                                      {errors.dcbParams?.ListSaleData[index]?.BuyingAmount}
-                                    </span>
-                                  )
-                                }
-                                <TextInputField
-                                  label="Selling asset"
-                                  name={`dcbParams.ListSaleData.${index}.SellingAsset`}
-                                  placeholder=""
-                                  value={values.dcbParams.ListSaleData[index]?.SellingAsset}
-                                  onChange={(e) => {
-                                    setFieldValue(`dcbParams.ListSaleData.${index}.SellingAsset`, e.target.value);
-                                  }}
-                                />
-                                {
-                                  errors.dcbParams?.ListSaleData[index]?.SellingAsset && touched.dcbParams?.ListSaleData[index]?.SellingAsset && (
-                                    <span className="c-error">
-                                      {errors.dcbParams?.ListSaleData[index]?.SellingAsset}
-                                    </span>
-                                  )
-                                }
-                                <TextInputField
-                                  label="Selling amount"
-                                  name={`dcbParams.ListSaleData.${index}.SellingAmount`}
-                                  placeholder=""
-                                  value={values.dcbParams.ListSaleData[index]?.SellingAmount}
-                                  onChange={(e) => {
-                                    setFieldValue(`dcbParams.ListSaleData.${index}.SellingAmount`, e.target.value);
-                                  }}
-                                />
-                                {
-                                  errors.dcbParams?.ListSaleData[index]?.SellingAmount && touched.dcbParams?.ListSaleData[index]?.SellingAmount && (
-                                    <span className="c-error">
-                                      {errors.dcbParams?.ListSaleData[index]?.SellingAmount}
-                                    </span>
-                                  )
-                                }
-                              </div>
-                            </div>
-                            <FontAwesomeIcon
-                              style={{ cursor: 'pointer' }}
-                              icon={faPlus}
-                              onClick={() => {
-                                arrayHelpers.push(dcbParams.ListSaleData[0]);
-                              }}
-                            />
-                            {index > 0 ? (
-                              <FontAwesomeIcon
-                                style={{ cursor: 'pointer', marginLeft: 5 }}
-                                icon={faMinus}
-                                onClick={() => {
-                                  arrayHelpers.remove(index);
+                  {Object.keys(dcbFields).map((field) => {
+                    if (field.startsWith('Array.')) {
+                      return (
+                        <fieldset key={field}>
+                          <legend>
+                            {toSpace(field.replace('Array.', '').replace('.', '')).autoLabel()}
+                          </legend>
+                          {Object.keys(dcbFields[field]).map(f => (
+
+                            <div key={f}>
+                              <TextInputField
+                                label={toSpace(f.replace('Array.', '').replace('.', '')).autoLabel()}
+                                name={f}
+                                placeholder=""
+                                value={values[field][f]}
+                                onChange={(e) => {
+                                  setFieldValue([field][f], e.target.value);
                                 }}
+                                validationMessage={(errors[f] && touched[f] && errors[f]) || null}
                               />
-                            ) : ''}
-                          </fieldset>
-                        ))}
+                            </div>
+
+                          ))}
+                          <FontAwesomeIcon style={{ cursor: 'pointer' }} icon={faPlus} onClick={() => {}} />
+                        </fieldset>
+                      );
+                    }
+                    return (
+                      <div key={field}>
+                        <TextInputField
+                          label={toSpace(field.replace('Array.', '').replace('.', '')).autoLabel()}
+                          name={field}
+                          placeholder=""
+                          value={values[field]}
+                          onChange={(e) => {
+                            setFieldValue(field, e.target.value);
+                          }}
+                          validationMessage={(errors[field] && touched[field] && errors[field]) || null}
+                        />
                       </div>
-                    )}
-                  />
-                  <div className="row">
-                    <div className="col-6">
-                      <TextInputField
-                        label="Min Loan response require"
-                        name="dcbParams.MinLoanResponseRequire"
-                        placeholder=""
-                        value={values.dcbParams.MinLoanResponseRequire}
-                        onChange={(e) => {
-                          setFieldValue('dcbParams.MinLoanResponseRequire', e.target.value);
-                        }}
-                      />
-                      {
-                        errors.dcbParams?.MinLoanResponseRequire && touched.dcbParams?.MinLoanResponseRequire && (
-                          <span className="c-error">
-                            {errors.dcbParams?.MinLoanResponseRequire}
-                          </span>
-                        )
-                      }
-                    </div>
-                    <div className="col-6">
-                      <TextInputField
-                        label="Min CMB approval require"
-                        name="dcbParams.MinCMBApprovalRequire"
-                        placeholder=""
-                        value={values.dcbParams.MinCMBApprovalRequire}
-                        onChange={(e) => {
-                          setFieldValue('dcbParams.MinCMBApprovalRequire', e.target.value);
-                        }}
-                      />
-                      {
-                        errors.dcbParams?.MinCMBApprovalRequire && touched.dcbParams?.MinCMBApprovalRequire && (
-                          <span className="c-error">
-                            {errors.dcbParams?.MinCMBApprovalRequire}
-                          </span>
-                        )
-                      }
-                    </div>
-                    <div className="col-6">
-                      <TextInputField
-                        label="Late withdraw response fine"
-                        name="dcbParams.LateWithdrawResponseFine"
-                        placeholder=""
-                        value={values.dcbParams.LateWithdrawResponseFine}
-                        onChange={(e) => {
-                          setFieldValue('dcbParams.LateWithdrawResponseFine', e.target.value);
-                        }}
-                      />
-                      {
-                        errors.dcbParams?.LateWithdrawResponseFine && touched.dcbParams?.LateWithdrawResponseFine && (
-                          <span className="c-error">
-                            {errors.dcbParams?.LateWithdrawResponseFine}
-                          </span>
-                        )
-                      }
-                    </div>
-                    <div className="col-12">
-                      <fieldset>
-                        <legend>Sale DCB tokens by USD</legend>
-                        <div className="row">
-                          <div className="col-6">
-                            <TextInputField
-                              label="Amount"
-                              name="dcbParams.SaleDCBTokensByUSDData.Amount"
-                              placeholder=""
-                              value={values.dcbParams?.SaleDCBTokensByUSDData?.Amount}
-                              onChange={(e) => {
-                                setFieldValue('dcbParams.SaleDCBTokensByUSDData.Amount', e.target.value);
-                              }}
-                            />
-                            {
-                              errors.dcbParams?.SaleDCBTokensByUSDData?.Amount && touched.dcbParams?.SaleDCBTokensByUSDData?.Amount && (
-                                <span className="c-error">
-                                  {errors.dcbParams?.SaleDCBTokensByUSDData?.Amount}
-                                </span>
-                              )
-                            }
-                          </div>
-                          <div className="col-6">
-                            <TextInputField
-                              label="End block"
-                              name="dcbParams.SaleDCBTokensByUSDData.EndBlock"
-                              placeholder=""
-                              value={values.dcbParams.SaleDCBTokensByUSDData?.EndBlock}
-                              onChange={(e) => {
-                                setFieldValue('dcbParams.SaleDCBTokensByUSDData.EndBlock', e.target.value);
-                              }}
-                            />
-                            {
-                              errors.dcbParams?.SaleDCBTokensByUSDData?.EndBlock && touched.dcbParams?.SaleDCBTokensByUSDData?.EndBlock && (
-                                <span className="c-error">
-                                  {errors.dcbParams?.SaleDCBTokensByUSDData?.EndBlock}
-                                </span>
-                              )
-                            }
-                          </div>
-                        </div>
-                      </fieldset>
-                    </div>
+                    );
+                  })}
+                  <div>
+                    <TextInputField
+                      label="Execute duration"
+                      name="ExecuteDuration"
+                      placeholder=""
+                      value={values.ExecuteDuration}
+                      onChange={(e) => {
+                        setFieldValue('ExecuteDuration', e.target.value);
+                      }}
+                    />
+                    {errors.ExecuteDuration && touched.ExecuteDuration && <span className="c-error">{errors.ExecuteDuration}</span>}
                   </div>
-                  {/* ListLoanParams */}
+                  <div>
+                    <TextInputField
+                      label="Explanation"
+                      name="Explanation"
+                      placeholder=""
+                      value={values.Explanation}
+                      onChange={(e) => {
+                        setFieldValue('Explanation', e.target.value);
+                      }}
+                    />
+                    {errors.Explanation && touched.Explanation && <span className="c-error">{errors.Explanation}</span>}
+                  </div>
+                </form>
+              )
+            }
+          </Formik>
+        </Dialog>
+        <Dialog
+          isShown={dialogGOVProposal}
+          shouldCloseOnOverlayClick={false}
+          shouldCloseOnEscapePress={false}
+          title="Create a GOV Proposal"
+          confirmLabel="Submit"
+          isConfirmLoading={isLoading}
+          onCloseComplete={() => this.setState({
+            dialogGOVProposal: false, isLoading: false,
+          })}
+          onConfirm={() => { this.setState({ isLoading: true }); this.submitCreateGOV(); }}
+        >
+          <Formik
+            initialValues={{
+              Name: '',
+              ...govFields,
+              ExecuteDuration: 0,
+              Explanation: '',
+            }}
+            validate={(values) => {
+              const errors = {};
+              Object.keys(govFields).map((key) => {
+                if (key.startsWith('Array.')) {
+                  Object.keys(govFields[key]).map((k) => {
+                    if (values[key][k] === '' || values[key][k] === null || values[key][k] === undefined) errors[key][k] = 'Required';
+                    return null;
+                  });
+                } else if (key.startsWith('ArrayOne.')) {
+                  return null;
+                } else if (values[key] === '' || values[key] === null || values[key] === undefined) errors[key] = 'Required';
+                return null;
+              });
+              if (!isEmpty(errors)) this.setState({ isLoading: false });
+              return errors;
+            }}
+            ref={(node) => { this.dcbForm = node; return null; }}
+            validateOnBlur={false}
+            validateOnChange={false}
+            onSubmit={(values, { setSubmitting }) => {
+              setTimeout(() => {
+                this.submitCreateGOV(values, setSubmitting);
+              }, 400);
+            }}
+          >
+            {
+              ({
+                values,
+                errors,
+                touched,
+                handleSubmit,
+                setFieldValue,
+              }) => (
+                <form onSubmit={handleSubmit} className="proposal-submit-form">
+                  <div>
+                    <TextInputField
+                      label="Name"
+                      name="Name"
+                      placeholder=""
+                      value={values.Name}
+                      onChange={(e) => {
+                        setFieldValue('Name', e.target.value);
+                      }}
+                    />
+                    {errors.Name && touched.Name && <span className="c-error">{errors.Name}</span>}
+                  </div>
+                  {Object.keys(govFields).map((field) => {
+                    if (field.startsWith('Array.')) {
+                      return (
+                        <fieldset key={field}>
+                          {/* {JSON.stringify(values)} */}
+                          <legend>
+                            {toSpace(field.replace('Array.', '').replace('.', '')).autoLabel()}
+                          </legend>
+                          {Object.keys(govFields[field]).map(f => (
+                            <div key={f}>
+                              <TextInputField
+                                label={toSpace(f.replace('Array.', '').replace('.', '')).autoLabel()}
+                                name={f}
+                                placeholder=""
+                                value={values[field][f]}
+                                onChange={(e) => {
+                                  setFieldValue(f, e.target.value);
+                                }}
+                                validationMessage={(errors[f] && touched[f] && errors[f]) || null}
+                              />
+                            </div>
+                          ))}
+                        </fieldset>
+                      );
+                    }
+                    if (field.startsWith('ArrayOne.')) {
+                      return (
+                        <fieldset>
+                          <legend>
+                            {toSpace(field.replace('ArrayOne.', '').replace('.', '')).autoLabel()}
+                          </legend>
+                          <TextInputField
+                            label=""
+                            name={field}
+                            placeholder=""
+                            value={values[field]}
+                            onChange={(e) => {
+                              setFieldValue(field, e.target.value);
+                            }}
+                            validationMessage={(errors[field] && touched[field] && errors[field]) || null}
+                          />
+                          <FontAwesomeIcon style={{ cursor: 'pointer' }} icon={faPlus} onClick={() => {}} />
+                        </fieldset>
+                      );
+                    }
+                    return (
+                      <div key={field}>
+                        <TextInputField
+                          label={toSpace(field.replace('Array.', '').replace('.', '')).autoLabel()}
+                          name={field}
+                          placeholder=""
+                          value={values[field]}
+                          onChange={(e) => {
+                            setFieldValue(field, e.target.value);
+                          }}
+                          validationMessage={(errors[field] && touched[field] && errors[field]) || null}
+                        />
+                      </div>
+                    );
+                  })}
                   <div>
                     <TextInputField
                       label="Execute duration"

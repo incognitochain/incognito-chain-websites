@@ -12,7 +12,7 @@ export const jsonToKeyValue = (json, parentKey = '') => {
       } else {
         result = {
           ...result,
-          [`Array.${parentKey ? `${parentKey}.` : ''}${key}`]: '',
+          [`ArrayOne.${parentKey ? `${parentKey}.` : ''}${key}`]: '',
         };
       }
     } else if (typeof value === 'object' && value !== null) {
