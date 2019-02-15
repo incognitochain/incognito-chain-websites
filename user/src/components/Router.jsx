@@ -1,21 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { createDynamicImport } from '@/services/app';
+import { createDynamicImport } from 'services/app';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import Loading from '@/components/Loading';
-import Layout from '@/components/App/Layout';
-import { checkAuth, logout } from '@/reducers/auth/action';
+import Loading from 'components/Loading';
+import Layout from 'components/App/Layout';
+import { checkAuth, logout } from 'reducers/auth/action';
 import { connect } from 'react-redux';
 
-const Home = createDynamicImport(() => import('@/pages/Home/Home'), Loading);
-const Register = createDynamicImport(() => import('@/pages/Auth/Register'), Loading);
-const Login = createDynamicImport(() => import('@/pages/Auth/Login'), Loading);
-const ResetPassword = createDynamicImport(() => import('@/pages/Auth/ResetPassword'), Loading);
-const ForgotPassword = createDynamicImport(() => import('@/pages/Auth/ForgotPassword'), Loading);
-const Wallet = createDynamicImport(() => import('@/pages/Wallet/Wallet'), Loading);
-const Voting = createDynamicImport(() => import('@/pages/Voting/Voting'), Loading);
-const Proposals = createDynamicImport(() => import('@/pages/Voting/Proposals'), Loading);
-const NotFound = createDynamicImport(() => import('@/pages/NotFound'), Loading);
+const Home = createDynamicImport(() => import('pages/Home/Home'), Loading);
+const Register = createDynamicImport(() => import('pages/Auth/Register'), Loading);
+const Login = createDynamicImport(() => import('pages/Auth/Login'), Loading);
+const ResetPassword = createDynamicImport(() => import('pages/Auth/ResetPassword'), Loading);
+const ForgotPassword = createDynamicImport(() => import('pages/Auth/ForgotPassword'), Loading);
+const Wallet = createDynamicImport(() => import('pages/Wallet/Wallet'), Loading);
+const Voting = createDynamicImport(() => import('pages/Voting/Voting'), Loading);
+const Proposals = createDynamicImport(() => import('pages/Voting/Proposals'), Loading);
+const NotFound = createDynamicImport(() => import('pages/NotFound'), Loading);
 
 const routers = [
   {

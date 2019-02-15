@@ -1,4 +1,4 @@
-import { ACTIONS } from '@/reducers/metamask/action';
+import { ACTIONS } from 'reducers/metamask/action';
 import { isEmpty } from 'lodash';
 
 export default (state = {

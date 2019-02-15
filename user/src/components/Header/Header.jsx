@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Link from '@/components/Link';
-import Logo from '@/assets/logo.svg';
+import Link from 'components/Link';
+import Logo from 'assets/logo.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faUserCircle } from '@fortawesome/free-solid-svg-icons';
 import { faBars, faTimes } from '@fortawesome/pro-light-svg-icons';

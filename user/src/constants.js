@@ -1,14 +1,17 @@
-const isProduction =
-  process.env.MODE !== "dev" && process.env.NODE_ENV === "production";
+const BASE = process.env.REACT_APP_SERVICE_API;
 
-const BASE = process.env.serviceAPI;
-
-if (isProduction) {
-  console.log("production");
+function addBaseToUrls(urls) {
+  return Object.entries(urls).reduce(
+    (acc, [name, url]) => ({
+      ...acc,
+      [name]: `${BASE}/${url}`
+    }),
+    {}
+  );
 }
 
 // NOTE: BELOW IS UNNECESSARY
-const API = {
+export const API = addBaseToUrls({
   STATS: "portal/borrows_stats",
   STATS_ALL: "portal/borrows_all_stats",
   LOAN_PARAMS: "common/loanparams",
@@ -29,15 +32,8 @@ const API = {
   PROPOSAL_LIST: "voting/proposals",
   PROPOSAL_VOTE: "voting/proposal/vote",
   USER_UPDATE: "auth/update"
-};
-
-const BLOCKCHAIN = {
-  BLOCK_IN_SECOND: 600
-};
-
-Object.keys(API).map(api => {
-  API[api] = `${BASE}/${API[api]}`;
-  return null;
 });
 
-module.exports = { API, BLOCKCHAIN };
+export const BLOCKCHAIN = {
+  BLOCK_IN_SECOND: 600
+};

@@ -1,9 +1,8 @@
-import React from 'react';
-import { hot } from 'react-hot-loader';
-import { Provider } from 'react-redux';
-import store from '@/store';
-import Root from '@/components/App/Root';
-import '@/styles/main.scss';
+import React from "react";
+import { Provider } from "react-redux";
+import store from "store";
+import Root from "components/App/Root";
+import "styles/main.scss";
 
 class App extends React.Component {
   constructor(props) {
@@ -20,4 +19,4 @@ class App extends React.Component {
   }
 }
 
-export default hot(module)(App);
+export default App;

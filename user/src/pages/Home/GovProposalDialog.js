@@ -35,42 +35,10 @@ export default function GovProposalDialog({
           ExecuteDuration: 0,
           Explanation: ""
         }}
-        // validate={values => {
-        //   const errors = {};
-        //   Object.keys(govFields).map(key => {
-        //     if (key.startsWith("Array.")) {
-        //       Object.keys(govFields[key]).map(k => {
-        //         if (
-        //           values[key][k] === "" ||
-        //           values[key][k] === null ||
-        //           values[key][k] === undefined
-        //         )
-        //           errors[key][k] = "Required";
-        //         return null;
-        //       });
-        //     } else if (key.startsWith("ArrayOne.")) {
-        //       return null;
-        //     } else if (
-        //       values[key] === "" ||
-        //       values[key] === null ||
-        //       values[key] === undefined
-        //     )
-        //       errors[key] = "Required";
-        //     return null;
-        //   });
-        //   if (!isEmpty(errors)) this.setState({ isLoading: false });
-        //   return errors;
-        // }}
-        // ref={node => {
-        //   this.dcbForm = node;
-        //   return null;
-        // }}
         validateOnBlur={false}
         validateOnChange={false}
         onSubmit={(values, { setSubmitting }) => {
-          // setTimeout(() => {
           submitCreateGOV(values, setSubmitting);
-          // }, 400);
         }}
       >
         {({ values, errors, touched, handleSubmit, setFieldValue }) => (
@@ -85,9 +53,6 @@ export default function GovProposalDialog({
                   setFieldValue("Name", e.target.value);
                 }}
               />
-              {errors.Name && touched.Name && (
-                <span className="c-error">{errors.Name}</span>
-              )}
             </div>
 
             {/* ------- */}
@@ -123,9 +88,7 @@ export default function GovProposalDialog({
                     label="Acceptable Error Magin"
                     name="govParams.OracleNetwork.AcceptableErrorMargin"
                     placeholder=""
-                    value={
-                      values.govParams?.OracleNetwork?.AcceptableErrorMargin
-                    }
+                    value={values.govParams.OracleNetwork.AcceptableErrorMargin}
                     onChange={e => {
                       setFieldValue(
                         "govParams.OracleNetwork.AcceptableErrorMargin",
@@ -181,7 +144,7 @@ export default function GovProposalDialog({
                     name="govParams.OracleNetwork.WrongTimesAllowed"
                     placeholder="0"
                     value={
-                      values.govParams?.OracleNetwork?.WrongTimesAllowed || ""
+                      values.govParams.OracleNetwork.WrongTimesAllowed || ""
                     }
                     onChange={e => {
                       setFieldValue(
@@ -197,7 +160,7 @@ export default function GovProposalDialog({
                     label="Quorum"
                     name="govParams.OracleNetwork.Quorum"
                     placeholder="0"
-                    value={values.govParams?.OracleNetwork?.Quorum || ""}
+                    value={values.govParams.OracleNetwork.Quorum || ""}
                     onChange={e => {
                       setFieldValue(
                         "govParams.OracleNetwork.Quorum",
@@ -212,9 +175,7 @@ export default function GovProposalDialog({
                     label="Update Frequency"
                     name="govParams.OracleNetwork.UpdateFrequency"
                     placeholder="0"
-                    value={
-                      values.govParams?.OracleNetwork?.UpdateFrequency || ""
-                    }
+                    value={values.govParams.OracleNetwork.UpdateFrequency || ""}
                     onChange={e => {
                       setFieldValue(
                         "govParams.OracleNetwork.UpdateFrequency",
@@ -229,7 +190,7 @@ export default function GovProposalDialog({
                     name="govParams.OracleNetwork.OracleRewardMultiplier"
                     placeholder="0"
                     value={
-                      values.govParams?.OracleNetwork?.OracleRewardMultiplier ||
+                      values.govParams.OracleNetwork.OracleRewardMultiplier ||
                       ""
                     }
                     onChange={e => {
@@ -251,9 +212,7 @@ export default function GovProposalDialog({
                     label="Threshold To Large Tx"
                     name="govParams.RefundInfo.ThresholdToLargeTx"
                     placeholder="0"
-                    value={
-                      values.govParams?.RefundInfo?.ThresholdToLargeTx || ""
-                    }
+                    value={values.govParams.RefundInfo.ThresholdToLargeTx || ""}
                     onChange={e => {
                       setFieldValue(
                         "govParams.RefundInfo.ThresholdToLargeTx",
@@ -267,7 +226,7 @@ export default function GovProposalDialog({
                     label="Refund Amount"
                     name="govParams.RefundInfo.RefundAmount"
                     placeholder="0"
-                    value={values.govParams?.RefundInfo?.RefundAmount || ""}
+                    value={values.govParams.RefundInfo.RefundAmount || ""}
                     onChange={e => {
                       setFieldValue(
                         "govParams.RefundInfo.RefundAmount",
@@ -299,7 +258,7 @@ export default function GovProposalDialog({
                     label="Bond Name"
                     name="govParams.SellingBonds.BondName"
                     placeholder=""
-                    value={values.govParams?.SellingBonds?.BondName}
+                    value={values.govParams.SellingBonds.BondName}
                     onChange={e => {
                       setFieldValue(
                         "govParams.SellingBonds.BondName",
@@ -313,7 +272,7 @@ export default function GovProposalDialog({
                     label="Bond Symbol"
                     name="govParams.SellingBonds.BondSymbol"
                     placeholder=""
-                    value={values.govParams?.SellingBonds?.BondSymbol || ""}
+                    value={values.govParams.SellingBonds.BondSymbol || ""}
                     onChange={e => {
                       setFieldValue(
                         "govParams.SellingBonds.BondSymbol",
@@ -327,7 +286,7 @@ export default function GovProposalDialog({
                     label="Total Issue"
                     name="govParams.SellingBonds.TotalIssue"
                     placeholder="0"
-                    value={values.govParams?.SellingBonds?.TotalIssue || ""}
+                    value={values.govParams.SellingBonds.TotalIssue || ""}
                     onChange={e => {
                       setFieldValue(
                         "govParams.SellingBonds.TotalIssue",
@@ -341,7 +300,7 @@ export default function GovProposalDialog({
                     label="Bonds To Sell"
                     name="govParams.SellingBonds.BondsToSell"
                     placeholder="0"
-                    value={values.govParams?.SellingBonds?.BondsToSell || ""}
+                    value={values.govParams.SellingBonds.BondsToSell || ""}
                     onChange={e => {
                       setFieldValue(
                         "govParams.SellingBonds.BondsToSell",
@@ -355,7 +314,7 @@ export default function GovProposalDialog({
                     label="Bond Price"
                     name="govParams.SellingBonds.BondPrice"
                     placeholder="0"
-                    value={values.govParams?.SellingBonds?.BondPrice || ""}
+                    value={values.govParams.SellingBonds.BondPrice || ""}
                     onChange={e => {
                       setFieldValue(
                         "govParams.SellingBonds.BondPrice",
@@ -370,7 +329,7 @@ export default function GovProposalDialog({
                     label="Maturity"
                     name="govParams.SellingBonds.Maturity"
                     placeholder="0"
-                    value={values.govParams?.SellingBonds?.Maturity || ""}
+                    value={values.govParams.SellingBonds.Maturity || ""}
                     onChange={e => {
                       setFieldValue(
                         "govParams.SellingBonds.Maturity",
@@ -385,7 +344,7 @@ export default function GovProposalDialog({
                     label="Buy Back Price"
                     name="govParams.SellingBonds.BuyBackPrice"
                     placeholder="0"
-                    value={values.govParams?.SellingBonds?.BuyBackPrice || ""}
+                    value={values.govParams.SellingBonds.BuyBackPrice || ""}
                     onChange={e => {
                       setFieldValue(
                         "govParams.SellingBonds.BuyBackPrice",
@@ -400,7 +359,7 @@ export default function GovProposalDialog({
                     label="Start Selling At"
                     name="govParams.SellingBonds.StartSellingAt"
                     placeholder="0"
-                    value={values.govParams?.SellingBonds?.StartSellingAt || ""}
+                    value={values.govParams.SellingBonds.StartSellingAt || ""}
                     onChange={e => {
                       setFieldValue(
                         "govParams.SellingBonds.StartSellingAt",
@@ -415,7 +374,7 @@ export default function GovProposalDialog({
                     label="Selling Within"
                     name="govParams.SellingBonds.SellingWithin"
                     placeholder="0"
-                    value={values.govParams?.SellingBonds?.SellingWithin || ""}
+                    value={values.govParams.SellingBonds.SellingWithin || ""}
                     onChange={e => {
                       setFieldValue(
                         "govParams.SellingBonds.SellingWithin",
@@ -435,7 +394,7 @@ export default function GovProposalDialog({
                     label="Total Issue"
                     name="govParams.SellingGOVTokens.TotalIssue"
                     placeholder="0"
-                    value={values.govParams?.SellingGOVTokens?.TotalIssue || ""}
+                    value={values.govParams.SellingGOVTokens.TotalIssue || ""}
                     onChange={e => {
                       setFieldValue(
                         "govParams.SellingGOVTokens.TotalIssue",
@@ -450,7 +409,7 @@ export default function GovProposalDialog({
                     name="govParams.SellingGOVTokens.GOVTokensToSell"
                     placeholder="0"
                     value={
-                      values.govParams?.SellingGOVTokens?.GOVTokensToSell || ""
+                      values.govParams.SellingGOVTokens.GOVTokensToSell || ""
                     }
                     onChange={e => {
                       setFieldValue(
@@ -466,7 +425,7 @@ export default function GovProposalDialog({
                     name="govParams.SellingGOVTokens.GOVTokenPrice"
                     placeholder="0"
                     value={
-                      values.govParams?.SellingGOVTokens?.GOVTokenPrice || ""
+                      values.govParams.SellingGOVTokens.GOVTokenPrice || ""
                     }
                     onChange={e => {
                       setFieldValue(
@@ -483,7 +442,7 @@ export default function GovProposalDialog({
                     name="govParams.SellingGOVTokens.SellingWithin"
                     placeholder="0"
                     value={
-                      values.govParams?.SellingGOVTokens?.SellingWithin || ""
+                      values.govParams.SellingGOVTokens.SellingWithin || ""
                     }
                     onChange={e => {
                       setFieldValue(
@@ -500,7 +459,7 @@ export default function GovProposalDialog({
                     name="govParams.SellingGOVTokens.StartSellingAt"
                     placeholder="0"
                     value={
-                      values.govParams?.SellingGOVTokens?.StartSellingAt || ""
+                      values.govParams.SellingGOVTokens.StartSellingAt || ""
                     }
                     onChange={e => {
                       setFieldValue(
@@ -523,9 +482,6 @@ export default function GovProposalDialog({
                   setFieldValue("ExecuteDuration", e.target.value);
                 }}
               />
-              {errors.ExecuteDuration && touched.ExecuteDuration && (
-                <span className="c-error">{errors.ExecuteDuration}</span>
-              )}
             </div>
             <div>
               <TextInputField
@@ -537,9 +493,6 @@ export default function GovProposalDialog({
                   setFieldValue("Explanation", e.target.value);
                 }}
               />
-              {errors.Explanation && touched.Explanation && (
-                <span className="c-error">{errors.Explanation}</span>
-              )}
             </div>
           </form>
         )}

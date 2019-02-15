@@ -34,15 +34,6 @@ export default function DcbProposalDialog({
           ExecuteDuration: 0,
           Explanation: ""
         }}
-        // validate={values => {
-        //   const errors = {};
-        //   console.log(values);
-        //   return errors;
-        // }}
-        // ref={node => {
-        //   this.govForm = node;
-        //   return null;
-        // }}
         validateOnBlur={false}
         validateOnChange={false}
         onSubmit={(values, { setSubmitting }) => {
@@ -61,9 +52,6 @@ export default function DcbProposalDialog({
                   setFieldValue("Name", e.target.value);
                 }}
               />
-              {errors.Name && touched.Name && (
-                <span className="c-error">{errors.Name}</span>
-              )}
             </div>
 
             <fieldset>
@@ -178,24 +166,14 @@ export default function DcbProposalDialog({
                                   );
                                 }}
                               />
-                              {errors.dcbParams?.ListSaleData[index]
-                                ?.EndBlock &&
-                                touched.dcbParams?.ListSaleData[index]
-                                  ?.EndBlock && (
-                                  <span className="c-error">
-                                    {
-                                      errors.dcbParams?.ListSaleData[index]
-                                        ?.EndBlock
-                                    }
-                                  </span>
-                                )}
+
                               <TextInputField
                                 label="Buying asset"
                                 name={`dcbParams.ListSaleData.${index}.BuyingAsset`}
                                 placeholder=""
                                 value={
                                   values.dcbParams.ListSaleData[index]
-                                    ?.BuyingAsset || ""
+                                    .BuyingAsset || ""
                                 }
                                 onChange={e => {
                                   setFieldValue(
@@ -204,24 +182,14 @@ export default function DcbProposalDialog({
                                   );
                                 }}
                               />
-                              {errors.dcbParams?.ListSaleData[index]
-                                ?.BuyingAsset &&
-                                touched.dcbParams?.ListSaleData[index]
-                                  ?.BuyingAsset && (
-                                  <span className="c-error">
-                                    {
-                                      errors.dcbParams?.ListSaleData[index]
-                                        ?.BuyingAsset
-                                    }
-                                  </span>
-                                )}
+
                               <TextInputField
                                 label="Buying amount"
                                 name={`dcbParams.ListSaleData.${index}.BuyingAmount`}
                                 placeholder="0"
                                 value={
                                   values.dcbParams.ListSaleData[index]
-                                    ?.BuyingAmount || ""
+                                    .BuyingAmount || ""
                                 }
                                 onChange={e => {
                                   setFieldValue(
@@ -230,24 +198,14 @@ export default function DcbProposalDialog({
                                   );
                                 }}
                               />
-                              {errors.dcbParams?.ListSaleData[index]
-                                ?.BuyingAmount &&
-                                touched.dcbParams?.ListSaleData[index]
-                                  ?.BuyingAmount && (
-                                  <span className="c-error">
-                                    {
-                                      errors.dcbParams?.ListSaleData[index]
-                                        ?.BuyingAmount
-                                    }
-                                  </span>
-                                )}
+
                               <TextInputField
                                 label="Selling asset"
                                 name={`dcbParams.ListSaleData.${index}.SellingAsset`}
                                 placeholder=""
                                 value={
                                   values.dcbParams.ListSaleData[index]
-                                    ?.SellingAsset || ""
+                                    .SellingAsset || ""
                                 }
                                 onChange={e => {
                                   setFieldValue(
@@ -256,24 +214,14 @@ export default function DcbProposalDialog({
                                   );
                                 }}
                               />
-                              {errors.dcbParams?.ListSaleData[index]
-                                ?.SellingAsset &&
-                                touched.dcbParams?.ListSaleData[index]
-                                  ?.SellingAsset && (
-                                  <span className="c-error">
-                                    {
-                                      errors.dcbParams?.ListSaleData[index]
-                                        ?.SellingAsset
-                                    }
-                                  </span>
-                                )}
+
                               <TextInputField
                                 label="Selling amount"
                                 name={`dcbParams.ListSaleData.${index}.SellingAmount`}
                                 placeholder="0"
                                 value={
                                   values.dcbParams.ListSaleData[index]
-                                    ?.SellingAmount
+                                    .SellingAmount
                                 }
                                 onChange={e => {
                                   setFieldValue(
@@ -282,17 +230,6 @@ export default function DcbProposalDialog({
                                   );
                                 }}
                               />
-                              {errors.dcbParams?.ListSaleData[index]
-                                ?.SellingAmount &&
-                                touched.dcbParams?.ListSaleData[index]
-                                  ?.SellingAmount && (
-                                  <span className="c-error">
-                                    {
-                                      errors.dcbParams?.ListSaleData[index]
-                                        ?.SellingAmount
-                                    }
-                                  </span>
-                                )}
                             </div>
                           </div>
                         </fieldset>
@@ -323,12 +260,6 @@ export default function DcbProposalDialog({
                     );
                   }}
                 />
-                {errors.dcbParams?.MinLoanResponseRequire &&
-                  touched.dcbParams?.MinLoanResponseRequire && (
-                    <span className="c-error">
-                      {errors.dcbParams?.MinLoanResponseRequire}
-                    </span>
-                  )}
               </div>
               <div className="col-6">
                 <TextInputField
@@ -343,12 +274,6 @@ export default function DcbProposalDialog({
                     );
                   }}
                 />
-                {errors.dcbParams?.MinCMBApprovalRequire &&
-                  touched.dcbParams?.MinCMBApprovalRequire && (
-                    <span className="c-error">
-                      {errors.dcbParams?.MinCMBApprovalRequire}
-                    </span>
-                  )}
               </div>
               <div className="col-6">
                 <TextInputField
@@ -363,12 +288,6 @@ export default function DcbProposalDialog({
                     );
                   }}
                 />
-                {errors.dcbParams?.LateWithdrawResponseFine &&
-                  touched.dcbParams?.LateWithdrawResponseFine && (
-                    <span className="c-error">
-                      {errors.dcbParams?.LateWithdrawResponseFine}
-                    </span>
-                  )}
               </div>
               <div className="col-12">
                 <fieldset>
@@ -379,7 +298,7 @@ export default function DcbProposalDialog({
                         label="Amount"
                         name="dcbParams.SaleDCBTokensByUSDData.Amount"
                         placeholder="0"
-                        value={values.dcbParams?.SaleDCBTokensByUSDData?.Amount}
+                        value={values.dcbParams.SaleDCBTokensByUSDData.Amount}
                         onChange={e => {
                           setFieldValue(
                             "dcbParams.SaleDCBTokensByUSDData.Amount",
@@ -387,21 +306,13 @@ export default function DcbProposalDialog({
                           );
                         }}
                       />
-                      {errors.dcbParams?.SaleDCBTokensByUSDData?.Amount &&
-                        touched.dcbParams?.SaleDCBTokensByUSDData?.Amount && (
-                          <span className="c-error">
-                            {errors.dcbParams?.SaleDCBTokensByUSDData?.Amount}
-                          </span>
-                        )}
                     </div>
                     <div className="col-6">
                       <TextInputField
                         label="End block"
                         name="dcbParams.SaleDCBTokensByUSDData.EndBlock"
                         placeholder="0"
-                        value={
-                          values.dcbParams.SaleDCBTokensByUSDData?.EndBlock
-                        }
+                        value={values.dcbParams.SaleDCBTokensByUSDData.EndBlock}
                         onChange={e => {
                           setFieldValue(
                             "dcbParams.SaleDCBTokensByUSDData.EndBlock",
@@ -409,12 +320,6 @@ export default function DcbProposalDialog({
                           );
                         }}
                       />
-                      {errors.dcbParams?.SaleDCBTokensByUSDData?.EndBlock &&
-                        touched.dcbParams?.SaleDCBTokensByUSDData?.EndBlock && (
-                          <span className="c-error">
-                            {errors.dcbParams?.SaleDCBTokensByUSDData?.EndBlock}
-                          </span>
-                        )}
                     </div>
                   </div>
                 </fieldset>
@@ -431,9 +336,6 @@ export default function DcbProposalDialog({
                   setFieldValue("ExecuteDuration", e.target.value);
                 }}
               />
-              {errors.ExecuteDuration && touched.ExecuteDuration && (
-                <span className="c-error">{errors.ExecuteDuration}</span>
-              )}
             </div>
             <div>
               <TextInputField
@@ -445,9 +347,6 @@ export default function DcbProposalDialog({
                   setFieldValue("Explanation", e.target.value);
                 }}
               />
-              {errors.Explanation && touched.Explanation && (
-                <span className="c-error">{errors.Explanation}</span>
-              )}
             </div>
           </Form>
         )}

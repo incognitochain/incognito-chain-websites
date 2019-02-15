@@ -1,19 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import Link from "@/components/Link";
+import Link from "components/Link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { faArrowRight, faEdit } from "@fortawesome/pro-regular-svg-icons";
-import bgApplyGOV from "@/assets/apply-gov.svg";
-import bgApplyDCB from "@/assets/apply-dcb.svg";
-import bgApplyMCB from "@/assets/apply-mcb.svg";
-import { axios, catchError } from "@/services/api";
-import { API } from "@/constants";
-import cn from "@sindresorhus/class-names";
-import bgImage from "@/assets/create-a-proposal.svg";
+import bgApplyGOV from "assets/apply-gov.svg";
+import bgApplyDCB from "assets/apply-dcb.svg";
+import bgApplyMCB from "assets/apply-mcb.svg";
+import { axios, catchError } from "services/api";
+import { API } from "constants/index";
+import cn from "classnames";
+import bgImage from "assets/create-a-proposal.svg";
 import { Dialog, Textarea, toaster } from "evergreen-ui";
-import { checkAuth } from "@/reducers/auth/action";
+import { checkAuth } from "reducers/auth/action";
 import GovProposalDialog from "./GovProposalDialog";
 import DcbProposalDialog from "./DcbProposalDialog";
 import uuidv1 from "uuid/v1";
@@ -167,7 +167,7 @@ class Home extends React.Component {
     this.setState({ isLoading: true });
     try {
       const response = await axios.post(
-        process.env.serviceAPI + "/voting/proposal",
+        process.env.REACT_APP_SERVICE_API + "/voting/proposal",
         {
           Type: 1,
           Name: values.Name,
@@ -235,7 +235,7 @@ class Home extends React.Component {
     console.log("submitCreateGOV", values);
     try {
       const response = await axios.post(
-        process.env.serviceAPI + "/voting/proposal",
+        process.env.REACT_APP_SERVICE_API + "/voting/proposal",
         {
           Type: 2,
           Name: "abcd",

@@ -1,22 +1,26 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import Link from '@/components/Link';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import Link from "components/Link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faUserAlt, faWallet, faCog, faPollH, faBallotCheck,
-} from '@fortawesome/pro-light-svg-icons';
-import cn from '@sindresorhus/class-names';
+  faUserAlt,
+  faWallet,
+  faCog,
+  faPollH,
+  faBallotCheck
+} from "@fortawesome/pro-light-svg-icons";
+import cn from "classnames";
 
 class SubHeader extends React.Component {
   static propTypes = {
     show: PropTypes.bool,
-    router: PropTypes.object.isRequired,
-  }
+    router: PropTypes.object.isRequired
+  };
 
   static defaultProps = {
-    show: true,
-  }
+    show: true
+  };
 
   constructor(props) {
     super(props);
@@ -29,39 +33,56 @@ class SubHeader extends React.Component {
     const { pathname } = location;
 
     return (
-      <header className="c-sub-header" style={{ display: `${show ? 'block' : 'none'}` }}>
+      <header
+        className="c-sub-header"
+        style={{ display: `${show ? "block" : "none"}` }}
+      >
         <div className="container">
           <div className="row">
             <div className="col-12">
               <ul>
                 <li>
-                  <Link to="/" className={cn({ active: pathname === '/' })}>
+                  <Link to="/" className={cn({ active: pathname === "/" })}>
                     <FontAwesomeIcon icon={faUserAlt} />
-                    {' Profile'}
+                    {" Profile"}
                   </Link>
                 </li>
                 <li>
-                  <Link to="/wallet" className={cn({ active: pathname.startsWith('/wallet') })}>
+                  <Link
+                    to="/wallet"
+                    className={cn({ active: pathname.startsWith("/wallet") })}
+                  >
                     <FontAwesomeIcon icon={faWallet} />
-                    {' Wallet'}
+                    {" Wallet"}
                   </Link>
                 </li>
                 <li>
-                  <Link to="/voting" className={cn({ active: pathname.startsWith('/voting') })}>
+                  <Link
+                    to="/voting"
+                    className={cn({ active: pathname.startsWith("/voting") })}
+                  >
                     <FontAwesomeIcon icon={faPollH} />
-                    {' Voting'}
+                    {" Voting"}
                   </Link>
                 </li>
                 <li>
-                  <Link to="/proposals" className={cn({ active: pathname.startsWith('/proposals') })}>
+                  <Link
+                    to="/proposals"
+                    className={cn({
+                      active: pathname.startsWith("/proposals")
+                    })}
+                  >
                     <FontAwesomeIcon icon={faBallotCheck} />
-                    {' Proposal'}
+                    {" Proposal"}
                   </Link>
                 </li>
                 <li>
-                  <Link to="/setting" className={cn({ active: pathname.startsWith('/setting') })}>
+                  <Link
+                    to="/setting"
+                    className={cn({ active: pathname.startsWith("/setting") })}
+                  >
                     <FontAwesomeIcon icon={faCog} />
-                    {' Setting'}
+                    {" Setting"}
                   </Link>
                 </li>
               </ul>

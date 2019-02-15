@@ -1,0 +1,85 @@
+.loan-page {
+  background-color: #FAFAFA;
+  padding: 48px 0;
+  .loan-information {
+    .title, .hello {
+      font-size: 22px;
+      @extend .c-color-blue-900;
+    }
+    .title {
+      margin-bottom: 38px;
+      .back {
+        font-size: initial;
+      }
+    }
+    table {
+      width: 100%;
+      td {
+        &:first-of-type {
+          @extend .c-color-blue-900;
+        }
+        padding: 10px 0;
+        &:first-of-type {
+          &::after {
+            content: ':';
+          }
+        }
+        &:last-of-type {
+          text-align: right;
+        }
+      }
+    }
+    .status {
+      &::first-letter {
+        text-transform: uppercase;
+      }
+    }
+    .value {
+      font-size: 30px;
+      font-weight: 300;
+      min-height: 45px;
+    }
+    .value-container {
+      min-height: 70px;
+      margin-bottom: 15px;
+    }
+  }
+  .left-line {
+    position: relative;
+
+    @include breakpoint('md') {
+      &:after {
+        content: '';
+        display: block;
+        height: 80%;
+        background-color: map-get($map: $gray, $key: 's-200');
+        width: 1px;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+      }
+    }
+  }
+  .upcoming {
+    padding-left: 30px;
+    @include breakpoint-max('md') {
+      padding-left: 15px;
+    }
+    .icon {
+      padding-top: 7px;
+      @include breakpoint-max('md') {
+        display: none;
+      }
+    }
+    .value {
+      padding: 10px;
+    }
+  }
+  .tx {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100px;
+  }
+}

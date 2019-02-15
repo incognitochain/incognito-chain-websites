@@ -1,6 +1,6 @@
 import storelib from 'store';
 import CryptoJS from 'crypto-js';
-import Log from '@/services/log';
+import Log from 'services/log';
 
 const STORE_KEY = 'constant_3dbedb125518bf5f77fce8230d9d7383';
 

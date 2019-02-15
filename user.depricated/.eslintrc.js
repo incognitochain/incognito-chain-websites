@@ -17,7 +17,12 @@ module.exports = {
     "react/no-danger": "off",
     "no-console": "off",
     "prefer-template": "off",
-    "import/order": "off"
+    "import/order": "off",
+    "lines-between-class-members": "off",
+    "react/jsx-indent": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "react/jsx-closing-tag-location": "off",
+    "react/destructuring-assignment": "off"
   },
   settings: {
     "import/resolver": "webpack"

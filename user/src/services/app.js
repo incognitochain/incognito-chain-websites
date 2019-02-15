@@ -1,5 +1,5 @@
 import React from 'react';
-import DynamicImport from '@/components/DynamicImport';
+import DynamicImport from 'components/DynamicImport';
 
 export const createDynamicImport = (load, loading, isNotFound = false) => {
   const dynamicImport = props => (

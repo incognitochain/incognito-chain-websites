@@ -1,78 +1,92 @@
-import axios from 'axios';
-import auth from '@ui/auth';
+import axios from "axios";
+import auth from "@ui/auth";
 
 export default class Portal {
   static getOption(param) {
     let { method, func, data } = param;
-    if (!method)
-      method = "GET";
+    if (!method) method = "GET";
 
-    let authorization = "", token = auth.isLogged();
+    let authorization = "",
+      token = auth.isLogged();
     if (token) {
       authorization = "Bearer " + token;
     }
 
-    let url = process.env.serviceAPI,
+    let url = process.env.REACT_APP_SERVICE_API,
       options = {
         method,
         headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-          'Authorization': authorization
+          "Content-Type": "application/json;charset=UTF-8",
+          Authorization: authorization
         }
       };
 
     if (data) {
-      options['data'] = data;
+      options["data"] = data;
     }
 
     if (func && func.charAt(0) !== "/") {
       url += "/";
     }
 
-    options['url'] = url + func;
+    options["url"] = url + func;
     console.log(options);
     return options;
   }
 
   static async getLoanParams() {
-    var data = {}
+    var data = {};
     try {
-      const response = await axios(Portal.getOption({ func: `/common/loanparams`, data: data }));
+      const response = await axios(
+        Portal.getOption({ func: `/common/loanparams`, data: data })
+      );
       if (response.status === 200) {
-        if (response.data && response.data.Result)
-          return response.data.Result;
+        if (response.data && response.data.Result) return response.data.Result;
       }
-    }
-    catch (e) {
+    } catch (e) {
       return { error: true, message: e.message };
     }
 
     return false;
   }
 
-  static async createLoanRequest(startDate, endDate, params, loanID, colType, colAmount, loanAmount, keyDigest) {
+  static async createLoanRequest(
+    startDate,
+    endDate,
+    params,
+    loanID,
+    colType,
+    colAmount,
+    loanAmount,
+    keyDigest
+  ) {
     var data = {
-      "StartDate": startDate,
-      "EndDate": endDate,
-      "LoanRequest": {
-        "Params": params,
-        "LoanID": loanID,
-        "CollateralType": colType,
-        "CollateralAmount": colAmount,
-        "LoanAmount": loanAmount,
-        "ReceiveAddress": "",
-        "KeyDigest": keyDigest,
+      StartDate: startDate,
+      EndDate: endDate,
+      LoanRequest: {
+        Params: params,
+        LoanID: loanID,
+        CollateralType: colType,
+        CollateralAmount: colAmount,
+        LoanAmount: loanAmount,
+        ReceiveAddress: "",
+        KeyDigest: keyDigest
       }
-    }
+    };
     try {
-      const response = await axios(Portal.getOption({ func: `/portal/borrows`, data: data, method: "POST" }));
+      const response = await axios(
+        Portal.getOption({
+          func: `/portal/borrows`,
+          data: data,
+          method: "POST"
+        })
+      );
       if (response.status === 200) {
         if (response.data && response.data.Result) {
           return response.data.Result;
         }
       }
-    }
-    catch (e) {
+    } catch (e) {
       return { error: true, message: e.message };
     }
 
@@ -81,7 +95,9 @@ export default class Portal {
 
   static async getLoan(borrowId) {
     try {
-      const response = await axios(Portal.getOption({ func: `/portal/borrows/${borrowId}` }));
+      const response = await axios(
+        Portal.getOption({ func: `/portal/borrows/${borrowId}` })
+      );
       if (response.status === 200) {
         if (response.data && response.data.Result) {
           return response.data.Result;
@@ -94,15 +110,20 @@ export default class Portal {
         }
       }
       throw "Can not get data of load detail";
-    }
-    catch (e) {
+    } catch (e) {
       return { error: true, message: e.message };
     }
   }
 
   static async payLoan(borrowId) {
     try {
-      const response = await axios(Portal.getOption({ func: `/portal/borrows/${borrowId}/pay`, data: {}, method: "POST" }));
+      const response = await axios(
+        Portal.getOption({
+          func: `/portal/borrows/${borrowId}/pay`,
+          data: {},
+          method: "POST"
+        })
+      );
       if (response.status === 200) {
         if (response.data && response.data.Result) {
           return response.data.Result;
@@ -115,8 +136,7 @@ export default class Portal {
         }
       }
       throw "Can not get data of load detail";
-    }
-    catch (e) {
+    } catch (e) {
       throw e;
     }
   }

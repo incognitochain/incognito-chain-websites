@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import dayjs from 'dayjs';
-import Link from '@/components/Link';
+import Link from 'components/Link';
 import Social from './Social';
 
 const Footer = ({ type }) => (

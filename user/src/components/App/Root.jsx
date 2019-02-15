@@ -1,9 +1,9 @@
 import React from 'react';
-import history from '@/store/history';
+import history from 'store/history';
 import { ConnectedRouter } from 'connected-react-router';
-import Router from '@/components/Router';
+import Router from 'components/Router';
 
-require('@/services/root');
+require('services/root');
 
 class Root extends React.Component {
   constructor(props) {
