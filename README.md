@@ -1,57 +1,15 @@
 # Constant websites
 
-## Core
+## Prerequisite
 
-Core is dir constants styles and components which is useful and reusable for Constant websites
-
-## Balancer
-
-### Requirement
+Install these first:
 
 - Docker >= 18.0.0
+- Yarn
+- NodeJS
 
-### Hosts
+## Getting Started
 
-Change your hosts file for development
-
-```
-balancer/hosts
-```
-
-Suggestion: `gas mask` (https://github.com/2ndalpha/gasmask)
-
-### Run
-
-```bash
-yarn balancer
-```
-
-## Auth website / User / Profile / SSO
-
-> http://user.constant.money
-
-> port: `3001`
-
-```bash
-yarn auth
-```
-
-## Exchange
-
-> http://exchange.constant.money
-
-> port: `3002`
-
-```bash
-yarn exchange
-```
-
-## Explorer
-
-> http://explorer.constant.money
-
-> port: `3003`
-
-```bash
-yarn explorer
-```
+- Update your host file (located at `/etc/hosts` on mac) to `./blancer/hosts`
+- Run `yarn balancer`
+- Open each sub project (`user`, `portal`, etc.) and run `yarn install`, `yarn dev` or `yarn start`
