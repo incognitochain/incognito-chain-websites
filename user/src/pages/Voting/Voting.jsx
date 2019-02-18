@@ -1,14 +1,12 @@
 import React from "react";
-// import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
-// import { Link } from 'react-router-dom';
 import { axios, catchError } from "services/api";
 import { API } from "constants/index";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import { isEmpty } from "lodash";
-import cn from "classnames";
 import { Dialog, TextInputField, toaster } from "evergreen-ui";
+import _ from "lodash";
+import { Applicant } from "./Applicant";
+import { ApplicantListItem } from "./ApplicantListItem";
 
 const list = [
   {
@@ -25,43 +23,39 @@ const list = [
   }
 ];
 
+const renderIf = condition => component => (condition ? component : null);
+
 class Voting extends React.Component {
   static propTypes = {
     // abc: PropTypes.object.isRequired,
     // abcd: PropTypes.func.isRequired,
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentType: 1,
-      currentApplicant: {},
-      applicants: [],
-      inited: false,
-      amount: ""
-    };
-  }
+  state = {
+    currentType: 1,
+    applicants: [],
+    amount: "",
+    isLoadingApplicants: false
+  };
+
   componentDidMount() {
     this.loadCandidatesList(this.state.currentType);
   }
 
-  loadCandidatesList = type => {
-    axios
-      .get(`${API.VOTING_LIST}?board_type=${type}`)
-      .then(res => {
-        const { data } = res;
-        if (data) {
-          const { Result } = data;
-          if (Result && Result.length) {
-            this.setState({ applicants: Result, inited: true });
-          } else {
-            this.setState({ applicants: [], inited: true });
-          }
-        }
-      })
-      .catch(e => {
-        catchError(e);
+  loadCandidatesList = async type => {
+    try {
+      this.setState({
+        isLoadingApplicants: true,
+        selectedApplicantIndex: -1
       });
+      const res = await axios.get(`${API.VOTING_LIST}?board_type=${type}`);
+      this.setState({
+        applicants: _.get(res, "data.Result", [])
+      });
+    } catch (e) {
+      catchError(e);
+    }
+    this.setState({ isLoadingApplicants: false });
   };
 
   changeType = e => {
@@ -69,7 +63,13 @@ class Voting extends React.Component {
   };
 
   vote = () => {
-    const { currentApplicant, amount, currentType } = this.state;
+    const {
+      selectedApplicantIndex,
+      applicants,
+      amount,
+      currentType
+    } = this.state;
+    const currentApplicant = applicants[selectedApplicantIndex];
     axios
       .post(API.VOTING_VOTE, {
         BoardType: currentType,
@@ -107,19 +107,18 @@ class Voting extends React.Component {
       cb();
     }
   };
+  onSelectApplicant = index => this.setState({ selectedApplicantIndex: index });
 
   render() {
     const {
       currentType,
-      inited,
+      isLoadingApplicants,
       applicants,
-      currentApplicant,
+      selectedApplicantIndex,
       amount,
       isLoading,
       dialogVote
     } = this.state;
-
-    console.log(currentApplicant);
 
     return (
       <div className="page user-page proposals-page">
@@ -186,103 +185,26 @@ class Voting extends React.Component {
                     <div className="clearfix" />
                   </div>
                   <div className="content">
-                    {!inited && "Loading.."}
-                    {inited && applicants.length
-                      ? applicants.map(applicant => (
-                          <div
-                            className={cn("applicant", {
-                              active: currentApplicant.ID === applicant.ID
-                            })}
-                            key={applicant.ID}
-                            onClick={() => {
-                              this.setState({ currentApplicant: applicant });
-                            }}
-                          >
-                            <div>
-                              <div className="email">
-                                {applicant.User.Email}
-                              </div>
-                              <div className="name">{`${
-                                applicant.User.FirstName
-                              } ${applicant.User.LastName}`}</div>
-                              {/* <div className="bio">{applicant.User.Bio}</div> */}
-                            </div>
-                          </div>
-                        ))
-                      : ""}
+                    {renderIf(isLoadingApplicants)("Loading..")}
+                    {renderIf(!isLoadingApplicants && applicants.length)(
+                      applicants.map((applicant, index) => (
+                        <ApplicantListItem
+                          key={applicant.ID}
+                          active={index === this.state.selectedApplicantIndex}
+                          applicant={applicant}
+                          onClick={this.onSelectApplicant.bind(this, index)}
+                        />
+                      ))
+                    )}
                   </div>
                 </div>
               </div>
-              <div className="col-12 col-lg-6">
-                <div className="c-card">
-                  {isEmpty(currentApplicant) && (
-                    <div className="empty">Please select applicant</div>
-                  )}
-                  {!isEmpty(currentApplicant) && (
-                    <div className="bio">
-                      <div className="bio-header">
-                        <div className="email">{`${
-                          currentApplicant.User.Email
-                        }`}</div>
-                        <div className="name">{`${
-                          currentApplicant.User.FirstName
-                        } ${currentApplicant.User.LastName}`}</div>
-                      </div>
-                      <div className="bio-content">
-                        <div
-                          dangerouslySetInnerHTML={{
-                            __html: `<p>${currentApplicant.User.Bio.replace(
-                              /\n{2,}/g,
-                              "</p><p>"
-                            ).replace(/\n/g, "<br>")}</p>`
-                          }}
-                        />
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className="col-12 col-lg-3">
-                <div className="c-card">
-                  {isEmpty(currentApplicant) && (
-                    <div className="empty">Please select applicant</div>
-                  )}
-                  {!isEmpty(currentApplicant) && (
-                    <div className="right-bar">
-                      <div>{`Voted: ${currentApplicant.VoteNum}`}</div>
-                      <button
-                        className="c-btn c-btn-primary"
-                        type="button"
-                        style={{ marginTop: 10 }}
-                        onClick={() => {
-                          this.setState({ dialogVote: true });
-                        }}
-                      >
-                        Vote this applicant
-                      </button>
-                      <div className="title">Token list</div>
-                      <div className="token-list">
-                        <table>
-                          <tbody>
-                            <tr>
-                              <td>CMB</td>
-                              <td>{currentApplicant.CMB}</td>
-                            </tr>
-                            <tr>
-                              <td>GOV</td>
-                              <td>{currentApplicant.GOV}</td>
-                            </tr>
-                            <tr>
-                              <td>DCB</td>
-                              <td>{currentApplicant.DCB}</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
+              <Applicant
+                applicant={applicants[selectedApplicantIndex]}
+                onClickVote={() => {
+                  this.setState({ dialogVote: true });
+                }}
+              />
             </div>
           </div>
         </div>
