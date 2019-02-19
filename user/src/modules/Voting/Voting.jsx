@@ -5,7 +5,8 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import { Dialog, TextInputField, toaster } from "evergreen-ui";
 import _ from "lodash";
-import { Applicant } from "./Applicant";
+import { RightContent } from "./RightContent";
+import { CenterContent } from "./CenterContent";
 import { ApplicantListItem } from "./ApplicantListItem";
 
 const list = [
@@ -26,11 +27,6 @@ const list = [
 const renderIf = condition => component => (condition ? component : null);
 
 class Voting extends React.Component {
-  static propTypes = {
-    // abc: PropTypes.object.isRequired,
-    // abcd: PropTypes.func.isRequired,
-  };
-
   state = {
     currentType: 1,
     applicants: [],
@@ -40,6 +36,11 @@ class Voting extends React.Component {
 
   componentDidMount() {
     this.loadCandidatesList(this.state.currentType);
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.currentType !== prevState.currentType) {
+      this.loadCandidatesList(this.state.currentType);
+    }
   }
 
   loadCandidatesList = async type => {
@@ -59,7 +60,7 @@ class Voting extends React.Component {
   };
 
   changeType = e => {
-    this.loadCandidatesList(e.target.value);
+    this.setState({ currentType: e.target.value });
   };
 
   vote = () => {
@@ -168,6 +169,7 @@ class Voting extends React.Component {
                     <span>Applicants</span>
                     <div className="select" style={{ float: "right" }}>
                       <Select
+                        disabled={isLoadingApplicants}
                         value={currentType}
                         onChange={this.changeType}
                         inputProps={{
@@ -199,7 +201,9 @@ class Voting extends React.Component {
                   </div>
                 </div>
               </div>
-              <Applicant
+
+              <CenterContent applicant={applicants[selectedApplicantIndex]} />
+              <RightContent
                 applicant={applicants[selectedApplicantIndex]}
                 onClickVote={() => {
                   this.setState({ dialogVote: true });

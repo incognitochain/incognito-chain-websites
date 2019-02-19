@@ -221,7 +221,7 @@ export default function DcbProposalDialog({
                                 placeholder="0"
                                 value={
                                   values.dcbParams.ListSaleData[index]
-                                    .SellingAmount
+                                    .SellingAmount || ""
                                 }
                                 onChange={e => {
                                   setFieldValue(

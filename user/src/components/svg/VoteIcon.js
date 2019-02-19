@@ -14,7 +14,7 @@ export function VoteIcon(props) {
           id="Applicant-list"
           transform="translate(-1071.000000, -319.000000)"
           fill="#838AA7"
-          fill-rule="nonzero"
+          fillRule="nonzero"
         >
           <g
             id="icons8-elections"

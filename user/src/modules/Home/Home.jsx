@@ -16,7 +16,7 @@ import { Dialog, Textarea, toaster } from "evergreen-ui";
 import { checkAuth } from "reducers/auth/action";
 import GovProposalDialog from "./GovProposalDialog";
 import DcbProposalDialog from "./DcbProposalDialog";
-import uuidv1 from "uuid/v1";
+// import uuidv1 from "uuid/v1";
 import _ from "lodash";
 
 const CheckInit = ({ children, inited }) => {
@@ -174,7 +174,7 @@ class Home extends React.Component {
           DCB: {
             DCBParams: {
               ListSaleData: values.dcbParams.ListSaleData.map(sale => ({
-                SaleID: uuidv1(),
+                SaleID: "123456", // TODO - remove SaleID
                 EndBlock: parseInt(sale.EndBlock, 10),
                 BuyingAsset: sale.BuyingAsset,
                 BuyingAmount: parseInt(sale.BuyingAmount, 10),

@@ -2,20 +2,21 @@ import React from "react";
 import styled from "styled-components";
 import cls from "classnames";
 import _ from "lodash";
-import { Avatar } from "./Avatar";
+import { Avatar } from "../Voting/Avatar";
+import { TimeAgo } from "components/TimeAgo";
 
 function getFullName(user) {
   return `${_.get(user, "FirstName")} ${_.get(user, "LastName")}`;
 }
 
-export function ApplicantListItem({ index, active, applicant, onClick }) {
-  const user = _.get(applicant, "User", {});
+export function ProposalListItem({ index, active, proposal, onClick }) {
+  const user = _.get(proposal, "User", {});
+
   return (
     <Wrapper
       className={cls("applicant", {
         active
       })}
-      key={applicant.ID}
       onClick={onClick}
     >
       <div>
@@ -23,16 +24,27 @@ export function ApplicantListItem({ index, active, applicant, onClick }) {
           <Avatar>{_.get(user, "FirstName.0", "").toUpperCase()}</Avatar>
           <Name title={getFullName(user)}>{getFullName(user)}</Name>
         </AvatarAndName>
-        <Bio>{_.get(user, "Bio")}</Bio>
+        <ProposalName>{_.get(proposal, "Name")}</ProposalName>
+        <Date>
+          <TimeAgo date={proposal.CreatedAt} />
+        </Date>
       </div>
     </Wrapper>
   );
 }
 
+const Date = styled.div`
+  text-align: right;
+  font-size: 14px;
+`;
+
 const Wrapper = styled.div`
   &:hover {
     background-color: #f9fafb !important;
     cursor: pointer;
+  }
+  &.active {
+    background-color: #f2f4ff !important;
   }
   padding-top: 20px !important;
   padding-bottom: 20px !important;
@@ -54,7 +66,7 @@ const Name = styled.div`
   text-overflow: ellipsis;
 `;
 
-const Bio = styled.div`
+const ProposalName = styled.div`
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
