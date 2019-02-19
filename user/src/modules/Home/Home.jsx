@@ -109,26 +109,51 @@ class Home extends React.Component {
       });
   };
 
-  loadDcbParams = () => {
-    axios
-      .get(API.VOTING_DCB_PARAMS)
-      .then(res => {
-        const { data } = res;
-        if (data) {
-          const { Result } = data;
-          if (Result) {
-            const { DCBParams } = Result;
-            if (DCBParams) {
-              console.log("DCBParams", DCBParams);
-              this.setState({ dcbParams: DCBParams });
-            }
-          }
-        }
-      })
-      .catch(e => {
-        catchError(e);
+  loadDcbParams = async () => {
+    try {
+      const [
+        dcbRes,
+        sellingAssetOptionsRes,
+        buyingAssetOptionRes
+      ] = await Promise.all([
+        axios.get(API.VOTING_DCB_PARAMS),
+        axios.get(
+          `${process.env.REACT_APP_SERVICE_API}/voting/proposalsellingassets`
+        ),
+        axios.get(
+          `${process.env.REACT_APP_SERVICE_API}/voting/proposalbuyingassets`
+        )
+      ]);
+      this.setState({
+        dcbParams: _.get(dcbRes, "data.Result.DCBParams"),
+        sellingAssetOptions: this.getSellingAssetOptions(
+          sellingAssetOptionsRes
+        ),
+        buyingAssetOptions: this.getBuyingAssetOptions(buyingAssetOptionRes)
       });
+    } catch (e) {
+      toaster.warning("Error on loading DCB Params. Please refresh the page!");
+      catchError(e);
+    }
   };
+
+  getSellingAssetOptions(response) {
+    return Object.entries(_.get(response, "data.Result", [])).map(
+      ([key, value]) => ({
+        value: value,
+        label: key
+      })
+    );
+  }
+
+  getBuyingAssetOptions(response) {
+    return Object.entries(_.get(response, "data.Result", [])).map(
+      ([key, value]) => ({
+        value: value,
+        label: key
+      })
+    );
+  }
 
   submitBio = () => {
     const { bio } = this.state;
@@ -386,6 +411,8 @@ class Home extends React.Component {
       govParams
     } = this.state;
 
+    console.log("buyingAssetoptions", this.state.buyingAssetOptions);
+
     const { auth } = this.props;
     return (
       <div className="page user-page home-page">
@@ -425,6 +452,10 @@ class Home extends React.Component {
           </div>
         </Dialog>
         <DcbProposalDialog
+          options={{
+            sellingAssetOptions: this.state.sellingAssetOptions,
+            buyingAssetOptions: this.state.buyingAssetOptions
+          }}
           isShown={dialogDCBProposal}
           dcbParams={dcbParams}
           isLoading={isLoading}

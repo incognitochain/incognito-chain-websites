@@ -1,6 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Dialog, TextInputField } from "evergreen-ui";
+import { Dialog, TextInputField, SelectField } from "evergreen-ui";
 import _ from "lodash";
 import { Formik, FieldArray, Form } from "formik";
 import { faPlus, faTimes } from "@fortawesome/pro-regular-svg-icons";
@@ -12,7 +12,8 @@ export default function DcbProposalDialog({
   onClose,
   onConfirm,
   submitCreateDCB,
-  innerRef
+  innerRef,
+  options: { sellingAssetOptions = {}, buyingAssetOptions = {} }
 }) {
   return (
     <Dialog
@@ -167,7 +168,7 @@ export default function DcbProposalDialog({
                                 }}
                               />
 
-                              <TextInputField
+                              <SelectField
                                 label="Buying asset"
                                 name={`dcbParams.ListSaleData.${index}.BuyingAsset`}
                                 placeholder=""
@@ -181,7 +182,18 @@ export default function DcbProposalDialog({
                                     e.target.value
                                   );
                                 }}
-                              />
+                              >
+                                {buyingAssetOptions.map(option => {
+                                  return (
+                                    <option
+                                      key={option.value}
+                                      value={option.value}
+                                    >
+                                      {option.label}
+                                    </option>
+                                  );
+                                })}
+                              </SelectField>
 
                               <TextInputField
                                 label="Buying amount"
@@ -199,7 +211,7 @@ export default function DcbProposalDialog({
                                 }}
                               />
 
-                              <TextInputField
+                              <SelectField
                                 label="Selling asset"
                                 name={`dcbParams.ListSaleData.${index}.SellingAsset`}
                                 placeholder=""
@@ -213,7 +225,18 @@ export default function DcbProposalDialog({
                                     e.target.value
                                   );
                                 }}
-                              />
+                              >
+                                {sellingAssetOptions.map(option => {
+                                  return (
+                                    <option
+                                      key={option.value}
+                                      value={option.value}
+                                    >
+                                      {option.label}
+                                    </option>
+                                  );
+                                })}
+                              </SelectField>
 
                               <TextInputField
                                 label="Selling amount"
