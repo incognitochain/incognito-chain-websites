@@ -36,11 +36,52 @@ class Proposals extends React.Component {
 
   componentDidMount() {
     this.loadCandidatesList(this.state.currentType);
+    this.loadOptions();
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.state.currentType !== prevState.currentType) {
       this.loadCandidatesList(this.state.currentType);
     }
+  }
+
+  loadOptions = async () => {
+    try {
+      const [sellingAssetOptionsRes, buyingAssetOptionRes] = await Promise.all([
+        axios.get(
+          `${process.env.REACT_APP_SERVICE_API}/voting/proposalsellingassets`
+        ),
+        axios.get(
+          `${process.env.REACT_APP_SERVICE_API}/voting/proposalbuyingassets`
+        )
+      ]);
+      this.setState({
+        sellingAssetOptions: this.getSellingAssetOptions(
+          sellingAssetOptionsRes
+        ),
+        buyingAssetOptions: this.getBuyingAssetOptions(buyingAssetOptionRes)
+      });
+    } catch (e) {
+      toaster.warning("Error on loading DCB Params. Please refresh the page!");
+      catchError(e);
+    }
+  };
+
+  getSellingAssetOptions(response) {
+    return Object.entries(_.get(response, "data.Result", [])).map(
+      ([key, value]) => ({
+        value: value,
+        label: key
+      })
+    );
+  }
+
+  getBuyingAssetOptions(response) {
+    return Object.entries(_.get(response, "data.Result", [])).map(
+      ([key, value]) => ({
+        value: value,
+        label: key
+      })
+    );
   }
 
   loadCandidatesList = async type => {
@@ -203,6 +244,10 @@ class Proposals extends React.Component {
               <ProposalData
                 type={currentType}
                 data={proposals[selectedApplicantIndex]}
+                options={{
+                  sellingAssetOptions: this.state.sellingAssetOptions,
+                  buyingAssetOptions: this.state.buyingAssetOptions
+                }}
               />
               <RightContent
                 data={proposals[selectedApplicantIndex]}

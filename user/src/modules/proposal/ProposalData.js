@@ -2,7 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import _ from "lodash";
 
-function renderDcbField(key, value) {
+function getLabel(options, value) {
+  return (options.find(option => option.value === value) || {}).label;
+}
+
+function renderDcbField(key, value, options) {
   if (typeof value === "number" || typeof value === "string") {
     return (
       <Field key={key}>
@@ -49,7 +53,9 @@ function renderDcbField(key, value) {
               </Field>
               <Field>
                 <Label>Buying Asset</Label>
-                <Value>{sale.BuyingAsset}</Value>
+                <Value>
+                  {getLabel(options.buyingAssetOptions, sale.BuyingAsset)}
+                </Value>
               </Field>
               <Field>
                 <Label>Buying Amount</Label>
@@ -57,7 +63,9 @@ function renderDcbField(key, value) {
               </Field>
               <Field>
                 <Label>Selling Asset</Label>
-                <Value>{sale.SellingAsset}</Value>
+                <Value>
+                  {getLabel(options.sellingAssetOptions, sale.SellingAsset)}
+                </Value>
               </Field>
               <Field>
                 <Label>Selling Amount</Label>
@@ -175,7 +183,7 @@ function renderGovField(key, value) {
   return <div key={key} unhandledfield={key} />;
 }
 
-export function ProposalData({ type, data = {} }) {
+export function ProposalData({ type, data = {}, options }) {
   const proposal = React.useMemo(() => {
     try {
       return JSON.parse(data.Data);
@@ -195,7 +203,7 @@ export function ProposalData({ type, data = {} }) {
             <Title>{data.Name}</Title>
             {Object.entries(proposal).map(([key, value]) =>
               type === 1
-                ? renderDcbField(key, value)
+                ? renderDcbField(key, value, options)
                 : renderGovField(key, value)
             )}
           </ProposalWrapper>
@@ -208,7 +216,7 @@ export function ProposalData({ type, data = {} }) {
 const ProposalWrapper = styled.div``;
 
 const Field = styled.div`
-  margin-bottom: 6px;
+  margin-bottom: 12px;
 `;
 
 const Label = styled.div``;
