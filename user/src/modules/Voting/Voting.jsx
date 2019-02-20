@@ -43,11 +43,11 @@ class Voting extends React.Component {
     }
   }
 
-  loadCandidatesList = async type => {
+  loadCandidatesList = async (type, selectedApplicantIndex = -1) => {
     try {
       this.setState({
         isLoadingApplicants: true,
-        selectedApplicantIndex: -1
+        selectedApplicantIndex: selectedApplicantIndex
       });
       const res = await axios.get(`${API.VOTING_LIST}?board_type=${type}`);
       this.setState({
@@ -63,7 +63,7 @@ class Voting extends React.Component {
     this.setState({ currentType: e.target.value });
   };
 
-  vote = () => {
+  vote = async () => {
     const {
       selectedApplicantIndex,
       applicants,
@@ -71,36 +71,40 @@ class Voting extends React.Component {
       currentType
     } = this.state;
     const currentApplicant = applicants[selectedApplicantIndex];
-    axios
-      .post(API.VOTING_VOTE, {
+    try {
+      const res = await axios.post(API.VOTING_VOTE, {
         BoardType: currentType,
         CandidateID: currentApplicant.ID,
         VoteAmount: Number(amount)
-      })
-      .then(res => {
-        const { data } = res;
-        if (data) {
-          const { Error: resError } = data;
-          if (resError) {
-            toaster.warning(resError.Message);
-          } else {
-            toaster.success("Vote success!");
-          }
-        }
-        this.setState({ isLoading: false, dialogVote: false });
-      })
-      .catch(e => {
-        const { response } = e;
-        const { data } = response;
-        if (data) {
-          const { Error: resError } = data;
-          if (resError) {
-            toaster.warning(resError.Message);
-          }
-        }
-        this.setState({ isLoading: false, dialogVote: false });
-        catchError(e);
       });
+
+      const { data } = res;
+      if (data) {
+        const { Error: resError } = data;
+        if (resError) {
+          toaster.warning(resError.Message);
+        } else {
+          toaster.success("Vote success!");
+        }
+      }
+
+      this.setState({ isLoading: false, dialogVote: false });
+      this.loadCandidatesList(
+        this.state.currentType,
+        this.state.selectedApplicantIndex
+      );
+    } catch (e) {
+      const { response } = e;
+      const { data } = response;
+      if (data) {
+        const { Error: resError } = data;
+        if (resError) {
+          toaster.warning(resError.Message);
+        }
+      }
+      this.setState({ isLoading: false, dialogVote: false });
+      catchError(e);
+    }
   };
 
   onlyNumber = (value, cb) => {
