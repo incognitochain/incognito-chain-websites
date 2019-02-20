@@ -7,7 +7,7 @@ import { Dialog, TextInputField, toaster } from "evergreen-ui";
 import _ from "lodash";
 import { ProposalListItem } from "./ProposalListItem";
 import { ProposalData } from "./ProposalData";
-import { RightContent } from "./RightContent";
+import { RightContent } from "../Voting/RightContent";
 
 const list = [
   {
@@ -108,12 +108,17 @@ class Proposals extends React.Component {
     this.setState({ currentType: e.target.value });
   };
 
+  getCurrentProposal = () => {
+    const { proposals, selectedApplicantIndex } = this.state;
+    return proposals[selectedApplicantIndex];
+  };
+
   vote = () => {
-    const { currentApplicant, amount, currentType } = this.state;
+    const { amount, currentType } = this.state;
     axios
       .post(API.PROPOSAL_VOTE, {
         BoardType: currentType,
-        CandidateID: currentApplicant.ID,
+        ProposalID: this.getCurrentProposal().ID,
         VoteAmount: Number(amount)
       })
       .then(res => {
@@ -227,7 +232,7 @@ class Proposals extends React.Component {
                     <div className="clearfix" />
                   </div>
                   <div className="content">
-                    {renderIf(isLoadingProposal)("Loading..")}
+                    {renderIf(isLoadingProposal)("Loading...")}
                     {renderIf(!isLoadingProposal)(
                       proposals.map((item, index) => (
                         <ProposalListItem
@@ -249,8 +254,15 @@ class Proposals extends React.Component {
                   buyingAssetOptions: this.state.buyingAssetOptions
                 }}
               />
+
               <RightContent
-                data={proposals[selectedApplicantIndex]}
+                placeholder="Please select proposal"
+                user={_.get(proposals, `${selectedApplicantIndex}.User`)}
+                balances={_.get(
+                  proposals,
+                  `${selectedApplicantIndex}.Balances.ListBalances`
+                )}
+                vote={_.get(proposals, `${selectedApplicantIndex}.VoteNum`)}
                 onClickVote={() => {
                   this.setState({ dialogVote: true });
                 }}

@@ -204,7 +204,13 @@ class Voting extends React.Component {
 
               <CenterContent applicant={applicants[selectedApplicantIndex]} />
               <RightContent
-                applicant={applicants[selectedApplicantIndex]}
+                placeholder="Please select applicant"
+                user={_.get(applicants, `${selectedApplicantIndex}.User`)}
+                balances={_.get(
+                  applicants,
+                  `${selectedApplicantIndex}.Balances.ListBalances`
+                )}
+                vote={_.get(applicants, `${selectedApplicantIndex}.VoteNum`)}
                 onClickVote={() => {
                   this.setState({ dialogVote: true });
                 }}

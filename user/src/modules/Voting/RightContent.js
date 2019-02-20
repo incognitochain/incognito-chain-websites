@@ -32,17 +32,19 @@ const TokenImage = ({ width, height, src }) => {
   );
 };
 
-export function RightContent({ applicant = {}, onClickVote }) {
-  const user = _.get(applicant, "User", {});
-  const balances = Object.values(_.get(applicant, "Balances.ListBalances", {}));
-
+export function RightContent({
+  placeholder = "",
+  user = {},
+  balances = {},
+  vote = 0,
+  onClickVote
+}) {
+  const balancesArr = Object.values(balances);
   return (
     <div className="col-12 col-lg-3">
       <div className="c-card">
-        {renderIf(_.isEmpty(applicant))(
-          <div className="empty">Please select applicant</div>
-        )}
-        {renderIf(!_.isEmpty(applicant))(
+        {renderIf(_.isEmpty(user))(<div className="empty">{placeholder}</div>)}
+        {renderIf(!_.isEmpty(user))(
           <div className="right-bar">
             <AvatarAndName>
               <Avatar>{_.get(user, "FirstName.0", "").toUpperCase()}</Avatar>
@@ -59,13 +61,13 @@ export function RightContent({ applicant = {}, onClickVote }) {
                 <IconWrapper>
                   <VoteIcon />
                 </IconWrapper>
-                <Text>{_.get(applicant, "VoteNum")} votes</Text>
+                <Text>{vote} votes</Text>
               </Line>
             </Div1>
 
             <Div2>
               <Title>Token list</Title>
-              {balances.map((balance, index) => {
+              {balancesArr.map((balance, index) => {
                 return (
                   <Balance key={index}>
                     <TokenImageWrapper>
