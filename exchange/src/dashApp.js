@@ -1,7 +1,6 @@
 import React from "react";
 import { Provider } from "react-redux";
 import { store, history } from "./redux/store";
-import PublicRoutes from "./router";
 import { ThemeProvider } from "styled-components";
 import { LocaleProvider } from "antd";
 import { IntlProvider } from "react-intl";
@@ -12,7 +11,10 @@ import config, {
 } from "./containers/LanguageSwitcher/config";
 import { themeConfig } from "./settings";
 import DashAppHolder from "./dashAppStyle";
-import Boot from "./redux/boot";
+
+import { ConnectedRouter } from "react-router-redux";
+
+import App from "./containers/App/App";
 
 const currentAppLocale =
   AppLocale[getCurrentLanguage(config.defaultLanguage || "english").locale];
@@ -24,18 +26,17 @@ const DashApp = () => (
       messages={currentAppLocale.messages}
     >
       <ThemeProvider theme={themes[themeConfig.theme]}>
-        <DashAppHolder>
+        <DashAppHolder className="DashAppHolder">
           <Provider store={store}>
-            <PublicRoutes history={history} />
+            <ConnectedRouter history={history}>
+              <App />
+            </ConnectedRouter>
           </Provider>
         </DashAppHolder>
       </ThemeProvider>
     </IntlProvider>
   </LocaleProvider>
 );
-Boot()
-  .then(() => DashApp())
-  .catch(error => console.error(error));
 
 export default DashApp;
 export { AppLocale };

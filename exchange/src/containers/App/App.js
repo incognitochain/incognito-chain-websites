@@ -1,81 +1,92 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Layout, LocaleProvider } from 'antd';
-import { Debounce } from 'react-throttle';
-import WindowResizeListener from 'react-window-size-listener';
-import { IntlProvider } from 'react-intl';
-import { ThemeProvider } from 'styled-components';
-import authAction from '../../redux/auth/actions';
-import appActions from '../../redux/app/actions';
-import Topbar from '../Topbar/Topbar';
-import AppRouter from './AppRouter';
-import { siteConfig } from '../../settings';
-import themes from '@/settings/themes';
-import { themeConfig } from '../../settings';
-import AppHolder from './commonStyle';
-import { AppLocale } from '../../dashApp';
-import './global.css';
+import React from "react";
+import { connect } from "react-redux";
+import { Layout, LocaleProvider } from "antd";
+import { IntlProvider } from "react-intl";
+import { ThemeProvider } from "styled-components";
+import Topbar from "../Topbar/Topbar";
+import AppRouter from "./AppRouter";
+import { siteConfig } from "../../settings";
+import themes from "@/settings/themes";
+import { themeConfig } from "../../settings";
+import AppHolder from "./commonStyle";
+import { AppLocale } from "../../dashApp";
+import "./global.css";
+import { withRouter } from "react-router-dom";
+import { compose } from "redux";
+import authActions from "../../redux/auth/actions";
+import axios from "axios";
+import auth from "@ui/auth";
+import ContainerDimensions from "react-container-dimensions";
 
 const { Content, Footer } = Layout;
-const { logout } = authAction;
-const { toggleAll } = appActions;
 const customizedTheme = themes[themeConfig.theme];
 
-export class App extends Component {
-  render() {
-    const { url } = this.props.match;
-    const { locale, selectedTheme, height } = this.props;
-    const currentAppLocale = AppLocale[locale];
-    const appHeight = window.innerHeight;
+export function App(props) {
+  const { url } = props.match;
+  const { locale } = props;
+  const currentAppLocale = AppLocale[locale];
 
-    return (
-      <LocaleProvider locale={currentAppLocale.antd}>
-        <IntlProvider
-          locale={currentAppLocale.locale}
-          messages={currentAppLocale.messages}
-        >
+  React.useEffect(() => {
+    onAppStart();
+  }, []);
 
-          <ThemeProvider theme={themes[themeConfig.theme]}>
-            <AppHolder>
-              <Layout style={{ height: appHeight }}>
-                {/* <Debounce time="1000" handler="onResize">
-                  <WindowResizeListener
-                    onResize={windowSize =>
-                      this.props.toggleAll(
-                        windowSize.windowWidth,
-                        windowSize.windowHeight
-                      )
-                    }
-                  />
-                </Debounce> */}
-                <Topbar url={url} />
-                <Layout style={{ flexDirection: 'row', overflowX: 'hidden' }}>
+  function onAppStart() {
+    props.dispatch(authActions.checkAuthorization());
+    setUpAxios();
+  }
 
-                  <Layout className="isoContentMainLayout" style={{ height: height }} >
-                    <Content  className="isomorphicContent" style={{...customizedTheme.content}} >
-                      <AppRouter url={url} />
-                    </Content>
-                    <Footer style={{...customizedTheme.footer}} >
-                      {siteConfig.footerText}
-                    </Footer>
+  function setUpAxios() {
+    axios.defaults.headers.common["Content-Type"] =
+      "application/json;charset=UTF-8";
+    axios.defaults.headers.common["Authorization"] =
+      "Bearer " + auth.isLogged();
+  }
 
+  return (
+    <LocaleProvider locale={currentAppLocale.antd}>
+      <IntlProvider
+        locale={currentAppLocale.locale}
+        messages={currentAppLocale.messages}
+      >
+        <ThemeProvider theme={themes[themeConfig.theme]}>
+          <ContainerDimensions>
+            {({ height }) => (
+              <AppHolder>
+                <Layout style={{ height }}>
+                  <Topbar url={url} />
+
+                  <Layout style={{ flexDirection: "row", overflowX: "hidden" }}>
+                    <Layout
+                      className="isoContentMainLayout"
+                      style={{ height: height }}
+                    >
+                      <Content
+                        className="isomorphicContent"
+                        style={{ ...customizedTheme.content }}
+                      >
+                        <AppRouter url={url} />
+                      </Content>
+                      <Footer style={{ ...customizedTheme.footer }}>
+                        {siteConfig.footerText}
+                      </Footer>
+                    </Layout>
                   </Layout>
                 </Layout>
-              </Layout>
-            </AppHolder>
-          </ThemeProvider>
-        </IntlProvider>
-      </LocaleProvider>
-    );
-  }
+              </AppHolder>
+            )}
+          </ContainerDimensions>
+        </ThemeProvider>
+      </IntlProvider>
+    </LocaleProvider>
+  );
 }
 
-export default connect(
-  state => ({
+export default compose(
+  withRouter,
+  connect(state => ({
     auth: state.Auth,
     locale: state.LanguageSwitcher.language.locale,
     selectedTheme: state.ThemeSwitcher.changeThemes.themeName,
     height: state.App.height
-  }),
-  { logout, toggleAll }
+  }))
 )(App);

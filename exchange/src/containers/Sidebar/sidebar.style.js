@@ -1,12 +1,12 @@
-import styled from 'styled-components';
-import { palette } from 'styled-theme';
-import { transition, borderRadius } from '@/settings/style-util';
-import WithDirection from '@/settings/withDirection';
+import styled from "styled-components";
+import { palette } from "styled-theme";
+import { transition } from "@/settings/style-util";
+import WithDirection from "@/settings/withDirection";
 
 const SidebarWrapper = styled.div`
   .isomorphicSidebar {
     z-index: 1000;
-    background: ${palette('primary', 0)};
+    background: ${palette("primary", 0)};
     width: 280px;
     flex: 0 0 280px;
 
@@ -42,7 +42,7 @@ const SidebarWrapper = styled.div`
           line-height: 50px;
           letter-spacing: 3px;
           text-transform: uppercase;
-          color: ${palette('grayscale', 6)};
+          color: ${palette("grayscale", 6)};
           display: block;
           text-decoration: none;
         }
@@ -76,7 +76,7 @@ const SidebarWrapper = styled.div`
         width: 120px;
         margin: 0;
         float: left;
-        display: block
+        display: block;
       }
 
       .isoMenuHolder {
@@ -87,7 +87,7 @@ const SidebarWrapper = styled.div`
           font-size: 19px;
           color: inherit;
           margin: ${props =>
-            props['data-rtl'] === 'rtl' ? '0 0 0 30px' : '0 30px 0 0'};
+            props["data-rtl"] === "rtl" ? "0 0 0 30px" : "0 30px 0 0"};
           width: 18px;
           ${transition()};
         }
@@ -108,7 +108,7 @@ const SidebarWrapper = styled.div`
       }
 
       .ant-menu-item-selected {
-        border-bottom: solid 2px #56F5B5;
+        border-bottom: solid 2px #56f5b5;
         height: 45px;
         background-color: transparent !important;
         .anticon {
@@ -135,24 +135,21 @@ const SidebarWrapper = styled.div`
     }
 
     .ant-menu-dark .ant-menu-inline .ant-menu-sub {
-      background: ${palette('primary', 0)};
+      background: ${palette("primary", 0)};
     }
-    
 
     .ulSubmenu {
       ul {
-        background-color: red ! important;
+        background-color: red !important;
         width: 300px;
         clear: both;
 
         li {
-          clear: both ! important;
-          width: auto ! important;
+          clear: both !important;
+          width: auto !important;
         }
       }
-
     }
-    
 
     .ant-menu-submenu-inline,
     .ant-menu-submenu-vertical {
@@ -160,16 +157,14 @@ const SidebarWrapper = styled.div`
         width: 120px;
         margin: 0;
         float: left;
-        display: block
-
-        > span {
+        display: block > span {
           display: flex;
           align-items: center;
         }
 
         .ant-menu-submenu-arrow {
-          left: ${props => (props['data-rtl'] === 'rtl' ? '25px' : 'auto')};
-          right: ${props => (props['data-rtl'] === 'rtl' ? 'auto' : '25px')};
+          left: ${props => (props["data-rtl"] === "rtl" ? "25px" : "auto")};
+          right: ${props => (props["data-rtl"] === "rtl" ? "auto" : "25px")};
           margin-top: 0.1rem;
 
           &:before,
@@ -186,7 +181,7 @@ const SidebarWrapper = styled.div`
             transform: rotate(45deg) translateX(-3px);
           }
 
-          ${'' /* &:after {
+          ${"" /* &:after {
             content: '\f123';
             font-family: 'Ionicons' !important;
             font-size: 16px;
@@ -211,9 +206,9 @@ const SidebarWrapper = styled.div`
       .ant-menu-submenu-vertical {
         > li:not(.ant-menu-item-group) {
           padding-left: ${props =>
-            props['data-rtl'] === 'rtl' ? '0px !important' : '74px !important'};
+            props["data-rtl"] === "rtl" ? "0px !important" : "74px !important"};
           padding-right: ${props =>
-            props['data-rtl'] === 'rtl' ? '74px !important' : '0px !important'};
+            props["data-rtl"] === "rtl" ? "74px !important" : "0px !important"};
           font-size: 13px;
           font-weight: 400;
           margin: 0;
@@ -247,14 +242,12 @@ const SidebarWrapper = styled.div`
       }
     }
 
-
-
     &.ant-layout-sider-collapsed {
       .nav-text {
         display: none;
       }
 
-      .ant-menu-submenu-inline >  {
+      .ant-menu-submenu-inline > {
         .ant-menu-submenu-title:after {
           display: none;
         }
@@ -273,10 +266,7 @@ const SidebarWrapper = styled.div`
           }
         }
       }
-
-      
     }
-
   }
   .sub-menu-button {
     background-color: transparent !important;
@@ -284,7 +274,6 @@ const SidebarWrapper = styled.div`
     border: 0px !important;
     width: 100%;
   }
- 
 `;
 
 export default WithDirection(SidebarWrapper);

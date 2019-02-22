@@ -1,8 +1,9 @@
-import styled from 'styled-components';
-import { palette, font } from 'styled-theme';
+import styled from "styled-components";
+import { palette, font } from "styled-theme";
 
 const DashAppHolder = styled.div`
-  font-family: ${font('primary', 0)};
+  font-family: ${font("primary", 0)};
+  height: 100vh;
 
   h1,
   h2,
@@ -20,13 +21,13 @@ const DashAppHolder = styled.div`
   img,
   svg {
     &::selection {
-      background: ${palette('primary', 0)};
+      background: ${palette("primary", 0)};
       color: #fff;
     }
   }
 
   .ant-row {
-    ${'' /* margin-left: -8px;
+    ${"" /* margin-left: -8px;
     margin-right: -8px; */};
   }
 

@@ -4,17 +4,14 @@ import { Layout } from "antd";
 import appActions from "../../redux/app/actions";
 import TopbarUser from "./topbarUser";
 import TopbarWrapper from "./topbar.style";
-import themes from "../../settings/themes";
-import { themeConfig } from "../../settings";
-import Sidebar from '../Sidebar/Sidebar';
+import Sidebar from "../Sidebar/Sidebar";
 
 const { Header } = Layout;
 const { toggleCollapsed } = appActions;
-const customizedTheme = themes[themeConfig.theme];
 
 class Topbar extends Component {
   render() {
-    const { toggleCollapsed, url, customizedTheme, locale } = this.props;
+    const { url, customizedTheme, locale } = this.props;
     const collapsed = this.props.collapsed && !this.props.openDrawer;
     const styling = {
       background: customizedTheme.backgroundColor,
