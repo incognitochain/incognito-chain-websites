@@ -1,27 +1,47 @@
 import React from "react";
 import { Modal, Form, Input, notification } from "antd";
 import axios from "axios";
+import _ from "lodash";
 
-export function SellModal({ isShow, onClose, record = {} }) {
+const initialFormState = {
+  amount: "",
+  priceLimit: ""
+};
+
+export function SellModal({ isShow, onClose, record = {}, loadCrowdsales }) {
   const [isLoading, setIsLoading] = React.useState(false);
-  const formRef = React.useRef();
+
+  const [formState, setFormState] = React.useState(initialFormState);
+
+  React.useEffect(() => {
+    setFormState(initialFormState);
+  }, [isShow]);
+
+  function setField(fieldName, value) {
+    setFormState({ ...formState, [fieldName]: value });
+  }
 
   async function submitForm() {
     try {
       setIsLoading(true);
-      const formValues = formRef.current.fieldsStore.getAllValues();
 
       await axios.post(`${process.env.serviceAPI}/bond-market/dcb/sell`, {
         SaleID: record.SaleID,
         TokenID: record.BuyingAsset,
-        TotalAmount: Number(formValues.TotalAmount),
-        PricePerBond: Number(formValues.PricePerBond)
+        Amount: Number(formState.amount),
+        PriceLimit: Number(formState.priceLimit),
+        TokenName: record.BuyingAssetLabel
       });
-      notification.success({ message: "Submitted!" });
+      notification.success({ message: "Sell Success!" });
       onClose();
+      loadCrowdsales();
     } catch (e) {
       notification.error({
-        message: `Fail to submit Sell data`
+        message: _.get(
+          e,
+          "response.data.Error.Message",
+          "Submit Sell Data Fail"
+        )
       });
     }
     setIsLoading(false);
@@ -33,24 +53,33 @@ export function SellModal({ isShow, onClose, record = {} }) {
       visible={isShow}
       onOk={submitForm}
       onCancel={onClose}
-      okButtonProps={{ loading: isLoading }}
+      okButtonProps={{
+        loading: isLoading,
+        disabled: !formState.amount || !formState.priceLimit
+      }}
     >
-      <SellForm ref={formRef} />
+      <SellForm formState={formState} setField={setField} record={record} />
     </Modal>
   );
 }
 
-const SellForm = Form.create({ name: "SellForm" })(
-  ({ form: { getFieldDecorator } }) => {
-    return (
-      <Form layout="vertical">
-        <Form.Item label="Total Amount">
-          {getFieldDecorator("TotalAmount", {})(<Input placeholder="0" />)}
-        </Form.Item>
-        <Form.Item label="Price Per Bond">
-          {getFieldDecorator("PricePerBond", {})(<Input placeholder="0" />)}
-        </Form.Item>
-      </Form>
-    );
-  }
-);
+const SellForm = ({ formState, setField, record }) => {
+  return (
+    <Form layout="vertical">
+      <Form.Item label={`Amount (${record.BuyingAssetLabel})`}>
+        <Input
+          placeholder="0"
+          value={formState.amount}
+          onChange={e => setField("amount", e.target.value)}
+        />
+      </Form.Item>
+      <Form.Item label="Price Limit (CONST)">
+        <Input
+          placeholder="0"
+          value={formState.priceLimit}
+          onChange={e => setField("priceLimit", e.target.value)}
+        />
+      </Form.Item>
+    </Form>
+  );
+};

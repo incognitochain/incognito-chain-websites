@@ -8,8 +8,19 @@ import { notification, Table } from "antd";
 import Button from "@ui/uielements/button";
 import { BuyModal } from "./BuyModal";
 import { SellModal } from "./SellModal";
+import BreadcrumbBar from "@/containers/Breadcrumb/Breadcrumb";
 
 const renderIf = cond => comp => (cond ? comp : null);
+
+const mapTypeToTextColor = {
+  sellable: "rgb(112, 168, 0)",
+  buyable: "rgb(234, 0, 112)"
+};
+
+const mapTypeToButtonBackground = {
+  sellable: "rgb(234, 0, 112)",
+  buyable: "rgb(112, 168, 0)"
+};
 
 function initState() {
   return {
@@ -136,86 +147,120 @@ export default function Crowdsale() {
   }
 
   return (
-    <Wrapper>
-      <PageHeader>{<IntlMessages id="Crowdsale.PageHeader" />}</PageHeader>
-      <TableWrapper>
-        {renderIf(!state.isLoading && state.crowdsales.length)(
-          <Table
-            columns={[
-              {
-                title: "Buying Asset",
-                dataIndex: "BuyingAssetLabel",
-                key: "BuyingAssetLabel"
-              },
-              {
-                title: "Buying Amount",
-                dataIndex: "BuyingAmount",
-                key: "BuyingAmount",
-                sorter: (a, b) => {
-                  return a.BuyingAmount - b.BuyingAmount;
+    <>
+      <BreadcrumbBar
+        urls={[
+          {
+            name: "Crowdsale",
+            url: "/crowdsale"
+          },
+          {
+            name: "History",
+            url: "/crowdsale/history"
+          }
+        ]}
+      />
+      <Wrapper>
+        <PageHeader>{<IntlMessages id="Crowdsale.PageHeader" />}</PageHeader>
+        <TableWrapper>
+          {renderIf(!state.isLoading && state.crowdsales.length)(
+            <Table
+              columns={[
+                {
+                  title: "Asset",
+                  key: "Asset",
+                  render: (_, record) => {
+                    return (
+                      <div style={{ color: mapTypeToTextColor[record.Type] }}>
+                        {record.Type === "buyable"
+                          ? record.SellingAssetLabel
+                          : record.BuyingAssetLabel}
+                      </div>
+                    );
+                  }
                 },
-                sortDirections: ["descend", "ascend"]
-              },
-              {
-                title: "Selling Asset",
-                dataIndex: "SellingAssetLabel",
-                key: "SellingAssetLabel"
-              },
-              {
-                title: "Selling Amount",
-                dataIndex: "SellingAmount",
-                key: "SellingAmount",
-                sorter: (a, b) => {
-                  return a.BuyingAmount - b.BuyingAmount;
-                },
-                sortDirections: ["descend", "ascend"]
-              },
-              {
-                title: "",
-                dataIndex: "Type",
-                key: "Type",
-                render: (type, record) =>
-                  type === "sellable" ? (
-                    <Button
-                      type="primary"
-                      className="btn"
-                      onClick={() => onClickSell(record)}
-                    >
-                      Sell
-                    </Button>
-                  ) : (
-                    <Button
-                      type="primary"
-                      className="btn"
-                      onClick={() => onClickBuy(record)}
-                    >
-                      Buy
-                    </Button>
+                {
+                  title: "Buying Amount",
+                  dataIndex: "BuyingAmount",
+                  key: "BuyingAmount",
+                  sorter: (a, b) => {
+                    return a.BuyingAmount - b.BuyingAmount;
+                  },
+                  sortDirections: ["descend", "ascend"],
+                  render: (text, record) => (
+                    <div style={{ color: mapTypeToTextColor[record.Type] }}>
+                      {text}
+                    </div>
                   )
-              }
-            ]}
-            dataSource={state.crowdsales}
-            rowKey={record => record.SaleID}
-          />
-        )}
-        {renderIf(!state.isLoading && !state.crowdsales.length)(
-          <p>
-            <IntlMessages id="Crowdsale.DataNotFound" />
-          </p>
-        )}
-      </TableWrapper>
-
-      <BuyModal
-        isShow={state.isShowBuyModal}
-        onClose={() => dispatch({ type: "CLOSE_BUY_MODAL" })}
-        record={state.crowdsales[state.recordIndex]}
-      />
-      <SellModal
-        isShow={state.isShowSellModal}
-        onClose={() => dispatch({ type: "CLOSE_SELL_MODAL" })}
-        record={state.crowdsales[state.recordIndex]}
-      />
-    </Wrapper>
+                },
+                {
+                  title: "Selling Amount",
+                  dataIndex: "SellingAmount",
+                  key: "SellingAmount",
+                  sorter: (a, b) => {
+                    return a.BuyingAmount - b.BuyingAmount;
+                  },
+                  sortDirections: ["descend", "ascend"],
+                  render: (text, record) => (
+                    <div style={{ color: mapTypeToTextColor[record.Type] }}>
+                      {text}
+                    </div>
+                  )
+                },
+                {
+                  title: "",
+                  dataIndex: "Type",
+                  key: "Type",
+                  render: (type, record) =>
+                    type === "sellable" ? (
+                      <Button
+                        type="primary"
+                        className="btn"
+                        onClick={() => onClickSell(record)}
+                        style={{
+                          backgroundColor: mapTypeToButtonBackground["sellable"]
+                        }}
+                      >
+                        Sell
+                      </Button>
+                    ) : (
+                      <Button
+                        type="primary"
+                        className="btn"
+                        onClick={() => onClickBuy(record)}
+                        style={{
+                          backgroundColor: mapTypeToButtonBackground["buyable"]
+                        }}
+                      >
+                        Buy
+                      </Button>
+                    )
+                }
+              ]}
+              dataSource={state.crowdsales}
+              rowKey={record => record.SaleID}
+            />
+          )}
+          {renderIf(!state.isLoading && !state.crowdsales.length)(
+            <p>
+              <IntlMessages id="Crowdsale.DataNotFound" />
+            </p>
+          )}
+        </TableWrapper>
+        <BuyModal
+          isShow={state.isShowBuyModal}
+          onClose={() => dispatch({ type: "CLOSE_BUY_MODAL" })}
+          record={state.crowdsales[state.recordIndex]}
+          loadCrowdsales={loadCrowdsales}
+        />
+        <SellModal
+          isShow={state.isShowSellModal}
+          onClose={() => dispatch({ type: "CLOSE_SELL_MODAL" })}
+          record={state.crowdsales[state.recordIndex]}
+          loadCrowdsales={loadCrowdsales}
+        />
+      </Wrapper>
+    </>
   );
 }
 

@@ -95,7 +95,7 @@ export default class BondHistory extends Component {
   async getData() {
     this.setState({ loading: true });
     let result = await bondmarket.getHistoryList();
-    //let result = dataTest;
+    result = dataTest;
     if (!result.error) {
       const { BondBuysHistory = {} } = result;
       if (BondBuysHistory) {
@@ -272,7 +272,7 @@ export default class BondHistory extends Component {
     const { loading } = this.state;
     if (loading) return <Loader />;
     return (
-      <div style={{ border: "5px dashed pink" }}>
+      <div>
         {this.renderBreadcrumb()}
         <LayoutWrapper>
           <div className="wrapperBondHistory">

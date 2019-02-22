@@ -35,6 +35,13 @@ const AppRouter = () => {
           import("@/containers/crowdsale/Crowdsale")
         )}
       />
+      <Route
+        exact
+        path="/crowdsale/history"
+        component={asyncComponent(() =>
+          import("@/containers/crowdsale/CrowdsaleHistory")
+        )}
+      />
     </>
   );
 };

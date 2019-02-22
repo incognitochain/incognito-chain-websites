@@ -49,32 +49,28 @@ export function App(props) {
         messages={currentAppLocale.messages}
       >
         <ThemeProvider theme={themes[themeConfig.theme]}>
-          <ContainerDimensions>
-            {({ height }) => (
-              <AppHolder>
-                <Layout style={{ height }}>
-                  <Topbar url={url} />
+          <AppHolder>
+            <Layout style={{ height: window.height }}>
+              <Topbar url={url} />
 
-                  <Layout style={{ flexDirection: "row", overflowX: "hidden" }}>
-                    <Layout
-                      className="isoContentMainLayout"
-                      style={{ height: height }}
-                    >
-                      <Content
-                        className="isomorphicContent"
-                        style={{ ...customizedTheme.content }}
-                      >
-                        <AppRouter url={url} />
-                      </Content>
-                      <Footer style={{ ...customizedTheme.footer }}>
-                        {siteConfig.footerText}
-                      </Footer>
-                    </Layout>
-                  </Layout>
+              <Layout style={{ flexDirection: "row", overflowX: "hidden" }}>
+                <Layout
+                  className="isoContentMainLayout"
+                  style={{ height: window.height }}
+                >
+                  <Content
+                    className="isomorphicContent"
+                    style={{ ...customizedTheme.content }}
+                  >
+                    <AppRouter url={url} />
+                  </Content>
+                  <Footer style={{ ...customizedTheme.footer }}>
+                    {siteConfig.footerText}
+                  </Footer>
                 </Layout>
-              </AppHolder>
-            )}
-          </ContainerDimensions>
+              </Layout>
+            </Layout>
+          </AppHolder>
         </ThemeProvider>
       </IntlProvider>
     </LocaleProvider>

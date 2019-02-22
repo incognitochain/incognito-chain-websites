@@ -90,7 +90,7 @@ export default class BondMarket extends Component {
     if (loading) return <Loader />;
 
     return (
-      <div style={{ border: "5px dashed green" }}>
+      <div>
         {this.renderBreadcrumb()}
         <LayoutWrapper>
           <PageHeader>{<IntlMessages id="BondMarket.PageHeader" />}</PageHeader>
