@@ -10,6 +10,7 @@ Install these first:
 
 ## Getting Started
 
-- Update your host file (located at `/etc/hosts` on mac) to `./blancer/hosts`
 - Run `yarn balancer`
-- Open each sub project (`user`, `portal`, etc.) and run `yarn install`, `yarn dev` or `yarn start`
+- If above not work as expected, update your host file (located at `/etc/hosts` on mac) to `./balancer/hosts`
+- Open each sub project (`user`, `portal`, etc.) and run `yarn install` then `yarn start`
+- After running `yarn start` success, use the domain in `./balancer/hosts` to open the corresponpse constant website.
