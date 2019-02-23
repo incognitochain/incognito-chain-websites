@@ -112,17 +112,20 @@ export default function Crowdsale() {
 
       dispatch({
         type: "LOAD_CROWDSALES_SUCCESS",
-        crowdsales: _.get(crowdsalesRes, "data.Result", []).map(item => ({
-          ...item,
-          BuyingAssetLabel: buyingAssetOptions.find(
-            option => option[1] === item.BuyingAsset
-          )[0],
-          SellingAssetLabel: sellingAssetOptions.find(
-            option => option[1] === item.SellingAsset
-          )[0]
-        }))
+        crowdsales: (_.get(crowdsalesRes, "data.Result", []) || []).map(
+          item => ({
+            ...item,
+            BuyingAssetLabel: buyingAssetOptions.find(
+              option => option[1] === item.BuyingAsset
+            )[0],
+            SellingAssetLabel: sellingAssetOptions.find(
+              option => option[1] === item.SellingAsset
+            )[0]
+          })
+        )
       });
     } catch (e) {
+      console.error(e);
       notification.error({
         message: `Fail to request crowdsales`
       });

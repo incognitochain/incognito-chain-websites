@@ -129,10 +129,10 @@ const CrowdsaleHistory = () => {
   async function loadCrowdsaleHistory() {
     dispatch({ type: "LOAD_HISTORY" });
     try {
-      // const response = await axios.get(
-      //   `${process.env.serviceAPI}/bond-market/dcb/crowdsales_histories`
-      // );
-      const response = { data: { Result: testData } };
+      const response = await axios.get(
+        `${process.env.serviceAPI}/bond-market/dcb/crowdsales_histories`
+      );
+      // const response = { data: { Result: testData } };
 
       dispatch({
         type: "LOAD_HISTORY_SUCCESS",

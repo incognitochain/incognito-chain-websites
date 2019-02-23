@@ -1,12 +1,22 @@
 import React from "react";
 import styled from "styled-components";
-export function CrowdsaleHistoryList({ tokens = [], onClickItem }) {
+import cls from "classnames";
+
+export function CrowdsaleHistoryList({
+  tokens = [],
+  onClickItem,
+  selectedTokenId
+}) {
   return (
     <Wrapper>
       <Title>Bond List</Title>
       {tokens.map(token => {
         return (
-          <ItemWrapper key={token.id} onClick={() => onClickItem(token.id)}>
+          <ItemWrapper
+            key={token.id}
+            className={cls({ isSelected: token.id === selectedTokenId })}
+            onClick={() => onClickItem(token.id)}
+          >
             <Left>
               <img alt="token-icon" src={token.image} />
             </Left>
@@ -59,5 +69,10 @@ const ItemWrapper = styled.div`
 
   &:hover {
     background-color: #f9fafb;
+  }
+
+  &.isSelected {
+    background-color: #f9fafb;
+    pointer-events: none;
   }
 `;

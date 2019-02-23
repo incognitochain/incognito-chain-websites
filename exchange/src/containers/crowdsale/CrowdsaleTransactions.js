@@ -13,7 +13,7 @@ export const CrowdsaleTransactions = ({ transactions = [] }) => {
               <Label>TxID</Label>
               <Value>
                 <a
-                  href={`http://explore.constant.money/tx/${transaction.TxID}`}
+                  href={`http://explorer.constant.money/tx/${transaction.TxID}`}
                 >
                   {transaction.TxID}
                 </a>
