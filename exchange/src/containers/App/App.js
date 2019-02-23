@@ -16,7 +16,6 @@ import { compose } from "redux";
 import authActions from "../../redux/auth/actions";
 import axios from "axios";
 import auth from "@ui/auth";
-import ContainerDimensions from "react-container-dimensions";
 
 const { Content, Footer } = Layout;
 const customizedTheme = themes[themeConfig.theme];
@@ -50,13 +49,13 @@ export function App(props) {
       >
         <ThemeProvider theme={themes[themeConfig.theme]}>
           <AppHolder>
-            <Layout style={{ height: window.height }}>
+            <Layout style={{ height: "100vh" }}>
               <Topbar url={url} />
 
               <Layout style={{ flexDirection: "row", overflowX: "hidden" }}>
                 <Layout
                   className="isoContentMainLayout"
-                  style={{ height: window.height }}
+                  style={{ height: "100vh" }}
                 >
                   <Content
                     className="isomorphicContent"
