@@ -42,6 +42,7 @@ class Login extends React.Component {
             domain: ".constant.money",
             expires: 30
           });
+
           if (redirect) {
             document.location.assign(`//${redirect}`);
           } else {
