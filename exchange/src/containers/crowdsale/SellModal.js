@@ -58,28 +58,22 @@ export function SellModal({ isShow, onClose, record = {}, loadCrowdsales }) {
         disabled: !formState.amount || !formState.priceLimit
       }}
     >
-      <SellForm formState={formState} setField={setField} record={record} />
+      <Form layout="vertical">
+        <Form.Item label={`Amount (${record.BuyingAssetLabel})`}>
+          <Input
+            placeholder="0"
+            value={formState.amount}
+            onChange={e => setField("amount", e.target.value)}
+          />
+        </Form.Item>
+        <Form.Item label="Price Limit (CONST)">
+          <Input
+            placeholder="0"
+            value={formState.priceLimit}
+            onChange={e => setField("priceLimit", e.target.value)}
+          />
+        </Form.Item>
+      </Form>
     </Modal>
   );
 }
-
-const SellForm = ({ formState, setField, record }) => {
-  return (
-    <Form layout="vertical">
-      <Form.Item label={`Amount (${record.BuyingAssetLabel})`}>
-        <Input
-          placeholder="0"
-          value={formState.amount}
-          onChange={e => setField("amount", e.target.value)}
-        />
-      </Form.Item>
-      <Form.Item label="Price Limit (CONST)">
-        <Input
-          placeholder="0"
-          value={formState.priceLimit}
-          onChange={e => setField("priceLimit", e.target.value)}
-        />
-      </Form.Item>
-    </Form>
-  );
-};

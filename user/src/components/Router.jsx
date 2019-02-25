@@ -109,6 +109,7 @@ class Router extends React.Component {
               {...route}
               render={routeProps => {
                 if (needLogged) {
+                  console.log("auth.logged", auth.logged);
                   if (!auth.logged) {
                     logout();
                     return (

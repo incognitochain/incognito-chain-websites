@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import cls from "classnames";
 import _ from "lodash";
+import { Tooltip } from "antd";
 
 export function CrowdsaleHistoryList({
   tokens = [],
@@ -26,7 +27,9 @@ export function CrowdsaleHistoryList({
             </Left>
             <Right>
               <Text>{token.name}</Text>
-              <Text title={token.id}>{(token.id || "...").slice(0, 6)}</Text>
+              <Tooltip placement="bottom" title={token.id}>
+                <Text>{(token.id || "...").slice(0, 6)}</Text>
+              </Tooltip>
             </Right>
           </ItemWrapper>
         );
