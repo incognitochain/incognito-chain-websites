@@ -73,22 +73,19 @@ const routers = [
 class Router extends React.Component {
   static propTypes = {
     auth: PropTypes.object.isRequired,
-    router: PropTypes.object.isRequired,
-    authCheckAuth: PropTypes.func.isRequired
+    router: PropTypes.object.isRequired
   };
 
-  constructor(props) {
-    super(props);
-
-    const { authCheckAuth } = this.props;
-    authCheckAuth();
+  componentDidMount() {
+    this.props.dispatch(checkAuth());
   }
 
   render() {
     const { auth, router } = this.props;
     const { location } = router;
     const { pathname } = location;
-
+    console.log("auth", auth);
+    debugger;
     if (!auth.inited) {
       return <Loading />;
     }
@@ -113,6 +110,7 @@ class Router extends React.Component {
               {...route}
               render={routeProps => {
                 if (needLogged) {
+                  console.log("auth.logged", auth.logged);
                   if (!auth.logged) {
                     logout();
                     return (
@@ -149,12 +147,7 @@ class Router extends React.Component {
   }
 }
 
-export default connect(
-  state => ({
-    auth: state.auth,
-    router: state.router
-  }),
-  {
-    authCheckAuth: checkAuth
-  }
-)(Router);
+export default connect(state => ({
+  auth: state.auth,
+  router: state.router
+}))(Router);

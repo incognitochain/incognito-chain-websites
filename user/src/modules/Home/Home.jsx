@@ -16,8 +16,8 @@ import { Dialog, Textarea, toaster } from "evergreen-ui";
 import { checkAuth } from "reducers/auth/action";
 import GovProposalDialog from "./GovProposalDialog";
 import DcbProposalDialog from "./DcbProposalDialog";
-// import uuidv1 from "uuid/v1";
 import _ from "lodash";
+import { GovTokens } from "../gov-tokens/GovTokens";
 
 const CheckInit = ({ children, inited }) => {
   if (!inited) {
@@ -257,7 +257,7 @@ class Home extends React.Component {
   submitCreateGOV = async (values, setSubmitting) => {
     setSubmitting(true);
     this.setState({ isLoading: true });
-    console.log("submitCreateGOV", values);
+
     try {
       const response = await axios.post(
         process.env.REACT_APP_SERVICE_API + "/voting/proposal",
@@ -410,8 +410,6 @@ class Home extends React.Component {
       dcbParams,
       govParams
     } = this.state;
-
-    console.log("buyingAssetoptions", this.state.buyingAssetOptions);
 
     const { auth } = this.props;
     return (
@@ -637,6 +635,8 @@ class Home extends React.Component {
             </div>
           </div>
         </div>
+
+        <GovTokens />
       </div>
     );
   }

@@ -11,6 +11,8 @@ export const checkAuth = () => dispatch => {
   axios
     .get(API.USER_DATA, { timeout: 1000 })
     .then(res => {
+      debugger;
+      console.log("res", res);
       const { data } = res;
       if (data && !isEmpty(data)) {
         const { Result } = data;
@@ -27,6 +29,7 @@ export const checkAuth = () => dispatch => {
       return false;
     })
     .catch(() => {
+      debugger;
       dispatch({ type: ACTIONS.LOGGED, logged: false });
     });
 };

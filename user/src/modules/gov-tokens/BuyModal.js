@@ -4,11 +4,11 @@ import { Modal, Form, Input, notification } from "antd";
 import _ from "lodash";
 
 const initialFormState = {
-  amount: "",
-  priceLimit: ""
+  totalAmount: "",
+  pricePerToken: ""
 };
 
-export function BuyModal({ isShow, onClose, record, loadCrowdsales }) {
+export function BuyModal({ isShow, onClose, record = {}, loadGovTokens }) {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const [formState, setFormState] = React.useState(initialFormState);
@@ -24,15 +24,16 @@ export function BuyModal({ isShow, onClose, record, loadCrowdsales }) {
   async function submitForm() {
     try {
       setIsLoading(true);
-      await axios.post(`${process.env.serviceAPI}/bond-market/dcb/buy`, {
-        SaleID: record.SaleID,
-        Amount: parseFloat(formState.amount, 10) * 100, //convert to nano constant
-        PriceLimit: parseFloat(formState.priceLimit, 10),
-        TokenName: record.SellingAssetLabel,
-        TokenID: record.SellingAsset
-      });
+      await axios.post(
+        `${process.env.REACT_APP_SERVICE_API}/wallet/buy_gov_tokens`,
+        {
+          TokenID: record.GOVTokenID,
+          TotalAmount: parseFloat(formState.totalAmount) * 100,
+          PricePerToken: parseFloat(formState.pricePerToken)
+        }
+      );
       notification.success({ message: "Buy Success!" });
-      loadCrowdsales();
+      loadGovTokens();
       onClose();
     } catch (e) {
       notification.error({
@@ -44,28 +45,28 @@ export function BuyModal({ isShow, onClose, record, loadCrowdsales }) {
 
   return (
     <Modal
-      title="Buy Crowdsell"
+      title="Buy GOV Token"
       visible={isShow}
       onOk={submitForm}
       onCancel={onClose}
       okButtonProps={{
         loading: isLoading,
-        disabled: !formState.amount || !formState.priceLimit
+        disabled: !formState.totalAmount || !formState.pricePerToken
       }}
     >
       <Form layout="vertical">
-        <Form.Item label="Amount (CONST)">
+        <Form.Item label="Total Amount">
           <Input
             placeholder="0"
-            value={formState.amount}
-            onChange={e => setField("amount", e.target.value)}
+            value={formState.totalAmount}
+            onChange={e => setField("totalAmount", e.target.value)}
           />
         </Form.Item>
-        <Form.Item label="Price Limit">
+        <Form.Item label="Price Per Token">
           <Input
             placeholder="0"
-            value={formState.priceLimit}
-            onChange={e => setField("priceLimit", e.target.value)}
+            value={formState.pricePerToken}
+            onChange={e => setField("pricePerToken", e.target.value)}
           />
         </Form.Item>
       </Form>
