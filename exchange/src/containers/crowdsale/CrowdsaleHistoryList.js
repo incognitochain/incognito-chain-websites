@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import cls from "classnames";
+import _ from "lodash";
 
 export function CrowdsaleHistoryList({
   tokens = [],
@@ -11,18 +12,21 @@ export function CrowdsaleHistoryList({
     <Wrapper>
       <Title>Bond List</Title>
       {tokens.map(token => {
+        const isSelected = token.id === selectedTokenId;
         return (
           <ItemWrapper
             key={token.id}
-            className={cls({ isSelected: token.id === selectedTokenId })}
-            onClick={() => onClickItem(token.id)}
+            className={cls({ isSelected })}
+            onClick={() => {
+              !isSelected && onClickItem(token.id);
+            }}
           >
             <Left>
               <img alt="token-icon" src={token.image} />
             </Left>
             <Right>
-              <Text>{token.id || "!"}</Text>
               <Text>{token.name}</Text>
+              <Text title={token.id}>{(token.id || "...").slice(0, 6)}</Text>
             </Right>
           </ItemWrapper>
         );
@@ -52,6 +56,7 @@ const Text = styled.div`
 const Wrapper = styled.div`
   background-color: white;
   padding: 20px;
+  width: 400px;
 `;
 
 const Title = styled.div`
@@ -73,6 +78,6 @@ const ItemWrapper = styled.div`
 
   &.isSelected {
     background-color: #f9fafb;
-    pointer-events: none;
+    cursor: default;
   }
 `;
