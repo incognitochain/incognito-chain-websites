@@ -7,6 +7,8 @@ class Landing extends React.Component {
   }
 
   render() {
+    window.location.href = "/loan";
+    return;
     return (
       <div className="landing-page">
         <div className="container">
