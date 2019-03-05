@@ -49,8 +49,8 @@ class Header extends React.Component {
 
   logout = (e) => {
     e.preventDefault();
-    Cookies.remove('auth', { domain: '.constant.money', path: '/' });
-    window.location.assign('//user.constant.money/login?redirect=portal.constant.money');
+    Cookies.remove('user', { domain: process.env.domain, path: '/' });
+    window.location.assign(process.env.userUrl + '/login?redirect=portal.constant.money');
   }
 
   render() {
@@ -79,12 +79,12 @@ class Header extends React.Component {
               </div>
               <div className={`menu-container ${showMenu ? 'show' : 'hide'}`}>
                 <ul className="menu">
-                  <li><a href="//user.constant.money">User</a></li>
-                  <li><a href="//explorer.constant.money">Explorer</a></li>
+                  <li><a href={process.env.userUrl}>User</a></li>
+                  <li><a href={process.env.explorerUrl}>Explorer</a></li>
                   <li><Link to="/" className="active">Portal</Link></li>
-                  <li><a href="//exchange.constant.money">Exchange</a></li>
-                  <li><a href="//user.constant.money/about">About</a></li>
-                  <li><a href="//user.constant.money/faq">FAQ</a></li>
+                  <li><a href={process.env.exchangeUrl}>Exchange</a></li>
+                  <li><a href={process.env.userUrl + '/about'}>About</a></li>
+                  <li><a href={process.env.userUrl + '/faq'}>FAQ</a></li>
                 </ul>
               </div>
               <div className={`auth-container ${showMenu ? 'show' : 'hide'}`}>
@@ -96,7 +96,7 @@ class Header extends React.Component {
                       <FontAwesomeIcon icon={faAngleDown} />
                     </div>
                     <ul className={`sub-menu ${authMenu ? 'show' : ''}`}>
-                      <li><a href="//user.constant.money">Profile</a></li>
+                      <li><a href={process.env.userUrl}>Profile</a></li>
                       <li><Link to="/" onClick={this.logout}>Logout</Link></li>
                     </ul>
                   </li>

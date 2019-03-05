@@ -250,7 +250,7 @@ class Loan extends React.Component {
                           </tr>
                           <tr>
                             <td>Loan Tx Hash</td>
-                            <td className="tx"><a href={`http://explorer.constant.money/tx/${data.ConstantLoanRequestTxID}`} target="_blank" rel="noopener noreferrer">{data.ConstantLoanRequestTxID}</a></td>
+                            <td className="tx"><a href={`${process.env.explorerUrl}/tx/${data.ConstantLoanRequestTxID}`} target="_blank" rel="noopener noreferrer">{data.ConstantLoanRequestTxID}</a></td>
                           </tr>
                         </tbody>
                       </table>

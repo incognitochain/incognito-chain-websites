@@ -33,7 +33,7 @@ class Root extends React.Component {
 
     if (!auth.logged) {
       logout();
-      window.location.assign('//user.constant.money/login?redirect=portal.constant.money');
+      window.location.assign('//' + process.env.userUrl + '/login?redirect=' + process.env.portalUrl);
     } else {
       return (
         <ConnectedRouter {...props} history={history}>

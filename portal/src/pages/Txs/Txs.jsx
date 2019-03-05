@@ -139,7 +139,7 @@ class Transactions extends React.Component {
                     <div key={transaction.Hash} className="transaction">
                       <div>
                         {'TX#: '}
-                        <a href={`http://explorer.constant.money/tx/${transaction.Hash}`} target="_blank" rel="noopener noreferrer">{transaction.Hash}</a>
+                        <a href={`${process.env.explorerUrl}/tx/${transaction.Hash}`} target="_blank" rel="noopener noreferrer">{transaction.Hash}</a>
                       </div>
                       <div>{`Chain ID: ${transaction.ChainId}`}</div>
                       <div>

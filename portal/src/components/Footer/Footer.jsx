@@ -12,8 +12,8 @@ const Footer = ({ type }) => (
           <div className="col-12">
             <ul>
               <li>{`${dayjs().format('YYYY')} constant`}</li>
-              <li><a href="//user.constant.money/terms">Terms</a></li>
-              <li><a href="//user.constant.money/policy">Privacy policy</a></li>
+              <li><a href={process.env.exchangeUrl + '/term'}>Terms</a></li>
+              <li><a href={process.env.exchangeUrl + '/policy'}>Privacy policy</a></li>
             </ul>
           </div>
         </div>
