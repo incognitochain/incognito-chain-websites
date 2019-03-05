@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import { toaster } from 'evergreen-ui';
 
 let authorization = '';
-const token = Cookies.get('auth') || '';
+const token = Cookies.get('user') || '';
 if (token) {
   authorization = `Bearer ${token}`;
 }
