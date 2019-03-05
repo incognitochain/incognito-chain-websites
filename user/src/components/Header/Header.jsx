@@ -61,7 +61,7 @@ class Header extends React.Component {
     // const { routerPush } = this.props;
     e.preventDefault();
 
-    Cookies.remove('auth', { domain: '.constant.money', path: '/' });
+    Cookies.remove('user', { domain: `${process.env.REACT_APP_DOMAIN}`, path: '/' });
     window.location.assign(`/login?redirect=${propRedirect}`);
   }
 

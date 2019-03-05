@@ -8,7 +8,7 @@ export const ACTIONS = {
 };
 
 export const checkAuth = () => dispatch => {
-  const token = Cookies.get("auth") || "";
+  const token = Cookies.get("user") || "";
 
   if (token) {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
@@ -40,5 +40,5 @@ export const checkAuth = () => dispatch => {
 };
 
 export const logout = () => {
-  Cookies.remove("auth", { domain: ".constant.money", path: "/" });
+  Cookies.remove("user", { domain: `${process.env.REACT_APP_DOMAIN}`, path: "/" });
 };

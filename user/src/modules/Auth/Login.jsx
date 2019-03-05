@@ -1,13 +1,13 @@
 import React from "react";
 // import PropTypes from 'prop-types';
-import { Formik } from "formik";
+import {Formik} from "formik";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSpinnerThird } from "@fortawesome/pro-light-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faSpinnerThird} from "@fortawesome/pro-light-svg-icons";
 import Link from "components/Link";
-import { push } from "connected-react-router";
-import { connect } from "react-redux";
+import {push} from "connected-react-router";
+import {connect} from "react-redux";
 
 class Login extends React.Component {
   static propTypes = {
@@ -23,8 +23,8 @@ class Login extends React.Component {
 
   handleSubmit = (values, setSubmitting) => {
     // const { routerPush } = this.props;
-    const { email, password } = values;
-    const { redirect } = this.state;
+    const {email, password} = values;
+    const {redirect} = this.state;
 
     const data = {
       Email: email,
@@ -38,8 +38,8 @@ class Login extends React.Component {
     })
       .then(res => {
         if (res.data && res.data.Result && res.data.Result.Token) {
-          Cookies.set("auth", res.data.Result.Token, {
-            domain: ".constant.money",
+          Cookies.set("user", res.data.Result.Token, {
+            domain: `${process.env.REACT_APP_DOMAIN}`,
             expires: 30
           });
 
@@ -49,19 +49,19 @@ class Login extends React.Component {
             document.location.assign("/");
           }
         } else {
-          this.setState({ error: "Invalid email or password" });
+          this.setState({error: "Invalid email or password"});
         }
         setSubmitting(false);
       })
       .catch(err => {
-        this.setState({ error: "Invalid email or password" });
+        this.setState({error: "Invalid email or password"});
         console.log("err login", err);
         setSubmitting(false);
       });
   };
 
   render() {
-    const { error } = this.state;
+    const {error} = this.state;
 
     return (
       <div className="auth-page">
@@ -71,7 +71,7 @@ class Login extends React.Component {
               <div className="auth-form">
                 <div className="title">Welcome to Constant</div>
                 <Formik
-                  initialValues={{ email: "", password: "" }}
+                  initialValues={{email: "", password: ""}}
                   validate={values => {
                     const errors = {};
                     if (!values.email) {
@@ -90,26 +90,26 @@ class Login extends React.Component {
                   }}
                   validateOnBlur={false}
                   validateOnChange={false}
-                  onSubmit={(values, { setSubmitting }) => {
+                  onSubmit={(values, {setSubmitting}) => {
                     setTimeout(() => {
                       this.handleSubmit(values, setSubmitting);
                     }, 400);
                   }}
                 >
                   {({
-                    values,
-                    errors,
-                    touched,
-                    handleChange,
-                    handleBlur,
-                    handleSubmit,
-                    isSubmitting
-                  }) => (
+                      values,
+                      errors,
+                      touched,
+                      handleChange,
+                      handleBlur,
+                      handleSubmit,
+                      isSubmitting
+                    }) => (
                     <form onSubmit={handleSubmit}>
                       {error && (
                         <div
                           className="c-field"
-                          style={{ textAlign: "center" }}
+                          style={{textAlign: "center"}}
                         >
                           <span className="c-error">{error}</span>
                         </div>
@@ -150,7 +150,7 @@ class Login extends React.Component {
                           <span className="c-error">{errors.password}</span>
                         )}
                       </div>
-                      <div className="c-field" style={{ display: "none" }}>
+                      <div className="c-field" style={{display: "none"}}>
                         Having some trouble?{" "}
                         <a href="/forgot-password">Get help logging in</a>
                       </div>
@@ -164,7 +164,7 @@ class Login extends React.Component {
                               icon={faSpinnerThird}
                               size="1x"
                               spin
-                              style={{ marginRight: 10 }}
+                              style={{marginRight: 10}}
                             />
                           ) : (
                             ""
