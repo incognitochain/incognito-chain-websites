@@ -51,8 +51,8 @@ class Header extends React.Component {
 
   logout = (e) => {
     e.preventDefault();
-    Cookies.remove('auth', { domain: '.constant.money', path: '/' });
-    window.location.assign('//user.constant.money/login?redirect=explorer.constant.money');
+    Cookies.remove('user', { domain: process.env.domain, path: '/' });
+    window.location.assign(process.env.userUrl + '?redirect=' + process.env.explorerUrl);
   }
 
 
@@ -77,12 +77,12 @@ class Header extends React.Component {
               </div>
               <div className={cn('menu-container', { show: showMenu })}>
                 <ul className="menu">
-                  <li><a href="//user.constant.money">User</a></li>
+                  <li><a href={process.env.userUrl}>User</a></li>
                   <li><Link to="/" className="active">Explorer</Link></li>
-                  <li><a href="//portal.constant.money">Portal</a></li>
-                  <li><a href="//exchange.constant.money">Exchange</a></li>
-                  <li><a href="//user.constant.money/about">About</a></li>
-                  <li><a href="//user.constant.money/faq">FAQ</a></li>
+                  <li><a href={process.env.portalUrl}>Portal</a></li>
+                  <li><a href={process.env.exchangeUrl}>Exchange</a></li>
+                  <li><a href={process.env.userUrl + '/about'}>About</a></li>
+                  <li><a href={process.env.userUrl + '/faq'}>FAQ</a></li>
                 </ul>
               </div>
               {!hideAuthMenu ? (
