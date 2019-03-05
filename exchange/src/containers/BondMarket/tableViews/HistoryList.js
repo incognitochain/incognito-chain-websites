@@ -20,7 +20,7 @@ class HistoryItem extends Component {
 
   renderDetail(item) {
     const { TxID, BuyBackDate, MadeBuyBackDate, Amount, TokenImage } = item;
-    const url = `http://explorer.constant.money/tx/${TxID}`;
+    const url = `${process.env.explorerUrl}/tx/${TxID}`;
     return (
       <div className="wrapperDetail">
         <div className="TxID">

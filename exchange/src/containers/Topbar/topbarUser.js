@@ -42,15 +42,15 @@ class TopbarUser extends Component {
   }
 
   onSignin(){
-    window.location.href = 'http://user.constant.money';
+    window.location.href = process.env.userUrl;
   }
 
   onSignup(){
-    window.location.href = 'http://user.constant.money/register';
+    window.location.href = process.env.userUrl + '/register';
   }
 
   onLogout(){
-    Cookies.remove('auth', { domain: '.constant.money', path: '/' });
+    Cookies.remove('user', { domain: process.env.domain, path: '/' });
     window.location.assign('/');
   }
 

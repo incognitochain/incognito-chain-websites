@@ -226,21 +226,21 @@ class Sidebar extends Component {
                     onOpenChange={this.onOpenChange}
                   >
                     <Menu.Item style={{ width: "150px" }}>
-                      <a href="//user.constant.money">
+                      <a href={`${process.env.userUrl}`}>
                         <span className="isoMenuHolder" style={submenuColor}>
                           <span className="nav-text">User</span>
                         </span>
                       </a>
                     </Menu.Item>
                     <Menu.Item style={{ width: "150px" }}>
-                      <a href="//explorer.constant.money">
+                      <a href={`${process.env.explorerUrl}`}>
                         <span className="isoMenuHolder" style={submenuColor}>
                           <span className="nav-text">Explorer</span>
                         </span>
                       </a>
                     </Menu.Item>
                     <Menu.Item style={{ width: "150px" }}>
-                      <a href="//portal.constant.money">
+                      <a href={`${process.env.portalUrl}`}>
                         <span className="isoMenuHolder" style={submenuColor}>
                           <span className="nav-text">Portal</span>
                         </span>
