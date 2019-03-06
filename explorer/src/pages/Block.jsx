@@ -135,7 +135,8 @@ class Block extends React.Component {
                   </tr>
                   <tr>
                     <td>Time</td>
-                    <td>{moment.unix(block[blockHash].data.Time).format('MMMM Do YYYY, h:mm:ss a')}</td>
+                    <td>{moment.unix(block[blockHash].data.Time)
+                      .format('MMMM Do YYYY, h:mm:ss a')}</td>
                   </tr>
                   <tr>
                     <td>Merkle TxS Root</td>
@@ -193,7 +194,7 @@ class Block extends React.Component {
                       </tr>
                     </> : null}
                   {this.isBeacon(chainId) ? <tr>
-                    <td>Instruction</td>
+                    <td style={{ verticalAlign: 'top' }}>Instruction</td>
                     <td><textarea cols={120}
                                   rows={10}>{JSON.stringify(block[blockHash].data.Instructions, null, 2)}</textarea>
                     </td>
