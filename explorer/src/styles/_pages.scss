@@ -60,5 +60,16 @@
     max-width: 400px;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding: 5px;
+  }
+
+  thead {
+    background-color: #f8fafd;
+    border-color: #e7eaf3;
+    color: #6c757e;
+  }
+
+  th {
+    padding: 15px;
   }
 }

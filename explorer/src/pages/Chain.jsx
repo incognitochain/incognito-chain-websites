@@ -14,7 +14,7 @@ class Chain extends React.Component {
     blocks: PropTypes.object.isRequired,
     actionGetBlocks: PropTypes.func.isRequired,
     actionGetBlockChainInfo: PropTypes.func.isRequired,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -37,8 +37,8 @@ class Chain extends React.Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (
-      nextProps.blocks[prevState.rawchainId] ?.updatedAt
-        !== prevState.blocks[prevState.rawchainId] ?.updatedAt
+      nextProps.blocks[prevState.rawchainId]?.updatedAt
+      !== prevState.blocks[prevState.rawchainId]?.updatedAt
     ) {
       return { blocks: nextProps.blocks };
     }
@@ -57,7 +57,7 @@ class Chain extends React.Component {
       chainId, rawchainId, chainInfo, blocks, page,
     } = this.state;
 
-    if (!chainInfo.ChainName) {
+    if (!chainInfo.ChainName || !blocks[rawchainId]) {
       return null;
     }
     const bestBlocks = chainInfo.BestBlocks;
@@ -70,7 +70,6 @@ class Chain extends React.Component {
     let nextPage = page + 1;
     console.log(nextPage);
     if (nextPage > totalPage) nextPage = totalPage;
-
     return (
       <div className="c-explorer-page c-explorer-page-chain">
         <div className="container">
@@ -93,10 +92,10 @@ class Chain extends React.Component {
                   <div className="col-12 col-md-6">
                     <table className="c-table c-table-list">
                       <tbody>
-                        <tr>
-                          <td>Total block</td>
-                          <td><Link to={`/block/${chainBlock.Hash}`} className="c-hash">{chainBlock.Height}</Link></td>
-                        </tr>
+                      <tr>
+                        <td>Total block</td>
+                        <td><Link to={`/block/${chainBlock.Hash}`} className="c-hash">{chainBlock.Height}</Link></td>
+                      </tr>
                       </tbody>
                     </table>
                   </div>
@@ -107,22 +106,22 @@ class Chain extends React.Component {
               <div className="block content">
                 <table className="c-table c-table-list">
                   <tbody>
-                    <tr>
-                      <td>Block producer</td>
-                      <td className="c-hash">{chainBlock.BlockProducer}</td>
-                    </tr>
-                    <tr>
-                      <td>Salary fund</td>
-                      <td>{chainBlock.SalaryFund}</td>
-                    </tr>
-                    <tr>
-                      <td>Salary per TX</td>
-                      <td>{chainBlock.SalaryPerTx}</td>
-                    </tr>
-                    <tr>
-                      <td>Total TXs</td>
-                      <td>{chainBlock.TotalTxs}</td>
-                    </tr>
+                  <tr>
+                    <td>Block producer</td>
+                    <td className="c-hash">{chainBlock.BlockProducer}</td>
+                  </tr>
+                  <tr>
+                    <td>Salary fund</td>
+                    <td>{chainBlock.SalaryFund}</td>
+                  </tr>
+                  <tr>
+                    <td>Salary per TX</td>
+                    <td>{chainBlock.SalaryPerTx}</td>
+                  </tr>
+                  <tr>
+                    <td>Total TXs</td>
+                    <td>{chainBlock.TotalTxs}</td>
+                  </tr>
                   </tbody>
                 </table>
               </div>
@@ -130,25 +129,34 @@ class Chain extends React.Component {
             <div className="col-12">
               <div className="block content">
                 <div className="block-heading">
-                  Blocks
+                  Lastest Blocks
+                </div>
+                <div style={{ paddingBottom: '10px', }}>
+                  <span
+                    style={{ fontSize: '13px' }}>
+                    Block #{blocks[rawchainId].list[blocks[rawchainId].list.length - 1].Height} to #{blocks[rawchainId].list[0].Height} (Total of {blocks[rawchainId].list[0].Height + 1} blocks)
+                  </span>
                 </div>
                 <div>
                   <table className="c-table c-table-list">
                     <thead>
-                      <tr>
-                        <th>Height</th>
-                        <th>Hash</th>
-                        <th>TXs count</th>
-                      </tr>
+                    <tr>
+                      <th>Block</th>
+                      <th>Hash</th>
+                      <th>Producer</th>
+                      <th>Txn</th>
+                    </tr>
                     </thead>
                     <tbody>
-                      {blocks[rawchainId] && blocks[rawchainId].list.map(blockchain => (
-                        <tr key={blockchain.Hash}>
-                          <td>{blockchain.Height}</td>
-                          <td className="c-hash"><Link to={`/block/${blockchain.Hash}`}>{blockchain.Hash}</Link></td>
-                          <td className="c-hash"><Link to={`/block/${blockchain.Hash}/txs`}>{blockchain.TxHashes.length}</Link></td>
-                        </tr>
-                      ))}
+                    {blocks[rawchainId] && blocks[rawchainId].list.map(blockchain => (
+                      <tr key={blockchain.Hash}>
+                        <td>{blockchain.Height}</td>
+                        <td className="c-hash"><Link to={`/block/${blockchain.Hash}`}>{blockchain.Hash}</Link></td>
+                        <td>{blockchain.BlockProducer}</td>
+                        <td className="c-hash"><Link
+                          to={`/block/${blockchain.Hash}/txs`}>{blockchain.TxHashes.length}</Link></td>
+                      </tr>
+                    ))}
                     </tbody>
                   </table>
                   <div>
@@ -166,26 +174,33 @@ class Chain extends React.Component {
                               }
                             }}
                           >
-                            <FontAwesomeIcon icon={faChevronLeft} />
+                            <FontAwesomeIcon icon={faChevronLeft}/>
                           </Link>
                         </li>
                         {page - 3 > 0 ? <li><Link to="?page=1">1</Link></li> : ''}
                         {page - 3 > 0 ? <li><Link to="?page=2">2</Link></li> : ''}
-                        {page - 3 > 0 ? <li><Link to={`?page=${page}`} onClick={(e) => { e.preventDefault(); }}>...</Link></li> : ''}
+                        {page - 3 > 0 ? <li><Link to={`?page=${page}`} onClick={(e) => {
+                          e.preventDefault();
+                        }}>...</Link></li> : ''}
                         {page - 2 > 0 ? <li><Link to={`?page=${page - 2}`}>{page - 2}</Link></li> : ''}
                         {page - 1 ? <li><Link to={`?page=${page - 1}`}>{page - 1}</Link></li> : ''}
                         <li className="active">
                           <Link
                             to={`?page=${page}`}
-                            onClick={(e) => { e.preventDefault(); }}
+                            onClick={(e) => {
+                              e.preventDefault();
+                            }}
                           >
                             {page}
                           </Link>
                         </li>
                         {page + 1 <= totalPage ? <li><Link to={`?page=${page + 1}`}>{page + 1}</Link></li> : ''}
                         {page + 2 <= totalPage ? <li><Link to={`?page=${page + 2}`}>{page + 2}</Link></li> : ''}
-                        {page + 3 < totalPage ? <li><Link to={`?page=${page}`} onClick={(e) => { e.preventDefault(); }}>...</Link></li> : ''}
-                        {page + 3 < totalPage ? <li><Link to={`?page=${totalPage - 1}`}>{totalPage - 1}</Link></li> : ''}
+                        {page + 3 < totalPage ? <li><Link to={`?page=${page}`} onClick={(e) => {
+                          e.preventDefault();
+                        }}>...</Link></li> : ''}
+                        {page + 3 < totalPage ?
+                          <li><Link to={`?page=${totalPage - 1}`}>{totalPage - 1}</Link></li> : ''}
                         {page + 3 < totalPage ? <li><Link to={`?page=${totalPage}`}>{totalPage}</Link></li> : ''}
                         <li className={cn({
                           next: (page !== totalPage),
@@ -199,7 +214,7 @@ class Chain extends React.Component {
                               }
                             }}
                           >
-                            <FontAwesomeIcon icon={faChevronRight} />
+                            <FontAwesomeIcon icon={faChevronRight}/>
                           </Link>
                         </li>
                       </ul>
