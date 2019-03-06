@@ -117,6 +117,26 @@ class Block extends React.Component {
                     <td>{block[blockHash].data.Time}</td>
                   </tr>
                   <tr>
+                    <td>Merkle TxS Root</td>
+                    <td>{block[blockHash].data.TxRoot}</td>
+                  </tr>
+                  <tr>
+                    <td>R</td>
+                    <td>{block[blockHash].data.R}</td>
+                  </tr>
+                  <tr>
+                    <td>Round</td>
+                    <td>{block[blockHash].data.Round}</td>
+                  </tr>
+                  <tr>
+                    <td>Epoch</td>
+                    <td>{block[blockHash].data.Epoch}</td>
+                  </tr>
+                  <tr>
+                    <td>Crossed Shards</td>
+                    <td>{block[blockHash].data.CrossShards.length == 0 ? '[empty]' : block[blockHash].data.CrossShards.join(', ')}</td>
+                  </tr>
+                  <tr>
                     <td>Previous block</td>
                     <td className="c-hash"><Link
                       to={`/block/${block[blockHash].data.PreviousBlockHash}`}>{block[blockHash].data.PreviousBlockHash}</Link>
@@ -133,13 +153,21 @@ class Block extends React.Component {
                     <td className="c-hash">{block[blockHash].data.BlockProducer}</td>
                   </tr>
                   <tr>
-                    <td>Block producer sign</td>
+                    <td>Block producer Signature</td>
                     <td className="c-hash">{block[blockHash].data.BlockProducerSign}</td>
                   </tr>
-                  {/*<tr>
-                    <td>Block data</td>
-                    <td>{block[blockHash].data.Data}</td>
-                  </tr>*/}
+                  <tr>
+                    <td>Aggregated Signature</td>
+                    <td>{block[blockHash].data.AggregatedSig}</td>
+                  </tr>
+                  <tr>
+                    <td>Beacon Height</td>
+                    <td>{block[blockHash].data.BeaconHeight}</td>
+                  </tr>
+                  <tr>
+                    <td>Beacon Block Hash</td>
+                    <td>{block[blockHash].data.BeaconBlockHash}</td>
+                  </tr>
                   <tr>
                     <td>TXs</td>
                     <td className="c-hash"><Link
