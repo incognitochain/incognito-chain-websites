@@ -81,8 +81,8 @@ class Header extends React.Component {
                   <li><Link to="/" className="active">Explorer</Link></li>
                   <li><a href={process.env.portalUrl}>Portal</a></li>
                   <li><a href={process.env.exchangeUrl}>Exchange</a></li>
-                  <li><a href={process.env.userUrl + '/about'}>About</a></li>
-                  <li><a href={process.env.userUrl + '/faq'}>FAQ</a></li>
+                  {/*<li><a href={process.env.userUrl + '/about'}>About</a></li>
+                  <li><a href={process.env.userUrl + '/faq'}>FAQ</a></li>*/}
                 </ul>
               </div>
               {!hideAuthMenu ? (

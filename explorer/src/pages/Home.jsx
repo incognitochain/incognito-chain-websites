@@ -92,13 +92,13 @@ class Home extends React.Component {
     const totalTxs = Object.keys(bestBlocks).reduce(
       (accumulator, blockIndex) => (
         parseInt(accumulator, 10) + parseInt(bestBlocks[blockIndex].TotalTxs, 10)
-      ),
+      ), 0,
     );
 
     const totalBlocks = Object.keys(bestBlocks).reduce(
       (accumulator, blockIndex) => (
         parseInt(accumulator, 10) + parseInt(bestBlocks[blockIndex].Height, 10)
-      ),
+      ), 0,
     );
 
     return (
@@ -122,8 +122,8 @@ class Home extends React.Component {
                   </li>
                   <li>
                     <Link to="/chains">
-                      <div className="data c-color-black">20</div>
-                      <div className="title">Total chain</div>
+                      <div className="data c-color-black">XXX</div>
+                      <div className="title">Total shard</div>
                     </Link>
                   </li>
                   <li>
@@ -165,24 +165,51 @@ class Home extends React.Component {
             <div className="col-12">
               <div className="block content" id="best-blocks">
                 <div className="block-heading">
+                  Beacon chain
+                </div>
+                <table className="c-table">
+                  <thead>
+                  <tr>
+                    <th>Block hash</th>
+                    <th>Height</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    <tr key={-1}>
+                      <td><Link to={`/block/${bestBlocks[-1].Hash}`} className="c-hash">{bestBlocks[-1].Hash}</Link></td>
+                      <td>{`${bestBlocks[-1].Height}`}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div className="col-12">
+              <div className="block content" id="best-blocks">
+                <div className="block-heading">
                   Best blocks
                 </div>
                 <table className="c-table">
                   <thead>
                     <tr>
                       <th>Block hash</th>
-                      <th>Chain #</th>
+                      <th>Shard #</th>
+                      <th>Height</th>
                       <th>Total Txs</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {Object.keys(bestBlocks).map(key => (
+                    {Object.keys(bestBlocks).map(key => {
+                      if (key == -1) {
+                        return (<></>)
+                      }
+                      return (
                       <tr key={key}>
                         <td><Link to={`/block/${bestBlocks[key].Hash}`} className="c-hash">{bestBlocks[key].Hash}</Link></td>
                         <td><Link to={`/chain/${parseInt(key, 10) + 1}`}>{parseInt(key, 10) + 1}</Link></td>
+                        <td><Link to={`/block/${bestBlocks[key].Hash}`} className="c-hash">{bestBlocks[key].Height}</Link></td>
                         <td>{bestBlocks[key].TotalTxs}</td>
                       </tr>
-                    ))}
+                    )})}
                   </tbody>
                 </table>
               </div>

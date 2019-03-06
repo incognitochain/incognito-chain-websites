@@ -64,7 +64,7 @@ export default class BondMarket extends Component {
       );
     } else {
       return (
-        <p>
+        <p style={{ textAlign: "center", }}>
           <IntlMessages id="BondMarket.DataNotFound"/>
         </p>
       );

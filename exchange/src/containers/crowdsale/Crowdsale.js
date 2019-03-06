@@ -245,7 +245,7 @@ export default function Crowdsale() {
             />
           )}
           {renderIf(!state.isLoading && !state.crowdsales.length)(
-            <p>
+            <p style={{ textAlign: "center", }}>
               <IntlMessages id="Crowdsale.DataNotFound" />
             </p>
           )}
