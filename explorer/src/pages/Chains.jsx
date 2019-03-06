@@ -64,15 +64,15 @@ class Chains extends React.Component {
                 let index = parseInt(key);
                 let block = bestBlocks[key];
                 return (
-                  <div className="col-12 col-sm-6 col-md-3 chain-item" key={block.Hash}>
+                  <div className="col-12 col-sm-6 col-md-6 chain-item" key={block.Hash}>
                     <Link to={`/chain/${index + 1}`} className="card">
                       <strong className="chain-id">{`Shard #${index + 1}`}</strong>
                       <div className="chain-item-content">
-                        <div>{`Height: ${block.Height}`}</div>
+                        <div>{`Height: ${block.Height.toLocaleString(navigator.language, { minimumFractionDigits: 0 })}`}</div>
                         <div className="c-hash">{`Best block: ${block.Hash.substr(0, 5)}`}</div>
-                        <div>{`Total txs: ${block.TotalTxs}`}</div>
-                        <div>{`Salary fund: ${block.SalaryFund / 100}`}</div>
-                        <div>{`Salary per TX: ${block.SalaryPerTx}`}</div>
+                        <div>{`Total txs: ${block.TotalTxs.toLocaleString(navigator.language, { minimumFractionDigits: 0 })}`}</div>
+                        <div>{`Salary fund: ${(block.SalaryFund / 100).toLocaleString(navigator.language, { minimumFractionDigits: 2 })}`} Const</div>
+                        <div>{`Salary per TX: ${(block.SalaryPerTx).toLocaleString(navigator.language, { minimumFractionDigits: 2 })}`} Const</div>
                       </div>
                     </Link>
                   </div>

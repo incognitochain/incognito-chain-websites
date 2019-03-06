@@ -124,7 +124,7 @@ class Chain extends React.Component {
                   </tr>
                   <tr>
                     <td>Total TXs</td>
-                    <td>{chainBlock.TotalTxs}</td>
+                    <td>{chainBlock.TotalTxs.toLocaleString(navigator.language, { minimumFractionDigits: 0 })}</td>
                   </tr>
                   </tbody>
                 </table>
@@ -138,7 +138,7 @@ class Chain extends React.Component {
                 <div style={{ paddingBottom: '10px', }}>
                   <span
                     style={{ fontSize: '13px' }}>
-                    Block #{blocks[rawchainId].list[blocks[rawchainId].list.length - 1].Height} to #{blocks[rawchainId].list[0].Height} (Total of {blocks[rawchainId].list[0].Height + 1} blocks)
+                    Block #{blocks[rawchainId].list[blocks[rawchainId].list.length - 1].Height.toLocaleString(navigator.language, { minimumFractionDigits: 0 })} to #{blocks[rawchainId].list[0].Height.toLocaleString(navigator.language, { minimumFractionDigits: 0 })} (Total of {blocks[rawchainId].list[0].Height.toLocaleString(navigator.language, { minimumFractionDigits: 0 })} blocks)
                   </span>
                 </div>
                 <div>
@@ -156,13 +156,14 @@ class Chain extends React.Component {
                     <tbody>
                     {blocks[rawchainId] && blocks[rawchainId].list.map(blockchain => (
                       <tr key={blockchain.Hash}>
-                        <td>{blockchain.Height}</td>
-                        <td className="c-hash"><Link to={`/block/${blockchain.Hash}`}>{blockchain.Hash}</Link></td>
-                        <td>{blockchain.BlockProducer}</td>
+                        <td>{blockchain.Height.toLocaleString(navigator.language, { minimumFractionDigits: 0 })}</td>
+                        <td className="c-hash"><Link
+                          to={`/block/${blockchain.Hash}`}>{blockchain.Hash.substring(0, 25)}...</Link></td>
+                        <td>{blockchain.BlockProducer ? blockchain.BlockProducer : '[Genesis block]'}</td>
                         <td className="c-hash"><Link
                           to={`/block/${blockchain.Hash}/txs`}>{blockchain.TxHashes.length}</Link></td>
-                        <td>{blockchain.Fee / 100} Const</td>
-                        <td>{blockchain.Reward / 100} Const</td>
+                        <td>{(blockchain.Fee / 100).toLocaleString(navigator.language, { minimumFractionDigits: 2 })} Const</td>
+                        <td>{(blockchain.Reward / 100).toLocaleString(navigator.language, { minimumFractionDigits: 2 })} Const</td>
                       </tr>
                     ))}
                     </tbody>

@@ -38,7 +38,7 @@ class Tx extends React.Component {
         <tbody>
         <tr>
           <td>Block height</td>
-          <td>{tx.BlockHeight == 1 ? "1 (Genesis block)" : tx.BlockHeight}</td>
+          <td>{tx.BlockHeight == 1 ? "1 [Genesis block]" : tx.BlockHeight}</td>
         </tr>
         <tr>
           <td>Tx Version</td>
