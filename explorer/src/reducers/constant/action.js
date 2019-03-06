@@ -19,7 +19,8 @@ export const ACTIONS = {
 
 let idRequest = 1;
 
-const emptyFn = () => { };
+const emptyFn = () => {
+};
 
 const createRPCRequest = (
   storeName, firebaseWatch, actionName, method, params, successFn = emptyFn, errorFn = emptyFn,
@@ -30,17 +31,25 @@ const createRPCRequest = (
     method,
     params,
     id: idRequest += 1,
-  }).then((res) => {
-    successFn(res);
-    dispatch({
-      type: `${actionName}_SUCCESS`, payload: res.data, id: idRequest, params,
+  })
+    .then((res) => {
+      successFn(res);
+      dispatch({
+        type: `${actionName}_SUCCESS`,
+        payload: res.data,
+        id: idRequest,
+        params,
+      });
+    })
+    .catch((e) => {
+      errorFn(e);
+      dispatch({
+        type: `${actionName}_FAILED`,
+        payload: e,
+        id: idRequest,
+        params,
+      });
     });
-  }).catch((e) => {
-    errorFn(e);
-    dispatch({
-      type: `${actionName}_FAILED`, payload: e, id: idRequest, params,
-    });
-  });
 };
 
 export const getBlockchainInfo = () => createRPCRequest('chainInfo', false, ACTIONS.CONSTANT_INFO, 'getblockchaininfo', '');
@@ -53,7 +62,13 @@ export const getGOV = () => createRPCRequest('gov', false, ACTIONS.CONSTANT_GOV,
 export const getBlocks = chainId => createRPCRequest('chainBlocks', true, ACTIONS.CONSTANT_BLOCKS, 'getblocks', [20, chainId]);
 export const getTokens = () => createRPCRequest('tokens', true, ACTIONS.CONSTANT_TOKENS, 'listcustomtoken', []);
 export const checkHash = hash => createRPCRequest('search', false, ACTIONS.CONSTANT_CHECKHASH, 'checkhashvalue', [hash]);
-export const getBlock = blockHash => createRPCRequest('block', true, ACTIONS.CONSTANT_BLOCK, 'retrieveblock', [blockHash, '2']);
+export const getBlock = (blockHash, beacon = false) => {
+  if (!beacon) {
+    return createRPCRequest('block', true, ACTIONS.CONSTANT_BLOCK, 'retrieveblock', [blockHash, '2']);
+  } else {
+    return createRPCRequest('block', true, ACTIONS.CONSTANT_BLOCK, 'retrievebeaconblock', [blockHash, '2']);
+  }
+};
 export const getTx = txHash => createRPCRequest('tx', false, ACTIONS.CONSTANT_TX, 'gettransactionbyhash', [txHash]);
 export const getTxPending = txHash => createRPCRequest('txPending', false, ACTIONS.CONSTANT_TX_PENDING, 'gettransactionbyhash', [txHash]);
 export const getToken = customTokenId => createRPCRequest('token', false, ACTIONS.CONSTANT_TOKEN, 'customtoken', [customTokenId]);

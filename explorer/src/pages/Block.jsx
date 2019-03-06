@@ -59,15 +59,21 @@ class Block extends React.Component {
   }
 
   fetch = () => {
-    const { actionGetBlock } = this.props;
+    const params = new URLSearchParams(this.props.location.search);
+    let beacon = params.get('beacon');
     const { blockHash } = this.state;
-    actionGetBlock(blockHash);
+    if (!beacon) {
+      const { actionGetBlock } = this.props;
+      actionGetBlock(blockHash);
+    } else {
+      const { actionGetBlock } = this.props;
+      actionGetBlock(blockHash, true);
+    }
   };
 
   render() {
     const { blockHash, block } = this.state;
     const chainId = block[blockHash]?.data?.ShardID + 1;
-
     if (!block[blockHash]?.data) {
       return null;
     }
@@ -80,9 +86,16 @@ class Block extends React.Component {
               <div className="c-breadcrumb">
                 <ul>
                   <li><Link to="/">Explorer</Link></li>
-                  <li><Link to="/chains">Shards list</Link></li>
-                  <li><Link to={`/chain/${chainId}`}>{`Shard #${chainId}`}</Link></li>
-                  <li><Link className="c-hash" to={`/block/${blockHash}`}>{blockHash}</Link></li>
+                  {!isNaN(chainId) ?
+                    <>
+                      <li><Link to="/chains">Shards list</Link></li>
+                      <li><Link to={`/chain/${chainId}`}>{`Shard #${chainId}`}</Link></li>
+                      <li>< Link className='c-hash' to={`/block/${blockHash}`}>{blockHash}</Link></li>
+                    </>
+                    : <>
+                      <li><Link to="/chain/0">Beacon Chain</Link></li>
+                    </>
+                  }
                 </ul>
               </div>
             </div>
@@ -132,10 +145,10 @@ class Block extends React.Component {
                     <td>Epoch</td>
                     <td>{block[blockHash].data.Epoch}</td>
                   </tr>
-                  <tr>
+                  {block[blockHash].data.CrossShards ? <tr>
                     <td>Crossed Shards</td>
                     <td>{block[blockHash].data.CrossShards.length == 0 ? '[empty]' : block[blockHash].data.CrossShards.join(', ')}</td>
-                  </tr>
+                  </tr> : null}
                   <tr>
                     <td>Previous block</td>
                     <td className="c-hash"><Link
@@ -168,11 +181,13 @@ class Block extends React.Component {
                     <td>Beacon Block Hash</td>
                     <td>{block[blockHash].data.BeaconBlockHash}</td>
                   </tr>
-                  <tr>
-                    <td>TXs</td>
-                    <td className="c-hash"><Link
-                      to={`/block/${blockHash}/txs`}>{`${block[blockHash].data.Txs.length} - View all`}</Link></td>
-                  </tr>
+                  {block[blockHash].data.Txs ?
+                    <tr>
+                      <td>TXs</td>
+                      <td className="c-hash"><Link
+                        to={`/block/${blockHash}/txs`}>{`${block[blockHash].data.Txs.length} - View all`}</Link></td>
+                    </tr> : null
+                  }
                   </tbody>
                 </table>
               </div>

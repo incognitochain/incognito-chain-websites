@@ -162,7 +162,7 @@ class Chain extends React.Component {
                       <tr key={blockchain.Hash}>
                         <td>{blockchain.Height.toLocaleString(navigator.language, { minimumFractionDigits: 0 })}</td>
                         <td className="c-hash"><Link
-                          to={`/block/${blockchain.Hash}`}>{blockchain.Hash.substring(0, 25)}...</Link></td>
+                          to={`/block/${blockchain.Hash}` + (this.isBeacon(chainId) ? '?beacon=true' : '')}>{blockchain.Hash.substring(0, 25)}...</Link></td>
                         <td>{blockchain.BlockProducer ? blockchain.BlockProducer : '[Genesis block]'}</td>
                         <td className="c-hash"><Link
                           to={`/block/${blockchain.Hash}/txs`}>{blockchain.TxHashes ? blockchain.TxHashes.length : 0}</Link></td>
