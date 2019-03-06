@@ -43,7 +43,7 @@ class Tx extends React.Component {
         </tr>
         <tr>
           <td>Fee</td>
-          <td>{tx.Fee}</td>
+          <td>{tx.Fee / 100}</td>
         </tr>
         <tr>
           <td>Lock time</td>
@@ -66,11 +66,11 @@ class Tx extends React.Component {
         <tr>
           <td style={{ verticalAlign: 'top' }}>Proof</td>
           <td>
-            <textarea disabled={true} rows={10} cols={100}>{JSON.stringify(tx.Proof, null, 4)}</textarea>
+            <textarea disabled={true} rows={10} cols={100}>{tx.Proof}</textarea>
           </td>
         </tr>
         <tr>
-          <td>Metadata</td>
+          <td style={{ verticalAlign: 'top' }}>Metadata</td>
           <td>
             <textarea disabled={true} rows={10} cols={100}>{tx.Metadata == null ? '' : tx.MetadData}</textarea>
           </td>
