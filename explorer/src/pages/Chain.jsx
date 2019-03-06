@@ -126,7 +126,7 @@ class Chain extends React.Component {
                     <td>Salary per TX</td>
                     <td>{chainBlock.SalaryPerTx}</td>
                   </tr>
-                  <tr>
+                  <tr style={{display: `${this.isBeacon(chainId) ? 'none' : 'block'}`}}>
                     <td>Total TXs</td>
                     <td>{chainBlock.TotalTxs.toLocaleString(navigator.language, { minimumFractionDigits: 0 })}</td>
                   </tr>
