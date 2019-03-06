@@ -52,6 +52,10 @@ class Chain extends React.Component {
     return null;
   }
 
+  isBeacon = (chainID) => {
+    return chainID == 0;
+  }
+
   render() {
     const {
       chainId, rawchainId, chainInfo, blocks, page,
@@ -79,7 +83,7 @@ class Chain extends React.Component {
                 <ul>
                   <li><Link to="/">Explorer</Link></li>
                   <li><Link to="/chains">Shards list</Link></li>
-                  <li><Link to={`/chain/${chainId}`}>{`Shard #${chainId}`}</Link></li>
+                  <li><Link to={`/chain/${chainId}`}>{!this.isBeacon(chainId) ? `Shard #${chainId}` : "[Beacon Chain]"}</Link></li>
                 </ul>
               </div>
             </div>
@@ -87,7 +91,7 @@ class Chain extends React.Component {
               <div className="block content">
                 <div className="row">
                   <div className="col-12 col-md-6">
-                    <h3>{`Shard #${chainId}`}</h3>
+                    <h3>{!this.isBeacon(chainId) ? `Shard #${chainId}` : "[Beacon Chain]"}</h3>
                   </div>
                   <div className="col-12 col-md-6">
                     <table className="c-table c-table-list">
@@ -161,7 +165,7 @@ class Chain extends React.Component {
                           to={`/block/${blockchain.Hash}`}>{blockchain.Hash.substring(0, 25)}...</Link></td>
                         <td>{blockchain.BlockProducer ? blockchain.BlockProducer : '[Genesis block]'}</td>
                         <td className="c-hash"><Link
-                          to={`/block/${blockchain.Hash}/txs`}>{blockchain.TxHashes.length}</Link></td>
+                          to={`/block/${blockchain.Hash}/txs`}>{blockchain.TxHashes ? blockchain.TxHashes.length : 0}</Link></td>
                         <td>{(blockchain.Fee / 100).toLocaleString(navigator.language, { minimumFractionDigits: 2 })} Const</td>
                         <td>{(blockchain.Reward / 100).toLocaleString(navigator.language, { minimumFractionDigits: 2 })} Const</td>
                       </tr>
