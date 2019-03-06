@@ -88,6 +88,7 @@ class Home extends React.Component {
       return null;
     }
     const bestBlocks = chainInfo.BestBlocks;
+    const activeShards = chainInfo.ActiveShards;
 
     const totalTxs = Object.keys(bestBlocks).reduce(
       (accumulator, blockIndex) => (
@@ -122,7 +123,7 @@ class Home extends React.Component {
                   </li>
                   <li>
                     <Link to="/chains">
-                      <div className="data c-color-black">XXX</div>
+                      <div className="data c-color-black">{activeShards}</div>
                       <div className="title">Total shard</div>
                     </Link>
                   </li>
