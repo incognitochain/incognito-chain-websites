@@ -47,7 +47,7 @@ class Tx extends React.Component {
     }
 
     specTx = specTx.data;
-    const chainId = (specTx ?.ChainId || 0) + 1;
+    const chainId = (specTx ?.ShardID || 0) + 1;
 
     return (
       <div className="c-explorer-page c-explorer-page-tx">
@@ -57,8 +57,8 @@ class Tx extends React.Component {
               <div className="c-breadcrumb">
                 <ul>
                   <li><Link to="/">Explorer</Link></li>
-                  <li><Link to="/chains">Chain list</Link></li>
-                  <li><Link to={`/chain/${chainId}`}>{`Chain #${chainId}`}</Link></li>
+                  <li><Link to="/chains">Shard list</Link></li>
+                  <li><Link to={`/chain/${chainId}`}>{`Shard #${chainId}`}</Link></li>
                   <li>
                     <Link
                       to={`/block/${specTx.BlockHash}`}

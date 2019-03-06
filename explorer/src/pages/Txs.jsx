@@ -57,7 +57,7 @@ class Txs extends React.Component {
 
   render() {
     const { blockHash, block } = this.state;
-    const chainId = block[blockHash] ?.data ?.ChainID + 1;
+    const chainId = block[blockHash] ?.data ?.ShardID + 1;
 
     if (!block[blockHash] ?.data) {
       return null;
@@ -71,8 +71,8 @@ class Txs extends React.Component {
               <div className="c-breadcrumb">
                 <ul>
                   <li><Link to="/">Explorer</Link></li>
-                  <li><Link to="/chains">Chain list</Link></li>
-                  <li><Link to={`/chain/${chainId}`}>{`Chain #${chainId}`}</Link></li>
+                  <li><Link to="/chains">Shard list</Link></li>
+                  <li><Link to={`/chain/${chainId}`}>{`Shard #${chainId}`}</Link></li>
                   <li>
                     <Link
                       className="c-text-ellipsis c-hash"

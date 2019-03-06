@@ -56,6 +56,7 @@ class Chain extends React.Component {
     const {
       chainId, rawchainId, chainInfo, blocks, page,
     } = this.state;
+
     if (!chainInfo.ChainName) {
       return null;
     }
@@ -78,8 +79,8 @@ class Chain extends React.Component {
               <div className="c-breadcrumb">
                 <ul>
                   <li><Link to="/">Explorer</Link></li>
-                  <li><Link to="/chains">Chain list</Link></li>
-                  <li><Link to={`/chain/${chainId}`}>{`Chain #${chainId}`}</Link></li>
+                  <li><Link to="/chains">Shards list</Link></li>
+                  <li><Link to={`/chain/${chainId}`}>{`Shard #${chainId}`}</Link></li>
                 </ul>
               </div>
             </div>
@@ -87,7 +88,7 @@ class Chain extends React.Component {
               <div className="block content">
                 <div className="row">
                   <div className="col-12 col-md-6">
-                    <h3>{`Chain #${chainId}`}</h3>
+                    <h3>{`Shard #${chainId}`}</h3>
                   </div>
                   <div className="col-12 col-md-6">
                     <table className="c-table c-table-list">

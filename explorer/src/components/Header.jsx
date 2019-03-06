@@ -26,7 +26,7 @@ class Header extends React.Component {
                 <div className="menu">
                   <ul className="c-list-inline">
                     <li><Link to="/">Home</Link></li>
-                    <li><Link to="/chains">Chains</Link></li>
+                    <li><Link to="/chains">Shards</Link></li>
                     <li><Link to="/txs/pending">Pending TXs</Link></li>
                     <li><Link to="/committees">Committees</Link></li>
                     <li><Link to="/tokens">Tokens</Link></li>
