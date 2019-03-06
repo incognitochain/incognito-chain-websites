@@ -331,7 +331,7 @@ class Home extends React.Component {
                         <tr key={borrow.ID}>
                           <td>
                             <Link to={`/loan/${borrow.LoanID}`}>
-                              {borrow.LoanID.substr(0, 5)}
+                              {"0x"}{borrow.LoanID.substr(0, 5)}
                               ...
                             </Link>
                           </td>

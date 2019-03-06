@@ -548,6 +548,6 @@
   "BondMarket.Buy.Amount": "Amount",
   "BondMarket.Buy.WarningDescription": "Please enter amount and rate larger than 0 and in {{value} CONST",
   "BondMarket.BuyBack.WarningDescription": "Please enter amount larger than 0",
-  "Crowdsale.PageHeader": "Crowdsale",
+  "Crowdsale.PageHeader": "Bond Crowdsale",
   "Crowdsale.DataNotFound": "No data"
 }
