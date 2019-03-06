@@ -612,10 +612,11 @@ class Home extends React.Component {
                   className="c-card"
                   style={{ backgroundImage: `url(${bgApplyMCB})` }}
                 >
-                  <div className="title c-color-blue-1000">Apply MCB Board</div>
+                  <div className="title c-color-blue-1000">Apply CMB Board</div>
                   <div className="description">Lorem ipsum ador</div>
                   <CheckInit inited={inited}>
                     <Link
+                      disabled={true}
                       className={cn("c-btn", {
                         active: candidate.CMBAppliedAt
                       })}
@@ -624,7 +625,7 @@ class Home extends React.Component {
                     >
                       <Applied applied={candidate.CMBAppliedAt}>
                         <>
-                          {"Apply now "}
+                          {"Comming soon "}
                           <FontAwesomeIcon icon={faArrowRight} />
                         </>
                       </Applied>
