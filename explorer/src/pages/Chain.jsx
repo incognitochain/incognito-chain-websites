@@ -107,12 +107,16 @@ class Chain extends React.Component {
                 <table className="c-table c-table-list">
                   <tbody>
                   <tr>
-                    <td>Block producer</td>
+                    <td>Current block producer</td>
                     <td className="c-hash">{chainBlock.BlockProducer}</td>
                   </tr>
                   <tr>
-                    <td>Salary fund</td>
+                    <td>Remain salary fund</td>
                     <td>{chainBlock.SalaryFund}</td>
+                  </tr>
+                  <tr>
+                    <td>Basic salary</td>
+                    <td>{chainBlock.BasicSalary}</td>
                   </tr>
                   <tr>
                     <td>Salary per TX</td>
@@ -145,6 +149,8 @@ class Chain extends React.Component {
                       <th>Hash</th>
                       <th>Producer</th>
                       <th>Txn</th>
+                      <th>TxS Fee</th>
+                      <th>Reward</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -155,6 +161,8 @@ class Chain extends React.Component {
                         <td>{blockchain.BlockProducer}</td>
                         <td className="c-hash"><Link
                           to={`/block/${blockchain.Hash}/txs`}>{blockchain.TxHashes.length}</Link></td>
+                        <td>{blockchain.Fee / 100} Const</td>
+                        <td>{blockchain.Reward / 100} Const</td>
                       </tr>
                     ))}
                     </tbody>
