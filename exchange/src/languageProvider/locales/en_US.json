@@ -427,7 +427,7 @@
   "Market.High": "High",
   "Market.Low": "Low",
   "Market.Change": "Change",
-  "Market.DataNotFound": "Data not found matchs this criteria.",
+  "Market.DataNotFound": "No data.",
   "Wallet.PageHeader": "Wallet",
   "Wallet.ConstantValue": "CST Value",
   "Wallet.SymbolName": "Name",
@@ -549,5 +549,6 @@
   "BondMarket.Buy.WarningDescription": "Please enter amount and rate larger than 0 and in {{value} CONST",
   "BondMarket.BuyBack.WarningDescription": "Please enter amount larger than 0",
   "Crowdsale.PageHeader": "Bond Crowdsale",
-  "Crowdsale.DataNotFound": "No data"
+  "Crowdsale.DataNotFound": "DCB does not have any bond for crowdsale. It should be coming soon.",
+  "BondMarket.DataNotFound": "Don't have any bond which is sold by GOV now. It should be coming soon."
 }

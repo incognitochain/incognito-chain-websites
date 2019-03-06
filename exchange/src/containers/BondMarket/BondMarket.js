@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 
 import LayoutWrapper from "@ui/utility/layoutWrapper.js";
 import PageHeader from "@ui/utility/pageHeader";
@@ -11,6 +11,7 @@ import TableStyle from "./customStyle";
 import DataBondMarket from "./dataBondMarket";
 import SortView from "./tableViews/sortView";
 import bondmarket from "@/services/BondMarket";
+import styled from "styled-components";
 
 export default class BondMarket extends Component {
   state = {
@@ -27,11 +28,11 @@ export default class BondMarket extends Component {
       await this.getData();
     }
 
-    this.setState({ auth: token, loading: false });
+    this.setState({auth: token, loading: false});
   }
 
   async getData() {
-    this.setState({ loading: true });
+    this.setState({loading: true});
     let result = await bondmarket.getBondMarketList();
     if (!result.error) {
       let listData = result;
@@ -39,31 +40,32 @@ export default class BondMarket extends Component {
         listData[i].key = i;
       }
 
-      this.setState({ list: listData });
+      this.setState({list: listData});
     } else {
       //return false;
     }
-    this.setState({ loading: false });
+    this.setState({loading: false});
   }
+
   handleOnBuySuccess = () => {
     this.getData();
   };
 
   renderTable(tableInfo) {
-    const { list } = this.state;
+    const {list} = this.state;
 
     if (list) {
       const data = new DataBondMarket(10, list);
 
       return (
         <TableStyle className="isoLayoutContent">
-          <SortView dataList={data} onBuySuccess={this.handleOnBuySuccess} />
+          <SortView dataList={data} onBuySuccess={this.handleOnBuySuccess}/>
         </TableStyle>
       );
     } else {
       return (
         <p>
-          <IntlMessages id="Market.DataNotFound" />
+          <IntlMessages id="BondMarket.DataNotFound"/>
         </p>
       );
     }
@@ -81,23 +83,35 @@ export default class BondMarket extends Component {
       }
     ];
 
-    return <BreadcrumbBar urls={urls} />;
+    return <BreadcrumbBar urls={urls}/>;
   }
 
   render() {
-    const { loading } = this.state;
+    const {loading} = this.state;
 
-    if (loading) return <Loader />;
+    if (loading) return <Loader/>;
 
     return (
-      <div>
+      <>
         {this.renderBreadcrumb()}
-        <LayoutWrapper>
-          <PageHeader>{<IntlMessages id="BondMarket.PageHeader" />}</PageHeader>
-          {this.renderTable()}
-        </LayoutWrapper>
-      </div>
+        <Wrapper>
+          <PageHeader>{<IntlMessages id="BondMarket.PageHeader"/>}</PageHeader>
+          <TableWrapper>
+            {this.renderTable()}
+          </TableWrapper>
+        </Wrapper>
+      </>
     );
   }
 }
-export { SortView, DataBondMarket };
+
+const Wrapper = styled.div`
+  padding: 2rem;
+`;
+
+const TableWrapper = styled.div`
+  background-color: white;
+  padding: 2rem;
+`;
+
+export {SortView, DataBondMarket};
