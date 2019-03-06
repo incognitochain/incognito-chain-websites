@@ -168,7 +168,7 @@ function renderGovField(key, value) {
   if (key === "SellingGOVTokens") {
     return (
       <fieldset key={key}>
-        <legend>Selling GOV Tokens</legend>
+        <legend>Selling GOV Tokens Market</legend>
         {Object.entries(value).map(([key, value]) => {
           return (
             <Field key={key}>

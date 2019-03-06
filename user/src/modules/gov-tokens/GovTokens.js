@@ -81,7 +81,7 @@ export function GovTokens() {
       <div className="row">
         <Wrapper className="col-12 col-lg-12">
           <Tabs animated={false}>
-            <TabPane tab="GOV Tokens" key="1">
+            <TabPane tab="GOV Tokens Market" key="1">
               <TableWrapper>
                 {renderIf(!state.isLoading)(
                   <Table
