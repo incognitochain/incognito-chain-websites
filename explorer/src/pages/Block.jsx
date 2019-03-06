@@ -66,7 +66,7 @@ class Block extends React.Component {
 
   render() {
     const { blockHash, block } = this.state;
-    const chainId = block[blockHash]?.data?.ShardId + 1;
+    const chainId = block[blockHash]?.data?.ShardID + 1;
 
     if (!block[blockHash]?.data) {
       return null;
