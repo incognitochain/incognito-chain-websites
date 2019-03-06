@@ -19,8 +19,8 @@ class Chains extends React.Component {
       chainInfo,
     };
 
-    const { actionGetBlockChainInfo } = this.props;
-    actionGetBlockChainInfo();
+    this.loadData();
+    setInterval(this.loadData, 5000);
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -29,6 +29,11 @@ class Chains extends React.Component {
     }
     return null;
   }
+
+  loadData = () => {
+    const { actionGetBlockChainInfo } = this.props;
+    actionGetBlockChainInfo();
+  };
 
   render() {
     const { chainInfo } = this.state;
@@ -69,7 +74,7 @@ class Chains extends React.Component {
                       <strong className="chain-id">{`Shard #${index + 1}`}</strong>
                       <div className="chain-item-content">
                         <div>{`Height: ${block.Height.toLocaleString(navigator.language, { minimumFractionDigits: 0 })}`}</div>
-                        <div className="c-hash">{`Best block: ${block.Hash.substr(0, 5)}`}</div>
+                        <div className="c-hash">{`Best block: ${block.Hash.substr(0, 50)}`}...</div>
                         <div>{`Total txs: ${block.TotalTxs.toLocaleString(navigator.language, { minimumFractionDigits: 0 })}`}</div>
                         <div>{`Salary fund: ${(block.SalaryFund / 100).toLocaleString(navigator.language, { minimumFractionDigits: 2 })}`} Const</div>
                         <div>{`Salary per TX: ${(block.SalaryPerTx).toLocaleString(navigator.language, { minimumFractionDigits: 2 })}`} Const</div>

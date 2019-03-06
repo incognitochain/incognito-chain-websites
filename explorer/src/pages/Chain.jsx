@@ -30,9 +30,10 @@ class Chain extends React.Component {
       page: 1,
     };
 
-    const { actionGetBlocks, actionGetBlockChainInfo } = this.props;
-    actionGetBlocks(rawchainId);
-    actionGetBlockChainInfo();
+    this.loadData(rawchainId);
+    setInterval(() => {
+      this.loadData(rawchainId);
+    }, 5000);
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -52,9 +53,15 @@ class Chain extends React.Component {
     return null;
   }
 
+  loadData = (rawchainId) => {
+    const { actionGetBlocks, actionGetBlockChainInfo } = this.props;
+    actionGetBlocks(rawchainId);
+    actionGetBlockChainInfo();
+  };
+
   isBeacon = (chainID) => {
     return chainID == 0;
-  }
+  };
 
   render() {
     const {
@@ -83,7 +90,9 @@ class Chain extends React.Component {
                 <ul>
                   <li><Link to="/">Explorer</Link></li>
                   <li><Link to="/chains">Shards list</Link></li>
-                  <li><Link to={`/chain/${chainId}`}>{!this.isBeacon(chainId) ? `Shard #${chainId}` : "[Beacon Chain]"}</Link></li>
+                  <li><Link
+                    to={`/chain/${chainId}`}>{!this.isBeacon(chainId) ? `Shard #${chainId}` : '[Beacon Chain]'}</Link>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -91,7 +100,7 @@ class Chain extends React.Component {
               <div className="block content">
                 <div className="row">
                   <div className="col-12 col-md-6">
-                    <h3>{!this.isBeacon(chainId) ? `Shard #${chainId}` : "[Beacon Chain]"}</h3>
+                    <h3>{!this.isBeacon(chainId) ? `Shard #${chainId}` : '[Beacon Chain]'}</h3>
                   </div>
                   <div className="col-12 col-md-6">
                     <table className="c-table c-table-list">
@@ -126,7 +135,7 @@ class Chain extends React.Component {
                     <td>Salary per TX</td>
                     <td>{chainBlock.SalaryPerTx}</td>
                   </tr>
-                  <tr style={{display: `${this.isBeacon(chainId) ? 'none' : 'block'}`}}>
+                  <tr style={{ display: `${this.isBeacon(chainId) ? 'none' : 'block'}` }}>
                     <td>Total TXs</td>
                     <td>{chainBlock.TotalTxs.toLocaleString(navigator.language, { minimumFractionDigits: 0 })}</td>
                   </tr>
@@ -162,10 +171,12 @@ class Chain extends React.Component {
                       <tr key={blockchain.Hash}>
                         <td>{blockchain.Height.toLocaleString(navigator.language, { minimumFractionDigits: 0 })}</td>
                         <td className="c-hash"><Link
-                          to={`/block/${blockchain.Hash}` + (this.isBeacon(chainId) ? '?beacon=true' : '')}>{blockchain.Hash.substring(0, 25)}...</Link></td>
+                          to={`/block/${blockchain.Hash}` + (this.isBeacon(chainId) ? '?beacon=true' : '')}>{blockchain.Hash.substring(0, 25)}...</Link>
+                        </td>
                         <td>{blockchain.BlockProducer ? blockchain.BlockProducer : '[Genesis block]'}</td>
                         <td className="c-hash"><Link
-                          to={`/block/${blockchain.Hash}/txs`}>{blockchain.TxHashes ? blockchain.TxHashes.length : 0}</Link></td>
+                          to={`/block/${blockchain.Hash}/txs`}>{blockchain.TxHashes ? blockchain.TxHashes.length : 0}</Link>
+                        </td>
                         <td>{(blockchain.Fee / 100).toLocaleString(navigator.language, { minimumFractionDigits: 2 })} Const</td>
                         <td>{(blockchain.Reward / 100).toLocaleString(navigator.language, { minimumFractionDigits: 2 })} Const</td>
                       </tr>
