@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { getBlock } from '@/reducers/constant/action';
+import * as moment from 'moment';
 
 class Block extends React.Component {
   static propTypes = {
@@ -71,6 +72,10 @@ class Block extends React.Component {
     }
   };
 
+  isBeacon = (chainId) => {
+    return isNaN(chainId);
+  };
+
   render() {
     const { blockHash, block } = this.state;
     const chainId = block[blockHash]?.data?.ShardID + 1;
@@ -86,7 +91,7 @@ class Block extends React.Component {
               <div className="c-breadcrumb">
                 <ul>
                   <li><Link to="/">Explorer</Link></li>
-                  {!isNaN(chainId) ?
+                  {!this.isBeacon(chainId) ?
                     <>
                       <li><Link to="/chains">Shards list</Link></li>
                       <li><Link to={`/chain/${chainId}`}>{`Shard #${chainId}`}</Link></li>
@@ -104,6 +109,8 @@ class Block extends React.Component {
                 <div className="row">
                   <div className="col-12">
                     <h3>Block</h3>
+                    {this.isBeacon(chainId) ? <div>of beacon</div>
+                      : null}
                     <div className="c-hash c-text-cut">{blockHash}</div>
                   </div>
                 </div>
@@ -114,8 +121,9 @@ class Block extends React.Component {
                 <table>
                   <tbody className="c-table c-table-list">
                   <tr>
-                    <td>Block number in shard</td>
-                    <td className="c-hash">{block[blockHash].data.Height}</td>
+                    <td>Block height</td>
+                    <td
+                      className="c-hash">{block[blockHash].data.Height == 1 ? '[Genesis block]' : block[blockHash].data.Height}</td>
                   </tr>
                   <tr>
                     <td>Version</td>
@@ -127,7 +135,7 @@ class Block extends React.Component {
                   </tr>
                   <tr>
                     <td>Time</td>
-                    <td>{block[blockHash].data.Time}</td>
+                    <td>{moment.unix(block[blockHash].data.Time).format('MMMM Do YYYY, h:mm:ss a')}</td>
                   </tr>
                   <tr>
                     <td>Merkle TxS Root</td>
@@ -173,14 +181,23 @@ class Block extends React.Component {
                     <td>Aggregated Signature</td>
                     <td>{block[blockHash].data.AggregatedSig}</td>
                   </tr>
-                  <tr>
-                    <td>Beacon Height</td>
-                    <td>{block[blockHash].data.BeaconHeight}</td>
-                  </tr>
-                  <tr>
-                    <td>Beacon Block Hash</td>
-                    <td>{block[blockHash].data.BeaconBlockHash}</td>
-                  </tr>
+                  {!this.isBeacon(chainId) ?
+                    <>
+                      <tr>
+                        <td>Beacon Height</td>
+                        <td>{block[blockHash].data.BeaconHeight}</td>
+                      </tr>
+                      <tr>
+                        <td>Beacon Block Hash</td>
+                        <td>{block[blockHash].data.BeaconBlockHash}</td>
+                      </tr>
+                    </> : null}
+                  {this.isBeacon(chainId) ? <tr>
+                    <td>Instruction</td>
+                    <td><textarea cols={120}
+                                  rows={10}>{JSON.stringify(block[blockHash].data.Instructions, null, 2)}</textarea>
+                    </td>
+                  </tr> : null}
                   {block[blockHash].data.Txs ?
                     <tr>
                       <td>TXs</td>
