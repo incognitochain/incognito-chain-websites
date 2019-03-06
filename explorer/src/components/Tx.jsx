@@ -30,11 +30,18 @@ class Tx extends React.Component {
   render() {
     const { tx } = this.props;
 
+    const txCustomTokenData = tx.CustomTokenData;
+    const txPrivacyCustomTokenData = tx.PrivacyCustomTokenData;
+
     return (
       <table className="c-table">
         <tbody>
         <tr>
-          <td>Version</td>
+          <td>Block height</td>
+          <td>{tx.BlockHeight == 1 ? "1 (Genesis block)" : tx.BlockHeight}</td>
+        </tr>
+        <tr>
+          <td>Tx Version</td>
           <td>{tx.Version}</td>
         </tr>
         <tr>
@@ -43,7 +50,7 @@ class Tx extends React.Component {
         </tr>
         <tr>
           <td>Fee</td>
-          <td>{tx.Fee / 100}</td>
+          <td>{(tx.Fee / 100) > 1 ? (tx.Fee / 100) + " coins" : (tx.Fee / 100) + " coin"} </td>
         </tr>
         <tr>
           <td>Lock time</td>
@@ -73,6 +80,21 @@ class Tx extends React.Component {
           <td style={{ verticalAlign: 'top' }}>Metadata</td>
           <td>
             <textarea disabled={true} rows={10} cols={100}>{tx.Metadata == null ? '' : tx.MetadData}</textarea>
+          </td>
+        </tr>
+        <tr>
+          <td style={{ verticalAlign: 'top' }}>Custom token</td>
+          <td>
+            <textarea disabled={true} rows={10}
+                      cols={100}>{tx.CustomTokenData == null ? '' : tx.CustomTokenData}</textarea>
+          </td>
+        </tr>
+
+        <tr>
+          <td style={{ verticalAlign: 'top' }}>Privacy Custom token</td>
+          <td>
+            <textarea disabled={true} rows={10}
+                      cols={100}>{tx.PrivacyCustomTokenData == null ? '' : tx.PrivacyCustomTokenData}</textarea>
           </td>
         </tr>
         </tbody>
