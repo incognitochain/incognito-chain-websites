@@ -50,7 +50,7 @@ class Header extends React.Component {
   logout = (e) => {
     e.preventDefault();
     Cookies.remove('user', { domain: process.env.domain, path: '/' });
-    window.location.assign(process.env.userUrl + '/login?redirect=portal.constant.money');
+    window.location.assign(process.env.userUrl + '/login?redirect=' + process.env.portalUrl);
   }
 
   render() {

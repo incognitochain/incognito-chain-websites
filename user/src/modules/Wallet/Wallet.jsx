@@ -264,7 +264,7 @@ class Wallet extends React.Component {
                               ""
                             )}
                             <a
-                              href={`//exchange.constant.money/exchange/${balance.SymbolCode.toUpperCase()}_BOND`}
+                              href={`${process.env.exchangeUrl}/exchange/${balance.SymbolCode.toUpperCase()}_BOND`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="c-a-btn"

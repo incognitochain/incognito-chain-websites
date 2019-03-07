@@ -53,7 +53,7 @@ class Register extends React.Component {
               loginRes.data.Result.Token
             ) {
               Cookies.set("auth", loginRes.data.Result.Token, {
-                domain: ".constant.money",
+                domain: process.env.REACT_APP_DOMAIN,
                 expires: 30
               });
               window.location.assign("/");

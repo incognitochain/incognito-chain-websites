@@ -95,7 +95,7 @@ class Header extends React.Component {
                         <FontAwesomeIcon icon={faAngleDown} />
                       </div>
                       <ul className={cn('sub-menu', { show: authMenu })}>
-                        <li><a href="//user.constant.money/profile">Profile</a></li>
+                        <li><a href={process.env.userUrl + "/profile"}>Profile</a></li>
                         <li><a href="/" onClick={this.logout}>Logout</a></li>
                       </ul>
                     </li>
