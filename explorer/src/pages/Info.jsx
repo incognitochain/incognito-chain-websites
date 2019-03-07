@@ -13,7 +13,7 @@ class Info extends React.Component {
     actionGetDCB: PropTypes.func.isRequired,
     actionGetCB: PropTypes.func.isRequired,
     actionGetGOV: PropTypes.func.isRequired,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -24,7 +24,9 @@ class Info extends React.Component {
     } = props;
 
     this.state = {
-      dcb, cb, gov,
+      dcb,
+      cb,
+      gov,
     };
 
     actionGetDCB();
@@ -67,29 +69,15 @@ class Info extends React.Component {
                   <div className="col-12">
                     <table className="c-table">
                       <tbody>
-                        {
-                          dcb.list.length
-                            ? dcb.list.map(b => <tr><td>{b}</td></tr>)
-                            : <tr><td>Empty</td></tr>
-                        }
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-12">
-              <div className="block content">
-                <div className="block-heading">CB</div>
-                <div className="row">
-                  <div className="col-12">
-                    <table className="c-table">
-                      <tbody>
-                        {
-                          cb.list.length
-                            ? cb.list.map(b => <tr><td>{b}</td></tr>)
-                            : <tr><td>Empty</td></tr>
-                        }
+                      {
+                        dcb.list.length
+                          ? dcb.list.map(b => <tr>
+                            <td>{b}</td>
+                          </tr>)
+                          : <tr>
+                            <td>Empty</td>
+                          </tr>
+                      }
                       </tbody>
                     </table>
                   </div>
@@ -103,11 +91,37 @@ class Info extends React.Component {
                   <div className="col-12">
                     <table className="c-table">
                       <tbody>
-                        {
-                          gov.list.length
-                            ? gov.list.map(b => <tr><td>{b}</td></tr>)
-                            : <tr><td>Empty</td></tr>
-                        }
+                      {
+                        gov.list.length
+                          ? gov.list.map(b => <tr>
+                            <td>{b}</td>
+                          </tr>)
+                          : <tr>
+                            <td>Comming soon</td>
+                          </tr>
+                      }
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-12">
+              <div className="block content">
+                <div className="block-heading">CB</div>
+                <div className="row">
+                  <div className="col-12">
+                    <table className="c-table">
+                      <tbody>
+                      {
+                        cb.list.length
+                          ? cb.list.map(b => <tr>
+                            <td>{b}</td>
+                          </tr>)
+                          : <tr>
+                            <td>Comming soon</td>
+                          </tr>
+                      }
                       </tbody>
                     </table>
                   </div>
