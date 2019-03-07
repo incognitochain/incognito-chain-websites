@@ -83,7 +83,7 @@ class Create extends React.Component {
   }
 
   componentDidMount() {
-    document.title = 'Create a loan request - constant.money';
+    document.title = 'Create a loan request - Constant';
   }
 
   componentWillUnmount() {

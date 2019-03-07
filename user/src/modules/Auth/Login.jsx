@@ -38,11 +38,11 @@ class Login extends React.Component {
     })
       .then(res => {
         if (res.data && res.data.Result && res.data.Result.Token) {
+          let domain = process.env.REACT_APP_DOMAIN;
           Cookies.set("user", res.data.Result.Token, {
-            domain: `${process.env.REACT_APP_DOMAIN}`,
+            domain: domain,
             expires: 30
           });
-
           if (redirect) {
             document.location.assign(`//${redirect}`);
           } else {
