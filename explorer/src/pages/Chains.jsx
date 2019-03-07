@@ -77,6 +77,7 @@ class Chains extends React.Component {
                         <div className="c-hash">{`Best block: ${block.Hash.substr(0, 50)}`}...</div>
                         <div>{`Total txs: ${block.TotalTxs.toLocaleString(navigator.language, { minimumFractionDigits: 0 })}`}</div>
                         <div>{`Salary fund: ${(block.SalaryFund / 100).toLocaleString(navigator.language, { minimumFractionDigits: 2 })}`} Const</div>
+                        <div>{`Basic salary: ${(block.BasicSalary).toLocaleString(navigator.language, { minimumFractionDigits: 2 })}`} Const</div>
                         <div>{`Salary per TX: ${(block.SalaryPerTx).toLocaleString(navigator.language, { minimumFractionDigits: 2 })}`} Const</div>
                       </div>
                     </Link>
