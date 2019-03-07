@@ -7,5 +7,5 @@ module.exports = {
   userUrl: 'https://user-chain.constant.money',
   portalUrl: 'https://portal-chain.constant.money',
   exchangeUrl: 'https://exchange-chain.constant.money',
-  explorerUrl: 'http://explorer.constant.money'
+  explorerUrl: 'http://explorer-chain.constant.money'
 };
