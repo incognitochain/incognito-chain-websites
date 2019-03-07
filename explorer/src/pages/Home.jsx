@@ -192,7 +192,7 @@ class Home extends React.Component {
                   </thead>
                   <tbody>
                   <tr key={-1}>
-                    <td><Link to={`/block/${bestBlocks[-1].Hash}`} className="c-hash">{bestBlocks[-1].Hash}</Link></td>
+                    <td><Link to={`/block/${bestBlocks[-1].Hash}?beacon=true`} className="c-hash">{bestBlocks[-1].Hash}</Link></td>
                     <td>{`${bestBlocks[-1].Height}`}</td>
                   </tr>
                   </tbody>

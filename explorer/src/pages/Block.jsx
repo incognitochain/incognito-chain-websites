@@ -161,13 +161,13 @@ class Block extends React.Component {
                   <tr>
                     <td>Previous block</td>
                     <td className="c-hash"><Link
-                      to={`/block/${block[blockHash].data.PreviousBlockHash}`}>{block[blockHash].data.PreviousBlockHash}</Link>
+                      to={`/block/${block[blockHash].data.PreviousBlockHash}` + (this.isBeacon(chainId) ? '?beacon=true' : '')}>{block[blockHash].data.PreviousBlockHash}</Link>
                     </td>
                   </tr>
                   <tr>
                     <td>Next block</td>
                     <td className="c-hash"><Link
-                      to={`/block/${block[blockHash].data.NextBlockHash}`}>{block[blockHash].data.NextBlockHash}</Link>
+                      to={`/block/${block[blockHash].data.NextBlockHash}` + (this.isBeacon(chainId) ? '?beacon=true' : '')}>{block[blockHash].data.NextBlockHash}</Link>
                     </td>
                   </tr>
                   <tr>
