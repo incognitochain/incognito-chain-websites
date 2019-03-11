@@ -38,120 +38,55 @@ class Create extends React.Component {
       { name: 'USD', icon: faUsdCircle },
       { name: 'ETH', icon: faEthereum },
     ];
-
     this.state = {
       collaterals,
       currentCollateral: collaterals[1],
-      rates: [],
-      currentRate: {},
-      maturity: dayjs().format('MM-DD-YYYY'),
-      disabledBTC: true,
-      price: {
-        btc: 1,
-        eth: 1,
-      },
-      collateralAmountPlaceholder: '100',
-      wantUsePrivateKey: false,
-      dialogInstall: false,
-      dialogUnlock: false,
-      dialogWantUsePrivateKey: false,
+      hiddenETHAddr: false,
       status: '',
     };
-
-    axios.get(API.LOAN_PARAMS).then((res) => {
-      const { data } = res;
-      if (data) {
-        const { Result } = data;
-        if (Result && Result.length) {
-          const currentRate = Result[0];
-          this.setState({ rates: Result, currentRate });
-          this.calcMaturity(currentRate);
-        }
-      }
-    }).catch((e) => {
-      catchError(e);
-    });
-
-    this.getTickerOfBTC();
-    this.getTickerOfETH();
-
-    const { metamaskDetectInstalled, metamaskInit, authCheckAuth } = this.props;
+    const { authCheckAuth } = this.props;
     authCheckAuth();
-    metamaskDetectInstalled(() => {
-      metamaskInit();
-    });
   }
 
   componentDidMount() {
-    document.title = 'Create a loan request - Constant';
+    document.title = 'Create a redeem request - Constant';
   }
 
   componentWillUnmount() {
 
   }
 
-  // metadata
-  getTickerOfBTC = () => {
-    /*
-    https://api.hitbtc.com/api/2/public/ticker
-    https://api.coindesk.com/v1/bpi/currentprice.json
-    https://www.bitstamp.net/api/ticker/
-    https://blockchain.info/ticker
-    */
-    rawAxios.get('https://api.coinmarketcap.com/v1/ticker/bitcoin/').then((res) => {
-      const { data } = res;
-      if (data && data.length) {
-        const { price_usd: priceUsd } = data[0];
-        const { price } = this.state;
-        this.setState({ price: { ...price, btc: Number(priceUsd) } });
-      }
-    });
-    // TODO: fetch per xxx second
-  }
-
-  getTickerOfETH = () => {
-    /*
-    */
-    rawAxios.get('https://api.coinmarketcap.com/v1/ticker/ethereum/').then((res) => {
-      const { data } = res;
-      if (data && data.length) {
-        const { price_usd: priceUsd } = data[0];
-        const { price } = this.state;
-        this.setState({ price: { ...price, eth: Number(priceUsd) } });
-      }
-    });
-    // TODO: fetch per xxx second
-  }
-
-  // data in form
-  calcMaturity = (currentRate) => {
-    const { currentCollateral } = this.state;
-    const maturity = currentRate.Maturity || currentCollateral.Maturity; // in block time
-    // 10 minutes for a new block // TODO
-    const maturityInSecond = maturity * (BLOCKCHAIN.BLOCK_IN_SECOND);
-    const now = new Date();
-    let nowInSecond = parseInt(now / 1000, 10);
-    nowInSecond += (maturityInSecond - 3600);
-    const maturityFormated = dayjs.unix(nowInSecond).format('MM-DD-YYYY');
-    this.setState({ maturity: maturityFormated });
-  }
-
   // form
-  changeLoanAmount = (e, setFieldValue, cb = () => { }) => {
-    const { currentRate, price, currentCollateral } = this.state;
-    const { LiquidationStart } = currentRate;
-    const { value } = e.target;
-    const fix = { ETH: 2, BTC: 10 };
-    let collateralAmount = value;
-
-    if (LiquidationStart && value) {
-      const collateralType = currentCollateral.name.toLowerCase();
-      const rate = price[collateralType];
-      collateralAmount = ((parseInt(value, 10) / rate) * (LiquidationStart / 10000)).toFixed(fix[currentCollateral.name]);
+  changeRedeemAmount = (e, setFieldValue, cb = () => { }) => {
+    const { currentCollateral } = this.state;
+    if (currentCollateral.name === 'ETH') {
+      this.setState({
+        hiddenETHAddr: false,
+      });
+      if (!e.target.value) {
+        setFieldValue('etherAmount', 0);
+      } else {
+        const data = {
+          constant_amount: parseInt(e.target.value, 0) * 1000,
+        };
+        axios.post(API.RESERVE_CONVERT_CST_TO_ETH, data).then((res) => {
+          if (res.status === 200) {
+            if (res.data && res.data.Result) {
+              setFieldValue('etherAmount', res.data.Result);
+            }
+          }
+        }).catch((e) => {
+          console.log(e);
+          catchError(e);
+        });
+      }
     }
-
-    setFieldValue('collateralAmount', collateralAmount);
-    this.setState({ collateralAmountPlaceholder: collateralAmount || '100' }, cb);
+    if (currentCollateral.name === 'USD') {
+      this.setState({
+        hiddenETHAddr: true,
+      });
+      setFieldValue('etherAmount', 0);
+    }
   }
 
   inputChange = (handleChange, setFieldTouched, name, e) => {
@@ -166,147 +101,6 @@ class Create extends React.Component {
     }
   }
 
-  // dialogs
-  unlockMetamask = () => {
-    const { metamaskRequestUnlock } = this.props;
-    metamaskRequestUnlock();
-  }
-
-  showAskInstall = (values, setSubmitting) => {
-    this.setState({ dialogInstall: true, setSubmitting, status: 'Please check your Metamask extension' });
-  }
-
-  showAskUnlock = (values, setSubmitting) => {
-    const { metamask, metamaskRequestUnlock } = this.props;
-    this.setState({ setSubmitting });
-
-    if (!metamask.unlocked) {
-      metamaskRequestUnlock(() => {
-        this.setState({ dialogUnlock: false });
-        this.handleETH(values);
-      }, () => {
-        this.setState({ dialogUnlock: true, status: 'Please check your Metamask extension' });
-      });
-    } else {
-      this.handleETH(values);
-    }
-  }
-
-  handleETH = async (values) => {
-    const { secretKey: rawSecretKey, collateralAmount, loanAmount } = values;
-    const { setSubmitting, maturity, currentRate } = this.state;
-    const { routerPush, auth, metamask } = this.props;
-    const { web3 } = metamask;
-
-    const secretKey = `a${rawSecretKey}`;
-
-    const contractInstance = new web3.eth.Contract(abiDefinition, process.env.loanSmartContractAddress);
-
-    const constantPaymentAddress = auth.data.PaymentAddress;
-    const digestKey = web3.utils.soliditySha3(web3.utils.toHex(secretKey));
-    const lid = web3.utils.fromAscii('');
-    const offChain = web3.utils.fromAscii('');
-    const accounts = await web3.eth.getAccounts();
-
-    console.log(digestKey);
-
-    contractInstance.methods.sendCollateral(lid, digestKey, web3.utils.toHex(constantPaymentAddress), parseInt(Number(loanAmount) * 100, 10), offChain).send({
-      from: accounts[0],
-      value: parseFloat(collateralAmount) * (10 ** 18),
-    })
-      .on('transactionHash', (hash) => {
-        console.log('transactionHash', hash);
-        this.setState({ status: 'Waiting for this transaction complete. (~2 mins)' });
-      })
-      .on('confirmation', (confirmationNumber, receipt) => {
-        console.log(confirmationNumber, receipt);
-      })
-      .on('receipt', (receipt) => {
-        try {
-          const { events } = receipt;
-          const { __sendCollateral: sendCollateral } = events;
-          const { returnValues } = sendCollateral;
-          const result = {
-            err: null,
-            data: returnValues,
-          };
-
-          const loanID = result.data.lid;
-          const startDate = dayjs().format('YYYY-MM-DD');
-          const endDate = dayjs(maturity).format('YYYY-MM-DD');
-
-          const data = {
-            StartDate: startDate,
-            EndDate: endDate,
-            LoanRequest: {
-              Params: currentRate,
-              LoanID: loanID.substr(2),
-              CollateralType: 'ETH',
-              CollateralAmount: collateralAmount.etherToWei(),
-              LoanAmount: parseInt(Number(loanAmount) * 100, 10),
-              ReceiveAddress: '',
-              KeyDigest: digestKey.substr(2),
-            },
-          };
-
-          axios.post(API.LOAN_SUBMIT, data).then((res) => {
-            if (res.status === 200) {
-              if (res.data && res.data.Result) {
-                const { Result } = res.data;
-                routerPush(`/loan/${Result.LoanID}`);
-              }
-            }
-            setSubmitting(false);
-          }).catch((e) => {
-            console.log(e);
-            catchError(e);
-            setSubmitting(false);
-          });
-        } catch (e) {
-          toaster.danger('Lỗi by @duybao');
-          setSubmitting(false);
-          console.log(e);
-        }
-        // success
-      })
-      .on('err', (err) => {
-        console.log(err);
-        const result = {
-          err,
-          data: null,
-        };
-        console.log(result);
-        setSubmitting(false);
-        toaster.danger(`This transaction failed, error: ${err.toString()}`);
-        // error
-      })
-      .catch((e) => {
-        catchError(e);
-        setSubmitting(false);
-        if (e.message.includes('User denied')) {
-          toaster.warning('You denied this transaction');
-        }
-        console.log(e);
-      });
-  }
-
-  linkMetamask = () => {
-    const browser = detect();
-    switch (browser && browser.name) {
-      case 'chrome':
-        return (<a href="https://chrome.google.com/webstore/detail/nkbihfbeogaeaoehlefnkodbefgpgknn" target="_blank" rel="noopener noreferrer">get Chrome extension</a>);
-      case 'firefox':
-        return (<a href="https://addons.mozilla.org/en-US/firefox/addon/ether-metamask/" target="_blank" rel="noopener noreferrer">get Firefox extension</a>);
-      default:
-        return 'Please use brower based on Chrome, Firefox or Brave';
-    }
-  }
-
-  dialogCancel = () => {
-    const { setSubmitting } = this.state;
-    setSubmitting(false);
-    this.setState({ setSubmitting: () => { } });
-  }
 
   // submit handler
   handleSubmit = (values, setSubmitting) => {
@@ -324,22 +118,16 @@ class Create extends React.Component {
   }
 
   submitByUSD = (values, setSubmitting) => {
-    const { metamask } = this.props;
-    const { installed } = metamask;
-
-    if (installed) {
-      this.showAskUnlock(values, setSubmitting);
-    } else {
-      this.showAskInstall(values, setSubmitting);
-    }
+    setSubmitting(false);
+    setSubmitting(true);
   }
 
   submitByETH = (values, setSubmitting) => {
     const { routerPush } = this.props;
     setSubmitting(false);
     const data = {
-      receiver_address: '',
-      constant_amount: 10,
+      receiver_address: values.receiverAddress,
+      constant_amount: parseInt(values.redeemAmount, 0) * 1000,
     };
     axios.post(API.RESERVE_BURN_CST_TO_ETH, data).then((res) => {
       if (res.status === 200) {
@@ -361,58 +149,11 @@ class Create extends React.Component {
       status,
       collaterals,
       currentCollateral,
-      rates,
-      currentRate,
-      maturity, disabledBTC, collateralAmountPlaceholder, dialogInstall, dialogUnlock,
-      dialogWantUsePrivateKey,
-      setSubmitting: stateSetSubmitting,
+      hiddenETHAddr,
     } = this.state;
 
     return (
       <div className="create-page">
-        <Dialog
-          isShown={dialogWantUsePrivateKey}
-          shouldCloseOnOverlayClick={false}
-          shouldCloseOnEscapePress={false}
-          hasHeader={false}
-          title="Import your private key"
-          cancelLabel="Cancel"
-          confirmLabel="Import"
-          onConfirm={() => { }}
-          onCancel={() => { this.dialogCancel(); this.setState({ dialogWantUsePrivateKey: false }); }}
-        >
-          This feature is building.
-        </Dialog>
-        <Dialog
-          isShown={dialogInstall}
-          shouldCloseOnOverlayClick={false}
-          shouldCloseOnEscapePress={false}
-          hasHeader={false}
-          title="Ethereum transaction handler"
-          onCloseComplete={() => this.setState({ dialogInstall: false })}
-          cancelLabel="Use my Ethereum Private Key"
-          confirmLabel="I have installed MetaMask"
-          onConfirm={() => { window.location.reload(); }}
-          onCancel={() => this.setState({ dialogInstall: false, wantUsePrivateKey: true, dialogWantUsePrivateKey: true })}
-        >
-          You need to install Metamask (
-          {this.linkMetamask()}
-          ) or import your Ethereum Private Key to continue.
-        </Dialog>
-        <Dialog
-          isShown={dialogUnlock}
-          shouldCloseOnOverlayClick={false}
-          shouldCloseOnEscapePress={false}
-          hasHeader={false}
-          title="Ethereum transaction handler"
-          onCloseComplete={() => this.setState({ dialogUnlock: false })}
-          cancelLabel="Use my Ethereum Private Key"
-          confirmLabel="I have unlocked MetaMask"
-          onConfirm={() => { this.showAskUnlock(stateSetSubmitting); }}
-          onCancel={() => this.setState({ dialogUnlock: false, wantUsePrivateKey: true, dialogWantUsePrivateKey: true })}
-        >
-          You need to unlock your Metamask or import your Ethereum Private Key to continue.
-        </Dialog>
         <div className="create-hero">
           <div className="container">
             <div className="row">
@@ -429,15 +170,38 @@ class Create extends React.Component {
               <div className="col-12">
                 <Formik
                   initialValues={{
-                    redeemAmount: '', receiverAddress: '', secretKey: '', policy: false,
+                    redeemAmount: '',
+                    etherAmount: '0.00',
+                    receiverAddress: '0x088D8A4a03266870EDcbbbADdA3F475f404dB9B2',
+                    policy: false,
+                    routingNumber: '',
+                    swiftCode: '',
+                    achCheckType: 'personal',
+                    bankCountry: 'US',
+                    bankAccountName: '',
+                    bankAccountType: '',
+                    bankAccountNumber: '',
+                    bankName: '',
+                    beneficiaryAddressStreet1: '',
+                    beneficiaryAddressStreet2: '',
+                    beneficiaryAddressRegion: '',
+                    beneficiaryAddressCity: '',
+                    beneficiaryAddressPostalCode: '',
+                    beneficiaryAddressCountry: 'US',
                   }}
                   validate={(values) => {
                     const errors = {};
                     if (!values.redeemAmount) {
-                      errors.loanAmount = 'Required';
+                      errors.redeemAmount = 'Required';
                     }
-                    if (values.redeemAmount && Number(values.collateralAmount) < collateralAmountPlaceholder) {
-                      errors.receiverAddress = 'Collateral amount must greater than minimum value';
+                    if (currentCollateral.name === 'ETH' && !values.receiverAddress) {
+                      errors.receiverAddress = 'Required';
+                    }
+                    if (currentCollateral.name === 'USD' && !values.routingNumber) {
+                      errors.routingNumber = 'Required';
+                    }
+                    if (currentCollateral.name === 'USD' && !values.swiftCode) {
+                      errors.swiftCode = 'Required';
                     }
                     if (!values.policy) {
                       errors.policy = 'You must accept with this policy.';
@@ -463,120 +227,216 @@ class Create extends React.Component {
                     setFieldValue,
                     isValid,
                   }) => (
-                    <form onSubmit={handleSubmit} autoComplete="off">
-                      <Dialog
-                        isShown={isValid && isSubmitting && !dialogInstall && !dialogUnlock && !dialogWantUsePrivateKey}
-                        shouldCloseOnOverlayClick={false}
-                        shouldCloseOnEscapePress={false}
-                        hasHeader={false}
-                        hasFooter={false}
-                      >
-                        <div style={{ textAlign: 'center', margin: '20px 0' }}>
-                          <div>
-                            {' '}
-                            <FontAwesomeIcon icon={faSpinnerThird} size="3x" spin color="##2D4EF5" />
-                          </div>
-                          <div style={{ marginTop: 10 }}>Loading....</div>
-                          <div>{status}</div>
-                          <div style={{ color: '#ff0000' }}>
-                            <strong>
-                              {"PLEASE DON'T CLOSE THIS TAB"}
-                            </strong>
-                          </div>
-                        </div>
-                      </Dialog>
-                      <div className="create-box c-card">
-                        <h2>Create a redeem request</h2>
-                        <div className="">
-                          {'Or '}
-                          <Link to="/redeem">
-                            <FontAwesomeIcon icon={faAngleLeft} />
-                            {' Back to redeem'}
-                          </Link>
-                        </div>
-                        <div className="row input-container input-container-first">
-                          <div className="col-12 col-md-12 col-lg-4">
-                            <div className="title">ENTER REDEEM AMOUNT</div>
-                            <div className="input">
-                              <TextField
-                                name="loanAmount"
-                                placeholder="100"
-                                className="input-of-create cst"
-                                value={values.redeemAmount}
-                                autoComplete="off"
-                                onChange={(e) => {
-                                  this.onlyNumber(e.target.value, () => {
-                                    this.inputChange(handleChange, setFieldTouched, 'loanAmount', e);
-                                    this.changeLoanAmount(e, setFieldValue);
-                                  });
-                                }}
-                                InputProps={{
-                                  startAdornment: <InputAdornment position="start">CST</InputAdornment>,
-                                }}
-                              />
-                              {errors.redeemAmount && touched.redeemAmount && <span className="c-error"><span>{errors.redeemAmount}</span></span>}
+                      <form onSubmit={handleSubmit} autoComplete="off">
+                        <Dialog
+                          isShown={isValid && isSubmitting}
+                          shouldCloseOnOverlayClick={false}
+                          shouldCloseOnEscapePress={false}
+                          hasHeader={false}
+                          hasFooter={false}
+                        >
+                          <div style={{ textAlign: 'center', margin: '20px 0' }}>
+                            <div>
+                              {' '}
+                              <FontAwesomeIcon icon={faSpinnerThird} size="3x" spin color="##2D4EF5" />
+                            </div>
+                            <div style={{ marginTop: 10 }}>Loading....</div>
+                            <div>{status}</div>
+                            <div style={{ color: '#ff0000' }}>
+                              <strong>
+                                {"PLEASE DON'T CLOSE THIS TAB"}
+                              </strong>
                             </div>
                           </div>
-                          <div className="col-12 col-md-6 col-lg-4">
-                            <div className="title">CHOOSE YOUR OPTION</div>
-                            <div className="input">
-                              {collaterals.map(collateral => (
-                                <div
-                                  key={collateral.name}
-                                  className={`collateral-option ${currentCollateral.name === collateral.name ? 'active' : ''}`}
-                                  onClick={() => {
-                                    // if (disabledBTC && collateral.name === 'BTC') {
-                                    //   toaster.warning('We don\'t support BTC yet', { duration: 10000 });
-                                    //   return;
-                                    // }
-                                    this.setState({ currentCollateral: collateral }, () => {
-                                      this.changeLoanAmount({ target: { value: values.redeemAmount } }, setFieldValue);
+                        </Dialog>
+                        <div className="create-box c-card">
+                          <h2>Create a redeem request</h2>
+                          <div className="">
+                            {'Or '}
+                            <Link to="/redeem">
+                              <FontAwesomeIcon icon={faAngleLeft} />
+                              {' Back to redeem'}
+                            </Link>
+                          </div>
+                          <div className="row input-container input-container-first">
+                            <div className="col-12 col-md-12 col-lg-4">
+                              <div className="title">ENTER REDEEM AMOUNT</div>
+                              <div className="input">
+                                <TextField
+                                  name="redeemAmount"
+                                  placeholder="100"
+                                  className="input-of-create cst"
+                                  value={values.redeemAmount}
+                                  autoComplete="off"
+                                  onChange={(e) => {
+                                    this.onlyNumber(e.target.value, () => {
+                                      this.inputChange(handleChange, setFieldTouched, 'redeemAmount', e);
+                                      this.changeRedeemAmount(e, setFieldValue);
                                     });
                                   }}
-                                >
-                                  <FontAwesomeIcon icon={collateral.icon} size="2x" />
+                                  InputProps={{
+                                    startAdornment: <InputAdornment position="start">CST</InputAdornment>,
+                                  }}
+                                />
+                                {errors.redeemAmount && touched.redeemAmount && <span className="c-error"><span>{errors.redeemAmount}</span></span>}
+                              </div>
+                            </div>
+                            <div className="col-12 col-md-6 col-lg-4">
+                              <div className="title">CHOOSE YOUR OPTION</div>
+                              <div className="input">
+                                {collaterals.map(collateral => (
+                                  <div
+                                    key={collateral.name}
+                                    className={`collateral-option ${currentCollateral.name === collateral.name ? 'active' : ''}`}
+                                    onClick={() => {
+                                      this.setState({ currentCollateral: collateral }, () => {
+                                        this.changeRedeemAmount({ target: { value: values.redeemAmount } }, setFieldValue);
+                                      });
+                                    }}
+                                  >
+                                    <FontAwesomeIcon icon={collateral.icon} size="2x" />
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                          {
+                            hiddenETHAddr ? (
+                              <div className="row input-container input-container-first">
+                                <div className="col-12 col-md-6 col-lg-4">
+                                  <div className="title">ENTER YOUR BANK</div>
+                                  <div className="input">
+                                    <TextField
+                                      name="routingNumber"
+                                      placeholder=""
+                                      className="input-of-create cst"
+                                      value={values.routingNumber}
+                                      autoComplete="off"
+                                      onChange={(e) => {
+                                        this.inputChange(handleChange, setFieldTouched, 'routingNumber', e);
+                                      }}
+                                      InputProps={{
+                                        startAdornment: <InputAdornment position="start">RoutingNumber</InputAdornment>,
+                                      }}
+                                    />
+                                    {errors.routingNumber && touched.routingNumber && <span className="c-error"><span>{errors.routingNumber}</span></span>}
+                                  </div>
+
+                                  <div className="input">
+                                    <TextField
+                                      name="swiftCode"
+                                      placeholder=""
+                                      className="input-of-create cst"
+                                      value={values.swiftCode}
+                                      autoComplete="off"
+                                      onChange={(e) => {
+                                        this.inputChange(handleChange, setFieldTouched, 'swiftCode', e);
+                                      }}
+                                      InputProps={{
+                                        startAdornment: <InputAdornment position="start">SwiftCode</InputAdornment>,
+                                      }}
+                                    />
+                                    {errors.swiftCode && touched.swiftCode && <span className="c-error"><span>{errors.swiftCode}</span></span>}
+                                  </div>
+
+                                  <div className="input">
+                                    <TextField
+                                      name="achCheckType"
+                                      placeholder=""
+                                      className="input-of-create cst"
+                                      value={values.achCheckType}
+                                      autoComplete="off"
+                                      onChange={(e) => {
+                                        this.inputChange(handleChange, setFieldTouched, 'achCheckType', e);
+                                      }}
+                                      InputProps={{
+                                        startAdornment: <InputAdornment position="start">AchCheckType</InputAdornment>,
+                                      }}
+                                    />
+                                    {errors.achCheckType && touched.achCheckType && <span className="c-error"><span>{errors.achCheckType}</span></span>}
+                                  </div>
+
+                                  <div className="input">
+                                    <TextField
+                                      name="bankCountry"
+                                      placeholder=""
+                                      className="input-of-create cst"
+                                      value={values.bankCountry}
+                                      autoComplete="off"
+                                      onChange={(e) => {
+                                        this.inputChange(handleChange, setFieldTouched, 'bankCountry', e);
+                                      }}
+                                      InputProps={{
+                                        startAdornment: <InputAdornment position="start">BankCountry</InputAdornment>,
+                                      }}
+                                    />
+                                    {errors.bankCountry && touched.bankCountry && <span className="c-error"><span>{errors.bankCountry}</span></span>}
+                                  </div>
+
+                                  <div className="input">
+                                    <TextField
+                                      name="bankCountry"
+                                      placeholder=""
+                                      className="input-of-create cst"
+                                      value={values.bankCountry}
+                                      autoComplete="off"
+                                      onChange={(e) => {
+                                        this.inputChange(handleChange, setFieldTouched, 'bankCountry', e);
+                                      }}
+                                      InputProps={{
+                                        startAdornment: <InputAdornment position="start">BankCountry</InputAdornment>,
+                                      }}
+                                    />
+                                    {errors.bankCountry && touched.bankCountry && <span className="c-error"><span>{errors.bankCountry}</span></span>}
+                                  </div>
+
+
                                 </div>
-                              ))}
+                              </div>
+                            ) : (
+                              <div className="row input-container input-container-first">
+                                <div className="col-12 col-md-6 col-lg-4">
+                                  <div className="title">ENTER ETHER ADDRESS</div>
+                                  <div className="input">
+                                    <TextField
+                                      type="text"
+                                      name="receiverAddress"
+                                      placeholder="0x088D8A4a03266870EDcbbbADdA3F475f404dB9B2"
+                                      className="input-of-create cst"
+                                      value={values.receiverAddress}
+                                      autoComplete="off"
+                                      onChange={(e) => {
+                                        this.inputChange(handleChange, setFieldTouched, 'receiverAddress', e);
+                                      }}
+                                    />
+                                    {errors.receiverAddress && touched.receiverAddress && <span className="c-error"><span>{errors.receiverAddress}</span></span>}
+                                  </div>
+                                  <div className="input">{`${values.etherAmount} ETH`}</div>
+                                </div>
+                              </div>
+                            )
+                          }
+                          <div className="row">
+                            <div className="col-12">
+                              <label>
+                                <input type="checkbox" name="policy" value={values.policy} onChange={handleChange} />
+                                {' I certify that I am 18 years of age or older, and I agree to the Terms & Conditions.'}
+                              </label>
+                              {errors.policy && touched.policy && <span className="c-error"><span>{errors.policy}</span></span>}
                             </div>
                           </div>
-                          <div className="col-12 col-md-6 col-lg-4">
-                            <div className="title">ENTER ETHER ADDRESS</div>
-                            <div className="input">
-                              <TextField
-                                name="receiverAddress"
-                                placeholder="0x"
-                                className="input-of-create cst"
-                                value={values.receiverAddress}
-                                autoComplete="off"
-                                InputProps={{
-                                  startAdornment: <InputAdornment position="start">CST</InputAdornment>,
-                                }}
-                              />
-                              {errors.receiverAddress && touched.receiverAddress && <span className="c-error"><span>{errors.receiverAddress}</span></span>}
+                          <div className="row">
+                            <div className="col-12">
+                              <button className="c-btn c-btn-primary submit" type="submit">
+                                {isSubmitting ? <FontAwesomeIcon icon={faSpinnerThird} size="1x" spin style={{ marginRight: 10 }} /> : ''}
+                                {'Submit '}
+                                <FontAwesomeIcon icon={faArrowRight} />
+                              </button>
                             </div>
                           </div>
                         </div>
-                        <div className="row">
-                          <div className="col-12">
-                            <label>
-                              <input type="checkbox" name="policy" value={values.policy} onChange={handleChange} />
-                              {' I certify that I am 18 years of age or older, and I agree to the Terms & Conditions.'}
-                            </label>
-                            {errors.policy && touched.policy && <span className="c-error"><span>{errors.policy}</span></span>}
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="col-12">
-                            <button className="c-btn c-btn-primary submit" type="submit">
-                              {isSubmitting ? <FontAwesomeIcon icon={faSpinnerThird} size="1x" spin style={{ marginRight: 10 }} /> : ''}
-                              {'Submit '}
-                              <FontAwesomeIcon icon={faArrowRight} />
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </form>
-                  )}
+                      </form>
+                    )}
                 </Formik>
               </div>
             </div>
