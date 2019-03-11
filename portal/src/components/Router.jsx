@@ -14,6 +14,8 @@ const NotFound = createDynamicImport(() => import('@/pages/NotFound'), Loading);
 const Redeem = createDynamicImport(() => import('@/pages/Redeem/Redeem'), Loading);
 const RedeemCreate = createDynamicImport(() => import('@/pages/Redeem/Create/Create'), Loading);
 
+const BuyToken = createDynamicImport(() => import('@/pages/BuyToken/BuyToken'), Loading);
+
 const routers = [
   { path: '/', exact: true, component: Landing },
   { path: '/loan', exact: true, component: Home },
@@ -26,6 +28,10 @@ const routers = [
 
   { path: '/redeem', exact: true, component: Redeem },
   { path: '/redeem/create', exact: true, component: RedeemCreate },
+
+  { path: '/redeem/create', exact: true, component: RedeemCreate },
+
+  { path: '/buy_token', exact: true, component: BuyToken },
 ];
 
 class Router extends React.Component {
