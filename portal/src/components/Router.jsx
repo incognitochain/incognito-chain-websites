@@ -11,6 +11,9 @@ const Loan = createDynamicImport(() => import('@/pages/Loan/Loan'), Loading);
 const Transactions = createDynamicImport(() => import('@/pages/Txs/Txs'), Loading);
 const NotFound = createDynamicImport(() => import('@/pages/NotFound'), Loading);
 
+const Redeem = createDynamicImport(() => import('@/pages/Redeem/Redeem'), Loading);
+const RedeemCreate = createDynamicImport(() => import('@/pages/Redeem/Create/Create'), Loading);
+
 const routers = [
   { path: '/', exact: true, component: Landing },
   { path: '/loan', exact: true, component: Home },
@@ -20,6 +23,9 @@ const routers = [
   { path: '/loan/:id', exact: true, component: Loan },
   { path: '/txs', exact: true, component: Transactions },
   { path: '/txs/:id', exact: true, component: Transactions },
+
+  { path: '/redeem', exact: true, component: Redeem },
+  { path: '/redeem/create', exact: true, component: RedeemCreate },
 ];
 
 class Router extends React.Component {

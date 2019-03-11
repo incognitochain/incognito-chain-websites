@@ -16,6 +16,7 @@ const API = {
   LOAN_ACTION: 'portal/borrows',
   LOAN_LIST_FOR_LENDER: 'portal/all_borrows',
   USER_DATA: 'auth/me',
+  RESERVE_BURN_CST_TO_ETH: 'reserves/burn-cst-to-eth',
 };
 
 const BLOCKCHAIN = {
