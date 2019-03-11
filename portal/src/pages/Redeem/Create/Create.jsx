@@ -356,6 +356,41 @@ class Create extends React.Component {
                                     {errors.achCheckType && touched.achCheckType && <span className="c-error"><span>{errors.achCheckType}</span></span>}
                                   </div>
 
+                                  <div className="input">
+                                    <TextField
+                                      name="bankCountry"
+                                      placeholder=""
+                                      className="input-of-create cst"
+                                      value={values.bankCountry}
+                                      autoComplete="off"
+                                      onChange={(e) => {
+                                        this.inputChange(handleChange, setFieldTouched, 'bankCountry', e);
+                                      }}
+                                      InputProps={{
+                                        startAdornment: <InputAdornment position="start">BankCountry</InputAdornment>,
+                                      }}
+                                    />
+                                    {errors.bankCountry && touched.bankCountry && <span className="c-error"><span>{errors.bankCountry}</span></span>}
+                                  </div>
+
+                                  <div className="input">
+                                    <TextField
+                                      name="bankCountry"
+                                      placeholder=""
+                                      className="input-of-create cst"
+                                      value={values.bankCountry}
+                                      autoComplete="off"
+                                      onChange={(e) => {
+                                        this.inputChange(handleChange, setFieldTouched, 'bankCountry', e);
+                                      }}
+                                      InputProps={{
+                                        startAdornment: <InputAdornment position="start">BankCountry</InputAdornment>,
+                                      }}
+                                    />
+                                    {errors.bankCountry && touched.bankCountry && <span className="c-error"><span>{errors.bankCountry}</span></span>}
+                                  </div>
+
+
                                 </div>
                               </div>
                             ) : (
