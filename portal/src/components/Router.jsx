@@ -15,6 +15,7 @@ const Redeem = createDynamicImport(() => import('@/pages/Redeem/Redeem'), Loadin
 const RedeemCreate = createDynamicImport(() => import('@/pages/Redeem/Create/Create'), Loading);
 
 const BuyToken = createDynamicImport(() => import('@/pages/BuyToken/BuyToken'), Loading);
+const BuyConstant = createDynamicImport(() => import('@/pages/BuyConstant/BuyConstant'), Loading);
 
 const routers = [
   { path: '/', exact: true, component: Landing },
@@ -32,6 +33,7 @@ const routers = [
   { path: '/redeem/create', exact: true, component: RedeemCreate },
 
   { path: '/buy_token', exact: true, component: BuyToken },
+  { path: '/buy_constant', exact: true, component: BuyConstant },
 ];
 
 class Router extends React.Component {
