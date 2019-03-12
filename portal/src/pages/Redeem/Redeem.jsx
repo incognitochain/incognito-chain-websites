@@ -308,7 +308,7 @@ class Redeem extends React.Component {
             </div>
           </div>
         </div> */}
-        <div className="borrows-container" style={{ display: `${active === 0 ? 'block' : 'none'}` }}>
+        {/* <div className="borrows-container" style={{ display: `${active === 0 ? 'block' : 'none'}` }}>
           <div className="container">
             <div className="row">
               <div className="col-12">
@@ -365,7 +365,7 @@ class Redeem extends React.Component {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="borrows-container" style={{ display: `${active === 1 ? 'block' : 'none'}` }}>
           <div className="container">
             <div className="row">

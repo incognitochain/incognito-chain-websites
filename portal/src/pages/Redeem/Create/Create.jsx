@@ -63,7 +63,7 @@ class Create extends React.Component {
       this.setState({
         hiddenETHAddr: false,
       });
-      if (!e.target.value) {
+      if (!e.target.value || e.target.value <= 0) {
         setFieldValue('etherAmount', 0);
       } else {
         const data = {
@@ -101,7 +101,6 @@ class Create extends React.Component {
     }
   }
 
-
   // submit handler
   handleSubmit = (values, setSubmitting) => {
     const { currentCollateral, wantUsePrivateKey } = this.state;
@@ -118,8 +117,40 @@ class Create extends React.Component {
   }
 
   submitByUSD = (values, setSubmitting) => {
+    const { routerPush } = this.props;
     setSubmitting(false);
-    setSubmitting(true);
+    const data = {
+      PaymentForm: {
+        routingNumber: values.routingNumber,
+        swiftCode: values.swiftCode,
+        achCheckType: values.achCheckType,
+        bankCountry: values.bankCountry,
+        bankAccountName: values.bankAccountName,
+        bankAccountType: values.bankAccountType,
+        bankAccountNumber: values.bankAccountNumber,
+        bankName: values.bankName,
+        beneficiaryAddressStreet1: values.beneficiaryAddressStreet1,
+        beneficiaryAddressStreet2: values.beneficiaryAddressStreet2,
+        beneficiaryAddressRegion: values.beneficiaryAddressRegion,
+        beneficiaryAddressCity: values.beneficiaryAddressCity,
+        beneficiaryAddressPostalCode: values.beneficiaryAddressPostalCode,
+        beneficiaryAddressCountry: values.beneficiaryAddressCountry,
+      },
+      Amount: parseInt(values.redeemAmount, 0) * 1000
+    };
+    axios.post(API.RESERVE_BURN_CST_TO_USD, data).then((res) => {
+      if (res.status === 200) {
+        if (res.data && res.data.Result) {
+          routerPush('/redeem');
+        }
+      }
+      setSubmitting(false);
+    }).catch((e) => {
+      toaster.warning('Failed to submit request');
+      console.log(e);
+      catchError(e);
+      setSubmitting(false);
+    });
   }
 
   submitByETH = (values, setSubmitting) => {
@@ -137,6 +168,7 @@ class Create extends React.Component {
       }
       setSubmitting(false);
     }).catch((e) => {
+      toaster.warning('Failed to submit request');
       console.log(e);
       catchError(e);
       setSubmitting(false);
@@ -158,8 +190,8 @@ class Create extends React.Component {
           <div className="container">
             <div className="row">
               <div className="col-12">
-                <h2>Constant loans backed by your crypto assets</h2>
-                <p>Use your crypto to get Constant without selling</p>
+                <h2>Constant redeem</h2>
+                <p>Use your constant for redeem</p>
               </div>
             </div>
           </div>
@@ -197,12 +229,48 @@ class Create extends React.Component {
                     if (currentCollateral.name === 'ETH' && !values.receiverAddress) {
                       errors.receiverAddress = 'Required';
                     }
-                    if (currentCollateral.name === 'USD' && !values.routingNumber) {
-                      errors.routingNumber = 'Required';
+                    if (currentCollateral.name === 'USD') {
+                      if (!values.routingNumber) {
+                        errors.routingNumber = 'Required';
+                      }
+                      if (!values.swiftCode) {
+                        errors.swiftCode = 'Required';
+                      }
+                      if (!values.achCheckType) {
+                        errors.achCheckType = 'Required';
+                      }
+                      if (!values.bankCountry) {
+                        errors.bankCountry = 'Required';
+                      }
+                      if (!values.bankAccountType) {
+                        errors.bankAccountType = 'Required';
+                      }
+                      if (!values.bankAccountNumber) {
+                        errors.bankAccountNumber = 'Required';
+                      }
+                      if (!values.bankName) {
+                        errors.bankName = 'Required';
+                      }
+                      if (!values.beneficiaryAddressStreet1) {
+                        errors.beneficiaryAddressStreet1 = 'Required';
+                      }
+                      if (!values.beneficiaryAddressStreet2) {
+                        errors.beneficiaryAddressStreet2 = 'Required';
+                      }
+                      if (!values.beneficiaryAddressRegion) {
+                        errors.beneficiaryAddressRegion = 'Required';
+                      }
+                      if (!values.beneficiaryAddressCity) {
+                        errors.beneficiaryAddressCity = 'Required';
+                      }
+                      if (!values.beneficiaryAddressPostalCode) {
+                        errors.beneficiaryAddressPostalCode = 'Required';
+                      }
+                      if (!values.beneficiaryAddressCountry) {
+                        errors.beneficiaryAddressCountry = 'Required';
+                      }
                     }
-                    if (currentCollateral.name === 'USD' && !values.swiftCode) {
-                      errors.swiftCode = 'Required';
-                    }
+                    
                     if (!values.policy) {
                       errors.policy = 'You must accept with this policy.';
                     }
@@ -303,13 +371,14 @@ class Create extends React.Component {
                           {
                             hiddenETHAddr ? (
                               <div className="row input-container input-container-first">
-                                <div className="col-12 col-md-6 col-lg-4">
+                                <div className="col">
                                   <div className="title">ENTER YOUR BANK</div>
                                   <div className="input">
                                     <TextField
                                       name="routingNumber"
                                       placeholder=""
                                       className="input-of-create cst"
+                                      style={{ width: 1000 }}
                                       value={values.routingNumber}
                                       autoComplete="off"
                                       onChange={(e) => {
@@ -321,12 +390,12 @@ class Create extends React.Component {
                                     />
                                     {errors.routingNumber && touched.routingNumber && <span className="c-error"><span>{errors.routingNumber}</span></span>}
                                   </div>
-
                                   <div className="input">
                                     <TextField
                                       name="swiftCode"
                                       placeholder=""
                                       className="input-of-create cst"
+                                      style={{ width: 1000 }}
                                       value={values.swiftCode}
                                       autoComplete="off"
                                       onChange={(e) => {
@@ -338,12 +407,12 @@ class Create extends React.Component {
                                     />
                                     {errors.swiftCode && touched.swiftCode && <span className="c-error"><span>{errors.swiftCode}</span></span>}
                                   </div>
-
                                   <div className="input">
                                     <TextField
                                       name="achCheckType"
                                       placeholder=""
                                       className="input-of-create cst"
+                                      style={{ width: 1000 }}
                                       value={values.achCheckType}
                                       autoComplete="off"
                                       onChange={(e) => {
@@ -355,12 +424,12 @@ class Create extends React.Component {
                                     />
                                     {errors.achCheckType && touched.achCheckType && <span className="c-error"><span>{errors.achCheckType}</span></span>}
                                   </div>
-
                                   <div className="input">
                                     <TextField
                                       name="bankCountry"
                                       placeholder=""
                                       className="input-of-create cst"
+                                      style={{ width: 1000 }}
                                       value={values.bankCountry}
                                       autoComplete="off"
                                       onChange={(e) => {
@@ -372,25 +441,176 @@ class Create extends React.Component {
                                     />
                                     {errors.bankCountry && touched.bankCountry && <span className="c-error"><span>{errors.bankCountry}</span></span>}
                                   </div>
-
                                   <div className="input">
                                     <TextField
-                                      name="bankCountry"
+                                      name="bankAccountName"
                                       placeholder=""
                                       className="input-of-create cst"
-                                      value={values.bankCountry}
+                                      style={{ width: 1000 }}
+                                      value={values.bankAccountName}
                                       autoComplete="off"
                                       onChange={(e) => {
-                                        this.inputChange(handleChange, setFieldTouched, 'bankCountry', e);
+                                        this.inputChange(handleChange, setFieldTouched, 'bankAccountName', e);
                                       }}
                                       InputProps={{
-                                        startAdornment: <InputAdornment position="start">BankCountry</InputAdornment>,
+                                        startAdornment: <InputAdornment position="start">BankAccountName</InputAdornment>,
                                       }}
                                     />
-                                    {errors.bankCountry && touched.bankCountry && <span className="c-error"><span>{errors.bankCountry}</span></span>}
+                                    {errors.bankAccountName && touched.bankAccountName && <span className="c-error"><span>{errors.bankAccountName}</span></span>}
                                   </div>
-
-
+                                  <div className="input">
+                                    <TextField
+                                      name="bankAccountType"
+                                      placeholder=""
+                                      className="input-of-create cst"
+                                      style={{ width: 1000 }}
+                                      value={values.bankAccountType}
+                                      autoComplete="off"
+                                      onChange={(e) => {
+                                        this.inputChange(handleChange, setFieldTouched, 'bankAccountType', e);
+                                      }}
+                                      InputProps={{
+                                        startAdornment: <InputAdornment position="start">BankAccountType</InputAdornment>,
+                                      }}
+                                    />
+                                    {errors.bankAccountType && touched.bankAccountType && <span className="c-error"><span>{errors.bankAccountType}</span></span>}
+                                  </div>
+                                  <div className="input">
+                                    <TextField
+                                      name="bankAccountNumber"
+                                      placeholder=""
+                                      className="input-of-create cst"
+                                      style={{ width: 1000 }}
+                                      value={values.bankAccountNumber}
+                                      autoComplete="off"
+                                      onChange={(e) => {
+                                        this.inputChange(handleChange, setFieldTouched, 'bankAccountNumber', e);
+                                      }}
+                                      InputProps={{
+                                        startAdornment: <InputAdornment position="start">BankAccountNumber</InputAdornment>,
+                                      }}
+                                    />
+                                    {errors.bankAccountNumber && touched.bankAccountNumber && <span className="c-error"><span>{errors.bankAccountNumber}</span></span>}
+                                  </div>
+                                  <div className="input">
+                                    <TextField
+                                      name="bankName"
+                                      placeholder=""
+                                      className="input-of-create cst"
+                                      style={{ width: 1000 }}
+                                      value={values.bankName}
+                                      autoComplete="off"
+                                      onChange={(e) => {
+                                        this.inputChange(handleChange, setFieldTouched, 'bankName', e);
+                                      }}
+                                      InputProps={{
+                                        startAdornment: <InputAdornment position="start">BankName</InputAdornment>,
+                                      }}
+                                    />
+                                    {errors.bankName && touched.bankName && <span className="c-error"><span>{errors.bankName}</span></span>}
+                                  </div>
+                                  <div className="input">
+                                    <TextField
+                                      name="beneficiaryAddressStreet1"
+                                      placeholder=""
+                                      className="input-of-create cst"
+                                      style={{ width: 1000 }}
+                                      value={values.beneficiaryAddressStreet1}
+                                      autoComplete="off"
+                                      onChange={(e) => {
+                                        this.inputChange(handleChange, setFieldTouched, 'beneficiaryAddressStreet1', e);
+                                      }}
+                                      InputProps={{
+                                        startAdornment: <InputAdornment position="start">BeneficiaryAddressStreet1</InputAdornment>,
+                                      }}
+                                    />
+                                    {errors.beneficiaryAddressStreet1 && touched.beneficiaryAddressStreet1 && <span className="c-error"><span>{errors.beneficiaryAddressStreet1}</span></span>}
+                                  </div>
+                                  <div className="input">
+                                    <TextField
+                                      name="beneficiaryAddressStreet2"
+                                      placeholder=""
+                                      className="input-of-create cst"
+                                      style={{ width: 1000 }}
+                                      value={values.beneficiaryAddressStreet2}
+                                      autoComplete="off"
+                                      onChange={(e) => {
+                                        this.inputChange(handleChange, setFieldTouched, 'beneficiaryAddressStreet2', e);
+                                      }}
+                                      InputProps={{
+                                        startAdornment: <InputAdornment position="start">BeneficiaryAddressStreet2</InputAdornment>,
+                                      }}
+                                    />
+                                    {errors.beneficiaryAddressStreet2 && touched.beneficiaryAddressStreet2 && <span className="c-error"><span>{errors.beneficiaryAddressStreet2}</span></span>}
+                                  </div>
+                                  <div className="input">
+                                    <TextField
+                                      name="beneficiaryAddressRegion"
+                                      placeholder=""
+                                      className="input-of-create cst"
+                                      style={{ width: 1000 }}
+                                      value={values.beneficiaryAddressRegion}
+                                      autoComplete="off"
+                                      onChange={(e) => {
+                                        this.inputChange(handleChange, setFieldTouched, 'beneficiaryAddressRegion', e);
+                                      }}
+                                      InputProps={{
+                                        startAdornment: <InputAdornment position="start">BeneficiaryAddressRegion</InputAdornment>,
+                                      }}
+                                    />
+                                    {errors.beneficiaryAddressRegion && touched.beneficiaryAddressRegion && <span className="c-error"><span>{errors.beneficiaryAddressRegion}</span></span>}
+                                  </div>
+                                  <div className="input">
+                                    <TextField
+                                      name="beneficiaryAddressCity"
+                                      placeholder=""
+                                      className="input-of-create cst"
+                                      style={{ width: 1000 }}
+                                      value={values.beneficiaryAddressCity}
+                                      autoComplete="off"
+                                      onChange={(e) => {
+                                        this.inputChange(handleChange, setFieldTouched, 'beneficiaryAddressCity', e);
+                                      }}
+                                      InputProps={{
+                                        startAdornment: <InputAdornment position="start">BeneficiaryAddressCity</InputAdornment>,
+                                      }}
+                                    />
+                                    {errors.beneficiaryAddressCity && touched.beneficiaryAddressCity && <span className="c-error"><span>{errors.beneficiaryAddressCity}</span></span>}
+                                  </div>
+                                  <div className="input">
+                                    <TextField
+                                      name="beneficiaryAddressPostalCode"
+                                      placeholder=""
+                                      className="input-of-create cst"
+                                      style={{ width: 1000 }}
+                                      value={values.beneficiaryAddressPostalCode}
+                                      autoComplete="off"
+                                      onChange={(e) => {
+                                        this.inputChange(handleChange, setFieldTouched, 'beneficiaryAddressPostalCode', e);
+                                      }}
+                                      InputProps={{
+                                        startAdornment: <InputAdornment position="start">BeneficiaryAddressPostalCode</InputAdornment>,
+                                      }}
+                                    />
+                                    {errors.beneficiaryAddressPostalCode && touched.beneficiaryAddressPostalCode && <span className="c-error"><span>{errors.beneficiaryAddressPostalCode}</span></span>}
+                                  </div>
+                                  <div className="input">
+                                    <TextField
+                                      name="beneficiaryAddressCountry"
+                                      placeholder=""
+                                      className="input-of-create cst"
+                                      style={{ width: 1000 }}
+                                      value={values.beneficiaryAddressCountry}
+                                      autoComplete="off"
+                                      onChange={(e) => {
+                                        this.inputChange(handleChange, setFieldTouched, 'beneficiaryAddressCountry', e);
+                                      }}
+                                      InputProps={{
+                                        startAdornment: <InputAdornment position="start">BeneficiaryAddressCountry</InputAdornment>,
+                                      }}
+                                    />
+                                    {errors.beneficiaryAddressCountry && touched.beneficiaryAddressCountry && <span className="c-error"><span>{errors.beneficiaryAddressCountry}</span></span>}
+                                  </div>
                                 </div>
                               </div>
                             ) : (
