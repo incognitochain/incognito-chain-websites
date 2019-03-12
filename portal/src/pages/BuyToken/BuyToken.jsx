@@ -8,6 +8,9 @@ import {
   FormControl,
   Button,
   CircularProgress,
+  Dialog,
+  DialogContent,
+  DialogContentText,
 } from '@material-ui/core';
 
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,11 +19,22 @@ import {
 // import Logo from '@/assets/logo.svg';
 import bgImage from '@/assets/create-a-proposal.svg';
 
+import {BUYING_ASSET} from '../../constants';
+import { buyAsset } from "../../services/reserveAsset";
+
+const BUYING_OBJECT = {
+  USD: "usd",
+  ETH: "eth",
+}
 
 class BuyToken extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isSummitting: false,
+      openDialog: false,
+      resultMessage: "",
+    };
   }
 
   onAssetChange = (asset) => {
@@ -34,14 +48,38 @@ class BuyToken extends React.Component {
       });
   }
 
+  onSubmit = async () => {
+    const {asset, amount} = this.state;
+    if (!asset || isNaN(amount) || amount <= 0) {
+      return;
+    }
+    let resultMessage;
+    if (asset === BUYING_OBJECT.USD) {
+      this.setState({isSummitting: true});
+      const result = await buyAsset(BUYING_ASSET.DCB_TOKEN, amount*100);
+      this.setState({isSummitting: false});
+      const {error=""} = result;
+      console.log(result);
+      if (error) {
+        resultMessage = error;
+      } else {
+        resultMessage = "Get TOKEN Successful";
+      }
+    }
+    this.setState({resultMessage, openDialog:true})
+  }
+  onCloseDialog = () => {
+    this.setState({openDialog:false, resultMessage: ""});
+  }
+
   render = () => {
-    const {asset = "", amount = ""} = this.state;
+    const {asset = "", amount = "", isSummitting, openDialog} = this.state;
+    const disableSubmitBtn = (asset === "" || isSummitting);
     return (
       <div className="buytoken-page">
         <div className="container">
           <h5>Reserve Assets</h5>
           <div className="row">
-
             <div className="col-12 col-md-6 col-lg-8">
               <div className="c-card">
                 <FormControl component="fieldset" style={{width: "100%"}} >
@@ -53,11 +91,11 @@ class BuyToken extends React.Component {
                     onChange={(e)=>this.onAssetChange(e.target.value)}
                     style={{display: 'flex', flexDirection: 'row'}}
                   >
-                    <FormControlLabel value="1" control={<Radio />} label="USD" />
+                    <FormControlLabel value={BUYING_OBJECT.USD} control={<Radio />} label="USD" />
                     <FormControlLabel
                       control={<Radio />}
                       label="ETH"
-                      value="2"
+                      value={BUYING_OBJECT.ETH}
                     />
                   </RadioGroup>
 
@@ -76,9 +114,17 @@ class BuyToken extends React.Component {
                     value={amount}
                   />
                   <br/>
-                  <Button variant="contained" style={{width: "100%"}}>
-                    Get DCB Token
-                  </Button>
+                  {
+                    isSummitting ?
+                      <div style={{display: "flex", justifyContent:"center"}}>
+                        <CircularProgress style={{width: "auto", height:"auto"}} />
+                      </div>
+                    :
+                      <Button variant="contained" style={{width: "100%"}} onClick={this.onSubmit} disabled={disableSubmitBtn}>
+                        Get DCB Token
+                      </Button>
+                  }
+
                 </FormControl>
               </div>
             </div>
@@ -88,6 +134,19 @@ class BuyToken extends React.Component {
             </div>
           </div>
         </div>
+        <Dialog
+          open={openDialog}
+          onClose={this.onCloseDialog}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogContent>
+            <DialogContentText>
+              {this.state.resultMessage}
+            </DialogContentText>
+          </DialogContent>
+
+        </Dialog>
       </div>
     );
   }
