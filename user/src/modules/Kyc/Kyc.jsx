@@ -333,7 +333,10 @@ class Kyc extends React.Component {
                           />
                           {errors.taxIDNumber && touched.taxIDNumber && <span className="c-error"><span>{errors.taxIDNumber}</span></span>}
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={2}>
+                          GOV ID Front
+                        </Grid>
+                        <Grid item xs={4}>
                           <input
                             accept="image/*"
                             id="taxImage1"
@@ -343,7 +346,10 @@ class Kyc extends React.Component {
                             }}
                           />
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={2}>
+                          GOV ID Back
+                        </Grid>
+                        <Grid item xs={4}>
                           <input
                             accept="image/*"
                             id="taxImage2"
@@ -353,7 +359,10 @@ class Kyc extends React.Component {
                             }}
                           />
                         </Grid>
-                        <Grid item xs={12} md={6}>
+                        <Grid item xs={2}>
+                          Proof Of Address
+                        </Grid>
+                        <Grid item xs={4}>
                           <input
                             accept="image/*"
                             id="taxImage3"
@@ -363,7 +372,7 @@ class Kyc extends React.Component {
                             }}
                           />
                         </Grid>
-                        <Grid item xs={12} md={6}>
+                        <Grid item xs={6}>
                           <TextField
                             id="addressStreet1"
                             label="AddressStreet1"

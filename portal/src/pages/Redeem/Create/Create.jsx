@@ -3,34 +3,26 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
-import { faBitcoin, faEthereum } from '@fortawesome/free-brands-svg-icons';
+import { faEthereum } from '@fortawesome/free-brands-svg-icons';
 import { faArrowRight } from '@fortawesome/pro-regular-svg-icons';
 import { faSpinnerThird, faUsdCircle, faUsdSquare } from '@fortawesome/pro-light-svg-icons';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Link from '@/components/Link';
 import { axios, catchError } from '@/services/api';
-import rawAxios from 'axios';
-import { API, BLOCKCHAIN } from '@/constants';
-import dayjs from 'dayjs';
+import { API } from '@/constants';
 import { Formik } from 'formik';
 import { toaster, Dialog } from 'evergreen-ui';
-import abiDefinition from '@/pages/Create/abiDefinition';
 import { detectInstalled, requestUnlockMetamask, init } from '@/reducers/metamask/action';
-import { detect } from 'detect-browser';
 import { push } from 'connected-react-router';
 import { checkAuth } from '@/reducers/auth/action';
 
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import InputLabel from '@material-ui/core/InputLabel';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import Radio from '@material-ui/core/Radio';
 import FormControl from '@material-ui/core/FormControl';
-import Button from '@material-ui/core/Button';
+
+const web3 = require('web3')
 
 class Create extends React.Component {
   static propTypes = {
@@ -194,7 +186,6 @@ class Create extends React.Component {
       currentCollateral,
       hiddenETHAddr,
     } = this.state;
-
     return (
       <div className="create-page">
         <div className="create-hero">
@@ -237,8 +228,13 @@ class Create extends React.Component {
                     if (!values.redeemAmount) {
                       errors.redeemAmount = 'Required';
                     }
-                    if (currentCollateral.name === 'ETH' && !values.receiverAddress) {
-                      errors.receiverAddress = 'Required';
+                    if (currentCollateral.name === 'ETH') {
+                      if (!values.receiverAddress) {
+                        errors.receiverAddress = 'Required';
+                      }
+                      else if (!web3.utils.isAddress(values.receiverAddress)) {
+                        errors.receiverAddress = 'Invalid';
+                      }
                     }
                     if (currentCollateral.name === 'USD') {
                       if (!values.routingNumber) {
@@ -288,14 +284,14 @@ class Create extends React.Component {
                     if (!values.policy) {
                       errors.policy = 'You must accept with this policy.';
                     }
+                    console.log('errors', errors)
                     return errors;
                   }}
-                  validateOnBlur={false}
+                  // validateOnBlur={false}
                   // validateOnChange={false}
                   onSubmit={(values, { setSubmitting }) => {
-                    setTimeout(() => {
-                      this.handleSubmit(values, setSubmitting);
-                    }, 400);
+                    console.log('values', values)
+                    // this.handleSubmit(values, setSubmitting);
                   }}
                 >
                   {({
@@ -352,8 +348,8 @@ class Create extends React.Component {
                                   autoComplete="off"
                                   onChange={(e) => {
                                     this.onlyNumber(e.target.value, () => {
-                                      this.inputChange(handleChange, setFieldTouched, 'redeemAmount', e);
                                       this.changeRedeemAmount(e, setFieldValue);
+                                      return handleChange(e)
                                     });
                                   }}
                                   InputProps={{
@@ -397,9 +393,7 @@ class Create extends React.Component {
                                         fullWidth
                                         value={values.routingNumber}
                                         autoComplete="off"
-                                        onChange={(e) => {
-                                          this.inputChange(handleChange, setFieldTouched, 'routingNumber', e);
-                                        }}
+                                        onChange={handleChange}
                                       />
                                       {errors.routingNumber && touched.routingNumber && <span className="c-error"><span>{errors.routingNumber}</span></span>}
                                     </div>
@@ -412,9 +406,7 @@ class Create extends React.Component {
                                         fullWidth
                                         value={values.swiftCode}
                                         autoComplete="off"
-                                        onChange={(e) => {
-                                          this.inputChange(handleChange, setFieldTouched, 'swiftCode', e);
-                                        }}
+                                        onChange={handleChange}
                                       />
                                       {errors.swiftCode && touched.swiftCode && <span className="c-error"><span>{errors.swiftCode}</span></span>}
                                     </div>
@@ -459,9 +451,7 @@ class Create extends React.Component {
                                         fullWidth
                                         value={values.bankAccountName}
                                         autoComplete="off"
-                                        onChange={(e) => {
-                                          this.inputChange(handleChange, setFieldTouched, 'bankAccountName', e);
-                                        }}
+                                        onChange={handleChange}
                                       />
                                       {errors.bankAccountName && touched.bankAccountName && <span className="c-error"><span>{errors.bankAccountName}</span></span>}
                                     </div>
@@ -490,9 +480,7 @@ class Create extends React.Component {
                                         fullWidth
                                         value={values.bankAccountNumber}
                                         autoComplete="off"
-                                        onChange={(e) => {
-                                          this.inputChange(handleChange, setFieldTouched, 'bankAccountNumber', e);
-                                        }}
+                                        onChange={handleChange}
                                       />
                                       {errors.bankAccountNumber && touched.bankAccountNumber && <span className="c-error"><span>{errors.bankAccountNumber}</span></span>}
                                     </div>
@@ -505,9 +493,7 @@ class Create extends React.Component {
                                         fullWidth
                                         value={values.bankName}
                                         autoComplete="off"
-                                        onChange={(e) => {
-                                          this.inputChange(handleChange, setFieldTouched, 'bankName', e);
-                                        }}
+                                        onChange={handleChange}
                                       />
                                       {errors.bankName && touched.bankName && <span className="c-error"><span>{errors.bankName}</span></span>}
                                     </div>
@@ -520,9 +506,7 @@ class Create extends React.Component {
                                         fullWidth
                                         value={values.beneficiaryAddressStreet1}
                                         autoComplete="off"
-                                        onChange={(e) => {
-                                          this.inputChange(handleChange, setFieldTouched, 'beneficiaryAddressStreet1', e);
-                                        }}
+                                        onChange={handleChange}
                                       />
                                       {errors.beneficiaryAddressStreet1 && touched.beneficiaryAddressStreet1 && <span className="c-error"><span>{errors.beneficiaryAddressStreet1}</span></span>}
                                     </div>
@@ -535,9 +519,7 @@ class Create extends React.Component {
                                         fullWidth
                                         value={values.beneficiaryAddressStreet2}
                                         autoComplete="off"
-                                        onChange={(e) => {
-                                          this.inputChange(handleChange, setFieldTouched, 'beneficiaryAddressStreet2', e);
-                                        }}
+                                        onChange={handleChange}
                                       />
                                       {errors.beneficiaryAddressStreet2 && touched.beneficiaryAddressStreet2 && <span className="c-error"><span>{errors.beneficiaryAddressStreet2}</span></span>}
                                     </div>
@@ -550,9 +532,7 @@ class Create extends React.Component {
                                         fullWidth
                                         value={values.beneficiaryAddressRegion}
                                         autoComplete="off"
-                                        onChange={(e) => {
-                                          this.inputChange(handleChange, setFieldTouched, 'beneficiaryAddressRegion', e);
-                                        }}
+                                        onChange={handleChange}
                                       />
                                       {errors.beneficiaryAddressRegion && touched.beneficiaryAddressRegion && <span className="c-error"><span>{errors.beneficiaryAddressRegion}</span></span>}
                                     </div>
@@ -565,9 +545,7 @@ class Create extends React.Component {
                                         fullWidth
                                         value={values.beneficiaryAddressCity}
                                         autoComplete="off"
-                                        onChange={(e) => {
-                                          this.inputChange(handleChange, setFieldTouched, 'beneficiaryAddressCity', e);
-                                        }}
+                                        onChange={handleChange}
                                       />
                                       {errors.beneficiaryAddressCity && touched.beneficiaryAddressCity && <span className="c-error"><span>{errors.beneficiaryAddressCity}</span></span>}
                                     </div>
@@ -580,9 +558,7 @@ class Create extends React.Component {
                                         fullWidth
                                         value={values.beneficiaryAddressPostalCode}
                                         autoComplete="off"
-                                        onChange={(e) => {
-                                          this.inputChange(handleChange, setFieldTouched, 'beneficiaryAddressPostalCode', e);
-                                        }}
+                                        onChange={handleChange}
                                       />
                                       {errors.beneficiaryAddressPostalCode && touched.beneficiaryAddressPostalCode && <span className="c-error"><span>{errors.beneficiaryAddressPostalCode}</span></span>}
                                     </div>
@@ -606,36 +582,34 @@ class Create extends React.Component {
                                 </div>
                               </div>
                             ) : (
-                                <div className="row">
-                                  <div className="col-8">
+                                <div className="row container">
+                                  <div className="col">
                                     <div className="title">ENTER ETHER ADDRESS</div>
-                                    <div className="input">
-                                      <TextField
-                                        type="text"
-                                        name="receiverAddress"
-                                        placeholder="0x0123456789........"
-                                        className="input-of-create cst"
-                                        value={values.receiverAddress}
-                                        autoComplete="off"
-                                        fullWidth
-                                        onChange={(e) => {
-                                          this.inputChange(handleChange, setFieldTouched, 'receiverAddress', e);
-                                        }}
-                                      />
-                                      {errors.receiverAddress && touched.receiverAddress && <span className="c-error"><span>{errors.receiverAddress}</span></span>}
+                                    <div className="row">
+                                      <div className="col-8">
+                                        <TextField
+                                          name="receiverAddress"
+                                          placeholder=""
+                                          className="input-of-create cst"
+                                          fullWidth
+                                          value={values.receiverAddress}
+                                          autoComplete="off"
+                                          onChange={handleChange}
+                                        />
+                                        {errors.receiverAddress && touched.receiverAddress && <span className="c-error"><span>{errors.receiverAddress}</span></span>}
+                                      </div>
+                                      <div className="col-4">
+                                        <TextField
+                                          disabled={true}
+                                          placeholder=""
+                                          className="input-of-create cst"
+                                          value={`${values.etherAmount} ETH`}
+                                          autoComplete="off"
+                                          fullWidth
+                                          onChange={handleChange}
+                                        />
+                                      </div>
                                     </div>
-                                  </div>
-                                  {/* <div className="col-4 input">{`${values.etherAmount} ETH`}</div> */}
-                                  <div className="col-4 input">
-                                    <div className="title">ESTIMATED ETHER</div>
-                                    <TextField
-                                      type="text"
-                                      placeholder=""
-                                      className="input-of-create cst"
-                                      value={`${values.etherAmount} ETH`}
-                                      autoComplete="off"
-                                      fullWidth
-                                    />
                                   </div>
                                 </div>
                               )
@@ -653,7 +627,7 @@ class Create extends React.Component {
                           <div className="row">
                             <div className="col-12">
                               <button className="c-btn c-btn-primary submit" type="submit">
-                                {isSubmitting ? <FontAwesomeIcon icon={faSpinnerThird} size="1x" spin style={{ marginRight: 10 }} /> : ''}
+                                {isValid && isSubmitting ? <FontAwesomeIcon icon={faSpinnerThird} size="1x" spin style={{ marginRight: 10 }} /> : ''}
                                 {'Submit '}
                                 <FontAwesomeIcon icon={faArrowRight} />
                               </button>
