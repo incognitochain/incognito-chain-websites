@@ -215,14 +215,14 @@ class Create extends React.Component {
                   initialValues={{
                     redeemAmount: '',
                     etherAmount: '0.00',
-                    receiverAddress: '0x088D8A4a03266870EDcbbbADdA3F475f404dB9B2',
+                    receiverAddress: '',
                     policy: false,
                     routingNumber: '',
                     swiftCode: '',
                     achCheckType: 'personal',
                     bankCountry: 'US',
                     bankAccountName: '',
-                    bankAccountType: '',
+                    bankAccountType: 'checking',
                     bankAccountNumber: '',
                     bankName: '',
                     beneficiaryAddressStreet1: '',
@@ -403,7 +403,7 @@ class Create extends React.Component {
                                       />
                                       {errors.routingNumber && touched.routingNumber && <span className="c-error"><span>{errors.routingNumber}</span></span>}
                                     </div>
-                                    <div className="col-6 input">
+                                    <div className="col-4 input">
                                       <TextField
                                         label="Swift Code"
                                         name="swiftCode"
@@ -418,22 +418,23 @@ class Create extends React.Component {
                                       />
                                       {errors.swiftCode && touched.swiftCode && <span className="c-error"><span>{errors.swiftCode}</span></span>}
                                     </div>
-                                    <div className="col-6 input">
-                                      <TextField
-                                        label="Ach Check Type"
-                                        name="achCheckType"
-                                        placeholder=""
-                                        className="input-of-create cst"
-                                        fullWidth
-                                        value={values.achCheckType}
-                                        autoComplete="off"
-                                        onChange={(e) => {
-                                          this.inputChange(handleChange, setFieldTouched, 'achCheckType', e);
-                                        }}
-                                      />
-                                      {errors.achCheckType && touched.achCheckType && <span className="c-error"><span>{errors.achCheckType}</span></span>}
+                                    <div className="col-2 input">
+                                      <FormControl variant="outlined" fullWidth style={{ marginTop: 20 }}>
+                                        <InputLabel htmlFor="age-required">Ach Check Type</InputLabel>
+                                        <Select
+                                          value={values.achCheckType}
+                                          onChange={(e) => {
+                                            values.achCheckType = e.target.value
+                                            this.setState({ isUpdated: true })
+                                          }}
+                                          name="achCheckType"
+                                        >
+                                          <MenuItem value={'personal'}>Personal</MenuItem>
+                                          <MenuItem value={'business'}>Business</MenuItem>
+                                        </Select>
+                                      </FormControl>
                                     </div>
-                                    <div className="col-3 input">
+                                    <div className="col-2 input">
                                       <FormControl variant="outlined" fullWidth style={{ marginTop: 20 }}>
                                         <InputLabel htmlFor="age-required">Bank Country</InputLabel>
                                         <Select
@@ -448,9 +449,8 @@ class Create extends React.Component {
                                           <MenuItem value={'VN'}>VN</MenuItem>
                                         </Select>
                                       </FormControl>
-                                      {errors.bankCountry && touched.bankCountry && <span className="c-error"><span>{errors.bankCountry}</span></span>}
                                     </div>
-                                    <div className="col-6 input">
+                                    <div className="col-4 input">
                                       <TextField
                                         label="Bank Account Name"
                                         name="bankAccountName"
@@ -466,19 +466,20 @@ class Create extends React.Component {
                                       {errors.bankAccountName && touched.bankAccountName && <span className="c-error"><span>{errors.bankAccountName}</span></span>}
                                     </div>
                                     <div className="col-6 input">
-                                      <TextField
-                                        label="Bank Account Type"
-                                        name="bankAccountType"
-                                        placeholder=""
-                                        className="input-of-create cst"
-                                        fullWidth
-                                        value={values.bankAccountType}
-                                        autoComplete="off"
-                                        onChange={(e) => {
-                                          this.inputChange(handleChange, setFieldTouched, 'bankAccountType', e);
-                                        }}
-                                      />
-                                      {errors.bankAccountType && touched.bankAccountType && <span className="c-error"><span>{errors.bankAccountType}</span></span>}
+                                      <FormControl variant="outlined" fullWidth style={{ marginTop: 20 }}>
+                                        <InputLabel htmlFor="age-required">Bank Account Type</InputLabel>
+                                        <Select
+                                          value={values.bankAccountType}
+                                          onChange={(e) => {
+                                            values.bankAccountType = e.target.value
+                                            this.setState({ isUpdated: true })
+                                          }}
+                                          name="bankAccountType"
+                                        >
+                                          <MenuItem value={'checking'}>Checking</MenuItem>
+                                          <MenuItem value={'savings'}>Savings</MenuItem>
+                                        </Select>
+                                      </FormControl>
                                     </div>
                                     <div className="col-6 input">
                                       <TextField
@@ -612,7 +613,7 @@ class Create extends React.Component {
                                       <TextField
                                         type="text"
                                         name="receiverAddress"
-                                        placeholder="0x088D8A4a03266870EDcbbbADdA3F475f404dB9B2"
+                                        placeholder="0x0123456789........"
                                         className="input-of-create cst"
                                         value={values.receiverAddress}
                                         autoComplete="off"

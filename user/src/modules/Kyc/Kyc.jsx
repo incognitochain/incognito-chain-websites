@@ -24,20 +24,6 @@ import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Radio from '@material-ui/core/Radio';
 import FormControl from '@material-ui/core/FormControl';
 
-const styles = theme => ({
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  formControl: {
-    margin: theme.spacing.unit,
-    minWidth: 120,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing.unit * 2,
-  },
-});
-
 class Kyc extends React.Component {
   static propTypes = {
     // abc: PropTypes.object.isRequired,
@@ -49,6 +35,7 @@ class Kyc extends React.Component {
     this.state = {
       gender: 1,
       isUploading: false,
+      isUpdated: false,
       data: null,
     };
   }
@@ -71,12 +58,6 @@ class Kyc extends React.Component {
       console.log(e);
       catchError(e);
     });
-  }
-
-  inputChange = (handleChange, setFieldTouched, name, e) => {
-    e.persist();
-    handleChange(e);
-    setFieldTouched(name, true, false);
   }
 
   handleSubmit = (values, setSubmitting) => {
