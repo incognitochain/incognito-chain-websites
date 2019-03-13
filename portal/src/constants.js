@@ -25,6 +25,11 @@ const BLOCKCHAIN = {
   BLOCK_IN_SECOND: 600,
 };
 
+const BUYING_ASSET = {
+  CONSTANT: 1,
+  DCB_TOKEN: 2,
+};
+
 Object.keys(API).map((api) => { API[api] = `${BASE}/${API[api]}`; return null; });
 
-module.exports = { API, BLOCKCHAIN };
+module.exports = { API, BLOCKCHAIN, BUYING_ASSET };

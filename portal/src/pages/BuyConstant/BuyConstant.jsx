@@ -2,15 +2,13 @@ import React from 'react';
 
 import {
   TextField,
-  Radio,
-  RadioGroup,
-  FormControlLabel,
   FormControl,
   Button,
   CircularProgress,
   Dialog,
   DialogContent,
   DialogContentText,
+  InputAdornment,
 } from '@material-ui/core';
 
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -37,11 +35,6 @@ class BuyToken extends React.Component {
     };
   }
 
-  onAssetChange = (asset) => {
-      this.setState({
-        asset,
-      });
-  }
   onAmountChange = (amount) => {
       this.setState({
         amount,
@@ -49,56 +42,39 @@ class BuyToken extends React.Component {
   }
 
   onSubmit = async () => {
-    const {asset, amount} = this.state;
-    if (!asset || isNaN(amount) || amount <= 0) {
+    const {amount} = this.state;
+    if (isNaN(amount) || amount <= 0) {
       return;
     }
     let resultMessage;
-    if (asset === BUYING_OBJECT.USD) {
-      this.setState({isSummitting: true});
-      const result = await buyAsset(BUYING_ASSET.DCB_TOKEN, amount*100);
-      this.setState({isSummitting: false});
-      const {error=""} = result;
-      console.log(result);
-      if (error) {
-        resultMessage = error;
-      } else {
-        resultMessage = "Get TOKEN Successful";
-      }
+    this.setState({isSummitting: true});
+    const result = await buyAsset(BUYING_ASSET.CONSTANT, amount*100);
+    this.setState({isSummitting: false});
+    const {error=""} = result;
+    // console.log(result);
+    if (error) {
+      resultMessage = error;
+    } else {
+      resultMessage = "Buy Constant Successful";
     }
-    this.setState({resultMessage, openDialog:true})
+    this.setState({resultMessage, openDialog:true});
   }
+
   onCloseDialog = () => {
     this.setState({openDialog:false, resultMessage: ""});
   }
 
   render = () => {
-    const {asset = "", amount = "", isSummitting, openDialog} = this.state;
-    const disableSubmitBtn = (asset === "" || isSummitting);
+    const {amount = "", isSummitting, openDialog} = this.state;
+
     return (
       <div className="buytoken-page">
         <div className="container">
-          <h5>Reserve Assets</h5>
+          <h5>Buy Constant</h5>
           <div className="row">
             <div className="col-12 col-md-6 col-lg-8">
               <div className="c-card">
                 <FormControl component="fieldset" style={{width: "100%"}} >
-                  <RadioGroup
-                    aria-label="Gender"
-                    name="gender1"
-                    // className={classes.group}
-                    value={asset}
-                    onChange={(e)=>this.onAssetChange(e.target.value)}
-                    style={{display: 'flex', flexDirection: 'row'}}
-                  >
-                    <FormControlLabel value={BUYING_OBJECT.USD} control={<Radio />} label="USD" />
-                    <FormControlLabel
-                      control={<Radio />}
-                      label="ETH"
-                      value={BUYING_OBJECT.ETH}
-                    />
-                  </RadioGroup>
-
                   <TextField
                     id="standard-full-width"
                     // label="Label"
@@ -107,8 +83,9 @@ class BuyToken extends React.Component {
                     placeholder="Amount"
                     fullWidth
                     margin="normal"
-                    InputLabelProps={{
-                      shrink: true,
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                      endAdornment: <InputAdornment position="end">USD</InputAdornment>,
                     }}
                     onChange={(e)=>this.onAmountChange(e.target.value)}
                     value={amount}
@@ -120,8 +97,8 @@ class BuyToken extends React.Component {
                         <CircularProgress style={{width: "auto", height:"auto"}} />
                       </div>
                     :
-                      <Button variant="contained" style={{width: "100%"}} onClick={this.onSubmit} disabled={disableSubmitBtn}>
-                        Get DCB Token
+                      <Button variant="contained" style={{width: "100%"}} onClick={this.onSubmit} >
+                        Get Constant
                       </Button>
                   }
 
