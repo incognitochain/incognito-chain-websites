@@ -21,6 +21,17 @@ import { detect } from 'detect-browser';
 import { push } from 'connected-react-router';
 import { checkAuth } from '@/reducers/auth/action';
 
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import Radio from '@material-ui/core/Radio';
+import FormControl from '@material-ui/core/FormControl';
+import Button from '@material-ui/core/Button';
+
 class Create extends React.Component {
   static propTypes = {
     metamask: PropTypes.object.isRequired,
@@ -245,6 +256,9 @@ class Create extends React.Component {
                       if (!values.bankAccountType) {
                         errors.bankAccountType = 'Required';
                       }
+                      if (!values.bankAccountName) {
+                        errors.bankAccountName = 'Required';
+                      }
                       if (!values.bankAccountNumber) {
                         errors.bankAccountNumber = 'Required';
                       }
@@ -270,7 +284,7 @@ class Create extends React.Component {
                         errors.beneficiaryAddressCountry = 'Required';
                       }
                     }
-                    
+
                     if (!values.policy) {
                       errors.policy = 'You must accept with this policy.';
                     }
@@ -370,273 +384,263 @@ class Create extends React.Component {
                           </div>
                           {
                             hiddenETHAddr ? (
-                              <div className="row input-container input-container-first">
+                              <div className="row container">
                                 <div className="col">
                                   <div className="title">ENTER YOUR BANK</div>
-                                  <div className="input">
-                                    <TextField
-                                      name="routingNumber"
-                                      placeholder=""
-                                      className="input-of-create cst"
-                                      style={{ width: 1000 }}
-                                      value={values.routingNumber}
-                                      autoComplete="off"
-                                      onChange={(e) => {
-                                        this.inputChange(handleChange, setFieldTouched, 'routingNumber', e);
-                                      }}
-                                      InputProps={{
-                                        startAdornment: <InputAdornment position="start">RoutingNumber</InputAdornment>,
-                                      }}
-                                    />
-                                    {errors.routingNumber && touched.routingNumber && <span className="c-error"><span>{errors.routingNumber}</span></span>}
-                                  </div>
-                                  <div className="input">
-                                    <TextField
-                                      name="swiftCode"
-                                      placeholder=""
-                                      className="input-of-create cst"
-                                      style={{ width: 1000 }}
-                                      value={values.swiftCode}
-                                      autoComplete="off"
-                                      onChange={(e) => {
-                                        this.inputChange(handleChange, setFieldTouched, 'swiftCode', e);
-                                      }}
-                                      InputProps={{
-                                        startAdornment: <InputAdornment position="start">SwiftCode</InputAdornment>,
-                                      }}
-                                    />
-                                    {errors.swiftCode && touched.swiftCode && <span className="c-error"><span>{errors.swiftCode}</span></span>}
-                                  </div>
-                                  <div className="input">
-                                    <TextField
-                                      name="achCheckType"
-                                      placeholder=""
-                                      className="input-of-create cst"
-                                      style={{ width: 1000 }}
-                                      value={values.achCheckType}
-                                      autoComplete="off"
-                                      onChange={(e) => {
-                                        this.inputChange(handleChange, setFieldTouched, 'achCheckType', e);
-                                      }}
-                                      InputProps={{
-                                        startAdornment: <InputAdornment position="start">AchCheckType</InputAdornment>,
-                                      }}
-                                    />
-                                    {errors.achCheckType && touched.achCheckType && <span className="c-error"><span>{errors.achCheckType}</span></span>}
-                                  </div>
-                                  <div className="input">
-                                    <TextField
-                                      name="bankCountry"
-                                      placeholder=""
-                                      className="input-of-create cst"
-                                      style={{ width: 1000 }}
-                                      value={values.bankCountry}
-                                      autoComplete="off"
-                                      onChange={(e) => {
-                                        this.inputChange(handleChange, setFieldTouched, 'bankCountry', e);
-                                      }}
-                                      InputProps={{
-                                        startAdornment: <InputAdornment position="start">BankCountry</InputAdornment>,
-                                      }}
-                                    />
-                                    {errors.bankCountry && touched.bankCountry && <span className="c-error"><span>{errors.bankCountry}</span></span>}
-                                  </div>
-                                  <div className="input">
-                                    <TextField
-                                      name="bankAccountName"
-                                      placeholder=""
-                                      className="input-of-create cst"
-                                      style={{ width: 1000 }}
-                                      value={values.bankAccountName}
-                                      autoComplete="off"
-                                      onChange={(e) => {
-                                        this.inputChange(handleChange, setFieldTouched, 'bankAccountName', e);
-                                      }}
-                                      InputProps={{
-                                        startAdornment: <InputAdornment position="start">BankAccountName</InputAdornment>,
-                                      }}
-                                    />
-                                    {errors.bankAccountName && touched.bankAccountName && <span className="c-error"><span>{errors.bankAccountName}</span></span>}
-                                  </div>
-                                  <div className="input">
-                                    <TextField
-                                      name="bankAccountType"
-                                      placeholder=""
-                                      className="input-of-create cst"
-                                      style={{ width: 1000 }}
-                                      value={values.bankAccountType}
-                                      autoComplete="off"
-                                      onChange={(e) => {
-                                        this.inputChange(handleChange, setFieldTouched, 'bankAccountType', e);
-                                      }}
-                                      InputProps={{
-                                        startAdornment: <InputAdornment position="start">BankAccountType</InputAdornment>,
-                                      }}
-                                    />
-                                    {errors.bankAccountType && touched.bankAccountType && <span className="c-error"><span>{errors.bankAccountType}</span></span>}
-                                  </div>
-                                  <div className="input">
-                                    <TextField
-                                      name="bankAccountNumber"
-                                      placeholder=""
-                                      className="input-of-create cst"
-                                      style={{ width: 1000 }}
-                                      value={values.bankAccountNumber}
-                                      autoComplete="off"
-                                      onChange={(e) => {
-                                        this.inputChange(handleChange, setFieldTouched, 'bankAccountNumber', e);
-                                      }}
-                                      InputProps={{
-                                        startAdornment: <InputAdornment position="start">BankAccountNumber</InputAdornment>,
-                                      }}
-                                    />
-                                    {errors.bankAccountNumber && touched.bankAccountNumber && <span className="c-error"><span>{errors.bankAccountNumber}</span></span>}
-                                  </div>
-                                  <div className="input">
-                                    <TextField
-                                      name="bankName"
-                                      placeholder=""
-                                      className="input-of-create cst"
-                                      style={{ width: 1000 }}
-                                      value={values.bankName}
-                                      autoComplete="off"
-                                      onChange={(e) => {
-                                        this.inputChange(handleChange, setFieldTouched, 'bankName', e);
-                                      }}
-                                      InputProps={{
-                                        startAdornment: <InputAdornment position="start">BankName</InputAdornment>,
-                                      }}
-                                    />
-                                    {errors.bankName && touched.bankName && <span className="c-error"><span>{errors.bankName}</span></span>}
-                                  </div>
-                                  <div className="input">
-                                    <TextField
-                                      name="beneficiaryAddressStreet1"
-                                      placeholder=""
-                                      className="input-of-create cst"
-                                      style={{ width: 1000 }}
-                                      value={values.beneficiaryAddressStreet1}
-                                      autoComplete="off"
-                                      onChange={(e) => {
-                                        this.inputChange(handleChange, setFieldTouched, 'beneficiaryAddressStreet1', e);
-                                      }}
-                                      InputProps={{
-                                        startAdornment: <InputAdornment position="start">BeneficiaryAddressStreet1</InputAdornment>,
-                                      }}
-                                    />
-                                    {errors.beneficiaryAddressStreet1 && touched.beneficiaryAddressStreet1 && <span className="c-error"><span>{errors.beneficiaryAddressStreet1}</span></span>}
-                                  </div>
-                                  <div className="input">
-                                    <TextField
-                                      name="beneficiaryAddressStreet2"
-                                      placeholder=""
-                                      className="input-of-create cst"
-                                      style={{ width: 1000 }}
-                                      value={values.beneficiaryAddressStreet2}
-                                      autoComplete="off"
-                                      onChange={(e) => {
-                                        this.inputChange(handleChange, setFieldTouched, 'beneficiaryAddressStreet2', e);
-                                      }}
-                                      InputProps={{
-                                        startAdornment: <InputAdornment position="start">BeneficiaryAddressStreet2</InputAdornment>,
-                                      }}
-                                    />
-                                    {errors.beneficiaryAddressStreet2 && touched.beneficiaryAddressStreet2 && <span className="c-error"><span>{errors.beneficiaryAddressStreet2}</span></span>}
-                                  </div>
-                                  <div className="input">
-                                    <TextField
-                                      name="beneficiaryAddressRegion"
-                                      placeholder=""
-                                      className="input-of-create cst"
-                                      style={{ width: 1000 }}
-                                      value={values.beneficiaryAddressRegion}
-                                      autoComplete="off"
-                                      onChange={(e) => {
-                                        this.inputChange(handleChange, setFieldTouched, 'beneficiaryAddressRegion', e);
-                                      }}
-                                      InputProps={{
-                                        startAdornment: <InputAdornment position="start">BeneficiaryAddressRegion</InputAdornment>,
-                                      }}
-                                    />
-                                    {errors.beneficiaryAddressRegion && touched.beneficiaryAddressRegion && <span className="c-error"><span>{errors.beneficiaryAddressRegion}</span></span>}
-                                  </div>
-                                  <div className="input">
-                                    <TextField
-                                      name="beneficiaryAddressCity"
-                                      placeholder=""
-                                      className="input-of-create cst"
-                                      style={{ width: 1000 }}
-                                      value={values.beneficiaryAddressCity}
-                                      autoComplete="off"
-                                      onChange={(e) => {
-                                        this.inputChange(handleChange, setFieldTouched, 'beneficiaryAddressCity', e);
-                                      }}
-                                      InputProps={{
-                                        startAdornment: <InputAdornment position="start">BeneficiaryAddressCity</InputAdornment>,
-                                      }}
-                                    />
-                                    {errors.beneficiaryAddressCity && touched.beneficiaryAddressCity && <span className="c-error"><span>{errors.beneficiaryAddressCity}</span></span>}
-                                  </div>
-                                  <div className="input">
-                                    <TextField
-                                      name="beneficiaryAddressPostalCode"
-                                      placeholder=""
-                                      className="input-of-create cst"
-                                      style={{ width: 1000 }}
-                                      value={values.beneficiaryAddressPostalCode}
-                                      autoComplete="off"
-                                      onChange={(e) => {
-                                        this.inputChange(handleChange, setFieldTouched, 'beneficiaryAddressPostalCode', e);
-                                      }}
-                                      InputProps={{
-                                        startAdornment: <InputAdornment position="start">BeneficiaryAddressPostalCode</InputAdornment>,
-                                      }}
-                                    />
-                                    {errors.beneficiaryAddressPostalCode && touched.beneficiaryAddressPostalCode && <span className="c-error"><span>{errors.beneficiaryAddressPostalCode}</span></span>}
-                                  </div>
-                                  <div className="input">
-                                    <TextField
-                                      name="beneficiaryAddressCountry"
-                                      placeholder=""
-                                      className="input-of-create cst"
-                                      style={{ width: 1000 }}
-                                      value={values.beneficiaryAddressCountry}
-                                      autoComplete="off"
-                                      onChange={(e) => {
-                                        this.inputChange(handleChange, setFieldTouched, 'beneficiaryAddressCountry', e);
-                                      }}
-                                      InputProps={{
-                                        startAdornment: <InputAdornment position="start">BeneficiaryAddressCountry</InputAdornment>,
-                                      }}
-                                    />
-                                    {errors.beneficiaryAddressCountry && touched.beneficiaryAddressCountry && <span className="c-error"><span>{errors.beneficiaryAddressCountry}</span></span>}
+                                  <div className="row">
+                                    <div className="col-6 input">
+                                      <TextField
+                                        label="Routing Number"
+                                        name="routingNumber"
+                                        placeholder=""
+                                        className="input-of-create cst"
+                                        fullWidth
+                                        value={values.routingNumber}
+                                        autoComplete="off"
+                                        onChange={(e) => {
+                                          this.inputChange(handleChange, setFieldTouched, 'routingNumber', e);
+                                        }}
+                                      />
+                                      {errors.routingNumber && touched.routingNumber && <span className="c-error"><span>{errors.routingNumber}</span></span>}
+                                    </div>
+                                    <div className="col-6 input">
+                                      <TextField
+                                        label="Swift Code"
+                                        name="swiftCode"
+                                        placeholder=""
+                                        className="input-of-create cst"
+                                        fullWidth
+                                        value={values.swiftCode}
+                                        autoComplete="off"
+                                        onChange={(e) => {
+                                          this.inputChange(handleChange, setFieldTouched, 'swiftCode', e);
+                                        }}
+                                      />
+                                      {errors.swiftCode && touched.swiftCode && <span className="c-error"><span>{errors.swiftCode}</span></span>}
+                                    </div>
+                                    <div className="col-6 input">
+                                      <TextField
+                                        label="Ach Check Type"
+                                        name="achCheckType"
+                                        placeholder=""
+                                        className="input-of-create cst"
+                                        fullWidth
+                                        value={values.achCheckType}
+                                        autoComplete="off"
+                                        onChange={(e) => {
+                                          this.inputChange(handleChange, setFieldTouched, 'achCheckType', e);
+                                        }}
+                                      />
+                                      {errors.achCheckType && touched.achCheckType && <span className="c-error"><span>{errors.achCheckType}</span></span>}
+                                    </div>
+                                    <div className="col-3 input">
+                                      <FormControl variant="outlined" fullWidth style={{ marginTop: 20 }}>
+                                        <InputLabel htmlFor="age-required">Bank Country</InputLabel>
+                                        <Select
+                                          value={values.bankCountry}
+                                          onChange={(e) => {
+                                            values.bankCountry = e.target.value
+                                            this.setState({ isUpdated: true })
+                                          }}
+                                          name="bankCountry"
+                                        >
+                                          <MenuItem value={'US'}>US</MenuItem>
+                                          <MenuItem value={'VN'}>VN</MenuItem>
+                                        </Select>
+                                      </FormControl>
+                                      {errors.bankCountry && touched.bankCountry && <span className="c-error"><span>{errors.bankCountry}</span></span>}
+                                    </div>
+                                    <div className="col-6 input">
+                                      <TextField
+                                        label="Bank Account Name"
+                                        name="bankAccountName"
+                                        placeholder=""
+                                        className="input-of-create cst"
+                                        fullWidth
+                                        value={values.bankAccountName}
+                                        autoComplete="off"
+                                        onChange={(e) => {
+                                          this.inputChange(handleChange, setFieldTouched, 'bankAccountName', e);
+                                        }}
+                                      />
+                                      {errors.bankAccountName && touched.bankAccountName && <span className="c-error"><span>{errors.bankAccountName}</span></span>}
+                                    </div>
+                                    <div className="col-6 input">
+                                      <TextField
+                                        label="Bank Account Type"
+                                        name="bankAccountType"
+                                        placeholder=""
+                                        className="input-of-create cst"
+                                        fullWidth
+                                        value={values.bankAccountType}
+                                        autoComplete="off"
+                                        onChange={(e) => {
+                                          this.inputChange(handleChange, setFieldTouched, 'bankAccountType', e);
+                                        }}
+                                      />
+                                      {errors.bankAccountType && touched.bankAccountType && <span className="c-error"><span>{errors.bankAccountType}</span></span>}
+                                    </div>
+                                    <div className="col-6 input">
+                                      <TextField
+                                        label="Bank Account Number"
+                                        name="bankAccountNumber"
+                                        placeholder=""
+                                        className="input-of-create cst"
+                                        fullWidth
+                                        value={values.bankAccountNumber}
+                                        autoComplete="off"
+                                        onChange={(e) => {
+                                          this.inputChange(handleChange, setFieldTouched, 'bankAccountNumber', e);
+                                        }}
+                                      />
+                                      {errors.bankAccountNumber && touched.bankAccountNumber && <span className="c-error"><span>{errors.bankAccountNumber}</span></span>}
+                                    </div>
+                                    <div className="col-6 input">
+                                      <TextField
+                                        label="Bank Name"
+                                        name="bankName"
+                                        placeholder=""
+                                        className="input-of-create cst"
+                                        fullWidth
+                                        value={values.bankName}
+                                        autoComplete="off"
+                                        onChange={(e) => {
+                                          this.inputChange(handleChange, setFieldTouched, 'bankName', e);
+                                        }}
+                                      />
+                                      {errors.bankName && touched.bankName && <span className="c-error"><span>{errors.bankName}</span></span>}
+                                    </div>
+                                    <div className="col-6 input">
+                                      <TextField
+                                        label="Beneficiary Address Street 1"
+                                        name="beneficiaryAddressStreet1"
+                                        placeholder=""
+                                        className="input-of-create cst"
+                                        fullWidth
+                                        value={values.beneficiaryAddressStreet1}
+                                        autoComplete="off"
+                                        onChange={(e) => {
+                                          this.inputChange(handleChange, setFieldTouched, 'beneficiaryAddressStreet1', e);
+                                        }}
+                                      />
+                                      {errors.beneficiaryAddressStreet1 && touched.beneficiaryAddressStreet1 && <span className="c-error"><span>{errors.beneficiaryAddressStreet1}</span></span>}
+                                    </div>
+                                    <div className="col-6 input">
+                                      <TextField
+                                        label="Beneficiary Address Street 2"
+                                        name="beneficiaryAddressStreet2"
+                                        placeholder=""
+                                        className="input-of-create cst"
+                                        fullWidth
+                                        value={values.beneficiaryAddressStreet2}
+                                        autoComplete="off"
+                                        onChange={(e) => {
+                                          this.inputChange(handleChange, setFieldTouched, 'beneficiaryAddressStreet2', e);
+                                        }}
+                                      />
+                                      {errors.beneficiaryAddressStreet2 && touched.beneficiaryAddressStreet2 && <span className="c-error"><span>{errors.beneficiaryAddressStreet2}</span></span>}
+                                    </div>
+                                    <div className="col-6 input">
+                                      <TextField
+                                        label="Beneficiary Address Region"
+                                        name="beneficiaryAddressRegion"
+                                        placeholder=""
+                                        className="input-of-create cst"
+                                        fullWidth
+                                        value={values.beneficiaryAddressRegion}
+                                        autoComplete="off"
+                                        onChange={(e) => {
+                                          this.inputChange(handleChange, setFieldTouched, 'beneficiaryAddressRegion', e);
+                                        }}
+                                      />
+                                      {errors.beneficiaryAddressRegion && touched.beneficiaryAddressRegion && <span className="c-error"><span>{errors.beneficiaryAddressRegion}</span></span>}
+                                    </div>
+                                    <div className="col-6 input">
+                                      <TextField
+                                        label="Beneficiary Address City"
+                                        name="beneficiaryAddressCity"
+                                        placeholder=""
+                                        className="input-of-create cst"
+                                        fullWidth
+                                        value={values.beneficiaryAddressCity}
+                                        autoComplete="off"
+                                        onChange={(e) => {
+                                          this.inputChange(handleChange, setFieldTouched, 'beneficiaryAddressCity', e);
+                                        }}
+                                      />
+                                      {errors.beneficiaryAddressCity && touched.beneficiaryAddressCity && <span className="c-error"><span>{errors.beneficiaryAddressCity}</span></span>}
+                                    </div>
+                                    <div className="col-6 input">
+                                      <TextField
+                                        label="Beneficiary Address PostalCode"
+                                        name="beneficiaryAddressPostalCode"
+                                        placeholder=""
+                                        className="input-of-create cst"
+                                        fullWidth
+                                        value={values.beneficiaryAddressPostalCode}
+                                        autoComplete="off"
+                                        onChange={(e) => {
+                                          this.inputChange(handleChange, setFieldTouched, 'beneficiaryAddressPostalCode', e);
+                                        }}
+                                      />
+                                      {errors.beneficiaryAddressPostalCode && touched.beneficiaryAddressPostalCode && <span className="c-error"><span>{errors.beneficiaryAddressPostalCode}</span></span>}
+                                    </div>
+                                    <div className="col-4 input">
+                                      <FormControl variant="outlined" fullWidth style={{ marginTop: 20 }}>
+                                        <InputLabel htmlFor="age-required">Beneficiary Address Country</InputLabel>
+                                        <Select
+                                          value={values.beneficiaryAddressCountry}
+                                          onChange={(e) => {
+                                            values.beneficiaryAddressCountry = e.target.value
+                                            this.setState({ isUpdated: true })
+                                          }}
+                                          name="beneficiaryAddressCountry"
+                                        >
+                                          <MenuItem value={'US'}>US</MenuItem>
+                                          <MenuItem value={'VN'}>VN</MenuItem>
+                                        </Select>
+                                      </FormControl>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
                             ) : (
-                              <div className="row input-container input-container-first">
-                                <div className="col-12 col-md-6 col-lg-4">
-                                  <div className="title">ENTER ETHER ADDRESS</div>
-                                  <div className="input">
+                                <div className="row">
+                                  <div className="col-8">
+                                    <div className="title">ENTER ETHER ADDRESS</div>
+                                    <div className="input">
+                                      <TextField
+                                        type="text"
+                                        name="receiverAddress"
+                                        placeholder="0x088D8A4a03266870EDcbbbADdA3F475f404dB9B2"
+                                        className="input-of-create cst"
+                                        value={values.receiverAddress}
+                                        autoComplete="off"
+                                        fullWidth
+                                        onChange={(e) => {
+                                          this.inputChange(handleChange, setFieldTouched, 'receiverAddress', e);
+                                        }}
+                                      />
+                                      {errors.receiverAddress && touched.receiverAddress && <span className="c-error"><span>{errors.receiverAddress}</span></span>}
+                                    </div>
+                                  </div>
+                                  {/* <div className="col-4 input">{`${values.etherAmount} ETH`}</div> */}
+                                  <div className="col-4 input">
+                                    <div className="title">ESTIMATED ETHER</div>
                                     <TextField
                                       type="text"
-                                      name="receiverAddress"
-                                      placeholder="0x088D8A4a03266870EDcbbbADdA3F475f404dB9B2"
+                                      placeholder=""
                                       className="input-of-create cst"
-                                      value={values.receiverAddress}
+                                      value={`${values.etherAmount} ETH`}
                                       autoComplete="off"
-                                      onChange={(e) => {
-                                        this.inputChange(handleChange, setFieldTouched, 'receiverAddress', e);
-                                      }}
+                                      fullWidth
                                     />
-                                    {errors.receiverAddress && touched.receiverAddress && <span className="c-error"><span>{errors.receiverAddress}</span></span>}
                                   </div>
-                                  <div className="input">{`${values.etherAmount} ETH`}</div>
                                 </div>
-                              </div>
-                            )
+                              )
                           }
-                          <div className="row">
+                          <div className="row" style={{ marginTop: 40 }}>
+                            <div className="col-12"></div>
                             <div className="col-12">
                               <label>
                                 <input type="checkbox" name="policy" value={values.policy} onChange={handleChange} />

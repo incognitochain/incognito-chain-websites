@@ -37,7 +37,9 @@ export const API = addBaseToUrls({
   VOTING_GOV_PARAMS: "voting/govparams",
   PROPOSAL_LIST: "voting/proposals",
   PROPOSAL_VOTE: "voting/proposal/vote",
-  USER_UPDATE: "auth/update"
+  USER_UPDATE: "auth/update",
+  AUTH_KYC: "auth/kyc",
+  STORAGE_UPLOAD: "storage/upload",
 });
 
 export const BLOCKCHAIN = {
