@@ -48,3 +48,12 @@ export async function buyAsset(assetType, amount) {
   const result = await callAPIService({data, method: "POST", url:"/reserves/purchase"});
   return result;
 }
+
+export async function buyTokenByEthereum(amount) {
+  let data = {
+    "eth_amount": amount,
+  }
+
+  const result = await callAPIService({data, method: "POST", url:"/reserves/raise-eth-to-dcb-token"});
+  return result;
+}
