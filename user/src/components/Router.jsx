@@ -33,6 +33,10 @@ const Proposals = createDynamicImport(
   () => import("modules/proposal/Proposals"),
   Loading
 );
+const Kyc = createDynamicImport(
+  () => import("modules/Kyc/Kyc"),
+  Loading
+);
 const NotFound = createDynamicImport(() => import("modules/NotFound"), Loading);
 
 const routers = [
@@ -61,6 +65,13 @@ const routers = [
     path: "/proposals",
     exact: true,
     component: Proposals,
+    needLogged: true,
+    needLayout: true
+  },
+  {
+    path: "/kyc",
+    exact: true,
+    component: Kyc,
     needLogged: true,
     needLayout: true
   },

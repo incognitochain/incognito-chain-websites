@@ -85,6 +85,15 @@ class SubHeader extends React.Component {
                     {" Setting"}
                   </Link>
                 </li>
+                <li>
+                  <Link
+                    to="/kyc"
+                    className={cn({ active: pathname.startsWith("/kyc") })}
+                  >
+                    <FontAwesomeIcon icon={faUserAlt} />
+                    {" Kyc"}
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
