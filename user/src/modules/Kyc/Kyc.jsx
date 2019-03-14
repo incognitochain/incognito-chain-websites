@@ -4,10 +4,7 @@ import React from "react";
 // import { Link } from 'react-router-dom';
 import { axios, catchError } from "services/api";
 import { API } from "constants/index";
-import { isEmpty } from "lodash";
-import { Dialog, toaster, TextInputField, Alert } from "evergreen-ui";
-import QRCode from "qrcode.react";
-import { CopyToClipboard } from "react-copy-to-clipboard";
+import { Dialog, toaster } from "evergreen-ui";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/pro-regular-svg-icons';
 import { faSpinnerThird } from '@fortawesome/pro-light-svg-icons';
@@ -218,12 +215,12 @@ class Kyc extends React.Component {
             values,
             touched,
             errors,
-            dirty,
+            // dirty,
             isSubmitting,
             handleChange,
-            handleBlur,
+            // handleBlur,
             handleSubmit,
-            handleReset,
+            // handleReset,
             isValid,
             status,
           } = props;
@@ -275,7 +272,7 @@ class Kyc extends React.Component {
                         <Grid item xs={3}>
                           <FormControlLabel value="1" control={
                             <Radio
-                              checked={values.gender == 1}
+                              checked={parseInt(values.gender) === 1}
                               onChange={(e) => {
                                 values.gender = e.target.value
                                 this.setState({ isUpdated: true })
@@ -287,7 +284,7 @@ class Kyc extends React.Component {
                           } label="Male" />
                           <FormControlLabel value="0" control={
                             <Radio
-                              checked={values.gender == 2}
+                              checked={parseInt(values.gender) === 2}
                               onChange={(e) => {
                                 values.gender = e.target.value
                                 this.setState({ isUpdated: true })
