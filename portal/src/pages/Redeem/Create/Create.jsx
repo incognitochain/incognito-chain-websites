@@ -106,10 +106,7 @@ class Create extends React.Component {
 
   // submit handler
   handleSubmit = (values, setSubmitting) => {
-    const { currentCollateral, wantUsePrivateKey } = this.state;
-    if (wantUsePrivateKey) {
-      return true;
-    }
+    const { currentCollateral } = this.state;
     if (currentCollateral.name === 'USD') {
       this.submitByUSD(values, setSubmitting);
     }
@@ -139,7 +136,7 @@ class Create extends React.Component {
         beneficiaryAddressPostalCode: values.beneficiaryAddressPostalCode,
         beneficiaryAddressCountry: values.beneficiaryAddressCountry,
       },
-      Amount: parseInt(values.redeemAmount, 0) * 1000
+      Amount: parseInt(parseFloat(values.redeemAmount) * 1000, 0)
     };
     axios.post(API.RESERVE_BURN_CST_TO_USD, data).then((res) => {
       if (res.status === 200) {
@@ -161,7 +158,7 @@ class Create extends React.Component {
     setSubmitting(false);
     const data = {
       receiver_address: values.receiverAddress,
-      constant_amount: parseInt(values.redeemAmount, 0) * 1000,
+      constant_amount: parseInt(parseFloat(values.redeemAmount) * 1000, 0)
     };
     axios.post(API.RESERVE_BURN_CST_TO_ETH, data).then((res) => {
       if (res.status === 200) {
@@ -284,7 +281,6 @@ class Create extends React.Component {
                     if (!values.policy) {
                       errors.policy = 'You must accept with this policy.';
                     }
-                    console.log('errors', errors)
                     return errors;
                   }}
                   // validateOnBlur={false}
