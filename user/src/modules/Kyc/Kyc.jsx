@@ -378,7 +378,7 @@ class Kyc extends React.Component {
                           }
                         </Grid>
                         <Grid item xs={2}>
-                        Government ID Back
+                          Government ID Back
                         </Grid>
                         <Grid item xs={3}>
                           <input
