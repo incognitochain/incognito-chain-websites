@@ -158,7 +158,7 @@ class Create extends React.Component {
     setSubmitting(false);
     const data = {
       receiver_address: values.receiverAddress,
-      constant_amount: parseInt(parseFloat(values.redeemAmount) * 1000, 0)
+      constant_amount: parseInt(parseFloat(values.redeemAmount) * 100, 0)
     };
     axios.post(API.RESERVE_BURN_CST_TO_ETH, data).then((res) => {
       if (res.status === 200) {
