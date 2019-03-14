@@ -133,7 +133,7 @@ class Kyc extends React.Component {
       }
       setSubmitting(false)
     }).catch((e) => {
-      toaster.warning('Failed to upload');
+      toaster.warning('Failed to update your KYC');
       console.log(e);
       catchError(e);
       setSubmitting(false)
@@ -208,7 +208,6 @@ class Kyc extends React.Component {
           return errors;
         }}
         validateOnBlur={false}
-        // validateOnChange={false}
         onSubmit={(values, { setSubmitting }) => {
           this.handleSubmit(values, setSubmitting);
         }}
@@ -255,8 +254,8 @@ class Kyc extends React.Component {
                   <div className="col">
                     <React.Fragment>
                       <Typography variant="h6" gutterBottom>
-                        KYC Infomation
-                  </Typography>
+                        KYC INFOMATION
+                      </Typography>
                       <Grid container spacing={24}>
                         <Grid item xs={6}>
                           <Grid item xs={12}>
