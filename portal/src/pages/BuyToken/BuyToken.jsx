@@ -123,8 +123,9 @@ class BuyToken extends React.Component {
         }
         const coinReceiver = accounts[0].toString();
         const offchain = web3App.utils.fromAscii(`E2D_${ID}`);
+        const coinReceiverHex = web3App.utils.fromAscii(coinReceiver);
 
-        await this.onETHRaiseHandle(coinReceiver, offchain, amount, web3App, accounts[0])
+        await this.onETHRaiseHandle(coinReceiverHex, offchain, amount, web3App, accounts[0])
       }
     }
     this.setState({isSummitting: false});
