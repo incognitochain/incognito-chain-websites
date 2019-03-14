@@ -10,6 +10,7 @@ export const ACTIONS = {
   CONSTANT_GOV: 'CONSTANT_GOV',
   CONSTANT_BLOCKS: 'CONSTANT_BLOCKS',
   CONSTANT_TOKENS: 'CONSTANT_TOKENS',
+  CONSTANT_PRIVACY_TOKENS: 'CONSTANT_PRIVACY_TOKENS',
   CONSTANT_CHECKHASH: 'CONSTANT_CHECKHASH',
   CONSTANT_BLOCK: 'CONSTANT_BLOCK',
   CONSTANT_TX: 'CONSTANT_TX',
@@ -61,6 +62,7 @@ export const getCB = () => createRPCRequest('cb', false, ACTIONS.CONSTANT_CB, 'g
 export const getGOV = () => createRPCRequest('gov', false, ACTIONS.CONSTANT_GOV, 'getlistgovboard', []);
 export const getBlocks = chainId => createRPCRequest('chainBlocks', true, ACTIONS.CONSTANT_BLOCKS, 'getblocks', [20, chainId]);
 export const getTokens = () => createRPCRequest('tokens', true, ACTIONS.CONSTANT_TOKENS, 'listcustomtoken', []);
+export const getPrivacyTokens = () => createRPCRequest('privacyTokens', true, ACTIONS.CONSTANT_PRIVACY_TOKENS, 'listprivacycustomtoken', []);
 export const checkHash = hash => createRPCRequest('search', false, ACTIONS.CONSTANT_CHECKHASH, 'checkhashvalue', [hash]);
 export const getBlock = (blockHash, beacon = false) => {
   if (!beacon) {

@@ -2,35 +2,56 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getTokens } from '@/reducers/constant/action';
+import { getTokens, getPrivacyTokens } from '@/reducers/constant/action';
+import Identicon from 'identicon.js';
+import Avatar from '@material-ui/core/Avatar';
 
 class Tokens extends React.Component {
   static propTypes = {
     tokens: PropTypes.object.isRequired,
+    privacyTokens: PropTypes.object.isRequired,
     actionGetTokens: PropTypes.func.isRequired,
-  }
+    actionGetPrivacyTokens: PropTypes.func.isRequired,
+  };
 
   constructor(props) {
     super(props);
 
-    const { actionGetTokens, tokens } = props;
+    const { actionGetTokens, actionGetPrivacyTokens, tokens, privacyTokens } = props;
 
     this.state = {
       tokens,
+      privacyTokens,
     };
-
     actionGetTokens();
+    actionGetPrivacyTokens();
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.tokens.updatedAt !== prevState.tokens.updatedAt) {
-      return { tokens: nextProps.tokens };
+    if (nextProps.tokens.updatedAt !== prevState.tokens.updatedAt && nextProps.privacyTokens.updatedAt !== prevState.privacyTokens.updatedAt) {
+      let temp = {};
+      temp.tokens = nextProps.tokens;
+      temp.privacyTokens = nextProps.privacyTokens;
+      return temp;
     }
     return null;
   }
 
+  getTokenImage(tokenId) {
+    // create a base64 encoded PNG
+    let data = new Identicon(tokenId, 420).toString();
+
+    return 'data:image/png;base64,' + data;
+  }
+
   render() {
-    const { tokens } = this.state;
+    let { tokens, privacyTokens } = this.state;
+
+    if (privacyTokens) {
+      for (let i = 0; i < privacyTokens.list.length; i++) {
+        tokens.list.push(privacyTokens.list[i]);
+      }
+    }
 
     console.log(tokens);
 
@@ -53,24 +74,30 @@ class Tokens extends React.Component {
                 </div>
                 <table className="c-table">
                   <thead>
-                    <tr>
-                      <th>Token id</th>
-                      <th>Token name</th>
-                      <th>Token symbol</th>
-                      <th>Token amount</th>
-                      <th>TXs</th>
-                    </tr>
+                  <tr>
+                    <th>Token</th>
+                    <th>Token name</th>
+                    <th>Token symbol</th>
+                    <th>Is Privacy</th>
+                    <th>Token amount</th>
+                    <th>TXs</th>
+                  </tr>
                   </thead>
                   <tbody>
-                    {tokens.list.length ? tokens.list.map(token => (
-                      <tr key={token.ID}>
-                        <td className="c-hash"><Link to={`/token/${token.ID}`}>{token.ID}</Link></td>
-                        <td className="c-hash">{token.Name}</td>
-                        <td className="c-hash">{token.Symbol}</td>
-                        <td className="c-hash">{token.Amount}</td>
-                        <td className="c-hash">{token.ListTxs ?.length}</td>
-                      </tr>
-                    )) : <tr><td style={{ textAlign: 'center' }} colSpan={4}>Empty</td></tr>}
+                  {tokens.list.length ? tokens.list.map(token => (
+                    <tr key={token.ID}>
+                      <td className="c-hash"><Link to={`/token/${token.ID}`}><Avatar alt="avatar"
+                                                                                     src={this.getTokenImage(token.ID)}/></Link>
+                      </td>
+                      <td className="c-hash">{token.Name}</td>
+                      <td className="c-hash">{token.Symbol}</td>
+                      <td className="c-hash">{token.IsPrivacy + ''}</td>
+                      <td className="c-hash">{token.Amount}</td>
+                      <td className="c-hash">{token.ListTxs?.length}</td>
+                    </tr>
+                  )) : <tr>
+                    <td style={{ textAlign: 'center' }} colSpan={4}>Empty</td>
+                  </tr>}
                   </tbody>
                 </table>
               </div>
@@ -86,8 +113,10 @@ class Tokens extends React.Component {
 export default connect(
   state => ({
     tokens: state.constant.tokens,
+    privacyTokens: state.constant.privacyTokens,
   }),
   ({
     actionGetTokens: getTokens,
+    actionGetPrivacyTokens: getPrivacyTokens,
   }),
 )(Tokens);
