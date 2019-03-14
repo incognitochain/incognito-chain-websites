@@ -23,6 +23,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Radio from '@material-ui/core/Radio';
 import FormControl from '@material-ui/core/FormControl';
+import Checkbox from '@material-ui/core/Checkbox';
 
 class Kyc extends React.Component {
   static propTypes = {
@@ -37,6 +38,7 @@ class Kyc extends React.Component {
       isUploading: false,
       isUpdated: false,
       data: null,
+      kycDocs: null,
     };
   }
 
@@ -58,6 +60,19 @@ class Kyc extends React.Component {
       console.log(e);
       catchError(e);
     });
+    axios.get(`${API.STORAGE_KYC_DOCUMENTS}`, null).then((res) => {
+      if (res.status === 200) {
+        if (res.data && res.data.Result) {
+          this.setState({ kycDocs: res.data.Result })
+          return
+        }
+      }
+      this.setState({ kycDocs: {} })
+    }).catch((e) => {
+      this.setState({ kycDocs: {} })
+      console.log(e);
+      catchError(e);
+    });
   }
 
   handleSubmit = (values, setSubmitting) => {
@@ -72,6 +87,7 @@ class Kyc extends React.Component {
   };
 
   onImageFileChanged = (type, file) => {
+    const { kycDocs } = this.state
     this.setState({ isUploading: true })
     const data = new FormData()
     data.append('file', file, file.name)
@@ -79,11 +95,14 @@ class Kyc extends React.Component {
     axios.post(`${API.STORAGE_UPLOAD}`, data).then((res) => {
       if (res.status === 200) {
         if (res.data && res.data.Result) {
+          kycDocs[type] = res.data.Result
+          this.setState({ kycDocs: kycDocs })
+          toaster.success('Successed to upload your document');
         }
       }
       this.setState({ isUploading: false })
     }).catch((e) => {
-      toaster.warning('Failed to upload');
+      toaster.warning('Failed to upload your document');
       console.log(e);
       catchError(e);
       this.setState({ isUploading: false })
@@ -115,7 +134,7 @@ class Kyc extends React.Component {
       }
       setSubmitting(false)
     }).catch((e) => {
-      toaster.warning('Failed to upload');
+      toaster.warning('Failed to update your KYC');
       console.log(e);
       catchError(e);
       setSubmitting(false)
@@ -125,7 +144,7 @@ class Kyc extends React.Component {
 
   render() {
     const {
-      data
+      data, kycDocs
     } = this.state;
     if (data == null) {
       return (
@@ -190,7 +209,6 @@ class Kyc extends React.Component {
           return errors;
         }}
         validateOnBlur={false}
-        // validateOnChange={false}
         onSubmit={(values, { setSubmitting }) => {
           this.handleSubmit(values, setSubmitting);
         }}
@@ -237,8 +255,8 @@ class Kyc extends React.Component {
                   <div className="col">
                     <React.Fragment>
                       <Typography variant="h6" gutterBottom>
-                        KYC Infomation
-                  </Typography>
+                        KYC INFOMATION
+                      </Typography>
                       <Grid container spacing={24}>
                         <Grid item xs={6}>
                           <Grid item xs={12}>
@@ -334,9 +352,9 @@ class Kyc extends React.Component {
                           {errors.taxIDNumber && touched.taxIDNumber && <span className="c-error"><span>{errors.taxIDNumber}</span></span>}
                         </Grid>
                         <Grid item xs={2}>
-                          GOV ID Front
+                          Government ID Front
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
                           <input
                             accept="image/*"
                             id="taxImage1"
@@ -346,10 +364,23 @@ class Kyc extends React.Component {
                             }}
                           />
                         </Grid>
-                        <Grid item xs={2}>
-                          GOV ID Back
+                        <Grid item xs={1}>
+                          {
+                            kycDocs && kycDocs.government_id_front ?
+                              (
+                                <Checkbox
+                                  checked={true}
+                                  onChange={handleChange}
+                                  value="1"
+                                  color="primary"
+                                />
+                              ) : null
+                          }
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={2}>
+                          Government ID Back
+                        </Grid>
+                        <Grid item xs={3}>
                           <input
                             accept="image/*"
                             id="taxImage2"
@@ -359,10 +390,23 @@ class Kyc extends React.Component {
                             }}
                           />
                         </Grid>
+                        <Grid item xs={1}>
+                          {
+                            kycDocs && kycDocs.government_id_back ?
+                              (
+                                <Checkbox
+                                  checked={true}
+                                  onChange={handleChange}
+                                  value="1"
+                                  color="primary"
+                                />
+                              ) : null
+                          }
+                        </Grid>
                         <Grid item xs={2}>
                           Proof Of Address
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={3}>
                           <input
                             accept="image/*"
                             id="taxImage3"
@@ -371,6 +415,19 @@ class Kyc extends React.Component {
                               this.onImageFileChanged('proof_of_address', e.target.files[0])
                             }}
                           />
+                        </Grid>
+                        <Grid item xs={1}>
+                          {
+                            kycDocs && kycDocs.proof_of_address ?
+                              (
+                                <Checkbox
+                                  checked={true}
+                                  onChange={handleChange}
+                                  value="1"
+                                  color="primary"
+                                />
+                              ) : null
+                          }
                         </Grid>
                         <Grid item xs={6}>
                           <TextField

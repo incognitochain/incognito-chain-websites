@@ -40,6 +40,7 @@ export const API = addBaseToUrls({
   USER_UPDATE: "auth/update",
   AUTH_KYC: "auth/kyc",
   STORAGE_UPLOAD: "storage/upload",
+  STORAGE_KYC_DOCUMENTS: "storage/kyc/documents",
 });
 
 export const BLOCKCHAIN = {
