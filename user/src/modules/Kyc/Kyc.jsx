@@ -97,11 +97,12 @@ class Kyc extends React.Component {
         if (res.data && res.data.Result) {
           kycDocs[type] = res.data.Result
           this.setState({ kycDocs: kycDocs })
+          toaster.success('Successed to upload your document');
         }
       }
       this.setState({ isUploading: false })
     }).catch((e) => {
-      toaster.warning('Failed to upload');
+      toaster.warning('Failed to upload your document');
       console.log(e);
       catchError(e);
       this.setState({ isUploading: false })
@@ -351,7 +352,7 @@ class Kyc extends React.Component {
                           {errors.taxIDNumber && touched.taxIDNumber && <span className="c-error"><span>{errors.taxIDNumber}</span></span>}
                         </Grid>
                         <Grid item xs={2}>
-                          GOV ID Front
+                          Government ID Front
                         </Grid>
                         <Grid item xs={3}>
                           <input
@@ -377,7 +378,7 @@ class Kyc extends React.Component {
                           }
                         </Grid>
                         <Grid item xs={2}>
-                          GOV ID Back
+                        Government ID Back
                         </Grid>
                         <Grid item xs={3}>
                           <input
