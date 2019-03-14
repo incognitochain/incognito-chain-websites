@@ -138,7 +138,7 @@ class Create extends React.Component {
       },
       Amount: parseInt(parseFloat(values.redeemAmount) * 100, 0)
     };
-    axios.post(API.RESERVE_BURN_CST_TO_USD, data).then((res) => {
+    axios.post(API.RESERVE_REDEEM_USD, data).then((res) => {
       if (res.status === 200) {
         if (res.data && res.data.Result) {
           routerPush('/redeem');
@@ -160,7 +160,7 @@ class Create extends React.Component {
       receiver_address: values.receiverAddress,
       constant_amount: parseInt(parseFloat(values.redeemAmount) * 100, 0)
     };
-    axios.post(API.RESERVE_BURN_CST_TO_ETH, data).then((res) => {
+    axios.post(API.RESERVE_REDEEM_ETH, data).then((res) => {
       if (res.status === 200) {
         if (res.data && res.data.Result) {
           routerPush('/redeem');
