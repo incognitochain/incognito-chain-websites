@@ -290,8 +290,7 @@ class Create extends React.Component {
                   // validateOnBlur={false}
                   // validateOnChange={false}
                   onSubmit={(values, { setSubmitting }) => {
-                    console.log('values', values)
-                    // this.handleSubmit(values, setSubmitting);
+                    this.handleSubmit(values, setSubmitting);
                   }}
                 >
                   {({
