@@ -80,7 +80,10 @@ class BuyToken extends React.Component {
 
   onSubmit = async () => {
     const {asset, amount} = this.state;
-    // const {auth={}} = this.props;
+    const {auth={}} = this.props;
+    const {data={}} = auth;
+    const {PaymentAddress} = data;
+    if (!PaymentAddress) return;
 
     if (!asset || isNaN(amount) || amount <= 0) {
       return;
@@ -121,11 +124,16 @@ class BuyToken extends React.Component {
           this.setState({resultMessage: "Something wrong :(, please check your metamask account", openDialog:true, isSummitting: false})
           return
         }
-        const coinReceiver = accounts[0].toString();
+        // const coinReceiver = accounts[0].toString();
         const offchain = web3App.utils.fromAscii(`E2D_${ID}`);
-        const coinReceiverHex = web3App.utils.fromAscii(coinReceiver);
+        const coinReceiver = web3App.utils.fromAscii(PaymentAddress);
 
-        await this.onETHRaiseHandle(coinReceiverHex, offchain, amount, web3App, accounts[0])
+        try {
+          await this.onETHRaiseHandle(coinReceiver, offchain, amount, web3App, accounts[0])
+        } catch (error) {
+          console.log(error);
+          this.setState({openDialog: true, resultMessage: error.message});
+        }
       }
     }
     this.setState({isSummitting: false});
@@ -140,26 +148,30 @@ class BuyToken extends React.Component {
   onETHRaiseHandle = async (coinReceiver, offchain, amount, web3App, fromAddr) => {
 
     const contractInstance = new web3App.eth.Contract(abiDefinition, process.env.reserveSmartContractAddress);
-    contractInstance.methods.raise(coinReceiver, offchain).send({
-      from: fromAddr,
-      value: parseFloat(amount) * (10 ** 18),
-    })
-    .on('transactionHash', (hash) => {
-      console.log('transactionHash', hash);
-    })
-    .on('confirmation', (confirmationNumber, receipt) => {
-      console.log(confirmationNumber, receipt);
-    })
-    .on('receipt', (receipt) => {
-      console.log('OK')
-    })
-    .on('err', (err) => {
-      console.log(err);
-      // error
-    })
-    .catch((e) => {
-      console.log(e);
-    });
+    try {
+      contractInstance.methods.raise(coinReceiver, offchain).send({
+        from: fromAddr,
+        value: parseFloat(amount) * (10 ** 18),
+      })
+      .on('transactionHash', (hash) => {
+        console.log('transactionHash', hash);
+      })
+      .on('confirmation', (confirmationNumber, receipt) => {
+        console.log(confirmationNumber, receipt);
+      })
+      .on('receipt', (receipt) => {
+        console.log('OK')
+      })
+      .on('err', (err) => {
+        console.log(err);
+        // error
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+    } catch (error) {
+      throw error;
+    }
   }
 
   linkMetamask = () => {
