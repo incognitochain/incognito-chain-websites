@@ -70,7 +70,7 @@ class Create extends React.Component {
         setFieldValue('etherAmount', 0);
       } else {
         const data = {
-          constant_amount: parseInt(e.target.value, 0) * 1000,
+          constant_amount: parseInt(e.target.value, 0) * 100,
         };
         axios.post(API.RESERVE_CONVERT_CST_TO_ETH, data).then((res) => {
           if (res.status === 200) {
@@ -136,7 +136,7 @@ class Create extends React.Component {
         beneficiaryAddressPostalCode: values.beneficiaryAddressPostalCode,
         beneficiaryAddressCountry: values.beneficiaryAddressCountry,
       },
-      Amount: parseInt(parseFloat(values.redeemAmount) * 1000, 0)
+      Amount: parseInt(parseFloat(values.redeemAmount) * 100, 0)
     };
     axios.post(API.RESERVE_BURN_CST_TO_USD, data).then((res) => {
       if (res.status === 200) {
