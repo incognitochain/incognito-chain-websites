@@ -43,4 +43,7 @@ main {
   &.finished {
     @extend .c-color-green-500;
   }
+  &.successed {
+    @extend .c-color-green-500;
+  }
 }
