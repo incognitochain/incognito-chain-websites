@@ -43,6 +43,7 @@ class Router extends React.Component {
   }
 
   render() {
+    const { auth = {} } = this.props
     return (
       <Switch>
         {
@@ -58,7 +59,7 @@ class Router extends React.Component {
                 {...route}
                 render={props => (
                   <Layout {...options}>
-                    <Component {...props} />
+                    <Component {...props} auth={auth} />
                   </Layout>
                 )}
               />

@@ -8,7 +8,7 @@ export const ACTIONS = {
 };
 
 export const checkAuth = () => (dispatch) => {
-  axios.get(API.USER_DATA, null).then((res) => {
+  axios.get(API.USER_DATA, { timeout: 10000 }).then((res) => {
     const { data } = res;
     if (data && !isEmpty(data)) {
       const { Result } = data;

@@ -1,5 +1,5 @@
 import React from 'react';
-// import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import Link from '@/components/Link';
@@ -8,6 +8,10 @@ import { axios, catchError } from '@/services/api';
 import { API } from '@/constants';
 
 class Redeem extends React.Component {
+  static propTypes = {
+    auth: PropTypes.object.isRequired,
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -37,6 +41,9 @@ class Redeem extends React.Component {
 
   render() {
     const {
+      auth,
+    } = this.props;
+    const {
       data,
     } = this.state;
     return (
@@ -47,7 +54,7 @@ class Redeem extends React.Component {
               <div className="col-12 col-md-6 col-lg-8">
                 <div className="c-card">
                   <div className="hello">
-                    {'Hello, '}
+                    {`Hello, ${auth.data.Email}`}
                   </div>
                   <div className="row stats-container">
                   </div>
@@ -99,7 +106,7 @@ class Redeem extends React.Component {
                                 <td className="text-truncate">{r.EthTxHash}</td>
                                 <td className="text-truncate">{r.ReceiverAddress}</td>
                                 <td className="text-truncate">{r.ConstantAmount}</td>
-                                <td className="text-truncate">{r.CreatedAt}</td>
+                                <td className="text-truncate">{r.CreatedAt ? r.CreatedAt.replace(/T/, ' ').replace(/Z/, '') : ''}</td>
                                 <td className="text-truncate">{r.Status}</td>
                               </tr>
                             ))

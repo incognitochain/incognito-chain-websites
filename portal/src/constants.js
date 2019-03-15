@@ -15,7 +15,7 @@ const API = {
   LOAN_LIST: 'portal/borrows',
   LOAN_ACTION: 'portal/borrows',
   LOAN_LIST_FOR_LENDER: 'portal/all_borrows',
-  USER_DATA: 'auth/me',
+  USER_DATA: 'auth/profile',
   RESERVE_REDEEM_ETH_LIST: 'reserves/redeem-eth',
   RESERVE_REDEEM_ETH_CREATE: 'reserves/redeem-eth',
   RESERVE_REDEEM_USD_CREATE: 'reserves/redeem-usd',

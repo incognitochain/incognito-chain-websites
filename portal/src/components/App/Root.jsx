@@ -37,7 +37,7 @@ class Root extends React.Component {
     } else {
       return (
         <ConnectedRouter {...props} history={history}>
-          <Router />
+          <Router auth={auth} />
         </ConnectedRouter>
       );
     }
