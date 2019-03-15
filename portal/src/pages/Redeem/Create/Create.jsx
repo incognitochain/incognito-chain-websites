@@ -141,7 +141,7 @@ class Create extends React.Component {
     axios.post(API.RESERVE_REDEEM_USD_CREATE, data).then((res) => {
       if (res.status === 200) {
         if (res.data && res.data.Result) {
-          routerPush('/redeem');
+          routerPush('/redeem?type=usd');
         }
       }
       setSubmitting(false);
@@ -163,7 +163,7 @@ class Create extends React.Component {
     axios.post(API.RESERVE_REDEEM_ETH_CREATE, data).then((res) => {
       if (res.status === 200) {
         if (res.data && res.data.Result) {
-          routerPush('/redeem');
+          routerPush('/redeem?type=eth');
         }
       }
       setSubmitting(false);

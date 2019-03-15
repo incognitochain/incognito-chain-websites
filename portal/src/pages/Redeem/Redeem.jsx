@@ -6,6 +6,7 @@ import Link from '@/components/Link';
 import bgImage from '@/assets/create-a-proposal.svg';
 import { axios, catchError } from '@/services/api';
 import { API } from '@/constants';
+import queryString from 'query-string';
 
 class Redeem extends React.Component {
   static propTypes = {
@@ -20,11 +21,36 @@ class Redeem extends React.Component {
   }
 
   componentDidMount() {
-    this.getData()
+    let url = this.props.location.search;
+    let params = queryString.parse(url);
+    const { type = 'usd' } = params
+    if (type == 'eth') {
+      this.getETHData()
+    } else {
+      this.getUSDData()
+    }
   }
 
-  getData = () => {
+  getETHData = () => {
+    this.setState({ tab: 1 })
     axios.get(API.RESERVE_REDEEM_ETH_LIST, null).then((res) => {
+      if (res.status === 200) {
+        if (res.data && res.data.Result) {
+          this.setState({ data: res.data.Result })
+        } else {
+          this.setState({ data: [] })
+        }
+      }
+    }).catch((e) => {
+      this.setState({ data: [] })
+      console.log(e);
+      catchError(e);
+    });
+  }
+
+  getUSDData = () => {
+    this.setState({ tab: 0 })
+    axios.get(API.RESERVE_REDEEM_USD_LIST, null).then((res) => {
       if (res.status === 200) {
         if (res.data && res.data.Result) {
           this.setState({ data: res.data.Result })
@@ -45,6 +71,7 @@ class Redeem extends React.Component {
     } = this.props;
     const {
       data,
+      tab,
     } = this.state;
     return (
       <div className="home-page">
@@ -72,8 +99,22 @@ class Redeem extends React.Component {
             </div>
           </div>
         </section>
+        <div className="tabs-container">
+          <div className="container">
+            <div className="row">
+              <div className="col-12">
+                <div className="c-card">
+                  <div className="tabs">
+                    <div className={`tab ${tab === 0 ? 'active' : ''}`} onClick={() => this.getUSDData()}>USD</div>
+                    <div className={`tab ${tab === 1 ? 'active' : ''}`} onClick={() => this.getETHData()}>ETH</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         {
-          data ?
+          data && tab == 1 ?
             (
               <div className="container">
                 <div className="row">
@@ -82,8 +123,10 @@ class Redeem extends React.Component {
                       <table className="c-table-portal-home" style={{ width: "100%", tableLayout: "fixed" }}>
                         <colgroup>
                           <col style={{ "width": "5%" }} />
-                          <col style={{ "width": "30%" }} />
-                          <col style={{ "width": "25%" }} />
+                          <col style={{ "width": "15%" }} />
+                          <col style={{ "width": "15%" }} />
+                          <col style={{ "width": "15%" }} />
+                          <col style={{ "width": "10%" }} />
                           <col style={{ "width": "10%" }} />
                           <col style={{ "width": "20%" }} />
                           <col style={{ "width": "10%" }} />
@@ -91,9 +134,11 @@ class Redeem extends React.Component {
                         <thead>
                           <tr>
                             <th>ID</th>
-                            <th>Transaction ID</th>
+                            <th>TX ID</th>
+                            <th>CONST</th>
+                            <th>Ether TX ID</th>
                             <th>Address</th>
-                            <th>Amount</th>
+                            <th>ETH</th>
                             <th>Date Created</th>
                             <th>Status</th>
                           </tr>
@@ -103,11 +148,33 @@ class Redeem extends React.Component {
                             data.map(r => (
                               <tr>
                                 <td className="text-truncate">{r.ID}</td>
-                                <td className="text-truncate">{r.EthTxHash}</td>
-                                <td className="text-truncate">{r.ReceiverAddress}</td>
+                                <td className="text-truncate"><a target={'_blank'} href={r.ConstantTxID ? `${process.env.explorerUrl}/tx/${r.ConstantTxID}` : ''}>{r.ConstantTxID}</a></td>
                                 <td className="text-truncate">{r.ConstantAmount}</td>
+                                <td className="text-truncate"><a target={'_blank'} href={r.EthTxHash ? `${process.env.etherScanUrl}/tx/${r.EthTxHash}` : ''}>{r.EthTxHash}</a></td>
+                                <td className="text-truncate"><a target={'_blank'} href={r.ReceiverAddress ? `${process.env.etherScanUrl}/address/${r.ReceiverAddress}` : ''}>{r.ReceiverAddress}</a></td>
+                                <td className="text-truncate">{r.EtherAmount}</td>
                                 <td className="text-truncate">{r.CreatedAt ? r.CreatedAt.replace(/T/, ' ').replace(/Z/, '') : ''}</td>
-                                <td className="text-truncate">{r.Status}</td>
+                                <td className="text-truncate">{
+                                  r.Status == 0 ? 'Pending'
+                                    : (r.Status == 1 ? 'Pending'
+                                      : (r.Status == 2 ? 'Failed'
+                                        : (r.Status == 10 ? 'Pending'
+                                          : (r.Status == 11 ? 'Finished'
+                                            : (r.Status == 12 ? 'Failed'
+                                              : (r.Status == 20 ? 'Failed'
+                                                : (r.Status == 21 ? 'Failed'
+                                                  : (r.Status == 22 ? 'Failed'
+                                                    : ''
+                                                  )
+                                                )
+                                              )
+                                            )
+                                          )
+                                        )
+                                      )
+                                    )
+                                }
+                                </td>
                               </tr>
                             ))
                           }
@@ -117,7 +184,80 @@ class Redeem extends React.Component {
                   </div>
                 </div>
               </div>
-            ) : null
+            ) : (
+              data && tab == 0 ? (
+                <div className="container">
+                  <div className="row">
+                    <div className="col-12">
+                      <div className="c-card c-card-no-padding">
+                        <table className="c-table-portal-home" style={{ width: "100%", tableLayout: "fixed" }}>
+                          <colgroup>
+                            <col style={{ "width": "5%" }} />
+                            <col style={{ "width": "35%" }} />
+                            <col style={{ "width": "10%" }} />
+                            <col style={{ "width": "10%" }} />
+                            <col style={{ "width": "20%" }} />
+                            <col style={{ "width": "20%" }} />
+                          </colgroup>
+                          <thead>
+                            <tr>
+                              <th>ID</th>
+                              <th>TX ID</th>
+                              <th>CONST</th>
+                              <th>Fee</th>
+                              <th>Date Created</th>
+                              <th>Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {
+                              data.map(r => (
+                                <tr>
+                                  <td className="text-truncate">{r.ID}</td>
+                                  <td className="text-truncate"><a target={'_blank'} href={r.TxHash ? `${process.env.explorerUrl}/tx/${r.TxHash}` : ''}>{r.TxHash}</a></td>
+                                  <td className="text-truncate">{r.Amount}</td>
+                                  <td className="text-truncate">{r.Fee}</td>
+                                  <td className="text-truncate">{r.CreatedAt ? r.CreatedAt.replace(/T/, ' ').replace(/Z/, '') : ''}</td>
+                                  <td className="text-truncate">{
+                                    r.Status == 0 ? 'Pending'
+                                      : (r.Status == 1 ? 'Purchasing'
+                                        : (r.Status == 2 ? 'Coin Minting'
+                                          : (r.Status == 3 ? 'Coin Burning'
+                                            : (r.Status == 4 ? 'Coin Burned'
+                                              : (r.Status == 5 ? 'Transfering'
+                                                : (r.Status == 6 ? 'Redeeming'
+                                                  : (r.Status == 7 ? 'Cancelled'
+                                                    : (r.Status == 8 ? 'Done'
+                                                      : (r.Status == 9 ? 'Holding'
+                                                        : (r.Status == 10 ? 'Coin Burning Failed'
+                                                          : (r.Status == 11 ? 'Coin Minting Failed'
+                                                            : (r.Status == 12 ? 'Transfering Failed'
+                                                              : ''
+                                                            )
+                                                          )
+                                                        )
+                                                      )
+                                                    )
+                                                  )
+                                                )
+                                              )
+                                            )
+                                          )
+                                        )
+                                      )
+                                  }
+                                  </td>
+                                </tr>
+                              ))
+                            }
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : null
+            )
         }
       </div>
     );
