@@ -16,8 +16,9 @@ const API = {
   LOAN_ACTION: 'portal/borrows',
   LOAN_LIST_FOR_LENDER: 'portal/all_borrows',
   USER_DATA: 'auth/me',
-  RESERVE_REDEEM_ETH: 'reserves/redeem-eth',
-  RESERVE_REDEEM_USD: 'reserves/redeem-usd',
+  RESERVE_REDEEM_ETH_LIST: 'reserves/redeem-eth',
+  RESERVE_REDEEM_ETH_CREATE: 'reserves/redeem-eth',
+  RESERVE_REDEEM_USD_CREATE: 'reserves/redeem-usd',
   RESERVE_CONVERT_CST_TO_ETH: 'reserves/convert-cst-to-eth',
 };
 

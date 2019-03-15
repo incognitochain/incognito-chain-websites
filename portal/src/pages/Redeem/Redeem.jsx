@@ -6,10 +6,6 @@ import Link from '@/components/Link';
 import bgImage from '@/assets/create-a-proposal.svg';
 import { axios, catchError } from '@/services/api';
 import { API } from '@/constants';
-import dayjs from 'dayjs';
-import { Dialog, toaster, TextInput } from 'evergreen-ui';
-import { isEmpty } from 'lodash';
-import Logo from '@/assets/logo.svg';
 
 class Redeem extends React.Component {
   constructor(props) {
@@ -24,16 +20,16 @@ class Redeem extends React.Component {
   }
 
   getData = () => {
-    axios.get(API.RESERVE_REDEEM_ETH, null).then((res) => {
+    axios.get(API.RESERVE_REDEEM_ETH_LIST, null).then((res) => {
       if (res.status === 200) {
         if (res.data && res.data.Result) {
           this.setState({ data: res.data.Result })
         } else {
-          this.setState({ data: {} })
+          this.setState({ data: [] })
         }
       }
     }).catch((e) => {
-      this.setState({ data: {} })
+      this.setState({ data: [] })
       console.log(e);
       catchError(e);
     });
@@ -99,12 +95,12 @@ class Redeem extends React.Component {
                           {
                             data.map(r => (
                               <tr>
-                                <td className="text-truncate">{ r.ID }</td>
-                                <td className="text-truncate">{ r.EthTxHash }</td>
-                                <td className="text-truncate">{ r.ReceiverAddress }</td>
-                                <td className="text-truncate">{ r.Amount }</td>
-                                <td className="text-truncate">{ r.CreatedAt }</td>
-                                <td className="text-truncate">{ r.Status }</td>
+                                <td className="text-truncate">{r.ID}</td>
+                                <td className="text-truncate">{r.EthTxHash}</td>
+                                <td className="text-truncate">{r.ReceiverAddress}</td>
+                                <td className="text-truncate">{r.ConstantAmount}</td>
+                                <td className="text-truncate">{r.CreatedAt}</td>
+                                <td className="text-truncate">{r.Status}</td>
                               </tr>
                             ))
                           }
