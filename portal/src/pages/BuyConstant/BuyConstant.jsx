@@ -29,11 +29,6 @@ import Link from '@/components/Link';
 import {BUYING_ASSET} from '../../constants';
 import { buyAsset, getHistory } from "../../services/reserveAsset";
 
-const BUYING_OBJECT = {
-  USD: "usd",
-  ETH: "eth",
-}
-
 class BuyToken extends React.Component {
   constructor(props) {
     super(props);
