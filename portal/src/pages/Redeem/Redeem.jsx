@@ -192,8 +192,8 @@ class Redeem extends React.Component {
                       <div className="c-card c-card-no-padding">
                         <table className="c-table-portal-home" style={{ width: "100%", tableLayout: "fixed" }}>
                           <colgroup>
-                            <col style={{ "width": "5%" }} />
-                            <col style={{ "width": "35%" }} />
+                            <col style={{ "width": "10%" }} />
+                            <col style={{ "width": "30%" }} />
                             <col style={{ "width": "10%" }} />
                             <col style={{ "width": "10%" }} />
                             <col style={{ "width": "20%" }} />
