@@ -33,7 +33,7 @@ class Redeem extends React.Component {
   }
 
   getETHData = () => {
-    this.setState({ tab: 1 })
+    this.setState({ tab: 1, data: [] })
     axios.get(API.RESERVE_REDEEM_ETH_LIST, null).then((res) => {
       if (res.status === 200) {
         if (res.data && res.data.Result) {
@@ -50,7 +50,7 @@ class Redeem extends React.Component {
   }
 
   getUSDData = () => {
-    this.setState({ tab: 0 })
+    this.setState({ tab: 0, data: [] })
     axios.get(API.RESERVE_REDEEM_USD_LIST, null).then((res) => {
       if (res.status === 200) {
         if (res.data && res.data.Result) {
