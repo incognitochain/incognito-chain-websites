@@ -32,8 +32,8 @@ const routers = [
 
   { path: '/redeem/create', exact: true, component: RedeemCreate },
 
-  { path: '/buy_token', exact: true, component: BuyToken },
-  { path: '/buy_constant', exact: true, component: BuyConstant },
+  { path: '/buy-token', exact: true, component: BuyToken },
+  { path: '/buy-constant', exact: true, component: BuyConstant },
 ];
 
 class Router extends React.Component {
