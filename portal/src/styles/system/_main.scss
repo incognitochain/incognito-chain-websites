@@ -37,4 +37,10 @@ main {
   &.payment {
     @extend .c-color-blue-900;
   }
+  &.failed {
+    @extend .c-color-red-500;
+  }
+  &.finished {
+    @extend .c-color-green-500;
+  }
 }

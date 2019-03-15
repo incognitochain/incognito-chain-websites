@@ -70,7 +70,7 @@ class Create extends React.Component {
         setFieldValue('etherAmount', 0);
       } else {
         const data = {
-          constant_amount: parseInt(e.target.value, 0) * 1000,
+          constant_amount: parseInt(e.target.value, 0) * 100,
         };
         axios.post(API.RESERVE_CONVERT_CST_TO_ETH, data).then((res) => {
           if (res.status === 200) {
@@ -106,10 +106,7 @@ class Create extends React.Component {
 
   // submit handler
   handleSubmit = (values, setSubmitting) => {
-    const { currentCollateral, wantUsePrivateKey } = this.state;
-    if (wantUsePrivateKey) {
-      return true;
-    }
+    const { currentCollateral } = this.state;
     if (currentCollateral.name === 'USD') {
       this.submitByUSD(values, setSubmitting);
     }
@@ -139,12 +136,12 @@ class Create extends React.Component {
         beneficiaryAddressPostalCode: values.beneficiaryAddressPostalCode,
         beneficiaryAddressCountry: values.beneficiaryAddressCountry,
       },
-      Amount: parseInt(values.redeemAmount, 0) * 1000
+      Amount: parseInt(parseFloat(values.redeemAmount) * 100, 0)
     };
-    axios.post(API.RESERVE_BURN_CST_TO_USD, data).then((res) => {
+    axios.post(API.RESERVE_REDEEM_USD_CREATE, data).then((res) => {
       if (res.status === 200) {
         if (res.data && res.data.Result) {
-          routerPush('/redeem');
+          routerPush('/redeem?type=usd');
         }
       }
       setSubmitting(false);
@@ -161,12 +158,12 @@ class Create extends React.Component {
     setSubmitting(false);
     const data = {
       receiver_address: values.receiverAddress,
-      constant_amount: parseInt(values.redeemAmount, 0) * 1000,
+      constant_amount: parseInt(parseFloat(values.redeemAmount) * 100, 0)
     };
-    axios.post(API.RESERVE_BURN_CST_TO_ETH, data).then((res) => {
+    axios.post(API.RESERVE_REDEEM_ETH_CREATE, data).then((res) => {
       if (res.status === 200) {
         if (res.data && res.data.Result) {
-          routerPush('/redeem');
+          routerPush('/redeem?type=eth');
         }
       }
       setSubmitting(false);
@@ -284,7 +281,6 @@ class Create extends React.Component {
                     if (!values.policy) {
                       errors.policy = 'You must accept with this policy.';
                     }
-                    console.log('errors', errors)
                     return errors;
                   }}
                   // validateOnBlur={false}

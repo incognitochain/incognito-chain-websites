@@ -1,244 +1,92 @@
 import React from 'react';
-// import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import Link from '@/components/Link';
 import bgImage from '@/assets/create-a-proposal.svg';
 import { axios, catchError } from '@/services/api';
 import { API } from '@/constants';
+import queryString from 'query-string';
 import dayjs from 'dayjs';
-import { Dialog, toaster, TextInput } from 'evergreen-ui';
-import { isEmpty } from 'lodash';
-import Logo from '@/assets/logo.svg';
 
 class Redeem extends React.Component {
+  static propTypes = {
+    auth: PropTypes.object.isRequired,
+  }
+
   constructor(props) {
     super(props);
-
     this.state = {
-      isLoading: false,
-      borrows: [],
-      borrowsForLender: [],
-      active: 0,
-      dialogApprove: false,
-      dialogDeny: false,
-      dialogWithdraw: false,
-      currentBorrow: {},
-      secretKey: '',
-      stats: {},
-      statsAll: {},
+      data: null,
     };
-
-    this.loadBorrows();
-    this.loadBorrows(true);
-    this.loadStats();
-    this.loadStats(true);
   }
 
-  loadStats = (all = false) => {
-    let api = API.STATS;
-    if (all) {
-      api = API.STATS_ALL;
-    }
-    axios.get(api).then((res) => {
-      const { data } = res;
-      if (data) {
-        const { Result } = data;
-        if (Result) {
-          let stats = 'stats';
-          if (all) {
-            stats = 'statsAll';
-          }
-          console.log(Result);
-          this.setState({ [stats]: Result });
-        }
-      }
-    }).catch((e) => {
-      catchError(e);
-    });
-  }
-
-  loadBorrows = (forLender = false) => {
-    let api = API.LOAN_LIST;
-    if (forLender) {
-      api = API.LOAN_LIST_FOR_LENDER;
-    }
-    axios.get(api).then((res) => {
-      const { data } = res;
-      const { Result } = data;
-      if (Result && Result.length) {
-        let keyName = 'borrows';
-        if (forLender) {
-          keyName = 'borrowsForLender';
-        }
-        this.setState({ [keyName]: Result });
-      }
-    }).catch((e) => {
-      catchError(e);
-      console.log(e);
-    });
-  }
-
-  clickAction = (borrow, approve = true) => {
-    if (approve) {
-      this.setState({ dialogApprove: true, currentBorrow: borrow });
+  componentDidMount() {
+    let url = this.props.location.search;
+    let params = queryString.parse(url);
+    const { type = 'usd' } = params
+    if (type == 'eth') {
+      this.getETHData()
     } else {
-      this.setState({ dialogDeny: true, currentBorrow: borrow });
+      this.getUSDData()
     }
   }
 
-  action = (approve = true) => {
-    const { currentBorrow } = this.state;
-    const action = approve ? 'a' : 'r';
-    axios.post(`${API.LOAN_ACTION}/${currentBorrow.LoanID}/process?action=${action}`).then(() => {
-      this.loadBorrows();
-      this.loadBorrows(true);
-      this.setState({
-        dialogApprove: false, dialogDeny: false, dialogWithdraw: false, isLoading: false,
-      });
+  getETHData = () => {
+    this.setState({ tab: 1 })
+    axios.get(API.RESERVE_REDEEM_ETH_LIST, null).then((res) => {
+      if (res.status === 200) {
+        if (res.data && res.data.Result) {
+          this.setState({ data: res.data.Result })
+        } else {
+          this.setState({ data: [] })
+        }
+      }
     }).catch((e) => {
-      this.setState({
-        dialogApprove: false, dialogDeny: false, dialogWithdraw: false, isLoading: false,
-      });
+      this.setState({ data: [] })
+      console.log(e);
       catchError(e);
-      toaster.warning('Have a error', e);
     });
   }
 
-  clickWithdraw = (borrow) => {
-    this.setState({ dialogWithdraw: true, currentBorrow: borrow });
-  }
-
-  withdraw = () => {
-    const { currentBorrow, secretKey } = this.state;
-    axios.post(`${API.LOAN_ACTION}/${currentBorrow.LoanID}/withdraw?key=a${secretKey}`).then((res) => {
-      this.loadBorrows();
-      this.loadBorrows(true);
-      const { data } = res;
-      if (data) {
-        const { Error: ResultError, Result } = data;
-        if (ResultError) {
-          const { Code } = ResultError;
-          if (Code && Code < 1) {
-            toaster.warning(ResultError.Message);
-          }
-        }
-        if (Result) {
-          toaster.success('Withdraw success!');
+  getUSDData = () => {
+    this.setState({ tab: 0 })
+    axios.get(API.RESERVE_REDEEM_USD_LIST, null).then((res) => {
+      if (res.status === 200) {
+        if (res.data && res.data.Result) {
+          this.setState({ data: res.data.Result })
+        } else {
+          this.setState({ data: [] })
         }
       }
-      this.setState({
-        dialogApprove: false, dialogDeny: false, dialogWithdraw: false, isLoading: false, secretKey: '',
-      });
     }).catch((e) => {
-      this.setState({
-        dialogApprove: false, dialogDeny: false, dialogWithdraw: false, isLoading: false, secretKey: '',
-      });
+      this.setState({ data: [] })
+      console.log(e);
       catchError(e);
-      toaster.warning('Have a error', e);
     });
   }
 
   render() {
     const {
-      stats, secretKey, isLoading, borrows, borrowsForLender, active, dialogApprove, dialogDeny, dialogWithdraw, currentBorrow, statsAll,
+      auth,
+    } = this.props;
+    const {
+      data,
+      tab,
     } = this.state;
-    const hasStats = !isEmpty(stats);
     return (
       <div className="home-page">
-        <Dialog
-          isShown={dialogApprove}
-          shouldCloseOnOverlayClick={false}
-          shouldCloseOnEscapePress={false}
-          title={`Approve borrow id: ${currentBorrow.LoanID && currentBorrow.LoanID.substr(0, 5)}...`}
-          cancelLabel="Cancel"
-          confirmLabel="Confirm"
-          isConfirmLoading={isLoading}
-          onCloseComplete={() => this.setState({ dialogApprove: false, isLoading: false })}
-          onConfirm={() => { this.setState({ isLoading: true }); this.action(); }}
-        >
-          Confirm your approve.
-        </Dialog>
-        <Dialog
-          isShown={dialogDeny}
-          shouldCloseOnOverlayClick={false}
-          shouldCloseOnEscapePress={false}
-          title={`Deny borrow id: ${currentBorrow.LoanID && currentBorrow.LoanID.substr(0, 5)}...`}
-          intent="danger"
-          cancelLabel="Cancel"
-          confirmLabel="Confirm"
-          isConfirmLoading={isLoading}
-          onCloseComplete={() => this.setState({ dialogDeny: false, isLoading: false })}
-          onConfirm={() => { this.setState({ isLoading: true }); this.action(false); }}
-        >
-          Confirm your deny.
-        </Dialog>
-        <Dialog
-          isShown={dialogWithdraw}
-          shouldCloseOnOverlayClick={false}
-          shouldCloseOnEscapePress={false}
-          title={`Withdraw borrow id: ${currentBorrow.LoanID && currentBorrow.LoanID.substr(0, 5)}...`}
-          cancelLabel="Cancel"
-          confirmLabel="Confirm"
-          isConfirmLoading={isLoading}
-          onCloseComplete={() => this.setState({ dialogWithdraw: false, isLoading: false })}
-          onConfirm={() => { this.setState({ isLoading: true }); this.withdraw(); }}
-        >
-          <div>Please input your backup code you were added when create.</div>
-          <div>
-            <TextInput autoComplete="off" type="password" style={{ display: 'block', margin: '10px 0' }} value={secretKey} onChange={e => this.setState({ secretKey: e.target.value })} />
-          </div>
-        </Dialog>
         <section className="coin-information">
           <div className="container">
             <div className="row">
               <div className="col-12 col-md-6 col-lg-8">
-                {hasStats ? (
-                  <div className="c-card">
-                    <div className="hello">
-                      {'Hello, '}
-                      {stats.Username}
-                    </div>
-                    <div className="row stats-container">
-                      {/* <div className="col-12 col-lg-3 stats">
-                        <div className="value">
-                          {Number(stats.TotalConstantPending).constant().numberFormat().commarize()}
-                          {' '}
-                          <sup>CST</sup>
-                        </div>
-                        <div>Are pending</div>
-                      </div>
-                      <div className="col-12 col-lg-3 stats">
-                        <div className="value">
-                          {Number(stats.TotalConstantApproved).constant().numberFormat().commarize()}
-                          {' '}
-                          <sup>CST</sup>
-                        </div>
-                        <div>Has been approved</div>
-                      </div>
-                      <div className="col-12 col-lg-3 stats">
-                        <div className="value">
-                          {Number(stats.TotalConstantRejected).constant().numberFormat().commarize()}
-                          {' '}
-                          <sup>CST</sup>
-                        </div>
-                        <div>Has been rejected</div>
-                      </div>
-                      <div className="col-12 col-lg-3 stats">
-                        {stats.Collaterals && stats.Collaterals.map(collateral => (
-                          <div key={collateral.Type} className="value">
-                            {Number(collateral.Amount).coinUnitFormat(collateral.Type).numberFormat().commarize()}
-                            {' '}
-                            <sup>{collateral.Type}</sup>
-                          </div>
-                        ))}
-                        <div>Collaterals</div>
-                      </div> */}
-                    </div>
+                <div className="c-card">
+                  <div className="hello">
+                    {`Hello, ${auth.data.Email}`}
                   </div>
-                ) : (
-                  <div className="c-card" />
-                )}
+                  <div className="row stats-container">
+                  </div>
+                </div>
               </div>
               <div className="col-12 col-md-6 col-lg-4">
                 <div className="c-card card-create-a-proposal-container" style={{ backgroundImage: `url(${bgImage})` }}>
@@ -252,181 +100,212 @@ class Redeem extends React.Component {
             </div>
           </div>
         </section>
-        <div className="summary">
-          {/* <div className="container">
-            <div className="row">
-              <div className="col-12 col-lg-3">
-                <div className="c-card">
-                  <img src={Logo} alt="Logo" style={{ float: 'left', marginRight: 15, marginTop: 5 }} />
-                  <div style={{ float: 'left' }}>
-                    <div className="title c-color-blue-1000">Borrows requested</div>
-                    <div className="description">{statsAll.TotalBorrowsRequested}</div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-12 col-lg-3">
-                <div className="c-card">
-                  <img src={Logo} alt="Logo" style={{ float: 'left', marginRight: 15, marginTop: 5 }} />
-                  <div style={{ float: 'left' }}>
-                    <div className="title c-color-blue-1000">Borrows approved</div>
-                    <div className="description">{statsAll.TotalRequestsApproved}</div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-12 col-lg-3">
-                <div className="c-card">
-                  <img src={Logo} alt="Logo" style={{ float: 'left', marginRight: 15, marginTop: 5 }} />
-                  <div style={{ float: 'left' }}>
-                    <div className="title c-color-blue-1000">Constants approved</div>
-                    <div className="description">{statsAll.TotalConstantsApproved}</div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-12 col-lg-3">
-                <div className="c-card">
-                  <img src={Logo} alt="Logo" style={{ float: 'left', marginRight: 15, marginTop: 5 }} />
-                  <div style={{ float: 'left' }}>
-                    <div className="title c-color-blue-1000">Constants withdrawn</div>
-                    <div className="description">{statsAll.TotalConstantsWithdrawn}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> */}
-        </div>
-        {/* <div className="tabs-container">
+        <div className="tabs-container">
           <div className="container">
             <div className="row">
               <div className="col-12">
                 <div className="c-card">
                   <div className="tabs">
-                    <div className={`tab ${active === 0 ? 'active' : ''}`} onClick={() => this.setState({ active: 0 })}>Your redeems</div>
-                    {borrowsForLender.length ? <div className={`tab ${active === 1 ? 'active' : ''}`} onClick={() => this.setState({ active: 1 })}>Lender role</div> : ''}
+                    <div className={`tab ${tab === 0 ? 'active' : ''}`} onClick={() => this.getUSDData()}>USD</div>
+                    <div className={`tab ${tab === 1 ? 'active' : ''}`} onClick={() => this.getETHData()}>ETH</div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div> */}
-        {/* <div className="borrows-container" style={{ display: `${active === 0 ? 'block' : 'none'}` }}>
-          <div className="container">
-            <div className="row">
-              <div className="col-12">
-                <div className="c-card c-card-no-padding">
-                  <table className="c-table-portal-home">
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Amount</th>
-                        <th>Collateral</th>
-                        <th>Interest rate</th>
-                        <th>Start date</th>
-                        <th>End date</th>
-                        <th>Status</th>
-                        <th width="324">Your decision</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {borrows.map(borrow => (
-                        <tr key={borrow.ID}>
-                          <td>
-                            <Link to={`/loan/${borrow.LoanID}`}>
-                              {"0x"}{borrow.LoanID.substr(0, 5)}
-                              ...
-                            </Link>
-                          </td>
-                          <td>
-                            {parseFloat(borrow.LoanAmount / 100).numberFormat()}
-                            {' CST'}
-                          </td>
-                          <td>
-                            {borrow.CollateralAmount.coinUnitFormat(borrow.CollateralType)}
-                            {' '}
-                            {borrow.CollateralType}
-                          </td>
-                          <td>
-                            {(borrow.InterestRate / 100).numberFormat()}
-                            %
-                          </td>
-                          <td>{dayjs(borrow.CreatedAt).format('MM-DD-YYYY')}</td>
-                          <td>{dayjs(borrow.EndDate).format('MM-DD-YYYY')}</td>
-                          <td className={`c-status ${borrow.State}`}>{borrow.State}</td>
-                          <td>
-                            {borrow.State === 'pending' ? 'Waiting for approve from lenders' : ''}
-                            {borrow.State === 'approved' ? (
-                              <button className="c-a-btn" onClick={() => this.clickWithdraw(borrow)} type="button">Withdraw</button>
-                            ) : ''}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
-        <div className="borrows-container" style={{ display: `${active === 1 ? 'block' : 'none'}` }}>
-          <div className="container">
-            <div className="row">
-              <div className="col-12">
-                <div className="c-card c-card-no-padding">
-                  <table className="c-table-portal-home">
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Amount</th>
-                        <th>Collateral</th>
-                        <th>Interest rate</th>
-                        <th>Start date</th>
-                        <th>End date</th>
-                        <th>Status</th>
-                        <th width="324">Your decision</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {borrowsForLender.map(borrow => (
-                        <tr key={borrow.ID}>
-                          <td>
-                            <Link to={`/loan/${borrow.LoanID}`}>
-                              {borrow.LoanID.substr(0, 5)}
-                              ...
-                            </Link>
-                          </td>
-                          <td>
-                            {parseFloat(borrow.LoanAmount / 100).numberFormat()}
-                            {' CST'}
-                          </td>
-                          <td>
-                            {borrow.CollateralAmount.coinUnitFormat(borrow.CollateralType)}
-                            {' '}
-                            {borrow.CollateralType}
-                          </td>
-                          <td>
-                            {(borrow.InterestRate / 100).numberFormat()}
-                            %
-                          </td>
-                          <td>{dayjs(borrow.CreatedAt).format('MM-DD-YYYY')}</td>
-                          <td>{dayjs(borrow.EndDate).format('MM-DD-YYYY')}</td>
-                          <td className={`c-status ${borrow.State}`}>{borrow.State}</td>
-                          {
-                            borrow.State === 'pending'
-                              ? (
-                                <td>
-                                  <button type="button" className="c-a-btn c-a-btn-approve" onClick={() => this.clickAction(borrow)}>Approve</button>
-                                  <button type="button" className="c-a-btn c-a-btn-deny" onClick={() => this.clickAction(borrow, false)}>Deny</button>
-                                </td>
-                              ) : ''
-                          }
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
+        {
+          data && tab == 1 ?
+            (
+              <div className="container">
+                <div className="row">
+                  <div className="col-12">
+                    <div className="c-card c-card-no-padding">
+                      <table className="c-table-portal-home" style={{ width: "100%", tableLayout: "fixed" }}>
+                        <colgroup>
+                          <col style={{ "width": "7%" }} />
+                          <col style={{ "width": "15%" }} />
+                          <col style={{ "width": "9%" }} />
+                          <col style={{ "width": "15%" }} />
+                          <col style={{ "width": "15%" }} />
+                          <col style={{ "width": "9%" }} />
+                          <col style={{ "width": "20%" }} />
+                          <col style={{ "width": "10%" }} />
+                        </colgroup>
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>TX ID</th>
+                            <th>CONST</th>
+                            <th>Ether TX ID</th>
+                            <th>Address</th>
+                            <th>ETH</th>
+                            <th>Created At</th>
+                            <th>Status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {
+                            data.map(r => (
+                              <tr>
+                                <td className="text-truncate">{r.ID}</td>
+                                <td className="text-truncate"><a target={'_blank'} href={r.ConstantTxHash ? `${process.env.explorerUrl}/tx/${r.ConstantTxHash}` : ''}>{r.ConstantTxHash}</a></td>
+                                <td className="text-truncate">{r.ConstantAmount}</td>
+                                <td className="text-truncate"><a target={'_blank'} href={r.EthTxHash ? `${process.env.etherScanUrl}/tx/${r.EthTxHash}` : ''}>{r.EthTxHash}</a></td>
+                                <td className="text-truncate"><a target={'_blank'} href={r.ReceiverAddress ? `${process.env.etherScanUrl}/address/${r.ReceiverAddress}` : ''}>{r.ReceiverAddress}</a></td>
+                                <td className="text-truncate">{r.EthAmount}</td>
+                                <td className="text-truncate">{dayjs(r.CreatedAt).format('MM-DD-YYYY HH:mm:ss')}</td>
+                                <td className={`text-truncate c-status ${
+                                  r.Status == 0 ? 'pending'
+                                    : (r.Status == 1 ? 'pending'
+                                      : (r.Status == 2 ? 'failed'
+                                        : (r.Status == 10 ? 'pending'
+                                          : (r.Status == 11 ? 'finished'
+                                            : (r.Status == 12 ? 'failed'
+                                              : (r.Status == 20 ? 'failed'
+                                                : (r.Status == 21 ? 'failed'
+                                                  : (r.Status == 22 ? 'failed'
+                                                    : ''
+                                                  )
+                                                )
+                                              )
+                                            )
+                                          )
+                                        )
+                                      )
+                                    )
+                                  }`}>{
+                                    r.Status == 0 ? 'Pending'
+                                      : (r.Status == 1 ? 'Pending'
+                                        : (r.Status == 2 ? 'Failed'
+                                          : (r.Status == 10 ? 'Pending'
+                                            : (r.Status == 11 ? 'Finished'
+                                              : (r.Status == 12 ? 'Failed'
+                                                : (r.Status == 20 ? 'Failed'
+                                                  : (r.Status == 21 ? 'Failed'
+                                                    : (r.Status == 22 ? 'Failed'
+                                                      : ''
+                                                    )
+                                                  )
+                                                )
+                                              )
+                                            )
+                                          )
+                                        )
+                                      )
+                                  }
+                                </td>
+                              </tr>
+                            ))
+                          }
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              data && tab == 0 ? (
+                <div className="container">
+                  <div className="row">
+                    <div className="col-12">
+                      <div className="c-card c-card-no-padding">
+                        <table className="c-table-portal-home" style={{ width: "100%", tableLayout: "fixed" }}>
+                          <colgroup>
+                            <col style={{ "width": "7%" }} />
+                            <col style={{ "width": "33%" }} />
+                            <col style={{ "width": "10%" }} />
+                            <col style={{ "width": "10%" }} />
+                            <col style={{ "width": "20%" }} />
+                            <col style={{ "width": "20%" }} />
+                          </colgroup>
+                          <thead>
+                            <tr>
+                              <th>ID</th>
+                              <th>TX ID</th>
+                              <th>CONST</th>
+                              <th>Fee</th>
+                              <th>Created At</th>
+                              <th>Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {
+                              data.map(r => (
+                                <tr>
+                                  <td className="text-truncate">{r.ID}</td>
+                                  <td className="text-truncate"><a target={'_blank'} href={r.TxHash ? `${process.env.explorerUrl}/tx/${r.TxHash}` : ''}>{r.TxHash}</a></td>
+                                  <td className="text-truncate">{r.Amount}</td>
+                                  <td className="text-truncate">{r.Fee}</td>
+                                  <td className="text-truncate">{dayjs(r.CreatedAt).format('MM-DD-YYYY HH:mm:ss')}</td>
+                                  <td className={`text-truncate c-status ${
+                                    r.Status == 0 ? 'pending'
+                                      : (r.Status == 1 ? 'pending'
+                                        : (r.Status == 2 ? 'pending'
+                                          : (r.Status == 3 ? 'pending'
+                                            : (r.Status == 4 ? 'pending'
+                                              : (r.Status == 5 ? 'pending'
+                                                : (r.Status == 6 ? 'pending'
+                                                  : (r.Status == 7 ? 'failed'
+                                                    : (r.Status == 8 ? 'finished'
+                                                      : (r.Status == 9 ? 'pending'
+                                                        : (r.Status == 10 ? 'pending'
+                                                          : (r.Status == 11 ? 'pending'
+                                                            : (r.Status == 12 ? 'pending'
+                                                              : ''
+                                                            )
+                                                          )
+                                                        )
+                                                      )
+                                                    )
+                                                  )
+                                                )
+                                              )
+                                            )
+                                          )
+                                        )
+                                      )
+                                    }`}>{
+                                      r.Status == 0 ? 'Pending'
+                                        : (r.Status == 1 ? 'Purchasing'
+                                          : (r.Status == 2 ? 'Coin Minting'
+                                            : (r.Status == 3 ? 'Coin Burning'
+                                              : (r.Status == 4 ? 'Coin Burned'
+                                                : (r.Status == 5 ? 'Transfering'
+                                                  : (r.Status == 6 ? 'Redeeming'
+                                                    : (r.Status == 7 ? 'Cancelled'
+                                                      : (r.Status == 8 ? 'Done'
+                                                        : (r.Status == 9 ? 'Holding'
+                                                          : (r.Status == 10 ? 'Coin Burning Failed'
+                                                            : (r.Status == 11 ? 'Coin Minting Failed'
+                                                              : (r.Status == 12 ? 'Transfering Failed'
+                                                                : ''
+                                                              )
+                                                            )
+                                                          )
+                                                        )
+                                                      )
+                                                    )
+                                                  )
+                                                )
+                                              )
+                                            )
+                                          )
+                                        )
+                                    }
+                                  </td>
+                                </tr>
+                              ))
+                            }
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : null
+            )
+        }
       </div>
     );
   }
