@@ -18,7 +18,7 @@ const API = {
   USER_DATA: 'auth/profile',
   RESERVE_REDEEM_ETH_LIST: 'reserves/redeem-eth',
   RESERVE_REDEEM_ETH_CREATE: 'reserves/redeem-eth',
-  RESERVE_REDEEM_USD_LIST: 'reserves/redeem-usd',
+  RESERVE_REDEEM_USD_LIST: 'reserves/usd?type=1&buying_asset=1',
   RESERVE_REDEEM_USD_CREATE: 'reserves/redeem-usd',
   RESERVE_CONVERT_CST_TO_ETH: 'reserves/convert-cst-to-eth',
 };
