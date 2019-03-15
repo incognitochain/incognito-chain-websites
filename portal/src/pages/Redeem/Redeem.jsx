@@ -7,6 +7,7 @@ import bgImage from '@/assets/create-a-proposal.svg';
 import { axios, catchError } from '@/services/api';
 import { API } from '@/constants';
 import queryString from 'query-string';
+import dayjs from 'dayjs';
 
 class Redeem extends React.Component {
   static propTypes = {
@@ -153,7 +154,7 @@ class Redeem extends React.Component {
                                 <td className="text-truncate"><a target={'_blank'} href={r.EthTxHash ? `${process.env.etherScanUrl}/tx/${r.EthTxHash}` : ''}>{r.EthTxHash}</a></td>
                                 <td className="text-truncate"><a target={'_blank'} href={r.ReceiverAddress ? `${process.env.etherScanUrl}/address/${r.ReceiverAddress}` : ''}>{r.ReceiverAddress}</a></td>
                                 <td className="text-truncate">{r.EthAmount}</td>
-                                <td className="text-truncate">{r.CreatedAt ? r.CreatedAt.replace(/T/, ' ').replace(/Z/, '') : ''}</td>
+                                <td className="text-truncate">{dayjs(r.CreatedAt).format('MM-DD-YYYY HH:mm:ss')}</td>
                                 <td className="text-truncate">{
                                   r.Status == 0 ? 'Pending'
                                     : (r.Status == 1 ? 'Pending'
@@ -217,7 +218,7 @@ class Redeem extends React.Component {
                                   <td className="text-truncate"><a target={'_blank'} href={r.TxHash ? `${process.env.explorerUrl}/tx/${r.TxHash}` : ''}>{r.TxHash}</a></td>
                                   <td className="text-truncate">{r.Amount}</td>
                                   <td className="text-truncate">{r.Fee}</td>
-                                  <td className="text-truncate">{r.CreatedAt ? r.CreatedAt.replace(/T/, ' ').replace(/Z/, '') : ''}</td>
+                                  <td className="text-truncate">{dayjs(r.CreatedAt).format('MM-DD-YYYY HH:mm:ss')}</td>
                                   <td className="text-truncate">{
                                     r.Status == 0 ? 'Pending'
                                       : (r.Status == 1 ? 'Purchasing'
