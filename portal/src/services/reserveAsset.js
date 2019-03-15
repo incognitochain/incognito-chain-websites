@@ -57,3 +57,9 @@ export async function buyTokenByEthereum(amount) {
   const result = await callAPIService({data, method: "POST", url:"/reserves/raise-eth-to-dcb-token"});
   return result;
 }
+
+export async function getHistory(assetType=0, perPage=10, page=1, type = 0) {
+  let url = `/reserves/usd?type=${type}&buying_asset=${assetType}&limit=${perPage}&type=${type}`;
+  const result = await callAPIService({data: {}, method: "GET", url});
+  return result;
+}
