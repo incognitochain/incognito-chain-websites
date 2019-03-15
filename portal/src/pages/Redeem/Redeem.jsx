@@ -148,7 +148,7 @@ class Redeem extends React.Component {
                             data.map(r => (
                               <tr>
                                 <td className="text-truncate">{r.ID}</td>
-                                <td className="text-truncate"><a target={'_blank'} href={r.ConstantTxID ? `${process.env.explorerUrl}/tx/${r.ConstantTxID}` : ''}>{r.ConstantTxID}</a></td>
+                                <td className="text-truncate"><a target={'_blank'} href={r.ConstantTxHash ? `${process.env.explorerUrl}/tx/${r.ConstantTxHash}` : ''}>{r.ConstantTxHash}</a></td>
                                 <td className="text-truncate">{r.ConstantAmount}</td>
                                 <td className="text-truncate"><a target={'_blank'} href={r.EthTxHash ? `${process.env.etherScanUrl}/tx/${r.EthTxHash}` : ''}>{r.EthTxHash}</a></td>
                                 <td className="text-truncate"><a target={'_blank'} href={r.ReceiverAddress ? `${process.env.etherScanUrl}/address/${r.ReceiverAddress}` : ''}>{r.ReceiverAddress}</a></td>
