@@ -155,16 +155,16 @@ class Redeem extends React.Component {
                                 <td className="text-truncate"><a target={'_blank'} href={r.ReceiverAddress ? `${process.env.etherScanUrl}/address/${r.ReceiverAddress}` : ''}>{r.ReceiverAddress}</a></td>
                                 <td className="text-truncate">{r.EthAmount}</td>
                                 <td className="text-truncate">{dayjs(r.CreatedAt).format('MM-DD-YYYY HH:mm:ss')}</td>
-                                <td className="text-truncate">{
-                                  r.Status == 0 ? 'Pending'
-                                    : (r.Status == 1 ? 'Pending'
-                                      : (r.Status == 2 ? 'Failed'
-                                        : (r.Status == 10 ? 'Pending'
-                                          : (r.Status == 11 ? 'Finished'
-                                            : (r.Status == 12 ? 'Failed'
-                                              : (r.Status == 20 ? 'Failed'
-                                                : (r.Status == 21 ? 'Failed'
-                                                  : (r.Status == 22 ? 'Failed'
+                                <td className={`text-truncate c-status ${
+                                  r.Status == 0 ? 'pending'
+                                    : (r.Status == 1 ? 'pending'
+                                      : (r.Status == 2 ? 'failed'
+                                        : (r.Status == 10 ? 'pending'
+                                          : (r.Status == 11 ? 'finished'
+                                            : (r.Status == 12 ? 'failed'
+                                              : (r.Status == 20 ? 'failed'
+                                                : (r.Status == 21 ? 'failed'
+                                                  : (r.Status == 22 ? 'failed'
                                                     : ''
                                                   )
                                                 )
@@ -174,7 +174,26 @@ class Redeem extends React.Component {
                                         )
                                       )
                                     )
-                                }
+                                  }`}>{
+                                    r.Status == 0 ? 'Pending'
+                                      : (r.Status == 1 ? 'Pending'
+                                        : (r.Status == 2 ? 'Failed'
+                                          : (r.Status == 10 ? 'Pending'
+                                            : (r.Status == 11 ? 'Finished'
+                                              : (r.Status == 12 ? 'Failed'
+                                                : (r.Status == 20 ? 'Failed'
+                                                  : (r.Status == 21 ? 'Failed'
+                                                    : (r.Status == 22 ? 'Failed'
+                                                      : ''
+                                                    )
+                                                  )
+                                                )
+                                              )
+                                            )
+                                          )
+                                        )
+                                      )
+                                  }
                                 </td>
                               </tr>
                             ))
@@ -219,20 +238,20 @@ class Redeem extends React.Component {
                                   <td className="text-truncate">{r.Amount}</td>
                                   <td className="text-truncate">{r.Fee}</td>
                                   <td className="text-truncate">{dayjs(r.CreatedAt).format('MM-DD-YYYY HH:mm:ss')}</td>
-                                  <td className="text-truncate">{
-                                    r.Status == 0 ? 'Pending'
-                                      : (r.Status == 1 ? 'Purchasing'
-                                        : (r.Status == 2 ? 'Coin Minting'
-                                          : (r.Status == 3 ? 'Coin Burning'
-                                            : (r.Status == 4 ? 'Coin Burned'
-                                              : (r.Status == 5 ? 'Transfering'
-                                                : (r.Status == 6 ? 'Redeeming'
-                                                  : (r.Status == 7 ? 'Cancelled'
-                                                    : (r.Status == 8 ? 'Done'
-                                                      : (r.Status == 9 ? 'Holding'
-                                                        : (r.Status == 10 ? 'Coin Burning Failed'
-                                                          : (r.Status == 11 ? 'Coin Minting Failed'
-                                                            : (r.Status == 12 ? 'Transfering Failed'
+                                  <td className={`text-truncate c-status ${
+                                    r.Status == 0 ? 'pending'
+                                      : (r.Status == 1 ? 'pending'
+                                        : (r.Status == 2 ? 'pending'
+                                          : (r.Status == 3 ? 'pending'
+                                            : (r.Status == 4 ? 'pending'
+                                              : (r.Status == 5 ? 'pending'
+                                                : (r.Status == 6 ? 'pending'
+                                                  : (r.Status == 7 ? 'failed'
+                                                    : (r.Status == 8 ? 'finished'
+                                                      : (r.Status == 9 ? 'pending'
+                                                        : (r.Status == 10 ? 'pending'
+                                                          : (r.Status == 11 ? 'pending'
+                                                            : (r.Status == 12 ? 'pending'
                                                               : ''
                                                             )
                                                           )
@@ -246,7 +265,34 @@ class Redeem extends React.Component {
                                           )
                                         )
                                       )
-                                  }
+                                    }`}>{
+                                      r.Status == 0 ? 'Pending'
+                                        : (r.Status == 1 ? 'Purchasing'
+                                          : (r.Status == 2 ? 'Coin Minting'
+                                            : (r.Status == 3 ? 'Coin Burning'
+                                              : (r.Status == 4 ? 'Coin Burned'
+                                                : (r.Status == 5 ? 'Transfering'
+                                                  : (r.Status == 6 ? 'Redeeming'
+                                                    : (r.Status == 7 ? 'Cancelled'
+                                                      : (r.Status == 8 ? 'Done'
+                                                        : (r.Status == 9 ? 'Holding'
+                                                          : (r.Status == 10 ? 'Coin Burning Failed'
+                                                            : (r.Status == 11 ? 'Coin Minting Failed'
+                                                              : (r.Status == 12 ? 'Transfering Failed'
+                                                                : ''
+                                                              )
+                                                            )
+                                                          )
+                                                        )
+                                                      )
+                                                    )
+                                                  )
+                                                )
+                                              )
+                                            )
+                                          )
+                                        )
+                                    }
                                   </td>
                                 </tr>
                               ))
