@@ -139,7 +139,7 @@ class Redeem extends React.Component {
                             <th>Ether TX ID</th>
                             <th>Address</th>
                             <th>ETH</th>
-                            <th>Date Created</th>
+                            <th>Created At</th>
                             <th>Status</th>
                           </tr>
                         </thead>
@@ -205,7 +205,7 @@ class Redeem extends React.Component {
                               <th>TX ID</th>
                               <th>CONST</th>
                               <th>Fee</th>
-                              <th>Date Created</th>
+                              <th>Created At</th>
                               <th>Status</th>
                             </tr>
                           </thead>
