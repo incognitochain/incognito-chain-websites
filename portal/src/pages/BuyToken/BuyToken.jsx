@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { detect } from 'detect-browser';
+import dayjs from 'dayjs';
 
 import {
   TextField,
@@ -8,7 +9,7 @@ import {
   RadioGroup,
   FormControlLabel,
   FormControl,
-  Button,
+  // Button,
   CircularProgress,
   Dialog,
   DialogContent,
@@ -18,20 +19,27 @@ import {
 // import { detectInstalled, requestUnlockMetamask, init } from '@/reducers/metamask/action';
 import Web3js from 'web3';
 
-import abiDefinition from './abiDefinition';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faEthereum } from '@fortawesome/free-brands-svg-icons';
+import { faSpinnerThird, faUsdCircle, faUsdSquare } from '@fortawesome/pro-light-svg-icons';
 // import Link from '@/components/Link';
 // import Logo from '@/assets/logo.svg';
 import bgImage from '@/assets/create-a-proposal.svg';
+import abiDefinition from './abiDefinition';
 
 import {BUYING_ASSET} from '../../constants';
-import { buyAsset, buyTokenByEthereum } from "../../services/reserveAsset";
+import { buyAsset, buyTokenByEthereum, getHistory } from "../../services/reserveAsset";
 
 const BUYING_OBJECT = {
   USD: "usd",
   ETH: "eth",
 }
+
+const collaterals = [
+  { name: 'USD', icon: faUsdCircle, value: "usd" },
+  { name: 'ETH', icon: faEthereum, value: "eth" },
+];
 
 const isMetamaskInstalled = typeof web3 !== 'undefined' && web3.currentProvider.isMetaMask;
 
@@ -64,10 +72,18 @@ class BuyToken extends React.Component {
       openDialog: false,
       openMetamaskDialog,
       resultMessage: "",
+      history: [],
+      page:1,
+      perPage: 10,
+      asset: collaterals[0],
     };
+  }
+  componentDidMount() {
+    this.onGetHistory();
   }
 
   onAssetChange = (asset) => {
+    // console.log(asset);
       this.setState({
         asset,
       });
@@ -79,7 +95,7 @@ class BuyToken extends React.Component {
   }
 
   onSubmit = async () => {
-    const {asset, amount} = this.state;
+    const {asset={}, amount} = this.state;
     const {auth={}} = this.props;
     const {data={}} = auth;
     const {PaymentAddress} = data;
@@ -91,7 +107,7 @@ class BuyToken extends React.Component {
 
     let resultMessage = "Get TOKEN Successful";
     this.setState({isSummitting: true});
-    if (asset === BUYING_OBJECT.USD) {
+    if (asset.value === BUYING_OBJECT.USD) {
       const result = await buyAsset(BUYING_ASSET.DCB_TOKEN, amount*100);
       const {error=""} = result;
       // console.log(result);
@@ -99,7 +115,7 @@ class BuyToken extends React.Component {
         resultMessage = error;
       }
       this.setState({resultMessage, openDialog: true})
-    } else if (asset === BUYING_OBJECT.ETH) {
+    } else if (asset.value === BUYING_OBJECT.ETH) {
       if (!isMetamaskInstalled) {
         this.setState({openMetamaskDialog: true, isSummitting: false});
         return;
@@ -174,6 +190,18 @@ class BuyToken extends React.Component {
     }
   }
 
+  onGetHistory = async () => {
+    const {page, perPage} = this.state;
+    const res = await getHistory(BUYING_ASSET.DCB_TOKEN, perPage, page);
+    // console.log(res)
+    const {result = [], error=""} = res;
+    if (error) {
+      console.log("get history error", error);
+      return;
+    }
+    this.setState({ history: result });
+  }
+
   linkMetamask = () => {
     const browser = detect();
     switch (browser && browser.name) {
@@ -187,37 +215,48 @@ class BuyToken extends React.Component {
   }
 
   render = () => {
-    const {asset = "", amount = "", isSummitting, openDialog, openMetamaskDialog } = this.state;
+    const {asset = {}, amount = "", isSummitting, openDialog, openMetamaskDialog, history = [] } = this.state;
     const disableSubmitBtn = (asset === "" || isSummitting);
     return (
-      <div className="buytoken-page">
+      <div className="home-page">
+        <section >
         <div className="container">
-          <h5>Reserve Assets</h5>
           <div className="row">
             <div className="col-12 col-md-6 col-lg-8">
               <div className="c-card">
+                  <div className="col-12 col-md-6 col-lg-4">
+                    <div className="title">CHOOSE YOUR OPTION</div>
+                    <div className="input" style={{ display:"flex", justifyContent:"space-around", paddingTop:5, paddingBottom:5 }}>
+                      {collaterals.map(collateral => (
+                        <div
+                          key={collateral.name}
+                          className={`collateral-option ${asset.name === collateral.name ? 'active' : ''}`}
+                          onClick={() => this.onAssetChange(collateral)}
+                          style={{
+                            cursor: "pointer",
+                            height: 70,
+                            width: 70,
+                            backgroundColor: asset.name === collateral.name ? '#FFFFFF' : "#FAFAFA" ,
+                            display: "flex",
+                            border: "1px solid #E4E7F2",
+                            borderRadius: 4,
+                            justifyContent: "center",
+                            alignItems:"center",
+                          }}
+                        >
+                          <FontAwesomeIcon icon={collateral.icon} size="2x" />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
                 <FormControl component="fieldset" style={{width: "100%"}} >
-                  <RadioGroup
-                    aria-label="Gender"
-                    name="gender1"
-                    // className={classes.group}
-                    value={asset}
-                    onChange={(e)=>this.onAssetChange(e.target.value)}
-                    style={{display: 'flex', flexDirection: 'row'}}
-                  >
-                    <FormControlLabel value={BUYING_OBJECT.USD} control={<Radio />} label="USD" />
-                    <FormControlLabel
-                      control={<Radio />}
-                      label="ETH"
-                      value={BUYING_OBJECT.ETH}
-                    />
-                  </RadioGroup>
 
                   <TextField
                     id="standard-full-width"
-                    // label="Label"
+                    label="Amount"
                     type="number"
-                    style={{ margin: 8 }}
+                    // style={{ margin: 8 }}
                     placeholder="Amount"
                     fullWidth
                     margin="normal"
@@ -234,16 +273,17 @@ class BuyToken extends React.Component {
                         <CircularProgress style={{width: "auto", height:"auto"}} />
                       </div>
                     :
-                      <Button variant="contained" style={{width: "100%"}} onClick={this.onSubmit} disabled={disableSubmitBtn}>
+                      <button className="c-btn c-btn-primary submit"  style={{width: "100%"}} onClick={this.onSubmit} disabled={disableSubmitBtn}>
                         Get DCB Token
-                      </Button>
+                        &nbsp;<FontAwesomeIcon icon={faArrowRight} />
+                      </button>
                   }
 
                 </FormControl>
               </div>
             </div>
             <div className="col-12 col-md-6 col-lg-4">
-              <div className="c-card card-create-a-proposal-container" style={{ backgroundImage: `url(${bgImage})`, minHeight: 150 }}>
+              <div className="c-card card-create-a-proposal-container" style={{ backgroundImage: `url(${bgImage})`, minHeight: 225, backgroundSize: "100%" }}>
               </div>
             </div>
           </div>
@@ -275,9 +315,64 @@ class BuyToken extends React.Component {
             </DialogContentText>
           </DialogContent>
         </Dialog>
+
+        </section>
+
+        <div className="borrows-container" style={{ display: 'block' }}>
+        <div className="container">
+          <div className="row">
+            <div className="col-12">
+              <div className="c-card c-card-no-padding">
+                <table className="c-table-portal-home">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Amount</th>
+                      <th>Status</th>
+                      <th>Created At</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      {
+                        history.map((item={}) => {
+                          return (
+                            <tr key={`history-${item.ID}`} >
+                              <td>{item.ID}</td>
+                              <td>{item.Amount}</td>
+                              <td>{item.Status}</td>
+                              <td>{dayjs(item.CreatedAt).format('MM-DD-YYYY')}</td>
+                            </tr>
+                          )
+                        })
+                      }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
       </div>
     );
   }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(BuyToken);
+
+// <RadioGroup
+//   aria-label="Gender"
+//   name="gender1"
+//   // className={classes.group}
+//   value={asset}
+//   onChange={(e)=>this.onAssetChange(e.target.value)}
+//   style={{display: 'flex', flexDirection: 'row'}}
+// >
+//   <FormControlLabel value={BUYING_OBJECT.USD} control={<Radio />} label="USD" />
+//   <FormControlLabel
+//     control={<Radio />}
+//     label="ETH"
+//     value={BUYING_OBJECT.ETH}
+//   />
+// </RadioGroup>
