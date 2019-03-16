@@ -69,7 +69,7 @@ class Redeem extends React.Component {
   }
 
   getSummaryData = () => {
-    axios.get(API.RESERVE_REDEEM_SUMMARY, null).then((res) => {
+    axios.get(API.RESERVE_REDEEM_STATS, null).then((res) => {
       if (res.status === 200) {
         if (res.data && res.data.Result) {
           this.setState({ summary: res.data.Result })
