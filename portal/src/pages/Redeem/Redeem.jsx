@@ -209,10 +209,10 @@ class Redeem extends React.Component {
                                 <td className="text-truncate">{r.EthAmount}</td>
                                 <td className="text-truncate">{dayjs(r.CreatedAt).format('MM-DD-YYYY HH:mm:ss')}</td>
                                 <td className={`text-truncate c-status ${
-                                  r.Status == 0 ? 'pending'
-                                    : (r.Status == 1 ? 'pending'
+                                  r.Status == 0 ? 'processing'
+                                    : (r.Status == 1 ? 'processing'
                                       : (r.Status == 2 ? 'failed'
-                                        : (r.Status == 10 ? 'pending'
+                                        : (r.Status == 10 ? 'processing'
                                           : (r.Status == 11 ? 'finished'
                                             : (r.Status == 12 ? 'failed'
                                               : (r.Status == 20 ? 'failed'
@@ -228,10 +228,10 @@ class Redeem extends React.Component {
                                       )
                                     )
                                   }`}>{
-                                    r.Status == 0 ? 'Pending'
-                                      : (r.Status == 1 ? 'Pending'
+                                    r.Status == 0 ? 'Processing'
+                                      : (r.Status == 1 ? 'Processing'
                                         : (r.Status == 2 ? 'Failed'
-                                          : (r.Status == 10 ? 'Pending'
+                                          : (r.Status == 10 ? 'Processing'
                                             : (r.Status == 11 ? 'Finished'
                                               : (r.Status == 12 ? 'Failed'
                                                 : (r.Status == 20 ? 'Failed'
@@ -291,19 +291,20 @@ class Redeem extends React.Component {
                                   <td className="text-truncate">{r.ID}</td>
                                   <td className="text-truncate"><a target={'_blank'} href={r.TxHash ? `${process.env.explorerUrl}/tx/${r.TxHash}` : ''}>{r.TxHash}</a></td>
                                   <td className="text-truncate">{r.Amount}</td>
+                                  <td className="text-truncate">{r.Amount}</td>
                                   <td className="text-truncate">{r.Fee}</td>
                                   <td className="text-truncate">{dayjs(r.CreatedAt).format('MM-DD-YYYY HH:mm:ss')}</td>
                                   <td className={`text-truncate c-status ${
-                                    r.Status == 0 ? 'pending'
-                                      : (r.Status == 1 ? 'pending'
-                                        : (r.Status == 2 ? 'pending'
-                                          : (r.Status == 3 ? 'pending'
-                                            : (r.Status == 4 ? 'pending'
-                                              : (r.Status == 5 ? 'pending'
-                                                : (r.Status == 6 ? 'pending'
+                                    r.Status == 0 ? 'processing'
+                                      : (r.Status == 1 ? 'processing'
+                                        : (r.Status == 2 ? 'processing'
+                                          : (r.Status == 3 ? 'processing'
+                                            : (r.Status == 4 ? 'processing'
+                                              : (r.Status == 5 ? 'processing'
+                                                : (r.Status == 6 ? 'processing'
                                                   : (r.Status == 7 ? 'failed'
                                                     : (r.Status == 8 ? 'finished'
-                                                      : (r.Status == 9 ? 'pending'
+                                                      : (r.Status == 9 ? 'processing'
                                                         : (r.Status == 10 ? 'failed'
                                                           : (r.Status == 11 ? 'failed'
                                                             : (r.Status == 12 ? 'failed'
