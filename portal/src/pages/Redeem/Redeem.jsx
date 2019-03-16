@@ -18,10 +18,12 @@ class Redeem extends React.Component {
     super(props);
     this.state = {
       data: null,
+      summary: {},
     };
   }
 
   componentDidMount() {
+    this.getSummaryData()
     let url = this.props.location.search;
     let params = queryString.parse(url);
     const { type = 'usd' } = params
@@ -66,6 +68,22 @@ class Redeem extends React.Component {
     });
   }
 
+  getSummaryData = () => {
+    axios.get(API.RESERVE_REDEEM_SUMMARY, null).then((res) => {
+      if (res.status === 200) {
+        if (res.data && res.data.Result) {
+          this.setState({ summary: res.data.Result })
+        } else {
+          this.setState({ summary: {} })
+        }
+      }
+    }).catch((e) => {
+      this.setState({ summary: {} })
+      console.log(e);
+      catchError(e);
+    });
+  }
+
   render() {
     const {
       auth,
@@ -73,6 +91,7 @@ class Redeem extends React.Component {
     const {
       data,
       tab,
+      summary,
     } = this.state;
     return (
       <div className="home-page">
@@ -82,7 +101,41 @@ class Redeem extends React.Component {
               <div className="col-12 col-md-6 col-lg-8">
                 <div className="c-card">
                   <div className="hello">
-                    {`Hello, ${auth.data.Email}`}
+                    {`Hello, ${auth.data.UserName}`}
+                  </div>
+                  <div className="row stats-container">
+                    <div className="col-12 col-lg-3 stats">
+                      <div className="value">
+                        {summary.UsdFinished}
+                        {' '}
+                        <sup>USD</sup>
+                      </div>
+                      <div>Finished</div>
+                    </div>
+                    <div className="col-12 col-lg-3 stats">
+                      <div className="value">
+                        {summary.UsdFailed}
+                        {' '}
+                        <sup>USD</sup>
+                      </div>
+                      <div>Failed</div>
+                    </div>
+                    <div className="col-12 col-lg-3 stats">
+                      <div className="value">
+                        {summary.EthFinished}
+                        {' '}
+                        <sup>ETH</sup>
+                      </div>
+                      <div>Finished</div>
+                    </div>
+                    <div className="col-12 col-lg-3 stats">
+                      <div className="value">
+                        {summary.EthFailed}
+                        {' '}
+                        <sup>ETH</sup>
+                      </div>
+                      <div>Failed</div>
+                    </div>
                   </div>
                   <div className="row stats-container">
                   </div>
@@ -213,7 +266,8 @@ class Redeem extends React.Component {
                         <table className="c-table-portal-home" style={{ width: "100%", tableLayout: "fixed" }}>
                           <colgroup>
                             <col style={{ "width": "7%" }} />
-                            <col style={{ "width": "33%" }} />
+                            <col style={{ "width": "23%" }} />
+                            <col style={{ "width": "10%" }} />
                             <col style={{ "width": "10%" }} />
                             <col style={{ "width": "10%" }} />
                             <col style={{ "width": "20%" }} />
@@ -224,6 +278,7 @@ class Redeem extends React.Component {
                               <th>ID</th>
                               <th>TX ID</th>
                               <th>CONST</th>
+                              <th>USD</th>
                               <th>Fee</th>
                               <th>Created At</th>
                               <th>Status</th>
@@ -249,9 +304,9 @@ class Redeem extends React.Component {
                                                   : (r.Status == 7 ? 'failed'
                                                     : (r.Status == 8 ? 'finished'
                                                       : (r.Status == 9 ? 'pending'
-                                                        : (r.Status == 10 ? 'pending'
-                                                          : (r.Status == 11 ? 'pending'
-                                                            : (r.Status == 12 ? 'pending'
+                                                        : (r.Status == 10 ? 'failed'
+                                                          : (r.Status == 11 ? 'failed'
+                                                            : (r.Status == 12 ? 'failed'
                                                               : ''
                                                             )
                                                           )
