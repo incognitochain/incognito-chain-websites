@@ -28,7 +28,7 @@ import { faAngleRight, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import Link from '@/components/Link';
 
 import {BUYING_ASSET, RESERVE_HISTORY_STATUS_COLOR} from '../../constants';
-import { buyAsset, getHistory } from "../../services/reserveAsset";
+import { buyAsset, getHistory, getPurchaseUSDStatistic } from "../../services/reserveAsset";
 
 class BuyToken extends React.Component {
   constructor(props) {
@@ -40,10 +40,12 @@ class BuyToken extends React.Component {
       history: [],
       page:1,
       perPage: 10,
+      purchaseStats: {},
     };
   }
   componentDidMount() {
     this.onGetHistory();
+    this.onGetStats();
   }
 
   onAmountChange = (amount) => {
@@ -86,6 +88,17 @@ class BuyToken extends React.Component {
     this.setState({ history: result });
   }
 
+  onGetStats = async () => {
+    const res = await getPurchaseUSDStatistic();
+    // console.log(res)
+    const {result = {}, error=""} = res;
+    if (error) {
+      console.log("get stats error", error);
+      return;
+    }
+    this.setState({ purchaseStats: result });
+  }
+
   // onChangeRowsPerPage = (perPage) => {
   //   // console.log(perPage)
   //   const {page} = this.state;
@@ -103,8 +116,8 @@ class BuyToken extends React.Component {
   // }
 
   render = () => {
-    const {amount = "", isSummitting, openDialog, history = [], page, perPage} = this.state;
-
+    const {amount = "", isSummitting, openDialog, history = [], page, perPage, purchaseStats = {} } = this.state;
+    const {TotalReservesSuccess = {}, TotalReservesFailed = {}, TotalAmountSuccess = {}, TotalAmountFailed = {}} = purchaseStats;
     return (
       <div className="home-page">
       <section >
@@ -116,30 +129,63 @@ class BuyToken extends React.Component {
                   Buy Constant
                 </div>
                 <div className="row stats-container" style={{display: "flex", justifyContent: "center"}}>
+
                   <div className="col-12 col-lg-3 stats">
                     <div className="value">
-                      {0}
+                      { TotalReservesSuccess.usd || 0}
                       &nbsp;
-                      <sup>Reserve</sup>
+                      <sup>USD</sup>
                     </div>
-                    <div>Success</div>
+                    <div className="value">
+                      {TotalReservesSuccess.eth || 0}
+                      &nbsp;
+                      <sup>ETH</sup>
+                    </div>
+                    <div>Reserve Success</div>
                   </div>
+
                   <div className="col-12 col-lg-3 stats">
                     <div className="value">
-                      {0}
+                      { TotalReservesFailed.usd || 0}
                       &nbsp;
-                      <sup>Reserve</sup>
+                      <sup>USD</sup>
                     </div>
-                    <div>Failed</div>
+                    <div className="value">
+                      { TotalReservesFailed.eth || 0}
+                      &nbsp;
+                      <sup>ETH</sup>
+                    </div>
+                    <div>Reserve Failed</div>
                   </div>
+
                   <div className="col-12 col-lg-3 stats">
                     <div className="value">
-                      {0}
+                      { TotalAmountSuccess.usd || 0}
                       &nbsp;
-                      <sup>Reserve</sup>
+                      <sup>USD</sup>
                     </div>
-                    <div>Processing</div>
+                    <div className="value">
+                      {TotalAmountSuccess.eth || 0}
+                      &nbsp;
+                      <sup>ETH</sup>
+                    </div>
+                    <div>Total Amount Success</div>
                   </div>
+
+                  <div className="col-12 col-lg-3 stats">
+                    <div className="value">
+                      { TotalAmountFailed.usd || 0}
+                      &nbsp;
+                      <sup>USD</sup>
+                    </div>
+                    <div className="value">
+                      { TotalAmountFailed.eth || 0}
+                      &nbsp;
+                      <sup>ETH</sup>
+                    </div>
+                    <div>Total Amount Failed</div>
+                  </div>
+
                 </div>
               </div>
 

@@ -64,8 +64,13 @@ export async function getHistory(assetType=0, perPage=10, page=1, type = 0) {
   return result;
 }
 
-export async function getReserveStatistic() {
-  let url = `/reserves/all_stats`;
+export async function getPurchaseStatistic() {
+  let url = `/reserves/purchase-stats`;
+  const result = await callAPIService({data: {}, method: "GET", url});
+  return result;
+}
+export async function getPurchaseUSDStatistic() {
+  let url = `/reserves/purchase-usd-stats`;
   const result = await callAPIService({data: {}, method: "GET", url});
   return result;
 }
