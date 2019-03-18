@@ -302,10 +302,13 @@ class BuyToken extends React.Component {
                     id="amount"
                     // label="Amount"
                     type="number"
-                    // style={{ margin: 8 }}
+                    // style={{ marginTop: 8 }}
                     // placeholder="Amount"
                     fullWidth
                     margin="normal"
+                    InputProps={{
+                      style: {marginTop: 10, marginBottom: 10},
+                    }}
                     // InputLabelProps={{
                     //   shrink: true,
                     // }}

@@ -78,7 +78,6 @@ class BuyToken extends React.Component {
   onGetHistory = async () => {
     const {page, perPage} = this.state;
     const res = await getHistory(BUYING_ASSET.CONSTANT, perPage, page);
-    console.log(res)
     const {result = [], error=""} = res;
     if (error) {
       console.log("get history error", error);
@@ -159,6 +158,7 @@ class BuyToken extends React.Component {
                     InputProps={{
                       startAdornment: <InputAdornment position="start">$</InputAdornment>,
                       endAdornment: <InputAdornment position="end">USD</InputAdornment>,
+                      style: {marginTop: 10, marginBottom: 10},
                     }}
                     onChange={(e)=>this.onAmountChange(e.target.value)}
                     value={amount}
