@@ -49,6 +49,10 @@ class Redeem extends React.Component {
   }
 
   getETHData = (page = 1, limit = 10) => {
+    const { tabIndex } = this.state
+    if (tabIndex != 1) {
+      this.setState({ data: [] })
+    }
     this.setState({ tabIndex: 1, page: page, limit: limit })
     axios.get(`${API.RESERVE_REDEEM_ETH_LIST}?page=${page}&limit=${limit}`, null).then((res) => {
       if (res.status === 200) {
@@ -66,6 +70,10 @@ class Redeem extends React.Component {
   }
 
   getUSDData = (page = 1, limit = 10) => {
+    const { tabIndex } = this.state
+    if (tabIndex != 0) {
+      this.setState({ data: [] })
+    }
     this.setState({ tabIndex: 0, page: page, limit: limit })
     axios.get(`${API.RESERVE_USD_LIST}?type=1&buying_asset=1&page=${page}&limit=${limit}`, null).then((res) => {
       if (res.status === 200) {
