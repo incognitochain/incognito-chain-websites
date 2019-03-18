@@ -14,6 +14,7 @@ import {
   Dialog,
   DialogContent,
   DialogContentText,
+  InputLabel,
 } from '@material-ui/core';
 
 // import { detectInstalled, requestUnlockMetamask, init } from '@/reducers/metamask/action';
@@ -29,7 +30,7 @@ import bgImage from '@/assets/create-a-proposal.svg';
 import abiDefinition from './abiDefinition';
 
 import {BUYING_ASSET} from '../../constants';
-import { buyAsset, buyTokenByEthereum, getHistory } from "../../services/reserveAsset";
+import { buyAsset, buyTokenByEthereum, getHistory, getReserveStatistic } from "../../services/reserveAsset";
 
 const BUYING_OBJECT = {
   USD: "usd",
@@ -73,6 +74,7 @@ class BuyToken extends React.Component {
       openMetamaskDialog,
       resultMessage: "",
       history: [],
+      allStats: {},
       page:1,
       perPage: 10,
       asset: collaterals[0],
@@ -80,6 +82,7 @@ class BuyToken extends React.Component {
   }
   componentDidMount() {
     this.onGetHistory();
+    this.onGetStats();
   }
 
   onAssetChange = (asset) => {
@@ -202,6 +205,17 @@ class BuyToken extends React.Component {
     this.setState({ history: result });
   }
 
+  onGetStats = async () => {
+    const res = await getReserveStatistic();
+    // console.log(res)
+    const {result = {}, error=""} = res;
+    if (error) {
+      console.log("get stats error", error);
+      return;
+    }
+    this.setState({ allStats: result });
+  }
+
   linkMetamask = () => {
     const browser = detect();
     switch (browser && browser.name) {
@@ -215,7 +229,7 @@ class BuyToken extends React.Component {
   }
 
   render = () => {
-    const {asset = {}, amount = "", isSummitting, openDialog, openMetamaskDialog, history = [] } = this.state;
+    const {asset = {}, amount = "", isSummitting, openDialog, openMetamaskDialog, history = [], allStats = {} } = this.state;
     const disableSubmitBtn = (asset === "" || isSummitting);
     return (
       <div className="home-page">
@@ -223,49 +237,78 @@ class BuyToken extends React.Component {
         <div className="container">
           <div className="row">
             <div className="col-12 col-md-6 col-lg-8">
-              <div className="creat-box c-card">
-                  <h3>Reserve Assets</h3>
-                  <br/>
-
-                  <div className="col-12 col-md-6 col-lg-4">
-                    <div className="title">CHOOSE YOUR OPTION</div>
-                    <div className="input" style={{ display:"flex", justifyContent:"space-around", paddingTop:5, paddingBottom:5 }}>
-                      {collaterals.map(collateral => (
-                        <div
-                          key={collateral.name}
-                          className={`collateral-option ${asset.name === collateral.name ? 'active' : ''}`}
-                          onClick={() => this.onAssetChange(collateral)}
-                          style={{
-                            cursor: "pointer",
-                            height: 70,
-                            width: 70,
-                            backgroundColor: asset.name === collateral.name ? '#FFFFFF' : "#FAFAFA" ,
-                            display: "flex",
-                            border: "1px solid #E4E7F2",
-                            borderRadius: 4,
-                            justifyContent: "center",
-                            alignItems:"center",
-                          }}
-                        >
-                          <FontAwesomeIcon icon={collateral.icon} size="2x" />
-                        </div>
-                      ))}
+              <div className="c-card">
+                <div className="hello">
+                  Reserve Assets
+                </div>
+                <div className="row stats-container" style={{display: "flex", justifyContent: "center"}}>
+                  <div className="col-12 col-lg-3 stats">
+                    <div className="value">
+                      {allStats.TotalReservesSuccess || 0}
+                      &nbsp;
+                      <sup>Reserve</sup>
                     </div>
+                    <div>Success</div>
                   </div>
+                  <div className="col-12 col-lg-3 stats">
+                    <div className="value">
+                      {allStats.TotalReservesFailed || 0}
+                      &nbsp;
+                      <sup>Reserve</sup>
+                    </div>
+                    <div>Failed</div>
+                  </div>
+                  <div className="col-12 col-lg-3 stats">
+                    <div className="value">
+                      {allStats.TotalReservesProcessing || 0}
+                      &nbsp;
+                      <sup>Reserve</sup>
+                    </div>
+                    <div>Processing</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="create-box c-card">
+                <div className="title">CHOOSE YOUR OPTION</div>
+                <div className="input" style={{ display:"flex",  paddingTop:5, paddingBottom:5 }}>
+                  {collaterals.map(collateral => (
+                    <div
+                      key={collateral.name}
+                      className={`collateral-option ${asset.name === collateral.name ? 'active' : ''}`}
+                      onClick={() => this.onAssetChange(collateral)}
+                      style={{
+                        cursor: "pointer",
+                        height: 70,
+                        width: 70,
+                        backgroundColor: asset.name === collateral.name ? '#FFFFFF' : "#FAFAFA" ,
+                        display: "flex",
+                        border: "1px solid #E4E7F2",
+                        borderRadius: 4,
+                        justifyContent: "center",
+                        alignItems:"center",
+                        marginRight: 10,
+                      }}
+                    >
+                      <FontAwesomeIcon icon={collateral.icon} size="2x" />
+                    </div>
+                  ))}
+                </div>
+                <br/>
 
                 <FormControl component="fieldset" style={{width: "100%"}} >
-
+                  <InputLabel htmlFor="amount" shrink style={{fontSize: 20}}>Amount</InputLabel>
                   <TextField
-                    id="standard-full-width"
-                    label="Amount"
+                    id="amount"
+                    // label="Amount"
                     type="number"
                     // style={{ margin: 8 }}
-                    placeholder="Amount"
+                    // placeholder="Amount"
                     fullWidth
                     margin="normal"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
+                    // InputLabelProps={{
+                    //   shrink: true,
+                    // }}
                     onChange={(e)=>this.onAmountChange(e.target.value)}
                     value={amount}
                   />
@@ -281,10 +324,10 @@ class BuyToken extends React.Component {
                         &nbsp;<FontAwesomeIcon icon={faArrowRight} />
                       </button>
                   }
-
                 </FormControl>
               </div>
             </div>
+
             <div className="col-12 col-md-6 col-lg-4">
               <div className="c-card card-create-a-proposal-container" style={{ backgroundImage: `url(${bgImage})`, minHeight: 225, backgroundSize: "100%" }}>
               </div>

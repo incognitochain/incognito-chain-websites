@@ -10,6 +10,7 @@ import {
   DialogContent,
   DialogContentText,
   InputAdornment,
+  InputLabel,
   // Table,
   // TableBody,
   // TableFooter,
@@ -112,17 +113,47 @@ class BuyToken extends React.Component {
           <div className="row">
             <div className="col-12 col-md-6 col-lg-8">
               <div className="c-card">
-                <h3>Buy Constant</h3>
-                <br/>
+                <div className="hello">
+                  Buy Constant
+                </div>
+                <div className="row stats-container" style={{display: "flex", justifyContent: "center"}}>
+                  <div className="col-12 col-lg-3 stats">
+                    <div className="value">
+                      {0}
+                      &nbsp;
+                      <sup>Reserve</sup>
+                    </div>
+                    <div>Success</div>
+                  </div>
+                  <div className="col-12 col-lg-3 stats">
+                    <div className="value">
+                      {0}
+                      &nbsp;
+                      <sup>Reserve</sup>
+                    </div>
+                    <div>Failed</div>
+                  </div>
+                  <div className="col-12 col-lg-3 stats">
+                    <div className="value">
+                      {0}
+                      &nbsp;
+                      <sup>Reserve</sup>
+                    </div>
+                    <div>Processing</div>
+                  </div>
+                </div>
+              </div>
 
+              <div className="c-card">
                 <FormControl component="fieldset" style={{width: "100%"}} >
+                  <InputLabel htmlFor="amount" shrink style={{fontSize: 20}}>Amount</InputLabel>
                   <TextField
-                    id="standard-full-width"
+                    id="amount"
                     className="input-of-create cst"
                     // label="Label"
                     type="number"
                     // style={{ margin: 8 }}
-                    placeholder="Amount"
+                    // placeholder="Amount"
                     fullWidth
                     margin="normal"
                     InputProps={{
@@ -148,6 +179,7 @@ class BuyToken extends React.Component {
                 </FormControl>
               </div>
             </div>
+
             <div className="col-12 col-md-6 col-lg-4">
               <div className="c-card card-create-a-proposal-container" style={{ backgroundImage: `url(${bgImage})`, minHeight: 170, backgroundSize: "100%" }}>
                 </div>
