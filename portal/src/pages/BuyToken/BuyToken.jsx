@@ -31,7 +31,7 @@ import bgImage from '@/assets/create-a-proposal.svg';
 import abiDefinition from './abiDefinition';
 
 import {BUYING_ASSET, RESERVE_HISTORY_STATUS_COLOR} from '../../constants';
-import { buyAsset, buyTokenByEthereum, getHistory, getReserveStatistic, getRaiseReserveInfo, convertETHtoDCBToken } from "../../services/reserveAsset";
+import { buyAsset, buyTokenByEthereum, getHistory, getPurchaseStatistic, getRaiseReserveInfo, convertETHtoDCBToken } from "../../services/reserveAsset";
 
 const BUYING_OBJECT = {
   USD: "usd",
@@ -76,7 +76,7 @@ class BuyToken extends React.Component {
       openMetamaskDialog,
       resultMessage: "",
       history: [],
-      allStats: {},
+      purchaseStats: {},
       page:1,
       perPage: 10,
       asset: collaterals[0],
@@ -218,14 +218,14 @@ class BuyToken extends React.Component {
   }
 
   onGetStats = async () => {
-    const res = await getReserveStatistic();
+    const res = await getPurchaseStatistic();
     // console.log(res)
     const {result = {}, error=""} = res;
     if (error) {
       console.log("get stats error", error);
       return;
     }
-    this.setState({ allStats: result });
+    this.setState({ purchaseStats: result });
   }
 
   getReserveInfo = async () => {
@@ -265,10 +265,10 @@ class BuyToken extends React.Component {
   }
 
   render = () => {
-    const {asset = {}, amount = "", isSummitting, openDialog, openMetamaskDialog, history = [], allStats = {} ,reserveInfo, ethToToken } = this.state;
+    const {asset = {}, amount = "", isSummitting, openDialog, openMetamaskDialog, history = [], purchaseStats = {} ,reserveInfo, ethToToken } = this.state;
     const disableSubmitBtn = (asset === "" || isSummitting);
     const showConvertETHToTokenField = asset.value === BUYING_OBJECT.ETH;
-
+    const {TotalReservesSuccess = {}, TotalReservesFailed = {}, TotalAmountSuccess = {}, TotalAmountFailed = {}} = purchaseStats;
     return (
       <div className="home-page">
         <section >
@@ -280,30 +280,63 @@ class BuyToken extends React.Component {
                   Reserve Assets
                 </div>
                 <div className="row stats-container" style={{display: "flex", justifyContent: "center"}}>
+
                   <div className="col-12 col-lg-3 stats">
                     <div className="value">
-                      {allStats.TotalReservesSuccess || 0}
+                      { TotalReservesSuccess.usd || 0}
                       &nbsp;
-                      <sup>Reserve</sup>
+                      <sup>USD</sup>
                     </div>
-                    <div>Success</div>
+                    <div className="value">
+                      {TotalReservesSuccess.eth || 0}
+                      &nbsp;
+                      <sup>ETH</sup>
+                    </div>
+                    <div>Reserve Success</div>
                   </div>
+
                   <div className="col-12 col-lg-3 stats">
                     <div className="value">
-                      {allStats.TotalReservesFailed || 0}
+                      { TotalReservesFailed.usd || 0}
                       &nbsp;
-                      <sup>Reserve</sup>
+                      <sup>USD</sup>
                     </div>
-                    <div>Failed</div>
+                    <div className="value">
+                      { TotalReservesFailed.eth || 0}
+                      &nbsp;
+                      <sup>ETH</sup>
+                    </div>
+                    <div>Reserve Failed</div>
                   </div>
+
                   <div className="col-12 col-lg-3 stats">
                     <div className="value">
-                      {allStats.TotalReservesProcessing || 0}
+                      { TotalAmountSuccess.usd || 0}
                       &nbsp;
-                      <sup>Reserve</sup>
+                      <sup>USD</sup>
                     </div>
-                    <div>Processing</div>
+                    <div className="value">
+                      {TotalAmountSuccess.eth || 0}
+                      &nbsp;
+                      <sup>ETH</sup>
+                    </div>
+                    <div>Total Amount Success</div>
                   </div>
+
+                  <div className="col-12 col-lg-3 stats">
+                    <div className="value">
+                      { TotalAmountFailed.usd || 0}
+                      &nbsp;
+                      <sup>USD</sup>
+                    </div>
+                    <div className="value">
+                      { TotalAmountFailed.eth || 0}
+                      &nbsp;
+                      <sup>ETH</sup>
+                    </div>
+                    <div>Total Amount Failed</div>
+                  </div>
+
                 </div>
               </div>
 
