@@ -355,7 +355,7 @@ class Create extends React.Component {
                               <div className="title">ENTER REDEEM AMOUNT</div>
                               <div className="input">
                                 <TextField
-                                  disabled={parseFloat(leftToken) / 100 <= 0}
+                                  disabled={(leftToken <= 0 && currentCollateral.name == 'ETH')}
                                   name="redeemAmount"
                                   placeholder="100"
                                   className="input-of-create cst"
@@ -366,7 +366,7 @@ class Create extends React.Component {
                                       return handleChange(e)
                                     }
                                     this.onlyNumber(e.target.value, () => {
-                                      if (parseFloat(e.target.value) * 100 <= leftToken) {
+                                      if (!(parseFloat(e.target.value) * 100 > leftToken && currentCollateral.name == 'ETH')) {
                                         this.changeRedeemAmount(e, setFieldValue);
                                         return handleChange(e)
                                       }
@@ -378,7 +378,11 @@ class Create extends React.Component {
                                 />
                                 {errors.redeemAmount && touched.redeemAmount && <span className="c-error"><span>{errors.redeemAmount}</span></span>}
                               </div>
-                              <span className="c-info"><span>{`MAXIMUM `} <span className="c-error"><span>{leftToken / 1000}</span></span> {` CONSTANT`}</span></span>
+                              {
+                                currentCollateral.name == 'ETH' ? (
+                                  <span className="c-info"><span>{`MAXIMUM `} <span className="c-error"><span>{leftToken / 1000}</span></span> {` CONSTANT`}</span></span>
+                                ) : null
+                              }
                             </div>
                             <div className="col-12 col-md-6 col-lg-4">
                               <div className="title">CHOOSE YOUR OPTION</div>
