@@ -1,4 +1,5 @@
 import Web3 from 'web3';
+import dayjs from 'dayjs';
 
 function commarize(rawMin) {
   const min = rawMin || 1e3;
@@ -46,6 +47,10 @@ function cst2Cent() {
   return number.numberFormat();
 }
 
+function dateFormat(format) {
+  return dayjs(this).format(format)
+}
+
 Number.prototype.commarize = commarize;
 String.prototype.commarize = commarize;
 
@@ -63,3 +68,5 @@ Number.prototype.numberFormat = numberFormat;
 
 String.prototype.cst2Cent = cst2Cent;
 Number.prototype.cst2Cent = cst2Cent;
+
+String.prototype.dateFormat = dateFormat;
