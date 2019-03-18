@@ -1,4 +1,5 @@
 import Web3 from 'web3';
+import dayjs from 'dayjs';
 
 function commarize(rawMin) {
   const min = rawMin || 1e3;
@@ -40,6 +41,16 @@ function constant() {
   return number.numberFormat();
 }
 
+function cst2Cent() {
+  const number = Number(this) * 100;
+  if (Number.isNaN(number)) return '';
+  return number.numberFormat();
+}
+
+function dateFormat(format) {
+  return dayjs(this).format(format)
+}
+
 Number.prototype.commarize = commarize;
 String.prototype.commarize = commarize;
 
@@ -54,3 +65,8 @@ Number.prototype.etherToWei = etherToWei;
 
 String.prototype.numberFormat = numberFormat;
 Number.prototype.numberFormat = numberFormat;
+
+String.prototype.cst2Cent = cst2Cent;
+Number.prototype.cst2Cent = cst2Cent;
+
+String.prototype.dateFormat = dateFormat;

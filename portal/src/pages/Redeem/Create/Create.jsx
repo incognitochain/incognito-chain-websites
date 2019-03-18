@@ -88,7 +88,7 @@ class Create extends React.Component {
         setFieldValue('etherAmount', 0);
       } else {
         const data = {
-          constant_amount: parseInt(e.target.value, 0) * 100,
+          constant_amount: parseInt(e.target.value, 0).cst2Cent(),
         };
         axios.post(API.RESERVE_CONVERT_CST_TO_ETH, data).then((res) => {
           if (res.status === 200) {
@@ -154,7 +154,7 @@ class Create extends React.Component {
         beneficiaryAddressPostalCode: values.beneficiaryAddressPostalCode,
         beneficiaryAddressCountry: values.beneficiaryAddressCountry,
       },
-      Amount: parseInt(parseFloat(values.redeemAmount) * 100, 0)
+      Amount: parseInt(parseFloat(values.redeemAmount).cst2Cent(), 0)
     };
     axios.post(API.RESERVE_REDEEM_USD_CREATE, data).then((res) => {
       if (res.status === 200) {
@@ -176,7 +176,7 @@ class Create extends React.Component {
     setSubmitting(false);
     const data = {
       receiver_address: values.receiverAddress,
-      constant_amount: parseInt(parseFloat(values.redeemAmount) * 100, 0)
+      constant_amount: parseInt(parseFloat(values.redeemAmount).cst2Cent(), 0)
     };
     axios.post(API.RESERVE_REDEEM_ETH_CREATE, data).then((res) => {
       if (res.status === 200) {
@@ -355,7 +355,7 @@ class Create extends React.Component {
                               <div className="title">ENTER REDEEM AMOUNT</div>
                               <div className="input">
                                 <TextField
-                                  disabled={parseFloat(leftToken) / 100 <= 0}
+                                  disabled={(leftToken <= 0 && currentCollateral.name == 'ETH')}
                                   name="redeemAmount"
                                   placeholder="100"
                                   className="input-of-create cst"
@@ -366,7 +366,7 @@ class Create extends React.Component {
                                       return handleChange(e)
                                     }
                                     this.onlyNumber(e.target.value, () => {
-                                      if (parseFloat(e.target.value) * 100 <= leftToken) {
+                                      if (!(parseFloat(e.target.value).cst2Cent() > leftToken && currentCollateral.name == 'ETH')) {
                                         this.changeRedeemAmount(e, setFieldValue);
                                         return handleChange(e)
                                       }
@@ -378,7 +378,11 @@ class Create extends React.Component {
                                 />
                                 {errors.redeemAmount && touched.redeemAmount && <span className="c-error"><span>{errors.redeemAmount}</span></span>}
                               </div>
-                              <span className="c-info"><span>{`MAXIMUM `} <span className="c-error"><span>{leftToken / 1000}</span></span> {` CONSTANT`}</span></span>
+                              {
+                                currentCollateral.name == 'ETH' ? (
+                                  <span className="c-info"><span>{`MAXIMUM `} <span className="c-error"><span>{leftToken.constant()}</span></span> {` CONSTANT`}</span></span>
+                                ) : null
+                              }
                             </div>
                             <div className="col-12 col-md-6 col-lg-4">
                               <div className="title">CHOOSE YOUR OPTION</div>

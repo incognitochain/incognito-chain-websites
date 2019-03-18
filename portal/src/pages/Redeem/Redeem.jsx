@@ -7,7 +7,7 @@ import bgImage from '@/assets/create-a-proposal.svg';
 import { axios, catchError } from '@/services/api';
 import { API } from '@/constants';
 import queryString from 'query-string';
-import dayjs from 'dayjs';
+import Pagination from '@/components/Control/Pagination';
 
 class Redeem extends React.Component {
   static propTypes = {
@@ -19,28 +19,41 @@ class Redeem extends React.Component {
     this.state = {
       data: null,
       summary: {},
-      leftToken: 0
+      leftToken: 0,
+      page: 1,
+      limit: 10,
+      totalPage: 1,
     };
   }
 
   componentDidMount() {
+    const { page, limit } = this.state
     this.getSummaryData()
     let url = this.props.location.search;
     let params = queryString.parse(url);
     const { type = 'usd' } = params
     if (type == 'eth') {
-      this.getETHData()
+      this.getETHData(page, limit)
     } else {
       this.getUSDData()
     }
   }
 
-  getETHData = () => {
-    this.setState({ tabIndex: 1, data: [] })
-    axios.get(API.RESERVE_REDEEM_ETH_LIST, null).then((res) => {
+  pageClick = (pageIndex) => {
+    const { tabIndex, limit } = this.state
+    if (tabIndex == 1) {
+      this.getETHData(pageIndex, limit)
+    } else {
+      this.getUSDData()
+    }
+  }
+
+  getETHData = (page = 1, limit = 10) => {
+    this.setState({ tabIndex: 1, data: [], page: page, limit: limit })
+    axios.get(`${API.RESERVE_REDEEM_ETH_LIST}?page=${page}&limit=${limit}`, null).then((res) => {
       if (res.status === 200) {
-        if (res.data && res.data.Result) {
-          this.setState({ data: res.data.Result })
+        if (res.data && res.data.Result.Records) {
+          this.setState({ data: res.data.Result.Records, totalPage: res.data.Result.TotalPage })
         } else {
           this.setState({ data: [] })
         }
@@ -52,7 +65,7 @@ class Redeem extends React.Component {
     });
   }
 
-  getUSDData = () => {
+  getUSDData = (page = 1, limit = 10) => {
     this.setState({ tabIndex: 0, data: [] })
     axios.get(API.RESERVE_REDEEM_USD_LIST, null).then((res) => {
       if (res.status === 200) {
@@ -93,7 +106,8 @@ class Redeem extends React.Component {
       data,
       tabIndex,
       summary,
-      leftToken,
+      page,
+      totalPage,
     } = this.state;
     return (
       <div className="home-page">
@@ -209,7 +223,7 @@ class Redeem extends React.Component {
                                 <td className="text-truncate"><a target={'_blank'} href={r.EthTxHash ? `${process.env.etherScanUrl}/tx/${r.EthTxHash}` : ''}>{r.EthTxHash}</a></td>
                                 <td className="text-truncate"><a target={'_blank'} href={r.ReceiverAddress ? `${process.env.etherScanUrl}/address/${r.ReceiverAddress}` : ''}>{r.ReceiverAddress}</a></td>
                                 <td className="text-truncate">{r.EthAmount}</td>
-                                <td className="text-truncate">{dayjs(r.CreatedAt).format('MM-DD-YYYY HH:mm:ss')}</td>
+                                <td className="text-truncate">{r.CreatedAt.dateFormat('MM-DD-YYYY HH:mm:ss')}</td>
                                 <td className={`text-truncate c-status ${
                                   r.Status == 0 ? 'processing'
                                     : (r.Status == 1 ? 'processing'
@@ -295,7 +309,7 @@ class Redeem extends React.Component {
                                   <td className="text-truncate">{r.Amount}</td>
                                   <td className="text-truncate">{r.Amount}</td>
                                   <td className="text-truncate">{r.Fee}</td>
-                                  <td className="text-truncate">{dayjs(r.CreatedAt).format('MM-DD-YYYY HH:mm:ss')}</td>
+                                  <td className="text-truncate">{r.CreatedAt.dateFormat('MM-DD-YYYY HH:mm:ss')}</td>
                                   <td className={`text-truncate c-status ${
                                     r.Status == 'pending' ? 'processing'
                                       : (r.Status == 'pending' ? 'processing'
@@ -364,6 +378,13 @@ class Redeem extends React.Component {
               ) : null
             )
         }
+        <div className="container">
+          <Pagination
+            page={page}
+            lastPage={totalPage}
+            pageClick={(pageIndex) => { this.pageClick(pageIndex) }}
+          ></Pagination>
+        </div>
       </div>
     );
   }
