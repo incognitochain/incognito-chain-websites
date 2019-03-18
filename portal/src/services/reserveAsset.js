@@ -69,3 +69,15 @@ export async function getReserveStatistic() {
   const result = await callAPIService({data: {}, method: "GET", url});
   return result;
 }
+
+export async function getRaiseReserveInfo() {
+  let url = `/reserves/get-raise-reserve-info`;
+  const result = await callAPIService({data: {}, method: "GET", url});
+  return result;
+}
+
+export async function convertETHtoDCBToken(amount) {
+  let url = `/reserves/convert-eth-to-dcb-token`;
+  const result = await callAPIService({data: {eth_amount: amount}, method: "POST", url});
+  return result;
+}
