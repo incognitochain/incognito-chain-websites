@@ -19,6 +19,7 @@ class Redeem extends React.Component {
     this.state = {
       data: null,
       summary: {},
+      leftToken: 0
     };
   }
 
@@ -35,7 +36,7 @@ class Redeem extends React.Component {
   }
 
   getETHData = () => {
-    this.setState({ tab: 1, data: [] })
+    this.setState({ tabIndex: 1, data: [] })
     axios.get(API.RESERVE_REDEEM_ETH_LIST, null).then((res) => {
       if (res.status === 200) {
         if (res.data && res.data.Result) {
@@ -52,7 +53,7 @@ class Redeem extends React.Component {
   }
 
   getUSDData = () => {
-    this.setState({ tab: 0, data: [] })
+    this.setState({ tabIndex: 0, data: [] })
     axios.get(API.RESERVE_REDEEM_USD_LIST, null).then((res) => {
       if (res.status === 200) {
         if (res.data && res.data.Result) {
@@ -90,8 +91,9 @@ class Redeem extends React.Component {
     } = this.props;
     const {
       data,
-      tab,
+      tabIndex,
       summary,
+      leftToken,
     } = this.state;
     return (
       <div className="home-page">
@@ -106,35 +108,35 @@ class Redeem extends React.Component {
                   <div className="row stats-container">
                     <div className="col-12 col-lg-3 stats">
                       <div className="value">
-                        {summary.UsdFinished}
+                        {summary.UsdFinished ? summary.UsdFinished : 0}
                         {' '}
                         <sup>USD</sup>
                       </div>
-                      <div>Finished</div>
+                      <div>Are finished</div>
                     </div>
                     <div className="col-12 col-lg-3 stats">
                       <div className="value">
-                        {summary.UsdFailed}
+                        {summary.UsdFailed ? summary.UsdFailed : 0}
                         {' '}
                         <sup>USD</sup>
                       </div>
-                      <div>Failed</div>
+                      <div>Are failed</div>
                     </div>
                     <div className="col-12 col-lg-3 stats">
                       <div className="value">
-                        {summary.EthFinished}
+                        {summary.EthFinished ? summary.EthFinished : 0}
                         {' '}
                         <sup>ETH</sup>
                       </div>
-                      <div>Finished</div>
+                      <div>Are finished</div>
                     </div>
                     <div className="col-12 col-lg-3 stats">
                       <div className="value">
-                        {summary.EthFailed}
+                        {summary.EthFailed ? summary.EthFailed : 0}
                         {' '}
                         <sup>ETH</sup>
                       </div>
-                      <div>Failed</div>
+                      <div>Are failed</div>
                     </div>
                   </div>
                   <div className="row stats-container">
@@ -159,8 +161,8 @@ class Redeem extends React.Component {
               <div className="col-12">
                 <div className="c-card">
                   <div className="tabs">
-                    <div className={`tab ${tab === 0 ? 'active' : ''}`} onClick={() => this.getUSDData()}>USD</div>
-                    <div className={`tab ${tab === 1 ? 'active' : ''}`} onClick={() => this.getETHData()}>ETH</div>
+                    <div className={`tab ${tabIndex === 0 ? 'active' : ''}`} onClick={() => this.getUSDData()}>USD</div>
+                    <div className={`tab ${tabIndex === 1 ? 'active' : ''}`} onClick={() => this.getETHData()}>ETH</div>
                   </div>
                 </div>
               </div>
@@ -168,7 +170,7 @@ class Redeem extends React.Component {
           </div>
         </div>
         {
-          data && tab == 1 ?
+          data && tabIndex == 1 ?
             (
               <div className="container">
                 <div className="row">
@@ -177,13 +179,13 @@ class Redeem extends React.Component {
                       <table className="c-table-portal-home" style={{ width: "100%", tableLayout: "fixed" }}>
                         <colgroup>
                           <col style={{ "width": "7%" }} />
-                          <col style={{ "width": "15%" }} />
+                          <col style={{ "width": "12%" }} />
                           <col style={{ "width": "9%" }} />
-                          <col style={{ "width": "15%" }} />
-                          <col style={{ "width": "15%" }} />
-                          <col style={{ "width": "9%" }} />
-                          <col style={{ "width": "20%" }} />
+                          <col style={{ "width": "12%" }} />
+                          <col style={{ "width": "12%" }} />
                           <col style={{ "width": "10%" }} />
+                          <col style={{ "width": "18%" }} />
+                          <col style={{ "width": "20%" }} />
                         </colgroup>
                         <thead>
                           <tr>
@@ -218,7 +220,7 @@ class Redeem extends React.Component {
                                               : (r.Status == 20 ? 'failed'
                                                 : (r.Status == 21 ? 'failed'
                                                   : (r.Status == 22 ? 'failed'
-                                                    : ''
+                                                    : 'processing'
                                                   )
                                                 )
                                               )
@@ -228,16 +230,16 @@ class Redeem extends React.Component {
                                       )
                                     )
                                   }`}>{
-                                    r.Status == 0 ? 'Processing'
-                                      : (r.Status == 1 ? 'Processing'
-                                        : (r.Status == 2 ? 'Failed'
-                                          : (r.Status == 10 ? 'Processing'
-                                            : (r.Status == 11 ? 'Finished'
-                                              : (r.Status == 12 ? 'Failed'
-                                                : (r.Status == 20 ? 'Failed'
-                                                  : (r.Status == 21 ? 'Failed'
-                                                    : (r.Status == 22 ? 'Failed'
-                                                      : ''
+                                    r.Status == 0 ? 'Burn coin processing'
+                                      : (r.Status == 1 ? 'Burn coin finished'
+                                        : (r.Status == 2 ? 'Burn coin failed'
+                                          : (r.Status == 10 ? 'Spend ether processing'
+                                            : (r.Status == 11 ? 'Spend ether finished'
+                                              : (r.Status == 12 ? 'Spend ether failed'
+                                                : (r.Status == 20 ? 'Issuse coin processing'
+                                                  : (r.Status == 21 ? 'Issue coin finished'
+                                                    : (r.Status == 22 ? 'Issue coin failed'
+                                                      : r.Status
                                                     )
                                                   )
                                                 )
@@ -258,7 +260,7 @@ class Redeem extends React.Component {
                 </div>
               </div>
             ) : (
-              data && tab == 0 ? (
+              data && tabIndex == 0 ? (
                 <div className="container">
                   <div className="row">
                     <div className="col-12">
@@ -308,7 +310,7 @@ class Redeem extends React.Component {
                                                         : (r.Status == 'failed to burn coin' ? 'failed'
                                                           : (r.Status == 'failed to mint coin' ? 'failed'
                                                             : (r.Status == 'failed to transfer coin' ? 'failed'
-                                                              : ''
+                                                              : 'processing'
                                                             )
                                                           )
                                                         )
@@ -335,7 +337,7 @@ class Redeem extends React.Component {
                                                           : (r.Status == 'failed to burn coin' ? 'Coin Burning Failed'
                                                             : (r.Status == 'failed to mint coin' ? 'Coin Minting Failed'
                                                               : (r.Status == 'failed to transfer coin' ? 'Transfering Failed'
-                                                                : ''
+                                                                : r.Status
                                                               )
                                                             )
                                                           )

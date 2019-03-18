@@ -46,6 +46,7 @@ class Create extends React.Component {
       currentCollateral: collaterals[1],
       hiddenETHAddr: false,
       status: '',
+      leftToken: 0,
     };
     const { authCheckAuth } = this.props;
     authCheckAuth();
@@ -53,10 +54,27 @@ class Create extends React.Component {
 
   componentDidMount() {
     document.title = 'Create a redeem request - Constant';
+    this.getSpendInfo()
   }
 
   componentWillUnmount() {
 
+  }
+
+  getSpendInfo = () => {
+    axios.get(API.RESERVE_SPEND_INFO, null).then((res) => {
+      if (res.status === 200) {
+        if (res.data && res.data.Result) {
+          this.setState({ leftToken: res.data.Result.LeftToken })
+        } else {
+          this.setState({ leftToken: 0 })
+        }
+      }
+    }).catch((e) => {
+      this.setState({ leftToken: 0 })
+      console.log(e);
+      catchError(e);
+    });
   }
 
   // form
@@ -182,6 +200,7 @@ class Create extends React.Component {
       collaterals,
       currentCollateral,
       hiddenETHAddr,
+      leftToken,
     } = this.state;
     return (
       <div className="create-page">
@@ -336,15 +355,21 @@ class Create extends React.Component {
                               <div className="title">ENTER REDEEM AMOUNT</div>
                               <div className="input">
                                 <TextField
+                                  disabled={parseFloat(leftToken) / 100 <= 0}
                                   name="redeemAmount"
                                   placeholder="100"
                                   className="input-of-create cst"
                                   value={values.redeemAmount}
                                   autoComplete="off"
                                   onChange={(e) => {
-                                    this.onlyNumber(e.target.value, () => {
-                                      this.changeRedeemAmount(e, setFieldValue);
+                                    if (e.target.value == '') {
                                       return handleChange(e)
+                                    }
+                                    this.onlyNumber(e.target.value, () => {
+                                      if (parseFloat(e.target.value) * 100 <= leftToken) {
+                                        this.changeRedeemAmount(e, setFieldValue);
+                                        return handleChange(e)
+                                      }
                                     });
                                   }}
                                   InputProps={{
@@ -353,6 +378,7 @@ class Create extends React.Component {
                                 />
                                 {errors.redeemAmount && touched.redeemAmount && <span className="c-error"><span>{errors.redeemAmount}</span></span>}
                               </div>
+                              <span className="c-info"><span>{`MAXIMUM `} <span className="c-error"><span>{leftToken / 1000}</span></span> {` CONSTANT`}</span></span>
                             </div>
                             <div className="col-12 col-md-6 col-lg-4">
                               <div className="title">CHOOSE YOUR OPTION</div>
