@@ -2,11 +2,17 @@ import React from 'react';
 
 class Pagination extends React.Component {
     render() {
-        const {
-            page,
-            lastPage,
-            pageClick,
+        let {
+            page = 1,
+            lastPage = 1,
+            pageClick = null,
         } = this.props
+        if (lastPage <= 0) {
+            lastPage = 1
+        }
+        if (page <= 0) {
+            page = 1
+        }
 
         let pageNumbers = []
         let pageTmps = []
@@ -34,16 +40,16 @@ class Pagination extends React.Component {
                         pageNumbers.map((pageIndex) => {
                             return pageIndex == page ? (
                                 <li className="page-item active">
-                                    <span class="page-link">
+                                    <span className="page-link">
                                         {pageIndex}
                                         <span className="sr-only">(current)</span>
                                     </span>
                                 </li>
                             ) : (
                                     pageIndex == -1 ? (
-                                        <li className="page-item"><a class="page-link">...</a></li>
+                                        <li className="page-item"><a className="page-link">...</a></li>
                                     ) : (
-                                            <li className="page-item"><a class="page-link" onClick={() => { return pageClick(pageIndex) }}>{pageIndex}</a></li>
+                                            <li className="page-item"><a className="page-link" onClick={() => { if (pageClick) { return pageClick(pageIndex) } }}>{pageIndex}</a></li>
                                         )
                                 )
                         }
