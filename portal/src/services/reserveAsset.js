@@ -86,3 +86,9 @@ export async function convertETHtoDCBToken(amount) {
   const result = await callAPIService({data: {eth_amount: amount}, method: "POST", url});
   return result;
 }
+
+export async function convertUSDtoDCBToken(amount) {
+  let url = `/reserves/convert-usd-to-dcb?amount=${amount}`;
+  const result = await callAPIService({data: {}, method: "GET", url});
+  return result;
+}
