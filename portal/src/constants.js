@@ -21,7 +21,9 @@ const API = {
   RESERVE_REDEEM_USD_LIST: 'reserves/usd?type=1&buying_asset=1',
   RESERVE_REDEEM_USD_CREATE: 'reserves/redeem-usd',
   RESERVE_CONVERT_CST_TO_ETH: 'reserves/convert-cst-to-eth',
-  RESERVE_REDEEM_STATS: 'reserves/redeem-stats',
+  RESERVE_CONVERT_ETH_TO_DCB: 'reserves/convert-eth-to-dcb-token',
+  RESERVE_RAISE_INFO: 'reserves/get-raise-reserve-info',
+  RESERVE_SPEND_INFO: 'reserves/get-spend-reserve-info',
 };
 
 const BLOCKCHAIN = {
