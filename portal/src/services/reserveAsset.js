@@ -59,7 +59,13 @@ export async function buyTokenByEthereum(amount) {
 }
 
 export async function getHistory(assetType=0, perPage=10, page=1, type = 0) {
-  let url = `/reserves/usd?type=${type}&buying_asset=${assetType}&limit=${perPage}&type=${type}`;
+  let url = `/reserves/usd?type=${type}&buying_asset=${assetType}&limit=${perPage}&type=${type}&page=${page}`;
+  const result = await callAPIService({data: {}, method: "GET", url});
+  return result;
+}
+
+export async function getETHHistory(perPage=10, page=1) {
+  let url = `/reserves/purchase-eth-dcb?page=${page}&limit=${perPage}`;
   const result = await callAPIService({data: {}, method: "GET", url});
   return result;
 }
