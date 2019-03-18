@@ -31,7 +31,7 @@ import bgImage from '@/assets/create-a-proposal.svg';
 import abiDefinition from './abiDefinition';
 
 import {BUYING_ASSET, RESERVE_HISTORY_STATUS_COLOR} from '../../constants';
-import { buyAsset, buyTokenByEthereum, getHistory, getPurchaseStatistic, getRaiseReserveInfo, convertETHtoDCBToken } from "../../services/reserveAsset";
+import { buyAsset, buyTokenByEthereum, getHistory, getPurchaseStatistic, getRaiseReserveInfo, convertETHtoDCBToken, convertUSDtoDCBToken } from "../../services/reserveAsset";
 
 const BUYING_OBJECT = {
   USD: "usd",
@@ -81,7 +81,7 @@ class BuyToken extends React.Component {
       perPage: 10,
       asset: collaterals[0],
       reserveInfo: {},
-      ethToToken: 0,
+      convertToToken: 0,
     };
   }
   componentDidMount() {
@@ -95,6 +95,10 @@ class BuyToken extends React.Component {
       this.setState({
         asset,
       });
+      // this.onConvertAmountToDCBToken();
+      convertETHtoDCBTokenTimeout = setTimeout(()=>{
+        this.onConvertAmountToDCBToken();
+      },100)
   }
   onAmountChange = (amount) => {
     this.setState({
@@ -105,18 +109,22 @@ class BuyToken extends React.Component {
       convertETHtoDCBTokenTimeout = 0;
     }
     convertETHtoDCBTokenTimeout = setTimeout(()=>{
-      this.onConvertETHtoDCBToken();
+      this.onConvertAmountToDCBToken();
     },100)
   }
 
   onSubmit = async () => {
-    const {asset={}, amount} = this.state;
+    const {asset={}, amount, reserveInfo={}, convertToToken} = this.state;
     const {auth={}} = this.props;
     const {data={}} = auth;
     const {PaymentAddress} = data;
     if (!PaymentAddress) return;
 
     if (!asset || isNaN(amount) || amount <= 0) {
+      return;
+    }
+    if (convertToToken > reserveInfo.LeftToken) {
+      this.setState({resultMessage: "Current amount of Token is not enough", openDialog:true});
       return;
     }
 
@@ -214,7 +222,8 @@ class BuyToken extends React.Component {
       console.log("get history error", error);
       return;
     }
-    this.setState({ history: result });
+    const { Records = [], Page, Limit, TotalRecord, TotalPage } = result;
+    this.setState({ history: Records });
   }
 
   onGetStats = async () => {
@@ -239,15 +248,27 @@ class BuyToken extends React.Component {
     this.setState({ reserveInfo: result });
   }
 
-  onConvertETHtoDCBToken = async () => {
-    const {amount} = this.state;
-    const res = await convertETHtoDCBToken(parseFloat(amount));
+  onConvertAmountToDCBToken = async () => {
+    let {amount, asset={}} = this.state;
+    if (!amount || typeof amount === undefined) {
+      amount = 0;
+    }
+    amount = parseFloat(amount);
+    let res = {};
+    if (asset.value === BUYING_OBJECT.ETH) {
+      res = await convertETHtoDCBToken(amount);
+    }
+    if (asset.value === BUYING_OBJECT.USD) {
+      res = await convertUSDtoDCBToken(amount);
+      console.log(res);
+    }
+
     const {result, error=""} = res;
     if (error) {
-      console.log("convert eth to token error", error);
-      this.setState({ ethToToken: 0 });
+      console.log("convert amount to token error", error);
+      this.setState({ convertToToken: 0 });
     } else {
-      this.setState({ ethToToken: result });
+      this.setState({ convertToToken: result });
     }
     convertETHtoDCBTokenTimeout = 0;
   }
@@ -265,10 +286,11 @@ class BuyToken extends React.Component {
   }
 
   render = () => {
-    const {asset = {}, amount = "", isSummitting, openDialog, openMetamaskDialog, history = [], purchaseStats = {} ,reserveInfo, ethToToken } = this.state;
+    const {asset = {}, amount = "", isSummitting, openDialog, openMetamaskDialog, history = [], purchaseStats = {} ,reserveInfo, convertToToken } = this.state;
     const disableSubmitBtn = (asset === "" || isSummitting);
-    const showConvertETHToTokenField = asset.value === BUYING_OBJECT.ETH;
+
     const {TotalReservesSuccess = {}, TotalReservesFailed = {}, TotalAmountSuccess = {}, TotalAmountFailed = {}} = purchaseStats;
+
     return (
       <div className="home-page">
         <section >
@@ -285,28 +307,28 @@ class BuyToken extends React.Component {
                     <div className="value">
                       { TotalReservesSuccess.usd || 0}
                       &nbsp;
-                      <sup>USD</sup>
+                      <sup>by USD</sup>
                     </div>
                     <div className="value">
                       {TotalReservesSuccess.eth || 0}
                       &nbsp;
-                      <sup>ETH</sup>
+                      <sup>by ETH</sup>
                     </div>
-                    <div>Reserve Success</div>
+                    <div>Success</div>
                   </div>
 
                   <div className="col-12 col-lg-3 stats">
                     <div className="value">
                       { TotalReservesFailed.usd || 0}
                       &nbsp;
-                      <sup>USD</sup>
+                      <sup>by USD</sup>
                     </div>
                     <div className="value">
                       { TotalReservesFailed.eth || 0}
                       &nbsp;
-                      <sup>ETH</sup>
+                      <sup>by ETH</sup>
                     </div>
-                    <div>Reserve Failed</div>
+                    <div>Failed</div>
                   </div>
 
                   <div className="col-12 col-lg-3 stats">
@@ -320,7 +342,7 @@ class BuyToken extends React.Component {
                       &nbsp;
                       <sup>ETH</sup>
                     </div>
-                    <div>Total Amount Success</div>
+                    <div>Amount Success</div>
                   </div>
 
                   <div className="col-12 col-lg-3 stats">
@@ -334,13 +356,21 @@ class BuyToken extends React.Component {
                       &nbsp;
                       <sup>ETH</sup>
                     </div>
-                    <div>Total Amount Failed</div>
+                    <div>Amount Failed</div>
                   </div>
 
                 </div>
               </div>
 
-              <div className="create-box c-card">
+            </div>
+
+            <div className="col-12 col-md-6 col-lg-4">
+              <div className="c-card card-create-a-proposal-container" style={{ backgroundImage: `url(${bgImage})`, minHeight: 280, backgroundSize: "100%" }}>
+              </div>
+            </div>
+
+            <div className="col-12 col-md-12 col-lg-12">
+              <div className="c-card">
                 <div className="title">CHOOSE YOUR OPTION</div>
                 <div className="input" style={{ display:"flex",  paddingTop:5, paddingBottom:5 }}>
                   {collaterals.map(collateral => (
@@ -367,34 +397,22 @@ class BuyToken extends React.Component {
                 </div>
                 <br/>
 
-                <FormControl component="fieldset" style={{width: "100%"}} >
-                  <InputLabel htmlFor="left-token" shrink style={{fontSize: 20}}>Left Token Amount</InputLabel>
-                  <TextField
-                    id="left-token"
-                    type="number"
-                    fullWidth
-                    margin="normal"
-                    InputProps={{
-                      style: {marginTop: 10, marginBottom: 10},
-                    }}
-                    disabled
-                    value={reserveInfo.LeftToken}
-                  />
-                </FormControl>
-
                 <div style={{display:"flex", justifyContent:"space-around"}}>
                   <FormControl component="fieldset" style={{width: "100%"}} >
-                    <InputLabel htmlFor="amount" shrink style={{fontSize: 20}}>Amount</InputLabel>
+                    <div className="title">ENTER AMOUNT</div>
                     <TextField
                       id="amount"
+                      className="input-of-create cst"
                       // label="Amount"
                       type="number"
-                      // style={{ marginTop: 8 }}
+                      style={{
+                        lineHeight: "2em",
+                      }}
                       // placeholder="Amount"
                       fullWidth
-                      margin="normal"
+                      // margin="normal"
                       InputProps={{
-                        style: {marginTop: 10, marginBottom: 10},
+                        style: {paddingTop: 10, paddingBottom: 10, height:"inherit !important"},
                       }}
                       // InputLabelProps={{
                       //   shrink: true,
@@ -406,27 +424,46 @@ class BuyToken extends React.Component {
                   &nbsp;
                   &nbsp;
                   &nbsp;
-                  {
-                    showConvertETHToTokenField ?
-                      <FormControl component="fieldset" style={{width: "100%"}} >
-                        <InputLabel htmlFor="eth-to-token" shrink style={{fontSize: 20}}>Convert ETH to Token</InputLabel>
-                        <TextField
-                          id="eth-to-token"
-                          type="number"
-                          fullWidth
-                          margin="normal"
-                          InputProps={{
-                            style: {marginTop: 10, marginBottom: 10},
-                          }}
-                          disabled
-                          value={ethToToken}
-                        />
-                      </FormControl>
-                    : ""
-                  }
+                  <FormControl component="fieldset" style={{width: "100%"}} >
+                    <div className="title">CONVERT TO TOKEN</div>
+                    <TextField
+                      id="eth-to-token"
+                      type="number"
+                      style={{
+                        lineHeight: "2em",
+                      }}
+                      fullWidth
+                      InputProps={{
+                        style: {paddingTop: 10, paddingBottom: 10, height:"inherit !important"},
+                      }}
+                      disabled
+                      value={convertToToken}
+                    />
+                  </FormControl>
+                  &nbsp;
+                  &nbsp;
+                  &nbsp;
+                  <FormControl component="fieldset" style={{width: "100%"}} >
+                    <div className="title">AVAILABLE TOKEN AMOUNT</div>
+                    <TextField
+                      id="left-token"
+                      type="number"
+                      style={{
+                        lineHeight: "2em",
+                      }}
+                      fullWidth
+                      InputProps={{
+                        style: {paddingTop: 10, paddingBottom: 10, height:"inherit !important"},
+                      }}
+                      disabled
+                      value={reserveInfo.LeftToken}
+                    />
+                  </FormControl>
                 </div>
 
-                <FormControl component="fieldset" style={{width: "100%"}} >
+                <br/>
+
+                <FormControl component="fieldset" >
                   {
                     isSummitting ?
                       <div style={{display: "flex", justifyContent:"center"}}>
@@ -440,12 +477,9 @@ class BuyToken extends React.Component {
                   }
                 </FormControl>
               </div>
+
             </div>
 
-            <div className="col-12 col-md-6 col-lg-4">
-              <div className="c-card card-create-a-proposal-container" style={{ backgroundImage: `url(${bgImage})`, minHeight: 225, backgroundSize: "100%" }}>
-              </div>
-            </div>
           </div>
         </div>
         <Dialog
@@ -494,7 +528,7 @@ class BuyToken extends React.Component {
                   </thead>
                   <tbody>
                       {
-                        history.map((item={}) => {
+                        history && history.map((item={}) => {
                           return (
                             <tr key={`history-${item.ID}`} >
                               <td>{item.ID}</td>

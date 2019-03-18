@@ -85,7 +85,8 @@ class BuyToken extends React.Component {
       console.log("get history error", error);
       return;
     }
-    this.setState({ history: result });
+    const { Records = [], Page, Limit, TotalRecord, TotalPage } = result;
+    this.setState({ history: Records });
   }
 
   onGetStats = async () => {
@@ -134,28 +135,28 @@ class BuyToken extends React.Component {
                     <div className="value">
                       { TotalReservesSuccess.usd || 0}
                       &nbsp;
-                      <sup>USD</sup>
+                      <sup>by USD</sup>
                     </div>
                     <div className="value">
                       {TotalReservesSuccess.eth || 0}
                       &nbsp;
-                      <sup>ETH</sup>
+                      <sup>by ETH</sup>
                     </div>
-                    <div>Reserve Success</div>
+                    <div>Success</div>
                   </div>
 
                   <div className="col-12 col-lg-3 stats">
                     <div className="value">
                       { TotalReservesFailed.usd || 0}
                       &nbsp;
-                      <sup>USD</sup>
+                      <sup>by USD</sup>
                     </div>
                     <div className="value">
                       { TotalReservesFailed.eth || 0}
                       &nbsp;
-                      <sup>ETH</sup>
+                      <sup>by ETH</sup>
                     </div>
-                    <div>Reserve Failed</div>
+                    <div>Failed</div>
                   </div>
 
                   <div className="col-12 col-lg-3 stats">
@@ -169,7 +170,7 @@ class BuyToken extends React.Component {
                       &nbsp;
                       <sup>ETH</sup>
                     </div>
-                    <div>Total Amount Success</div>
+                    <div>Amount Success</div>
                   </div>
 
                   <div className="col-12 col-lg-3 stats">
@@ -183,7 +184,7 @@ class BuyToken extends React.Component {
                       &nbsp;
                       <sup>ETH</sup>
                     </div>
-                    <div>Total Amount Failed</div>
+                    <div>Amount Failed</div>
                   </div>
 
                 </div>
@@ -191,20 +192,20 @@ class BuyToken extends React.Component {
 
               <div className="c-card">
                 <FormControl component="fieldset" style={{width: "100%"}} >
-                  <InputLabel htmlFor="amount" shrink style={{fontSize: 20}}>Amount</InputLabel>
+                  <div className="title">ENTER AMOUNT</div>
                   <TextField
                     id="amount"
                     className="input-of-create cst"
-                    // label="Label"
                     type="number"
-                    // style={{ margin: 8 }}
-                    // placeholder="Amount"
+                    style={{
+                      lineHeight: "2em",
+                    }}
                     fullWidth
-                    margin="normal"
+                    // margin="normal"
                     InputProps={{
                       startAdornment: <InputAdornment position="start">$</InputAdornment>,
                       endAdornment: <InputAdornment position="end">USD</InputAdornment>,
-                      style: {marginTop: 10, marginBottom: 10},
+                      style: {paddingTop: 10, paddingBottom: 10, height:"inherit !important"},
                     }}
                     onChange={(e)=>this.onAmountChange(e.target.value)}
                     value={amount}
@@ -227,9 +228,10 @@ class BuyToken extends React.Component {
             </div>
 
             <div className="col-12 col-md-6 col-lg-4">
-              <div className="c-card card-create-a-proposal-container" style={{ backgroundImage: `url(${bgImage})`, minHeight: 170, backgroundSize: "100%" }}>
+              <div className="c-card card-create-a-proposal-container" style={{ backgroundImage: `url(${bgImage})`, minHeight: 280, backgroundSize: "100%" }}>
                 </div>
             </div>
+
           </div>
         </div>
         <Dialog
