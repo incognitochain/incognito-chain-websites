@@ -18,10 +18,12 @@ class Redeem extends React.Component {
     super(props);
     this.state = {
       data: null,
+      summary: {},
     };
   }
 
   componentDidMount() {
+    this.getSummaryData()
     let url = this.props.location.search;
     let params = queryString.parse(url);
     const { type = 'usd' } = params
@@ -33,7 +35,7 @@ class Redeem extends React.Component {
   }
 
   getETHData = () => {
-    this.setState({ tab: 1 })
+    this.setState({ tab: 1, data: [] })
     axios.get(API.RESERVE_REDEEM_ETH_LIST, null).then((res) => {
       if (res.status === 200) {
         if (res.data && res.data.Result) {
@@ -50,7 +52,7 @@ class Redeem extends React.Component {
   }
 
   getUSDData = () => {
-    this.setState({ tab: 0 })
+    this.setState({ tab: 0, data: [] })
     axios.get(API.RESERVE_REDEEM_USD_LIST, null).then((res) => {
       if (res.status === 200) {
         if (res.data && res.data.Result) {
@@ -66,6 +68,22 @@ class Redeem extends React.Component {
     });
   }
 
+  getSummaryData = () => {
+    axios.get(API.RESERVE_REDEEM_STATS, null).then((res) => {
+      if (res.status === 200) {
+        if (res.data && res.data.Result) {
+          this.setState({ summary: res.data.Result })
+        } else {
+          this.setState({ summary: {} })
+        }
+      }
+    }).catch((e) => {
+      this.setState({ summary: {} })
+      console.log(e);
+      catchError(e);
+    });
+  }
+
   render() {
     const {
       auth,
@@ -73,6 +91,7 @@ class Redeem extends React.Component {
     const {
       data,
       tab,
+      summary,
     } = this.state;
     return (
       <div className="home-page">
@@ -82,7 +101,41 @@ class Redeem extends React.Component {
               <div className="col-12 col-md-6 col-lg-8">
                 <div className="c-card">
                   <div className="hello">
-                    {`Hello, ${auth.data.Email}`}
+                    {`Hello, ${auth.data.UserName}`}
+                  </div>
+                  <div className="row stats-container">
+                    <div className="col-12 col-lg-3 stats">
+                      <div className="value">
+                        {summary.UsdFinished}
+                        {' '}
+                        <sup>USD</sup>
+                      </div>
+                      <div>Finished</div>
+                    </div>
+                    <div className="col-12 col-lg-3 stats">
+                      <div className="value">
+                        {summary.UsdFailed}
+                        {' '}
+                        <sup>USD</sup>
+                      </div>
+                      <div>Failed</div>
+                    </div>
+                    <div className="col-12 col-lg-3 stats">
+                      <div className="value">
+                        {summary.EthFinished}
+                        {' '}
+                        <sup>ETH</sup>
+                      </div>
+                      <div>Finished</div>
+                    </div>
+                    <div className="col-12 col-lg-3 stats">
+                      <div className="value">
+                        {summary.EthFailed}
+                        {' '}
+                        <sup>ETH</sup>
+                      </div>
+                      <div>Failed</div>
+                    </div>
                   </div>
                   <div className="row stats-container">
                   </div>
@@ -156,10 +209,10 @@ class Redeem extends React.Component {
                                 <td className="text-truncate">{r.EthAmount}</td>
                                 <td className="text-truncate">{dayjs(r.CreatedAt).format('MM-DD-YYYY HH:mm:ss')}</td>
                                 <td className={`text-truncate c-status ${
-                                  r.Status == 0 ? 'pending'
-                                    : (r.Status == 1 ? 'pending'
+                                  r.Status == 0 ? 'processing'
+                                    : (r.Status == 1 ? 'processing'
                                       : (r.Status == 2 ? 'failed'
-                                        : (r.Status == 10 ? 'pending'
+                                        : (r.Status == 10 ? 'processing'
                                           : (r.Status == 11 ? 'finished'
                                             : (r.Status == 12 ? 'failed'
                                               : (r.Status == 20 ? 'failed'
@@ -175,10 +228,10 @@ class Redeem extends React.Component {
                                       )
                                     )
                                   }`}>{
-                                    r.Status == 0 ? 'Pending'
-                                      : (r.Status == 1 ? 'Pending'
+                                    r.Status == 0 ? 'Processing'
+                                      : (r.Status == 1 ? 'Processing'
                                         : (r.Status == 2 ? 'Failed'
-                                          : (r.Status == 10 ? 'Pending'
+                                          : (r.Status == 10 ? 'Processing'
                                             : (r.Status == 11 ? 'Finished'
                                               : (r.Status == 12 ? 'Failed'
                                                 : (r.Status == 20 ? 'Failed'
@@ -213,7 +266,8 @@ class Redeem extends React.Component {
                         <table className="c-table-portal-home" style={{ width: "100%", tableLayout: "fixed" }}>
                           <colgroup>
                             <col style={{ "width": "7%" }} />
-                            <col style={{ "width": "33%" }} />
+                            <col style={{ "width": "23%" }} />
+                            <col style={{ "width": "10%" }} />
                             <col style={{ "width": "10%" }} />
                             <col style={{ "width": "10%" }} />
                             <col style={{ "width": "20%" }} />
@@ -224,6 +278,7 @@ class Redeem extends React.Component {
                               <th>ID</th>
                               <th>TX ID</th>
                               <th>CONST</th>
+                              <th>USD</th>
                               <th>Fee</th>
                               <th>Created At</th>
                               <th>Status</th>
@@ -236,22 +291,23 @@ class Redeem extends React.Component {
                                   <td className="text-truncate">{r.ID}</td>
                                   <td className="text-truncate"><a target={'_blank'} href={r.TxHash ? `${process.env.explorerUrl}/tx/${r.TxHash}` : ''}>{r.TxHash}</a></td>
                                   <td className="text-truncate">{r.Amount}</td>
+                                  <td className="text-truncate">{r.Amount}</td>
                                   <td className="text-truncate">{r.Fee}</td>
                                   <td className="text-truncate">{dayjs(r.CreatedAt).format('MM-DD-YYYY HH:mm:ss')}</td>
                                   <td className={`text-truncate c-status ${
-                                    r.Status == 0 ? 'pending'
-                                      : (r.Status == 1 ? 'pending'
-                                        : (r.Status == 2 ? 'pending'
-                                          : (r.Status == 3 ? 'pending'
-                                            : (r.Status == 4 ? 'pending'
-                                              : (r.Status == 5 ? 'pending'
-                                                : (r.Status == 6 ? 'pending'
-                                                  : (r.Status == 7 ? 'failed'
-                                                    : (r.Status == 8 ? 'finished'
-                                                      : (r.Status == 9 ? 'pending'
-                                                        : (r.Status == 10 ? 'pending'
-                                                          : (r.Status == 11 ? 'pending'
-                                                            : (r.Status == 12 ? 'pending'
+                                    r.Status == 'pending' ? 'processing'
+                                      : (r.Status == 'pending' ? 'processing'
+                                        : (r.Status == 'coin minting' ? 'processing'
+                                          : (r.Status == 'coin burning' ? 'processing'
+                                            : (r.Status == 'coin burned' ? 'processing'
+                                              : (r.Status == 'transfering' ? 'processing'
+                                                : (r.Status == 'redeeming' ? 'processing'
+                                                  : (r.Status == 'cancelled' ? 'failed'
+                                                    : (r.Status == 'done' ? 'finished'
+                                                      : (r.Status == 'holding' ? 'processing'
+                                                        : (r.Status == 'failed to burn coin' ? 'failed'
+                                                          : (r.Status == 'failed to mint coin' ? 'failed'
+                                                            : (r.Status == 'failed to transfer coin' ? 'failed'
                                                               : ''
                                                             )
                                                           )
@@ -266,19 +322,19 @@ class Redeem extends React.Component {
                                         )
                                       )
                                     }`}>{
-                                      r.Status == 0 ? 'Pending'
-                                        : (r.Status == 1 ? 'Purchasing'
-                                          : (r.Status == 2 ? 'Coin Minting'
-                                            : (r.Status == 3 ? 'Coin Burning'
-                                              : (r.Status == 4 ? 'Coin Burned'
-                                                : (r.Status == 5 ? 'Transfering'
-                                                  : (r.Status == 6 ? 'Redeeming'
-                                                    : (r.Status == 7 ? 'Cancelled'
-                                                      : (r.Status == 8 ? 'Done'
-                                                        : (r.Status == 9 ? 'Holding'
-                                                          : (r.Status == 10 ? 'Coin Burning Failed'
-                                                            : (r.Status == 11 ? 'Coin Minting Failed'
-                                                              : (r.Status == 12 ? 'Transfering Failed'
+                                      r.Status == 'pending' ? 'Pending'
+                                        : (r.Status == 'pending' ? 'Purchasing'
+                                          : (r.Status == 'coin minting' ? 'Coin Minting'
+                                            : (r.Status == 'coin burning' ? 'Coin Burning'
+                                              : (r.Status == 'coin burned' ? 'Coin Burned'
+                                                : (r.Status == 'transfering' ? 'Transfering'
+                                                  : (r.Status == 'redeeming' ? 'Redeeming'
+                                                    : (r.Status == 'cancelled' ? 'Cancelled'
+                                                      : (r.Status == 'done' ? 'Done'
+                                                        : (r.Status == 'holding' ? 'Holding'
+                                                          : (r.Status == 'failed to burn coin' ? 'Coin Burning Failed'
+                                                            : (r.Status == 'failed to mint coin' ? 'Coin Minting Failed'
+                                                              : (r.Status == 'failed to transfer coin' ? 'Transfering Failed'
                                                                 : ''
                                                               )
                                                             )

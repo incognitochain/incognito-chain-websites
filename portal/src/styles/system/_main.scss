@@ -25,6 +25,9 @@ main {
   &.pending {
     @extend .c-color-orange-500;
   }
+  &.processing {
+    @extend .c-color-orange-500;
+  }
   &.approved {
     @extend .c-color-green-500;
   }
