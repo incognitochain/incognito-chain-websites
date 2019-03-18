@@ -36,6 +36,22 @@ const BUYING_ASSET = {
   DCB_TOKEN: 2,
 };
 
+const RESERVE_HISTORY_STATUS_COLOR = {
+  "pending": "processing",
+  "purchasing": "processing",
+  "coin minting": "processing",
+  "coin burning": "processing",
+  "coin burned": "processing",
+  "transfering": "processing",
+  "redeeming": "processing",
+  "cancelled": "finished",
+  "done": "successed",
+  "holding": "processing",
+  "failed to burn coin": "failed",
+  "failed to mint coin": "failed",
+  "failed to transfer coin": "failed",
+};
+
 Object.keys(API).map((api) => { API[api] = `${BASE}/${API[api]}`; return null; });
 
-module.exports = { API, BLOCKCHAIN, BUYING_ASSET };
+module.exports = { API, BLOCKCHAIN, BUYING_ASSET, RESERVE_HISTORY_STATUS_COLOR };

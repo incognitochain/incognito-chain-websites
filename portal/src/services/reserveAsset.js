@@ -63,3 +63,21 @@ export async function getHistory(assetType=0, perPage=10, page=1, type = 0) {
   const result = await callAPIService({data: {}, method: "GET", url});
   return result;
 }
+
+export async function getReserveStatistic() {
+  let url = `/reserves/all_stats`;
+  const result = await callAPIService({data: {}, method: "GET", url});
+  return result;
+}
+
+export async function getRaiseReserveInfo() {
+  let url = `/reserves/get-raise-reserve-info`;
+  const result = await callAPIService({data: {}, method: "GET", url});
+  return result;
+}
+
+export async function convertETHtoDCBToken(amount) {
+  let url = `/reserves/convert-eth-to-dcb-token`;
+  const result = await callAPIService({data: {eth_amount: amount}, method: "POST", url});
+  return result;
+}

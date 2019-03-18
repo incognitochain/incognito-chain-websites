@@ -14,6 +14,8 @@ import {
   Dialog,
   DialogContent,
   DialogContentText,
+  InputLabel,
+  InputAdornment,
 } from '@material-ui/core';
 
 // import { detectInstalled, requestUnlockMetamask, init } from '@/reducers/metamask/action';
@@ -28,8 +30,8 @@ import { faSpinnerThird, faUsdCircle, faUsdSquare } from '@fortawesome/pro-light
 import bgImage from '@/assets/create-a-proposal.svg';
 import abiDefinition from './abiDefinition';
 
-import {BUYING_ASSET} from '../../constants';
-import { buyAsset, buyTokenByEthereum, getHistory } from "../../services/reserveAsset";
+import {BUYING_ASSET, RESERVE_HISTORY_STATUS_COLOR} from '../../constants';
+import { buyAsset, buyTokenByEthereum, getHistory, getReserveStatistic, getRaiseReserveInfo, convertETHtoDCBToken } from "../../services/reserveAsset";
 
 const BUYING_OBJECT = {
   USD: "usd",
@@ -37,11 +39,12 @@ const BUYING_OBJECT = {
 }
 
 const collaterals = [
-  { name: 'USD', icon: faUsdCircle, value: "usd" },
-  { name: 'ETH', icon: faEthereum, value: "eth" },
+  { name: 'USD', icon: faUsdCircle, value: BUYING_OBJECT.USD },
+  { name: 'ETH', icon: faEthereum, value: BUYING_OBJECT.ETH },
 ];
 
 const isMetamaskInstalled = typeof web3 !== 'undefined' && web3.currentProvider.isMetaMask;
+let convertETHtoDCBTokenTimeout;
 
 const mapStateToProps = (state) => {
   return {
@@ -73,13 +76,18 @@ class BuyToken extends React.Component {
       openMetamaskDialog,
       resultMessage: "",
       history: [],
+      allStats: {},
       page:1,
       perPage: 10,
       asset: collaterals[0],
+      reserveInfo: {},
+      ethToToken: 0,
     };
   }
   componentDidMount() {
     this.onGetHistory();
+    this.onGetStats();
+    this.getReserveInfo();
   }
 
   onAssetChange = (asset) => {
@@ -89,9 +97,16 @@ class BuyToken extends React.Component {
       });
   }
   onAmountChange = (amount) => {
-      this.setState({
-        amount,
-      });
+    this.setState({
+      amount,
+    });
+    if (convertETHtoDCBTokenTimeout > 0) {
+      clearTimeout(convertETHtoDCBTokenTimeout);
+      convertETHtoDCBTokenTimeout = 0;
+    }
+    convertETHtoDCBTokenTimeout = setTimeout(()=>{
+      this.onConvertETHtoDCBToken();
+    },100)
   }
 
   onSubmit = async () => {
@@ -202,6 +217,41 @@ class BuyToken extends React.Component {
     this.setState({ history: result });
   }
 
+  onGetStats = async () => {
+    const res = await getReserveStatistic();
+    // console.log(res)
+    const {result = {}, error=""} = res;
+    if (error) {
+      console.log("get stats error", error);
+      return;
+    }
+    this.setState({ allStats: result });
+  }
+
+  getReserveInfo = async () => {
+    const res = await getRaiseReserveInfo();
+    // console.log(res)
+    const {result = {}, error=""} = res;
+    if (error) {
+      console.log("get stats error", error);
+      return;
+    }
+    this.setState({ reserveInfo: result });
+  }
+
+  onConvertETHtoDCBToken = async () => {
+    const {amount} = this.state;
+    const res = await convertETHtoDCBToken(parseFloat(amount));
+    const {result, error=""} = res;
+    if (error) {
+      console.log("convert eth to token error", error);
+      this.setState({ ethToToken: 0 });
+    } else {
+      this.setState({ ethToToken: result });
+    }
+    convertETHtoDCBTokenTimeout = 0;
+  }
+
   linkMetamask = () => {
     const browser = detect();
     switch (browser && browser.name) {
@@ -215,61 +265,135 @@ class BuyToken extends React.Component {
   }
 
   render = () => {
-    const {asset = {}, amount = "", isSummitting, openDialog, openMetamaskDialog, history = [] } = this.state;
+    const {asset = {}, amount = "", isSummitting, openDialog, openMetamaskDialog, history = [], allStats = {} ,reserveInfo, ethToToken } = this.state;
     const disableSubmitBtn = (asset === "" || isSummitting);
+    const showConvertETHToTokenField = asset.value === BUYING_OBJECT.ETH;
+
     return (
       <div className="home-page">
         <section >
         <div className="container">
           <div className="row">
             <div className="col-12 col-md-6 col-lg-8">
-              <div className="creat-box c-card">
-                  <h3>Reserve Assets</h3>
-                  <br/>
-
-                  <div className="col-12 col-md-6 col-lg-4">
-                    <div className="title">CHOOSE YOUR OPTION</div>
-                    <div className="input" style={{ display:"flex", justifyContent:"space-around", paddingTop:5, paddingBottom:5 }}>
-                      {collaterals.map(collateral => (
-                        <div
-                          key={collateral.name}
-                          className={`collateral-option ${asset.name === collateral.name ? 'active' : ''}`}
-                          onClick={() => this.onAssetChange(collateral)}
-                          style={{
-                            cursor: "pointer",
-                            height: 70,
-                            width: 70,
-                            backgroundColor: asset.name === collateral.name ? '#FFFFFF' : "#FAFAFA" ,
-                            display: "flex",
-                            border: "1px solid #E4E7F2",
-                            borderRadius: 4,
-                            justifyContent: "center",
-                            alignItems:"center",
-                          }}
-                        >
-                          <FontAwesomeIcon icon={collateral.icon} size="2x" />
-                        </div>
-                      ))}
+              <div className="c-card">
+                <div className="hello">
+                  Reserve Assets
+                </div>
+                <div className="row stats-container" style={{display: "flex", justifyContent: "center"}}>
+                  <div className="col-12 col-lg-3 stats">
+                    <div className="value">
+                      {allStats.TotalReservesSuccess || 0}
+                      &nbsp;
+                      <sup>Reserve</sup>
                     </div>
+                    <div>Success</div>
                   </div>
+                  <div className="col-12 col-lg-3 stats">
+                    <div className="value">
+                      {allStats.TotalReservesFailed || 0}
+                      &nbsp;
+                      <sup>Reserve</sup>
+                    </div>
+                    <div>Failed</div>
+                  </div>
+                  <div className="col-12 col-lg-3 stats">
+                    <div className="value">
+                      {allStats.TotalReservesProcessing || 0}
+                      &nbsp;
+                      <sup>Reserve</sup>
+                    </div>
+                    <div>Processing</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="create-box c-card">
+                <div className="title">CHOOSE YOUR OPTION</div>
+                <div className="input" style={{ display:"flex",  paddingTop:5, paddingBottom:5 }}>
+                  {collaterals.map(collateral => (
+                    <div
+                      key={collateral.name}
+                      className={`collateral-option ${asset.name === collateral.name ? 'active' : ''}`}
+                      onClick={() => this.onAssetChange(collateral)}
+                      style={{
+                        cursor: "pointer",
+                        height: 70,
+                        width: 70,
+                        backgroundColor: asset.name === collateral.name ? '#FFFFFF' : "#FAFAFA" ,
+                        display: "flex",
+                        border: "1px solid #E4E7F2",
+                        borderRadius: 4,
+                        justifyContent: "center",
+                        alignItems:"center",
+                        marginRight: 10,
+                      }}
+                    >
+                      <FontAwesomeIcon icon={collateral.icon} size="2x" />
+                    </div>
+                  ))}
+                </div>
+                <br/>
 
                 <FormControl component="fieldset" style={{width: "100%"}} >
-
+                  <InputLabel htmlFor="left-token" shrink style={{fontSize: 20}}>Left Token Amount</InputLabel>
                   <TextField
-                    id="standard-full-width"
-                    label="Amount"
+                    id="left-token"
                     type="number"
-                    // style={{ margin: 8 }}
-                    placeholder="Amount"
                     fullWidth
                     margin="normal"
-                    InputLabelProps={{
-                      shrink: true,
+                    InputProps={{
+                      style: {marginTop: 10, marginBottom: 10},
                     }}
-                    onChange={(e)=>this.onAmountChange(e.target.value)}
-                    value={amount}
+                    disabled
+                    value={reserveInfo.LeftToken}
                   />
-                  <br/>
+                </FormControl>
+
+                <div style={{display:"flex", justifyContent:"space-around"}}>
+                  <FormControl component="fieldset" style={{width: "100%"}} >
+                    <InputLabel htmlFor="amount" shrink style={{fontSize: 20}}>Amount</InputLabel>
+                    <TextField
+                      id="amount"
+                      // label="Amount"
+                      type="number"
+                      // style={{ marginTop: 8 }}
+                      // placeholder="Amount"
+                      fullWidth
+                      margin="normal"
+                      InputProps={{
+                        style: {marginTop: 10, marginBottom: 10},
+                      }}
+                      // InputLabelProps={{
+                      //   shrink: true,
+                      // }}
+                      onChange={(e)=>this.onAmountChange(e.target.value)}
+                      value={amount}
+                    />
+                  </FormControl>
+                  &nbsp;
+                  &nbsp;
+                  &nbsp;
+                  {
+                    showConvertETHToTokenField ?
+                      <FormControl component="fieldset" style={{width: "100%"}} >
+                        <InputLabel htmlFor="eth-to-token" shrink style={{fontSize: 20}}>Convert ETH to Token</InputLabel>
+                        <TextField
+                          id="eth-to-token"
+                          type="number"
+                          fullWidth
+                          margin="normal"
+                          InputProps={{
+                            style: {marginTop: 10, marginBottom: 10},
+                          }}
+                          disabled
+                          value={ethToToken}
+                        />
+                      </FormControl>
+                    : ""
+                  }
+                </div>
+
+                <FormControl component="fieldset" style={{width: "100%"}} >
                   {
                     isSummitting ?
                       <div style={{display: "flex", justifyContent:"center"}}>
@@ -281,10 +405,10 @@ class BuyToken extends React.Component {
                         &nbsp;<FontAwesomeIcon icon={faArrowRight} />
                       </button>
                   }
-
                 </FormControl>
               </div>
             </div>
+
             <div className="col-12 col-md-6 col-lg-4">
               <div className="c-card card-create-a-proposal-container" style={{ backgroundImage: `url(${bgImage})`, minHeight: 225, backgroundSize: "100%" }}>
               </div>
@@ -342,7 +466,7 @@ class BuyToken extends React.Component {
                             <tr key={`history-${item.ID}`} >
                               <td>{item.ID}</td>
                               <td>{item.Amount}</td>
-                              <td>{item.Status}</td>
+                              <td className={`c-status ${RESERVE_HISTORY_STATUS_COLOR[item.Status]}`}>{item.Status}</td>
                               <td>{dayjs(item.CreatedAt).format('MM-DD-YYYY')}</td>
                             </tr>
                           )

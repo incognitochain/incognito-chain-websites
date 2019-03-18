@@ -10,6 +10,7 @@ import {
   DialogContent,
   DialogContentText,
   InputAdornment,
+  InputLabel,
   // Table,
   // TableBody,
   // TableFooter,
@@ -26,7 +27,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import Link from '@/components/Link';
 
-import {BUYING_ASSET} from '../../constants';
+import {BUYING_ASSET, RESERVE_HISTORY_STATUS_COLOR} from '../../constants';
 import { buyAsset, getHistory } from "../../services/reserveAsset";
 
 class BuyToken extends React.Component {
@@ -77,7 +78,6 @@ class BuyToken extends React.Component {
   onGetHistory = async () => {
     const {page, perPage} = this.state;
     const res = await getHistory(BUYING_ASSET.CONSTANT, perPage, page);
-    console.log(res)
     const {result = [], error=""} = res;
     if (error) {
       console.log("get history error", error);
@@ -112,22 +112,53 @@ class BuyToken extends React.Component {
           <div className="row">
             <div className="col-12 col-md-6 col-lg-8">
               <div className="c-card">
-                <h3>Buy Constant</h3>
-                <br/>
+                <div className="hello">
+                  Buy Constant
+                </div>
+                <div className="row stats-container" style={{display: "flex", justifyContent: "center"}}>
+                  <div className="col-12 col-lg-3 stats">
+                    <div className="value">
+                      {0}
+                      &nbsp;
+                      <sup>Reserve</sup>
+                    </div>
+                    <div>Success</div>
+                  </div>
+                  <div className="col-12 col-lg-3 stats">
+                    <div className="value">
+                      {0}
+                      &nbsp;
+                      <sup>Reserve</sup>
+                    </div>
+                    <div>Failed</div>
+                  </div>
+                  <div className="col-12 col-lg-3 stats">
+                    <div className="value">
+                      {0}
+                      &nbsp;
+                      <sup>Reserve</sup>
+                    </div>
+                    <div>Processing</div>
+                  </div>
+                </div>
+              </div>
 
+              <div className="c-card">
                 <FormControl component="fieldset" style={{width: "100%"}} >
+                  <InputLabel htmlFor="amount" shrink style={{fontSize: 20}}>Amount</InputLabel>
                   <TextField
-                    id="standard-full-width"
+                    id="amount"
                     className="input-of-create cst"
                     // label="Label"
                     type="number"
                     // style={{ margin: 8 }}
-                    placeholder="Amount"
+                    // placeholder="Amount"
                     fullWidth
                     margin="normal"
                     InputProps={{
                       startAdornment: <InputAdornment position="start">$</InputAdornment>,
                       endAdornment: <InputAdornment position="end">USD</InputAdornment>,
+                      style: {marginTop: 10, marginBottom: 10},
                     }}
                     onChange={(e)=>this.onAmountChange(e.target.value)}
                     value={amount}
@@ -148,6 +179,7 @@ class BuyToken extends React.Component {
                 </FormControl>
               </div>
             </div>
+
             <div className="col-12 col-md-6 col-lg-4">
               <div className="c-card card-create-a-proposal-container" style={{ backgroundImage: `url(${bgImage})`, minHeight: 170, backgroundSize: "100%" }}>
                 </div>
@@ -189,7 +221,7 @@ class BuyToken extends React.Component {
                             <tr key={`history-${item.ID}`} >
                               <td>{item.ID}</td>
                               <td>{item.Amount}</td>
-                              <td>{item.Status}</td>
+                              <td className={`c-status ${RESERVE_HISTORY_STATUS_COLOR[item.Status]}`}>{item.Status}</td>
                               <td>{dayjs(item.CreatedAt).format('MM-DD-YYYY')}</td>
                             </tr>
                           )
