@@ -33,7 +33,7 @@ class Chain extends React.Component {
     this.loadData(rawchainId);
     setInterval(() => {
       this.loadData(rawchainId);
-    }, 5000);
+    }, 10000);
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
