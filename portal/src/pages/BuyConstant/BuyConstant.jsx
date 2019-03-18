@@ -112,6 +112,9 @@ class BuyToken extends React.Component {
           <div className="row">
             <div className="col-12 col-md-6 col-lg-8">
               <div className="c-card">
+                <h3>Buy Constant</h3>
+                <br/>
+
                 <FormControl component="fieldset" style={{width: "100%"}} >
                   <TextField
                     id="standard-full-width"

@@ -223,7 +223,10 @@ class BuyToken extends React.Component {
         <div className="container">
           <div className="row">
             <div className="col-12 col-md-6 col-lg-8">
-              <div className="c-card">
+              <div className="creat-box c-card">
+                  <h3>Reserve Assets</h3>
+                  <br/>
+
                   <div className="col-12 col-md-6 col-lg-4">
                     <div className="title">CHOOSE YOUR OPTION</div>
                     <div className="input" style={{ display:"flex", justifyContent:"space-around", paddingTop:5, paddingBottom:5 }}>
