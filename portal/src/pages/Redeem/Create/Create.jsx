@@ -90,7 +90,7 @@ class Create extends React.Component {
         const data = {
           constant_amount: parseInt(e.target.value, 0).cst2Cent(),
         };
-        axios.get(API.RESERVE_CONVERT_CST_TO_ETH, data).then((res) => {
+        axios.post(API.RESERVE_CONVERT_CST_TO_ETH, data).then((res) => {
           if (res.status === 200) {
             if (res.data && res.data.Result) {
               setFieldValue('etherAmount', res.data.Result);
