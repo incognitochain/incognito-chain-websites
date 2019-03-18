@@ -27,7 +27,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import Link from '@/components/Link';
 
-import {BUYING_ASSET} from '../../constants';
+import {BUYING_ASSET, RESERVE_HISTORY_STATUS_COLOR} from '../../constants';
 import { buyAsset, getHistory } from "../../services/reserveAsset";
 
 class BuyToken extends React.Component {
@@ -221,7 +221,7 @@ class BuyToken extends React.Component {
                             <tr key={`history-${item.ID}`} >
                               <td>{item.ID}</td>
                               <td>{item.Amount}</td>
-                              <td>{item.Status}</td>
+                              <td className={`c-status ${RESERVE_HISTORY_STATUS_COLOR[item.Status]}`}>{item.Status}</td>
                               <td>{dayjs(item.CreatedAt).format('MM-DD-YYYY')}</td>
                             </tr>
                           )

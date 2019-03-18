@@ -15,6 +15,7 @@ import {
   DialogContent,
   DialogContentText,
   InputLabel,
+  InputAdornment,
 } from '@material-ui/core';
 
 // import { detectInstalled, requestUnlockMetamask, init } from '@/reducers/metamask/action';
@@ -29,8 +30,8 @@ import { faSpinnerThird, faUsdCircle, faUsdSquare } from '@fortawesome/pro-light
 import bgImage from '@/assets/create-a-proposal.svg';
 import abiDefinition from './abiDefinition';
 
-import {BUYING_ASSET} from '../../constants';
-import { buyAsset, buyTokenByEthereum, getHistory, getReserveStatistic } from "../../services/reserveAsset";
+import {BUYING_ASSET, RESERVE_HISTORY_STATUS_COLOR} from '../../constants';
+import { buyAsset, buyTokenByEthereum, getHistory, getReserveStatistic, getRaiseReserveInfo, convertETHtoDCBToken } from "../../services/reserveAsset";
 
 const BUYING_OBJECT = {
   USD: "usd",
@@ -38,11 +39,12 @@ const BUYING_OBJECT = {
 }
 
 const collaterals = [
-  { name: 'USD', icon: faUsdCircle, value: "usd" },
-  { name: 'ETH', icon: faEthereum, value: "eth" },
+  { name: 'USD', icon: faUsdCircle, value: BUYING_OBJECT.USD },
+  { name: 'ETH', icon: faEthereum, value: BUYING_OBJECT.ETH },
 ];
 
 const isMetamaskInstalled = typeof web3 !== 'undefined' && web3.currentProvider.isMetaMask;
+let convertETHtoDCBTokenTimeout;
 
 const mapStateToProps = (state) => {
   return {
@@ -78,11 +80,14 @@ class BuyToken extends React.Component {
       page:1,
       perPage: 10,
       asset: collaterals[0],
+      reserveInfo: {},
+      ethToToken: 0,
     };
   }
   componentDidMount() {
     this.onGetHistory();
     this.onGetStats();
+    this.getReserveInfo();
   }
 
   onAssetChange = (asset) => {
@@ -92,9 +97,16 @@ class BuyToken extends React.Component {
       });
   }
   onAmountChange = (amount) => {
-      this.setState({
-        amount,
-      });
+    this.setState({
+      amount,
+    });
+    if (convertETHtoDCBTokenTimeout > 0) {
+      clearTimeout(convertETHtoDCBTokenTimeout);
+      convertETHtoDCBTokenTimeout = 0;
+    }
+    convertETHtoDCBTokenTimeout = setTimeout(()=>{
+      this.onConvertETHtoDCBToken();
+    },100)
   }
 
   onSubmit = async () => {
@@ -216,6 +228,30 @@ class BuyToken extends React.Component {
     this.setState({ allStats: result });
   }
 
+  getReserveInfo = async () => {
+    const res = await getRaiseReserveInfo();
+    // console.log(res)
+    const {result = {}, error=""} = res;
+    if (error) {
+      console.log("get stats error", error);
+      return;
+    }
+    this.setState({ reserveInfo: result });
+  }
+
+  onConvertETHtoDCBToken = async () => {
+    const {amount} = this.state;
+    const res = await convertETHtoDCBToken(parseFloat(amount));
+    const {result, error=""} = res;
+    if (error) {
+      console.log("convert eth to token error", error);
+      this.setState({ ethToToken: 0 });
+    } else {
+      this.setState({ ethToToken: result });
+    }
+    convertETHtoDCBTokenTimeout = 0;
+  }
+
   linkMetamask = () => {
     const browser = detect();
     switch (browser && browser.name) {
@@ -229,8 +265,10 @@ class BuyToken extends React.Component {
   }
 
   render = () => {
-    const {asset = {}, amount = "", isSummitting, openDialog, openMetamaskDialog, history = [], allStats = {} } = this.state;
+    const {asset = {}, amount = "", isSummitting, openDialog, openMetamaskDialog, history = [], allStats = {} ,reserveInfo, ethToToken } = this.state;
     const disableSubmitBtn = (asset === "" || isSummitting);
+    const showConvertETHToTokenField = asset.value === BUYING_OBJECT.ETH;
+
     return (
       <div className="home-page">
         <section >
@@ -297,25 +335,65 @@ class BuyToken extends React.Component {
                 <br/>
 
                 <FormControl component="fieldset" style={{width: "100%"}} >
-                  <InputLabel htmlFor="amount" shrink style={{fontSize: 20}}>Amount</InputLabel>
+                  <InputLabel htmlFor="left-token" shrink style={{fontSize: 20}}>Left Token Amount</InputLabel>
                   <TextField
-                    id="amount"
-                    // label="Amount"
+                    id="left-token"
                     type="number"
-                    // style={{ marginTop: 8 }}
-                    // placeholder="Amount"
                     fullWidth
                     margin="normal"
                     InputProps={{
                       style: {marginTop: 10, marginBottom: 10},
                     }}
-                    // InputLabelProps={{
-                    //   shrink: true,
-                    // }}
-                    onChange={(e)=>this.onAmountChange(e.target.value)}
-                    value={amount}
+                    disabled
+                    value={reserveInfo.LeftToken}
                   />
-                  <br/>
+                </FormControl>
+
+                <div style={{display:"flex", justifyContent:"space-around"}}>
+                  <FormControl component="fieldset" style={{width: "100%"}} >
+                    <InputLabel htmlFor="amount" shrink style={{fontSize: 20}}>Amount</InputLabel>
+                    <TextField
+                      id="amount"
+                      // label="Amount"
+                      type="number"
+                      // style={{ marginTop: 8 }}
+                      // placeholder="Amount"
+                      fullWidth
+                      margin="normal"
+                      InputProps={{
+                        style: {marginTop: 10, marginBottom: 10},
+                      }}
+                      // InputLabelProps={{
+                      //   shrink: true,
+                      // }}
+                      onChange={(e)=>this.onAmountChange(e.target.value)}
+                      value={amount}
+                    />
+                  </FormControl>
+                  &nbsp;
+                  &nbsp;
+                  &nbsp;
+                  {
+                    showConvertETHToTokenField ?
+                      <FormControl component="fieldset" style={{width: "100%"}} >
+                        <InputLabel htmlFor="eth-to-token" shrink style={{fontSize: 20}}>Convert ETH to Token</InputLabel>
+                        <TextField
+                          id="eth-to-token"
+                          type="number"
+                          fullWidth
+                          margin="normal"
+                          InputProps={{
+                            style: {marginTop: 10, marginBottom: 10},
+                          }}
+                          disabled
+                          value={ethToToken}
+                        />
+                      </FormControl>
+                    : ""
+                  }
+                </div>
+
+                <FormControl component="fieldset" style={{width: "100%"}} >
                   {
                     isSummitting ?
                       <div style={{display: "flex", justifyContent:"center"}}>
@@ -388,7 +466,7 @@ class BuyToken extends React.Component {
                             <tr key={`history-${item.ID}`} >
                               <td>{item.ID}</td>
                               <td>{item.Amount}</td>
-                              <td>{item.Status}</td>
+                              <td className={`c-status ${RESERVE_HISTORY_STATUS_COLOR[item.Status]}`}>{item.Status}</td>
                               <td>{dayjs(item.CreatedAt).format('MM-DD-YYYY')}</td>
                             </tr>
                           )
