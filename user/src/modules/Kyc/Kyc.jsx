@@ -4,10 +4,7 @@ import React from "react";
 // import { Link } from 'react-router-dom';
 import { axios, catchError } from "services/api";
 import { API } from "constants/index";
-import { isEmpty } from "lodash";
-import { Dialog, toaster, TextInputField, Alert } from "evergreen-ui";
-import QRCode from "qrcode.react";
-import { CopyToClipboard } from "react-copy-to-clipboard";
+import { Dialog, toaster } from "evergreen-ui";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/pro-regular-svg-icons';
 import { faSpinnerThird } from '@fortawesome/pro-light-svg-icons';
@@ -97,11 +94,12 @@ class Kyc extends React.Component {
         if (res.data && res.data.Result) {
           kycDocs[type] = res.data.Result
           this.setState({ kycDocs: kycDocs })
+          toaster.success('Successed to upload your document');
         }
       }
       this.setState({ isUploading: false })
     }).catch((e) => {
-      toaster.warning('Failed to upload');
+      toaster.warning('Failed to upload your document');
       console.log(e);
       catchError(e);
       this.setState({ isUploading: false })
@@ -133,7 +131,7 @@ class Kyc extends React.Component {
       }
       setSubmitting(false)
     }).catch((e) => {
-      toaster.warning('Failed to upload');
+      toaster.warning('Failed to update your KYC');
       console.log(e);
       catchError(e);
       setSubmitting(false)
@@ -208,7 +206,6 @@ class Kyc extends React.Component {
           return errors;
         }}
         validateOnBlur={false}
-        // validateOnChange={false}
         onSubmit={(values, { setSubmitting }) => {
           this.handleSubmit(values, setSubmitting);
         }}
@@ -218,12 +215,12 @@ class Kyc extends React.Component {
             values,
             touched,
             errors,
-            dirty,
+            // dirty,
             isSubmitting,
             handleChange,
-            handleBlur,
+            // handleBlur,
             handleSubmit,
-            handleReset,
+            // handleReset,
             isValid,
             status,
           } = props;
@@ -255,8 +252,8 @@ class Kyc extends React.Component {
                   <div className="col">
                     <React.Fragment>
                       <Typography variant="h6" gutterBottom>
-                        KYC Infomation
-                  </Typography>
+                        KYC INFOMATION
+                      </Typography>
                       <Grid container spacing={24}>
                         <Grid item xs={6}>
                           <Grid item xs={12}>
@@ -275,7 +272,7 @@ class Kyc extends React.Component {
                         <Grid item xs={3}>
                           <FormControlLabel value="1" control={
                             <Radio
-                              checked={values.gender == 1}
+                              checked={parseInt(values.gender) === 1}
                               onChange={(e) => {
                                 values.gender = e.target.value
                                 this.setState({ isUpdated: true })
@@ -287,7 +284,7 @@ class Kyc extends React.Component {
                           } label="Male" />
                           <FormControlLabel value="0" control={
                             <Radio
-                              checked={values.gender == 2}
+                              checked={parseInt(values.gender) === 2}
                               onChange={(e) => {
                                 values.gender = e.target.value
                                 this.setState({ isUpdated: true })
@@ -352,7 +349,7 @@ class Kyc extends React.Component {
                           {errors.taxIDNumber && touched.taxIDNumber && <span className="c-error"><span>{errors.taxIDNumber}</span></span>}
                         </Grid>
                         <Grid item xs={2}>
-                          GOV ID Front
+                          Government ID Front
                         </Grid>
                         <Grid item xs={3}>
                           <input
@@ -378,7 +375,7 @@ class Kyc extends React.Component {
                           }
                         </Grid>
                         <Grid item xs={2}>
-                          GOV ID Back
+                          Government ID Back
                         </Grid>
                         <Grid item xs={3}>
                           <input

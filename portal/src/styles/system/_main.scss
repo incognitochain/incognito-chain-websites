@@ -25,6 +25,9 @@ main {
   &.pending {
     @extend .c-color-orange-500;
   }
+  &.processing {
+    @extend .c-color-orange-500;
+  }
   &.approved {
     @extend .c-color-green-500;
   }
@@ -36,5 +39,14 @@ main {
   }
   &.payment {
     @extend .c-color-blue-900;
+  }
+  &.failed {
+    @extend .c-color-red-500;
+  }
+  &.finished {
+    @extend .c-color-green-500;
+  }
+  &.successed {
+    @extend .c-color-green-500;
   }
 }

@@ -46,6 +46,7 @@ class Create extends React.Component {
       currentCollateral: collaterals[1],
       hiddenETHAddr: false,
       status: '',
+      leftToken: 0,
     };
     const { authCheckAuth } = this.props;
     authCheckAuth();
@@ -53,10 +54,27 @@ class Create extends React.Component {
 
   componentDidMount() {
     document.title = 'Create a redeem request - Constant';
+    this.getSpendInfo()
   }
 
   componentWillUnmount() {
 
+  }
+
+  getSpendInfo = () => {
+    axios.get(API.RESERVE_SPEND_INFO, null).then((res) => {
+      if (res.status === 200) {
+        if (res.data && res.data.Result) {
+          this.setState({ leftToken: res.data.Result.LeftToken })
+        } else {
+          this.setState({ leftToken: 0 })
+        }
+      }
+    }).catch((e) => {
+      this.setState({ leftToken: 0 })
+      console.log(e);
+      catchError(e);
+    });
   }
 
   // form
@@ -70,7 +88,7 @@ class Create extends React.Component {
         setFieldValue('etherAmount', 0);
       } else {
         const data = {
-          constant_amount: parseInt(e.target.value, 0) * 1000,
+          constant_amount: parseInt(e.target.value, 0) * 100,
         };
         axios.post(API.RESERVE_CONVERT_CST_TO_ETH, data).then((res) => {
           if (res.status === 200) {
@@ -106,10 +124,7 @@ class Create extends React.Component {
 
   // submit handler
   handleSubmit = (values, setSubmitting) => {
-    const { currentCollateral, wantUsePrivateKey } = this.state;
-    if (wantUsePrivateKey) {
-      return true;
-    }
+    const { currentCollateral } = this.state;
     if (currentCollateral.name === 'USD') {
       this.submitByUSD(values, setSubmitting);
     }
@@ -139,12 +154,12 @@ class Create extends React.Component {
         beneficiaryAddressPostalCode: values.beneficiaryAddressPostalCode,
         beneficiaryAddressCountry: values.beneficiaryAddressCountry,
       },
-      Amount: parseInt(values.redeemAmount, 0) * 1000
+      Amount: parseInt(parseFloat(values.redeemAmount) * 100, 0)
     };
-    axios.post(API.RESERVE_BURN_CST_TO_USD, data).then((res) => {
+    axios.post(API.RESERVE_REDEEM_USD_CREATE, data).then((res) => {
       if (res.status === 200) {
         if (res.data && res.data.Result) {
-          routerPush('/redeem');
+          routerPush('/redeem?type=usd');
         }
       }
       setSubmitting(false);
@@ -161,12 +176,12 @@ class Create extends React.Component {
     setSubmitting(false);
     const data = {
       receiver_address: values.receiverAddress,
-      constant_amount: parseInt(values.redeemAmount, 0) * 1000,
+      constant_amount: parseInt(parseFloat(values.redeemAmount) * 100, 0)
     };
-    axios.post(API.RESERVE_BURN_CST_TO_ETH, data).then((res) => {
+    axios.post(API.RESERVE_REDEEM_ETH_CREATE, data).then((res) => {
       if (res.status === 200) {
         if (res.data && res.data.Result) {
-          routerPush('/redeem');
+          routerPush('/redeem?type=eth');
         }
       }
       setSubmitting(false);
@@ -185,6 +200,7 @@ class Create extends React.Component {
       collaterals,
       currentCollateral,
       hiddenETHAddr,
+      leftToken,
     } = this.state;
     return (
       <div className="create-page">
@@ -284,14 +300,12 @@ class Create extends React.Component {
                     if (!values.policy) {
                       errors.policy = 'You must accept with this policy.';
                     }
-                    console.log('errors', errors)
                     return errors;
                   }}
                   // validateOnBlur={false}
                   // validateOnChange={false}
                   onSubmit={(values, { setSubmitting }) => {
-                    console.log('values', values)
-                    // this.handleSubmit(values, setSubmitting);
+                    this.handleSubmit(values, setSubmitting);
                   }}
                 >
                   {({
@@ -341,15 +355,21 @@ class Create extends React.Component {
                               <div className="title">ENTER REDEEM AMOUNT</div>
                               <div className="input">
                                 <TextField
+                                  disabled={parseFloat(leftToken) / 100 <= 0}
                                   name="redeemAmount"
                                   placeholder="100"
                                   className="input-of-create cst"
                                   value={values.redeemAmount}
                                   autoComplete="off"
                                   onChange={(e) => {
-                                    this.onlyNumber(e.target.value, () => {
-                                      this.changeRedeemAmount(e, setFieldValue);
+                                    if (e.target.value == '') {
                                       return handleChange(e)
+                                    }
+                                    this.onlyNumber(e.target.value, () => {
+                                      if (parseFloat(e.target.value) * 100 <= leftToken) {
+                                        this.changeRedeemAmount(e, setFieldValue);
+                                        return handleChange(e)
+                                      }
                                     });
                                   }}
                                   InputProps={{
@@ -358,6 +378,7 @@ class Create extends React.Component {
                                 />
                                 {errors.redeemAmount && touched.redeemAmount && <span className="c-error"><span>{errors.redeemAmount}</span></span>}
                               </div>
+                              <span className="c-info"><span>{`MAXIMUM `} <span className="c-error"><span>{leftToken / 1000}</span></span> {` CONSTANT`}</span></span>
                             </div>
                             <div className="col-12 col-md-6 col-lg-4">
                               <div className="title">CHOOSE YOUR OPTION</div>

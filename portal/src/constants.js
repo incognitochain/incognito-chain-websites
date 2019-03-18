@@ -15,10 +15,16 @@ const API = {
   LOAN_LIST: 'portal/borrows',
   LOAN_ACTION: 'portal/borrows',
   LOAN_LIST_FOR_LENDER: 'portal/all_borrows',
-  USER_DATA: 'auth/me',
-  RESERVE_BURN_CST_TO_ETH: 'reserves/burn-cst-to-eth',
-  RESERVE_BURN_CST_TO_USD: 'reserves/redeem',
+  USER_DATA: 'auth/profile',
+  RESERVE_REDEEM_ETH_LIST: 'reserves/redeem-eth',
+  RESERVE_REDEEM_ETH_CREATE: 'reserves/redeem-eth',
+  RESERVE_REDEEM_USD_LIST: 'reserves/usd?type=1&buying_asset=1',
+  RESERVE_REDEEM_USD_CREATE: 'reserves/redeem-usd',
   RESERVE_CONVERT_CST_TO_ETH: 'reserves/convert-cst-to-eth',
+  RESERVE_CONVERT_ETH_TO_DCB: 'reserves/convert-eth-to-dcb-token',
+  RESERVE_REDEEM_STATS: 'reserves/redeem-stats',
+  RESERVE_RAISE_INFO: 'reserves/get-raise-reserve-info',
+  RESERVE_SPEND_INFO: 'reserves/get-spend-reserve-info',
 };
 
 const BLOCKCHAIN = {

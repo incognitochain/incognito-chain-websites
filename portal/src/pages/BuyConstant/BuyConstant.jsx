@@ -1,4 +1,5 @@
 import React from 'react';
+import dayjs from 'dayjs';
 
 import {
   TextField,
@@ -9,6 +10,12 @@ import {
   DialogContent,
   DialogContentText,
   InputAdornment,
+  InputLabel,
+  // Table,
+  // TableBody,
+  // TableFooter,
+  // TableRow,
+  // TablePagination,
 } from '@material-ui/core';
 
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,14 +23,12 @@ import {
 // import Link from '@/components/Link';
 // import Logo from '@/assets/logo.svg';
 import bgImage from '@/assets/create-a-proposal.svg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleRight, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import Link from '@/components/Link';
 
 import {BUYING_ASSET} from '../../constants';
-import { buyAsset } from "../../services/reserveAsset";
-
-const BUYING_OBJECT = {
-  USD: "usd",
-  ETH: "eth",
-}
+import { buyAsset, getHistory } from "../../services/reserveAsset";
 
 class BuyToken extends React.Component {
   constructor(props) {
@@ -32,7 +37,13 @@ class BuyToken extends React.Component {
       isSummitting: false,
       openDialog: false,
       resultMessage: "",
+      history: [],
+      page:1,
+      perPage: 10,
     };
+  }
+  componentDidMount() {
+    this.onGetHistory();
   }
 
   onAmountChange = (amount) => {
@@ -64,23 +75,85 @@ class BuyToken extends React.Component {
     this.setState({openDialog:false, resultMessage: ""});
   }
 
+  onGetHistory = async () => {
+    const {page, perPage} = this.state;
+    const res = await getHistory(BUYING_ASSET.CONSTANT, perPage, page);
+    console.log(res)
+    const {result = [], error=""} = res;
+    if (error) {
+      console.log("get history error", error);
+      return;
+    }
+    this.setState({ history: result });
+  }
+
+  // onChangeRowsPerPage = (perPage) => {
+  //   // console.log(perPage)
+  //   const {page} = this.state;
+  //   this.setState({perPage});
+  //   this.onGetHistory(page, perPage);
+  // }
+  // onChangePage = (page) => {
+  //   console.log(page)
+  //   if( page === 0) {
+  //     return;
+  //   }
+  //   const {perPage} = this.state;
+  //   this.setState({page})
+  //   this.onGetHistory(page, perPage);
+  // }
+
   render = () => {
-    const {amount = "", isSummitting, openDialog} = this.state;
+    const {amount = "", isSummitting, openDialog, history = [], page, perPage} = this.state;
 
     return (
-      <div className="buytoken-page">
+      <div className="home-page">
+      <section >
         <div className="container">
-          <h5>Buy Constant</h5>
           <div className="row">
             <div className="col-12 col-md-6 col-lg-8">
               <div className="c-card">
+                <div className="hello">
+                  Buy Constant
+                </div>
+                <div className="row stats-container" style={{display: "flex", justifyContent: "center"}}>
+                  <div className="col-12 col-lg-3 stats">
+                    <div className="value">
+                      {0}
+                      &nbsp;
+                      <sup>Reserve</sup>
+                    </div>
+                    <div>Success</div>
+                  </div>
+                  <div className="col-12 col-lg-3 stats">
+                    <div className="value">
+                      {0}
+                      &nbsp;
+                      <sup>Reserve</sup>
+                    </div>
+                    <div>Failed</div>
+                  </div>
+                  <div className="col-12 col-lg-3 stats">
+                    <div className="value">
+                      {0}
+                      &nbsp;
+                      <sup>Reserve</sup>
+                    </div>
+                    <div>Processing</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="c-card">
                 <FormControl component="fieldset" style={{width: "100%"}} >
+                  <InputLabel htmlFor="amount" shrink style={{fontSize: 20}}>Amount</InputLabel>
                   <TextField
-                    id="standard-full-width"
+                    id="amount"
+                    className="input-of-create cst"
                     // label="Label"
                     type="number"
-                    style={{ margin: 8 }}
-                    placeholder="Amount"
+                    // style={{ margin: 8 }}
+                    // placeholder="Amount"
                     fullWidth
                     margin="normal"
                     InputProps={{
@@ -97,17 +170,19 @@ class BuyToken extends React.Component {
                         <CircularProgress style={{width: "auto", height:"auto"}} />
                       </div>
                     :
-                      <Button variant="contained" style={{width: "100%"}} onClick={this.onSubmit} >
+                      <button className="c-btn c-btn-primary submit" style={{width: "100%"}} onClick={this.onSubmit} >
                         Get Constant
-                      </Button>
+                        &nbsp;<FontAwesomeIcon icon={faArrowRight} />
+                      </button>
                   }
 
                 </FormControl>
               </div>
             </div>
+
             <div className="col-12 col-md-6 col-lg-4">
-              <div className="c-card card-create-a-proposal-container" style={{ backgroundImage: `url(${bgImage})`, minHeight: 150 }}>
-              </div>
+              <div className="c-card card-create-a-proposal-container" style={{ backgroundImage: `url(${bgImage})`, minHeight: 170, backgroundSize: "100%" }}>
+                </div>
             </div>
           </div>
         </div>
@@ -122,11 +197,66 @@ class BuyToken extends React.Component {
               {this.state.resultMessage}
             </DialogContentText>
           </DialogContent>
-
         </Dialog>
+      </section>
+
+      <div className="borrows-container" style={{ display: 'block' }}>
+        <div className="container">
+          <div className="row">
+            <div className="col-12">
+              <div className="c-card c-card-no-padding">
+                <table className="c-table-portal-home">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Amount</th>
+                      <th>Status</th>
+                      <th>Created At</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      {
+                        history.map((item={}) => {
+                          return (
+                            <tr key={`history-${item.ID}`} >
+                              <td>{item.ID}</td>
+                              <td>{item.Amount}</td>
+                              <td>{item.Status}</td>
+                              <td>{dayjs(item.CreatedAt).format('MM-DD-YYYY')}</td>
+                            </tr>
+                          )
+                        })
+                      }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
       </div>
     );
   }
 }
 
 export default BuyToken;
+
+// <div className="row">
+// {history.length > 0 ?
+//   <TablePagination
+//     rowsPerPageOptions={[2, 5, 10, 25]}
+//     colSpan={3}
+//     count={50}
+//     rowsPerPage={perPage}
+//     page={page}
+//     SelectProps={{
+//       native: true,
+//     }}
+//     onChangePage={(e,p)=>this.onChangePage(p)}
+//     onChangeRowsPerPage={(e)=>this.onChangeRowsPerPage(e.target.value)}
+//     // ActionsComponent={TablePaginationActionsWrapped}
+//   />
+// : ""}
+// </div>

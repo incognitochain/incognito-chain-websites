@@ -43,7 +43,7 @@ class SubHeader extends React.Component {
                 <li>
                   <Link to="/loan" className={cn({ active: pathname.startsWith('/loan') })}>
                     <FontAwesomeIcon icon={faFontAwesomeAlt} />
-                    {' Dashboard'}
+                    {' Loan'}
                   </Link>
                 </li>
                 <li>
@@ -59,12 +59,12 @@ class SubHeader extends React.Component {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/buy_token" className={cn({ active: pathname.startsWith('/buy_token') })}>
+                  <Link to="/buy-token" className={cn({ active: pathname.startsWith('/buy-token') })}>
                     <FontAwesomeIcon icon={faSearchDollar} />&nbsp;{'Reserve Asset'}
                   </Link>
                 </li>
                 <li>
-                  <Link to="/buy_constant" className={cn({ active: pathname.startsWith('/buy_constant') })}>
+                  <Link to="/buy-constant" className={cn({ active: pathname.startsWith('/buy-constant') })}>
                     <FontAwesomeIcon icon={faCopyright} />&nbsp;{'Buy Constant'}
                   </Link>
                 </li>
