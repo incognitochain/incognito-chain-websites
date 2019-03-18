@@ -63,3 +63,9 @@ export async function getHistory(assetType=0, perPage=10, page=1, type = 0) {
   const result = await callAPIService({data: {}, method: "GET", url});
   return result;
 }
+
+export async function getReserveStatistic() {
+  let url = `/reserves/all_stats`;
+  const result = await callAPIService({data: {}, method: "GET", url});
+  return result;
+}
