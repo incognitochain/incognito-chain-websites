@@ -16,6 +16,7 @@ import {
   DialogContentText,
   InputLabel,
   InputAdornment,
+  TablePagination,
 } from '@material-ui/core';
 
 // import { detectInstalled, requestUnlockMetamask, init } from '@/reducers/metamask/action';
@@ -31,7 +32,7 @@ import bgImage from '@/assets/create-a-proposal.svg';
 import abiDefinition from './abiDefinition';
 
 import {BUYING_ASSET, RESERVE_HISTORY_STATUS_COLOR} from '../../constants';
-import { buyAsset, buyTokenByEthereum, getHistory, getPurchaseStatistic, getRaiseReserveInfo, convertETHtoDCBToken, convertUSDtoDCBToken } from "../../services/reserveAsset";
+import { buyAsset, buyTokenByEthereum, getHistory, getETHHistory, getPurchaseStatistic, getRaiseReserveInfo, convertETHtoDCBToken, convertUSDtoDCBToken } from "../../services/reserveAsset";
 
 const BUYING_OBJECT = {
   USD: "usd",
@@ -76,18 +77,21 @@ class BuyToken extends React.Component {
       openMetamaskDialog,
       resultMessage: "",
       history: [],
+      historyPagination: {Page: 1, Limit: 10, TotalRecord: 0, TotalPage:0},
+      ETHhistory: [],
+      ETHhistoryPagination: {Page: 1, Limit: 10, TotalRecord: 0, TotalPage:0},
       purchaseStats: {},
-      page:1,
-      perPage: 10,
       asset: collaterals[0],
       reserveInfo: {},
       convertToToken: 0,
+      tabIndex: 0,
     };
   }
   componentDidMount() {
-    this.onGetHistory();
     this.onGetStats();
     this.getReserveInfo();
+    this.onGetHistory();
+    this.onGetETHHistory();
   }
 
   onAssetChange = (asset) => {
@@ -213,8 +217,7 @@ class BuyToken extends React.Component {
     }
   }
 
-  onGetHistory = async () => {
-    const {page, perPage} = this.state;
+  onGetHistory = async (perPage, page) => {
     const res = await getHistory(BUYING_ASSET.DCB_TOKEN, perPage, page);
     // console.log(res)
     const {result = [], error=""} = res;
@@ -222,8 +225,21 @@ class BuyToken extends React.Component {
       console.log("get history error", error);
       return;
     }
-    const { Records = [], Page, Limit, TotalRecord, TotalPage } = result;
-    this.setState({ history: Records });
+    let { Records = [], ...pagination } = result;
+    if (Records === null) Records = [];
+    this.setState({ history: Records, historyPagination: pagination });
+  }
+  onGetETHHistory = async (perPage, page) => {
+    const res = await getETHHistory(perPage, page);
+    // console.log(res)
+    const {result = [], error=""} = res;
+    if (error) {
+      console.log("get history error", error);
+      return;
+    }
+    let { Records = [], ...pagination } = result;
+    if (Records === null) Records = [];
+    this.setState({ ETHhistory: Records, ETHhistoryPagination: pagination });
   }
 
   onGetStats = async () => {
@@ -259,7 +275,7 @@ class BuyToken extends React.Component {
       res = await convertETHtoDCBToken(amount);
     }
     if (asset.value === BUYING_OBJECT.USD) {
-      res = await convertUSDtoDCBToken(amount);
+      res = await convertUSDtoDCBToken(amount*100);
       console.log(res);
     }
 
@@ -271,6 +287,26 @@ class BuyToken extends React.Component {
       this.setState({ convertToToken: result });
     }
     convertETHtoDCBTokenTimeout = 0;
+  }
+  onChangeTab = (tabIndex) => {
+    this.setState({tabIndex});
+  }
+
+  onChangeHistoryPage = (page) => {
+    const {historyPagination} = this.state;
+    const {Limit=10} = historyPagination;
+    this.onGetHistory(Limit, page+1);
+  }
+  onChangeHistoryRowsPerPage = (perPage) => {
+    this.onGetHistory(perPage, 1);
+  }
+  onChangeETHHistoryPage = (page) => {
+    const {ETHhistoryPagination} = this.state;
+    const {Limit=10} = ETHhistoryPagination;
+    this.onGetETHHistory(Limit, page+1);
+  }
+  onChangeETHHistoryRowsPerPage = (perPage) => {
+    this.onGetETHHistory(perPage, 1);
   }
 
   linkMetamask = () => {
@@ -286,11 +322,11 @@ class BuyToken extends React.Component {
   }
 
   render = () => {
-    const {asset = {}, amount = "", isSummitting, openDialog, openMetamaskDialog, history = [], purchaseStats = {} ,reserveInfo, convertToToken } = this.state;
+    const {asset = {}, amount = "", isSummitting, openDialog, openMetamaskDialog, history = [],historyPagination = {}, ETHhistory = [], ETHhistoryPagination = {}, purchaseStats = {} ,reserveInfo, convertToToken, tabIndex } = this.state;
     const disableSubmitBtn = (asset === "" || isSummitting);
 
     const {TotalReservesSuccess = {}, TotalReservesFailed = {}, TotalAmountSuccess = {}, TotalAmountFailed = {}} = purchaseStats;
-
+    console.log(history, ETHhistory);
     return (
       <div className="home-page">
         <section >
@@ -513,40 +549,112 @@ class BuyToken extends React.Component {
         </section>
 
         <div className="borrows-container" style={{ display: 'block' }}>
-        <div className="container">
-          <div className="row">
-            <div className="col-12">
-              <div className="c-card c-card-no-padding">
-                <table className="c-table-portal-home">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Amount</th>
-                      <th>Status</th>
-                      <th>Created At</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                      {
-                        history && history.map((item={}) => {
-                          return (
-                            <tr key={`history-${item.ID}`} >
-                              <td>{item.ID}</td>
-                              <td>{item.Amount}</td>
-                              <td className={`c-status ${RESERVE_HISTORY_STATUS_COLOR[item.Status]}`}>{item.Status}</td>
-                              <td>{dayjs(item.CreatedAt).format('MM-DD-YYYY')}</td>
-                            </tr>
-                          )
-                        })
-                      }
-                  </tbody>
-                </table>
+          <div className="tabs-container">
+            <div className="container">
+              <div className="row">
+                <div className="col-12">
+                  <div className="c-card">
+                    <div className="tabs">
+                      <div className={`tab ${tabIndex === 0 ? 'active' : ''}`} onClick={() => this.onChangeTab(0)}>USD</div>
+                      <div className={`tab ${tabIndex === 1 ? 'active' : ''}`} onClick={() => this.onChangeTab(1)}>ETH</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+          <div className="container">
+            <div className="row">
+              <div className="col-12">
+                {tabIndex === 0 ?
+                <div className="c-card c-card-no-padding">
+                  <table className="c-table-portal-home">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Created At</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {
+                          history && history.map((item={}) => {
+                            return (
+                              <tr key={`history-${item.ID}`} >
+                                <td>{item.ID}</td>
+                                <td>{item.Amount}</td>
+                                <td className={`c-status ${RESERVE_HISTORY_STATUS_COLOR[item.Status]}`}>{item.Status}</td>
+                                <td>{dayjs(item.CreatedAt).format('MM-DD-YYYY')}</td>
+                              </tr>
+                            )
+                          })
+                        }
+                    </tbody>
+                  </table>
+                  {history.length > 0 && historyPagination && Object.keys(historyPagination).length > 0 ?
+                    <TablePagination
+                      rowsPerPageOptions={[5, 10, 25]}
+                      colSpan={3}
+                      count={historyPagination.TotalRecord}
+                      rowsPerPage={historyPagination.Limit}
+                      page={historyPagination.Page-1}
+                      SelectProps={{
+                        // native: true,
+                      }}
+                      onChangePage={(e,p)=>this.onChangeHistoryPage(p)}
+                      onChangeRowsPerPage={(e)=>this.onChangeHistoryRowsPerPage(e.target.value)}
+                      // ActionsComponent={TablePaginationActionsWrapped}
+                    />
+                  : ""}
+                </div>
+                :
+                <div className="c-card c-card-no-padding">
+                  <table className="c-table-portal-home">
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Created At</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {
+                          ETHhistory && ETHhistory.map((item={}) => {
+                            return (
+                              <tr key={`history-${item.ID}`} >
+                                <td>{item.ID}</td>
+                                <td>{item.Amount}</td>
+                                <td className={`c-status ${RESERVE_HISTORY_STATUS_COLOR[item.Status]}`}>{item.Status}</td>
+                                <td>{dayjs(item.CreatedAt).format('MM-DD-YYYY')}</td>
+                              </tr>
+                            )
+                          })
+                        }
+                    </tbody>
+                  </table>
+                  {ETHhistory.length  > 0 && ETHhistoryPagination && Object.keys(ETHhistoryPagination).length > 0 ?
+                    <TablePagination
+                      rowsPerPageOptions={[5, 10, 25]}
+                      colSpan={3}
+                      count={ETHhistoryPagination.TotalRecord}
+                      rowsPerPage={ETHhistoryPagination.Limit}
+                      page={ETHhistoryPagination.Page-1}
+                      SelectProps={{
+                        native: true,
+                      }}
+                      onChangePage={(e,p)=>this.onChangeETHHistoryPage(p)}
+                      onChangeRowsPerPage={(e)=>this.onChangeETHHistoryRowsPerPage(e.target.value)}
+                    />
+                  : ""}
+                </div>
+                }
+              </div>
+            </div>
 
+          </div>
         </div>
-      </div>
 
       </div>
     );

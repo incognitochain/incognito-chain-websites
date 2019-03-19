@@ -15,7 +15,7 @@ import {
   // TableBody,
   // TableFooter,
   // TableRow,
-  // TablePagination,
+  TablePagination,
 } from '@material-ui/core';
 
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -30,7 +30,7 @@ import Link from '@/components/Link';
 import {BUYING_ASSET, RESERVE_HISTORY_STATUS_COLOR} from '../../constants';
 import { buyAsset, getHistory, getPurchaseUSDStatistic } from "../../services/reserveAsset";
 
-class BuyToken extends React.Component {
+class BuyConstant extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -38,8 +38,7 @@ class BuyToken extends React.Component {
       openDialog: false,
       resultMessage: "",
       history: [],
-      page:1,
-      perPage: 10,
+      historyPagination: {Page: 1, Limit: 10, TotalRecord: 0, TotalPage:0},
       purchaseStats: {},
     };
   }
@@ -77,16 +76,25 @@ class BuyToken extends React.Component {
     this.setState({openDialog:false, resultMessage: ""});
   }
 
-  onGetHistory = async () => {
-    const {page, perPage} = this.state;
+  onGetHistory = async (perPage, page) => {
     const res = await getHistory(BUYING_ASSET.CONSTANT, perPage, page);
     const {result = [], error=""} = res;
     if (error) {
       console.log("get history error", error);
       return;
     }
-    const { Records = [], Page, Limit, TotalRecord, TotalPage } = result;
-    this.setState({ history: Records });
+    let { Records = [], ...pagination } = result;
+    if (Records === null) Records = [];
+    this.setState({ history: Records, historyPagination: pagination });
+  }
+  onChangeHistoryPage = (page) => {
+    const {historyPagination} = this.state;
+    const {Limit=10} = historyPagination;
+    this.onGetHistory(Limit, page+1);
+  }
+  onChangeHistoryRowsPerPage = (perPage) => {
+    console.log(perPage)
+    this.onGetHistory(perPage, 1);
   }
 
   onGetStats = async () => {
@@ -100,24 +108,8 @@ class BuyToken extends React.Component {
     this.setState({ purchaseStats: result });
   }
 
-  // onChangeRowsPerPage = (perPage) => {
-  //   // console.log(perPage)
-  //   const {page} = this.state;
-  //   this.setState({perPage});
-  //   this.onGetHistory(page, perPage);
-  // }
-  // onChangePage = (page) => {
-  //   console.log(page)
-  //   if( page === 0) {
-  //     return;
-  //   }
-  //   const {perPage} = this.state;
-  //   this.setState({page})
-  //   this.onGetHistory(page, perPage);
-  // }
-
   render = () => {
-    const {amount = "", isSummitting, openDialog, history = [], page, perPage, purchaseStats = {} } = this.state;
+    const {amount = "", isSummitting, openDialog, history = [], historyPagination = {}, purchaseStats = {} } = this.state;
     const {TotalReservesSuccess = {}, TotalReservesFailed = {}, TotalAmountSuccess = {}, TotalAmountFailed = {}} = purchaseStats;
     return (
       <div className="home-page">
@@ -277,6 +269,22 @@ class BuyToken extends React.Component {
                       }
                   </tbody>
                 </table>
+
+                {history.length > 0 && historyPagination && Object.keys(historyPagination).length > 0 ?
+                  <TablePagination
+                    rowsPerPageOptions={[5, 10, 25]}
+                    colSpan={3}
+                    count={historyPagination.TotalRecord}
+                    rowsPerPage={historyPagination.Limit}
+                    page={historyPagination.Page-1}
+                    SelectProps={{
+                      // native: true,
+                    }}
+                    onChangePage={(e,p)=>this.onChangeHistoryPage(p)}
+                    onChangeRowsPerPage={(e)=>this.onChangeHistoryRowsPerPage(e.target.value)}
+                    // ActionsComponent={TablePaginationActionsWrapped}
+                  />
+                : ""}
               </div>
             </div>
           </div>
@@ -289,22 +297,4 @@ class BuyToken extends React.Component {
   }
 }
 
-export default BuyToken;
-
-// <div className="row">
-// {history.length > 0 ?
-//   <TablePagination
-//     rowsPerPageOptions={[2, 5, 10, 25]}
-//     colSpan={3}
-//     count={50}
-//     rowsPerPage={perPage}
-//     page={page}
-//     SelectProps={{
-//       native: true,
-//     }}
-//     onChangePage={(e,p)=>this.onChangePage(p)}
-//     onChangeRowsPerPage={(e)=>this.onChangeRowsPerPage(e.target.value)}
-//     // ActionsComponent={TablePaginationActionsWrapped}
-//   />
-// : ""}
-// </div>
+export default BuyConstant;
