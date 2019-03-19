@@ -326,7 +326,7 @@ class BuyToken extends React.Component {
     const disableSubmitBtn = (asset === "" || isSummitting);
 
     const {TotalReservesSuccess = {}, TotalReservesFailed = {}, TotalAmountSuccess = {}, TotalAmountFailed = {}} = purchaseStats;
-    console.log(history, ETHhistory);
+
     return (
       <div className="home-page">
         <section >
