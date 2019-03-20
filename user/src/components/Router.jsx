@@ -38,6 +38,27 @@ const Kyc = createDynamicImport(
   Loading
 );
 const NotFound = createDynamicImport(() => import("modules/NotFound"), Loading);
+const OracleRequestList = createDynamicImport(
+  () => import("modules/Oracle/RequestList"),
+  Loading
+);
+const OracleRequestDetail = createDynamicImport(
+  () => import("modules/Oracle/RequestDetail"),
+  Loading
+);
+
+const OracleRequestCreate = createDynamicImport(
+  () => import("modules/Oracle/RequestCreate"),
+  Loading
+);
+const OraclePriceList = createDynamicImport(
+  () => import("modules/Oracle/PriceList"),
+  Loading
+);
+const OracleFitPrice = createDynamicImport(
+  () => import("modules/Oracle/FitPrice"),
+  Loading
+);
 
 const routers = [
   {
@@ -78,7 +99,42 @@ const routers = [
   { path: "/login", exact: true, component: Login },
   { path: "/register", exact: true, component: Register },
   { path: "/reset-password", exact: true, component: ResetPassword },
-  { path: "/forgot-password", exact: true, component: ForgotPassword }
+  { path: "/forgot-password", exact: true, component: ForgotPassword },
+  {
+    path: "/oracle",
+    exact: true,
+    component: OracleRequestList,
+    needLayout: true,
+    needLogged: true,
+  },
+  {
+    path: "/oracle/detail",
+    exact: true,
+    component: OracleRequestDetail,
+    needLayout: true,
+    needLogged: true,
+  },
+  {
+    path: "/oracle/create",
+    exact: true,
+    component: OracleRequestCreate,
+    needLayout: true,
+    needLogged: true,
+  },
+  {
+    path: "/oracle/price-list",
+    exact: true,
+    component: OraclePriceList,
+    needLayout: true,
+    needLogged: true,
+  },
+  {
+    path: "/oracle/fit-price",
+    exact: true,
+    component: OracleFitPrice,
+    needLayout: true,
+    needLogged: true,
+  },
 ];
 
 class Router extends React.Component {
