@@ -11,8 +11,9 @@ import {
 
 import Link from "components/Link";
 
+import { getOracleMetadatas } from "../../services/oracle";
+
 const mapStateToProps = (state) => {
-  console.log(state)
   return {
 
   }
@@ -24,8 +25,44 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 class RequestList extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      oracleMetadatas: [],
+      pagination: {},
+    }
+  }
+  componentDidMount() {
+    this.onGetOracleMetadatas();
+  }
+
+  onGetOracleMetadatas = async (perPage, page) => {
+    const res = await getOracleMetadatas(perPage, page);
+    const {result = [], error=""} = res;
+    if (error) {
+      console.log("get oracle metadata error", error);
+      return;
+    }
+    let { Records = [], ...pagination } = result;
+    if (Records === null) Records = [];
+    this.setState({ oracleMetadatas: Records, pagination });
+  }
+
+  onChangePage = (page) => {
+    const {pagination} = this.state;
+    const {Limit=10} = pagination;
+    this.onGetOracleMetadatas(Limit, page+1);
+  }
+  onChangeRowsPerPage = (perPage) => {
+    console.log(perPage);
+    this.onGetOracleMetadatas(perPage, 1);
+  }
+  // onCreateClick = () => {
+  //   this.props.history && this.props.history.push && this.props.history.push('/oracle/create');
+  // }
 
   render() {
+    const {oracleMetadatas = [], pagination = {}} = this.state;
     return (
       <div className="page user-page home-page">
         <div className="container">
@@ -36,7 +73,7 @@ class RequestList extends React.Component {
                   Request list
 
                   <FormControl component="fieldset" >
-                    <Link className="c-btn c-btn-primary submit" to='/oracle/create'>Create Request</Link>
+                    <Link className="c-btn c-btn-primary submit" to='/oracle/create' >Create Request</Link>
                   </FormControl>
 
                   <FormControl component="fieldset" >
@@ -44,7 +81,7 @@ class RequestList extends React.Component {
                   </FormControl>
 
                   <FormControl component="fieldset" >
-                    <Link className="c-btn c-btn-primary submit" to='/oracle/fit-price'>Fit Price</Link>
+                    <Link className="c-btn c-btn-primary submit" to='/oracle/fit-price'>Feed Price</Link>
                   </FormControl>
                 </div>
 
@@ -52,45 +89,39 @@ class RequestList extends React.Component {
                   <thead>
                     <tr>
                       <th>ID</th>
-                      <th>Amount</th>
-                      <th>Status</th>
-                      <th>Created At</th>
+                      <th>Public Key</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr >
-                      <td><Link to={"/oracle/detail"}>item.ID </Link></td>
-                      <td>item.Amount</td>
-                      <td>item.Status</td>
-                      <td>{` dayjs(item.CreatedAt).format('MM-DD-YYYY') `}</td>
-                    </tr>
-                    <tr >
-                      <td><Link to={"/oracle/detail"}>item.ID </Link></td>
-                      <td>item.Amount</td>
-                      <td>item.Status</td>
-                      <td>{` dayjs(item.CreatedAt).format('MM-DD-YYYY') `}</td>
-                    </tr>
-                    <tr >
-                      <td><Link to={"/oracle/detail"}>item.ID </Link></td>
-                      <td>item.Amount</td>
-                      <td>item.Status</td>
-                      <td>{` dayjs(item.CreatedAt).format('MM-DD-YYYY') `}</td>
-                    </tr>
+                    { oracleMetadatas && oracleMetadatas.map((item={}) => {
+                      return (
+                        <tr key={`metadata-item-${item.ID}`}>
+                          <td><Link to={`/oracle/${item.ID}/detail`}>{item.ID} </Link></td>
+                          <td>{item.PubKeys && item.PubKeys.length > 0 && item.PubKeys.map((key="",i)=>{
+                            return (
+                              <div key={`p-key-${i}`}>{key} <br/></div>
+                            )
+                          })}</td>
+                          {/* <td>{` dayjs(item.CreatedAt).format('MM-DD-YYYY') `}</td> */}
+                        </tr>
+                      )
+                    })}
                   </tbody>
                 </table>
-
+                { oracleMetadatas.length > 0 && pagination && Object.keys(pagination).length > 0 ?
                 <TablePagination
                   rowsPerPageOptions={[5, 10, 25]}
                   colSpan={3}
-                  count={20}
-                  rowsPerPage={5}
-                  page={1}
+                  count={pagination.TotalRecord}
+                  rowsPerPage={pagination.Limit}
+                  page={pagination.Page-1}
                   SelectProps={{
                     // native: true,
                   }}
-                  onChangePage={(e,p)=>(console.log(p))}
-                  onChangeRowsPerPage={(e)=>console.log(e.target.value)}
+                  onChangePage={(e,p)=>(this.onChangePage(p))}
+                  onChangeRowsPerPage={(e)=>this.onChangeRowsPerPage(e.target.value)}
                 />
+                : ""}
               </div>
             </div>
           </div>
