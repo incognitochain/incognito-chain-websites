@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-class FitPrice extends React.Component {
+class FeedPrice extends React.Component {
   render() {
     return (
       <div className="page user-page home-page">
@@ -71,4 +71,4 @@ class FitPrice extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FitPrice)
+export default connect(mapStateToProps, mapDispatchToProps)(FeedPrice)
