@@ -55,8 +55,8 @@ const OraclePriceList = createDynamicImport(
   () => import("modules/Oracle/PriceList"),
   Loading
 );
-const OracleFitPrice = createDynamicImport(
-  () => import("modules/Oracle/FitPrice"),
+const OracleFeedPrice = createDynamicImport(
+  () => import("modules/Oracle/FeedPrice"),
   Loading
 );
 
@@ -129,9 +129,9 @@ const routers = [
     needLogged: true,
   },
   {
-    path: "/oracle/fit-price",
+    path: "/oracle/feed-price",
     exact: true,
-    component: OracleFitPrice,
+    component: OracleFeedPrice,
     needLayout: true,
     needLogged: true,
   },
