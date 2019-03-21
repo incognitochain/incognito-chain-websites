@@ -7,9 +7,14 @@ import {
   TextField,
   TablePagination,
   FormControl,
+  Dialog,
+  DialogContent,
+  DialogContentText,
 } from '@material-ui/core';
 
 import Link from "components/Link";
+
+import { signMetadata, checkIsUserInBoard } from "../../services/oracle";
 
 const mapStateToProps = (state) => {
   return {
@@ -23,7 +28,53 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 class RequestDetail extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isUserInBoard: false,
+      openDialog: false,
+      resultMessage: "",
+      isSubmitting: false,
+    }
+  }
+  componentDidMount() {
+    console.log(this.props)
+    // const t = this;
+    checkIsUserInBoard().then((res={}) => {
+      const {result,error} = res;
+      if (error) {
+        console.log(error);
+      }
+      if (result || result === true) {
+        this.setState({
+          isUserInBoard: true,
+        })
+      }
+    })
+  }
+  onSubmit = async () => {
+    const {match={}} = this.props;
+    const {params} = match;
+    const {id = ""} = params;
+    if (!id) return;
+    this.setState({isSubmitting: true})
+    const res = await signMetadata(id);
+    const {result, error} = res;
+    let resultMessage;
+    if (error) {
+      console.log(error)
+      resultMessage = error;
+    }
+    if (result || result === true) {
+      resultMessage = "Successfully";
+    }
+    this.setState({resultMessage, openDialog: true, isSubmitting : false})
+  }
+  onCloseDialog = () => {
+    this.setState({openDialog: false, resultMessage: ""})
+  }
   render() {
+    const { isUserInBoard, openDialog } = this.state;
     return (
       <div className="page user-page home-page">
         <div className="container">
@@ -58,12 +109,27 @@ class RequestDetail extends React.Component {
                 </div>
                 <br/>
                 <div className="row">
+                {isUserInBoard ?
                 <FormControl component="fieldset" >
-                  <button className="c-btn c-btn-primary submit"  style={{width: "100%"}} >
-                    Submit
+                  <button className="c-btn c-btn-primary submit"  style={{width: "100%"}} onClick={this.onSubmit} >
+                    Sign
                   </button>
                 </FormControl>
+                : ""}
                 </div>
+
+                <Dialog
+                  open={openDialog}
+                  onClose={this.onCloseDialog}
+                  aria-labelledby="result-dialog-label"
+                  aria-describedby="result-dialog-description"
+                >
+                  <DialogContent>
+                    <DialogContentText>
+                      {this.state.resultMessage}
+                    </DialogContentText>
+                  </DialogContent>
+                </Dialog>
               </div>
             </div>
           </div>
