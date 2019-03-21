@@ -108,7 +108,7 @@ const routers = [
     needLogged: true,
   },
   {
-    path: "/oracle/detail",
+    path: "/oracle/:id/detail",
     exact: true,
     component: OracleRequestDetail,
     needLayout: true,
