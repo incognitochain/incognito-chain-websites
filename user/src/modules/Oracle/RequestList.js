@@ -77,11 +77,7 @@ class RequestList extends React.Component {
                   </FormControl>
 
                   <FormControl component="fieldset" >
-                    <Link className="c-btn c-btn-primary submit" to='/oracle/price-list'>Price List</Link>
-                  </FormControl>
-
-                  <FormControl component="fieldset" >
-                    <Link className="c-btn c-btn-primary submit" to='/oracle/fit-price'>Feed Price</Link>
+                    <Link className="c-btn c-btn-primary submit" to='/oracle/feed-price'>Feed Price</Link>
                   </FormControl>
                 </div>
 
@@ -90,6 +86,7 @@ class RequestList extends React.Component {
                     <tr>
                       <th>ID</th>
                       <th>Public Key</th>
+                      <th>Status</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -102,6 +99,7 @@ class RequestList extends React.Component {
                               <div key={`p-key-${i}`}>{key} <br/></div>
                             )
                           })}</td>
+                          <td>{item.Status}</td>
                           {/* <td>{` dayjs(item.CreatedAt).format('MM-DD-YYYY') `}</td> */}
                         </tr>
                       )
