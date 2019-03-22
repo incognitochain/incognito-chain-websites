@@ -19,6 +19,8 @@ import DcbProposalDialog from "./DcbProposalDialog";
 import _ from "lodash";
 import { GovTokens } from "../gov-tokens/GovTokens";
 
+import { checkIsUserInBoard } from "../../services/oracle.js";
+
 const CheckInit = ({ children, inited }) => {
   if (!inited) {
     return <div />;
@@ -52,7 +54,9 @@ class Home extends React.Component {
       bio: auth.data.Bio,
       oldBio: auth.data.Bio,
       dcbParams: {},
-      govParams: {}
+      govParams: {},
+
+      isUserInBoard: false,
     };
   }
 
@@ -60,6 +64,8 @@ class Home extends React.Component {
     this.loadUserCandidate();
     this.loadGovParams();
     this.loadDcbParams();
+
+    this.onCheckUserIsInBoard();
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -67,6 +73,19 @@ class Home extends React.Component {
       return { bio: nextProps.auth.data.Bio, oldBio: nextProps.auth.data.Bio };
     }
     return null;
+  }
+
+  onCheckUserIsInBoard = async () => {
+    const res = await checkIsUserInBoard()
+    const {result,error} = res;
+    if (error) {
+      console.log(error);
+    }
+    if (result || result === true) {
+      this.setState({
+        isUserInBoard: true,
+      })
+    }
   }
 
   loadUserCandidate = () => {
@@ -408,7 +427,9 @@ class Home extends React.Component {
       bio,
       candidate,
       dcbParams,
-      govParams
+      govParams,
+
+      isUserInBoard,
     } = this.state;
 
     const { auth } = this.props;
@@ -549,6 +570,15 @@ class Home extends React.Component {
                     {"GOV Proposal "}
                     <FontAwesomeIcon icon={faAngleRight} />
                   </button>
+                  {isUserInBoard ?
+                    <Link
+                      className="c-btn c-bg-green"
+                      to={'/oracle/feed-price'}
+                    >
+                      {"Oracle Proposal"}
+                      <FontAwesomeIcon icon={faAngleRight} />
+                    </Link>
+                  : ""}
                 </div>
               </div>
             </div>
