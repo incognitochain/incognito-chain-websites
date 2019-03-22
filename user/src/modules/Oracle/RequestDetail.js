@@ -14,7 +14,7 @@ import {
 
 import Link from "components/Link";
 
-import { signMetadata, checkIsUserInBoard } from "../../services/oracle";
+import { signMetadata, checkIsUserInBoard, getMetadataDetail } from "../../services/oracle";
 
 const mapStateToProps = (state) => {
   return {
@@ -35,11 +35,10 @@ class RequestDetail extends React.Component {
       openDialog: false,
       resultMessage: "",
       isSubmitting: false,
+      metadata: {},
     }
   }
   componentDidMount() {
-    console.log(this.props)
-    // const t = this;
     checkIsUserInBoard().then((res={}) => {
       const {result,error} = res;
       if (error) {
@@ -51,6 +50,20 @@ class RequestDetail extends React.Component {
         })
       }
     })
+    const {match={}} = this.props;
+    const {params} = match;
+    const {id = ""} = params;
+    if (!id) return;
+    this.onGetMetadata(id);
+  }
+  onGetMetadata = async (id) => {
+    const res = await getMetadataDetail(id);
+    const {result = {}, error} = res;
+    if (error) {
+      console.log(error);
+    } else {
+      this.setState({metadata: result})
+    }
   }
   onSubmit = async () => {
     const {match={}} = this.props;
@@ -74,7 +87,9 @@ class RequestDetail extends React.Component {
     this.setState({openDialog: false, resultMessage: ""})
   }
   render() {
-    const { isUserInBoard, openDialog } = this.state;
+    const { isUserInBoard, openDialog, metadata = {} } = this.state;
+
+    let showSubmitBtn = (metadata.Status !== "submitted" && isUserInBoard && metadata.IsSign !== true);
     return (
       <div className="page user-page home-page">
         <div className="container">
@@ -88,28 +103,35 @@ class RequestDetail extends React.Component {
                 </div>
 
                 <div className="row">
-                  <FormControl component="fieldset" >
+                  <FormControl component="fieldset" style={{width: "100%"}} >
                     <div className="title">PAYMENT ADDRESS</div>
-                    <TextField
-                      id="amount"
-                      className="input-of-create cst"
-                      type="text"
-                      style={{
-                        lineHeight: "2em",
-                      }}
-                      fullWidth
-                      InputProps={{
-                        style: {paddingTop: 10, paddingBottom: 10, height:"inherit !important"},
-                      }}
-                      // onChange={(e)=>this.onAmountChange(e.target.value)}
-                      value={"abccccccccc"}
-                      disabled
-                    />
+                    {
+                      metadata.PubKeys && metadata.PubKeys.length > 0 && metadata.PubKeys.map((key,i) => {
+                        return (
+                          <TextField
+                            key = {`pubkey=${i}`}
+                            id="amount"
+                            className="input-of-create cst"
+                            type="text"
+                            style={{
+                              lineHeight: "2em",
+                            }}
+                            fullWidth
+                            InputProps={{
+                              style: {paddingTop: 10, paddingBottom: 10, height:"inherit !important"},
+                            }}
+                            // onChange={(e)=>this.onAmountChange(e.target.value)}
+                            value={key}
+                            disabled
+                          />
+                        )
+                      })
+                    }
                   </FormControl>
                 </div>
                 <br/>
                 <div className="row">
-                {isUserInBoard ?
+                {showSubmitBtn ?
                 <FormControl component="fieldset" >
                   <button className="c-btn c-btn-primary submit"  style={{width: "100%"}} onClick={this.onSubmit} >
                     Sign
