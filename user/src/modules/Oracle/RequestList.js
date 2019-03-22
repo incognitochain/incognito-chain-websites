@@ -76,9 +76,6 @@ class RequestList extends React.Component {
                     <Link className="c-btn c-btn-primary submit" to='/oracle/create' >Create Request</Link>
                   </FormControl>
 
-                  <FormControl component="fieldset" >
-                    <Link className="c-btn c-btn-primary submit" to='/oracle/feed-price'>Feed Price</Link>
-                  </FormControl>
                 </div>
 
                 <table className="c-table-portal-home" style={{minWidth: "100%"}}>
