@@ -96,6 +96,7 @@ class Header extends React.Component {
                   <li><a href={`${process.env.REACT_APP_PORTAL_URL}`}>Portal</a></li>
                   <li><a href={`${process.env.REACT_APP_EXCHANGE_URL}`}>Exchange</a></li>
                   <li><Link to="/oracle">Oracle</Link></li>
+                  <li><Link to="/oracle/price-list">Oracle Current Price</Link></li>
                   {/*<li><Link to="/about">About</Link></li>
                   <li><Link to="/faq">FAQ</Link></li>*/}
                 </ul>
