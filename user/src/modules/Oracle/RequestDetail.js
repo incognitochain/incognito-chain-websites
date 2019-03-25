@@ -80,6 +80,9 @@ class RequestDetail extends React.Component {
     }
     if (result || result === true) {
       resultMessage = "Successfully";
+      setTimeout(()=>{
+        window.location = "/oracle";
+      },200)
     }
     this.setState({resultMessage, openDialog: true, isSubmitting : false})
   }
@@ -104,7 +107,7 @@ class RequestDetail extends React.Component {
 
                 <div className="row">
                   <FormControl component="fieldset" style={{width: "100%"}} >
-                    <div className="title">PAYMENT ADDRESS</div>
+                    <div className="title">PUBLIC KEYS</div>
                     {
                       metadata.PubKeys && metadata.PubKeys.length > 0 && metadata.PubKeys.map((key,i) => {
                         return (
@@ -127,6 +130,37 @@ class RequestDetail extends React.Component {
                         )
                       })
                     }
+                  </FormControl>
+                </div>
+                <br/>
+                <div className="row">
+                  <FormControl component="fieldset" style={{width: "100%"}} >
+                    <div className="title">BIO</div>
+                      <TextField
+                        id="bio"
+                        multiline
+                        className="input-of-create cst"
+                        type="text"
+                        style={{
+                          lineHeight: "2em",
+                        }}
+                        fullWidth
+                        InputProps={{
+                          style: {
+                            paddingTop: 10, paddingBottom: 10,display: "block",
+                            minHeight: 250
+                          },
+                        }}
+                        value={metadata.Bio}
+                        disabled
+                        variant="outlined"
+                      />
+                  </FormControl>
+                </div>
+                <br/>
+                <div className="row">
+                  <FormControl component="fieldset" style={{width: "100%"}} >
+                    <div className="title">Created At: {metadata.CreatedAt ? dayjs(metadata.CreatedAt).format('MM-DD-YYYY') : ""}</div>
                   </FormControl>
                 </div>
                 <br/>
