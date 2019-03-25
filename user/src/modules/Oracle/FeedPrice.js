@@ -16,7 +16,7 @@ import {
 
 import Link from "components/Link";
 
-import { getAssets, feedPrice } from "../../services/oracle";
+import { getAssets, feedPrice, checkIsUserInBoard } from "../../services/oracle";
 
 const mapStateToProps = (state) => {
   return {
@@ -38,10 +38,13 @@ class FeedPrice extends React.Component {
       openDialog: false,
       resultMessage: "",
       price: "",
+      isUserInBoard: false,
     }
   }
   componentDidMount() {
     this.onGetAssets();
+
+    this.onCheckUserIsInBoard();
   }
   onChangeAsset = (asset) => {
     this.setState({asset})
@@ -79,8 +82,21 @@ class FeedPrice extends React.Component {
     this.setState({resultMessage, openDialog: true, isSubmitting : false})
   }
 
+  onCheckUserIsInBoard = async () => {
+    const res = await checkIsUserInBoard()
+    const {result,error} = res;
+    if (error) {
+      console.log(error);
+    }
+    if (result || result === true) {
+      this.setState({
+        isUserInBoard: true,
+      })
+    }
+  }
+
   render() {
-    const {assets=[], openDialog, isSubmitting} = this.state;
+    const {assets=[], openDialog, isSubmitting, isUserInBoard} = this.state;
     const isDisableBtn = isSubmitting === true;
     return (
       <div className="page user-page home-page">
@@ -136,6 +152,7 @@ class FeedPrice extends React.Component {
                   </FormControl>
                 </div>
                 <br/>
+                {isUserInBoard ?
                 <div className="row">
                   <FormControl component="fieldset" >
                     <button className="c-btn c-btn-primary submit"  style={{width: "100%"}} disabled={isDisableBtn ? true : false} onClick={this.onSubmit}>
@@ -143,6 +160,7 @@ class FeedPrice extends React.Component {
                     </button>
                   </FormControl>
                 </div>
+                : ""}
 
                 <Dialog
                   open={openDialog}
