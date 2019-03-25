@@ -38,3 +38,8 @@ export const API = addBaseToUrls({
 export const BLOCKCHAIN = {
   BLOCK_IN_SECOND: 600
 };
+
+export const ORACLE_REQUEST_ACTION = {
+  ADD: 1,
+  REMOVE: 2,
+}
