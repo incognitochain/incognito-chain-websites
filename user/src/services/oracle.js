@@ -51,12 +51,13 @@ export async function checkIsUserInBoard(){
   return result;
 }
 
-export async function createAndSignMetadata(pubkey=""){
-  if (!pubkey) return;
+export async function createAndSignMetadata(pubkeys=[], action="", bio){
+  if (pubkeys == null || pubkeys.length <= 0) return;
   let url = `/oracle/create-and-sign-md`;
   const result = await callAPIService({data: {
-    Action: 1,
-    PubKeys: [pubkey]
+    Action: action,
+    PubKeys: pubkeys,
+    Bio: bio,
   }, method: "POST", url});
   return result;
 }
