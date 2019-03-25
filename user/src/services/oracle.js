@@ -92,3 +92,15 @@ export async function getAssets(){
   const result = await callAPIService({data: {}, method: "GET", url});
   return result;
 }
+
+export async function getCurrentPrice(){
+  let url = `/oracle/current-prices`;
+  const result = await callAPIService({data: {}, method: "GET", url});
+  return result;
+}
+
+export async function getFeedPriceHistory(){
+  let url = `/oracle/feed-price`;
+  const result = await callAPIService({data: {}, method: "GET", url});
+  return result;
+}
