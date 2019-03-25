@@ -10,11 +10,19 @@ import {
   Dialog,
   DialogContent,
   DialogContentText,
+  Select,
+  MenuItem,
 } from '@material-ui/core';
 
 import Link from "components/Link";
 
+import { ORACLE_REQUEST_ACTION } from "../../constants";
 import { createAndSignMetadata } from "../../services/oracle";
+
+const requestActionItems = [
+  {label: "Add", value : ORACLE_REQUEST_ACTION.ADD },
+  {label: "Remove", value : ORACLE_REQUEST_ACTION.REMOVE},
+];
 
 const mapStateToProps = (state) => {
   return {
@@ -35,16 +43,20 @@ class RequestCreate extends React.Component {
       openDialog: false,
       resultMessage: "",
       isSubmitting: false,
+      action: "",
+      bio: "",
     }
   }
   onChangePubkey = (pubkeys = "") => {
     this.setState({pubkeys});
   }
   onSubmit = async () => {
-    const {pubkeys=""} = this.state;
-    if (!pubkeys) return;
+    const {pubkeys="", action="", bio=""} = this.state;
+    const pubkeyArr = pubkeys.split(",") || [];
+    if (!pubkeys || pubkeyArr.length <= 0 || !action) return;
+
     this.setState({isSubmitting: true})
-    const res = await createAndSignMetadata(pubkeys);
+    const res = await createAndSignMetadata(pubkeyArr, action, bio);
     const {result, error} = res;
     let resultMessage;
     if (error) {
@@ -53,14 +65,23 @@ class RequestCreate extends React.Component {
     }
     if (result || result === true) {
       resultMessage = "Successfully";
+      setTimeout(()=>{
+        window.location = "/oracle";
+      },200)
     }
     this.setState({resultMessage, openDialog: true, isSubmitting : false})
   }
   onCloseDialog = () => {
     this.setState({openDialog: false, resultMessage: ""})
   }
+  onChangeAction = (action) => {
+    this.setState({action});
+  }
+  onChangeBio = (bio) => {
+    this.setState({bio});
+  }
   render() {
-    const {pubkeys, openDialog, isSubmitting} = this.state;
+    const {pubkeys, openDialog, isSubmitting, bio=""} = this.state;
     const isDisableButton = isSubmitting === true;
     return (
       <div className="page user-page home-page">
@@ -75,9 +96,10 @@ class RequestCreate extends React.Component {
                 </div>
                 <div className="row">
                   <FormControl component="fieldset" style={{width: "100%"}} >
-                    <div className="title">PAYMENT ADDRESS</div>
+                    <div className="title">PUBLIC KEYS</div>
                     <TextField
                       id="amount"
+                      multiline
                       className="input-of-create cst"
                       type="text"
                       style={{
@@ -85,11 +107,63 @@ class RequestCreate extends React.Component {
                       }}
                       fullWidth
                       InputProps={{
-                        style: {paddingTop: 10, paddingBottom: 10, height:"inherit !important"},
+                        style: {
+                          paddingTop: 10, paddingBottom: 10,display: "block",
+                          minHeight: 150
+                        },
                       }}
                       onChange={(e)=>this.onChangePubkey(e.target.value)}
                       value={pubkeys}
+                      variant="outlined"
                     />
+                  </FormControl>
+                </div>
+                <br/>
+                <div className="row">
+                  <FormControl component="fieldset" style={{width: "100%"}} >
+                    <div className="title">Bio</div>
+                    <TextField
+                      id="bio"
+                      multiline
+                      className="input-of-create cst"
+                      type="text"
+                      style={{
+                        // lineHeight: "2em",
+                      }}
+                      fullWidth
+                      InputProps={{
+                        style: {
+                          paddingTop: 10, paddingBottom: 10,display: "block",
+                          minHeight: 250
+                        },
+                      }}
+                      onChange={(e)=>this.onChangeBio(e.target.value)}
+                      value={bio}
+                      variant="outlined"
+                    />
+                  </FormControl>
+                </div>
+                <br/>
+                <div className="row">
+                  <FormControl component="fieldset" style={{width: "100%"}} >
+                    <div className="title">ASSETS</div>
+                    <Select
+                      value={this.state.action}
+                      onChange={(e)=>this.onChangeAction(e.target.value)}
+                      inputProps={{
+                        name: 'asset',
+                        id: 'asset',
+                      }}
+                    >
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      {requestActionItems.map((item={},i) => {
+                        return (
+                          <MenuItem key={`asset-${i}`} value={item.value}>{item.label}</MenuItem>
+                        )
+                      })}
+                    </Select>
                   </FormControl>
                 </div>
                 <br/>
