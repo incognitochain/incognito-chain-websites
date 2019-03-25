@@ -92,11 +92,13 @@ class RequestList extends React.Component {
                       return (
                         <tr key={`metadata-item-${item.ID}`}>
                           {/* <td><Link to={`/oracle/${item.ID}/detail`}>{item.ID} </Link></td> */}
-                          <td>{item.PubKeys && item.PubKeys.length > 0 && item.PubKeys.map((key="",i)=>{
-                            return (
-                              <Link key={`p-key-${i}`} to={`/oracle/${item.ID}/detail`}> <div >{key} <br/></div> </Link>
-                            )
-                          })}</td>
+                          <td><Link to={`/oracle/${item.ID}/detail`}>
+                            {item.PubKeys && item.PubKeys.length > 0 && item.PubKeys.map((key="",i)=>{
+                              return (
+                                <div key={`p-key-${i}`} >{key} <br/></div>
+                              )
+                            })}
+                          </Link></td>
                           <td>{item.Status}</td>
                           <td>{item.CreatedAt ? dayjs(item.CreatedAt).format('MM-DD-YYYY') : ""}</td>
                         </tr>
