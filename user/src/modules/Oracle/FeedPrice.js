@@ -78,6 +78,9 @@ class FeedPrice extends React.Component {
     }
     if (result || result === true) {
       resultMessage = "Successfully";
+      setTimeout(()=>{
+        window.location.reload();
+      },200)
     }
     this.setState({resultMessage, openDialog: true, isSubmitting : false})
   }
