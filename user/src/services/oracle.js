@@ -99,8 +99,8 @@ export async function getCurrentPrice(){
   return result;
 }
 
-export async function getFeedPriceHistory(){
-  let url = `/oracle/feed-price`;
+export async function getFeedPriceHistory(perPage=10, page=1, assetType=""){
+  let url = `/oracle/feed-price?page=${page}&limit=${perPage}&asset_type=${assetType}`;
   const result = await callAPIService({data: {}, method: "GET", url});
   return result;
 }
