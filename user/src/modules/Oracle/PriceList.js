@@ -67,7 +67,7 @@ class PriceList extends React.Component {
                     <ListItem button>
                       <ListItemText primary={key.toUpperCase()} />
                       <ListItemIcon>
-                      {currenPrice[key]}
+                      {`${parseFloat(currenPrice[key])/100} USD`}
                       </ListItemIcon>
                     </ListItem>
                   )
