@@ -16,7 +16,7 @@ import {
 
 import Link from "components/Link";
 
-import { getAssets, feedPrice, checkIsUserInBoard } from "../../services/oracle";
+import { getAssets, feedPrice, checkIsUserInBoard, getFeedPriceHistory } from "../../services/oracle";
 
 const mapStateToProps = (state) => {
   return {
@@ -39,12 +39,15 @@ class FeedPrice extends React.Component {
       resultMessage: "",
       price: "",
       isUserInBoard: false,
+      history: [],
+      historyPagination: {Page: 1, Limit: 10, TotalRecord: 0, TotalPage:0},
     }
   }
   componentDidMount() {
     this.onGetAssets();
 
     this.onCheckUserIsInBoard();
+    this.onGetHistory();
   }
   onChangeAsset = (asset) => {
     this.setState({asset})
@@ -98,8 +101,29 @@ class FeedPrice extends React.Component {
     }
   }
 
+  onGetHistory = async (perPage, page) => {
+    const res = await getFeedPriceHistory(perPage, page);
+    // console.log(res)
+    const {result = [], error=""} = res;
+    if (error) {
+      console.log("get history error", error);
+      return;
+    }
+    let { Records = [], ...pagination } = result;
+    if (Records === null) Records = [];
+    this.setState({ history: Records, historyPagination: pagination });
+  }
+  onChangeHistoryPage = (page) => {
+    const {historyPagination} = this.state;
+    const {Limit=10} = historyPagination;
+    this.onGetHistory(Limit, page+1);
+  }
+  onChangeHistoryRowsPerPage = (perPage) => {
+    this.onGetHistory(perPage, 1);
+  }
+
   render() {
-    const {assets=[], openDialog, isSubmitting, isUserInBoard} = this.state;
+    const {assets=[], openDialog, isSubmitting, isUserInBoard, history = [],historyPagination = {}} = this.state;
     const isDisableBtn = isSubmitting === true;
     return (
       <div className="page user-page home-page">
@@ -162,6 +186,53 @@ class FeedPrice extends React.Component {
                       Submit
                     </button>
                   </FormControl>
+                </div>
+                : ""}
+
+                { history.length > 0 ?
+                <div className="row">
+                  <div className="col-12" style={{marginTop: 30}}>
+                    <div className="hello">
+                      History
+                    </div>
+                    <table className="c-table-portal-home" style={{minWidth: "100%"}}>
+                      <thead>
+                        <tr>
+                          <th>Price</th>
+                          <th>Asset Type</th>
+                          <th>Created At</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                          {
+                            history && history.map((item={}) => {
+                              return (
+                                <tr key={`history-${item.ID}`} >
+                                  <td>{item.Price}</td>
+                                  <td>{item.AssetType}</td>
+                                  <td>{item.CreatedAt ? dayjs(item.CreatedAt).format('MM-DD-YYYY'): ""}</td>
+                                </tr>
+                              )
+                            })
+                          }
+                      </tbody>
+                    </table>
+                    {history.length > 0 && historyPagination && Object.keys(historyPagination).length > 0 ?
+                      <TablePagination
+                        rowsPerPageOptions={[5, 10, 25]}
+                        colSpan={3}
+                        count={historyPagination.TotalRecord}
+                        rowsPerPage={historyPagination.Limit}
+                        page={historyPagination.Page-1}
+                        SelectProps={{
+                          // native: true,
+                        }}
+                        onChangePage={(e,p)=>this.onChangeHistoryPage(p)}
+                        onChangeRowsPerPage={(e)=>this.onChangeHistoryRowsPerPage(e.target.value)}
+                        // ActionsComponent={TablePaginationActionsWrapped}
+                      />
+                    : ""}
+                  </div>
                 </div>
                 : ""}
 
