@@ -7,9 +7,15 @@ import {
   TextField,
   TablePagination,
   FormControl,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
 } from '@material-ui/core';
 
 import Link from "components/Link";
+
+import { getCurrentPrice } from "../../services/oracle";
 
 const mapStateToProps = (state) => {
   return {
@@ -23,8 +29,28 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 class PriceList extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      currenPrice: {},
+    }
+  }
+  componentDidMount() {
+    this.onGetCurrentPrice();
+  }
+  onGetCurrentPrice = async () => {
+    const res = await getCurrentPrice();
+    const {result = [], error=""} = res;
+    if (error) {
+      console.log("get current price error", error);
+      return;
+    }
+    this.setState({ currenPrice: result });
+  }
 
   render() {
+    const { currenPrice = {} } = this.state;
     return (
       <div className="page user-page home-page">
         <div className="container">
@@ -32,52 +58,21 @@ class PriceList extends React.Component {
             <div className="col-12 col-md-12 col-lg-12">
               <div className="c-card">
                 <div className="hello" style={{display:"flex", justifyContent: "space-between", alignContent: "center" }}>
-                  Price List
+                  Current Price List
                 </div>
 
-                <table className="c-table-portal-home" style={{minWidth: "100%"}}>
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>Amount</th>
-                      <th>Status</th>
-                      <th>Created At</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr >
-                      <td><Link to={"/oracle/detail"}>item.ID </Link></td>
-                      <td>item.Amount</td>
-                      <td>item.Status</td>
-                      <td>{` dayjs(item.CreatedAt).format('MM-DD-YYYY') `}</td>
-                    </tr>
-                    <tr >
-                      <td><Link to={"/oracle/detail"}>item.ID </Link></td>
-                      <td>item.Amount</td>
-                      <td>item.Status</td>
-                      <td>{` dayjs(item.CreatedAt).format('MM-DD-YYYY') `}</td>
-                    </tr>
-                    <tr >
-                      <td><Link to={"/oracle/detail"}>item.ID </Link></td>
-                      <td>item.Amount</td>
-                      <td>item.Status</td>
-                      <td>{` dayjs(item.CreatedAt).format('MM-DD-YYYY') `}</td>
-                    </tr>
-                  </tbody>
-                </table>
-
-                <TablePagination
-                  rowsPerPageOptions={[5, 10, 25]}
-                  colSpan={3}
-                  count={20}
-                  rowsPerPage={5}
-                  page={1}
-                  SelectProps={{
-                    // native: true,
-                  }}
-                  onChangePage={(e,p)=>(console.log(p))}
-                  onChangeRowsPerPage={(e)=>console.log(e.target.value)}
-                />
+                <List component="nav">
+                {currenPrice && Object.keys(currenPrice).length > 0 && Object.keys(currenPrice).map((key,i) => {
+                  return (
+                    <ListItem button>
+                      <ListItemText primary={key.toUpperCase()} />
+                      <ListItemIcon>
+                      {currenPrice[key]}
+                      </ListItemIcon>
+                    </ListItem>
+                  )
+                })}
+                </List>
               </div>
             </div>
           </div>
