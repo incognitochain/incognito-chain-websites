@@ -84,6 +84,7 @@ class RequestList extends React.Component {
                       {/* <th>ID</th> */}
                       <th>Public Key</th>
                       <th>Status</th>
+                      <th>User</th>
                       <th>Created At</th>
                     </tr>
                   </thead>
@@ -100,6 +101,7 @@ class RequestList extends React.Component {
                             })}
                           </Link></td>
                           <td>{item.Status}</td>
+                          <td>{item.User && item.User.FirstName + " " + item.User.LastName}</td>
                           <td>{item.CreatedAt ? dayjs(item.CreatedAt).format('MM-DD-YYYY') : ""}</td>
                         </tr>
                       )
