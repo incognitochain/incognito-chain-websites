@@ -101,7 +101,7 @@ class RequestList extends React.Component {
                             })}
                           </Link></td>
                           <td>{item.Status}</td>
-                          <td>{item.User && item.User.FirstName + " " + item.User.LastName}</td>
+                          <td>{item.User && (item.User.FirstName + " " + item.User.LastName)}</td>
                           <td>{item.CreatedAt ? dayjs(item.CreatedAt).format('MM-DD-YYYY') : ""}</td>
                         </tr>
                       )
