@@ -34,3 +34,7 @@ keys/*.key
 
 docker-compose.yml
 docker-compose.dev.yml
+
+build/
+
+yarn.lock
