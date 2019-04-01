@@ -117,7 +117,7 @@ class FaucetHomePage extends React.Component {
               <Grid item xs={8}>
 
                 <h3>How does this work?</h3>
-                <p>This Constant faucet is running on the network. To prevent malicious actors from exhausting all available funds or accumulating enough Constant to mount long running spam attacks, requests are tied to common 3rd party social network accounts. Anyone having a Twitter, Google+ or Facebook account may request funds within the permitted limits.</p>
+                <p>This Constant faucet is running on the network. To prevent malicious actors from exhausting all available funds or accumulating enough Constant to mount long running spam attacks, requests are tied to common 3rd party social network accounts. Anyone having a Twitter or Facebook account may request funds within the permitted limits.</p>
 
                 <div style={inlineStyle.socialItemStyle}>
                   <svg style={inlineStyle.socialIconStyle} viewBox="0 0 24 24">
