@@ -15,15 +15,16 @@ export async function callAPIService({data = {}, method = "", url = ""}){
       'Content-Type': 'application/json;charset=UTF-8',
       // 'Authorization': `Bearer ${token}`,
     },
-    // url: `${process.env.REACT_APP_SERVICE_API}${url}`,
-    url: `${REACT_APP_SERVICE_API}${url}`,
+    url: `${process.env.REACT_APP_SERVICE_API}${url}`,
+    // url: `${REACT_APP_SERVICE_API}${url}`,
     data,
   };
   try {
     const response = await axios(options);
     const {status, data = {}} = response;
     if (!status === 200 || data.Error) {
-      return {error:data.Error, data: {}}
+      const {Message=""} = data.Error
+      return {error:Message, data: {}}
     }
 
     return {result: data.Result, error: ""}
