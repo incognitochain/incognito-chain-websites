@@ -9,3 +9,10 @@ export async function sendSocialURL(socialURL=""){
   }, method: "POST", url});
   return result;
 }
+
+export async function getAvailableBalance(){
+  
+  let url = `/faucet/balance`;
+  const result = await callAPIService({data: {}, method: "GET", url});
+  return result;
+}
