@@ -188,8 +188,8 @@ class Proposals extends React.Component {
           }}
         >
           <div className="withdraw-dialog">
-            <div style={{ margin: "0" }}>
-              <TextInputField
+            <div style={{ margin: "0", textAlign: "center" }}>
+              {/*<TextInputField
                 label="Amount"
                 placeholder="0.00"
                 autoComplete="off"
@@ -201,7 +201,8 @@ class Proposals extends React.Component {
                     this.setState({ amount: e.target.value });
                   });
                 }}
-              />
+              />*/}
+              <h4>Are you SURE?</h4>
             </div>
           </div>
         </Dialog>
