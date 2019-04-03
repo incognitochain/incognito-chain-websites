@@ -233,8 +233,8 @@ class Wallet extends React.Component {
                           >
                             {balance.SymbolCode}
                           </td>
-                          <td>{balance.TotalBalance}</td>
-                          <td>{balance.AvailableBalance}</td>
+                          <td>{Number(balance.TotalBalance/100) || 0}</td>
+                          <td>{Number(balance.AvailableBalance/100) || 0}</td>
                           <td>{balance.InOrder}</td>
                           <td>{balance.ConstantValue}</td>
                           <td>
