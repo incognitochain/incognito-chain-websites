@@ -344,10 +344,10 @@ class Home extends React.Component {
                 //   values.govParams.RefundInfo.ThresholdToLargeTx,
                 //   10
                 // ),
-                RefundAmount: parseInt(
-                  values.govParams.RefundInfo.RefundAmount,
-                  10
-                )
+                // RefundAmount: parseInt(
+                //   values.govParams.RefundInfo.RefundAmount,
+                //   10
+                // )
               },
               OracleNetwork: {
                 OraclePubKeys: values.govParams.OracleNetwork.OraclePubKeys,
