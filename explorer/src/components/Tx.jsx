@@ -79,7 +79,7 @@ class Tx extends React.Component {
         <tr>
           <td style={{ verticalAlign: 'top' }}>Metadata</td>
           <td>
-            <textarea disabled={true} rows={10} cols={100}>{tx.Metadata == null ? '' : tx.MetadData}</textarea>
+            <textarea disabled={true} rows={10} cols={100}>{tx.Metadata == null ? '' : tx.Metadata}</textarea>
           </td>
         </tr>
         <tr>
