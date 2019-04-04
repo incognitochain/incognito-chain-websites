@@ -1,34 +1,34 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import Link from "components/Link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
-import { faArrowRight, faEdit } from "@fortawesome/pro-regular-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faAngleRight} from "@fortawesome/free-solid-svg-icons";
+import {faArrowRight, faEdit} from "@fortawesome/pro-regular-svg-icons";
 import bgApplyGOV from "assets/apply-gov.svg";
 import bgApplyDCB from "assets/apply-dcb.svg";
 import bgApplyMCB from "assets/apply-mcb.svg";
-import { axios, catchError } from "services/api";
-import { API } from "constants/index";
+import {axios, catchError} from "services/api";
+import {API} from "constants/index";
 import cn from "classnames";
 import bgImage from "assets/create-a-proposal.svg";
-import { Dialog, Textarea, toaster } from "evergreen-ui";
-import { checkAuth } from "reducers/auth/action";
+import {Dialog, Textarea, toaster} from "evergreen-ui";
+import {checkAuth} from "reducers/auth/action";
 import GovProposalDialog from "./GovProposalDialog";
 import DcbProposalDialog from "./DcbProposalDialog";
 import _ from "lodash";
-import { GovTokens } from "../gov-tokens/GovTokens";
+import {GovTokens} from "../gov-tokens/GovTokens";
 
-import { checkIsUserInBoard } from "../../services/oracle.js";
+import {checkIsUserInBoard} from "../../services/oracle.js";
 
-const CheckInit = ({ children, inited }) => {
+const CheckInit = ({children, inited}) => {
   if (!inited) {
-    return <div />;
+    return <div/>;
   }
   return children;
 };
 
-const Applied = ({ applied, children }) => {
+const Applied = ({applied, children}) => {
   if (applied) return "Applied";
   return children;
 };
@@ -41,7 +41,7 @@ class Home extends React.Component {
 
   constructor(props) {
     super(props);
-    const { auth } = props;
+    const {auth} = props;
 
     this.state = {
       candidate: {},
@@ -70,14 +70,14 @@ class Home extends React.Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.auth.data.Bio !== prevState.oldBio) {
-      return { bio: nextProps.auth.data.Bio, oldBio: nextProps.auth.data.Bio };
+      return {bio: nextProps.auth.data.Bio, oldBio: nextProps.auth.data.Bio};
     }
     return null;
   }
 
   onCheckUserIsInBoard = async () => {
     const res = await checkIsUserInBoard()
-    const {result,error} = res;
+    const {result, error} = res;
     if (error) {
       console.log(error);
     }
@@ -92,9 +92,9 @@ class Home extends React.Component {
     axios
       .get(API.VOTING_DATA)
       .then(res => {
-        const { data } = res;
+        const {data} = res;
         if (data) {
-          const { Result, Error: resError } = data;
+          const {Result, Error: resError} = data;
           if (!resError) {
             this.setState({
               candidate: Result || {},
@@ -112,13 +112,13 @@ class Home extends React.Component {
     axios
       .get(API.VOTING_GOV_PARAMS)
       .then(res => {
-        const { data } = res;
+        const {data} = res;
         if (data) {
-          const { Result } = data;
+          const {Result} = data;
           if (Result) {
-            const { GOVParams } = Result;
+            const {GOVParams} = Result;
             if (GOVParams) {
-              this.setState({ govParams: GOVParams });
+              this.setState({govParams: GOVParams});
             }
           }
         }
@@ -175,12 +175,12 @@ class Home extends React.Component {
   }
 
   submitBio = () => {
-    const { bio } = this.state;
-    const { authCheckAuth } = this.props;
+    const {bio} = this.state;
+    const {authCheckAuth} = this.props;
 
     if (!bio) {
       toaster.warning("Bio is required");
-      this.setState({ isLoading: false });
+      this.setState({isLoading: false});
       return;
     }
 
@@ -189,10 +189,10 @@ class Home extends React.Component {
         Bio: bio
       })
       .then(res => {
-        const { data } = res;
-        const { Result } = data;
+        const {data} = res;
+        const {Result} = data;
         if (Result) {
-          this.setState({ isLoading: false, dialogBio: false });
+          this.setState({isLoading: false, dialogBio: false});
           toaster.success("Updated your bio");
           authCheckAuth();
         } else {
@@ -200,7 +200,7 @@ class Home extends React.Component {
         }
       })
       .catch(e => {
-        this.setState({ isLoading: false, dialogBio: false });
+        this.setState({isLoading: false, dialogBio: false});
         toaster.warning("Error update profile");
         catchError(e);
       });
@@ -208,7 +208,7 @@ class Home extends React.Component {
 
   submitCreateDCB = async (values, setSubmitting) => {
     setSubmitting(true);
-    this.setState({ isLoading: true });
+    this.setState({isLoading: true});
     try {
       const response = await axios.post(
         process.env.REACT_APP_SERVICE_API + "/voting/proposal",
@@ -270,12 +270,12 @@ class Home extends React.Component {
       catchError(e);
     }
 
-    this.setState({ isLoading: false });
+    this.setState({isLoading: false});
   };
 
   submitCreateGOV = async (values, setSubmitting) => {
     setSubmitting(true);
-    this.setState({ isLoading: true });
+    this.setState({isLoading: true});
 
     try {
       const response = await axios.post(
@@ -289,53 +289,53 @@ class Home extends React.Component {
               BasicSalary: parseInt(values.govParams.BasicSalary, 10),
               FeePerKbTx: parseInt(values.govParams.FeePerKbTx, 10),
               SellingBonds: {
-                BondName: values.govParams.SellingBonds.BondName,
-                BondSymbol: values.govParams.SellingBonds.BondSymbol,
+                BondName: values.govParams.SellingBonds ? values.govParams.SellingBonds.BondName : "",
+                BondSymbol: values.govParams.SellingBonds ? values.govParams.SellingBonds.BondSymbol : "",
                 TotalIssue: parseInt(
-                  values.govParams.SellingBonds.TotalIssue,
+                  values.govParams.SellingBonds ? values.govParams.SellingBonds.TotalIssue : 0,
                   10
                 ),
                 BondsToSell: parseInt(
-                  values.govParams.SellingBonds.BondsToSell,
+                  values.govParams.SellingBonds ? values.govParams.SellingBonds.BondsToSell : 0,
                   10
                 ),
                 BondPrice: parseInt(
-                  values.govParams.SellingBonds.BondPrice,
+                  values.govParams.SellingBonds ? values.govParams.SellingBonds.BondPrice : 0,
                   10
                 ),
-                Maturity: parseInt(values.govParams.SellingBonds.Maturity, 10),
+                Maturity: parseInt(values.govParams.SellingBonds ? values.govParams.SellingBonds.Maturity : 0, 10),
                 BuyBackPrice: parseInt(
-                  values.govParams.SellingBonds.BuyBackPrice,
+                  values.govParams.SellingBonds ? values.govParams.SellingBonds.BuyBackPrice : 0,
                   10
                 ),
                 StartSellingAt: parseInt(
-                  values.govParams.SellingBonds.StartSellingAt,
+                  values.govParams.SellingBonds ? values.govParams.SellingBonds.StartSellingAt : 0,
                   10
                 ),
                 SellingWithin: parseInt(
-                  values.govParams.SellingBonds.SellingWithin,
+                  values.govParams.SellingBonds ? values.govParams.SellingBonds.SellingWithin : 0,
                   10
                 )
               },
               SellingGOVTokens: {
                 TotalIssue: parseInt(
-                  values.govParams.SellingGOVTokens.TotalIssue,
+                  values.govParams.SellingGOVTokens ? values.govParams.SellingGOVTokens.TotalIssue : 0,
                   10
                 ),
                 GOVTokensToSell: parseInt(
-                  values.govParams.SellingGOVTokens.GOVTokensToSell,
+                  values.govParams.SellingGOVTokens ? values.govParams.SellingGOVTokens.GOVTokensToSell : 0,
                   10
                 ),
                 GOVTokenPrice: parseInt(
-                  values.govParams.SellingGOVTokens.GOVTokenPrice,
+                  values.govParams.SellingGOVTokens ? values.govParams.SellingGOVTokens.GOVTokenPrice : 0,
                   10
                 ),
                 StartSellingAt: parseInt(
-                  values.govParams.SellingGOVTokens.StartSellingAt,
+                  values.govParams.SellingGOVTokens ? values.govParams.SellingGOVTokens.StartSellingAt : 0,
                   10
                 ),
                 SellingWithin: parseInt(
-                  values.govParams.SellingGOVTokens.SellingWithin,
+                  values.govParams.SellingGOVTokens ? values.govParams.SellingGOVTokens.SellingWithin : 0,
                   10
                 )
               },
@@ -350,22 +350,22 @@ class Home extends React.Component {
                 // )
               },
               OracleNetwork: {
-                OraclePubKeys: values.govParams.OracleNetwork.OraclePubKeys,
+                OraclePubKeys: values.govParams.OracleNetwork ? values.govParams.OracleNetwork.OraclePubKeys : [],
                 WrongTimesAllowed: parseInt(
-                  values.govParams.OracleNetwork.WrongTimesAllowed,
+                  values.govParams.OracleNetwork ? values.govParams.OracleNetwork.WrongTimesAllowed : 0,
                   10
                 ),
-                Quorum: parseInt(values.govParams.OracleNetwork.Quorum, 10),
+                Quorum: parseInt(values.govParams.OracleNetwork ? values.govParams.OracleNetwork.Quorum : 0, 10),
                 AcceptableErrorMargin: parseInt(
-                  values.govParams.OracleNetwork.AcceptableErrorMargin,
+                  values.govParams.OracleNetwork ? values.govParams.OracleNetwork.AcceptableErrorMargin : 0,
                   10
                 ),
                 UpdateFrequency: parseInt(
-                  values.govParams.OracleNetwork.UpdateFrequency,
+                  values.govParams.OracleNetwork ? values.govParams.OracleNetwork.UpdateFrequency : 0,
                   10
                 ),
                 OracleRewardMultiplier: parseInt(
-                  values.govParams.OracleNetwork.OracleRewardMultiplier,
+                  values.govParams.OracleNetwork ? values.govParams.OracleNetwork.OracleRewardMultiplier : 0,
                   10
                 )
               }
@@ -388,12 +388,12 @@ class Home extends React.Component {
       catchError(e);
     }
 
-    this.setState({ isLoading: false });
+    this.setState({isLoading: false});
   };
 
   apply = (type, ev, denyCall) => {
     ev.preventDefault();
-    const { address } = this.state;
+    const {address} = this.state;
 
     if (!denyCall) {
       axios
@@ -402,9 +402,9 @@ class Home extends React.Component {
           BoardType: type
         })
         .then(res => {
-          const { data } = res;
+          const {data} = res;
           if (data) {
-            const { Result } = data;
+            const {Result} = data;
             if (Result) {
               this.loadUserCandidate();
               toaster.success("Apply success!");
@@ -432,7 +432,7 @@ class Home extends React.Component {
       isUserInBoard,
     } = this.state;
 
-    const { auth } = this.props;
+    const {auth} = this.props;
     return (
       <div className="page user-page home-page">
         <Dialog
@@ -450,12 +450,12 @@ class Home extends React.Component {
             })
           }
           onConfirm={() => {
-            this.setState({ isLoading: true });
+            this.setState({isLoading: true});
             this.submitBio();
           }}
         >
           <div className="withdraw-dialog">
-            <div style={{ margin: "0" }}>
+            <div style={{margin: "0"}}>
               <Textarea
                 rows={15}
                 label="Your bio"
@@ -464,7 +464,7 @@ class Home extends React.Component {
                 width="100%"
                 value={bio}
                 onChange={e => {
-                  this.setState({ bio: e.target.value });
+                  this.setState({bio: e.target.value});
                 }}
               />
             </div>
@@ -524,10 +524,10 @@ class Home extends React.Component {
                     <div
                       className="edit"
                       onClick={() => {
-                        this.setState({ dialogBio: true });
+                        this.setState({dialogBio: true});
                       }}
                     >
-                      <FontAwesomeIcon icon={faEdit} />
+                      <FontAwesomeIcon icon={faEdit}/>
                     </div>
                   </div>
                   <div
@@ -543,32 +543,32 @@ class Home extends React.Component {
               <div className="col-12 col-lg-4">
                 <div
                   className="c-card card-create-a-proposal-container"
-                  style={{ backgroundImage: `url(${bgImage})` }}
+                  style={{backgroundImage: `url(${bgImage})`}}
                 >
                   <p>
                     Wanna know how to loan Constant instantly
-                    <br />
+                    <br/>
                     <i>Create new one.</i>
                   </p>
                   <button
                     className="c-btn c-bg-green"
                     type="button"
                     onClick={() => {
-                      this.setState({ dialogDCBProposal: true });
+                      this.setState({dialogDCBProposal: true});
                     }}
                   >
                     {"DCB Proposal "}
-                    <FontAwesomeIcon icon={faAngleRight} />
+                    <FontAwesomeIcon icon={faAngleRight}/>
                   </button>
                   <button
                     className="c-btn c-bg-green"
                     type="button"
                     onClick={() => {
-                      this.setState({ dialogGOVProposal: true });
+                      this.setState({dialogGOVProposal: true});
                     }}
                   >
                     {"GOV Proposal "}
-                    <FontAwesomeIcon icon={faAngleRight} />
+                    <FontAwesomeIcon icon={faAngleRight}/>
                   </button>
                   {isUserInBoard ?
                     <Link
@@ -576,9 +576,9 @@ class Home extends React.Component {
                       to={'/oracle/feed-price'}
                     >
                       {"Oracle Proposal"}
-                      <FontAwesomeIcon icon={faAngleRight} />
+                      <FontAwesomeIcon icon={faAngleRight}/>
                     </Link>
-                  : ""}
+                    : ""}
                 </div>
               </div>
             </div>
@@ -590,7 +590,7 @@ class Home extends React.Component {
               <div className="col-12 col-lg-4">
                 <div
                   className="c-card"
-                  style={{ backgroundImage: `url(${bgApplyGOV})` }}
+                  style={{backgroundImage: `url(${bgApplyGOV})`}}
                 >
                   <div className="title c-color-blue-1000">Apply GOV board</div>
                   <div className="description">Control the new internet</div>
@@ -605,7 +605,7 @@ class Home extends React.Component {
                       <Applied applied={candidate.GOVAppliedAt}>
                         <>
                           {"Apply now "}
-                          <FontAwesomeIcon icon={faArrowRight} />
+                          <FontAwesomeIcon icon={faArrowRight}/>
                         </>
                       </Applied>
                     </Link>
@@ -615,7 +615,7 @@ class Home extends React.Component {
               <div className="col-12 col-lg-4">
                 <div
                   className="c-card"
-                  style={{ backgroundImage: `url(${bgApplyDCB})` }}
+                  style={{backgroundImage: `url(${bgApplyDCB})`}}
                 >
                   <div className="title c-color-blue-1000">Apply DCB Board</div>
                   <div className="description">A decentralized bank</div>
@@ -630,7 +630,7 @@ class Home extends React.Component {
                       <Applied applied={candidate.DCBAppliedAt}>
                         <>
                           {"Apply now "}
-                          <FontAwesomeIcon icon={faArrowRight} />
+                          <FontAwesomeIcon icon={faArrowRight}/>
                         </>
                       </Applied>
                     </Link>
@@ -640,7 +640,7 @@ class Home extends React.Component {
               <div className="col-12 col-lg-4">
                 <div
                   className="c-card"
-                  style={{ backgroundImage: `url(${bgApplyMCB})` }}
+                  style={{backgroundImage: `url(${bgApplyMCB})`}}
                 >
                   <div className="title c-color-blue-1000">Apply CMB Board</div>
                   <div className="description">Lorem ipsum ador</div>
@@ -656,7 +656,7 @@ class Home extends React.Component {
                       <Applied applied={candidate.CMBAppliedAt}>
                         <>
                           {"Comming soon "}
-                          <FontAwesomeIcon icon={faArrowRight} />
+                          <FontAwesomeIcon icon={faArrowRight}/>
                         </>
                       </Applied>
                     </Link>
@@ -667,14 +667,14 @@ class Home extends React.Component {
           </div>
         </div>
 
-        <GovTokens />
+        <GovTokens/>
       </div>
     );
   }
 }
 
 export default connect(
-  state => ({ auth: state.auth }),
+  state => ({auth: state.auth}),
   {
     authCheckAuth: checkAuth
   }
