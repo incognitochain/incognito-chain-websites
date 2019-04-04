@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import cn from '@sindresorhus/class-names';
-import { getBlocks, getBlockchainInfo } from '@/reducers/constant/action';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faChevronRight } from '@fortawesome/pro-regular-svg-icons';
+import {getBlocks, getBlockchainInfo} from '@/reducers/constant/action';
+import {Link} from 'react-router-dom';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faChevronLeft, faChevronRight} from '@fortawesome/pro-regular-svg-icons';
 
 class Chain extends React.Component {
   static propTypes = {
@@ -18,8 +18,8 @@ class Chain extends React.Component {
 
   constructor(props) {
     super(props);
-    const { match, chainInfo, blocks } = this.props;
-    const { chainId } = match.params;
+    const {match, chainInfo, blocks} = this.props;
+    const {chainId} = match.params;
     const rawchainId = chainId - 1;
 
     this.state = {
@@ -33,7 +33,7 @@ class Chain extends React.Component {
     this.loadData(rawchainId);
     setInterval(() => {
       this.loadData(rawchainId);
-    }, 10000);
+    }, 1 * 60 * 1000); // reload after 1 minutes
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -41,20 +41,20 @@ class Chain extends React.Component {
       nextProps.blocks[prevState.rawchainId]?.updatedAt
       !== prevState.blocks[prevState.rawchainId]?.updatedAt
     ) {
-      return { blocks: nextProps.blocks };
+      return {blocks: nextProps.blocks};
     }
     if (nextProps.chainInfo.updatedAt !== prevState.chainInfo.updatedAt) {
-      return { chainInfo: nextProps.chainInfo };
+      return {chainInfo: nextProps.chainInfo};
     }
     const pageRegexExeced = /\?page=(\d+)$/.exec(nextProps.history.location.search);
     if (pageRegexExeced) {
-      return { page: parseInt(pageRegexExeced[1], 10) };
+      return {page: parseInt(pageRegexExeced[1], 10)};
     }
     return null;
   }
 
   loadData = (rawchainId) => {
-    const { actionGetBlocks, actionGetBlockChainInfo } = this.props;
+    const {actionGetBlocks, actionGetBlockChainInfo} = this.props;
     actionGetBlocks(rawchainId);
     actionGetBlockChainInfo();
   };
@@ -135,9 +135,9 @@ class Chain extends React.Component {
                     <td>Salary per TX</td>
                     <td>{chainBlock.SalaryPerTx}</td>
                   </tr>
-                  <tr style={{ display: `${this.isBeacon(chainId) ? 'none' : 'block'}` }}>
+                  <tr style={{display: `${this.isBeacon(chainId) ? 'none' : 'block'}`}}>
                     <td>Total TXs</td>
-                    <td>{chainBlock.TotalTxs.toLocaleString(navigator.language, { minimumFractionDigits: 0 })}</td>
+                    <td>{chainBlock.TotalTxs.toLocaleString(navigator.language, {minimumFractionDigits: 0})}</td>
                   </tr>
                   </tbody>
                 </table>
@@ -148,10 +148,10 @@ class Chain extends React.Component {
                 <div className="block-heading">
                   Lastest Blocks
                 </div>
-                <div style={{ paddingBottom: '10px', }}>
+                <div style={{paddingBottom: '10px',}}>
                   <span
-                    style={{ fontSize: '13px' }}>
-                    Block #{blocks[rawchainId].list[blocks[rawchainId].list.length - 1].Height.toLocaleString(navigator.language, { minimumFractionDigits: 0 })} to #{blocks[rawchainId].list[0].Height.toLocaleString(navigator.language, { minimumFractionDigits: 0 })} (Total of {blocks[rawchainId].list[0].Height.toLocaleString(navigator.language, { minimumFractionDigits: 0 })} blocks)
+                    style={{fontSize: '13px'}}>
+                    Block #{blocks[rawchainId].list[blocks[rawchainId].list.length - 1].Height.toLocaleString(navigator.language, {minimumFractionDigits: 0})} to #{blocks[rawchainId].list[0].Height.toLocaleString(navigator.language, {minimumFractionDigits: 0})} (Total of {blocks[rawchainId].list[0].Height.toLocaleString(navigator.language, {minimumFractionDigits: 0})} blocks)
                   </span>
                 </div>
                 <div>
@@ -169,7 +169,7 @@ class Chain extends React.Component {
                     <tbody>
                     {blocks[rawchainId] && blocks[rawchainId].list.map(blockchain => (
                       <tr key={blockchain.Hash}>
-                        <td>{blockchain.Height.toLocaleString(navigator.language, { minimumFractionDigits: 0 })}</td>
+                        <td>{blockchain.Height.toLocaleString(navigator.language, {minimumFractionDigits: 0})}</td>
                         <td className="c-hash"><Link
                           to={`/block/${blockchain.Hash}` + (this.isBeacon(chainId) ? '?beacon=true' : '')}>{blockchain.Hash.substring(0, 25)}...</Link>
                         </td>
@@ -177,14 +177,14 @@ class Chain extends React.Component {
                         <td className="c-hash"><Link
                           to={`/block/${blockchain.Hash}/txs`}>{blockchain.TxHashes ? blockchain.TxHashes.length : 0}</Link>
                         </td>
-                        <td>{(blockchain.Fee / 100).toLocaleString(navigator.language, { minimumFractionDigits: 2 })} Const</td>
-                        <td>{(blockchain.Reward / 100).toLocaleString(navigator.language, { minimumFractionDigits: 2 })} Const</td>
+                        <td>{(blockchain.Fee / 100).toLocaleString(navigator.language, {minimumFractionDigits: 2})} Const</td>
+                        <td>{(blockchain.Reward / 100).toLocaleString(navigator.language, {minimumFractionDigits: 2})} Const</td>
                       </tr>
                     ))}
                     </tbody>
                   </table>
                   <div>
-                    <div className="c-pagination" style={{ display: 'none' }}>
+                    <div className="c-pagination" style={{display: 'none'}}>
                       <ul>
                         <li className={cn({
                           prev: (page !== 1),
