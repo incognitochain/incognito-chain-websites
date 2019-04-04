@@ -258,7 +258,7 @@ export default function GovProposalDialog({
                     label="Bond Name"
                     name="govParams.SellingBonds.BondName"
                     placeholder=""
-                    value={values.govParams.SellingBonds.BondName}
+                    value={values.govParams.SellingBonds.BondName || ""}
                     onChange={e => {
                       setFieldValue(
                         "govParams.SellingBonds.BondName",
