@@ -340,10 +340,10 @@ class Home extends React.Component {
                 )
               },
               RefundInfo: {
-                ThresholdToLargeTx: parseInt(
-                  values.govParams.RefundInfo.ThresholdToLargeTx,
-                  10
-                ),
+                // ThresholdToLargeTx: parseInt(
+                //   values.govParams.RefundInfo.ThresholdToLargeTx,
+                //   10
+                // ),
                 RefundAmount: parseInt(
                   values.govParams.RefundInfo.RefundAmount,
                   10

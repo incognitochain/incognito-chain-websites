@@ -208,18 +208,18 @@ export default function GovProposalDialog({
               <legend>Refund Info</legend>
               <div className="row">
                 <div className="col-12">
-                  <TextInputField
-                    label="Threshold To Large Tx"
-                    name="govParams.RefundInfo.ThresholdToLargeTx"
-                    placeholder="0"
-                    value={values.govParams.RefundInfo.ThresholdToLargeTx || ""}
-                    onChange={e => {
-                      setFieldValue(
-                        "govParams.RefundInfo.ThresholdToLargeTx",
-                        e.target.value
-                      );
-                    }}
-                  />
+                  {/*<TextInputField*/}
+                    {/*label="Threshold To Large Tx"*/}
+                    {/*name="govParams.RefundInfo.ThresholdToLargeTx"*/}
+                    {/*placeholder="0"*/}
+                    {/*value={values.govParams.RefundInfo.ThresholdToLargeTx || ""}*/}
+                    {/*onChange={e => {*/}
+                      {/*setFieldValue(*/}
+                        {/*"govParams.RefundInfo.ThresholdToLargeTx",*/}
+                        {/*e.target.value*/}
+                      {/*);*/}
+                    {/*}}*/}
+                  {/*/>*/}
                 </div>
                 <div className="col-12">
                   <TextInputField
