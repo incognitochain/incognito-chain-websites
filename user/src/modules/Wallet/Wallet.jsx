@@ -93,6 +93,17 @@ class Wallet extends React.Component {
       });
   };
 
+  getAmount = amount => {
+    let rs = 0;
+    const { currentBalance } = this.state;
+    if (currentBalance.SymbolName === "CONST") {
+      rs = Number(amount/100);
+    } else {
+      rs = Number(amount);
+    }
+    return rs || 0;
+  }
+
   onlyNumber = (value, cb) => {
     if (!Number.isNaN(Number(value))) {
       cb();
@@ -233,8 +244,8 @@ class Wallet extends React.Component {
                           >
                             {balance.SymbolCode}
                           </td>
-                          <td>{Number(balance.TotalBalance/100) || 0}</td>
-                          <td>{Number(balance.AvailableBalance/100) || 0}</td>
+                          <td>{this.getAmount(balance.TotalBalance)}</td>
+                          <td>{this.getAmount(balance.AvailableBalance)}</td>
                           <td>{balance.InOrder}</td>
                           <td>{balance.ConstantValue}</td>
                           <td>
