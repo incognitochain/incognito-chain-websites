@@ -43,7 +43,8 @@ export default function DcbProposalDialog({
       >
         {({values, errors, touched, setFieldValue}) => {
           let SaleDCBTokensByUSDData = values.dcbParams.SaleDCBTokensByUSDData || {};
-
+          let ListLoanParams = values.dcbParams.ListLoanParams || [];
+          let ListSaleData = values.dcbParams.ListSaleData || [];
           return (
             <Form className="proposal-submit-form">
               <div>
@@ -64,7 +65,7 @@ export default function DcbProposalDialog({
                   name="dcbParams.ListLoanParams"
                   render={arrayHelpers => (
                     <div>
-                      {_.get(values, "dcbParams.ListLoanParams", []).map(
+                      {ListLoanParams.map(
                         (loanParams, index) => {
                           return (
                             <fieldset key={index}>
@@ -143,7 +144,7 @@ export default function DcbProposalDialog({
                   name="dcbParams.ListSaleData"
                   render={arrayHelpers => (
                     <div>
-                      {_.get(values, "dcbParams.ListSaleData", []).map(
+                      {ListSaleData.map(
                         (sale, index) => (
                           <fieldset key={index}>
                             <legend style={{textAlign: "right"}}>
