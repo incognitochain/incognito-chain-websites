@@ -281,7 +281,7 @@ class Home extends React.Component {
     this.setState({isLoading: false});
   };
 
-  submitCreateGOV = async (values, setSubmitting) => {
+  submitCreateGOV = async (values = {}, setSubmitting) => {
     setSubmitting(true);
     this.setState({isLoading: true});
 
@@ -290,7 +290,7 @@ class Home extends React.Component {
         process.env.REACT_APP_SERVICE_API + "/voting/proposal",
         {
           Type: 2,
-          Name: "abcd",
+          Name: values.Name,
           GOV: {
             GOVParams: {
               SalaryPerTx: parseInt(values.govParams.SalaryPerTx, 10),
