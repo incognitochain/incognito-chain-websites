@@ -129,11 +129,11 @@ class Chain extends React.Component {
                   </tr>
                   <tr>
                     <td>Basic salary</td>
-                    <td>{chainBlock.BasicSalary.toLocaleString(navigator.language, {minimumFractionDigits: 0})}</td>
+                    <td>{chainBlock.BasicSalary.toLocaleString(navigator.language, {minimumFractionDigits: 2})}</td>
                   </tr>
                   <tr>
                     <td>Salary per TX</td>
-                    <td>{chainBlock.SalaryPerTx.toLocaleString(navigator.language, {minimumFractionDigits: 0})}</td>
+                    <td>{chainBlock.SalaryPerTx.toLocaleString(navigator.language, {minimumFractionDigits: 2})}</td>
                   </tr>
                   <tr style={{display: `${this.isBeacon(chainId) ? 'none' : 'block'}`}}>
                     <td>Total TXs</td>
