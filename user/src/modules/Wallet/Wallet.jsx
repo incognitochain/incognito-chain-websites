@@ -93,15 +93,14 @@ class Wallet extends React.Component {
       });
   };
 
-  getAmount = amount => {
+  getAmount = (amount, symbolName) => {
     let rs = 0;
-    const { currentBalance } = this.state;
-    if (currentBalance.SymbolName === "CONST") {
-      rs = Number(amount/100);
+    if (symbolName === "CONST") {
+      rs = Number.parseFloat(amount/100);
     } else {
-      rs = Number(amount);
+      rs = Number.parseFloat(amount);
     }
-    return rs || 0;
+    return rs ? rs.toFixed(2) : 0.00;
   }
 
   onlyNumber = (value, cb) => {
@@ -244,8 +243,8 @@ class Wallet extends React.Component {
                           >
                             {balance.SymbolCode}
                           </td>
-                          <td>{this.getAmount(balance.TotalBalance)}</td>
-                          <td>{this.getAmount(balance.AvailableBalance)}</td>
+                          <td>{this.getAmount(balance.TotalBalance, balance.SymbolName)}</td>
+                          <td>{this.getAmount(balance.AvailableBalance, balance.SymbolName)}</td>
                           <td>{balance.InOrder}</td>
                           <td>{balance.ConstantValue}</td>
                           <td>
