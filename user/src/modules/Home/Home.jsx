@@ -210,6 +210,14 @@ class Home extends React.Component {
     setSubmitting(true);
     this.setState({isLoading: true});
     try {
+      const {
+        ListSaleData,
+        MinLoanResponseRequire,
+        MinCMBApprovalRequire,
+        LateWithdrawResponseFine,
+        SaleDCBTokensByUSDData,
+        ListLoanParams
+      } = values && values.dcbParams || {};
       const response = await axios.post(
         process.env.REACT_APP_SERVICE_API + "/voting/proposal",
         {
@@ -217,7 +225,7 @@ class Home extends React.Component {
           Name: values.Name,
           DCB: {
             DCBParams: {
-              ListSaleData: values.dcbParams.ListSaleData.map(sale => ({
+              ListSaleData: ListSaleData && ListSaleData.map(sale => ({
                 SaleID: "123456", // TODO - remove SaleID
                 EndBlock: parseInt(sale.EndBlock, 10),
                 BuyingAsset: sale.BuyingAsset,
@@ -226,35 +234,35 @@ class Home extends React.Component {
                 SellingAmount: parseInt(sale.SellingAmount, 10)
               })),
               MinLoanResponseRequire: parseInt(
-                values.dcbParams.MinLoanResponseRequire,
+                MinLoanResponseRequire,
                 10
-              ),
+              ) || 0,
               MinCMBApprovalRequire: parseInt(
-                values.dcbParams.MinCMBApprovalRequire,
+                MinCMBApprovalRequire,
                 10
-              ),
+              ) || 0,
               LateWithdrawResponseFine: parseInt(
-                values.dcbParams.LateWithdrawResponseFine,
+                LateWithdrawResponseFine,
                 10
-              ),
-              SaleDCBTokensByUSDData: {
+              ) || 0,
+              SaleDCBTokensByUSDData: SaleDCBTokensByUSDData && {
                 Amount: parseInt(
-                  values.dcbParams.SaleDCBTokensByUSDData.Amount,
+                  SaleDCBTokensByUSDData.Amount,
                   10
-                ),
+                ) || 0,
                 EndBlock: parseInt(
-                  values.dcbParams.SaleDCBTokensByUSDData.EndBlock,
+                  SaleDCBTokensByUSDData.EndBlock,
                   10
-                )
+                ) || 0
               },
-              ListLoanParams: values.dcbParams.ListLoanParams.map(loan => ({
+              ListLoanParams: ListLoanParams && ListLoanParams.map(loan => ({
                 InterestRate: parseInt(loan.InterestRate, 10),
                 Maturity: parseInt(loan.Maturity, 10),
                 LiquidationStart: parseInt(loan.LiquidationStart, 10)
               }))
             },
-            ExecuteDuration: parseInt(values.ExecuteDuration, 10),
-            Explanation: values.Explanation
+            ExecuteDuration: parseInt(values.ExecuteDuration, 10) || 0,
+            Explanation: values.Explanation 
           }
         }
       );
