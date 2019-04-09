@@ -67,7 +67,8 @@ class Register extends React.Component {
         setSubmitting(false);
       })
       .catch(err => {
-        this.setState({ error: err.response.data.Error.Message });
+        const errResponse = err.response;
+        this.setState({ error: errResponse ? errResponse.data.Error.Message : err.message });
         console.log("err register", err);
         setSubmitting(false);
       });
