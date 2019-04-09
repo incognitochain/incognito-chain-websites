@@ -225,14 +225,15 @@ class Home extends React.Component {
           Name: values.Name,
           DCB: {
             DCBParams: {
-              ListSaleData: ListSaleData && ListSaleData.map(sale => ({
+              TradeBonds: [],
+              ListSaleData: ListSaleData ? ListSaleData.map(sale => ({
                 SaleID: "123456", // TODO - remove SaleID
                 EndBlock: parseInt(sale.EndBlock, 10),
                 BuyingAsset: sale.BuyingAsset,
                 BuyingAmount: parseInt(sale.BuyingAmount, 10),
                 SellingAsset: sale.SellingAsset,
                 SellingAmount: parseInt(sale.SellingAmount, 10)
-              })),
+              })) : [],
               MinLoanResponseRequire: parseInt(
                 MinLoanResponseRequire,
                 10
@@ -255,11 +256,11 @@ class Home extends React.Component {
                   10
                 ) || 0
               },
-              ListLoanParams: ListLoanParams && ListLoanParams.map(loan => ({
+              ListLoanParams: ListLoanParams ? ListLoanParams.map(loan => ({
                 InterestRate: parseInt(loan.InterestRate, 10),
                 Maturity: parseInt(loan.Maturity, 10),
                 LiquidationStart: parseInt(loan.LiquidationStart, 10)
-              }))
+              })) : []
             },
             ExecuteDuration: parseInt(values.ExecuteDuration, 10) || 0,
             Explanation: values.Explanation 
