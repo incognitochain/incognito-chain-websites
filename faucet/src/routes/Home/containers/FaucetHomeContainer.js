@@ -80,6 +80,7 @@ class FaucetHomePage extends React.Component {
     const isDisableButton = isSubmitting === true;
     return (
       <div className="App">
+      <Grid container>
         <div className="App-header">
           <h2>Constant Authenticated Faucet </h2>
           <div style={{ minWidth: 800, display: "flex" }}>
@@ -162,6 +163,7 @@ class FaucetHomePage extends React.Component {
             </DialogContent>
           </Dialog>
         </div>
+      </Grid>
       </div>
     )
   }
