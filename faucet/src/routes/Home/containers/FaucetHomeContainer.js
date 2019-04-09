@@ -83,7 +83,7 @@ class FaucetHomePage extends React.Component {
       <Grid container>
         <div className="App-header">
           <h2>Constant Authenticated Faucet </h2>
-          <div style={{ minWidth: 800, display: "flex" }}>
+          <div style={{ width: '90%', maxWidth: 1280, display: "flex" }}>
 
               <Input
                 type="text"
