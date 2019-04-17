@@ -294,18 +294,10 @@ class Home extends React.Component {
             </div>
           </div>
         </div>
-        <div className="tabs-container">
-          <div className="container">
-            <div className="row">
-              <div className="col-12">
-                <div className="c-card">
-                  <div className="tabs">
-                    <div className={`tab ${active === 0 ? 'active' : ''}`} onClick={() => this.setState({ active: 0 })}>Your borrows</div>
-                    {borrowsForLender.length ? <div className={`tab ${active === 1 ? 'active' : ''}`} onClick={() => this.setState({ active: 1 })}>Lender role</div> : ''}
-                  </div>
-                </div>
-              </div>
-            </div>
+        <div className="container">
+          <div className="row tabs-container">
+            <div className={`col-6 tab ${active === 0 ? 'active' : ''}`} onClick={() => this.setState({ active: 0 })}>Your borrows</div>
+            <div className={`col-6 tab ${active === 1 ? 'active' : ''}`} onClick={() => this.setState({ active: 1 })}>Lender role</div>
           </div>
         </div>
         <div className="borrows-container" style={{ display: `${active === 0 ? 'block' : 'none'}` }}>
@@ -327,38 +319,40 @@ class Home extends React.Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {borrows.map(borrow => (
-                        <tr key={borrow.ID}>
-                          <td>
-                            <Link to={`/loan/${borrow.LoanID}`}>
-                              {"0x"}{borrow.LoanID.substr(0, 5)}
-                              ...
-                            </Link>
-                          </td>
-                          <td>
-                            {parseFloat(borrow.LoanAmount / 100).numberFormat()}
-                            {' CST'}
-                          </td>
-                          <td>
-                            {borrow.CollateralAmount.coinUnitFormat(borrow.CollateralType)}
-                            {' '}
-                            {borrow.CollateralType}
-                          </td>
-                          <td>
-                            {(borrow.InterestRate / 100).numberFormat()}
-                            %
-                          </td>
-                          <td>{dayjs(borrow.CreatedAt).format('MM-DD-YYYY')}</td>
-                          <td>{dayjs(borrow.EndDate).format('MM-DD-YYYY')}</td>
-                          <td className={`c-status ${borrow.State}`}>{borrow.State}</td>
-                          <td>
-                            {borrow.State === 'pending' ? 'Waiting for approve from lenders' : ''}
-                            {borrow.State === 'approved' ? (
-                              <button className="c-a-btn" onClick={() => this.clickWithdraw(borrow)} type="button">Withdraw</button>
-                            ) : ''}
-                          </td>
-                        </tr>
-                      ))}
+                      {
+                        borrows && borrows.length ? borrows.map(borrow => (
+                          <tr key={borrow.ID}>
+                            <td>
+                              <Link to={`/loan/${borrow.LoanID}`}>
+                                {"0x"}{borrow.LoanID.substr(0, 5)}
+                                ...
+                              </Link>
+                            </td>
+                            <td>
+                              {parseFloat(borrow.LoanAmount / 100).numberFormat()}
+                              {' CST'}
+                            </td>
+                            <td>
+                              {borrow.CollateralAmount.coinUnitFormat(borrow.CollateralType)}
+                              {' '}
+                              {borrow.CollateralType}
+                            </td>
+                            <td>
+                              {(borrow.InterestRate / 100).numberFormat()}
+                              %
+                            </td>
+                            <td>{dayjs(borrow.CreatedAt).format('MM-DD-YYYY')}</td>
+                            <td>{dayjs(borrow.EndDate).format('MM-DD-YYYY')}</td>
+                            <td className={`c-status ${borrow.State}`}>{borrow.State}</td>
+                            <td>
+                              {borrow.State === 'pending' ? 'Waiting for approve from lenders' : ''}
+                              {borrow.State === 'approved' ? (
+                                <button className="c-a-btn" onClick={() => this.clickWithdraw(borrow)} type="button">Withdraw</button>
+                              ) : ''}
+                            </td>
+                          </tr>
+                        )) : <tr><td colSpan={8}><span className="d-block text-center">No data</span></td></tr>
+                      }
                     </tbody>
                   </table>
                 </div>
@@ -385,41 +379,43 @@ class Home extends React.Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {borrowsForLender.map(borrow => (
-                        <tr key={borrow.ID}>
-                          <td>
-                            <Link to={`/loan/${borrow.LoanID}`}>
-                              {borrow.LoanID.substr(0, 5)}
-                              ...
-                            </Link>
-                          </td>
-                          <td>
-                            {parseFloat(borrow.LoanAmount / 100).numberFormat()}
-                            {' CST'}
-                          </td>
-                          <td>
-                            {borrow.CollateralAmount.coinUnitFormat(borrow.CollateralType)}
-                            {' '}
-                            {borrow.CollateralType}
-                          </td>
-                          <td>
-                            {(borrow.InterestRate / 100).numberFormat()}
-                            %
-                          </td>
-                          <td>{dayjs(borrow.CreatedAt).format('MM-DD-YYYY')}</td>
-                          <td>{dayjs(borrow.EndDate).format('MM-DD-YYYY')}</td>
-                          <td className={`c-status ${borrow.State}`}>{borrow.State}</td>
-                          {
-                            borrow.State === 'pending'
-                              ? (
-                                <td>
-                                  <button type="button" className="c-a-btn c-a-btn-approve" onClick={() => this.clickAction(borrow)}>Approve</button>
-                                  <button type="button" className="c-a-btn c-a-btn-deny" onClick={() => this.clickAction(borrow, false)}>Deny</button>
-                                </td>
-                              ) : ''
-                          }
-                        </tr>
-                      ))}
+                      {
+                        borrowsForLender && borrowsForLender.length ? borrowsForLender.map(borrow => (
+                          <tr key={borrow.ID}>
+                            <td>
+                              <Link to={`/loan/${borrow.LoanID}`}>
+                                {borrow.LoanID.substr(0, 5)}
+                                ...
+                              </Link>
+                            </td>
+                            <td>
+                              {parseFloat(borrow.LoanAmount / 100).numberFormat()}
+                              {' CST'}
+                            </td>
+                            <td>
+                              {borrow.CollateralAmount.coinUnitFormat(borrow.CollateralType)}
+                              {' '}
+                              {borrow.CollateralType}
+                            </td>
+                            <td>
+                              {(borrow.InterestRate / 100).numberFormat()}
+                              %
+                            </td>
+                            <td>{dayjs(borrow.CreatedAt).format('MM-DD-YYYY')}</td>
+                            <td>{dayjs(borrow.EndDate).format('MM-DD-YYYY')}</td>
+                            <td className={`c-status ${borrow.State}`}>{borrow.State}</td>
+                            {
+                              borrow.State === 'pending'
+                                ? (
+                                  <td>
+                                    <button type="button" className="c-a-btn c-a-btn-approve" onClick={() => this.clickAction(borrow)}>Approve</button>
+                                    <button type="button" className="c-a-btn c-a-btn-deny" onClick={() => this.clickAction(borrow, false)}>Deny</button>
+                                  </td>
+                                ) : ''
+                            }
+                          </tr>
+                        )) : <tr><td colSpan={9}><span className="d-block text-center">No data</span></td></tr>
+                      }
                     </tbody>
                   </table>
                 </div>
