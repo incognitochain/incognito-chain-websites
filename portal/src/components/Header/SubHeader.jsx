@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Link from '@/components/Link';
+import { Popover } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRetweetAlt, faSearchDollar, faCopyright } from '@fortawesome/pro-regular-svg-icons';
 import { faHome } from '@fortawesome/pro-light-svg-icons';
@@ -34,7 +35,7 @@ class SubHeader extends React.Component {
             <div className="col-12">
               <ul>
                 <li>
-                  <Link to="/" className={cn({ active: pathname === '/' })}>
+                  <Link to="/" className={cn('menu-item', { active: pathname === '/' })}>
                     <FontAwesomeIcon icon={faHome} />
                     {' Landing'}
                   </Link>
@@ -45,25 +46,27 @@ class SubHeader extends React.Component {
                     {' Transaction'}
                   </Link>
                 </li> */}
-                <li>
-                  <Link to="/redeem" className={cn({ active: pathname.startsWith('/redeem') })}>
+                <li className="hover-menu">
+                  <Link to="/redeem" className={cn('menu-item', { active: ['/redeem', '/buy-token', '/buy-constant'].includes(pathname) })}>
                     <FontAwesomeIcon icon={faRetweetAlt} />
-                    {' Redeem'}
+                    {' Reserve'}
                   </Link>
-                </li>
-                <li>
-                  <Link to="/buy-token" className={cn({ active: pathname.startsWith('/buy-token') })}>
-                    <FontAwesomeIcon icon={faSearchDollar} />
-                    &nbsp;
-                    {'Reserve Asset'}
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/buy-constant" className={cn({ active: pathname.startsWith('/buy-constant') })}>
-                    <FontAwesomeIcon icon={faCopyright} />
-                    &nbsp;
-                    {'Buy Constant'}
-                  </Link>
+                  <div name="content-hover">
+                    <Link to="/redeem" className={cn('item', { active: pathname.startsWith('/redeem') })}>
+                      <FontAwesomeIcon icon={faRetweetAlt} />
+                      {' Redeem'}
+                    </Link>
+                    <Link to="/buy-token" className={cn('item', { active: pathname.startsWith('/buy-token') })}>
+                      <FontAwesomeIcon icon={faSearchDollar} />
+                      &nbsp;
+                      {'Reserve Asset'}
+                    </Link>
+                    <Link to="/buy-constant" className={cn('item', { active: pathname.startsWith('/buy-constant') })}>
+                      <FontAwesomeIcon icon={faCopyright} />
+                      &nbsp;
+                      {'Buy Constant'}
+                    </Link>
+                  </div>
                 </li>
               </ul>
             </div>
