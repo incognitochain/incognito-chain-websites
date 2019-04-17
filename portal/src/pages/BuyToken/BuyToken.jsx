@@ -549,18 +549,10 @@ class BuyToken extends React.Component {
         </section>
 
         <div className="borrows-container" style={{ display: 'block' }}>
-          <div className="tabs-container">
-            <div className="container">
-              <div className="row">
-                <div className="col-12">
-                  <div className="c-card">
-                    <div className="tabs">
-                      <div className={`tab ${tabIndex === 0 ? 'active' : ''}`} onClick={() => this.onChangeTab(0)}>USD</div>
-                      <div className={`tab ${tabIndex === 1 ? 'active' : ''}`} onClick={() => this.onChangeTab(1)}>ETH</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          <div className="container">
+            <div className="row tabs-container">
+              <div className={`col-6 tab ${tabIndex === 0 ? 'active' : ''}`} onClick={() => this.onChangeTab(0)}>USD</div>
+              <div className={`col-6 tab ${tabIndex === 1 ? 'active' : ''}`} onClick={() => this.onChangeTab(1)}>ETH</div>
             </div>
           </div>
           <div className="container">
@@ -579,7 +571,7 @@ class BuyToken extends React.Component {
                     </thead>
                     <tbody>
                         {
-                          history && history.map((item={}) => {
+                          history && history.length ? history.map((item={}) => {
                             return (
                               <tr key={`history-${item.ID}`} >
                                 <td>{item.ID}</td>
@@ -588,7 +580,7 @@ class BuyToken extends React.Component {
                                 <td>{dayjs(item.CreatedAt).format('MM-DD-YYYY')}</td>
                               </tr>
                             )
-                          })
+                          }) : <tr><td colSpan={4}><span className='d-block text-center'>No data</span></td></tr>
                         }
                     </tbody>
                   </table>
@@ -621,7 +613,7 @@ class BuyToken extends React.Component {
                     </thead>
                     <tbody>
                         {
-                          ETHhistory && ETHhistory.map((item={}) => {
+                          ETHhistory && ETHhistory.length ? ETHhistory.map((item={}) => {
                             return (
                               <tr key={`history-${item.ID}`} >
                                 <td>{item.ID}</td>
@@ -630,7 +622,7 @@ class BuyToken extends React.Component {
                                 <td>{dayjs(item.CreatedAt).format('MM-DD-YYYY')}</td>
                               </tr>
                             )
-                          })
+                          }) : <tr><td colSpan={4}><span className='d-block text-center'>No data</span></td></tr>
                         }
                     </tbody>
                   </table>
