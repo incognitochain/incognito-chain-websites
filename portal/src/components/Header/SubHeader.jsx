@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Link from '@/components/Link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFontAwesomeAlt } from '@fortawesome/free-brands-svg-icons';
-import { faExchangeAlt, faRetweetAlt, faSearchDollar, faCopyright } from '@fortawesome/pro-regular-svg-icons';
+import { faRetweetAlt, faSearchDollar, faCopyright } from '@fortawesome/pro-regular-svg-icons';
 import { faHome } from '@fortawesome/pro-light-svg-icons';
 import cn from '@sindresorhus/class-names';
 
@@ -40,12 +39,6 @@ class SubHeader extends React.Component {
                     {' Landing'}
                   </Link>
                 </li>
-                <li>
-                  <Link to="/loan" className={cn({ active: pathname.startsWith('/loan') })}>
-                    <FontAwesomeIcon icon={faFontAwesomeAlt} />
-                    {' Loan'}
-                  </Link>
-                </li>
                 {/* <li>
                   <Link to="/txs" className={cn({ active: pathname.startsWith('/txs') })}>
                     <FontAwesomeIcon icon={faExchangeAlt} />
@@ -60,12 +53,16 @@ class SubHeader extends React.Component {
                 </li>
                 <li>
                   <Link to="/buy-token" className={cn({ active: pathname.startsWith('/buy-token') })}>
-                    <FontAwesomeIcon icon={faSearchDollar} />&nbsp;{'Reserve Asset'}
+                    <FontAwesomeIcon icon={faSearchDollar} />
+                    &nbsp;
+                    {'Reserve Asset'}
                   </Link>
                 </li>
                 <li>
                   <Link to="/buy-constant" className={cn({ active: pathname.startsWith('/buy-constant') })}>
-                    <FontAwesomeIcon icon={faCopyright} />&nbsp;{'Buy Constant'}
+                    <FontAwesomeIcon icon={faCopyright} />
+                    &nbsp;
+                    {'Buy Constant'}
                   </Link>
                 </li>
               </ul>
