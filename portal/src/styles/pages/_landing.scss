@@ -1,6 +1,39 @@
 .landing-page {
+  margin-top: 50px;
+  margin-bottom: 90px;
   .content {
     padding: 20px;
     text-align: center;
+  }
+  .page-block {
+    margin: 20px 0px;
+    &.block-text {
+      text-align: center;
+      h3 {
+        color: #212B63;
+        width: 100%;
+        margin-bottom: 20px;
+      }
+    }
+    &.block-info {
+      >div {
+        padding: 10px;
+        div.info {
+          background: #fff;
+          border: 2px solid #e1e6ec;
+          border-bottom: 8px inset #e1e6ec;
+          border-radius: 4px;
+          padding: 25px;
+          display: grid;
+          grid-gap: 1rem;
+          grid-template-rows: 30px 1fr 50px;
+          height: 100%;
+          h6 {
+            color: #212B63;
+            font-weight: 700;
+          }
+        }
+      }
+    }
   }
 }
