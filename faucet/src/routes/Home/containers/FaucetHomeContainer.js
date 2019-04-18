@@ -1,4 +1,5 @@
 import React from 'react';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 
 // import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'; // add
 // import RaisedButton from 'material-ui/RaisedButton'; // add
@@ -13,7 +14,7 @@ import {
 } from '@material-ui/core';
 
 import {sendSocialURL, getAvailableBalance} from "../../../server/api/faucet";
-import {formatConstantValue} from "../../../server/helpers/formatter";
+import {formatBlocksHeight, formatConstantValue} from "../../../server/helpers/formatter";
 import {getBlockchainInfo} from "../../../server/api/networkInfo";
 
 const inlineStyle = {
@@ -160,11 +161,18 @@ class FaucetHomePage extends React.Component {
             </div>
 
             <div style={{marginTop: 20, textAlign: "left"}}>
-              <p>Remain Balance: <strong>{formatConstantValue(balance / 100)}</strong> Constant</p>
-              <p>Network: <strong>{blockChainInfo.ChainName ? blockChainInfo.ChainName : ''}</strong></p>
-              <p>Beacon: <strong>{blockChainInfo.BestBlocks ? blockChainInfo.BestBlocks[-1].Height : ''}</strong> blocks
+              <p>
+                <FontAwesomeIcon icon="coins"/>
+                Remain Balance: <strong>{formatConstantValue(balance / 100)}</strong> Constant</p>
+              <p>
+                <FontAwesomeIcon
+                  icon="network-wired"/>Network: <strong>{blockChainInfo.ChainName ? blockChainInfo.ChainName : ''}</strong>
               </p>
-              <p>Shard: <strong>{blockChainInfo.BestBlocks ? this.getShardBlockHeight(blockChainInfo) : ''}</strong> blocks
+              <p><FontAwesomeIcon
+                icon="cubes"/>Beacon: <strong>{blockChainInfo.BestBlocks ? formatBlocksHeight(blockChainInfo.BestBlocks[-1].Height) : ''}</strong> blocks
+              </p>
+              <p><FontAwesomeIcon
+                icon="cubes"/>Shard: <strong>{blockChainInfo.BestBlocks ? formatBlocksHeight(this.getShardBlockHeight(blockChainInfo)) : ''}</strong> blocks
               </p>
             </div>
 

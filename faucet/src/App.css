@@ -15,8 +15,21 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.App-header h2 {
+  font-size: calc(10px + 2vmin);
+}
+
+
+p {
+  margin-block-end: 5px;
+  margin-block-start: 5px;
+}
+
+.svg-inline--fa {
+  margin: auto 10px;
 }
 
 .App-link {
