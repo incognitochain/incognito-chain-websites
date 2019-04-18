@@ -32,6 +32,10 @@ p {
   margin: auto 10px;
 }
 
+.waiting-list {
+  margin: 20px auto;
+}
+
 .App-link {
   color: #61dafb;
 }

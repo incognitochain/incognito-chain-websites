@@ -17,3 +17,9 @@ export async function getAvailableBalance() {
   const result = await callAPIService({data: {}, method: "GET", url});
   return result;
 }
+
+export async function getWaitingList() {
+  let url = `/faucet/waiting-list`
+  const result = await callAPIService({method: "GET", url});
+  return result;
+}

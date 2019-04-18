@@ -10,10 +10,11 @@ import {
   DialogContent,
   DialogContentText,
   Grid,
-  CircularProgress,
+  CircularProgress, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Typography, LinearProgress,
 } from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-import {sendSocialURL, getAvailableBalance} from "../../../server/api/faucet";
+import {sendSocialURL, getAvailableBalance, getWaitingList} from "../../../server/api/faucet";
 import {formatBlocksHeight, formatConstantValue} from "../../../server/helpers/formatter";
 import {getBlockchainInfo, getNetWorkInfo} from "../../../server/api/networkInfo";
 
@@ -41,6 +42,7 @@ class FaucetHomePage extends React.Component {
       balance: 0,
       blockChainInfo: {},
       networkInfo: {},
+      waitingList: null,
     }
   }
 
@@ -48,7 +50,17 @@ class FaucetHomePage extends React.Component {
     this.onGetBalance();
     this.onGetBlockChainInfo();
     this.onGetNetWorkInfo();
+    this.onGetWaitingList();
     setInterval(this.onGetBlockChainInfo, 3000)
+    setInterval(this.onGetNetWorkInfo, 10000);
+    setInterval(this.onGetWaitingList, 1000);
+  }
+
+  onGetWaitingList = async () => {
+    const resp = await getWaitingList();
+    this.setState({
+      waitingList: resp.result,
+    })
   }
 
   onGetBlockChainInfo = async () => {
@@ -119,8 +131,29 @@ class FaucetHomePage extends React.Component {
     return height;
   }
 
+  renderWaitingList = (waitingList) => {
+    if (!waitingList || waitingList.length == 0) {
+      return null;
+    }
+    return waitingList.map((v) => (
+      <ExpansionPanel>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
+          <Typography
+            className="">{v.PaymentAddress.substring(0, 20) + "..." + v.PaymentAddress.substring(90)}
+            <LinearProgress/>
+          </Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          <Typography>
+            Request at: {v.CreatedAt}
+          </Typography>
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+    ));
+  }
+
   render() {
-    const {socialURL = "", openDialog, isSubmitting, balance, blockChainInfo, networkInfo} = this.state;
+    const {socialURL = "", openDialog, isSubmitting, balance, blockChainInfo, networkInfo, waitingList} = this.state;
     const isDisableButton = isSubmitting === true;
     return (
       <div className="App">
@@ -189,6 +222,9 @@ class FaucetHomePage extends React.Component {
                 icon="cubes"/>Shard: <strong>{blockChainInfo.ActiveShards ? formatBlocksHeight(blockChainInfo.ActiveShards) : ''}</strong> shards
                 - <strong>{blockChainInfo.BestBlocks ? formatBlocksHeight(this.getShardBlockHeight(blockChainInfo)) : ''}</strong> blocks
               </p>
+            </div>
+            <div className="waiting-list">
+              {this.renderWaitingList(waitingList)}
             </div>
 
             <div style={{display: "flex", textAlign: "left", justifyContent: "center", marginTop: 30, fontSize: 14}}>
