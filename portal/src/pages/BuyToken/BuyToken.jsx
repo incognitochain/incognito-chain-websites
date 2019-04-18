@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { detect } from 'detect-browser';
+import { Tabs, Tab } from '@material-ui/core';
 import dayjs from 'dayjs';
 
 import {
@@ -288,9 +289,6 @@ class BuyToken extends React.Component {
     }
     convertETHtoDCBTokenTimeout = 0;
   }
-  onChangeTab = (tabIndex) => {
-    this.setState({tabIndex});
-  }
 
   onChangeHistoryPage = (page) => {
     const {historyPagination} = this.state;
@@ -319,6 +317,10 @@ class BuyToken extends React.Component {
       default:
         return 'Please use brower based on Chrome, Firefox or Brave';
     }
+  }
+
+  handleTabChange = (e, value) => {
+    this.setState({ tabIndex: value });
   }
 
   render = () => {
@@ -549,12 +551,10 @@ class BuyToken extends React.Component {
         </section>
 
         <div className="borrows-container" style={{ display: 'block' }}>
-          <div className="container">
-            <div className="row tabs-container">
-              <div className={`col-6 tab ${tabIndex === 0 ? 'active' : ''}`} onClick={() => this.onChangeTab(0)}>USD</div>
-              <div className={`col-6 tab ${tabIndex === 1 ? 'active' : ''}`} onClick={() => this.onChangeTab(1)}>ETH</div>
-            </div>
-          </div>
+          <Tabs indicatorColor="primary" className="container tabs-container" value={tabIndex} onChange={this.handleTabChange}>
+            <Tab label="ETH" value={1} classes={{ root: 'tab', selected: 'tab-selected' }} />
+            <Tab label="USD" value={0} classes={{ root: 'tab', selected: 'tab-selected' }} />
+          </Tabs>
           <div className="container">
             <div className="row">
               <div className="col-12">

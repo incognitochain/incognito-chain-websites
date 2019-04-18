@@ -9,6 +9,7 @@ import { API } from '@/constants';
 import dayjs from 'dayjs';
 import { Dialog, toaster, TextInput } from 'evergreen-ui';
 import { isEmpty } from 'lodash';
+import { Tabs, Tab } from '@material-ui/core';
 import Logo from '@/assets/logo.svg';
 
 class Home extends React.Component {
@@ -137,6 +138,10 @@ class Home extends React.Component {
       catchError(e);
       toaster.warning('Have a error', e);
     });
+  }
+
+  handleTabChange = (e, value) => {
+    this.setState({ active: value });
   }
 
   render() {
@@ -294,12 +299,10 @@ class Home extends React.Component {
             </div>
           </div>
         </div>
-        <div className="container">
-          <div className="row tabs-container">
-            <div className={`col-6 tab ${active === 0 ? 'active' : ''}`} onClick={() => this.setState({ active: 0 })}>Your borrows</div>
-            <div className={`col-6 tab ${active === 1 ? 'active' : ''}`} onClick={() => this.setState({ active: 1 })}>Lender role</div>
-          </div>
-        </div>
+        <Tabs indicatorColor="primary" className="container tabs-container" value={active} onChange={this.handleTabChange}>
+          <Tab label="Your borrows" value={0} classes={{ root: 'tab', selected: 'tab-selected' }} />
+          <Tab label="Lender role" value={1} classes={{ root: 'tab', selected: 'tab-selected' }} />
+        </Tabs>
         <div className="borrows-container" style={{ display: `${active === 0 ? 'block' : 'none'}` }}>
           <div className="container">
             <div className="row">
