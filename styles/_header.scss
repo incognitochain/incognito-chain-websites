@@ -191,6 +191,7 @@
     list-style: none;
     margin: 0;
     padding: 0;
+    display: flex;
     li {
       display: inline-block;
       a {
@@ -200,7 +201,34 @@
       }
     }
   }
-  a {
+  .hover-menu {
+    div[name=content-hover] {
+      background-color: #fff;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+      background-color: white;
+      max-height: 0px;
+      overflow-y: hidden;
+      transition: max-height 300ms, padding 300ms;
+      .item {
+        color: #999999;
+        height: 40px;
+        &.active {
+          color: #212B63;
+          font-weight: 600;
+        }
+      }
+    }
+
+    &:hover {
+      div[name=content-hover] {
+        padding: 5px;
+        padding-bottom: 30px;
+        max-height: 500px;
+      }
+    }
+  }
+  a.menu-item {
     color: #999999;
     text-decoration: none;
     &:hover {

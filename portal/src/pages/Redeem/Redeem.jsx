@@ -177,18 +177,10 @@ class Redeem extends React.Component {
             </div>
           </div>
         </section>
-        <div className="tabs-container">
-          <div className="container">
-            <div className="row">
-              <div className="col-12">
-                <div className="c-card">
-                  <div className="tabs">
-                    <div className={`tab ${tabIndex === 0 ? 'active' : ''}`} onClick={() => this.getUSDData()}>USD</div>
-                    <div className={`tab ${tabIndex === 1 ? 'active' : ''}`} onClick={() => this.getETHData()}>ETH</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+        <div className="container">
+          <div className="row tabs-container">
+            <div className={`col-6 tab ${tabIndex === 0 ? 'active' : ''}`} onClick={() => this.getUSDData()}>USD</div>
+            <div className={`col-6 tab ${tabIndex === 1 ? 'active' : ''}`} onClick={() => this.getETHData()}>ETH</div>
           </div>
         </div>
         {
@@ -222,29 +214,47 @@ class Redeem extends React.Component {
                           </tr>
                         </thead>
                         {
-                          data ? (
-                            <tbody>
-                              {
-                                data.map(r => (
-                                  <tr>
-                                    <td className="text-truncate">{r.ID}</td>
-                                    <td className="text-truncate"><a target={'_blank'} href={r.ConstantTxHash ? `${process.env.explorerUrl}/tx/${r.ConstantTxHash}` : ''}>{r.ConstantTxHash}</a></td>
-                                    <td className="text-truncate">{r.ConstantAmount}</td>
-                                    <td className="text-truncate"><a target={'_blank'} href={r.EthTxHash ? `${process.env.etherScanUrl}/tx/${r.EthTxHash}` : ''}>{r.EthTxHash}</a></td>
-                                    <td className="text-truncate"><a target={'_blank'} href={r.ReceiverAddress ? `${process.env.etherScanUrl}/address/${r.ReceiverAddress}` : ''}>{r.ReceiverAddress}</a></td>
-                                    <td className="text-truncate">{r.EthAmount}</td>
-                                    <td className="text-truncate">{r.CreatedAt.dateFormat('MM-DD-YYYY HH:mm:ss')}</td>
-                                    <td className={`text-truncate c-status ${
-                                      r.Status == 0 ? 'processing'
-                                        : (r.Status == 1 ? 'processing'
-                                          : (r.Status == 2 ? 'failed'
-                                            : (r.Status == 10 ? 'processing'
-                                              : (r.Status == 11 ? 'finished'
-                                                : (r.Status == 12 ? 'failed'
-                                                  : (r.Status == 20 ? 'failed'
-                                                    : (r.Status == 21 ? 'failed'
-                                                      : (r.Status == 22 ? 'failed'
-                                                        : 'processing'
+                          <tbody>
+                            {
+                              data && data.length ? data.map(r => (
+                                <tr>
+                                  <td className="text-truncate">{r.ID}</td>
+                                  <td className="text-truncate"><a target={'_blank'} href={r.ConstantTxHash ? `${process.env.explorerUrl}/tx/${r.ConstantTxHash}` : ''}>{r.ConstantTxHash}</a></td>
+                                  <td className="text-truncate">{r.ConstantAmount}</td>
+                                  <td className="text-truncate"><a target={'_blank'} href={r.EthTxHash ? `${process.env.etherScanUrl}/tx/${r.EthTxHash}` : ''}>{r.EthTxHash}</a></td>
+                                  <td className="text-truncate"><a target={'_blank'} href={r.ReceiverAddress ? `${process.env.etherScanUrl}/address/${r.ReceiverAddress}` : ''}>{r.ReceiverAddress}</a></td>
+                                  <td className="text-truncate">{r.EthAmount}</td>
+                                  <td className="text-truncate">{r.CreatedAt.dateFormat('MM-DD-YYYY HH:mm:ss')}</td>
+                                  <td className={`text-truncate c-status ${
+                                    r.Status == 0 ? 'processing'
+                                      : (r.Status == 1 ? 'processing'
+                                        : (r.Status == 2 ? 'failed'
+                                          : (r.Status == 10 ? 'processing'
+                                            : (r.Status == 11 ? 'finished'
+                                              : (r.Status == 12 ? 'failed'
+                                                : (r.Status == 20 ? 'failed'
+                                                  : (r.Status == 21 ? 'failed'
+                                                    : (r.Status == 22 ? 'failed'
+                                                      : 'processing'
+                                                    )
+                                                  )
+                                                )
+                                              )
+                                            )
+                                          )
+                                        )
+                                      )
+                                    }`}>{
+                                      r.Status == 0 ? 'Burn coin processing'
+                                        : (r.Status == 1 ? 'Burn coin finished'
+                                          : (r.Status == 2 ? 'Burn coin failed'
+                                            : (r.Status == 10 ? 'Spend ether processing'
+                                              : (r.Status == 11 ? 'Spend ether finished'
+                                                : (r.Status == 12 ? 'Spend ether failed'
+                                                  : (r.Status == 20 ? 'Issuse coin processing'
+                                                    : (r.Status == 21 ? 'Issue coin finished'
+                                                      : (r.Status == 22 ? 'Issue coin failed'
+                                                        : r.Status
                                                       )
                                                     )
                                                   )
@@ -253,32 +263,12 @@ class Redeem extends React.Component {
                                             )
                                           )
                                         )
-                                      }`}>{
-                                        r.Status == 0 ? 'Burn coin processing'
-                                          : (r.Status == 1 ? 'Burn coin finished'
-                                            : (r.Status == 2 ? 'Burn coin failed'
-                                              : (r.Status == 10 ? 'Spend ether processing'
-                                                : (r.Status == 11 ? 'Spend ether finished'
-                                                  : (r.Status == 12 ? 'Spend ether failed'
-                                                    : (r.Status == 20 ? 'Issuse coin processing'
-                                                      : (r.Status == 21 ? 'Issue coin finished'
-                                                        : (r.Status == 22 ? 'Issue coin failed'
-                                                          : r.Status
-                                                        )
-                                                      )
-                                                    )
-                                                  )
-                                                )
-                                              )
-                                            )
-                                          )
-                                      }
-                                    </td>
-                                  </tr>
-                                ))
-                              }
-                            </tbody>
-                          ) : null
+                                    }
+                                  </td>
+                                </tr>
+                              )) : <tr><td colspan={8}><span className='d-block text-center'>No data</span></td></tr>
+                            }
+                          </tbody>
                         }
                       </table>
                     </div>
@@ -312,34 +302,58 @@ class Redeem extends React.Component {
                               <th>Status</th>
                             </tr>
                           </thead>
-                          {
-                            data ? (
-                              <tbody>
-                                {
-                                  data.map(r => (
-                                    <tr>
-                                      <td className="text-truncate">{r.ID}</td>
-                                      <td className="text-truncate"><a target={'_blank'} href={r.TxHash ? `${process.env.explorerUrl}/tx/${r.TxHash}` : ''}>{r.TxHash}</a></td>
-                                      <td className="text-truncate">{r.Amount}</td>
-                                      <td className="text-truncate">{r.Amount}</td>
-                                      <td className="text-truncate">{r.Fee}</td>
-                                      <td className="text-truncate">{r.CreatedAt.dateFormat('MM-DD-YYYY HH:mm:ss')}</td>
-                                      <td className={`text-truncate c-status ${
-                                        r.Status == 'pending' ? 'processing'
-                                          : (r.Status == 'pending' ? 'processing'
-                                            : (r.Status == 'coin minting' ? 'processing'
-                                              : (r.Status == 'coin burning' ? 'processing'
-                                                : (r.Status == 'coin burned' ? 'processing'
-                                                  : (r.Status == 'transfering' ? 'processing'
-                                                    : (r.Status == 'redeeming' ? 'processing'
-                                                      : (r.Status == 'cancelled' ? 'failed'
-                                                        : (r.Status == 'done' ? 'finished'
-                                                          : (r.Status == 'holding' ? 'processing'
-                                                            : (r.Status == 'failed to burn coin' ? 'failed'
-                                                              : (r.Status == 'failed to mint coin' ? 'failed'
-                                                                : (r.Status == 'failed to transfer coin' ? 'failed'
-                                                                  : 'processing'
-                                                                )
+                          <tbody>
+                            {
+                              data && data.length ? data.map(r => (
+                                <tr>
+                                  <td className="text-truncate">{r.ID}</td>
+                                  <td className="text-truncate"><a target={'_blank'} href={r.TxHash ? `${process.env.explorerUrl}/tx/${r.TxHash}` : ''}>{r.TxHash}</a></td>
+                                  <td className="text-truncate">{r.Amount}</td>
+                                  <td className="text-truncate">{r.Amount}</td>
+                                  <td className="text-truncate">{r.Fee}</td>
+                                  <td className="text-truncate">{r.CreatedAt.dateFormat('MM-DD-YYYY HH:mm:ss')}</td>
+                                  <td className={`text-truncate c-status ${
+                                    r.Status == 'pending' ? 'processing'
+                                      : (r.Status == 'pending' ? 'processing'
+                                        : (r.Status == 'coin minting' ? 'processing'
+                                          : (r.Status == 'coin burning' ? 'processing'
+                                            : (r.Status == 'coin burned' ? 'processing'
+                                              : (r.Status == 'transfering' ? 'processing'
+                                                : (r.Status == 'redeeming' ? 'processing'
+                                                  : (r.Status == 'cancelled' ? 'failed'
+                                                    : (r.Status == 'done' ? 'finished'
+                                                      : (r.Status == 'holding' ? 'processing'
+                                                        : (r.Status == 'failed to burn coin' ? 'failed'
+                                                          : (r.Status == 'failed to mint coin' ? 'failed'
+                                                            : (r.Status == 'failed to transfer coin' ? 'failed'
+                                                              : 'processing'
+                                                            )
+                                                          )
+                                                        )
+                                                      )
+                                                    )
+                                                  )
+                                                )
+                                              )
+                                            )
+                                          )
+                                        )
+                                      )
+                                    }`}>{
+                                      r.Status == 'pending' ? 'Pending'
+                                        : (r.Status == 'pending' ? 'Purchasing'
+                                          : (r.Status == 'coin minting' ? 'Coin Minting'
+                                            : (r.Status == 'coin burning' ? 'Coin Burning'
+                                              : (r.Status == 'coin burned' ? 'Coin Burned'
+                                                : (r.Status == 'transfering' ? 'Transfering'
+                                                  : (r.Status == 'redeeming' ? 'Redeeming'
+                                                    : (r.Status == 'cancelled' ? 'Cancelled'
+                                                      : (r.Status == 'done' ? 'Done'
+                                                        : (r.Status == 'holding' ? 'Holding'
+                                                          : (r.Status == 'failed to burn coin' ? 'Coin Burning Failed'
+                                                            : (r.Status == 'failed to mint coin' ? 'Coin Minting Failed'
+                                                              : (r.Status == 'failed to transfer coin' ? 'Transfering Failed'
+                                                                : r.Status
                                                               )
                                                             )
                                                           )
@@ -351,41 +365,13 @@ class Redeem extends React.Component {
                                               )
                                             )
                                           )
-                                        }`}>{
-                                          r.Status == 'pending' ? 'Pending'
-                                            : (r.Status == 'pending' ? 'Purchasing'
-                                              : (r.Status == 'coin minting' ? 'Coin Minting'
-                                                : (r.Status == 'coin burning' ? 'Coin Burning'
-                                                  : (r.Status == 'coin burned' ? 'Coin Burned'
-                                                    : (r.Status == 'transfering' ? 'Transfering'
-                                                      : (r.Status == 'redeeming' ? 'Redeeming'
-                                                        : (r.Status == 'cancelled' ? 'Cancelled'
-                                                          : (r.Status == 'done' ? 'Done'
-                                                            : (r.Status == 'holding' ? 'Holding'
-                                                              : (r.Status == 'failed to burn coin' ? 'Coin Burning Failed'
-                                                                : (r.Status == 'failed to mint coin' ? 'Coin Minting Failed'
-                                                                  : (r.Status == 'failed to transfer coin' ? 'Transfering Failed'
-                                                                    : r.Status
-                                                                  )
-                                                                )
-                                                              )
-                                                            )
-                                                          )
-                                                        )
-                                                      )
-                                                    )
-                                                  )
-                                                )
-                                              )
-                                            )
-                                        }
-                                      </td>
-                                    </tr>
-                                  ))
-                                }
-                              </tbody>
-                            ) : null
-                          }
+                                        )
+                                    }
+                                  </td>
+                                </tr>
+                              )) : <tr><td colspan={8}><span className='d-block text-center'>No data</span></td></tr>
+                            }
+                          </tbody>
                         </table>
                       </div>
                     </div>

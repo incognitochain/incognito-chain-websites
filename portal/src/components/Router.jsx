@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router-dom';
 import Loading from '@/components/Loading';
 import Layout from '@/components/App/Layout';
 
-const Home = createDynamicImport(() => import('@/pages/Home/Home'), Loading);
+// const Home = createDynamicImport(() => import('@/pages/Home/Home'), Loading);
 const Landing = createDynamicImport(() => import('@/pages/Landing/Landing'), Loading);
 const Create = createDynamicImport(() => import('@/pages/Create/Create'), Loading);
 const Loan = createDynamicImport(() => import('@/pages/Loan/Loan'), Loading);
@@ -19,7 +19,7 @@ const BuyConstant = createDynamicImport(() => import('@/pages/BuyConstant/BuyCon
 
 const routers = [
   { path: '/', exact: true, component: Landing },
-  { path: '/loan', exact: true, component: Home },
+  // { path: '/loan', exact: true, component: Home },
   {
     path: '/create', exact: true, component: Create, layoutOptions: { showSubHeader: false, footerType: 2 },
   },
