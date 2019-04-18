@@ -186,7 +186,8 @@ class FaucetHomePage extends React.Component {
                 icon="cubes"/>Beacon: <strong>{blockChainInfo.BestBlocks ? formatBlocksHeight(blockChainInfo.BestBlocks[-1].Height) : ''}</strong> blocks
               </p>
               <p><FontAwesomeIcon
-                icon="cubes"/>Shard: <strong>{blockChainInfo.BestBlocks ? formatBlocksHeight(this.getShardBlockHeight(blockChainInfo)) : ''}</strong> blocks
+                icon="cubes"/>Shard: <strong>{blockChainInfo.ActiveShards ? formatBlocksHeight(blockChainInfo.ActiveShards) : ''}</strong> shards
+                - <strong>{blockChainInfo.BestBlocks ? formatBlocksHeight(this.getShardBlockHeight(blockChainInfo)) : ''}</strong> blocks
               </p>
             </div>
 
