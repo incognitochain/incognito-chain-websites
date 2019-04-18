@@ -15,7 +15,7 @@ import {
 
 import {sendSocialURL, getAvailableBalance} from "../../../server/api/faucet";
 import {formatBlocksHeight, formatConstantValue} from "../../../server/helpers/formatter";
-import {getBlockchainInfo} from "../../../server/api/networkInfo";
+import {getBlockchainInfo, getNetWorkInfo} from "../../../server/api/networkInfo";
 
 const inlineStyle = {
   socialItemStyle: {
@@ -39,13 +39,15 @@ class FaucetHomePage extends React.Component {
       resultMessage: "",
       isSubmitting: false,
       balance: 0,
-      blockChainInfo: {}
+      blockChainInfo: {},
+      networkInfo: {},
     }
   }
 
   componentDidMount() {
     this.onGetBalance();
     this.onGetBlockChainInfo();
+    this.onGetNetWorkInfo();
     setInterval(this.onGetBlockChainInfo, 3000)
   }
 
@@ -54,6 +56,15 @@ class FaucetHomePage extends React.Component {
     if (res.error == "") {
       this.setState({
         blockChainInfo: res.result,
+      })
+    }
+  }
+
+  onGetNetWorkInfo = async () => {
+    const res = await getNetWorkInfo();
+    if (res.error == "") {
+      this.setState({
+        networkInfo: res.result,
       })
     }
   }
@@ -109,7 +120,7 @@ class FaucetHomePage extends React.Component {
   }
 
   render() {
-    const {socialURL = "", openDialog, isSubmitting, balance, blockChainInfo} = this.state;
+    const {socialURL = "", openDialog, isSubmitting, balance, blockChainInfo, networkInfo} = this.state;
     const isDisableButton = isSubmitting === true;
     return (
       <div className="App">
@@ -162,8 +173,11 @@ class FaucetHomePage extends React.Component {
 
             <div style={{marginTop: 20, textAlign: "left"}}>
               <p>
-                <FontAwesomeIcon icon="coins"/>
+                <FontAwesomeIcon icon="heartbeat"/>
                 Remain Balance: <strong>{formatConstantValue(balance / 100)}</strong> Constant</p>
+              <p><FontAwesomeIcon
+                icon="rss"/>Connection: <strong>{networkInfo.Connections ? networkInfo.Connections : ''}</strong> peers
+              </p>
               <p>
                 <FontAwesomeIcon
                   icon="network-wired"/>Network: <strong>{blockChainInfo.ChainName ? blockChainInfo.ChainName : ''}</strong>
