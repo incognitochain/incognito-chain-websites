@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { getTokens, getPrivacyTokens } from '@/reducers/constant/action';
+import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
+import {getTokens, getPrivacyTokens} from '@/reducers/constant/action';
 import Identicon from 'identicon.js';
 import Avatar from '@material-ui/core/Avatar';
+import {formatTokenAmount} from "../services/formatter";
 
 class Tokens extends React.Component {
   static propTypes = {
@@ -17,7 +18,7 @@ class Tokens extends React.Component {
   constructor(props) {
     super(props);
 
-    const { actionGetTokens, actionGetPrivacyTokens, tokens, privacyTokens } = props;
+    const {actionGetTokens, actionGetPrivacyTokens, tokens, privacyTokens} = props;
 
     this.state = {
       tokens,
@@ -45,7 +46,7 @@ class Tokens extends React.Component {
   }
 
   render() {
-    let { tokens, privacyTokens } = this.state;
+    let {tokens, privacyTokens} = this.state;
 
     if (privacyTokens) {
       for (let i = 0; i < privacyTokens.list.length; i++) {
@@ -72,34 +73,36 @@ class Tokens extends React.Component {
                 <div className="block-heading">
                   Tokens
                 </div>
-                <table className="c-table">
-                  <thead>
-                  <tr>
-                    <th>Token</th>
-                    <th>Token name</th>
-                    <th>Token symbol</th>
-                    <th>Is Privacy</th>
-                    <th>Token amount</th>
-                    <th>TXs</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  {tokens.list.length ? tokens.list.map(token => (
-                    <tr key={token.ID}>
-                      <td className="c-hash"><Link to={`/token/${token.ID}`}><Avatar alt="avatar"
-                                                                                     src={this.getTokenImage(token.ID)}/></Link>
-                      </td>
-                      <td className="c-hash">{token.Name}</td>
-                      <td className="c-hash">{token.Symbol}</td>
-                      <td className="c-hash">{token.IsPrivacy + ''}</td>
-                      <td className="c-hash">{token.Amount}</td>
-                      <td className="c-hash">{token.ListTxs?.length}</td>
+                <div className="block-data">
+                  <table className="c-table">
+                    <thead>
+                    <tr>
+                      <th>Token</th>
+                      <th>Token name</th>
+                      <th>Token symbol</th>
+                      <th>Is Privacy</th>
+                      <th>Token amount</th>
+                      <th>TXs</th>
                     </tr>
-                  )) : <tr>
-                    <td style={{ textAlign: 'center' }} colSpan={4}>Empty</td>
-                  </tr>}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                    {tokens.list.length ? tokens.list.map(token => (
+                      <tr key={token.ID}>
+                        <td className="c-hash"><Link to={`/token/${token.ID}`}><Avatar alt="avatar"
+                                                                                       src={this.getTokenImage(token.ID)}/></Link>
+                        </td>
+                        <td className="c-hash">{token.Name}</td>
+                        <td className="c-hash">{token.Symbol}</td>
+                        <td className="c-hash center">{token.IsPrivacy + ''}</td>
+                        <td className="c-hash right">{formatTokenAmount(token.Amount)}</td>
+                        <td className="c-hash right">{formatTokenAmount(token.ListTxs?.length | 0)}</td>
+                      </tr>
+                    )) : <tr>
+                      <td style={{textAlign: 'center'}} colSpan={4}>Empty</td>
+                    </tr>}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>

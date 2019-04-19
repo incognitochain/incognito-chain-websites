@@ -1,9 +1,11 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { getMempoolInfo } from '@/reducers/constant/action';
-import { isEmpty } from 'lodash';
+import {Link} from 'react-router-dom';
+import {getMempoolInfo} from '@/reducers/constant/action';
+import {isEmpty} from 'lodash';
+import {formatHashStr} from "../services/formatter";
+import BrowserDetect from "../services/browserdetect"
 
 class TxsPending extends React.Component {
   static propTypes = {
@@ -15,7 +17,7 @@ class TxsPending extends React.Component {
   constructor(props) {
     super(props);
 
-    const { mempool, actionGetMempoolInfo } = this.props;
+    const {mempool, actionGetMempoolInfo} = this.props;
 
     this.state = {
       mempool,
@@ -26,13 +28,13 @@ class TxsPending extends React.Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.mempool.updatedAt !== prevState.mempool.updatedAt) {
-      return { mempool: nextProps.mempool };
+      return {mempool: nextProps.mempool};
     }
     return null;
   }
 
   render() {
-    const { mempool } = this.state;
+    const {mempool} = this.state;
 
     if (isEmpty(mempool.info)) return null;
 
@@ -55,14 +57,18 @@ class TxsPending extends React.Component {
                 </div>
                 <table className="c-table">
                   <thead>
-                    <tr>
-                      <th>Tx hash</th>
-                    </tr>
+                  <tr>
+                    <th>Tx hash</th>
+                  </tr>
                   </thead>
                   <tbody>
-                    {mempool.info.ListTxs.length ? mempool.info.ListTxs.map(tx => (
-                      <tr><td className="c-hash">{tx}</td></tr>
-                    )) : <tr><td style={{ textAlign: 'center' }}>Empty</td></tr>}
+                  {mempool.info.ListTxs.length ? mempool.info.ListTxs.map(tx => (
+                    <tr>
+                      <td className="c-hash">{formatHashStr(tx, BrowserDetect.isMobile)}</td>
+                    </tr>
+                  )) : <tr>
+                    <td style={{textAlign: 'center'}}>Empty</td>
+                  </tr>}
                   </tbody>
                 </table>
               </div>
