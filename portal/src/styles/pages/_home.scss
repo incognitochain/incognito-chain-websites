@@ -70,4 +70,24 @@
       margin-top: 2px;
     }
   }
+
+  .form  {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .group-input {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 20px;
+      > div {
+        padding: 0px;
+      }
+    }
+    button.submit {
+      max-width: 300px;
+    }
+  }
 }

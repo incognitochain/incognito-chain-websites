@@ -1,44 +1,42 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { detect } from 'detect-browser';
-import { Tabs, Tab } from '@material-ui/core';
+import {
+  Formik, Form, Field,
+} from 'formik';
 import dayjs from 'dayjs';
-
 import {
   TextField,
-  Radio,
-  RadioGroup,
-  FormControlLabel,
   FormControl,
   // Button,
   CircularProgress,
   Dialog,
   DialogContent,
   DialogContentText,
-  InputLabel,
-  InputAdornment,
   TablePagination,
+  Tabs,
+  Tab,
 } from '@material-ui/core';
-
-// import { detectInstalled, requestUnlockMetamask, init } from '@/reducers/metamask/action';
 import Web3js from 'web3';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { faEthereum } from '@fortawesome/free-brands-svg-icons';
-import { faSpinnerThird, faUsdCircle, faUsdSquare } from '@fortawesome/pro-light-svg-icons';
-// import Link from '@/components/Link';
-// import Logo from '@/assets/logo.svg';
+import { faUsdCircle } from '@fortawesome/pro-light-svg-icons';
 import bgImage from '@/assets/create-a-proposal.svg';
+import { debounce } from 'lodash';
 import abiDefinition from './abiDefinition';
+import ErrorMessage from '../../components/formik/ErrorMessage';
 
-import {BUYING_ASSET, RESERVE_HISTORY_STATUS_COLOR} from '../../constants';
-import { buyAsset, buyTokenByEthereum, getHistory, getETHHistory, getPurchaseStatistic, getRaiseReserveInfo, convertETHtoDCBToken, convertUSDtoDCBToken } from "../../services/reserveAsset";
+import { BUYING_ASSET, RESERVE_HISTORY_STATUS_COLOR } from '../../constants';
+import {
+  buyAsset, buyTokenByEthereum, getHistory, getETHHistory, getPurchaseStatistic, getRaiseReserveInfo, convertETHtoDCBToken, convertUSDtoDCBToken
+} from '../../services/reserveAsset';
 
 const BUYING_OBJECT = {
   USD: "usd",
   ETH: "eth",
-}
+};
 
 const collaterals = [
   { name: 'USD', icon: faUsdCircle, value: BUYING_OBJECT.USD },
@@ -46,7 +44,6 @@ const collaterals = [
 ];
 
 const isMetamaskInstalled = typeof web3 !== 'undefined' && web3.currentProvider.isMetaMask;
-let convertETHtoDCBTokenTimeout;
 
 const mapStateToProps = (state) => {
   return {
@@ -86,8 +83,14 @@ class BuyToken extends React.Component {
       reserveInfo: {},
       convertToToken: 0,
       tabIndex: 0,
+      isDCBConverting: false,
+      isGettingReserveInfo: false,
     };
+
+    // bind
+    this.onConvertAmountToDCBToken = debounce(this.onConvertAmountToDCBToken.bind(this), 500);
   }
+
   componentDidMount() {
     this.onGetStats();
     this.getReserveInfo();
@@ -97,25 +100,18 @@ class BuyToken extends React.Component {
 
   onAssetChange = (asset) => {
     // console.log(asset);
-      this.setState({
-        asset,
-      });
-      // this.onConvertAmountToDCBToken();
-      convertETHtoDCBTokenTimeout = setTimeout(()=>{
-        this.onConvertAmountToDCBToken();
-      },100)
+    this.setState({
+      asset,
+      isDCBConverting: true,
+    }, this.onConvertAmountToDCBToken);
   }
-  onAmountChange = (amount) => {
+
+  onAmountChange = (e) => {
+    const amount = (e && e.target && e.target.value) || 0;
     this.setState({
       amount,
-    });
-    if (convertETHtoDCBTokenTimeout > 0) {
-      clearTimeout(convertETHtoDCBTokenTimeout);
-      convertETHtoDCBTokenTimeout = 0;
-    }
-    convertETHtoDCBTokenTimeout = setTimeout(()=>{
-      this.onConvertAmountToDCBToken();
-    },100)
+      isDCBConverting: true,
+    }, this.onConvertAmountToDCBToken);
   }
 
   onSubmit = async () => {
@@ -255,39 +251,52 @@ class BuyToken extends React.Component {
   }
 
   getReserveInfo = async () => {
-    const res = await getRaiseReserveInfo();
-    // console.log(res)
-    const {result = {}, error=""} = res;
-    if (error) {
-      console.log("get stats error", error);
-      return;
+    try {
+      this.setState({ isGettingReserveInfo: true });
+      const res = await getRaiseReserveInfo();
+      const { result = {}, error = '' } = res;
+      if (error) {
+        console.log("get stats error", error);
+        return;
+      }
+      this.setState({ reserveInfo: result });
+    } catch (e) {
+      this.setState({ resultMessage: 'Error occurs while getting reserve info.' });
+    } finally {
+      this.setState({ isGettingReserveInfo: false });
     }
-    this.setState({ reserveInfo: result });
+    
   }
 
   onConvertAmountToDCBToken = async () => {
-    let {amount, asset={}} = this.state;
-    if (!amount || typeof amount === undefined) {
-      amount = 0;
+    try {
+      this.setState({ isDCBConverting: true });
+      let { amount, asset = {} } = this.state;
+      if (!amount || typeof amount === undefined) {
+        amount = 0;
+      }
+      amount = parseFloat(amount);
+      let res = {};
+      if (asset.value === BUYING_OBJECT.ETH) {
+        res = await convertETHtoDCBToken(amount);
+      }
+      if (asset.value === BUYING_OBJECT.USD) {
+        res = await convertUSDtoDCBToken(amount*100);
+        console.log(res);
+      }
+  
+      const {result, error=""} = res;
+      if (error) {
+        console.log("convert amount to token error", error);
+        this.setState({ convertToToken: 0 });
+      } else {
+        this.setState({ convertToToken: result });
+      }
+    } catch (e) {
+      this.setState({ resultMessage: 'Error occurs while converting to DCB token, please try again.' });
+    } finally {
+      this.setState({ isDCBConverting: false });
     }
-    amount = parseFloat(amount);
-    let res = {};
-    if (asset.value === BUYING_OBJECT.ETH) {
-      res = await convertETHtoDCBToken(amount);
-    }
-    if (asset.value === BUYING_OBJECT.USD) {
-      res = await convertUSDtoDCBToken(amount*100);
-      console.log(res);
-    }
-
-    const {result, error=""} = res;
-    if (error) {
-      console.log("convert amount to token error", error);
-      this.setState({ convertToToken: 0 });
-    } else {
-      this.setState({ convertToToken: result });
-    }
-    convertETHtoDCBTokenTimeout = 0;
   }
 
   onChangeHistoryPage = (page) => {
@@ -324,8 +333,8 @@ class BuyToken extends React.Component {
   }
 
   render = () => {
-    const {asset = {}, amount = "", isSummitting, openDialog, openMetamaskDialog, history = [],historyPagination = {}, ETHhistory = [], ETHhistoryPagination = {}, purchaseStats = {} ,reserveInfo, convertToToken, tabIndex } = this.state;
-    const disableSubmitBtn = (asset === "" || isSummitting);
+    const {asset = {}, isDCBConverting, isGettingReserveInfo, isSummitting, openDialog, openMetamaskDialog, history = [],historyPagination = {}, ETHhistory = [], ETHhistoryPagination = {}, purchaseStats = {} ,reserveInfo, convertToToken, tabIndex } = this.state;
+    const disableSubmitBtn = (asset === "" || isSummitting || isGettingReserveInfo || isDCBConverting);
 
     const {TotalReservesSuccess = {}, TotalReservesFailed = {}, TotalAmountSuccess = {}, TotalAmountFailed = {}} = purchaseStats;
 
@@ -422,7 +431,7 @@ class BuyToken extends React.Component {
                         width: 70,
                         backgroundColor: asset.name === collateral.name ? '#FFFFFF' : "#FAFAFA" ,
                         display: "flex",
-                        border: "1px solid #E4E7F2",
+                        border: `1px solid ${asset.name === collateral.name ? '#212B63' : '#E4E7F2'}`,
                         borderRadius: 4,
                         justifyContent: "center",
                         alignItems:"center",
@@ -435,85 +444,102 @@ class BuyToken extends React.Component {
                 </div>
                 <br/>
 
-                <div style={{display:"flex", justifyContent:"space-around"}}>
-                  <FormControl component="fieldset" style={{width: "100%"}} >
-                    <div className="title">ENTER AMOUNT</div>
-                    <TextField
-                      id="amount"
-                      className="input-of-create cst"
-                      // label="Amount"
-                      type="number"
-                      style={{
-                        lineHeight: "2em",
-                      }}
-                      // placeholder="Amount"
-                      fullWidth
-                      // margin="normal"
-                      InputProps={{
-                        style: {paddingTop: 10, paddingBottom: 10, height:"inherit !important"},
-                      }}
-                      // InputLabelProps={{
-                      //   shrink: true,
-                      // }}
-                      onChange={(e)=>this.onAmountChange(e.target.value)}
-                      value={amount}
-                    />
-                  </FormControl>
-                  &nbsp;
-                  &nbsp;
-                  &nbsp;
-                  <FormControl component="fieldset" style={{width: "100%"}} >
-                    <div className="title">CONVERT TO TOKEN</div>
-                    <TextField
-                      id="eth-to-token"
-                      type="number"
-                      style={{
-                        lineHeight: "2em",
-                      }}
-                      fullWidth
-                      InputProps={{
-                        style: {paddingTop: 10, paddingBottom: 10, height:"inherit !important"},
-                      }}
-                      disabled
-                      value={convertToToken}
-                    />
-                  </FormControl>
-                  &nbsp;
-                  &nbsp;
-                  &nbsp;
-                  <FormControl component="fieldset" style={{width: "100%"}} >
-                    <div className="title">AVAILABLE TOKEN AMOUNT</div>
-                    <TextField
-                      id="left-token"
-                      type="number"
-                      style={{
-                        lineHeight: "2em",
-                      }}
-                      fullWidth
-                      InputProps={{
-                        style: {paddingTop: 10, paddingBottom: 10, height:"inherit !important"},
-                      }}
-                      disabled
-                      value={reserveInfo.LeftToken}
-                    />
-                  </FormControl>
-                </div>
-
-                <br/>
-
-                <FormControl component="fieldset" >
-                  {
-                    isSummitting ?
-                      <div style={{display: "flex", justifyContent:"center"}}>
-                        <CircularProgress style={{width: "auto", height:"auto"}} />
+                <Formik
+                  initialValues={{
+                    amount: null,
+                  }}
+                  onSubmit={() => {
+                    if (!disableSubmitBtn) {
+                      this.onSubmit();
+                    }
+                  }}
+                >
+                  {() => (
+                    <Form className="form">
+                      <div className="row group-input">
+                        <div className="col-xs-12 col-lg-3">
+                          <div className="title">ENTER AMOUNT</div>
+                          <Field
+                            name="amount"
+                            validate={value => value <= 0 && 'Must be greater than 0'}
+                            render={({ field: { onChange, ...otherProps } }) => (
+                              <TextField
+                                className="input-of-create cst"
+                                type="number"
+                                style={{
+                                  lineHeight: '2em',
+                                }}
+                                fullWidth
+                                InputProps={{
+                                  style: { paddingTop: 10, paddingBottom: 10, height: 'inherit !important' },
+                                }}
+                                onChange={(...args) => {
+                                  onChange(...args);
+                                  this.onAmountChange(...args);
+                                }}
+                                {...otherProps}
+                              />
+                            )}
+                          />
+                          <ErrorMessage name="amount" />
+                        </div>
+                        <div className="col-xs-12 col-lg-3">
+                          <div className="title">
+                            CONVERT TO TOKEN
+                            { isDCBConverting && (
+                              <CircularProgress style={{ width: 'auto', height: 'auto', marginLeft: '10px' }} />
+                            ) }
+                          </div>
+                          <TextField
+                            id="eth-to-token"
+                            type="number"
+                            style={{
+                              lineHeight: "2em",
+                            }}
+                            fullWidth
+                            InputProps={{
+                              style: {paddingTop: 10, paddingBottom: 10, height:"inherit !important"},
+                            }}
+                            disabled
+                            value={convertToToken}
+                          />
+                        </div>
+                        <div className="col-xs-12 col-lg-3">
+                          <div className="title">
+                            AVAILABLE TOKEN AMOUNT
+                            { isGettingReserveInfo && (
+                              <CircularProgress style={{ width: 'auto', height: 'auto', marginLeft: '10px' }} />
+                            ) }
+                          </div>
+                          <TextField
+                            id="left-token"
+                            type="number"
+                            style={{
+                              lineHeight: "2em",
+                            }}
+                            fullWidth
+                            InputProps={{
+                              style: {paddingTop: 10, paddingBottom: 10, height:"inherit !important"},
+                            }}
+                            disabled
+                            value={reserveInfo.LeftToken}
+                          />
+                        </div>
                       </div>
-                    :
-                      <button className="c-btn c-btn-primary submit"  style={{width: "100%"}} onClick={this.onSubmit} disabled={disableSubmitBtn}>
-                        Get DCB Token
-                        &nbsp;<FontAwesomeIcon icon={faArrowRight} />
-                      </button>
-                  }
-                </FormControl>
+                      {
+                        isSummitting ?
+                          <div style={{display: "flex", justifyContent:"center"}}>
+                            <CircularProgress style={{width: "auto", height:"auto"}} />
+                          </div>
+                        :
+                          <button className="c-btn c-btn-primary submit"  style={{width: "100%"}} type="submit" disabled={disableSubmitBtn}>
+                            Get DCB Token
+                            &nbsp;<FontAwesomeIcon icon={faArrowRight} />
+                          </button>
+                      }
+                    </Form>
+                  )}
+                </Formik>
               </div>
 
             </div>
@@ -653,7 +679,9 @@ class BuyToken extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BuyToken);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+)(BuyToken);
 
 // <RadioGroup
 //   aria-label="Gender"
