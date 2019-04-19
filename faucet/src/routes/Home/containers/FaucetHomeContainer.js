@@ -205,7 +205,7 @@ class FaucetHomePage extends React.Component {
 
             </div>
 
-            <div style={{marginTop: 20, textAlign: "left"}}>
+            <div className="network-info">
               <p>
                 <FontAwesomeIcon icon="heartbeat"/>
                 Remain Balance: <strong>{formatConstantValue(balance / 100)}</strong> Constant</p>
@@ -228,7 +228,7 @@ class FaucetHomePage extends React.Component {
               {this.renderWaitingList(waitingList)}
             </div>
 
-            <div style={{display: "flex", textAlign: "left", justifyContent: "center", marginTop: 30, fontSize: 14}}>
+            <div className="how-to-work">
 
               <Grid item xs={8}>
 
