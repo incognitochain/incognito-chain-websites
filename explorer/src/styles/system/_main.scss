@@ -1,7 +1,6 @@
 #root {
   min-height: 100vh;
   background-color: get-gray('black-squeeze');
-  padding-top: 120px;
   padding-bottom: 40px;
 }
 
@@ -29,6 +28,9 @@ a {
       padding: 0;
       margin: 0;
       margin-bottom: 20px;
+    }
+    .block-data {
+      overflow-x: scroll;
     }
   }
 }

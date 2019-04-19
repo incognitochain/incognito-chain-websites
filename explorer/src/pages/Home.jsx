@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { getBlockchainInfo, checkHash } from '@/reducers/constant/action';
-import { Link } from 'react-router-dom';
-import { push } from 'connected-react-router';
-import { trim } from 'lodash';
+import {connect} from 'react-redux';
+import {getBlockchainInfo, checkHash} from '@/reducers/constant/action';
+import {Link} from 'react-router-dom';
+import {push} from 'connected-react-router';
+import {trim} from 'lodash';
 
 class Home extends React.Component {
   static propTypes = {
@@ -18,8 +18,8 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
 
-    const { chainInfo } = this.props;
-    const { search } = props;
+    const {chainInfo} = this.props;
+    const {search} = props;
 
     this.state = {
       chainInfo,
@@ -29,16 +29,16 @@ class Home extends React.Component {
       keyword: '',
     };
 
-    const { actionGetBlockChainInfo } = this.props;
+    const {actionGetBlockChainInfo} = this.props;
     actionGetBlockChainInfo();
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.chainInfo.updatedAt !== prevState.chainInfo.updatedAt) {
-      return { chainInfo: nextProps.chainInfo };
+      return {chainInfo: nextProps.chainInfo};
     }
     if (nextProps.search.updatedAt !== prevState.searchUpdateAt) {
-      const { search } = nextProps;
+      const {search} = nextProps;
       if (search.keyword) {
         if (search.success) {
           return {
@@ -56,21 +56,21 @@ class Home extends React.Component {
   }
 
   componentDidUpdate() {
-    const { keyword, searchSuccess } = this.state;
-    const { dispatch } = this.props;
+    const {keyword, searchSuccess} = this.state;
+    const {dispatch} = this.props;
 
     if (searchSuccess) {
       switch (searchSuccess) {
         case 'tx':
-          dispatch({ type: 'CLEAR_SEARCH' });
+          dispatch({type: 'CLEAR_SEARCH'});
           dispatch(push(`/tx/${keyword}`));
           return;
         case 'pending':
-          dispatch({ type: 'CLEAR_SEARCH' });
+          dispatch({type: 'CLEAR_SEARCH'});
           dispatch(push(`/tx/pending/${keyword}`));
           return;
         case 'block':
-          dispatch({ type: 'CLEAR_SEARCH' });
+          dispatch({type: 'CLEAR_SEARCH'});
           dispatch(push(`/block/${keyword}`));
           return;
         default:
@@ -80,16 +80,16 @@ class Home extends React.Component {
   }
 
   submitSearch = (e) => {
-    const { actionCheckHash } = this.props;
+    const {actionCheckHash} = this.props;
 
     e.preventDefault();
     const keyword = trim(this.searchInput.value);
-    this.setState({ keyword });
+    this.setState({keyword});
     actionCheckHash(keyword);
   };
 
   render() {
-    const { chainInfo, searchError } = this.state;
+    const {chainInfo, searchError} = this.state;
     if (!chainInfo.ChainName) {
       return null;
     }
@@ -183,20 +183,23 @@ class Home extends React.Component {
                 <div className="block-heading">
                   Beacon chain
                 </div>
-                <table className="c-table">
-                  <thead>
-                  <tr>
-                    <th>Block hash</th>
-                    <th>Height</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  <tr key={-1}>
-                    <td><Link to={`/block/${bestBlocks[-1].Hash}?beacon=true`} className="c-hash">{bestBlocks[-1].Hash}</Link></td>
-                    <td>{`${bestBlocks[-1].Height}`}</td>
-                  </tr>
-                  </tbody>
-                </table>
+                <div className="block-data">
+                  <table className="c-table">
+                    <thead>
+                    <tr>
+                      <th>Block hash</th>
+                      <th>Height</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr key={-1}>
+                      <td><Link to={`/block/${bestBlocks[-1].Hash}?beacon=true`}
+                                className="c-hash">{bestBlocks[-1].Hash}</Link></td>
+                      <td>{`${bestBlocks[-1].Height}`}</td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
             <div className="col-12">
@@ -204,34 +207,36 @@ class Home extends React.Component {
                 <div className="block-heading">
                   Best blocks
                 </div>
-                <table className="c-table">
-                  <thead>
-                  <tr>
-                    <th>Block hash</th>
-                    <th>Shard #</th>
-                    <th>Height</th>
-                    <th>Total Txs</th>
-                  </tr>
-                  </thead>
-                  <tbody>
-                  {Object.keys(bestBlocks)
-                    .map(key => {
-                      if (key == -1) {
-                        return (<></>);
-                      }
-                      return (
-                        <tr key={key}>
-                          <td><Link to={`/block/${bestBlocks[key].Hash}`}
-                                    className="c-hash">{bestBlocks[key].Hash}</Link></td>
-                          <td><Link to={`/chain/${parseInt(key, 10) + 1}`}>{parseInt(key, 10) + 1}</Link></td>
-                          <td><Link to={`/block/${bestBlocks[key].Hash}`}
-                                    className="c-hash">{bestBlocks[key].Height}</Link></td>
-                          <td>{bestBlocks[key].TotalTxs}</td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
+                <div className="block-data">
+                  <table className="c-table">
+                    <thead>
+                    <tr>
+                      <th>Block hash</th>
+                      <th>Shard #</th>
+                      <th>Height</th>
+                      <th>Total Txs</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {Object.keys(bestBlocks)
+                      .map(key => {
+                        if (key == -1) {
+                          return (<></>);
+                        }
+                        return (
+                          <tr key={key}>
+                            <td><Link to={`/block/${bestBlocks[key].Hash}`}
+                                      className="c-hash">{bestBlocks[key].Hash}</Link></td>
+                            <td><Link to={`/chain/${parseInt(key, 10) + 1}`}>{parseInt(key, 10) + 1}</Link></td>
+                            <td><Link to={`/block/${bestBlocks[key].Hash}`}
+                                      className="c-hash">{bestBlocks[key].Height}</Link></td>
+                            <td>{bestBlocks[key].TotalTxs}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>

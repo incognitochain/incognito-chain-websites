@@ -4,7 +4,7 @@
   "author": "0xbatutut <39509105+0xbatutut@users.noreply.github.com>",
   "private": true,
   "scripts": {
-    "start": "webpack-dev-server --mode development --public explorer.constant.money",
+    "start": "webpack-dev-server --mode development",
     "build": "webpack --mode production",
     "build:dev": "cross-env PROD_MODE=dev webpack --mode production",
     "push": "sh push-image.sh",

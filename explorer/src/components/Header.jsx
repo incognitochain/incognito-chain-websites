@@ -1,14 +1,13 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { showDialog } from '@/reducers/app/action';
+import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
+import {showDialog} from '@/reducers/app/action';
 // import logoC from '@/assets/logo-C.svg.raw';
 import RootHeader from './RootHeader';
 
 class Header extends React.Component {
-  static propTypes = {
-  }
+  static propTypes = {}
 
   constructor(props) {
     super(props);
@@ -18,8 +17,9 @@ class Header extends React.Component {
   render() {
     return (
       <>
-        <header className="c-explorer-header c-shadow-bottom">
-          <RootHeader />
+
+        <RootHeader/>
+        <header className="explorer-header c-shadow-bottom">
           <div className="container">
             <div className="row">
               <div className="col-12">
@@ -43,6 +43,6 @@ class Header extends React.Component {
 }
 
 export default connect(
-  state => ({ auth: state.auth }),
-  dispatch => ({ appShowDialog: showDialog, dispatch }),
+  state => ({auth: state.auth}),
+  dispatch => ({appShowDialog: showDialog, dispatch}),
 )(Header);
