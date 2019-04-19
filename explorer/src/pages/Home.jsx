@@ -5,6 +5,7 @@ import {getBlockchainInfo, checkHash} from '@/reducers/constant/action';
 import {Link} from 'react-router-dom';
 import {push} from 'connected-react-router';
 import {trim} from 'lodash';
+import {formatHashStr} from "../services/formatter";
 
 class Home extends React.Component {
   static propTypes = {
@@ -194,7 +195,7 @@ class Home extends React.Component {
                     <tbody>
                     <tr key={-1}>
                       <td><Link to={`/block/${bestBlocks[-1].Hash}?beacon=true`}
-                                className="c-hash">{bestBlocks[-1].Hash}</Link></td>
+                                className="c-hash">{formatHashStr(bestBlocks[-1].Hash)}</Link></td>
                       <td>{`${bestBlocks[-1].Height}`}</td>
                     </tr>
                     </tbody>
@@ -226,7 +227,7 @@ class Home extends React.Component {
                         return (
                           <tr key={key}>
                             <td><Link to={`/block/${bestBlocks[key].Hash}`}
-                                      className="c-hash">{bestBlocks[key].Hash}</Link></td>
+                                      className="c-hash">{formatHashStr(bestBlocks[key].Hash)}</Link></td>
                             <td><Link to={`/chain/${parseInt(key, 10) + 1}`}>{parseInt(key, 10) + 1}</Link></td>
                             <td><Link to={`/block/${bestBlocks[key].Hash}`}
                                       className="c-hash">{bestBlocks[key].Height}</Link></td>
