@@ -37,4 +37,4 @@ docker-compose.dev.yml
 
 build/
 
-yarn.lock
+explorer/yarn.lock
