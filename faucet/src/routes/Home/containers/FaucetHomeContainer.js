@@ -160,7 +160,7 @@ class FaucetHomePage extends React.Component {
         <Grid container>
           <div className="App-header">
             <img className="logo" src={"https://www.myconstant.com/public/assets/logo-footer-88192f4c.svg"}></img>
-            <h2>Constant Authenticated Faucet </h2>
+            <h2><FontAwesomeIcon icon="shower" size="2x"/>Constant Authenticated Faucet </h2>
             <div style={{width: '90%', maxWidth: 1280, display: "flex"}}>
 
               <Input
