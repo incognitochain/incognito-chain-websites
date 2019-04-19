@@ -2,11 +2,13 @@ const path = require('path');
 
 const webpack = require('webpack');
 const merge = require('webpack-merge');
+const TerserPlugin = require('terser-webpack-plugin');
 // const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 // const PreloadWebpackPlugin = require('preload-webpack-plugin');
 // const PrepackWebpackPlugin = require('prepack-webpack-plugin').default;
 
@@ -15,6 +17,7 @@ const appEnv = require('../.env.js');
 
 module.exports = function webpackConfig(env, argv = {}) {
   const isProduction = argv.mode === 'production';
+  const isAnalyzer = env && env.analyzer;
 
   const stats = {
     modules: false,
@@ -23,6 +26,7 @@ module.exports = function webpackConfig(env, argv = {}) {
   };
 
   const development = {
+    mode: 'development',
     plugins: [new webpack.HotModuleReplacementPlugin()],
     devServer: {
       host: '0.0.0.0',
@@ -72,18 +76,29 @@ module.exports = function webpackConfig(env, argv = {}) {
   };
 
   const production = {
+    mode: 'production',
     optimization: {
       minimize: true,
-      // minimizer: [
-      //   new UglifyJsPlugin({
-      //     sourceMap: true,
-      //     uglifyOptions: {
-      //       compress: {
-      //         drop_console: true,
-      //       },
-      //     },
-      //   }),
-      // ],
+      minimizer: [
+        new TerserPlugin({
+          terserOptions: {
+            warnings: false,
+            compress: {
+              comparisons: false,
+              drop_console: true,
+            },
+            parse: {},
+            mangle: true,
+            output: {
+              comments: false,
+              ascii_only: true,
+            },
+          },
+          parallel: true,
+          cache: true,
+          sourceMap: false,
+        }),
+      ],
       splitChunks: {
         chunks: 'all',
       },
@@ -167,6 +182,7 @@ module.exports = function webpackConfig(env, argv = {}) {
 
         }),
         // new PreloadWebpackPlugin(),
+        ...(isAnalyzer ? [new BundleAnalyzerPlugin()] : []),
       ],
       module: {
         rules: [

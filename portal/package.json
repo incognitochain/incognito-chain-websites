@@ -8,7 +8,8 @@
     "build": "webpack --mode production",
     "build:dev": "cross-env PROD_MODE=dev webpack --mode production",
     "push": "sh push-image.sh",
-    "push:dev": "sh push-image.dev.sh"
+    "push:dev": "sh push-image.dev.sh",
+    "analyzer": "webpack --mode production --env.analyzer true"
   },
   "dependencies": {
     "@babel/core": "^7.1.0",
@@ -111,5 +112,10 @@
     "webpack-merge": "^4.1.4",
     "yarn": "^1.12.3",
     "yup": "^0.26.6"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-imports": "^1.5.1",
+    "terser-webpack-plugin": "^1.2.3",
+    "webpack-bundle-analyzer": "^3.3.2"
   }
 }

@@ -47,7 +47,7 @@ class SubHeader extends React.Component {
                   </Link>
                 </li> */}
                 <li className="hover-menu">
-                  <Link to="/redeem" className={cn('menu-item', { active: ['/redeem', '/buy-token', '/buy-constant'].includes(pathname) })}>
+                  <Link to="/redeem" className={cn('menu-item', { active: ['/redeem', '/buy-token', '/buy-constant'].some(_ => pathname && pathname.startsWith(_)) })}>
                     <FontAwesomeIcon icon={faRetweetAlt} />
                     {' Reserve'}
                   </Link>

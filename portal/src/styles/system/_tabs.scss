@@ -1,27 +1,15 @@
-.tabs-container {
-  display: flex;
-  margin: 0px;
-  border-radius: 5px 5px 0px 0px;
-  overflow: hidden;
-  border: solid 0.5px #212B63;
-  border-bottom: none;
-  
+.tabs-container {  
   .c-card {
     display: inline-block;
     padding: 10px;
   }
   .tab {
-    transition: all 300ms;
-    background: white;
-    text-align: center;
-    cursor: pointer;
-    padding: 10px;
-    font-weight: bold;
     font-size: 18px;
-    
-    &.active {
-      background: #212B63;
-      color: white;
+    &.tab-selected {
+      background: #F7F8FA;
+      outline: none;
+      font-weight: bold;
+      color: #182D9E;
     }
   }
   .tabs {
