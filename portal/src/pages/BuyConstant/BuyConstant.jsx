@@ -22,7 +22,7 @@ import {
 // import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 // import Link from '@/components/Link';
 // import Logo from '@/assets/logo.svg';
-import bgImage from '@/assets/create-a-proposal.svg';
+import bgImage from '@/assets/create-a-proposal.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import Link from '@/components/Link';

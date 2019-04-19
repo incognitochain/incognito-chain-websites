@@ -23,7 +23,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { faEthereum } from '@fortawesome/free-brands-svg-icons';
 import { faUsdCircle } from '@fortawesome/pro-light-svg-icons';
-import bgImage from '@/assets/create-a-proposal.svg';
+import bgImage from '@/assets/create-a-proposal.png';
 import { debounce } from 'lodash';
 import abiDefinition from './abiDefinition';
 import ErrorMessage from '../../components/formik/ErrorMessage';

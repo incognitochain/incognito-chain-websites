@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import Link from '@/components/Link';
-import bgImage from '@/assets/create-a-proposal.svg';
+import bgImage from '@/assets/create-a-proposal.png';
 import { axios, catchError } from '@/services/api';
 import { API } from '@/constants';
 import queryString from 'query-string';
