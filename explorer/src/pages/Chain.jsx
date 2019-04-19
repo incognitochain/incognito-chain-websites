@@ -6,6 +6,8 @@ import {getBlocks, getBlockchainInfo} from '@/reducers/constant/action';
 import {Link} from 'react-router-dom';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faChevronLeft, faChevronRight} from '@fortawesome/pro-regular-svg-icons';
+import {formatBlocksHeight, formatConstantValue, formatHashStr, formatProducerStr} from "../services/formatter";
+import BrowserDetect from "../services/browserdetect";
 
 class Chain extends React.Component {
   static propTypes = {
@@ -107,7 +109,8 @@ class Chain extends React.Component {
                       <tbody>
                       <tr>
                         <td>Total block</td>
-                        <td><Link to={`/block/${chainBlock.Hash}`} className="c-hash">{chainBlock.Height}</Link></td>
+                        <td><Link to={`/block/${chainBlock.Hash}`}
+                                  className="c-hash">{formatBlocksHeight(chainBlock.Height)}</Link></td>
                       </tr>
                       </tbody>
                     </table>
@@ -121,11 +124,12 @@ class Chain extends React.Component {
                   <tbody>
                   <tr>
                     <td>Current block producer</td>
-                    <td className="c-hash">{chainBlock.BlockProducer}</td>
+                    <td className="c-hash"
+                        title={chainBlock.BlockProducer}>{formatProducerStr(chainBlock.BlockProducer, BrowserDetect.isMobile)}</td>
                   </tr>
                   <tr>
                     <td>Remain salary fund</td>
-                    <td>{chainBlock.SalaryFund}</td>
+                    <td>{formatConstantValue(chainBlock.SalaryFund / 100)} CONST</td>
                   </tr>
                   <tr>
                     <td>Basic salary</td>
@@ -154,7 +158,7 @@ class Chain extends React.Component {
                     Block #{blocks[rawchainId].list[blocks[rawchainId].list.length - 1].Height.toLocaleString(navigator.language, {minimumFractionDigits: 0})} to #{blocks[rawchainId].list[0].Height.toLocaleString(navigator.language, {minimumFractionDigits: 0})} (Total of {blocks[rawchainId].list[0].Height.toLocaleString(navigator.language, {minimumFractionDigits: 0})} blocks)
                   </span>
                 </div>
-                <div>
+                <div className="block-data">
                   <table className="c-table c-table-list">
                     <thead>
                     <tr>
@@ -171,14 +175,14 @@ class Chain extends React.Component {
                       <tr key={blockchain.Hash}>
                         <td>{blockchain.Height.toLocaleString(navigator.language, {minimumFractionDigits: 0})}</td>
                         <td className="c-hash"><Link
-                          to={`/block/${blockchain.Hash}` + (this.isBeacon(chainId) ? '?beacon=true' : '')}>{blockchain.Hash.substring(0, 25)}...</Link>
+                          to={`/block/${blockchain.Hash}` + (this.isBeacon(chainId) ? '?beacon=true' : '')}>{formatHashStr(blockchain.Hash, BrowserDetect.isMobile)}</Link>
                         </td>
-                        <td>{blockchain.BlockProducer ? blockchain.BlockProducer : '[Genesis block]'}</td>
-                        <td className="c-hash"><Link
+                        <td>{blockchain.BlockProducer ? formatProducerStr(blockchain.BlockProducer, BrowserDetect.isMobile) : '[Genesis block]'}</td>
+                        <td className="c-hash right"><Link
                           to={`/block/${blockchain.Hash}/txs`}>{blockchain.TxHashes ? blockchain.TxHashes.length : 0}</Link>
                         </td>
-                        <td>{(blockchain.Fee / 100).toLocaleString(navigator.language, {minimumFractionDigits: 2})} Const</td>
-                        <td>{(blockchain.Reward / 100).toLocaleString(navigator.language, {minimumFractionDigits: 2})} Const</td>
+                        <td className='center'>{blockchain.Fee ? ((blockchain.Fee / 100).toLocaleString(navigator.language, {minimumFractionDigits: 2})) + ' CONST' : '-'}</td>
+                        <td className='center'>{blockchain.Reward ? ((blockchain.Reward / 100).toLocaleString(navigator.language, {minimumFractionDigits: 2})) + 'CONST' : '-'}</td>
                       </tr>
                     ))}
                     </tbody>

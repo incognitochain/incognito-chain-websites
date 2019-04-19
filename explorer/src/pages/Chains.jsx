@@ -1,8 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { getBlockchainInfo } from '@/reducers/constant/action';
-import { Link } from 'react-router-dom';
+import {connect} from 'react-redux';
+import {getBlockchainInfo} from '@/reducers/constant/action';
+import {Link} from 'react-router-dom';
+import {formatBlocksHeight, formatConstantValue, formatHashStr} from "../services/formatter";
+import BrowserDetect from "../services/browserdetect"
 
 class Chains extends React.Component {
   static propTypes = {
@@ -13,7 +15,7 @@ class Chains extends React.Component {
   constructor(props) {
     super(props);
 
-    const { chainInfo } = this.props;
+    const {chainInfo} = this.props;
 
     this.state = {
       chainInfo,
@@ -25,18 +27,18 @@ class Chains extends React.Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.chainInfo.updatedAt !== prevState.chainInfo.updatedAt) {
-      return { chainInfo: nextProps.chainInfo };
+      return {chainInfo: nextProps.chainInfo};
     }
     return null;
   }
 
   loadData = () => {
-    const { actionGetBlockChainInfo } = this.props;
+    const {actionGetBlockChainInfo} = this.props;
     actionGetBlockChainInfo();
   };
 
   render() {
-    const { chainInfo } = this.state;
+    const {chainInfo} = this.state;
     if (!chainInfo.ChainName) {
       return null;
     }
@@ -73,12 +75,13 @@ class Chains extends React.Component {
                     <Link to={`/chain/${index + 1}`} className="card">
                       <strong className="chain-id">{`Shard #${index + 1}`}</strong>
                       <div className="chain-item-content">
-                        <div>{`Height: ${block.Height.toLocaleString(navigator.language, { minimumFractionDigits: 0 })}`}</div>
-                        <div className="c-hash">{`Best block: ${block.Hash.substr(0, 50)}`}...</div>
-                        <div>{`Total txs: ${block.TotalTxs.toLocaleString(navigator.language, { minimumFractionDigits: 0 })}`}</div>
-                        <div>{`Salary fund: ${(block.SalaryFund / 100).toLocaleString(navigator.language, { minimumFractionDigits: 2 })}`} Const</div>
-                        <div>{`Basic salary: ${(block.BasicSalary / 100).toLocaleString(navigator.language, { minimumFractionDigits: 2 })}`} Const</div>
-                        <div>{`Salary per TX: ${(block.SalaryPerTx / 100).toLocaleString(navigator.language, { minimumFractionDigits: 2 })}`} Const</div>
+                        <div>{`Height: ${formatBlocksHeight(block.Height)}`}</div>
+                        <div
+                          className="c-hash">{`Best block: ${formatHashStr(block.Hash, BrowserDetect.isMobile)}`}</div>
+                        <div>{`Total txs: ${formatBlocksHeight(block.TotalTxs)}`}</div>
+                        <div>{`Salary fund: ${formatConstantValue(block.SalaryFund / 100)}`} Const</div>
+                        <div>{`Basic salary: ${formatConstantValue(block.BasicSalary / 100)}`} Const</div>
+                        <div>{`Salary per TX: ${formatConstantValue(block.SalaryPerTx / 100)}`} Const</div>
                       </div>
                     </Link>
                   </div>
