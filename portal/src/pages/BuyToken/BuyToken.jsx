@@ -454,7 +454,7 @@ class BuyToken extends React.Component {
                     }
                   }}
                 >
-                  {() => (
+                  {({ errors }) => (
                     <Form className="form">
                       <div className="row group-input">
                         <div className="col-xs-12 col-lg-3">
@@ -532,7 +532,7 @@ class BuyToken extends React.Component {
                             <CircularProgress style={{width: "auto", height:"auto"}} />
                           </div>
                         :
-                          <button className="c-btn c-btn-primary submit"  style={{width: "100%"}} type="submit" disabled={disableSubmitBtn}>
+                          <button className="c-btn c-btn-primary submit"  style={{width: "100%"}} type="submit" disabled={disableSubmitBtn || errors.amount}>
                             Get DCB Token
                             &nbsp;<FontAwesomeIcon icon={faArrowRight} />
                           </button>

@@ -343,13 +343,6 @@ class Create extends React.Component {
                         </Dialog>
                         <div className="create-box c-card">
                           <h2>Create a redeem request</h2>
-                          <div className="">
-                            {'Or '}
-                            <Link to="/redeem">
-                              <FontAwesomeIcon icon={faAngleLeft} />
-                              {' Back to redeem'}
-                            </Link>
-                          </div>
                           <div className="row input-container input-container-first">
                             <div className="col-12 col-md-12 col-lg-4">
                               <div className="title">ENTER REDEEM AMOUNT</div>
@@ -651,6 +644,9 @@ class Create extends React.Component {
                           </div>
                           <div className="row">
                             <div className="col-12">
+                              <Link to="/redeem" className="mr-4">
+                                {'Cancel'}
+                              </Link>
                               <button className="c-btn c-btn-primary submit" type="submit">
                                 {isValid && isSubmitting ? <FontAwesomeIcon icon={faSpinnerThird} size="1x" spin style={{ marginRight: 10 }} /> : ''}
                                 {'Submit '}

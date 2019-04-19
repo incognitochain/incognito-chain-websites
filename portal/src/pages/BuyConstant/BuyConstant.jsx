@@ -212,7 +212,7 @@ class BuyConstant extends React.Component {
                         <CircularProgress style={{width: "auto", height:"auto"}} />
                       </div>
                     :
-                      <button className="c-btn c-btn-primary submit" style={{width: "100%"}} onClick={this.onSubmit} >
+                      <button disabled={amount <= 0} className="c-btn c-btn-primary submit" style={{width: "100%"}} onClick={this.onSubmit} >
                         Get Constant
                         &nbsp;<FontAwesomeIcon icon={faArrowRight} />
                       </button>
@@ -254,7 +254,7 @@ class BuyConstant extends React.Component {
                   </thead>
                   <tbody>
                       {
-                        history.map((item={}) => {
+                        history && history.length ? history.map((item={}) => {
                           return (
                             <tr key={`history-${item.ID}`} >
                               <td>{item.ID}</td>
@@ -263,7 +263,7 @@ class BuyConstant extends React.Component {
                               <td>{dayjs(item.CreatedAt).format('MM-DD-YYYY')}</td>
                             </tr>
                           )
-                        })
+                        }) : <tr><td colSpan={4}><span className='d-block text-center'>No data</span></td></tr>
                       }
                   </tbody>
                 </table>
