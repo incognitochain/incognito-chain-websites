@@ -115,9 +115,9 @@ class BuyConstant extends React.Component {
       <div className="home-page">
       <section >
         <div className="container">
-          <div className="row">
+          <div className="row" style={{ marginBottom: '24px' }}>
             <div className="col-12 col-md-6 col-lg-8">
-              <div className="c-card">
+              <div className="c-card h-100">
                 <div className="hello">
                   Buy Constant
                 </div>
@@ -181,8 +181,10 @@ class BuyConstant extends React.Component {
 
                 </div>
               </div>
+            </div>
 
-              <div className="c-card">
+            <div className="col-12 col-md-6 col-lg-4">
+              <div className="c-card h-100 d-flex justify-content-around">
                 <FormControl component="fieldset" style={{width: "100%"}} >
                   <div className="title">ENTER AMOUNT</div>
                   <TextField
@@ -201,6 +203,7 @@ class BuyConstant extends React.Component {
                     }}
                     onChange={(e)=>this.onAmountChange(e.target.value)}
                     value={amount}
+                    error={amount <= 0}
                   />
                   <br/>
                   {
@@ -217,11 +220,6 @@ class BuyConstant extends React.Component {
 
                 </FormControl>
               </div>
-            </div>
-
-            <div className="col-12 col-md-6 col-lg-4">
-              <div className="c-card card-create-a-proposal-container" style={{ backgroundImage: `url(${bgImage})`, minHeight: 280, backgroundSize: "100%" }}>
-                </div>
             </div>
 
           </div>
