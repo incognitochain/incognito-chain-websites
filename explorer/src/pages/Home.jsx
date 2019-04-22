@@ -5,7 +5,7 @@ import {getBlockchainInfo, checkHash} from '@/reducers/constant/action';
 import {Link} from 'react-router-dom';
 import {push} from 'connected-react-router';
 import {trim} from 'lodash';
-import {formatHashStr} from "../services/formatter";
+import {formatBlocksHeight, formatHashStr} from "../services/formatter";
 import BrowserDetect from "../services/browserdetect";
 
 class Home extends React.Component {
@@ -150,13 +150,13 @@ class Home extends React.Component {
                   </li>
                   <li>
                     <Link to="/#best-blocks">
-                      <div className="data c-color-black">{totalBlocks}</div>
+                      <div className="data c-color-black">{formatBlocksHeight(totalBlocks)}</div>
                       <div className="title">Total blocks</div>
                     </Link>
                   </li>
                   <li>
                     <Link to="/txs/pending">
-                      <div className="data c-color-black">{totalTxs}</div>
+                      <div className="data c-color-black">{formatBlocksHeight(totalTxs)}</div>
                       <div className="title">Total txs</div>
                     </Link>
                   </li>
@@ -197,7 +197,7 @@ class Home extends React.Component {
                     <thead>
                     <tr>
                       <th>Block hash</th>
-                      <th>Height</th>
+                      <th className="right">Height</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -205,7 +205,7 @@ class Home extends React.Component {
                       <td><Link to={`/block/${bestBlocks[-1].Hash}?beacon=true`}
                                 className="c-hash">{formatHashStr(bestBlocks[-1].Hash, BrowserDetect.isMobile)}</Link>
                       </td>
-                      <td>{`${bestBlocks[-1].Height}`}</td>
+                      <td className="right">{formatBlocksHeight(bestBlocks[-1].Height)}</td>
                     </tr>
                     </tbody>
                   </table>
@@ -222,9 +222,9 @@ class Home extends React.Component {
                     <thead>
                     <tr>
                       <th>Block hash</th>
-                      <th>Shard #</th>
-                      <th>Height</th>
-                      <th>Total Txs</th>
+                      <th className="right">Shard #</th>
+                      <th className="right">Height</th>
+                      <th className="right">Total Txs</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -238,10 +238,11 @@ class Home extends React.Component {
                             <td><Link to={`/block/${bestBlocks[key].Hash}`}
                                       className="c-hash">{formatHashStr(bestBlocks[key].Hash, BrowserDetect.isMobile)}</Link>
                             </td>
-                            <td><Link to={`/chain/${parseInt(key, 10) + 1}`}>{parseInt(key, 10) + 1}</Link></td>
-                            <td><Link to={`/block/${bestBlocks[key].Hash}`}
-                                      className="c-hash">{bestBlocks[key].Height}</Link></td>
-                            <td>{bestBlocks[key].TotalTxs}</td>
+                            <td className="right"><Link to={`/chain/${parseInt(key, 10) + 1}`}>{parseInt(key, 10) + 1}</Link></td>
+                            <td className="right"><Link to={`/block/${bestBlocks[key].Hash}`}
+                                                        className="c-hash">{formatBlocksHeight(bestBlocks[key].Height)}</Link>
+                            </td>
+                            <td className="right">{formatBlocksHeight(bestBlocks[key].TotalTxs)}</td>
                           </tr>
                         );
                       })}
