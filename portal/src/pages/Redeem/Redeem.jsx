@@ -134,13 +134,13 @@ class Redeem extends React.Component {
         <section className="coin-information">
           <div className="container">
             <div className="row">
-              <div className="col-12 col-md-6 col-lg-8">
+              <div className="col-12 col-md-6 col-lg-8 order-2 order-md-1 c-card-container">
                 <div className="c-card">
                   <div className="hello">
                     {`Hello, ${auth.data.UserName || auth.data.FirstName}`}
                   </div>
                   <div className="row stats-container">
-                    <div className="col-12 col-lg-3 stats">
+                    <div className="col-12 col-sm-6 col-lg-3 stats">
                       <div className="value">
                         {summary.UsdFinished ? summary.UsdFinished : 0}
                         {' '}
@@ -148,7 +148,7 @@ class Redeem extends React.Component {
                       </div>
                       <div>Are finished</div>
                     </div>
-                    <div className="col-12 col-lg-3 stats">
+                    <div className="col-12 col-sm-6 col-lg-3 stats">
                       <div className="value">
                         {summary.UsdFailed ? summary.UsdFailed : 0}
                         {' '}
@@ -156,7 +156,7 @@ class Redeem extends React.Component {
                       </div>
                       <div>Are failed</div>
                     </div>
-                    <div className="col-12 col-lg-3 stats">
+                    <div className="col-12 col-sm-6 col-lg-3 stats">
                       <div className="value">
                         {summary.EthFinished ? summary.EthFinished : 0}
                         {' '}
@@ -164,7 +164,7 @@ class Redeem extends React.Component {
                       </div>
                       <div>Are finished</div>
                     </div>
-                    <div className="col-12 col-lg-3 stats">
+                    <div className="col-12 col-sm-6 col-lg-3 stats">
                       <div className="value">
                         {summary.EthFailed ? summary.EthFailed : 0}
                         {' '}
@@ -177,7 +177,7 @@ class Redeem extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="col-12 col-md-6 col-lg-4">
+              <div className="col-12 col-md-6 col-lg-4 order-1 order-md-2 c-card-container">
                 <div className="c-card card-create-a-proposal-container" style={{ backgroundImage: `url(${bgImage})` }}>
                   <p>Wanna to redeem usd or ether?</p>
                   <Link to="/redeem/create" className="c-btn c-bg-green">
@@ -198,7 +198,7 @@ class Redeem extends React.Component {
             <div className="container">
               <div className="row">
                 <div className="col-12">
-                  <div className="c-card c-card-no-padding">
+                  <div className="c-card c-card-no-padding table-container">
                     <table className="c-table-portal-home" style={{ width: "100%", tableLayout: "fixed" }}>
                       <colgroup>
                         <col style={{ "width": "7%" }} />
@@ -291,7 +291,7 @@ class Redeem extends React.Component {
             <div className="container">
               <div className="row">
                 <div className="col-12">
-                  <div className="c-card c-card-no-padding">
+                  <div className="c-card c-card-no-padding table-container">
                     <table className="c-table-portal-home" style={{ width: "100%", tableLayout: "fixed" }}>
                       <colgroup>
                         <col style={{ "width": "7%" }} />
@@ -390,7 +390,7 @@ class Redeem extends React.Component {
             </div>
           )
         }
-        <div className="container">
+        <div className="container my-3">
           <Pagination
             page={page}
             lastPage={totalPage}
