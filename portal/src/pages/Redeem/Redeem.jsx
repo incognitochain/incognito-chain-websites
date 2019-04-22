@@ -137,7 +137,7 @@ class Redeem extends React.Component {
               <div className="col-12 col-md-6 col-lg-8">
                 <div className="c-card">
                   <div className="hello">
-                    {`Hello, ${auth.data.UserName}`}
+                    {`Hello, ${auth.data.UserName || auth.data.FirstName}`}
                   </div>
                   <div className="row stats-container">
                     <div className="col-12 col-lg-3 stats">
