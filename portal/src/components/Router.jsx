@@ -3,6 +3,7 @@ import { createDynamicImport } from '@/services/app';
 import { Switch, Route } from 'react-router-dom';
 import Loading from '@/components/Loading';
 import Layout from '@/components/App/Layout';
+import { logout } from '@/reducers/auth/action';
 
 // const Home = createDynamicImport(() => import('@/pages/Home/Home'), Loading);
 const Landing = createDynamicImport(() => import('@/pages/Landing/Landing'), Loading);
@@ -18,22 +19,37 @@ const BuyToken = createDynamicImport(() => import('@/pages/BuyToken/BuyToken'), 
 const BuyConstant = createDynamicImport(() => import('@/pages/BuyConstant/BuyConstant'), Loading);
 
 const routers = [
-  { path: '/', exact: true, component: Landing },
+  {
+    path: '/', exact: true, component: Landing,
+  },
   // { path: '/loan', exact: true, component: Home },
   {
-    path: '/create', exact: true, component: Create, layoutOptions: { showSubHeader: false, footerType: 2 },
+    path: '/create', exact: true, component: Create, layoutOptions: { showSubHeader: false, footerType: 2 }, authRequired: true,
   },
-  { path: '/loan/:id', exact: true, component: Loan },
-  { path: '/txs', exact: true, component: Transactions },
-  { path: '/txs/:id', exact: true, component: Transactions },
-
-  { path: '/redeem', exact: true, component: Redeem },
-  { path: '/redeem/create', exact: true, component: RedeemCreate },
-
-  { path: '/redeem/create', exact: true, component: RedeemCreate },
-
-  { path: '/buy-token', exact: true, component: BuyToken },
-  { path: '/buy-constant', exact: true, component: BuyConstant },
+  {
+    path: '/loan/:id', exact: true, component: Loan, authRequired: true,
+  },
+  {
+    path: '/txs', exact: true, component: Transactions, authRequired: true,
+  },
+  {
+    path: '/txs/:id', exact: true, component: Transactions, authRequired: true,
+  },
+  {
+    path: '/redeem', exact: true, component: Redeem, authRequired: true,
+  },
+  {
+    path: '/redeem/create', exact: true, component: RedeemCreate, authRequired: true,
+  },
+  {
+    path: '/redeem/create', exact: true, component: RedeemCreate, authRequired: true,
+  },
+  {
+    path: '/buy-token', exact: true, component: BuyToken, authRequired: true,
+  },
+  {
+    path: '/buy-constant', exact: true, component: BuyConstant, authRequired: true,
+  },
 ];
 
 class Router extends React.Component {
@@ -43,13 +59,16 @@ class Router extends React.Component {
   }
 
   render() {
-    const { auth = {} } = this.props
+    const { auth = {} } = this.props;
     return (
       <Switch>
         {
           routers.map((rawRoute) => {
             let options = {};
-            const { component: Component, layoutOptions, ...route } = rawRoute;
+            const {
+              component: Component, layoutOptions, authRequired, ...route
+            } = rawRoute;
+
             if (layoutOptions) {
               options = { ...layoutOptions };
             }
@@ -57,11 +76,18 @@ class Router extends React.Component {
               <Route
                 key={route.path}
                 {...route}
-                render={props => (
-                  <Layout {...options}>
-                    <Component {...props} auth={auth} />
-                  </Layout>
-                )}
+                render={(props) => {
+                  if (authRequired === true && !auth.logged) {
+                    logout();
+                    window.location.assign(process.env.userUrl + '/login?redirect=' + process.env.portalUrl);
+                    return null;
+                  }
+                  return (
+                    <Layout {...options}>
+                      <Component {...props} auth={auth} />
+                    </Layout>
+                  );
+                }}
               />
             );
           })

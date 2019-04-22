@@ -344,7 +344,7 @@ class Create extends React.Component {
                         <div className="create-box c-card">
                           <h2>Create a redeem request</h2>
                           <div className="row input-container input-container-first">
-                            <div className="col-12 col-md-12 col-lg-4">
+                            <div className="col-12 col-md-6">
                               <div className="title">ENTER REDEEM AMOUNT</div>
                               <div className="input">
                                 <TextField
@@ -377,7 +377,7 @@ class Create extends React.Component {
                                 ) : null
                               }
                             </div>
-                            <div className="col-12 col-md-6 col-lg-4">
+                            <div className="col-12 col-md-6">
                               <div className="title">CHOOSE YOUR OPTION</div>
                               <div className="input">
                                 {collaterals.map(collateral => (
@@ -402,7 +402,7 @@ class Create extends React.Component {
                                 <div className="col">
                                   <div className="title">ENTER YOUR BANK</div>
                                   <div className="row">
-                                    <div className="col-6 input">
+                                    <div className="col-12 col-lg-6 input">
                                       <TextField
                                         label="Routing Number"
                                         name="routingNumber"
@@ -415,65 +415,69 @@ class Create extends React.Component {
                                       />
                                       {errors.routingNumber && touched.routingNumber && <span className="c-error"><span>{errors.routingNumber}</span></span>}
                                     </div>
-                                    <div className="col-4 input">
-                                      <TextField
-                                        label="Swift Code"
-                                        name="swiftCode"
-                                        placeholder=""
-                                        className="input-of-create cst"
-                                        fullWidth
-                                        value={values.swiftCode}
-                                        autoComplete="off"
-                                        onChange={handleChange}
-                                      />
-                                      {errors.swiftCode && touched.swiftCode && <span className="c-error"><span>{errors.swiftCode}</span></span>}
+                                    <div className="col-12 col-lg-6 row m-0 p-0">
+                                      <div className="col-12 col-sm-8 input">
+                                        <TextField
+                                          label="Swift Code"
+                                          name="swiftCode"
+                                          placeholder=""
+                                          className="input-of-create cst"
+                                          fullWidth
+                                          value={values.swiftCode}
+                                          autoComplete="off"
+                                          onChange={handleChange}
+                                        />
+                                        {errors.swiftCode && touched.swiftCode && <span className="c-error"><span>{errors.swiftCode}</span></span>}
+                                      </div>
+                                      <div className="col-12 col-sm-4 input">
+                                        <FormControl variant="outlined" fullWidth style={{ marginTop: 20 }}>
+                                          <InputLabel htmlFor="age-required">Ach Check Type</InputLabel>
+                                          <Select
+                                            value={values.achCheckType}
+                                            onChange={(e) => {
+                                              values.achCheckType = e.target.value
+                                              this.setState({ isUpdated: true })
+                                            }}
+                                            name="achCheckType"
+                                          >
+                                            <MenuItem value={'personal'}>Personal</MenuItem>
+                                            <MenuItem value={'business'}>Business</MenuItem>
+                                          </Select>
+                                        </FormControl>
+                                      </div>
                                     </div>
-                                    <div className="col-2 input">
-                                      <FormControl variant="outlined" fullWidth style={{ marginTop: 20 }}>
-                                        <InputLabel htmlFor="age-required">Ach Check Type</InputLabel>
-                                        <Select
-                                          value={values.achCheckType}
-                                          onChange={(e) => {
-                                            values.achCheckType = e.target.value
-                                            this.setState({ isUpdated: true })
-                                          }}
-                                          name="achCheckType"
-                                        >
-                                          <MenuItem value={'personal'}>Personal</MenuItem>
-                                          <MenuItem value={'business'}>Business</MenuItem>
-                                        </Select>
-                                      </FormControl>
+                                    <div className="col-12 col-lg-6 row m-0 p-0">
+                                      <div className="col-12 col-sm-4 input">
+                                        <FormControl variant="outlined" fullWidth style={{ marginTop: 20 }}>
+                                          <InputLabel htmlFor="age-required">Bank Country</InputLabel>
+                                          <Select
+                                            value={values.bankCountry}
+                                            onChange={(e) => {
+                                              values.bankCountry = e.target.value
+                                              this.setState({ isUpdated: true })
+                                            }}
+                                            name="bankCountry"
+                                          >
+                                            <MenuItem value={'US'}>US</MenuItem>
+                                            <MenuItem value={'VN'}>VN</MenuItem>
+                                          </Select>
+                                        </FormControl>
+                                      </div>
+                                      <div className="col-12 col-sm-8 input">
+                                        <TextField
+                                          label="Bank Account Name"
+                                          name="bankAccountName"
+                                          placeholder=""
+                                          className="input-of-create cst"
+                                          fullWidth
+                                          value={values.bankAccountName}
+                                          autoComplete="off"
+                                          onChange={handleChange}
+                                        />
+                                        {errors.bankAccountName && touched.bankAccountName && <span className="c-error"><span>{errors.bankAccountName}</span></span>}
+                                      </div>
                                     </div>
-                                    <div className="col-2 input">
-                                      <FormControl variant="outlined" fullWidth style={{ marginTop: 20 }}>
-                                        <InputLabel htmlFor="age-required">Bank Country</InputLabel>
-                                        <Select
-                                          value={values.bankCountry}
-                                          onChange={(e) => {
-                                            values.bankCountry = e.target.value
-                                            this.setState({ isUpdated: true })
-                                          }}
-                                          name="bankCountry"
-                                        >
-                                          <MenuItem value={'US'}>US</MenuItem>
-                                          <MenuItem value={'VN'}>VN</MenuItem>
-                                        </Select>
-                                      </FormControl>
-                                    </div>
-                                    <div className="col-4 input">
-                                      <TextField
-                                        label="Bank Account Name"
-                                        name="bankAccountName"
-                                        placeholder=""
-                                        className="input-of-create cst"
-                                        fullWidth
-                                        value={values.bankAccountName}
-                                        autoComplete="off"
-                                        onChange={handleChange}
-                                      />
-                                      {errors.bankAccountName && touched.bankAccountName && <span className="c-error"><span>{errors.bankAccountName}</span></span>}
-                                    </div>
-                                    <div className="col-6 input">
+                                    <div className="col-12 col-lg-6 input">
                                       <FormControl variant="outlined" fullWidth style={{ marginTop: 20 }}>
                                         <InputLabel htmlFor="age-required">Bank Account Type</InputLabel>
                                         <Select
@@ -489,7 +493,7 @@ class Create extends React.Component {
                                         </Select>
                                       </FormControl>
                                     </div>
-                                    <div className="col-6 input">
+                                    <div className="col-12 col-lg-6 input">
                                       <TextField
                                         label="Bank Account Number"
                                         name="bankAccountNumber"
@@ -502,7 +506,7 @@ class Create extends React.Component {
                                       />
                                       {errors.bankAccountNumber && touched.bankAccountNumber && <span className="c-error"><span>{errors.bankAccountNumber}</span></span>}
                                     </div>
-                                    <div className="col-6 input">
+                                    <div className="col-12 col-lg-6 input">
                                       <TextField
                                         label="Bank Name"
                                         name="bankName"
@@ -515,7 +519,7 @@ class Create extends React.Component {
                                       />
                                       {errors.bankName && touched.bankName && <span className="c-error"><span>{errors.bankName}</span></span>}
                                     </div>
-                                    <div className="col-6 input">
+                                    <div className="col-12 col-lg-6 input">
                                       <TextField
                                         label="Beneficiary Address Street 1"
                                         name="beneficiaryAddressStreet1"
@@ -528,7 +532,7 @@ class Create extends React.Component {
                                       />
                                       {errors.beneficiaryAddressStreet1 && touched.beneficiaryAddressStreet1 && <span className="c-error"><span>{errors.beneficiaryAddressStreet1}</span></span>}
                                     </div>
-                                    <div className="col-6 input">
+                                    <div className="col-12 col-lg-6 input">
                                       <TextField
                                         label="Beneficiary Address Street 2"
                                         name="beneficiaryAddressStreet2"
@@ -541,7 +545,7 @@ class Create extends React.Component {
                                       />
                                       {errors.beneficiaryAddressStreet2 && touched.beneficiaryAddressStreet2 && <span className="c-error"><span>{errors.beneficiaryAddressStreet2}</span></span>}
                                     </div>
-                                    <div className="col-6 input">
+                                    <div className="col-12 col-lg-6 input">
                                       <TextField
                                         label="Beneficiary Address Region"
                                         name="beneficiaryAddressRegion"
@@ -554,7 +558,7 @@ class Create extends React.Component {
                                       />
                                       {errors.beneficiaryAddressRegion && touched.beneficiaryAddressRegion && <span className="c-error"><span>{errors.beneficiaryAddressRegion}</span></span>}
                                     </div>
-                                    <div className="col-6 input">
+                                    <div className="col-12 col-lg-6 input">
                                       <TextField
                                         label="Beneficiary Address City"
                                         name="beneficiaryAddressCity"
@@ -567,7 +571,7 @@ class Create extends React.Component {
                                       />
                                       {errors.beneficiaryAddressCity && touched.beneficiaryAddressCity && <span className="c-error"><span>{errors.beneficiaryAddressCity}</span></span>}
                                     </div>
-                                    <div className="col-6 input">
+                                    <div className="col-12 col-lg-6 input">
                                       <TextField
                                         label="Beneficiary Address PostalCode"
                                         name="beneficiaryAddressPostalCode"
@@ -580,7 +584,7 @@ class Create extends React.Component {
                                       />
                                       {errors.beneficiaryAddressPostalCode && touched.beneficiaryAddressPostalCode && <span className="c-error"><span>{errors.beneficiaryAddressPostalCode}</span></span>}
                                     </div>
-                                    <div className="col-4 input">
+                                    <div className="col-12 col-lg-6 input">
                                       <FormControl variant="outlined" fullWidth style={{ marginTop: 20 }}>
                                         <InputLabel htmlFor="age-required">Beneficiary Address Country</InputLabel>
                                         <Select
