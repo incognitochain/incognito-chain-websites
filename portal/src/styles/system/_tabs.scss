@@ -4,7 +4,10 @@
     padding: 10px;
   }
   .tab {
+    min-width: 80px;
     font-size: 18px;
+    font-weight: 100;
+    font-size: 14px;
     &.tab-selected {
       background: #F7F8FA;
       outline: none;

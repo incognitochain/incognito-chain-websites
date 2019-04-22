@@ -50,3 +50,11 @@ main {
     @extend .c-color-green-500;
   }
 }
+
+button {
+  &:disabled {
+    background-color: #c2c2c2 !important;
+    cursor: not-allowed !important;
+    user-select: none !important;
+  }
+}
