@@ -87,21 +87,25 @@ class Header extends React.Component {
                   <li><a href={process.env.userUrl + '/faq'}>FAQ</a></li>*/}
                 </ul>
               </div>
-              <div className={`auth-container ${showMenu ? 'show' : 'hide'}`}>
-                <ul className="menu">
-                  <li>
-                    <div className="auth" id="auth" onClick={this.toggleAuthMenu}>
-                      <span className="firstname">{`${data.FirstName} `}</span>
-                      <FontAwesomeIcon icon={faUserCircle} size="2x" />
-                      <FontAwesomeIcon icon={faAngleDown} />
-                    </div>
-                    <ul className={`sub-menu ${authMenu ? 'show' : ''}`}>
-                      <li><a href={process.env.userUrl}>Profile</a></li>
-                      <li><Link to="/" onClick={this.logout}>Logout</Link></li>
+              {
+                auth.logged && (
+                  <div className={`auth-container ${showMenu ? 'show' : 'hide'}`}>
+                    <ul className="menu">
+                      <li>
+                        <div className="auth" id="auth" onClick={this.toggleAuthMenu}>
+                          <span className="firstname">{`${data.FirstName} `}</span>
+                          <FontAwesomeIcon icon={faUserCircle} size="2x" />
+                          <FontAwesomeIcon icon={faAngleDown} />
+                        </div>
+                        <ul className={`sub-menu ${authMenu ? 'show' : ''}`}>
+                          <li><a href={process.env.userUrl}>Profile</a></li>
+                          <li><Link to="/" onClick={this.logout}>Logout</Link></li>
+                        </ul>
+                      </li>
                     </ul>
-                  </li>
-                </ul>
-              </div>
+                  </div>
+                )
+              }
             </div>
           </div>
         </div>
