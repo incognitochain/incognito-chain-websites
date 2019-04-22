@@ -1,10 +1,10 @@
 import React from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import dayjs from 'dayjs';
 
 import {
-  TextField,
+  // TextField,
   TablePagination,
   FormControl,
 } from '@material-ui/core';
@@ -38,7 +38,7 @@ class RequestList extends React.Component {
 
   onGetOracleMetadatas = async (perPage, page) => {
     const res = await getOracleMetadatas(perPage, page);
-    const {result = [], error=""} = res;
+    const { result = [], error = "" } = res;
     if (error) {
       console.log("get oracle metadata error", error);
       return;
@@ -49,9 +49,9 @@ class RequestList extends React.Component {
   }
 
   onChangePage = (page) => {
-    const {pagination} = this.state;
-    const {Limit=10} = pagination;
-    this.onGetOracleMetadatas(Limit, page+1);
+    const { pagination } = this.state;
+    const { Limit = 10 } = pagination;
+    this.onGetOracleMetadatas(Limit, page + 1);
   }
   onChangeRowsPerPage = (perPage) => {
     console.log(perPage);
@@ -62,14 +62,14 @@ class RequestList extends React.Component {
   // }
 
   render() {
-    const {oracleMetadatas = [], pagination = {}} = this.state;
+    const { oracleMetadatas = [], pagination = {} } = this.state;
     return (
       <div className="page user-page home-page">
         <div className="container">
           <div className="row">
             <div className="col-12 col-md-12 col-lg-12">
               <div className="c-card">
-                <div className="hello" style={{display:"flex", justifyContent: "space-between", alignContent: "center" }}>
+                <div className="hello" style={{ display: "flex", justifyContent: "space-between", alignContent: "center" }}>
                   Request list
 
                   <FormControl component="fieldset" >
@@ -78,7 +78,7 @@ class RequestList extends React.Component {
 
                 </div>
 
-                <table className="c-table-portal-home" style={{minWidth: "100%"}}>
+                <table className="c-table-portal-home" style={{ minWidth: "100%" }}>
                   <thead>
                     <tr>
                       {/* <th>ID</th> */}
@@ -89,14 +89,14 @@ class RequestList extends React.Component {
                     </tr>
                   </thead>
                   <tbody>
-                    { oracleMetadatas && oracleMetadatas.map((item={}) => {
+                    {oracleMetadatas && oracleMetadatas.map((item = {}) => {
                       return (
                         <tr key={`metadata-item-${item.ID}`}>
                           {/* <td><Link to={`/oracle/${item.ID}/detail`}>{item.ID} </Link></td> */}
                           <td><Link to={`/oracle/${item.ID}/detail`}>
-                            {item.PubKeys && item.PubKeys.length > 0 && item.PubKeys.map((key="",i)=>{
+                            {item.PubKeys && item.PubKeys.length > 0 && item.PubKeys.map((key = "", i) => {
                               return (
-                                <div key={`p-key-${i}`} >{key} <br/></div>
+                                <div key={`p-key-${i}`} >{key} <br /></div>
                               )
                             })}
                           </Link></td>
@@ -108,20 +108,20 @@ class RequestList extends React.Component {
                     })}
                   </tbody>
                 </table>
-                { oracleMetadatas.length > 0 && pagination && Object.keys(pagination).length > 0 ?
-                <TablePagination
-                  rowsPerPageOptions={[5, 10, 25]}
-                  colSpan={3}
-                  count={pagination.TotalRecord}
-                  rowsPerPage={pagination.Limit}
-                  page={pagination.Page-1}
-                  SelectProps={{
-                    // native: true,
-                  }}
-                  onChangePage={(e,p)=>(this.onChangePage(p))}
-                  onChangeRowsPerPage={(e)=>this.onChangeRowsPerPage(e.target.value)}
-                />
-                : ""}
+                {oracleMetadatas.length > 0 && pagination && Object.keys(pagination).length > 0 ?
+                  <TablePagination
+                    rowsPerPageOptions={[5, 10, 25]}
+                    colSpan={3}
+                    count={pagination.TotalRecord}
+                    rowsPerPage={pagination.Limit}
+                    page={pagination.Page - 1}
+                    SelectProps={{
+                      // native: true,
+                    }}
+                    onChangePage={(e, p) => (this.onChangePage(p))}
+                    onChangeRowsPerPage={(e) => this.onChangeRowsPerPage(e.target.value)}
+                  />
+                  : ""}
               </div>
             </div>
           </div>

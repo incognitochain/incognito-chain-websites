@@ -3,7 +3,7 @@ import { axios, catchError } from "services/api";
 import { API } from "constants/index";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import { Dialog, TextInputField, toaster } from "evergreen-ui";
+import { Dialog, toaster } from "evergreen-ui";
 import _ from "lodash";
 import { ProposalListItem } from "./ProposalListItem";
 import { ProposalData } from "./ProposalData";
@@ -159,7 +159,7 @@ class Proposals extends React.Component {
     const {
       currentType,
       proposals,
-      amount,
+      //amount,
       isLoading,
       dialogVote,
       isLoadingProposal,
