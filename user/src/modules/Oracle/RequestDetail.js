@@ -1,18 +1,18 @@
 import React from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import dayjs from 'dayjs';
 
 import {
   TextField,
-  TablePagination,
+  // TablePagination,
   FormControl,
   Dialog,
   DialogContent,
   DialogContentText,
 } from '@material-ui/core';
 
-import Link from "components/Link";
+// import Link from "components/Link";
 
 import { signMetadata, checkIsUserInBoard, getMetadataDetail } from "../../services/oracle";
 
@@ -39,8 +39,8 @@ class RequestDetail extends React.Component {
     }
   }
   componentDidMount() {
-    checkIsUserInBoard().then((res={}) => {
-      const {result,error} = res;
+    checkIsUserInBoard().then((res = {}) => {
+      const { result, error } = res;
       if (error) {
         console.log(error);
       }
@@ -50,29 +50,29 @@ class RequestDetail extends React.Component {
         })
       }
     })
-    const {match={}} = this.props;
-    const {params} = match;
-    const {id = ""} = params;
+    const { match = {} } = this.props;
+    const { params } = match;
+    const { id = "" } = params;
     if (!id) return;
     this.onGetMetadata(id);
   }
   onGetMetadata = async (id) => {
     const res = await getMetadataDetail(id);
-    const {result = {}, error} = res;
+    const { result = {}, error } = res;
     if (error) {
       console.log(error);
     } else {
-      this.setState({metadata: result})
+      this.setState({ metadata: result })
     }
   }
   onSubmit = async () => {
-    const {match={}} = this.props;
-    const {params} = match;
-    const {id = ""} = params;
+    const { match = {} } = this.props;
+    const { params } = match;
+    const { id = "" } = params;
     if (!id) return;
-    this.setState({isSubmitting: true})
+    this.setState({ isSubmitting: true })
     const res = await signMetadata(id);
-    const {result, error} = res;
+    const { result, error } = res;
     let resultMessage;
     if (error) {
       console.log(error)
@@ -80,14 +80,14 @@ class RequestDetail extends React.Component {
     }
     if (result || result === true) {
       resultMessage = "Successfully";
-      setTimeout(()=>{
+      setTimeout(() => {
         window.location = "/oracle";
-      },200)
+      }, 200)
     }
-    this.setState({resultMessage, openDialog: true, isSubmitting : false})
+    this.setState({ resultMessage, openDialog: true, isSubmitting: false })
   }
   onCloseDialog = () => {
-    this.setState({openDialog: false, resultMessage: ""})
+    this.setState({ openDialog: false, resultMessage: "" })
   }
   render() {
     const { isUserInBoard, openDialog, metadata = {} } = this.state;
@@ -106,13 +106,13 @@ class RequestDetail extends React.Component {
                 </div>
 
                 <div className="row">
-                  <FormControl component="fieldset" style={{width: "100%"}} >
+                  <FormControl component="fieldset" style={{ width: "100%" }} >
                     <div className="title">PUBLIC KEYS</div>
                     {
-                      metadata.PubKeys && metadata.PubKeys.length > 0 && metadata.PubKeys.map((key,i) => {
+                      metadata.PubKeys && metadata.PubKeys.length > 0 && metadata.PubKeys.map((key, i) => {
                         return (
                           <TextField
-                            key = {`pubkey=${i}`}
+                            key={`pubkey=${i}`}
                             id="amount"
                             className="input-of-create cst"
                             type="text"
@@ -121,7 +121,7 @@ class RequestDetail extends React.Component {
                             }}
                             fullWidth
                             InputProps={{
-                              style: {paddingTop: 10, paddingBottom: 10, height:"inherit !important"},
+                              style: { paddingTop: 10, paddingBottom: 10, height: "inherit !important" },
                             }}
                             // onChange={(e)=>this.onAmountChange(e.target.value)}
                             value={key}
@@ -132,46 +132,46 @@ class RequestDetail extends React.Component {
                     }
                   </FormControl>
                 </div>
-                <br/>
+                <br />
                 <div className="row">
-                  <FormControl component="fieldset" style={{width: "100%"}} >
+                  <FormControl component="fieldset" style={{ width: "100%" }} >
                     <div className="title">BIO</div>
-                      <TextField
-                        id="bio"
-                        multiline
-                        className="input-of-create cst"
-                        type="text"
-                        style={{
-                          lineHeight: "2em",
-                        }}
-                        fullWidth
-                        InputProps={{
-                          style: {
-                            paddingTop: 10, paddingBottom: 10,display: "block",
-                            minHeight: 250
-                          },
-                        }}
-                        value={metadata.Bio}
-                        disabled
-                        variant="outlined"
-                      />
+                    <TextField
+                      id="bio"
+                      multiline
+                      className="input-of-create cst"
+                      type="text"
+                      style={{
+                        lineHeight: "2em",
+                      }}
+                      fullWidth
+                      InputProps={{
+                        style: {
+                          paddingTop: 10, paddingBottom: 10, display: "block",
+                          minHeight: 250
+                        },
+                      }}
+                      value={metadata.Bio}
+                      disabled
+                      variant="outlined"
+                    />
                   </FormControl>
                 </div>
-                <br/>
+                <br />
                 <div className="row">
-                  <FormControl component="fieldset" style={{width: "100%"}} >
+                  <FormControl component="fieldset" style={{ width: "100%" }} >
                     <div className="title">Created At: {metadata.CreatedAt ? dayjs(metadata.CreatedAt).format('MM-DD-YYYY') : ""}</div>
                   </FormControl>
                 </div>
-                <br/>
+                <br />
                 <div className="row">
-                {showSubmitBtn ?
-                <FormControl component="fieldset" >
-                  <button className="c-btn c-btn-primary submit"  style={{width: "100%"}} onClick={this.onSubmit} >
-                    Sign
+                  {showSubmitBtn ?
+                    <FormControl component="fieldset" >
+                      <button className="c-btn c-btn-primary submit" style={{ width: "100%" }} onClick={this.onSubmit} >
+                        Sign
                   </button>
-                </FormControl>
-                : ""}
+                    </FormControl>
+                    : ""}
                 </div>
 
                 <Dialog

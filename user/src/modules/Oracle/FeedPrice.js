@@ -1,5 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import dayjs from 'dayjs';
 
@@ -14,7 +14,7 @@ import {
   DialogContentText,
 } from '@material-ui/core';
 
-import Link from "components/Link";
+// import Link from "components/Link";
 
 import { getAssets, feedPrice, checkIsUserInBoard, getFeedPriceHistory } from "../../services/oracle";
 
@@ -40,7 +40,7 @@ class FeedPrice extends React.Component {
       price: "",
       isUserInBoard: false,
       history: [],
-      historyPagination: {Page: 1, Limit: 10, TotalRecord: 0, TotalPage:0},
+      historyPagination: { Page: 1, Limit: 10, TotalRecord: 0, TotalPage: 0 },
     }
   }
   componentDidMount() {
@@ -50,30 +50,30 @@ class FeedPrice extends React.Component {
     this.onGetHistory();
   }
   onChangeAsset = (asset) => {
-    this.setState({asset})
+    this.setState({ asset })
   }
   onGetAssets = async () => {
     const res = await getAssets();
-    const {result = [],error} = res;
+    const { result = [], error } = res;
     if (error) {
       console.log(error);
     } else {
-      this.setState({assets: result})
+      this.setState({ assets: result })
     }
   }
   onCloseDialog = () => {
-    this.setState({openDialog: false, resultMessage: ""})
+    this.setState({ openDialog: false, resultMessage: "" })
   }
   onPriceChange = (price) => {
-    this.setState({price})
+    this.setState({ price })
   }
   onSubmit = async () => {
-    const {asset="", price} = this.state;
+    const { asset = "", price } = this.state;
     if (!asset) return;
     if (!price || isNaN(price)) return;
-    this.setState({isSubmitting: true})
+    this.setState({ isSubmitting: true })
     const res = await feedPrice(parseFloat(price), asset);
-    const {result, error} = res;
+    const { result, error } = res;
     let resultMessage;
     if (error) {
       console.log(error)
@@ -81,16 +81,16 @@ class FeedPrice extends React.Component {
     }
     if (result || result === true) {
       resultMessage = "Successfully";
-      setTimeout(()=>{
+      setTimeout(() => {
         window.location.reload();
-      },200)
+      }, 200)
     }
-    this.setState({resultMessage, openDialog: true, isSubmitting : false})
+    this.setState({ resultMessage, openDialog: true, isSubmitting: false })
   }
 
   onCheckUserIsInBoard = async () => {
     const res = await checkIsUserInBoard()
-    const {result,error} = res;
+    const { result, error } = res;
     if (error) {
       console.log(error);
     }
@@ -104,7 +104,7 @@ class FeedPrice extends React.Component {
   onGetHistory = async (perPage, page) => {
     const res = await getFeedPriceHistory(perPage, page);
     // console.log(res)
-    const {result = [], error=""} = res;
+    const { result = [], error = "" } = res;
     if (error) {
       console.log("get history error", error);
       return;
@@ -114,16 +114,16 @@ class FeedPrice extends React.Component {
     this.setState({ history: Records, historyPagination: pagination });
   }
   onChangeHistoryPage = (page) => {
-    const {historyPagination} = this.state;
-    const {Limit=10} = historyPagination;
-    this.onGetHistory(Limit, page+1);
+    const { historyPagination } = this.state;
+    const { Limit = 10 } = historyPagination;
+    this.onGetHistory(Limit, page + 1);
   }
   onChangeHistoryRowsPerPage = (perPage) => {
     this.onGetHistory(perPage, 1);
   }
 
   render() {
-    const {assets=[], openDialog, isSubmitting, isUserInBoard, history = [],historyPagination = {}} = this.state;
+    const { assets = [], openDialog, isSubmitting, isUserInBoard, history = [], historyPagination = {} } = this.state;
     const isDisableBtn = isSubmitting === true;
     return (
       <div className="page user-page home-page">
@@ -137,11 +137,11 @@ class FeedPrice extends React.Component {
                   </div>
                 </div>
                 <div className="row">
-                  <FormControl component="fieldset" style={{width: "100%"}} >
+                  <FormControl component="fieldset" style={{ width: "100%" }} >
                     <div className="title">ASSETS</div>
                     <Select
                       value={this.state.asset}
-                      onChange={(e)=>this.onChangeAsset(e.target.value)}
+                      onChange={(e) => this.onChangeAsset(e.target.value)}
                       inputProps={{
                         name: 'asset',
                         id: 'asset',
@@ -150,7 +150,7 @@ class FeedPrice extends React.Component {
                       <MenuItem value="">
                         <em>None</em>
                       </MenuItem>
-                      {assets && assets.length > 0 && assets.map((item={},i) => {
+                      {assets && assets.length > 0 && assets.map((item = {}, i) => {
                         return (
                           <MenuItem key={`asset-${i}`} value={item.Asset}>{item.Name}</MenuItem>
                         )
@@ -158,9 +158,9 @@ class FeedPrice extends React.Component {
                     </Select>
                   </FormControl>
                 </div>
-                <br/>
+                <br />
                 <div className="row">
-                  <FormControl component="fieldset" style={{width: "100%"}} >
+                  <FormControl component="fieldset" style={{ width: "100%" }} >
                     <div className="title">PRICE</div>
                     <TextField
                       id="price"
@@ -171,70 +171,70 @@ class FeedPrice extends React.Component {
                       }}
                       fullWidth
                       InputProps={{
-                        style: {paddingTop: 10, paddingBottom: 10, height:"inherit !important"},
+                        style: { paddingTop: 10, paddingBottom: 10, height: "inherit !important" },
                       }}
-                      onChange={(e)=>this.onPriceChange(e.target.value)}
+                      onChange={(e) => this.onPriceChange(e.target.value)}
                       value={this.state.price}
                     />
                   </FormControl>
                 </div>
-                <br/>
+                <br />
                 {isUserInBoard ?
-                <div className="row">
-                  <FormControl component="fieldset" >
-                    <button className="c-btn c-btn-primary submit"  style={{width: "100%"}} disabled={isDisableBtn ? true : false} onClick={this.onSubmit}>
-                      Submit
+                  <div className="row">
+                    <FormControl component="fieldset" >
+                      <button className="c-btn c-btn-primary submit" style={{ width: "100%" }} disabled={isDisableBtn ? true : false} onClick={this.onSubmit}>
+                        Submit
                     </button>
-                  </FormControl>
-                </div>
-                : ""}
+                    </FormControl>
+                  </div>
+                  : ""}
 
-                { history.length > 0 ?
-                <div className="row">
-                  <div className="col-12" style={{marginTop: 30}}>
-                    <div className="hello">
-                      History
+                {history.length > 0 ?
+                  <div className="row">
+                    <div className="col-12" style={{ marginTop: 30 }}>
+                      <div className="hello">
+                        History
                     </div>
-                    <table className="c-table-portal-home" style={{minWidth: "100%"}}>
-                      <thead>
-                        <tr>
-                          <th>Price</th>
-                          <th>Asset Type</th>
-                          <th>Created At</th>
-                        </tr>
-                      </thead>
-                      <tbody>
+                      <table className="c-table-portal-home" style={{ minWidth: "100%" }}>
+                        <thead>
+                          <tr>
+                            <th>Price</th>
+                            <th>Asset Type</th>
+                            <th>Created At</th>
+                          </tr>
+                        </thead>
+                        <tbody>
                           {
-                            history && history.map((item={}) => {
+                            history && history.map((item = {}) => {
                               return (
                                 <tr key={`history-${item.ID}`} >
                                   <td>{item.Price}</td>
                                   <td>{item.AssetType}</td>
-                                  <td>{item.CreatedAt ? dayjs(item.CreatedAt).format('MM-DD-YYYY'): ""}</td>
+                                  <td>{item.CreatedAt ? dayjs(item.CreatedAt).format('MM-DD-YYYY') : ""}</td>
                                 </tr>
                               )
                             })
                           }
-                      </tbody>
-                    </table>
-                    {history.length > 0 && historyPagination && Object.keys(historyPagination).length > 0 ?
-                      <TablePagination
-                        rowsPerPageOptions={[5, 10, 25]}
-                        colSpan={3}
-                        count={historyPagination.TotalRecord}
-                        rowsPerPage={historyPagination.Limit}
-                        page={historyPagination.Page-1}
-                        SelectProps={{
-                          // native: true,
-                        }}
-                        onChangePage={(e,p)=>this.onChangeHistoryPage(p)}
-                        onChangeRowsPerPage={(e)=>this.onChangeHistoryRowsPerPage(e.target.value)}
+                        </tbody>
+                      </table>
+                      {history.length > 0 && historyPagination && Object.keys(historyPagination).length > 0 ?
+                        <TablePagination
+                          rowsPerPageOptions={[5, 10, 25]}
+                          colSpan={3}
+                          count={historyPagination.TotalRecord}
+                          rowsPerPage={historyPagination.Limit}
+                          page={historyPagination.Page - 1}
+                          SelectProps={{
+                            // native: true,
+                          }}
+                          onChangePage={(e, p) => this.onChangeHistoryPage(p)}
+                          onChangeRowsPerPage={(e) => this.onChangeHistoryRowsPerPage(e.target.value)}
                         // ActionsComponent={TablePaginationActionsWrapped}
-                      />
-                    : ""}
+                        />
+                        : ""}
+                    </div>
                   </div>
-                </div>
-                : ""}
+                  : ""}
 
                 <Dialog
                   open={openDialog}

@@ -1,20 +1,20 @@
 import React from "react";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {Dialog, TextInputField, SelectField} from "evergreen-ui";
-import _ from "lodash";
-import {Formik, FieldArray, Form} from "formik";
-import {faPlus, faTimes} from "@fortawesome/pro-regular-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Dialog, TextInputField, SelectField } from "evergreen-ui";
+// import _ from "lodash";
+import { Formik, FieldArray, Form } from "formik";
+import { faPlus, faTimes } from "@fortawesome/pro-regular-svg-icons";
 
 export default function DcbProposalDialog({
-                                            isShown,
-                                            dcbParams,
-                                            isLoading,
-                                            onClose,
-                                            onConfirm,
-                                            submitCreateDCB,
-                                            innerRef,
-                                            options: {sellingAssetOptions = {}, buyingAssetOptions = {}}
-                                          }) {
+  isShown,
+  dcbParams,
+  isLoading,
+  onClose,
+  onConfirm,
+  submitCreateDCB,
+  innerRef,
+  options: { sellingAssetOptions = {}, buyingAssetOptions = {} }
+}) {
   return (
     <Dialog
       preventBodyScrolling
@@ -37,11 +37,11 @@ export default function DcbProposalDialog({
         }}
         validateOnBlur={false}
         validateOnChange={false}
-        onSubmit={(values, {setSubmitting}) => {
+        onSubmit={(values, { setSubmitting }) => {
           submitCreateDCB(values, setSubmitting);
         }}
       >
-        {({values, errors, touched, setFieldValue}) => {
+        {({ values, errors, touched, setFieldValue }) => {
           let SaleDCBTokensByUSDData = values.dcbParams.SaleDCBTokensByUSDData || {};
           let ListLoanParams = values.dcbParams.ListLoanParams || [];
           let ListSaleData = values.dcbParams.ListSaleData || [];
@@ -69,10 +69,10 @@ export default function DcbProposalDialog({
                         (loanParams, index) => {
                           return (
                             <fieldset key={index}>
-                              <legend style={{textAlign: "right"}}>
+                              <legend style={{ textAlign: "right" }}>
                                 <FontAwesomeIcon
                                   title="Remove"
-                                  style={{cursor: "pointer"}}
+                                  style={{ cursor: "pointer" }}
                                   icon={faTimes}
                                   onClick={() => {
                                     arrayHelpers.remove(index);
@@ -126,7 +126,7 @@ export default function DcbProposalDialog({
                         }
                       )}
                       <FontAwesomeIcon
-                        style={{cursor: "pointer"}}
+                        style={{ cursor: "pointer" }}
                         icon={faPlus}
                         onClick={() => {
                           arrayHelpers.push({});
@@ -147,10 +147,10 @@ export default function DcbProposalDialog({
                       {ListSaleData.map(
                         (sale, index) => (
                           <fieldset key={index}>
-                            <legend style={{textAlign: "right"}}>
+                            <legend style={{ textAlign: "right" }}>
                               <FontAwesomeIcon
                                 title="Remove"
-                                style={{cursor: "pointer"}}
+                                style={{ cursor: "pointer" }}
                                 icon={faTimes}
                                 onClick={() => {
                                   arrayHelpers.remove(index);
@@ -263,7 +263,7 @@ export default function DcbProposalDialog({
                         )
                       )}
                       <FontAwesomeIcon
-                        style={{cursor: "pointer"}}
+                        style={{ cursor: "pointer" }}
                         icon={faPlus}
                         onClick={() => {
                           arrayHelpers.push({});

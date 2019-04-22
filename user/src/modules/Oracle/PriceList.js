@@ -1,19 +1,19 @@
 import React from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 
 import {
-  TextField,
-  TablePagination,
-  FormControl,
+  // TextField,
+  // TablePagination,
+  // FormControl,
   List,
   ListItem,
   ListItemText,
   ListItemIcon,
 } from '@material-ui/core';
 
-import Link from "components/Link";
+// import Link from "components/Link";
 
 import { getCurrentPrice } from "../../services/oracle";
 
@@ -41,7 +41,7 @@ class PriceList extends React.Component {
   }
   onGetCurrentPrice = async () => {
     const res = await getCurrentPrice();
-    const {result = [], error=""} = res;
+    const { result = [], error = "" } = res;
     if (error) {
       console.log("get current price error", error);
       return;
@@ -57,21 +57,21 @@ class PriceList extends React.Component {
           <div className="row">
             <div className="col-12 col-md-12 col-lg-12">
               <div className="c-card">
-                <div className="hello" style={{display:"flex", justifyContent: "space-between", alignContent: "center" }}>
+                <div className="hello" style={{ display: "flex", justifyContent: "space-between", alignContent: "center" }}>
                   Current Price List
                 </div>
 
                 <List component="nav">
-                {currenPrice && Object.keys(currenPrice).length > 0 && Object.keys(currenPrice).map((key,i) => {
-                  return (
-                    <ListItem button>
-                      <ListItemText primary={key.toUpperCase()} />
-                      <ListItemIcon>
-                      {`${parseFloat(currenPrice[key])/100} USD`}
-                      </ListItemIcon>
-                    </ListItem>
-                  )
-                })}
+                  {currenPrice && Object.keys(currenPrice).length > 0 && Object.keys(currenPrice).map((key, i) => {
+                    return (
+                      <ListItem button>
+                        <ListItemText primary={key.toUpperCase()} />
+                        <ListItemIcon>
+                          {`${parseFloat(currenPrice[key]) / 100} USD`}
+                        </ListItemIcon>
+                      </ListItem>
+                    )
+                  })}
                 </List>
               </div>
             </div>
