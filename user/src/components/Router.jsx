@@ -12,6 +12,10 @@ const Register = createDynamicImport(
   () => import("modules/Auth/Register"),
   Loading
 );
+const VerifyEmail = createDynamicImport(
+  () => import("modules/Auth/VerifyEmail"),
+  Loading
+);
 const Login = createDynamicImport(() => import("modules/Auth/Login"), Loading);
 const ResetPassword = createDynamicImport(
   () => import("modules/Auth/ResetPassword"),
@@ -100,6 +104,7 @@ const routers = [
   { path: "/register", exact: true, component: Register },
   { path: "/reset-password", exact: true, component: ResetPassword },
   { path: "/forgot-password", exact: true, component: ForgotPassword },
+  { path: "/verify-email", exact: true, component: VerifyEmail },
   {
     path: "/oracle",
     exact: true,
