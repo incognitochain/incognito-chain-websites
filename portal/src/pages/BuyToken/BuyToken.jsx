@@ -361,7 +361,7 @@ class BuyToken extends React.Component {
                       &nbsp;
                       <sup>by ETH</sup>
                     </div>
-                    <div>Success</div>
+                    <div className="text-truncate">Success</div>
                   </div>
 
                   <div className="col-12 col-sm-3 col-lg-3 stats">
@@ -375,7 +375,7 @@ class BuyToken extends React.Component {
                       &nbsp;
                       <sup>by ETH</sup>
                     </div>
-                    <div>Failed</div>
+                    <div className="text-truncate">Failed</div>
                   </div>
 
                   <div className="col-12 col-sm-3 col-lg-3 stats">
@@ -389,7 +389,7 @@ class BuyToken extends React.Component {
                       &nbsp;
                       <sup>ETH</sup>
                     </div>
-                    <div>Amount Success</div>
+                    <div className="text-truncate">Amount Success</div>
                   </div>
 
                   <div className="col-12 col-sm-3 col-lg-3 stats">
@@ -403,7 +403,7 @@ class BuyToken extends React.Component {
                       &nbsp;
                       <sup>ETH</sup>
                     </div>
-                    <div>Amount Failed</div>
+                    <div className="text-truncate">Amount Failed</div>
                   </div>
 
                 </div>
