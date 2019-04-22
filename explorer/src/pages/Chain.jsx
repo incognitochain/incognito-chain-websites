@@ -35,7 +35,7 @@ class Chain extends React.Component {
     this.loadData(rawchainId);
     setInterval(() => {
       this.loadData(rawchainId);
-    }, 1 * 60 * 1000); // reload after 1 minutes
+    }, 3 * 60 * 1000); // reload after 1 minutes
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -139,7 +139,7 @@ class Chain extends React.Component {
                     <td>Salary per TX</td>
                     <td>{(chainBlock.SalaryPerTx / 100).toLocaleString(navigator.language, {minimumFractionDigits: 2})} CONST</td>
                   </tr>
-                  <tr style={{display: `${this.isBeacon(chainId) ? 'none' : 'block'}`}}>
+                  <tr style={{display: `${this.isBeacon(chainId) ? 'none' : 'contents'}`}}>
                     <td>Total TXs</td>
                     <td>{chainBlock.TotalTxs.toLocaleString(navigator.language, {minimumFractionDigits: 0})}</td>
                   </tr>

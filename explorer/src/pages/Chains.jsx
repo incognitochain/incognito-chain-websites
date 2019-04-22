@@ -43,6 +43,7 @@ class Chains extends React.Component {
       return null;
     }
     const bestBlocks = chainInfo.BestBlocks;
+    let blockBeacon = bestBlocks[-1];
 
     return (
       <div className="c-explorer-page c-explorer-page-chains">
@@ -57,12 +58,38 @@ class Chains extends React.Component {
               </div>
             </div>
             <div className="col-12">
-              <div className="block"><h3 className="block-heading">Shard list</h3></div>
+              <div className="block content">
+                <div className="row">
+                  <div className="col-12 col-md-6">
+                    <h3 className="">Shard list</h3>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <div className="container">
           <div className="row">
+            <div className="col-12">
+              <div className="block content">
+                <table className="c-table c-table-list">
+                  <tbody>
+                  <tr>
+                    <td>Remain salary fund</td>
+                    <td>{formatConstantValue(blockBeacon.SalaryFund / 100)} CONST</td>
+                  </tr>
+                  <tr>
+                    <td>Basic salary</td>
+                    <td>{(blockBeacon.BasicSalary / 100).toLocaleString(navigator.language, {minimumFractionDigits: 2})} CONST</td>
+                  </tr>
+                  <tr>
+                    <td>Salary per TX</td>
+                    <td>{(blockBeacon.SalaryPerTx / 100).toLocaleString(navigator.language, {minimumFractionDigits: 2})} CONST</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
             {Object.keys(bestBlocks)
               .map((key) => {
                 if (key == -1) {
@@ -77,11 +104,8 @@ class Chains extends React.Component {
                       <div className="chain-item-content">
                         <div>{`Height: ${formatBlocksHeight(block.Height)}`}</div>
                         <div
-                          className="c-hash">{`Best block: ${formatHashStr(block.Hash, BrowserDetect.isMobile)}`}</div>
+                          className="c-hash">{`Best block: ${formatHashStr(block.Hash, true)}`}</div>
                         <div>{`Total txs: ${formatBlocksHeight(block.TotalTxs)}`}</div>
-                        <div>{`Salary fund: ${formatConstantValue(block.SalaryFund / 100)}`} Const</div>
-                        <div>{`Basic salary: ${formatConstantValue(block.BasicSalary / 100)}`} Const</div>
-                        <div>{`Salary per TX: ${formatConstantValue(block.SalaryPerTx / 100)}`} Const</div>
                       </div>
                     </Link>
                   </div>
