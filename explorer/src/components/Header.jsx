@@ -29,7 +29,6 @@ class Header extends React.Component {
                     <li><Link to="/chain/0">Beacon Chain</Link></li>
                     <li><Link to="/chains">Shards</Link></li>
                     <li><Link to="/txs/pending">Pending TXs</Link></li>
-                    <li><Link to="/committees">Committees</Link></li>
                     <li><Link to="/tokens">Tokens</Link></li>
                   </ul>
                 </div>

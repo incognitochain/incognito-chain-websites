@@ -120,9 +120,16 @@ class Home extends React.Component {
               paddingBottom: '20px',
               fontSize: '13px',
             }}>
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-              industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-              scrambled it to make a type specimen book.
+              <p>
+                The Constant System is a decentralized global financial infrastructure that enables a new set of
+                financial
+                applications for consumers and businesses. At the heart of the Constant System, there is a
+                decentralized,
+                borderless, stable currency, called Constant.
+                Constant is a cryptocurrency that embodies the three integral characteristics of usable money: stable
+                unit
+                of account, efficient medium of exchange and secure store of value.
+              </p>
             </div>
           </div>
           <div className="row">
@@ -196,7 +203,8 @@ class Home extends React.Component {
                     <tbody>
                     <tr key={-1}>
                       <td><Link to={`/block/${bestBlocks[-1].Hash}?beacon=true`}
-                                className="c-hash">{formatHashStr(bestBlocks[-1].Hash, BrowserDetect.isMobile)}</Link></td>
+                                className="c-hash">{formatHashStr(bestBlocks[-1].Hash, BrowserDetect.isMobile)}</Link>
+                      </td>
                       <td>{`${bestBlocks[-1].Height}`}</td>
                     </tr>
                     </tbody>
