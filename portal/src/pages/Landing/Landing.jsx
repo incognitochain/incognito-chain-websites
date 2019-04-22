@@ -2,28 +2,42 @@ import React from 'react';
 import {Button} from '@material-ui/core';
 
 
-let data = [
-  {
-    title: "Stable unit of account",
-    content: "At its very core, Constant is built to maintain a 1:1 peg to the US dollar.  The value of goods and services are easily measured in terms of Constant, which holds its value as the USD does, and is additionally designed to be easily converted at any time.",
-  },
-  {
-    title: "Reliable store of value",
-    content: "As far as savings go, Constant provides a viable refuge for multiple volatile economies.  It affords the price stability of the USD with the accessibility of a borderless digital currency.  Unlike many other digital currencies however, Constant straddles both worlds, and easily converts back to fiat.  Each Constant is backed by 1 US dollar, held in a Trust Vault with a strict 100% collateralization."
-  },
-  {
-    title: "Efficient medium of exchange",
-    content: "In addition to price stability and the practicalities that affords in any exchange of goods and services, Constant also reduces the friction, distance, expense and inefficiency of every transaction, made by anyone - to anyone - anywhere in the world."
-  }
-]
-
 class Landing extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
+  getConstantAction = () => {
+    window.location.href = "/buy-constant"
+  }
+
   render() {
+
+    let data = [
+      {
+        title: "Stable unit of account",
+        content: "At its very core, Constant is built to maintain a 1:1 peg to the US dollar.  The value of goods and services are easily measured in terms of Constant, which holds its value as the USD does, and is additionally designed to be easily converted at any time.",
+        action: "Get It",
+        actiomFunc: this.getConstantAction,
+      },
+      {
+        title: "Reliable store of value",
+        content: "As far as savings go, Constant provides a viable refuge for multiple volatile economies.  It affords the price stability of the USD with the accessibility of a borderless digital currency.  Unlike many other digital currencies however, Constant straddles both worlds, and easily converts back to fiat.  Each Constant is backed by 1 US dollar, held in a Trust Vault with a strict 100% collateralization.",
+        action: "Get It"
+      },
+      {
+        title: "Efficient medium of exchange",
+        content: "In addition to price stability and the practicalities that affords in any exchange of goods and services, Constant also reduces the friction, distance, expense and inefficiency of every transaction, made by anyone - to anyone - anywhere in the world.",
+        action: "Get It"
+      },
+      {
+        title: "Usable money",
+        content: "Constant is a cryptocurrency that embodies the three integral characteristics of usable money: stable unit of account, efficient medium of exchange and secure store of value.",
+        action: "Get It"
+      }
+    ]
+
     return (
       <div className="landing-page">
         <div className="container">
@@ -61,7 +75,7 @@ class Landing extends React.Component {
                   <div className="info">
                     <h6>{item.title}</h6>
                     <p>{item.content}</p>
-                    {/*<Button variant="contained" color="primary">Action</Button>*/}
+                    <Button variant="contained" color="primary" onClick={item.actiomFunc}>{item.action}</Button>
                   </div>
                 </div>
               ))
