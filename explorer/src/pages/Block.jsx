@@ -1,9 +1,11 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
-import { getBlock } from '@/reducers/constant/action';
+import {Link} from 'react-router-dom';
+import {getBlock} from '@/reducers/constant/action';
 import * as moment from 'moment';
+import {formatHashStr} from "../services/formatter";
+import BrowserDetect from "../services/browserdetect"
 
 class Block extends React.Component {
   static propTypes = {
@@ -15,8 +17,8 @@ class Block extends React.Component {
   constructor(props) {
     super(props);
 
-    const { match, block } = this.props;
-    const { blockHash } = match.params;
+    const {match, block} = this.props;
+    const {blockHash} = match.params;
 
     this.state = {
       blockHash,
@@ -44,13 +46,13 @@ class Block extends React.Component {
       };
     }
     if (nextProps.match.params.blockHash !== prevState.blockHash) {
-      return { blockHash: nextProps.match.params.blockHash };
+      return {blockHash: nextProps.match.params.blockHash};
     }
     return null;
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { blockHash, isLatest } = this.state;
+    const {blockHash, isLatest} = this.state;
     if (prevState.blockHash !== blockHash) {
       this.fetch();
     }
@@ -62,12 +64,12 @@ class Block extends React.Component {
   fetch = () => {
     const params = new URLSearchParams(this.props.location.search);
     let beacon = params.get('beacon');
-    const { blockHash } = this.state;
+    const {blockHash} = this.state;
     if (!beacon) {
-      const { actionGetBlock } = this.props;
+      const {actionGetBlock} = this.props;
       actionGetBlock(blockHash);
     } else {
-      const { actionGetBlock } = this.props;
+      const {actionGetBlock} = this.props;
       actionGetBlock(blockHash, true);
     }
   };
@@ -77,7 +79,7 @@ class Block extends React.Component {
   };
 
   render() {
-    const { blockHash, block } = this.state;
+    const {blockHash, block} = this.state;
     const chainId = block[blockHash]?.data?.ShardID + 1;
     if (!block[blockHash]?.data) {
       return null;
@@ -118,96 +120,100 @@ class Block extends React.Component {
             </div>
             <div className="col-12">
               <div className="block content">
-                <table>
-                  <tbody className="c-table c-table-list">
-                  <tr>
-                    <td>Block height</td>
-                    <td
-                      className="c-hash">{block[blockHash].data.Height == 1 ? '[Genesis block]' : block[blockHash].data.Height}</td>
-                  </tr>
-                  <tr>
-                    <td>Version</td>
-                    <td className="c-hash">{block[blockHash].data.Version}</td>
-                  </tr>
-                  <tr>
-                    <td>Confirmations</td>
-                    <td className="c-hash">{block[blockHash].data.Confirmations}</td>
-                  </tr>
-                  <tr>
-                    <td>Time</td>
-                    <td>{moment.unix(block[blockHash].data.Time)
-                      .format('MMMM Do YYYY, h:mm:ss a')}</td>
-                  </tr>
-                  <tr>
-                    <td>Merkle TxS Root</td>
-                    <td>{block[blockHash].data.TxRoot}</td>
-                  </tr>
-                  <tr>
-                    <td>R</td>
-                    <td>{block[blockHash].data.R}</td>
-                  </tr>
-                  <tr>
-                    <td>Round</td>
-                    <td>{block[blockHash].data.Round}</td>
-                  </tr>
-                  <tr>
-                    <td>Epoch</td>
-                    <td>{block[blockHash].data.Epoch}</td>
-                  </tr>
-                  {block[blockHash].data.CrossShards ? <tr>
-                    <td>Crossed Shards</td>
-                    <td>{block[blockHash].data.CrossShards.length == 0 ? '[empty]' : block[blockHash].data.CrossShards.join(', ')}</td>
-                  </tr> : null}
-                  <tr>
-                    <td>Previous block</td>
-                    <td className="c-hash"><Link
-                      to={`/block/${block[blockHash].data.PreviousBlockHash}` + (this.isBeacon(chainId) ? '?beacon=true' : '')}>{block[blockHash].data.PreviousBlockHash}</Link>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Next block</td>
-                    <td className="c-hash"><Link
-                      to={`/block/${block[blockHash].data.NextBlockHash}` + (this.isBeacon(chainId) ? '?beacon=true' : '')}>{block[blockHash].data.NextBlockHash}</Link>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Block producer</td>
-                    <td className="c-hash">{block[blockHash].data.BlockProducer}</td>
-                  </tr>
-                  <tr>
-                    <td>Block producer Signature</td>
-                    <td className="c-hash">{block[blockHash].data.BlockProducerSign}</td>
-                  </tr>
-                  <tr>
-                    <td>Aggregated Signature</td>
-                    <td>{block[blockHash].data.AggregatedSig}</td>
-                  </tr>
-                  {!this.isBeacon(chainId) ?
-                    <>
-                      <tr>
-                        <td>Beacon Height</td>
-                        <td>{block[blockHash].data.BeaconHeight}</td>
-                      </tr>
-                      <tr>
-                        <td>Beacon Block Hash</td>
-                        <td>{block[blockHash].data.BeaconBlockHash}</td>
-                      </tr>
-                    </> : null}
-                  {this.isBeacon(chainId) ? <tr>
-                    <td style={{ verticalAlign: 'top' }}>Instruction</td>
-                    <td><textarea cols={120}
-                                  rows={10}>{JSON.stringify(block[blockHash].data.Instructions, null, 2)}</textarea>
-                    </td>
-                  </tr> : null}
-                  {block[blockHash].data.Txs ?
+                <div className="block-data">
+                  <table>
+                    <tbody className="c-table c-table-list">
                     <tr>
-                      <td>TXs</td>
+                      <td>Block height</td>
+                      <td
+                        className="c-hash">{block[blockHash].data.Height == 1 ? '[Genesis block]' : block[blockHash].data.Height}</td>
+                    </tr>
+                    <tr>
+                      <td>Version</td>
+                      <td className="c-hash">{block[blockHash].data.Version}</td>
+                    </tr>
+                    <tr>
+                      <td>Confirmations</td>
+                      <td className="c-hash">{block[blockHash].data.Confirmations}</td>
+                    </tr>
+                    <tr>
+                      <td>Time</td>
+                      <td>{moment.unix(block[blockHash].data.Time)
+                        .format('MMMM Do YYYY, h:mm:ss a')}</td>
+                    </tr>
+                    <tr>
+                      <td>Merkle TxS Root</td>
+                      <td>{block[blockHash].data.TxRoot}</td>
+                    </tr>
+                    <tr>
+                      <td>R</td>
+                      <td>{block[blockHash].data.R}</td>
+                    </tr>
+                    <tr>
+                      <td>Round</td>
+                      <td>{block[blockHash].data.Round}</td>
+                    </tr>
+                    <tr>
+                      <td>Epoch</td>
+                      <td>{block[blockHash].data.Epoch}</td>
+                    </tr>
+                    {block[blockHash].data.CrossShards ? <tr>
+                      <td>Crossed Shards</td>
+                      <td>{block[blockHash].data.CrossShards.length == 0 ? '[empty]' : block[blockHash].data.CrossShards.join(', ')}</td>
+                    </tr> : null}
+                    <tr>
+                      <td>Previous block</td>
                       <td className="c-hash"><Link
-                        to={`/block/${blockHash}/txs`}>{`${block[blockHash].data.Txs.length} - View all`}</Link></td>
-                    </tr> : null
-                  }
-                  </tbody>
-                </table>
+                        to={`/block/${block[blockHash].data.PreviousBlockHash}` + (this.isBeacon(chainId) ? '?beacon=true' : '')}>{formatHashStr(block[blockHash].data.PreviousBlockHash, BrowserDetect.isMobile)}</Link>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Next block</td>
+                      <td className="c-hash"><Link
+                        to={`/block/${block[blockHash].data.NextBlockHash}` + (this.isBeacon(chainId) ? '?beacon=true' : '')}>{formatHashStr(block[blockHash].data.NextBlockHash, BrowserDetect.isMobile)}</Link>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Block producer</td>
+                      <td
+                        className="c-hash">{BrowserDetect.isMobile ? block[blockHash].data.BlockProducer.substring(5) : block[blockHash].data.BlockProducer}</td>
+                    </tr>
+                    <tr>
+                      <td>Block producer Signature</td>
+                      <td
+                        className="c-hash">{BrowserDetect.isMobile ? block[blockHash].data.BlockProducerSign.substring(5) + '...' : block[blockHash].data.BlockProducerSign}</td>
+                    </tr>
+                    <tr>
+                      <td>Aggregated Signature</td>
+                      <td>{block[blockHash].data.AggregatedSig}</td>
+                    </tr>
+                    {!this.isBeacon(chainId) ?
+                      <>
+                        <tr>
+                          <td>Beacon Height</td>
+                          <td>{block[blockHash].data.BeaconHeight}</td>
+                        </tr>
+                        <tr>
+                          <td>Beacon Block Hash</td>
+                          <td>{formatHashStr(block[blockHash].data.BeaconBlockHash, BrowserDetect.isMobile)}</td>
+                        </tr>
+                      </> : null}
+                    {this.isBeacon(chainId) ? <tr>
+                      <td style={{verticalAlign: 'top'}}>Instruction</td>
+                      <td><textarea cols={120}
+                                    rows={10}>{JSON.stringify(block[blockHash].data.Instructions, null, 2)}</textarea>
+                      </td>
+                    </tr> : null}
+                    {block[blockHash].data.Txs ?
+                      <tr>
+                        <td>TXs</td>
+                        <td className="c-hash"><Link
+                          to={`/block/${blockHash}/txs`}>{`${block[blockHash].data.Txs.length} - View all`}</Link></td>
+                      </tr> : null
+                    }
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
