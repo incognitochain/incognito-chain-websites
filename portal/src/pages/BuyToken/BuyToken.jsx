@@ -343,14 +343,14 @@ class BuyToken extends React.Component {
         <section >
         <div className="container">
           <div className="row">
-            <div className="col-12 col-md-6 col-lg-8">
+            <div className="col-12 col-lg-8">
               <div className="c-card">
                 <div className="hello">
                   Reserve Assets
                 </div>
                 <div className="row stats-container" style={{display: "flex", justifyContent: "center"}}>
 
-                  <div className="col-12 col-lg-3 stats">
+                  <div className="col-12 col-sm-3 col-lg-3 stats">
                     <div className="value">
                       { TotalReservesSuccess.usd || 0}
                       &nbsp;
@@ -364,7 +364,7 @@ class BuyToken extends React.Component {
                     <div>Success</div>
                   </div>
 
-                  <div className="col-12 col-lg-3 stats">
+                  <div className="col-12 col-sm-3 col-lg-3 stats">
                     <div className="value">
                       { TotalReservesFailed.usd || 0}
                       &nbsp;
@@ -378,7 +378,7 @@ class BuyToken extends React.Component {
                     <div>Failed</div>
                   </div>
 
-                  <div className="col-12 col-lg-3 stats">
+                  <div className="col-12 col-sm-3 col-lg-3 stats">
                     <div className="value">
                       { TotalAmountSuccess.usd || 0}
                       &nbsp;
@@ -392,7 +392,7 @@ class BuyToken extends React.Component {
                     <div>Amount Success</div>
                   </div>
 
-                  <div className="col-12 col-lg-3 stats">
+                  <div className="col-12 col-sm-3 col-lg-3 stats">
                     <div className="value">
                       { TotalAmountFailed.usd || 0}
                       &nbsp;
@@ -411,12 +411,12 @@ class BuyToken extends React.Component {
 
             </div>
 
-            <div className="col-12 col-md-6 col-lg-4">
+            <div className="col-lg-4 d-none d-lg-block">
               <div className="c-card card-create-a-proposal-container" style={{ backgroundImage: `url(${bgImage})`, minHeight: 280, backgroundSize: "100%" }}>
               </div>
             </div>
 
-            <div className="col-12 col-md-12 col-lg-12">
+            <div className="col-12 col-md-12 col-lg-12 my-3">
               <div className="c-card">
                 <div className="title">CHOOSE YOUR OPTION</div>
                 <div className="input" style={{ display:"flex",  paddingTop:5, paddingBottom:5 }}>
@@ -458,7 +458,7 @@ class BuyToken extends React.Component {
                     <Form className="form">
                       <div className="row group-input">
                         <div className="col-xs-12 col-lg-3">
-                          <div className="title">ENTER AMOUNT</div>
+                          <div className="title text-truncate">ENTER AMOUNT</div>
                           <Field
                             name="amount"
                             validate={value => value <= 0 && 'Must be greater than 0'}
@@ -484,7 +484,7 @@ class BuyToken extends React.Component {
                           <ErrorMessage name="amount" />
                         </div>
                         <div className="col-xs-12 col-lg-3">
-                          <div className="title">
+                          <div className="title text-truncate">
                             CONVERT TO TOKEN
                             { isDCBConverting && (
                               <CircularProgress style={{ width: 'auto', height: 'auto', marginLeft: '10px' }} />
@@ -505,7 +505,7 @@ class BuyToken extends React.Component {
                           />
                         </div>
                         <div className="col-xs-12 col-lg-3">
-                          <div className="title">
+                          <div className="title text-truncate">
                             AVAILABLE TOKEN AMOUNT
                             { isGettingReserveInfo && (
                               <CircularProgress style={{ width: 'auto', height: 'auto', marginLeft: '10px' }} />
