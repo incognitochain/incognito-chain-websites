@@ -5,7 +5,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import Router from '@/components/Router';
 import { connect } from 'react-redux';
 import Loading from '@/components/Loading';
-import { checkAuth, logout } from '@/reducers/auth/action';
+import { checkAuth } from '@/reducers/auth/action';
 
 require('@/services/root');
 
@@ -31,18 +31,11 @@ class Root extends React.Component {
       );
     }
 
-    if (!auth.logged) {
-      logout();
-      window.location.assign(process.env.userUrl + '/login?redirect=' + process.env.portalUrl);
-    } else {
-      return (
-        <ConnectedRouter {...props} history={history}>
-          <Router auth={auth} />
-        </ConnectedRouter>
-      );
-    }
-
-    return <Loading />;
+    return (
+      <ConnectedRouter {...props} history={history}>
+        <Router auth={auth} />
+      </ConnectedRouter>
+    );
   }
 }
 

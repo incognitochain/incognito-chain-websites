@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { getDCB, getCB, getGOV } from '@/reducers/constant/action';
+import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
+import {getDCB, getCB, getGOV} from '@/reducers/constant/action';
 
 
 class Info extends React.Component {
@@ -36,19 +36,19 @@ class Info extends React.Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.dcb.updatedAt !== prevState.dcb.updatedAt) {
-      return { dcb: nextProps.dcb };
+      return {dcb: nextProps.dcb};
     }
     if (nextProps.cb.updatedAt !== prevState.cb.updatedAt) {
-      return { cb: nextProps.cb };
+      return {cb: nextProps.cb};
     }
     if (nextProps.gov.updatedAt !== prevState.gov.updatedAt) {
-      return { gov: nextProps.gov };
+      return {gov: nextProps.gov};
     }
     return null;
   }
 
   render() {
-    const { dcb, cb, gov } = this.state;
+    const {dcb, cb, gov} = this.state;
 
     return (
       <div className="c-explorer-page c-explorer-page-tx">
@@ -64,7 +64,7 @@ class Info extends React.Component {
             </div>
             <div className="col-12">
               <div className="block content">
-                <div className="block-heading">DCB</div>
+                <div className="block-heading">Decentralized Central Bank Committee</div>
                 <div className="row">
                   <div className="col-12">
                     <table className="c-table">
@@ -86,7 +86,7 @@ class Info extends React.Component {
             </div>
             <div className="col-12">
               <div className="block content">
-                <div className="block-heading">GOV</div>
+                <div className="block-heading">Government Committee</div>
                 <div className="row">
                   <div className="col-12">
                     <table className="c-table">
@@ -97,7 +97,7 @@ class Info extends React.Component {
                             <td>{b}</td>
                           </tr>)
                           : <tr>
-                            <td>Comming soon</td>
+                            <td>Empty</td>
                           </tr>
                       }
                       </tbody>
@@ -106,9 +106,9 @@ class Info extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="col-12">
+            {/*<div className="col-12">
               <div className="block content">
-                <div className="block-heading">CB</div>
+                <div className="block-heading">Commercial Bank</div>
                 <div className="row">
                   <div className="col-12">
                     <table className="c-table">
@@ -127,7 +127,7 @@ class Info extends React.Component {
                   </div>
                 </div>
               </div>
-            </div>
+            </div>*/}
           </div>
         </div>
       </div>

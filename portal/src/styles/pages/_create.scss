@@ -31,9 +31,11 @@
       font-size: 14px;
     }
     margin: 58px auto;
-    padding: 90px 86px;
     background-color: #fff;
     border-radius: 4px;
+    @media screen and (min-width: 768px){
+      padding: 90px 86px;
+    }
     @extend .c-shadow-200;
     .input-container {
       margin-top: 40px;
@@ -84,13 +86,10 @@
       &.input-container-first {
         > div:not(:last-of-type) {
           .input {
-            border-right: 1px solid $disabled;
+            @media screen and (min-width: 992px){
+              border-right: 1px solid $disabled;
+            }
           }
-        }
-      }
-      &:not(.input-container-first) {
-        .input-of-create {
-          width: 90%;
         }
       }
     }
@@ -103,7 +102,6 @@
       > div {
         line-height: 2em;
         font-size: 1.3em;
-        width: 90%;
       }
       input {
         height: inherit !important;

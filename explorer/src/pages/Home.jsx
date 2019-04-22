@@ -184,7 +184,7 @@ class Home extends React.Component {
             </div>
             <div className="col-12">
               <div className="block content">
-                <Link to="/info">Blockchain advance information - GOV, DCB, CB</Link>
+                <Link to="/info">Blockchain Advance Information </Link>
               </div>
             </div>
             <div className="col-12">
@@ -238,7 +238,8 @@ class Home extends React.Component {
                             <td><Link to={`/block/${bestBlocks[key].Hash}`}
                                       className="c-hash">{formatHashStr(bestBlocks[key].Hash, BrowserDetect.isMobile)}</Link>
                             </td>
-                            <td className="right"><Link to={`/chain/${parseInt(key, 10) + 1}`}>{parseInt(key, 10) + 1}</Link></td>
+                            <td className="right"><Link
+                              to={`/chain/${parseInt(key, 10) + 1}`}>{parseInt(key, 10) + 1}</Link></td>
                             <td className="right"><Link to={`/block/${bestBlocks[key].Hash}`}
                                                         className="c-hash">{formatBlocksHeight(bestBlocks[key].Height)}</Link>
                             </td>
