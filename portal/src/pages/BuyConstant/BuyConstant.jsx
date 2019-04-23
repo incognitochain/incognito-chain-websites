@@ -116,14 +116,14 @@ class BuyConstant extends React.Component {
       <section >
         <div className="container">
           <div className="row" style={{ marginBottom: '24px' }}>
-            <div className="col-12 col-md-6 col-lg-8">
+            <div className="col-12 col-lg-8 order-2 order-lg-1 my-3">
               <div className="c-card h-100">
                 <div className="hello">
                   Buy Constant
                 </div>
                 <div className="row stats-container" style={{display: "flex", justifyContent: "center"}}>
 
-                  <div className="col-12 col-lg-3 stats">
+                  <div className="col-12 col-sm-6 col-md-3 stats">
                     <div className="value">
                       { TotalReservesSuccess.usd || 0}
                       &nbsp;
@@ -134,10 +134,10 @@ class BuyConstant extends React.Component {
                       &nbsp;
                       <sup>by ETH</sup>
                     </div>
-                    <div>Success</div>
+                    <div className="text-truncate">Success</div>
                   </div>
 
-                  <div className="col-12 col-lg-3 stats">
+                  <div className="col-12 col-sm-6 col-md-3 stats">
                     <div className="value">
                       { TotalReservesFailed.usd || 0}
                       &nbsp;
@@ -148,10 +148,10 @@ class BuyConstant extends React.Component {
                       &nbsp;
                       <sup>by ETH</sup>
                     </div>
-                    <div>Failed</div>
+                    <div className="text-truncate">Failed</div>
                   </div>
 
-                  <div className="col-12 col-lg-3 stats">
+                  <div className="col-12 col-sm-6 col-md-3 stats">
                     <div className="value">
                       { TotalAmountSuccess.usd || 0}
                       &nbsp;
@@ -162,10 +162,10 @@ class BuyConstant extends React.Component {
                       &nbsp;
                       <sup>ETH</sup>
                     </div>
-                    <div>Amount Success</div>
+                    <div className="text-truncate">Amount Success</div>
                   </div>
 
-                  <div className="col-12 col-lg-3 stats">
+                  <div className="col-12 col-sm-6 col-md-3 stats">
                     <div className="value">
                       { TotalAmountFailed.usd || 0}
                       &nbsp;
@@ -176,14 +176,14 @@ class BuyConstant extends React.Component {
                       &nbsp;
                       <sup>ETH</sup>
                     </div>
-                    <div>Amount Failed</div>
+                    <div className="text-truncate">Amount Failed</div>
                   </div>
 
                 </div>
               </div>
             </div>
 
-            <div className="col-12 col-md-6 col-lg-4">
+            <div className="col-12 col-lg-4 order-1 order-lg-2 my-3">
               <div className="c-card h-100 d-flex justify-content-around">
                 <FormControl component="fieldset" style={{width: "100%"}} >
                   <div className="title">ENTER AMOUNT</div>
