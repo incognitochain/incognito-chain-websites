@@ -59,12 +59,14 @@ class TxsPending extends React.Component {
                   <thead>
                   <tr>
                     <th>Tx hash</th>
+                    <th>Lock time</th>
                   </tr>
                   </thead>
                   <tbody>
                   {mempool.info.ListTxs.length ? mempool.info.ListTxs.map(tx => (
                     <tr>
-                      <td className="c-hash">{formatHashStr(tx, BrowserDetect.isMobile)}</td>
+                      <td className="c-hash">{formatHashStr(tx.TxID, BrowserDetect.isMobile)}</td>
+                      <td className="c-hash">{new Date(tx.LockTime * 1000)}</td>
                     </tr>
                   )) : <tr>
                     <td style={{textAlign: 'center'}}>Empty</td>
