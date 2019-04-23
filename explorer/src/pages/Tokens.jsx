@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {getTokens, getPrivacyTokens} from '@/reducers/constant/action';
-import Identicon from 'identicon.js';
 import Avatar from '@material-ui/core/Avatar';
 import {formatTokenAmount} from "../services/formatter";
 
@@ -36,13 +35,6 @@ class Tokens extends React.Component {
       return temp;
     }
     return null;
-  }
-
-  getTokenImage(tokenId) {
-    // create a base64 encoded PNG
-    let data = new Identicon(tokenId, 70).toString();
-
-    return 'data:image/png;base64,' + data;
   }
 
   render() {
@@ -89,7 +81,7 @@ class Tokens extends React.Component {
                     {tokens.list.length ? tokens.list.map(token => (
                       <tr key={token.ID}>
                         <td className="c-hash"><Link to={`/token/${token.ID}`}><Avatar alt="avatar"
-                                                                                       src={this.getTokenImage(token.ID)}/></Link>
+                                                                                       src={token.Image}/></Link>
                         </td>
                         <td className="c-hash">{token.Name}</td>
                         <td className="c-hash">{token.Symbol}</td>
