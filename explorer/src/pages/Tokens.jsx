@@ -40,7 +40,7 @@ class Tokens extends React.Component {
 
   getTokenImage(tokenId) {
     // create a base64 encoded PNG
-    let data = new Identicon(tokenId, 420).toString();
+    let data = new Identicon(tokenId, 70).toString();
 
     return 'data:image/png;base64,' + data;
   }
