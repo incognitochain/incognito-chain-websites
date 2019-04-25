@@ -7,6 +7,8 @@ import _ from "lodash";
 import {} from "./CrowdsaleHistoryList";
 import {CrowdsaleHistoryList} from "./CrowdsaleHistoryList";
 import {CrowdsaleTransactions} from "./CrowdsaleTransactions";
+import LayoutWrapper from "@ui/utility/layoutWrapper.js";
+import "./CrowdSaleHistory.scss"
 
 function initState() {
   return {
@@ -145,7 +147,7 @@ const CrowdsaleHistory = () => {
   }
 
   return (
-    <>
+    <div>
       <BreadcrumbBar
         urls={[
           {
@@ -158,20 +160,22 @@ const CrowdsaleHistory = () => {
           }
         ]}
       />
-      <Wrapper>
-        <CrowdsaleHistoryList
-          tokens={state.tokens}
-          onClickItem={id =>
-            dispatch({type: "SELECT_TOKEN", selectedTokenId: id})
-          }
-          selectedTokenId={state.selectedTokenId}
-        />
-        <div style={{width: 20}}/>
-        <CrowdsaleTransactions
-          transactions={state.groupedTransactions[state.selectedTokenId]}
-        />
-      </Wrapper>
-    </>
+      <LayoutWrapper>
+        <div className={"wrapperBondHistory"}>
+          <CrowdsaleHistoryList
+            tokens={state.tokens}
+            onClickItem={id =>
+              dispatch({type: "SELECT_TOKEN", selectedTokenId: id})
+            }
+            selectedTokenId={state.selectedTokenId}
+          />
+          <div style={{width: 20}}/>
+          <CrowdsaleTransactions
+            transactions={state.groupedTransactions[state.selectedTokenId]}
+          />
+        </div>
+      </LayoutWrapper>
+    </div>
   );
 };
 export default CrowdsaleHistory;

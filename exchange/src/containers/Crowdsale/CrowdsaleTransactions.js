@@ -1,41 +1,44 @@
 import React from "react";
 import styled from "styled-components";
+import Box from "@ui/utility/box";
+import BoxTitle from '@ui/utility/boxTitle';
 
-export const CrowdsaleTransactions = ({ transactions = [] }) => {
+export const CrowdsaleTransactions = ({transactions = []}) => {
   return (
-    <Wrapper>
-      <Title>Transactions</Title>
+    <div className="wrapperHistoryList">
+      <Box title="Related Transactions">
 
-      {transactions.map(transaction => {
-        return (
-          <Transaction key={transaction.ID}>
-            <Field>
-              <Label>TxID</Label>
-              <Value>
-                <a
-                  href={`${process.env.explorerUrl}/tx/${transaction.TxID}`}
-                >
-                  {transaction.TxID}
-                </a>
-              </Value>
-            </Field>
-            <Field>
-              <Label>Type</Label>
-              <Value>{transaction.Side}</Value>
-            </Field>
+        {transactions.map(transaction => {
+          return (
+            <Transaction key={transaction.ID}>
+              <Field>
+                <Label>TxID</Label>
+                <Value>
+                  <a
+                    href={`${process.env.explorerUrl}/tx/${transaction.TxID}`}
+                  >
+                    {transaction.TxID}
+                  </a>
+                </Value>
+              </Field>
+              <Field>
+                <Label>Type</Label>
+                <Value>{transaction.Side}</Value>
+              </Field>
 
-            <Field>
-              <Label>Amount</Label>
-              <Value>{transaction.Amount}</Value>
-            </Field>
-            <Field>
-              <Label>Price Limit</Label>
-              <Value>{transaction.PriceLimit}</Value>
-            </Field>
-          </Transaction>
-        );
-      })}
-    </Wrapper>
+              <Field>
+                <Label>Amount</Label>
+                <Value>{transaction.Amount}</Value>
+              </Field>
+              <Field>
+                <Label>Price Limit</Label>
+                <Value>{transaction.PriceLimit}</Value>
+              </Field>
+            </Transaction>
+          );
+        })}
+      </Box>
+    </div>
   );
 };
 

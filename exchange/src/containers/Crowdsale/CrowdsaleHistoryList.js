@@ -2,39 +2,42 @@ import React from "react";
 import styled from "styled-components";
 import cls from "classnames";
 import _ from "lodash";
-import { Tooltip } from "antd";
+import {Tooltip} from "antd";
+import Box from "@ui/utility/box";
+import BoxTitle from '@ui/utility/boxTitle';
 
 export function CrowdsaleHistoryList({
-  tokens = [],
-  onClickItem,
-  selectedTokenId
-}) {
+                                       tokens = [],
+                                       onClickItem,
+                                       selectedTokenId
+                                     }) {
   return (
-    <Wrapper>
-      <Title>Bond List</Title>
-      {tokens.map(token => {
-        const isSelected = token.id === selectedTokenId;
-        return (
-          <ItemWrapper
-            key={token.id}
-            className={cls({ isSelected })}
-            onClick={() => {
-              !isSelected && onClickItem(token.id);
-            }}
-          >
-            <Left>
-              <img alt="token-icon" src={token.image} />
-            </Left>
-            <Right>
-              <Text>{token.name}</Text>
-              <Tooltip placement="bottom" title={token.id}>
-                <Text>{(token.id || "...").slice(0, 6)}</Text>
-              </Tooltip>
-            </Right>
-          </ItemWrapper>
-        );
-      })}
-    </Wrapper>
+    <div className="wrapperBondList">
+      <Box title={"List Bought Bond"}>
+        {tokens.map(token => {
+          const isSelected = token.id === selectedTokenId;
+          return (
+            <ItemWrapper
+              key={token.id}
+              className={cls({isSelected})}
+              onClick={() => {
+                !isSelected && onClickItem(token.id);
+              }}
+            >
+              <Left>
+                <img alt="token-icon" src={token.image}/>
+              </Left>
+              <Right>
+                <Text>{token.name}</Text>
+                <Tooltip placement="bottom" title={token.id}>
+                  <Text>{(token.id || "...").slice(0, 6)}</Text>
+                </Tooltip>
+              </Right>
+            </ItemWrapper>
+          );
+        })}
+      </Box>
+    </div>
   );
 }
 

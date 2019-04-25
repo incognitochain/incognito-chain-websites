@@ -4,10 +4,10 @@ import PageHeader from "@ui/utility/pageHeader";
 import IntlMessages from "@ui/utility/intlMessages";
 import axios from "axios";
 import _ from "lodash";
-import { notification, Table } from "antd";
+import {notification, Table} from "antd";
 import Button from "@ui/uielements/button";
-import { BuyModal } from "./BuyModal";
-import { SellModal } from "./SellModal";
+import {BuyModal} from "./BuyModal";
+import {SellModal} from "./SellModal";
 import BreadcrumbBar from "@/containers/Breadcrumb/Breadcrumb";
 
 const renderIf = cond => comp => (cond ? comp : null);
@@ -90,7 +90,7 @@ export default function Crowdsale() {
   }, []);
 
   async function loadCrowdsales() {
-    dispatch({ type: "LOAD_CROWDSALES" });
+    dispatch({type: "LOAD_CROWDSALES"});
 
     try {
       const [
@@ -164,7 +164,7 @@ export default function Crowdsale() {
         ]}
       />
       <Wrapper>
-        <PageHeader>{<IntlMessages id="Crowdsale.PageHeader" />}</PageHeader>
+        <PageHeader>{<IntlMessages id="Crowdsale.PageHeader"/>}</PageHeader>
         <TableWrapper>
           {renderIf(!state.isLoading && state.crowdsales.length)(
             <Table
@@ -174,7 +174,7 @@ export default function Crowdsale() {
                   key: "Asset",
                   render: (_, record) => {
                     return (
-                      <div style={{ color: mapTypeToTextColor[record.Type] }}>
+                      <div style={{color: mapTypeToTextColor[record.Type]}}>
                         {record.Type === "buyable"
                           ? record.SellingAssetLabel
                           : record.BuyingAssetLabel}
@@ -191,7 +191,7 @@ export default function Crowdsale() {
                   },
                   sortDirections: ["descend", "ascend"],
                   render: (text, record) => (
-                    <div style={{ color: mapTypeToTextColor[record.Type] }}>
+                    <div style={{color: mapTypeToTextColor[record.Type]}}>
                       {text}
                     </div>
                   )
@@ -205,7 +205,7 @@ export default function Crowdsale() {
                   },
                   sortDirections: ["descend", "ascend"],
                   render: (text, record) => (
-                    <div style={{ color: mapTypeToTextColor[record.Type] }}>
+                    <div style={{color: mapTypeToTextColor[record.Type]}}>
                       {text}
                     </div>
                   )
@@ -245,20 +245,20 @@ export default function Crowdsale() {
             />
           )}
           {renderIf(!state.isLoading && !state.crowdsales.length)(
-            <p style={{ textAlign: "center", }}>
-              <IntlMessages id="Crowdsale.DataNotFound" />
+            <p style={{textAlign: "center",}}>
+              <IntlMessages id="Crowdsale.DataNotFound"/>
             </p>
           )}
         </TableWrapper>
         <BuyModal
           isShow={state.isShowBuyModal}
-          onClose={() => dispatch({ type: "CLOSE_BUY_MODAL" })}
+          onClose={() => dispatch({type: "CLOSE_BUY_MODAL"})}
           record={state.crowdsales[state.recordIndex]}
           loadCrowdsales={loadCrowdsales}
         />
         <SellModal
           isShow={state.isShowSellModal}
-          onClose={() => dispatch({ type: "CLOSE_SELL_MODAL" })}
+          onClose={() => dispatch({type: "CLOSE_SELL_MODAL"})}
           record={state.crowdsales[state.recordIndex]}
           loadCrowdsales={loadCrowdsales}
         />
