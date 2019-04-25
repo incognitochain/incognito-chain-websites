@@ -1,74 +1,95 @@
 .wrapperBondHistory {
-    display: flex;
-    flex: 1;
-    .wrapperBondList {
-        width: 30%;
-    }
-    .wrapperHistoryList {
-        width: 70%;
-        margin-left: 20px;
-    }
+  display: flex;
+  flex: 1;
+
+  .wrapperBondList {
+    width: 30%;
+  }
+
+  .wrapperHistoryList {
+    width: 70%;
+    margin-left: 20px;
+  }
 }
+
 .HistoryList {
-    .wrapperHistoryItem {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: (10px 0);
-
-    }
-    .wrapperDetail {
-       // display: flex;
-       width: 100%;
-    }
-    .title {
-        width: 125px;
-        color: #212c61;
-        display: inline-block; 
-    }
-    .TxID {
-        color: #5872f5;
-        white-space: nowrap;      /*keep text on one line */
-        overflow: hidden;         /*prevent text from being shown outside the border */
-        text-overflow: ellipsis;
-    }
-    .TokenID {
-        color: #2c3d8f;
-        text-overflow: ellipsis;
-        overflow: hidden;         /*prevent text from being shown outside the border */
-        white-space: nowrap;      /*keep text on one line */
-
-
-    }
-    .from {
-        color: #b8bccc;
-    }
-}
-.wrapperBond {
+  .wrapperHistoryItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding: (10px 0);
 
+  }
+
+  .wrapperDetail {
+    // display: flex;
+    width: 100%;
+  }
+
+  .title {
+    width: 125px;
+    color: #212c61;
+    display: inline-block;
+  }
+
+  .TxID {
+    color: #5872f5;
+    white-space: nowrap; /*keep text on one line */
+    overflow: hidden; /*prevent text from being shown outside the border */
+    text-overflow: ellipsis;
+  }
+
+  .TokenID {
+    color: #2c3d8f;
+    text-overflow: ellipsis;
+    overflow: hidden; /*prevent text from being shown outside the border */
+    white-space: nowrap; /*keep text on one line */
+
+
+  }
+
+  .from {
+    color: #b8bccc;
+  }
+}
+
+.wrapperBond {
+  padding: (10px 0);
+
+}
+
+.wrapperBond:hover {
+  background-color: #EDEDED;
+}
+
+.wrapperSelectedBond {
+  background-color: #EEE;
 }
 
 .wrapperBondItem {
-    display: flex;
-    .historyName {
-        word-wrap: break-word;
-        color: #212c61;
-    }
-    .totalAmount {
-        color: #838aa6;
-    }
-    .buyBackAvailable {
-        color: #838aa6;
-    }
-    .detail {
-        margin: (0 10px);
-    }
+  display: flex;
+
+  .historyName {
+    word-wrap: break-word;
+    color: #212c61;
+  }
+
+  .totalAmount {
+    color: #838aa6;
+  }
+
+  .buyBackAvailable {
+    color: #838aa6;
+  }
+
+  .detail {
+    margin: (0 10px);
+  }
 
 }
 
 .line {
-    padding: (0 20px);
-    border: solid 0.5px #ebeffa;
-    margin-top: 20px;
+  padding: (0 20px);
+  border: solid 0.5px #ebeffa;
+  margin-top: 20px;
 }
