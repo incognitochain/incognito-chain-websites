@@ -8,14 +8,14 @@ const MenuItemGroup = Menu.ItemGroup;
 class MainMenu extends Component {
   render() {
     return (
-      <div style={{zIndex: 10000, position: 'fixed', top: '50px', width: '100%'}}>
+      <div style={{zIndex: 1000, position: 'fixed', top: '50px', width: '100%'}}>
         <Menu mode={"horizontal"}>
-          <SubMenu title={"Exchange"}>
+          <SubMenu title={<span><i className={"ion-android-apps"} style={{fontSize: '1.1rem', marginRight: '0.5rem'}}/>Exchange</span>}>
             <Menu.Item>
               <a href="/exchange/CONSTANT-GOVTOKEN">Basic</a>
             </Menu.Item>
           </SubMenu>
-          <SubMenu title={"Bond Market"}>
+          <SubMenu title={<span><i className={".ion-ios-at-outline"} style={{fontSize: '1.1rem', marginRight: '0.5rem'}}/>Bond Market</span>}>
             <Menu.Item>
               <a href="/bond-market">Buy Back Bond by GOV</a>
             </Menu.Item>
