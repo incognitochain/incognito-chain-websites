@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { palette } from "styled-theme";
+import {palette} from "styled-theme";
 
 const AppHolder = styled.div`
   .trigger {
@@ -39,7 +39,11 @@ const AppHolder = styled.div`
       }
     }
   }
-
+   
+  .isoComponentTitle {
+    width: 100%;
+    text-align: center;
+  }
   .isoLayoutContent {
     width: 100%;
     padding: 2rem;

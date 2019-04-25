@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import IntlMessages from '@ui/utility/intlMessages';
 import {
   DateCell,
+  DateTimeCell,
   ImageCell,
   LinkCell,
   TextCell,
@@ -17,6 +18,8 @@ const renderCell = (object, type, key) => {
       return ImageCell(value);
     case 'DateCell':
       return DateCell(value);
+    case 'DateTimeCell':
+      return DateTimeCell(value);
     case 'LinkCell':
       return LinkCell(value);
     case 'NumberCell':
@@ -48,12 +51,12 @@ const columns = [
     key: 'Time',
     className: 'text-right',
     width: 100,
-    render: obj => renderCell(obj, 'TimeCell', 'Time')
+    render: obj => renderCell(obj, 'DateTimeCell', 'Time')
   }
 ];
 
 export default class extends Component {
-  
+
   render() {
     const dataSource = this.props.dataSource || this.props.dataList.getAll();
     //const columns = this.props.columns || this.props.tableInfo.columns;
