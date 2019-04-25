@@ -20,7 +20,7 @@ class MainMenu extends Component {
             </Menu.Item>
           </SubMenu>
           <SubMenu
-            title={<span><i className={"ion-android-apps"} style={{fontSize: '1.1rem', marginRight: '0.5rem'}}/>Exchange</span>}>
+            title={<span><i className={"ion-android-apps"} style={{fontSize: '1.1rem', marginRight: '0.5rem'}}/>Market</span>}>
             <Menu.Item>
               <a href="/exchange/CONSTANT-GOVTOKEN">Basic</a>
             </Menu.Item>

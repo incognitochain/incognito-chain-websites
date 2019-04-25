@@ -230,7 +230,7 @@ class Sidebar extends Component {
                     <Menu.Item>
                       <a href={`${process.env.portalUrl}`}>
                         <span className="isoMenuHolder" style={submenuColor}>
-                          <span className="nav-text">Exchange</span>
+                          <span className="nav-text">Market</span>
                         </span>
                       </a>
                     </Menu.Item>
