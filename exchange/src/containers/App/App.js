@@ -1,28 +1,29 @@
 import React from "react";
-import { connect } from "react-redux";
-import { Layout, LocaleProvider } from "antd";
-import { IntlProvider } from "react-intl";
-import { ThemeProvider } from "styled-components";
+import {connect} from "react-redux";
+import {Layout, LocaleProvider} from "antd";
+import {IntlProvider} from "react-intl";
+import {ThemeProvider} from "styled-components";
 import Topbar from "../Topbar/Topbar";
 import AppRouter from "./AppRouter";
-import { siteConfig } from "../../settings";
+import {siteConfig} from "../../settings";
 import themes from "@/settings/themes";
-import { themeConfig } from "../../settings";
+import {themeConfig} from "../../settings";
 import AppHolder from "./commonStyle";
-import { AppLocale } from "../../dashApp";
+import {AppLocale} from "../../dashApp";
 import "./global.css";
-import { withRouter } from "react-router-dom";
-import { compose } from "redux";
+import {withRouter} from "react-router-dom";
+import {compose} from "redux";
 import authActions from "../../redux/auth/actions";
 import axios from "axios";
 import auth from "@ui/auth";
+import MainMenu from "../Sidebar/MainMenu";
 
-const { Content, Footer } = Layout;
+const {Content, Footer} = Layout;
 const customizedTheme = themes[themeConfig.theme];
 
 export function App(props) {
-  const { url } = props.match;
-  const { locale } = props;
+  const {url} = props.match;
+  const {locale} = props;
   const currentAppLocale = AppLocale[locale];
 
   React.useEffect(() => {
@@ -49,21 +50,21 @@ export function App(props) {
       >
         <ThemeProvider theme={themes[themeConfig.theme]}>
           <AppHolder>
-            <Layout style={{ height: "100vh" }}>
-              <Topbar url={url} />
-
-              <Layout style={{ flexDirection: "row", overflowX: "hidden" }}>
+            <Layout style={{height: "100vh"}}>
+              <Topbar url={url}/>
+              <MainMenu></MainMenu>
+              <Layout style={{flexDirection: "row", overflowX: "hidden", marginTop: "50px"}}>
                 <Layout
                   className="isoContentMainLayout"
-                  style={{ height: "100vh" }}
+                  style={{height: "100vh"}}
                 >
                   <Content
                     className="isomorphicContent"
-                    style={{ ...customizedTheme.content }}
+                    style={{...customizedTheme.content}}
                   >
-                    <AppRouter url={url} />
+                    <AppRouter url={url}/>
                   </Content>
-                  <Footer style={{ ...customizedTheme.footer }}>
+                  <Footer style={{...customizedTheme.footer}}>
                     {siteConfig.footerText}
                   </Footer>
                 </Layout>
