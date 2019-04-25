@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import Box from "@ui/utility/box";
-
+import BoxTitle from '@ui/utility/boxTitle';
 import LayoutWrapper from "@ui/utility/layoutWrapper.js";
 import BreadcrumbBar from "@/containers/Breadcrumb/Breadcrumb";
 import HistoryList from "@/containers/BondMarket/tableViews/HistoryList";
@@ -21,7 +21,7 @@ import Loader from "@ui/utility/loader";
 
 import "./BondHistory.scss";
 
-const dataTest = {
+/*const dataTest = {
   BondBuysHistory: {
     abddjflksjdflksdjflsdjflsdjfsdk: {
       TotalAmount: 100,
@@ -60,7 +60,7 @@ const dataTest = {
       ]
     }
   }
-};
+};*/
 
 const successBuy = () => {
   const msg = "Buy success!"; //<IntlMessages id="Wallet.SymbolCode" />;
@@ -97,7 +97,7 @@ export default class BondHistory extends Component {
   async getData() {
     this.setState({loading: true});
     let result = await bondmarket.getHistoryList();
-    result = dataTest;
+    // result = dataTest;
     if (!result.error) {
       const {BondBuysHistory = {}} = result;
       if (BondBuysHistory) {
@@ -183,8 +183,9 @@ export default class BondHistory extends Component {
     const {bondList, selectedKey} = this.state;
     return (
       <div className="wrapperBondList">
-        <Box title="Bond List">
+        <Box title={"List Bought Bond"}>
           <BondList list={bondList} onSelectBond={this.handleOnBondClick} selectedKey={selectedKey}/>
+          <BoxTitle subtitle={bondList.length + " bonds"}></BoxTitle>
         </Box>
       </div>
     );
@@ -194,14 +195,17 @@ export default class BondHistory extends Component {
     const {selectedBondItem} = this.state;
     return (
       <div className="wrapperHistoryList">
-        <Box title="Transaction">
-          {selectedBondItem && (
+        <Box title="Related Transactions">
+          {selectedBondItem && selectedBondItem.length > 0 ? (
             <HistoryList
               list={selectedBondItem.BondBuys}
               onBuyBack={this.handleBuyBack}
               onClickDetail={this.handleOnHistoryItem}
             />
-          )}
+          ) : <div>
+            <div><span>No data</span></div>
+            <div><a href={"/bond-market"}>Back to Bond Market</a></div>
+          </div>}
         </Box>
       </div>
     );

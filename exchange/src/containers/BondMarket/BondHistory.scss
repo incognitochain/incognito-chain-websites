@@ -55,11 +55,10 @@
 
 .wrapperBond {
   padding: (10px 0);
-
 }
 
-.wrapperBond:hover {
-  background-color: #EDEDED;
+.wrapperBond:not(.wrapperSelectedBond):hover {
+  background-color: #DDD;
 }
 
 .wrapperSelectedBond {

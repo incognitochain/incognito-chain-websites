@@ -15,12 +15,12 @@ export default class BondList extends Component {
     const {list, onSelectBond, selectedKey} = this.props;
     return (
       <div className="BondList">
-        {list.map((item, index) =>
+        {list && list.length > 0 ? list.map((item, index) =>
           (
             <BondItem key={index} name={item.name} item={item} onSelectBond={onSelectBond}
                       defaultSelected={item.name == selectedKey ? true : false}/>
           )
-        )}
+        ) : "No data"}
       </div>
     );
   }
