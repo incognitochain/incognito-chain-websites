@@ -169,7 +169,6 @@ const CrowdsaleHistory = () => {
             }
             selectedTokenId={state.selectedTokenId}
           />
-          <div style={{width: 20}}/>
           <CrowdsaleTransactions
             transactions={state.groupedTransactions[state.selectedTokenId]}
           />
