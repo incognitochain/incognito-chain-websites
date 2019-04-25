@@ -472,6 +472,7 @@
   "Exchange.FillOrder.Price": "Price",
   "Exchange.FillOrder.Fee": "Fee",
   "Exchange.FillOrder.Time": "Time",
+  "Exchange.SymbolChart": "Chart",
   "Exchange.OrderForm": "Order Form",
   "Exchange.OrderForm.Price": "Price",
   "Exchange.OrderForm.Amount": "Amount",
