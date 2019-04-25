@@ -1,5 +1,5 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import {Route} from "react-router-dom";
 import asyncComponent from "../../helpers/AsyncFunc";
 
 const AppRouter = () => {
@@ -32,14 +32,14 @@ const AppRouter = () => {
         exact
         path={"/crowdsale"}
         component={asyncComponent(() =>
-          import("@/containers/crowdsale/Crowdsale")
+          import("@/containers/Crowdsale/Crowdsale")
         )}
       />
       <Route
         exact
         path="/crowdsale/history"
         component={asyncComponent(() =>
-          import("@/containers/crowdsale/CrowdsaleHistory")
+          import("@/containers/Crowdsale/CrowdsaleHistory")
         )}
       />
     </>
