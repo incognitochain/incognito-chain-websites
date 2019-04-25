@@ -14,7 +14,7 @@ export function CrowdsaleHistoryList({
   return (
     <div className="wrapperBondList">
       <Box title={"List Bought Bond"}>
-        {tokens.map(token => {
+        {tokens && tokens.length > 0 ? tokens.map(token => {
           const isSelected = token.id === selectedTokenId;
           return (
             <ItemWrapper
@@ -35,7 +35,8 @@ export function CrowdsaleHistoryList({
               </Right>
             </ItemWrapper>
           );
-        })}
+        }) : "No data"}
+        <BoxTitle subtitle={tokens.length + " bonds"}></BoxTitle>
       </Box>
     </div>
   );
