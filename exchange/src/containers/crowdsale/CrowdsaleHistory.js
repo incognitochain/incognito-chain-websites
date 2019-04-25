@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import BreadcrumbBar from "@/containers/Breadcrumb/Breadcrumb";
-import { notification } from "antd";
+import {notification} from "antd";
 import axios from "axios";
 import _ from "lodash";
 import {} from "./CrowdsaleHistoryList";
-import { CrowdsaleHistoryList } from "./CrowdsaleHistoryList";
-import { CrowdsaleTransactions } from "./CrowdsaleTransactions";
+import {CrowdsaleHistoryList} from "./CrowdsaleHistoryList";
+import {CrowdsaleTransactions} from "./CrowdsaleTransactions";
 
 function initState() {
   return {
@@ -127,20 +127,20 @@ const CrowdsaleHistory = () => {
   }, []);
 
   async function loadCrowdsaleHistory() {
-    dispatch({ type: "LOAD_HISTORY" });
+    dispatch({type: "LOAD_HISTORY"});
     try {
-      const response = await axios.get(
-        `${process.env.serviceAPI}/bond-market/dcb/crowdsales_histories`
-      );
-      // const response = { data: { Result: testData } };
+      // const response = await axios.get(
+      //   `${process.env.serviceAPI}/bond-market/dcb/crowdsales_histories`
+      // );
+      const response = {data: {Result: testData}};
 
       dispatch({
         type: "LOAD_HISTORY_SUCCESS",
         ...getHistoryList(_.get(response, "data.Result", []))
       });
     } catch (e) {
-      notification.error({ message: "Load Crowdsale History Fail!" });
-      dispatch({ type: "LOAD_HISTORY_FAIL" });
+      notification.error({message: "Load Crowdsale History Fail!"});
+      dispatch({type: "LOAD_HISTORY_FAIL"});
     }
   }
 
@@ -162,11 +162,11 @@ const CrowdsaleHistory = () => {
         <CrowdsaleHistoryList
           tokens={state.tokens}
           onClickItem={id =>
-            dispatch({ type: "SELECT_TOKEN", selectedTokenId: id })
+            dispatch({type: "SELECT_TOKEN", selectedTokenId: id})
           }
           selectedTokenId={state.selectedTokenId}
         />
-        <div style={{ width: 20 }} />
+        <div style={{width: 20}}/>
         <CrowdsaleTransactions
           transactions={state.groupedTransactions[state.selectedTokenId]}
         />
