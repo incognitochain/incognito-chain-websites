@@ -54,6 +54,14 @@ class TopbarUser extends Component {
     window.location.assign('/');
   }
 
+  toProfilePage() {
+    window.location.href = process.env.userUrl + "/profile";
+  }
+
+  toUserSettingPage() {
+    window.location.href = process.env.userUrl + "/setting";
+  }
+
   handleLanguageChange = () => {
     this.setState({isLang: !this.state.isLang});
   }
@@ -121,10 +129,10 @@ class TopbarUser extends Component {
   get popupLogin() {
     return (
       <TopbarDropdownWrapper className="isoUserDropdown">
-        {/*<a className="isoDropdownLink" href="/profile">
+        <a className="isoDropdownLink" onClick={this.toProfilePage}>
           Profile
-        </a>*/}
-        <a className="isoDropdownLink" href="# ">
+        </a>
+        <a className="isoDropdownLink" onClick={this.toUserSettingPage}>
           <IntlMessages id="topbar.Settings"/>
         </a>
         {/*<a className="isoDropdownLink" href="# ">
