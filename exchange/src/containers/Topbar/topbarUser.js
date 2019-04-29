@@ -121,18 +121,18 @@ class TopbarUser extends Component {
   get popupLogin() {
     return (
       <TopbarDropdownWrapper className="isoUserDropdown">
-        <a className="isoDropdownLink" href="/profile">
+        {/*<a className="isoDropdownLink" href="/profile">
           Profile
-        </a>
+        </a>*/}
         <a className="isoDropdownLink" href="# ">
           <IntlMessages id="topbar.Settings"/>
         </a>
-        <a className="isoDropdownLink" href="# ">
+        {/*<a className="isoDropdownLink" href="# ">
           <IntlMessages id="topbar.Feedback"/>
-        </a>
-        <a className="isoDropdownLink" href="# ">
+        </a>*/}
+        {/*<a className="isoDropdownLink" href="# ">
           <IntlMessages id="topbar.Help"/>
-        </a>
+        </a>*/}
         <Popconfirm
           placement="bottomRight"
           title="Are you sure to logout？"
