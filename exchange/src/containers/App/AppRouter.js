@@ -1,5 +1,5 @@
 import React from "react";
-import {Route} from "react-router-dom";
+import {Route, Redirect} from "react-router-dom";
 import asyncComponent from "../../helpers/AsyncFunc";
 
 const AppRouter = () => {
@@ -8,6 +8,14 @@ const AppRouter = () => {
       <Route
         exact
         path={"/"}
+        component={asyncComponent(() =>
+          import("@/containers/BondMarket/BondMarket")
+        )}
+      >
+      </Route>
+      <Route
+        exact
+        path={"/market"}
         component={asyncComponent(() => import("@/containers/Market"))}
       />
       <Route
