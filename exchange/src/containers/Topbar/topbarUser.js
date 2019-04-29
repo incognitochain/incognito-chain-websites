@@ -34,6 +34,7 @@ class TopbarUser extends Component {
   }
 
   componentDidMount() {
+    console.log("auth", auth)
     this.setState({auth: auth.isLogged()});
   }
 
