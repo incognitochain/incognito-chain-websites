@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import userpic from '@/image/user1.png';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import Popover from '@ui/uielements/popover';
 import IntlMessages from '@ui/utility/intlMessages';
 import authAction from '../../redux/auth/actions';
 import TopbarDropdownWrapper from './topbarDropdown.style';
-import TopbarUserWrapper, { PopconfirmWrapper } from './topbarUser.style';
+import TopbarUserWrapper, {PopconfirmWrapper} from './topbarUser.style';
 import Button from '@ui/uielements/button';
 import actions from '@/redux/languageSwitcher/actions';
 import config from './language.config';
@@ -13,8 +13,8 @@ import auth from '@ui/auth';
 import Cookies from 'js-cookie';
 import Popconfirms from '@ui/feedback/popconfirm';
 
-const { logout } = authAction;
-const { changeLanguage } = actions;
+const {logout} = authAction;
+const {changeLanguage} = actions;
 
 const Popconfirm = props => (
   <PopconfirmWrapper>
@@ -33,45 +33,45 @@ class TopbarUser extends Component {
     };
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.setState({auth: auth.isLogged()});
   }
 
   hide() {
-    this.setState({ isLang: false, isLogged: false });
+    this.setState({isLang: false, isLogged: false});
   }
 
-  onSignin(){
+  onSignin() {
     window.location.href = process.env.userUrl;
   }
 
-  onSignup(){
+  onSignup() {
     window.location.href = process.env.userUrl + '/register';
   }
 
-  onLogout(){
-    Cookies.remove('user', { domain: process.env.domain, path: '/' });
+  onLogout() {
+    Cookies.remove('user', {domain: process.env.domain, path: '/'});
     window.location.assign('/');
   }
 
   handleLanguageChange = () => {
-    this.setState({ isLang: !this.state.isLang });
+    this.setState({isLang: !this.state.isLang});
   }
 
-  get login(){
+  get login() {
 
     return <TopbarUserWrapper>
       <Popover
         content={this.popupLogin}
         trigger="click"
         visible={this.state.isLogged}
-        onVisibleChange={() => this.setState({ isLogged: !this.state.isLogged })}
+        onVisibleChange={() => this.setState({isLogged: !this.state.isLogged})}
         arrowPointAtCenter={true}
         placement="bottomLeft"
       >
         <div className="isoImgWrapper">
-          <img alt="user" src={userpic} />
-          <span className="userActivity online" />
+          <img alt="user" src={userpic}/>
+          <span className="userActivity online"/>
         </div>
       </Popover>
 
@@ -91,18 +91,18 @@ class TopbarUser extends Component {
     </TopbarUserWrapper>
   }
 
-  get unlogin(){
+  get unlogin() {
 
     return <TopbarUserWrapper>
-      <Button type="primary" className="btnSignin" onClick={this.onSignin} >
-        <IntlMessages id="topbar.Signin" />
+      <Button type="primary" className="btnSignin" onClick={this.onSignin}>
+        <IntlMessages id="topbar.Signin"/>
       </Button>
 
-      <Button type="primary" className="btnSignup" onClick={this.onSignup} >
-        <IntlMessages id="topbar.Signup" />
+      <Button type="primary" className="btnSignup" onClick={this.onSignup}>
+        <IntlMessages id="topbar.Signup"/>
       </Button>
 
-      <Popover
+      {/*<Popover
         content={this.popupLanguage}
         trigger="click"
         visible={this.state.isLang}
@@ -113,25 +113,25 @@ class TopbarUser extends Component {
         <Button type="default" className="btnLanguage" >
           <IntlMessages id="topbar.Language" />
         </Button>
-      </Popover>
+      </Popover>*/}
 
     </TopbarUserWrapper>
   }
 
-  get popupLogin(){
+  get popupLogin() {
     return (
       <TopbarDropdownWrapper className="isoUserDropdown">
         <a className="isoDropdownLink" href="/profile">
           Profile
         </a>
         <a className="isoDropdownLink" href="# ">
-          <IntlMessages id="topbar.Settings" />
+          <IntlMessages id="topbar.Settings"/>
         </a>
         <a className="isoDropdownLink" href="# ">
-          <IntlMessages id="topbar.Feedback" />
+          <IntlMessages id="topbar.Feedback"/>
         </a>
         <a className="isoDropdownLink" href="# ">
-          <IntlMessages id="topbar.Help" />
+          <IntlMessages id="topbar.Help"/>
         </a>
         <Popconfirm
           placement="bottomRight"
@@ -141,24 +141,24 @@ class TopbarUser extends Component {
           onConfirm={this.onLogout}
           //onCancel={cancel}
         >
-        <a className="isoDropdownLink" onClick={this.props.logout} href="# ">
-          <IntlMessages id="topbar.Logout" />
-        </a>
+          <a className="isoDropdownLink" onClick={this.props.logout} href="# ">
+            <IntlMessages id="topbar.Logout"/>
+          </a>
         </Popconfirm>
       </TopbarDropdownWrapper>
     );
   }
 
-  get popupLanguage(){
-    const { changeLanguage } = this.props;
+  get popupLanguage() {
+    const {changeLanguage} = this.props;
 
-    return(
+    return (
       <TopbarDropdownWrapper className="isoUserDropdown">
         {config.options.map(option => {
-          const { languageId, icon } = option;
+          const {languageId, icon} = option;
           return (
-            <a className="lnkLanguage" href="#" key={languageId} onClick={() => changeLanguage(languageId) }>
-              <img src={process.env.PUBLIC_URL + icon} alt="flag" width={24} /> {option.text}
+            <a className="lnkLanguage" href="#" key={languageId} onClick={() => changeLanguage(languageId)}>
+              <img src={process.env.PUBLIC_URL + icon} alt="flag" width={24}/> {option.text}
             </a>
           );
         })}
@@ -168,7 +168,7 @@ class TopbarUser extends Component {
   }
 
   render() {
-    const { auth } = this.state;
+    const {auth} = this.state;
 
     return (auth ? this.login : this.unlogin);
 
@@ -179,5 +179,5 @@ export default connect(
   state => ({
     ...state.TopbarUser,
   }),
-  { changeLanguage }
+  {changeLanguage}
 )(TopbarUser);
