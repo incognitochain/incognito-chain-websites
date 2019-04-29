@@ -31,11 +31,11 @@ class Social extends React.Component {
             <div className="col-12">
               <div className="title">Get social</div>
               <div className="shares">
-                <a href="https://www.facebook.com/const.money" target="_blank" rel="noopener noreferrer" className="share c-a-btn">
+                <a href="https://www.facebook.com/constantp2p" target="_blank" rel="noopener noreferrer" className="share c-a-btn">
                   <FontAwesomeIcon icon={faFacebook} color="#3b5998" />
                   Facebook
                 </a>
-                <a href="https://twitter.com/constmoney" target="_blank" rel="noopener noreferrer" className="share c-a-btn">
+                <a href="https://twitter.com/constantp2p" target="_blank" rel="noopener noreferrer" className="share c-a-btn">
                   <FontAwesomeIcon icon={faTwitter} color="#1da1f2" />
                   Twitter
                 </a>
@@ -43,7 +43,7 @@ class Social extends React.Component {
                   <FontAwesomeIcon icon={faYoutube} color="#ff0000" />
                   Youtube
                 </a>
-                <a href="https://medium.com/@constantmoney" target="_blank" rel="noopener noreferrer" className="share c-a-btn">
+                <a href="https://medium.com/@constantp2p" target="_blank" rel="noopener noreferrer" className="share c-a-btn">
                   <FontAwesomeIcon icon={faMedium} color="#00ab6c" />
                   Medium
                 </a>
