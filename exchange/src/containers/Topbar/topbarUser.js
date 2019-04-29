@@ -135,19 +135,12 @@ class TopbarUser extends Component {
         <a className="isoDropdownLink" onClick={this.toUserSettingPage}>
           <IntlMessages id="topbar.Settings"/>
         </a>
-        {/*<a className="isoDropdownLink" href="# ">
-          <IntlMessages id="topbar.Feedback"/>
-        </a>*/}
-        {/*<a className="isoDropdownLink" href="# ">
-          <IntlMessages id="topbar.Help"/>
-        </a>*/}
         <Popconfirm
           placement="bottomRight"
           title="Are you sure to logout？"
           okText="Yes"
           cancelText="No"
           onConfirm={this.onLogout}
-          //onCancel={cancel}
         >
           <a className="isoDropdownLink" onClick={this.props.logout} href="# ">
             <IntlMessages id="topbar.Logout"/>
