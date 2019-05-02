@@ -1,3 +1,16 @@
+.isoLayoutContentWrapper {
+  @media only screen and (max-device-width: 640px) {
+    overflow-x: scroll;
+  }
+}
+
+.bondImage {
+  @media only screen and (max-device-width: 640px) {
+    width: 30px !important;
+    height: 30px !important;
+  }
+}
+
 .wrapperBondHistory {
   display: flex;
   flex: 1;

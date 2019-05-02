@@ -34,7 +34,7 @@ export class BondItem extends React.Component {
           {tokenImage && <div className="image">{ImageCell(tokenImage)}</div>}
           <div className="detail">
             <Left>
-              <img alt={bondID} title={BondSymbol} src={BondImage}/>
+              <img className={"bondImage"} alt={bondID} title={BondSymbol} src={BondImage}/>
             </Left>
             <Right>
               <div className="historyName">{BondName}</div>
@@ -48,7 +48,6 @@ export class BondItem extends React.Component {
             </Right>
           </div>
         </div>
-        {/*<div className="line"/>*/}
       </div>
     );
   }
@@ -66,5 +65,8 @@ const Left = styled.div`
 
 const Right = styled.div`
   flex: 1;
-  float: right
+  float: right;
+  @media only screen and (max-device-width: 640px) {
+    float: left;
+  }
 `;
