@@ -9,6 +9,7 @@ import Button from "@ui/uielements/button";
 import {BuyModal} from "./BuyModal";
 import {SellModal} from "./SellModal";
 import BreadcrumbBar from "@/containers/Breadcrumb/Breadcrumb";
+import {formatConstantValue, formatTokenAmount} from "../../services/Formatter";
 
 const renderIf = cond => comp => (cond ? comp : null);
 
@@ -85,22 +86,26 @@ const testData = {
       "SaleID": "0100000000000000000000000000000000000000000000000000000000000000",
       "EndBlock": 1000,
       "BuyingAsset": "4c420b974449ac188c155a7029706b8419a591ee398977d00000000000000000",
-      "BuyingAmount": 100,
-      "DefaultBuyPrice": 100,
+      "BuyingAmount": 1000,
+      "Price": 200,
+      // "DefaultBuyPrice": 100,
       "SellingAsset": "0000000000000000000000000000000000000000000000000000000000000004",
-      "SellingAmount": 15000,
-      "DefaultSellPrice": 100,
+      // "SellingAmount": 15000,
+      // "DefaultSellPrice": 100,
+      "TokenImage": 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAaQAAAGkAQMAAABEgsN2AAAABlBMVEXw8PAVfiWe8geIAAAAjElEQVR4nOzasQ2AMAxFwWQSVmVsOmgtBQxEpkC6134dA5g0SZL0Vcs+tOYDRVEURVEURVWqraV1iqIoiqIoiqpXJ2Ps5nMURVEURVEUNa/+crmlKIqiKIqiKIqiKIqiKIqqUrE+quc3WIqiKIqiKIp6qeJ4+Wc/fZtKURRFURRFUXNKkiQVdwQAAP//Zdx8MyWkQr4AAAAASUVORK5CYII=',
       "Type": "sellable"
     },
     {
       "SaleID": "0200000000000000000000000000000000000000000000000000000000000000",
       "EndBlock": 2000,
       "BuyingAsset": "0000000000000000000000000000000000000000000000000000000000000004",
-      "BuyingAmount": 25000,
-      "DefaultBuyPrice": 100,
+      // "BuyingAmount": 25000,
+      // "DefaultBuyPrice": 100,
       "SellingAsset": "4c420b974449ac188c155a7029706b8419a591ee398977d00000000000000000",
-      "SellingAmount": 200,
-      "DefaultSellPrice": 100,
+      "SellingAmount": 5000,
+      "Price": 300,
+      // "DefaultSellPrice": 100,
+      "TokenImage": 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAaQAAAGkAQMAAABEgsN2AAAABlBMVEXw8PDToAKxYbCAAAAAlklEQVR4nOzaMQqEMBBA0U21x/CoelSPYaWCphhIE1RCCO+3mWc9yPwkSVKL0lG0URRFURRFUVQLlZuv+bV6nqIoiqIoiqIeqSmsq3v5/I/r7EJRFEVRFEVRFEVRFEVRFDWAiqX4eH+u/h6AoiiKoiiKol6oXGdXBBRFURRFUdSoqv8/txRFURRFUdSoSpIkfdwZAAD//xGuA8je9ci/AAAAAElFTkSuQmCC',
       "Type": "buyable"
     }
   ],
@@ -133,7 +138,6 @@ export default function Crowdsale() {
       ]);
       // TODO remove when live
       crowdsalesRes.data = testData;
-      debugger;
       const sellingAssetOptions = Object.entries(
         _.get(sellingAssetOptionsRes, "data.Result", {})
       );
@@ -201,43 +205,51 @@ export default function Crowdsale() {
             <Table
               columns={[
                 {
-                  title: "Asset",
-                  key: "Asset",
+                  title: "Crowdsale",
+                  key: "Type",
                   render: (_, record) => {
                     return (
-                      <div style={{color: mapTypeToTextColor[record.Type]}}>
-                        {record.Type === "buyable"
-                          ? record.SellingAssetLabel
-                          : record.BuyingAssetLabel}
+                      <div style={{color: mapTypeToTextColor[record.Type], fontWeight: "bold"}}>
+                        {record.Type === "buyable" ? "DCB's Selling " : "DCB's Buying "}
                       </div>
                     );
                   }
                 },
                 {
-                  title: "Buying Amount",
-                  dataIndex: "BuyingAmount",
-                  key: "BuyingAmount",
-                  sorter: (a, b) => {
-                    return a.BuyingAmount - b.BuyingAmount;
-                  },
-                  sortDirections: ["descend", "ascend"],
-                  render: (text, record) => (
+                  title: "Crowdsale Asset",
+                  key: "Asset",
+                  render: (_, record) => {
+                    return (
+                      <div style={{color: mapTypeToTextColor[record.Type]}}>
+                        <a
+                          href={process.env.explorerUrl + "/token/" + (record.Type === "buyable" ? record.SellingAsset : record.BuyingAsset)}><img
+                          src={record.TokenImage} style={{
+                          width: "50px",
+                          height: "50px",
+                          margin: "10px"
+                        }}></img>{record.Type === "buyable" ? record.SellingAssetLabel : record.BuyingAssetLabel}
+                        </a>
+                      </div>
+                    );
+                  }
+                },
+                {
+                  title: "Amount",
+                  key: "Amount",
+                  render: (_, record) => (
                     <div style={{color: mapTypeToTextColor[record.Type]}}>
-                      {text}
+                      {record && record.Type === "buyable" ? formatTokenAmount(record.SellingAmount) : formatTokenAmount(record.BuyingAmount)}
                     </div>
                   )
                 },
                 {
-                  title: "Selling Amount",
-                  dataIndex: "SellingAmount",
-                  key: "SellingAmount",
-                  sorter: (a, b) => {
-                    return a.BuyingAmount - b.BuyingAmount;
-                  },
+                  title: "Price / Unit",
+                  dataIndex: "Price",
+                  key: "Price",
                   sortDirections: ["descend", "ascend"],
-                  render: (text, record) => (
+                  render: (_, record) => (
                     <div style={{color: mapTypeToTextColor[record.Type]}}>
-                      {text}
+                      {formatConstantValue(record.Price)} const
                     </div>
                   )
                 },
