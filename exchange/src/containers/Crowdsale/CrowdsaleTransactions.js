@@ -49,13 +49,11 @@ const Field = styled.div`
 
 const Label = styled.div`
   width: 100px;
-  font-size: 16px;
   color: #212b63;
 `;
 const Value = styled.div`
   flex: 1;
   color: #2c3b8f;
-  font-size: 16px;
   a {
     color: #566ef5;
   }
@@ -68,12 +66,10 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 24px;
-  font-weight: bold;
   color: #212b63;
 `;
 
 const Transaction = styled.div`
-  padding: 20px;
+  padding: 10px 0;
   border-bottom: 1px solid #ebeffa;
 `;
