@@ -24,6 +24,7 @@ import {
   TextCell,
   NumberCell
 } from "@ui/tables/helperCells";
+import {formatConstantValue} from "../../../services/Formatter";
 
 const isoModal = ModalStyle(Modals);
 const Modal = WithDirection(isoModal);
@@ -75,28 +76,31 @@ export default class extends Component {
       walletBalance: 0
     };
     this.columns = [
-      {
+      /*{
         title: <IntlMessages id="BondMarket.Logo"/>,
         key: "BondImage",
         width: 200,
         render: obj => renderCell(obj, "ImageCell", "BondImage", {url: process.env.explorerUrl + "/token/" + obj["BondID"]})
-      },
+      },*/
       {
         title: <IntlMessages id="BondMarket.BondName"/>,
         key: "BondName",
         width: 200,
         render: obj => {
-          return <span>{obj.BondName.toUpperCase()}</span>;
+          return <a target="_blank"
+                    href={process.env.explorerUrl + "/token/" + obj["BondID"]}><img
+            style={{margin: "10px", width: "50px", height: "50px"}}
+            src={obj["BondImage"]}></img><span>{obj.BondName}</span></a>;
         }
       },
-      {
+      /*{
         title: <IntlMessages id="BondMarket.Symbol"/>,
         key: "BondSymbol",
         width: 200,
         render: obj => {
           return <span>{obj.BondSymbol.toUpperCase()}</span>;
         }
-      },
+      },*/
       {
         title: <IntlMessages id="BondMarket.ExpiredDate"/>,
         key: "BuyBackDate",
@@ -105,21 +109,20 @@ export default class extends Component {
       },
       {
         title: (
-          <span>
+          <span style={{float: "right"}}>
             <IntlMessages id="BondMarket.Price"/>
-            (CONST)
           </span>
         ),
         key: "BuyBackPrice",
         width: 100,
         render: obj => {
           return (
-            <span>{nanoToConstant(obj.BuyBackPrice).toLocaleString()}</span>
+            <span style={{float: "right"}}>{formatConstantValue(Number(nanoToConstant(obj.BuyBackPrice)))} const</span>
           );
         }
       },
       {
-        title: <IntlMessages id="BondMarket.TotalIssue"/>,
+        title: <span style={{float: "right"}}><IntlMessages id="BondMarket.TotalIssue"/></span>,
         key: "TotalIssue",
         width: 80,
         render: obj => renderCell(obj, "NumberCell", "TotalIssue", {type: 'token'})
@@ -131,10 +134,10 @@ export default class extends Component {
         render: obj => renderCell(obj, "DateTimeCell", "Available")
       },
       {
-        title: <IntlMessages id="BondMarket.Rate"/>,
+        title: <span style={{float: "right"}}><IntlMessages id="BondMarket.Rate"/></span>,
         key: "Rate",
         width: 100,
-        render: obj => <span>{nanoToConstant(obj.Rate).toLocaleString()}</span>
+        render: obj => <span style={{float: "right"}}>{formatConstantValue(Number(nanoToConstant(obj.Rate)))} const</span>
       },
       {
         title: "",

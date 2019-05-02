@@ -535,7 +535,7 @@
   "Common.Votes": "Votes",
   "Common.CreateNewOne": "Create new one",
   "BondMarket.PageHeader": "Bond Market",
-  "BondMarket.BondName": "Name",
+  "BondMarket.BondName": "Bond",
   "BondMarket.Symbol": "Symbol",
   "BondMarket.ExpiredDate": "Buy Back Date",
   "BondMarket.TotalIssue": "Total Issue",
