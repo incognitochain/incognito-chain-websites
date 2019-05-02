@@ -1,14 +1,18 @@
 import React from "react";
 import axios from "axios";
-import { Modal, Form, Input, notification } from "antd";
+import {Modal, Form, Input, notification} from "antd";
 import _ from "lodash";
+import {formatConstantValue} from "../../services/Formatter";
 
 const initialFormState = {
   amount: "",
   priceLimit: ""
 };
 
-export function BuyModal({ isShow, onClose, record, loadCrowdsales }) {
+export function BuyModal({isShow, onClose, record, loadCrowdsales}) {
+  if (!record) {
+    return <></>;
+  }
   const [isLoading, setIsLoading] = React.useState(false);
 
   const [formState, setFormState] = React.useState(initialFormState);
@@ -18,7 +22,7 @@ export function BuyModal({ isShow, onClose, record, loadCrowdsales }) {
   }, [isShow]);
 
   function setField(fieldName, value) {
-    setFormState({ ...formState, [fieldName]: value });
+    setFormState({...formState, [fieldName]: value});
   }
 
   async function submitForm() {
@@ -26,12 +30,12 @@ export function BuyModal({ isShow, onClose, record, loadCrowdsales }) {
       setIsLoading(true);
       await axios.post(`${process.env.serviceAPI}/bond-market/dcb/buy`, {
         SaleID: record.SaleID,
-        Amount: parseFloat(formState.amount, 10) * 100, //convert to nano constant
+        Amount: parseFloat(formState.amount * record.Price, 10) * 100, //convert to nano constant
         PriceLimit: parseFloat(formState.priceLimit, 10),
         TokenName: record.SellingAssetLabel,
         TokenID: record.SellingAsset
       });
-      notification.success({ message: "Buy Success!" });
+      notification.success({message: "Buy Success!"});
       loadCrowdsales();
       onClose();
     } catch (e) {
@@ -54,17 +58,20 @@ export function BuyModal({ isShow, onClose, record, loadCrowdsales }) {
       }}
     >
       <Form layout="vertical">
-        <Form.Item label="Amount (CONST)">
+        <Form.Item label={`Amount`}>
           <Input
+            addonAfter={`${record ? record.SellingAssetLabel : ''}`}
             placeholder="0"
             value={formState.amount}
             onChange={e => setField("amount", e.target.value)}
           />
         </Form.Item>
-        <Form.Item label="Price Limit">
+        <Form.Item label="Price">
           <Input
+            addonAfter={record.BuyingAssetLabel}
+            disabled={true}
             placeholder="0"
-            value={formState.priceLimit}
+            value={formatConstantValue(formState.amount * record.Price)}
             onChange={e => setField("priceLimit", e.target.value)}
           />
         </Form.Item>
