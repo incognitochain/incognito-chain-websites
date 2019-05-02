@@ -30,10 +30,10 @@ export function CrowdsaleHistoryList({
               </Left>
               <Right>
                 <Text>{token.name}</Text>
-                <Tooltip placement="bottom" title={token.id}>
-                  <Text><a target="_blank"
-                           href={process.env.explorerUrl + '/token/' + token.id}>{formatHashStr(token.id, true)}</a></Text>
-                </Tooltip>
+                {/*<Tooltip placement="bottom" title={token.id}>*/}
+                <Text><a target="_blank"
+                         href={process.env.explorerUrl + '/token/' + token.id}>{formatHashStr(token.id, true)}</a></Text>
+                {/*</Tooltip>*/}
               </Right>
             </ItemWrapper>
           );

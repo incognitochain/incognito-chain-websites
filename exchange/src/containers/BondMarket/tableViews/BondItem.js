@@ -48,7 +48,7 @@ export class BondItem extends React.Component {
             </Right>
           </div>
         </div>
-        <div className="line"/>
+        {/*<div className="line"/>*/}
       </div>
     );
   }

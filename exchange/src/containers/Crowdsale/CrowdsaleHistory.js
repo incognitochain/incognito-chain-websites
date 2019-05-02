@@ -13,7 +13,7 @@ import "./CrowdSaleHistory.scss"
 function initState() {
   return {
     isLoading: false,
-    selectedTokenId: "1234567891011121314151617188182882",
+    selectedTokenId: null,
     groupedTransactions: {},
     tokens: []
   };
@@ -131,15 +131,18 @@ const CrowdsaleHistory = () => {
   async function loadCrowdsaleHistory() {
     dispatch({type: "LOAD_HISTORY"});
     try {
-      // const response = await axios.get(
-      //   `${process.env.serviceAPI}/bond-market/dcb/crowdsales_histories`
-      // );
-      const response = {data: {Result: testData}};
-
-      dispatch({
-        type: "LOAD_HISTORY_SUCCESS",
-        ...getHistoryList(_.get(response, "data.Result", []))
-      });
+      let response = await axios.get(
+        `${process.env.serviceAPI}/bond-market/dcb/crowdsales_histories`
+      );
+      // TODO remove when live
+      response = {data: {Result: testData}};
+      if (response.data.Result) {
+        dispatch({
+          type: "LOAD_HISTORY_SUCCESS",
+          ...getHistoryList(_.get(response, "data.Result", []))
+        });
+        dispatch({type: "SELECT_TOKEN", selectedTokenId: response.data.Result[0].TokenID})
+      }
     } catch (e) {
       notification.error({message: "Load Crowdsale History Fail!"});
       dispatch({type: "LOAD_HISTORY_FAIL"});

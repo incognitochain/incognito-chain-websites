@@ -56,19 +56,32 @@
 .wrapperBond {
   padding: (10px 0);
   cursor: pointer;
+  border-bottom: 1px solid #ebeffa;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+
+  &:hover {
+    background-color: #f9fafb;
+  }
+
+  &.isSelected {
+    background-color: #f9fafb;
+    cursor: default;
+  }
 }
 
 .wrapperBond:not(.wrapperSelectedBond):hover {
-  background-color: #DDD;
+  background-color: #f9fafb;
 }
 
 .wrapperSelectedBond {
-  background-color: #EEE;
+  background-color: #f9fafb;
 }
 
 .wrapperBondItem {
   display: flex;
-  cursor: pointer;
+  //cursor: pointer;
 
   .historyName {
     word-wrap: break-word;
@@ -85,7 +98,7 @@
 
   .detail {
     margin: (0 10px);
-    cursor: pointer;
+    //cursor: pointer;
   }
 
 }
