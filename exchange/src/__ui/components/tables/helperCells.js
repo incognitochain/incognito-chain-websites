@@ -21,7 +21,7 @@ const renderDateTime = (date) => {
 }
 const DateCell = data => <p>{renderDate(data)}</p>;
 const DateTimeCell = data => <p>{renderDateTime(data)}</p>;
-const ImageCell = src => <ImageCellView src={src}/>;
+const ImageCell = (src, options) => <ImageCellView src={src} options={options}/>;
 const LinkCell = (link, href) => <a href={href ? href : '#'}>{link}</a>;
 const TextCell = text => <p>{text}</p>;
 const NumberCell = number => <p className="text-right">{number.toLocaleString()}</p>;

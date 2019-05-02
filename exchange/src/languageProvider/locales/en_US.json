@@ -542,7 +542,7 @@
   "BondMarket.Available": "Available",
   "BondMarket.Rate": "Rate(constant/bond)",
   "BondMarket.Buy": "Buy",
-  "BondMarket.Logo": "Logo",
+  "BondMarket.Logo": "Bond",
   "BondMarket.Price": "Buy Back Price",
   "BondMarket.Buy.Cancel": "Cancel",
   "BondMarket.Buy.Submit": "Buy",

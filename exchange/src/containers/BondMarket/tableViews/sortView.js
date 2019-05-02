@@ -36,11 +36,11 @@ const errorBuy = msg => {
   message.error(<MessageContent>{msg}</MessageContent>, 2);
 };
 
-const renderCell = (object, type, key) => {
+const renderCell = (object, type, key, options = null) => {
   const value = object[key];
   switch (type) {
     case "ImageCell":
-      return ImageCell(value);
+      return ImageCell(value, options);
     case "DateCell":
       return DateCell(new Date(value));
     case "LinkCell":
@@ -75,7 +75,7 @@ export default class extends Component {
         title: <IntlMessages id="BondMarket.Logo"/>,
         key: "BondImage",
         width: 200,
-        render: obj => renderCell(obj, "ImageCell", "BondImage")
+        render: obj => renderCell(obj, "ImageCell", "BondImage", {url: process.env.explorerUrl + "/token/" + obj["BondID"]})
       },
       {
         title: <IntlMessages id="BondMarket.BondName"/>,

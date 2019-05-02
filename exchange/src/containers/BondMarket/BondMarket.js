@@ -13,6 +13,20 @@ import SortView from "./tableViews/sortView";
 import bondmarket from "@/services/BondMarket";
 import styled from "styled-components";
 
+let testData = [
+  {
+    BondName: 'TokenName1',
+    BondSymbol: 'TokenName1',
+    BondID: '0000000000000000000000000000000000000000000000000000000000000001',
+    BondImage: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAaQAAAGkAQMAAABEgsN2AAAABlBMVEXw8PAVfiWe8geIAAAAjElEQVR4nOzasQ2AMAxFwWQSVmVsOmgtBQxEpkC6134dA5g0SZL0Vcs+tOYDRVEURVEURVWqraV1iqIoiqIoiqpXJ2Ps5nMURVEURVEUNa/+crmlKIqiKIqiKIqiKIqiKIqqUrE+quc3WIqiKIqiKIp6qeJ4+Wc/fZtKURRFURRFUXNKkiQVdwQAAP//Zdx8MyWkQr4AAAAASUVORK5CYII=',
+    BuyBackDate: '2019-10-10',
+    TotalIssue: '1000000',
+    Available: '2019-09-10',
+    Rate: '10',
+    BuyBackPrice: '11',
+  }
+]
+
 export default class BondMarket extends Component {
   state = {
     auth: false,
@@ -34,6 +48,8 @@ export default class BondMarket extends Component {
   async getData() {
     this.setState({loading: true});
     let result = await bondmarket.getBondMarketList();
+    //TODO remove when live
+    result = testData;
     if (!result.error) {
       let listData = result;
       for (let i in listData) {
@@ -42,7 +58,7 @@ export default class BondMarket extends Component {
 
       this.setState({list: listData});
     } else {
-      //return false;
+      console.log("Error", result.error);
     }
     this.setState({loading: false});
   }
@@ -64,7 +80,7 @@ export default class BondMarket extends Component {
       );
     } else {
       return (
-        <p style={{ textAlign: "center", }}>
+        <p style={{textAlign: "center",}}>
           <IntlMessages id="BondMarket.DataNotFound"/>
         </p>
       );

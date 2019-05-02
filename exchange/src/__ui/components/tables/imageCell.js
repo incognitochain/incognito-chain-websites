@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 const PendingPool = {};
 const ReadyPool = {};
@@ -12,18 +12,21 @@ export default class ImageCell extends Component {
       ready: false,
     };
   }
+
   componentWillMount() {
     this.loadImage(this.props.src);
   }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.src !== this.props.src) {
-      this.setState({ src: null });
+      this.setState({src: null});
       this.loadImage(nextProps.src);
     }
   }
+
   loadImage(src) {
     if (ReadyPool[src]) {
-      this.setState({ src: src });
+      this.setState({src: src});
       return;
     }
 
@@ -44,23 +47,32 @@ export default class ImageCell extends Component {
     };
     img.src = src;
   }
+
   onLoadImage(src) {
     ReadyPool[src] = true;
     if (src === this.props.src) {
       this.setState({
         src: src,
+        options: this.props.options,
       });
     }
   }
+
   render() {
     const style = this.state.src
       ? {
-          backgroundImage: `url(${this.state.src})`,
-          width: '70px',
-          height: '70px',
-          backgroundSize: 'cover',
-        }
+        backgroundImage: `url(${this.state.src})`,
+        width: '50px',
+        height: '50px',
+        backgroundSize: 'cover',
+      }
       : undefined;
-    return <div className="exampleImage" style={style} />;
+    const options = this.state.options;
+    if (options && options.url) {
+      return (<a target="_blank" href={options.url}>
+        <div className="exampleImage" style={style}/>
+      </a>);
+    }
+    return <div className="exampleImage" style={style}/>;
   }
 }
