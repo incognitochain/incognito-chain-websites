@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
 import Button from "@ui/uielements/button";
+import {formatConstantValue} from "../../../services/Formatter";
 
 class HistoryItem extends Component {
   static propTypes = {
@@ -31,7 +32,7 @@ class HistoryItem extends Component {
         </div>
         <div className="Amount">
           <span className="title">Amount</span>
-          {Amount} CONST
+          {formatConstantValue(Amount)} CONST
         </div>
         {BuyBackDate && (
           <div className="BuyBackDate">

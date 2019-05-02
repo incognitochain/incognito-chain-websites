@@ -4,6 +4,7 @@ import DeleteCell from './deleteCell';
 import EditableCell from './editableCell';
 import FilterDropdown from './filterDropdown';
 import moment from "moment"
+import {formatConstantValue, formatTokenAmount} from "../../../services/Formatter";
 
 const renderDate = (date) => {
   date = moment(date)
@@ -24,7 +25,7 @@ const DateTimeCell = data => <p>{renderDateTime(data)}</p>;
 const ImageCell = (src, options) => <ImageCellView src={src} options={options}/>;
 const LinkCell = (link, href) => <a href={href ? href : '#'}>{link}</a>;
 const TextCell = text => <p>{text}</p>;
-const NumberCell = number => <p className="text-right">{number.toLocaleString()}</p>;
+const NumberCell = (number, options) => <p className="text-right">{options ? (options.type == 'constant' ? formatConstantValue(number) : (options.type == 'token' ? formatTokenAmount(number) : number.toLocaleString())) : number.toLocaleString()}</p>;
 const TimeCell = text => {
   let d = new Date(text);
   try {

@@ -18,6 +18,7 @@ import wallet from "@/services/Wallet";
 
 import {
   DateCell,
+  DateTimeCell,
   ImageCell,
   LinkCell,
   TextCell,
@@ -43,10 +44,13 @@ const renderCell = (object, type, key, options = null) => {
       return ImageCell(value, options);
     case "DateCell":
       return DateCell(new Date(value));
+    case "DateTimeCell":
+      debugger;
+      return DateTimeCell(new Date(value));
     case "LinkCell":
       return LinkCell(value);
     case "NumberCell":
-      return NumberCell(value);
+      return NumberCell(Number(value), options);
     default:
       return TextCell(value);
   }
@@ -118,13 +122,13 @@ export default class extends Component {
         title: <IntlMessages id="BondMarket.TotalIssue"/>,
         key: "TotalIssue",
         width: 80,
-        render: obj => renderCell(obj, "NumberCell", "TotalIssue")
+        render: obj => renderCell(obj, "NumberCell", "TotalIssue", {type: 'token'})
       },
       {
         title: <IntlMessages id="BondMarket.Available"/>,
         key: "Available",
         width: 80,
-        render: obj => renderCell(obj, "NumberCell", "Available")
+        render: obj => renderCell(obj, "DateTimeCell", "Available")
       },
       {
         title: <IntlMessages id="BondMarket.Rate"/>,

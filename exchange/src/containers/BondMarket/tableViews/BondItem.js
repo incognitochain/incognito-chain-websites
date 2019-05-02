@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import {ImageCell} from "@ui/tables/helperCells";
 import styled from "styled-components";
-import {formatHashStr} from "../../../services/Formatter";
+import {formatHashStr, formatTokenAmount} from "../../../services/Formatter";
 
 export class BondItem extends React.Component {
   constructor() {
@@ -41,9 +41,9 @@ export class BondItem extends React.Component {
               <div className="historyName"><a target="_blank"
                                               href={process.env.explorerUrl + '/token/' + bondID}>{formatHashStr(bondID, true)}</a>
               </div>
-              <div className="totalAmount">Buy Amount: {TotalAmount}</div>
+              <div className="totalAmount">Buy Amount: {formatTokenAmount(TotalAmount)}</div>
               <div className="buyBackAvailable">
-                Buy Back Available: {BuyBackAvailable}
+                Buy Back Available: {formatTokenAmount(BuyBackAvailable)}
               </div>
             </Right>
           </div>
