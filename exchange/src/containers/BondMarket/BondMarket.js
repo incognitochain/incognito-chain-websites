@@ -24,6 +24,16 @@ let testData = [
     Available: (new Date("Wed, 27 July 2020 13:30:00")).getTime(),
     Rate: 10,
     BuyBackPrice: '11',
+  }, {
+    BondName: 'TokenName2',
+    BondSymbol: 'TokenName2',
+    BondID: '0000000000000000000000000000000000000000000000000000000000000002',
+    BondImage: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAaQAAAGkAQMAAABEgsN2AAAABlBMVEXw8PDToAKxYbCAAAAAlklEQVR4nOzaMQqEMBBA0U21x/CoelSPYaWCphhIE1RCCO+3mWc9yPwkSVKL0lG0URRFURRFUVQLlZuv+bV6nqIoiqIoiqIeqSmsq3v5/I/r7EJRFEVRFEVRFEVRFEVRFDWAiqX4eH+u/h6AoiiKoiiKol6oXGdXBBRFURRFUdSoqv8/txRFURRFUdSoSpIkfdwZAAD//xGuA8je9ci/AAAAAElFTkSuQmCC',
+    BuyBackDate: '2019-10-10',
+    TotalIssue: 1000000,
+    Available: (new Date("Wed, 27 July 2020 13:30:00")).getTime(),
+    Rate: 10,
+    BuyBackPrice: '11',
   }
 ]
 
