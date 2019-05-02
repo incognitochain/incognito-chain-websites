@@ -1,19 +1,19 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import ContentHolder from "@ui/utility/contentHolder";
 import PropTypes from "prop-types";
 import ModalStyle from "./modal.style";
-import TableWrapper, { WithdrawWrapper, MessageContent } from "./style";
-import { Modal as Modals } from "antd";
+import TableWrapper, {WithdrawWrapper, MessageContent} from "./style";
+import {Modal as Modals} from "antd";
 import WithDirection from "@/settings/withDirection";
 import Button from "@ui/uielements/button";
 import IntlMessages from "@ui/utility/intlMessages";
 import Alert from "@ui/feedback/alert";
 import message from "@ui/feedback/message";
-import { InputGroup } from "@ui/uielements/input";
+import {InputGroup} from "@ui/uielements/input";
 
 import InputNumber from "@ui/uielements/InputNumber";
 import bondmarket from "@/services/BondMarket";
-import { nanoToConstant } from "@/helpers/utility";
+import {nanoToConstant} from "@/helpers/utility";
 import wallet from "@/services/Wallet";
 
 import {
@@ -56,6 +56,7 @@ export default class extends Component {
   static propType = {
     onBuySuccess: PropTypes.func
   };
+
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
@@ -71,13 +72,13 @@ export default class extends Component {
     };
     this.columns = [
       {
-        title: <IntlMessages id="BondMarket.Logo" />,
+        title: <IntlMessages id="BondMarket.Logo"/>,
         key: "BondImage",
         width: 200,
         render: obj => renderCell(obj, "ImageCell", "BondImage")
       },
       {
-        title: <IntlMessages id="BondMarket.BondName" />,
+        title: <IntlMessages id="BondMarket.BondName"/>,
         key: "BondName",
         width: 200,
         render: obj => {
@@ -85,7 +86,7 @@ export default class extends Component {
         }
       },
       {
-        title: <IntlMessages id="BondMarket.Symbol" />,
+        title: <IntlMessages id="BondMarket.Symbol"/>,
         key: "BondSymbol",
         width: 200,
         render: obj => {
@@ -93,7 +94,7 @@ export default class extends Component {
         }
       },
       {
-        title: <IntlMessages id="BondMarket.ExpiredDate" />,
+        title: <IntlMessages id="BondMarket.ExpiredDate"/>,
         key: "BuyBackDate",
         width: 100,
         render: obj => renderCell(obj, "DateCell", "BuyBackDate")
@@ -101,7 +102,7 @@ export default class extends Component {
       {
         title: (
           <span>
-            <IntlMessages id="BondMarket.Price" />
+            <IntlMessages id="BondMarket.Price"/>
             (CONST)
           </span>
         ),
@@ -114,19 +115,19 @@ export default class extends Component {
         }
       },
       {
-        title: <IntlMessages id="BondMarket.TotalIssue" />,
+        title: <IntlMessages id="BondMarket.TotalIssue"/>,
         key: "TotalIssue",
         width: 80,
         render: obj => renderCell(obj, "NumberCell", "TotalIssue")
       },
       {
-        title: <IntlMessages id="BondMarket.Available" />,
+        title: <IntlMessages id="BondMarket.Available"/>,
         key: "Available",
         width: 80,
         render: obj => renderCell(obj, "NumberCell", "Available")
       },
       {
-        title: <IntlMessages id="BondMarket.Rate" />,
+        title: <IntlMessages id="BondMarket.Rate"/>,
         key: "Rate",
         width: 100,
         render: obj => <span>{nanoToConstant(obj.Rate).toLocaleString()}</span>
@@ -143,7 +144,7 @@ export default class extends Component {
                 className="btn"
                 onClick={() => this.onBuy(obj)}
               >
-                <IntlMessages id="BondMarket.Buy" />
+                <IntlMessages id="BondMarket.Buy"/>
               </Button>
             </div>
           );
@@ -151,7 +152,8 @@ export default class extends Component {
       }
     ];
   }
-  validate = ({ amount, rate, balance }) => {
+
+  validate = ({amount, rate, balance}) => {
     console.log("Amount:", amount, "Rate:", rate, "Balance:", balance);
     if (amount <= 0) return false;
     if (rate <= 0) return false;
@@ -161,14 +163,14 @@ export default class extends Component {
   };
 
   onChange(pagination, filters, sorter) {
-    const { dataList } = this.props;
+    const {dataList} = this.props;
     if (sorter && sorter.columnKey && sorter.order) {
       if (sorter.order === "ascend") {
         dataList.getSortAsc(sorter.columnKey);
       } else {
         dataList.getSortDesc(sorter.columnKey);
       }
-      this.setState({ dataList: dataList.getAll() });
+      this.setState({dataList: dataList.getAll()});
     }
   }
 
@@ -181,28 +183,28 @@ export default class extends Component {
   }
 
   changeAmount = val => {
-    const { selectedItem } = this.state;
-    const { Available = 1 } = selectedItem;
+    const {selectedItem} = this.state;
+    const {Available = 1} = selectedItem;
     if (val >= Available) {
       val = Available;
     }
 
-    this.setState({ wAmount: val });
+    this.setState({wAmount: val});
   };
 
   changeRate = val => {
-    this.setState({ wRate: val });
+    this.setState({wRate: val});
   };
 
   handleCancel = () => {
-    this.setState({ isBuy: false });
+    this.setState({isBuy: false});
   };
 
   handleBuy = async () => {
-    const { wAmount, wRate, selectedItem } = this.state;
-    this.setState({ loading: true });
+    const {wAmount, wRate, selectedItem} = this.state;
+    this.setState({loading: true});
     const constBalance = await wallet.getConstantBalance();
-    this.setState({ walletBalance: constBalance.AvailableBalance });
+    this.setState({walletBalance: constBalance.AvailableBalance});
     const isValidate = await this.validate({
       amount: wAmount,
       rate: wRate,
@@ -213,7 +215,9 @@ export default class extends Component {
       const params = {
         amount: wAmount,
         bondID: selectedItem.BondID,
-        rate: wRate
+        rate: wRate,
+        bondName: selectedItem.BondName,
+        bondSymbol: selectedItem.BondSymbol,
       };
       let result = await bondmarket.buy(params);
       console.log("Result:", result);
@@ -227,9 +231,9 @@ export default class extends Component {
           errorBuy(result.Message);
         }
       }
-      this.setState({ isBuy: false, isValidate, loading: false });
+      this.setState({isBuy: false, isValidate, loading: false});
     } else {
-      this.setState({ isValidate, loading: false });
+      this.setState({isValidate, loading: false});
     }
   };
 
@@ -242,7 +246,7 @@ export default class extends Component {
       wRate,
       walletBalance
     } = this.state;
-    const title = <IntlMessages id="BondMarket.Buy" />;
+    const title = <IntlMessages id="BondMarket.Buy"/>;
     const errorMsg = "Please enter amount and rate larger than 0 and in {{value}} CONST".replace(
       "{{value}}",
       walletBalance
@@ -255,7 +259,7 @@ export default class extends Component {
         onCancel={this.handleCancel}
         footer={[
           <Button key="back" size="large" onClick={this.handleCancel}>
-            <IntlMessages id="BondMarket.Buy.Cancel" />
+            <IntlMessages id="BondMarket.Buy.Cancel"/>
           </Button>,
           <Button
             key="submit"
@@ -264,13 +268,13 @@ export default class extends Component {
             loading={this.state.loading}
             onClick={this.handleBuy}
           >
-            <IntlMessages id="BondMarket.Buy.Submit" />
+            <IntlMessages id="BondMarket.Buy.Submit"/>
           </Button>
         ]}
       >
         <WithdrawWrapper>
           <div>
-            <IntlMessages id="BondMarket.Buy.Amount" />
+            <IntlMessages id="BondMarket.Buy.Amount"/>
           </div>
           <InputGroup>
             <InputNumber
@@ -285,7 +289,7 @@ export default class extends Component {
             />
           </InputGroup>
           <div>
-            <IntlMessages id="BondMarket.Rate" />
+            <IntlMessages id="BondMarket.Rate"/>
           </div>
           <InputGroup>
             <InputNumber
@@ -303,7 +307,7 @@ export default class extends Component {
           <Alert
             message={errorMsg}
             type="warning"
-            style={{ marginBottom: "10px" }}
+            style={{marginBottom: "10px"}}
           />
         )}
       </Modal>

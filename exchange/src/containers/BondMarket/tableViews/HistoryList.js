@@ -93,7 +93,6 @@ export default class HistoryList extends Component {
 
   render() {
     const {list, onBuyBack, onClickDetail} = this.props;
-    debugger;
     return (
       <div className="HistoryList">
         {list && list.length > 0 ? list.map((item, index) => (

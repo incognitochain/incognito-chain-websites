@@ -21,11 +21,14 @@ import Loader from "@ui/utility/loader";
 
 import "./BondHistory.scss";
 
-/*const dataTest = {
+const dataTest = {
   BondBuysHistory: {
-    abddjflksjdflksdjflsdjflsdjfsdk: {
+    "0000000000000000000000000000000000000000000000000000000000000002": {
       TotalAmount: 100,
       BuyBackAvailable: 0,
+      BondImage: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAaQAAAGkAQMAAABEgsN2AAAABlBMVEXw8PAVfiWe8geIAAAAjElEQVR4nOzasQ2AMAxFwWQSVmVsOmgtBQxEpkC6134dA5g0SZL0Vcs+tOYDRVEURVEURVWqraV1iqIoiqIoiqpXJ2Ps5nMURVEURVEUNa/+crmlKIqiKIqiKIqiKIqiKIqqUrE+quc3WIqiKIqiKIp6qeJ4+Wc/fZtKURRFURRFUXNKkiQVdwQAAP//Zdx8MyWkQr4AAAAASUVORK5CYII=',
+      BondSymbol: 'Test 1',
+      BondName: 'Test 1',
       BondBuys: [
         {
           TxID: "KSDFJLDSKFJDSLJFDSLKJFSDKJFDKLSJSKDFDSLKFJSD",
@@ -45,9 +48,12 @@ import "./BondHistory.scss";
         }
       ]
     },
-    ksdjflkdsjflkdsjflsdkjflskdjflskdjf: {
+    "0000000000000000000000000000000000000000000000000000000000000001": {
       TotalAmount: 100,
       BuyBackAvailable: 0,
+      BondImage: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAaQAAAGkAQMAAABEgsN2AAAABlBMVEXw8PCB3eOTxZ8LAAAAmklEQVR4nOzaSwqDMBSG0XTUZXSp7VK7DEdRSCYRHwheIYTzDf9w5hcxSZKkZ3vPp2WKoiiKoiiKilefMk/t9C3Tv1leFf8oiqIoiqIoKlzV8latTluKoiiKoiiKilSpedz51Hr4QFEURVEURVF3Vf/XMkVRFEVRFDW26v8vAoqiKIqiKGpUdS2KoiiKoiiKilSSJCm4JQAA//89klRbW+URBQAAAABJRU5ErkJggg==',
+      BondSymbol: 'Test 2',
+      BondName: 'Test 2',
       BondBuys: [
         {
           TxID: "KSDFJLDSKFJDSLJFDSLKJFSDKJFDKLSJSKDFDSLKFJSD",
@@ -60,7 +66,7 @@ import "./BondHistory.scss";
       ]
     }
   }
-};*/
+};
 
 const successBuy = () => {
   const msg = "Buy success!"; //<IntlMessages id="Wallet.SymbolCode" />;
@@ -97,8 +103,10 @@ export default class BondHistory extends Component {
   async getData() {
     this.setState({loading: true});
     let result = await bondmarket.getHistoryList();
-    // result = dataTest;
+    // TODO remove when live
+    result = dataTest;
     if (!result.error) {
+      // debugger;
       const {BondBuysHistory = {}} = result;
       if (BondBuysHistory) {
         const keys = Object.keys(BondBuysHistory);
@@ -193,10 +201,11 @@ export default class BondHistory extends Component {
 
   renderHistoryList() {
     const {selectedBondItem} = this.state;
+    // debugger;
     return (
       <div className="wrapperHistoryList">
         <Box title="Related Transactions">
-          {selectedBondItem && selectedBondItem.length > 0 ? (
+          {selectedBondItem && selectedBondItem.BondBuys && selectedBondItem.BondBuys.length > 0 ? (
             <HistoryList
               list={selectedBondItem.BondBuys}
               onBuyBack={this.handleBuyBack}
