@@ -26,12 +26,14 @@ export function CrowdsaleHistoryList({
               }}
             >
               <Left>
-                <img alt="token-icon" src={token.image}/>
+                <a target="_blank"
+                   href={process.env.explorerUrl + '/token/' + token.id}><img className={"bondImage"} alt="token-icon"
+                                                                              src={token.image}/></a>
               </Left>
               <Right>
                 <Text>{token.name}</Text>
                 {/*<Tooltip placement="bottom" title={token.id}>*/}
-                <Text><a target="_blank"
+                <Text><a className={"tokenLink"} target="_blank"
                          href={process.env.explorerUrl + '/token/' + token.id}>{formatHashStr(token.id, true)}</a></Text>
                 {/*</Tooltip>*/}
               </Right>
@@ -55,6 +57,9 @@ const Left = styled.div`
 
 const Right = styled.div`
   flex: 1;
+  @media only screen and (max-device-width: 640px) {
+    float: left;
+  }
 `;
 
 const Text = styled.div`

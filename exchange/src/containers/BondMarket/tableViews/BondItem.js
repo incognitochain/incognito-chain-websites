@@ -34,11 +34,13 @@ export class BondItem extends React.Component {
           {tokenImage && <div className="image">{ImageCell(tokenImage)}</div>}
           <div className="detail">
             <Left>
-              <img className={"bondImage"} alt={bondID} title={BondSymbol} src={BondImage}/>
+              <a target="_blank"
+                 href={process.env.explorerUrl + '/token/' + bondID}><img className={"bondImage"} alt={bondID}
+                                                                          title={BondSymbol} src={BondImage}/></a>
             </Left>
             <Right>
               <div className="historyName">{BondName}</div>
-              <div className="historyName"><a target="_blank"
+              <div className="historyName"><a className="tokenLink" target="_blank"
                                               href={process.env.explorerUrl + '/token/' + bondID}>{formatHashStr(bondID, true)}</a>
               </div>
               <div className="totalAmount">Buy Amount: {formatTokenAmount(TotalAmount)}</div>

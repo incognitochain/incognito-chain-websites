@@ -23,6 +23,12 @@
     width: 70%;
     margin-left: 20px;
   }
+
+  .tokenLink {
+    @media only screen and (max-device-width: 640px) {
+      display: none;
+    }
+  }
 }
 
 .HistoryList {
