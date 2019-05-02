@@ -45,7 +45,7 @@ const renderCell = (object, type, key, options = null) => {
     case "DateCell":
       return DateCell(new Date(value));
     case "DateTimeCell":
-      debugger;
+      // debugger;
       return DateTimeCell(new Date(value));
     case "LinkCell":
       return LinkCell(value);
