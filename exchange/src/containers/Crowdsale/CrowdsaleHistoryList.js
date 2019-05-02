@@ -5,6 +5,7 @@ import _ from "lodash";
 import {Tooltip} from "antd";
 import Box from "@ui/utility/box";
 import BoxTitle from '@ui/utility/boxTitle';
+import {formatHashStr} from "../../services/Formatter";
 
 export function CrowdsaleHistoryList({
                                        tokens = [],
@@ -30,7 +31,8 @@ export function CrowdsaleHistoryList({
               <Right>
                 <Text>{token.name}</Text>
                 <Tooltip placement="bottom" title={token.id}>
-                  <Text>{(token.id || "...").slice(0, 6)}</Text>
+                  <Text><a target="_blank"
+                           href={process.env.explorerUrl + '/token/' + token.id}>{formatHashStr(token.id, true)}</a></Text>
                 </Tooltip>
               </Right>
             </ItemWrapper>
@@ -43,11 +45,11 @@ export function CrowdsaleHistoryList({
 }
 
 const Left = styled.div`
-  width: 20px;
+  width: 50px;
   margin-right: 10px;
   img {
-    width: 20px;
-    height: 20px;
+    width: 50px;
+    height: 50px;
   }
 `;
 
@@ -56,7 +58,6 @@ const Right = styled.div`
 `;
 
 const Text = styled.div`
-  font-size: 16px;
   color: #212b63;
 `;
 
@@ -67,8 +68,6 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 24px;
-  font-weight: bold;
   color: #212b63;
 `;
 
