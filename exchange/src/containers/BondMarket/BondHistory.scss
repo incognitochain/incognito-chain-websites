@@ -26,12 +26,23 @@
 }
 
 .HistoryList {
+
+  button {
+    @media only screen and (max-device-width: 640px) {
+      margin: 10px 0;
+    }
+  }
+
   .wrapperHistoryItem {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: (10px 0);
 
+    @media only screen and (max-device-width: 640px) {
+      flex-direction: column;
+      align-items: start;
+    }
   }
 
   .wrapperDetail {
