@@ -106,7 +106,6 @@ export default class BondHistory extends Component {
     // TODO remove when live
     result = dataTest;
     if (!result.error) {
-      // debugger;
       const {BondBuysHistory = {}} = result;
       if (BondBuysHistory) {
         const keys = Object.keys(BondBuysHistory);

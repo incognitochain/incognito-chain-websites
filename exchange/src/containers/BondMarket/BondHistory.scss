@@ -55,6 +55,7 @@
 
 .wrapperBond {
   padding: (10px 0);
+  cursor: pointer;
 }
 
 .wrapperBond:not(.wrapperSelectedBond):hover {
@@ -67,6 +68,7 @@
 
 .wrapperBondItem {
   display: flex;
+  cursor: pointer;
 
   .historyName {
     word-wrap: break-word;
@@ -83,6 +85,7 @@
 
   .detail {
     margin: (0 10px);
+    cursor: pointer;
   }
 
 }
