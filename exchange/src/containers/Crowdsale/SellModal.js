@@ -49,7 +49,7 @@ export function SellModal({ isShow, onClose, record = {}, loadCrowdsales }) {
 
   return (
     <Modal
-      title="Sell Crowdsell"
+      title="Sell Crowdsale"
       visible={isShow}
       onOk={submitForm}
       onCancel={onClose}

@@ -44,7 +44,7 @@ export function BuyModal({ isShow, onClose, record, loadCrowdsales }) {
 
   return (
     <Modal
-      title="Buy Crowdsell"
+      title="Buy Crowdsale"
       visible={isShow}
       onOk={submitForm}
       onCancel={onClose}

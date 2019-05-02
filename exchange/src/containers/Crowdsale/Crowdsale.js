@@ -79,6 +79,35 @@ const loggerMiddleware = dispatch => action => {
   process.env.NODE_ENV === "development" && console.log("dispatched:", action);
 };
 
+const testData = {
+  "Result": [
+    {
+      "SaleID": "0100000000000000000000000000000000000000000000000000000000000000",
+      "EndBlock": 1000,
+      "BuyingAsset": "4c420b974449ac188c155a7029706b8419a591ee398977d00000000000000000",
+      "BuyingAmount": 100,
+      "DefaultBuyPrice": 100,
+      "SellingAsset": "0000000000000000000000000000000000000000000000000000000000000004",
+      "SellingAmount": 15000,
+      "DefaultSellPrice": 100,
+      "Type": "sellable"
+    },
+    {
+      "SaleID": "0200000000000000000000000000000000000000000000000000000000000000",
+      "EndBlock": 2000,
+      "BuyingAsset": "0000000000000000000000000000000000000000000000000000000000000004",
+      "BuyingAmount": 25000,
+      "DefaultBuyPrice": 100,
+      "SellingAsset": "4c420b974449ac188c155a7029706b8419a591ee398977d00000000000000000",
+      "SellingAmount": 200,
+      "DefaultSellPrice": 100,
+      "Type": "buyable"
+    }
+  ],
+  "Error": null,
+  "Id": 1
+}
+
 export default function Crowdsale() {
   let [state, dispatch] = React.useReducer(reducer, null, initState);
 
@@ -93,7 +122,7 @@ export default function Crowdsale() {
     dispatch({type: "LOAD_CROWDSALES"});
 
     try {
-      const [
+      let [
         crowdsalesRes,
         sellingAssetOptionsRes,
         buyingAssetOptionRes
@@ -102,7 +131,9 @@ export default function Crowdsale() {
         axios.get(`${process.env.serviceAPI}/voting/proposalsellingassets`),
         axios.get(`${process.env.serviceAPI}/voting/proposalbuyingassets`)
       ]);
-
+      // TODO remove when live
+      crowdsalesRes.data = testData;
+      debugger;
       const sellingAssetOptions = Object.entries(
         _.get(sellingAssetOptionsRes, "data.Result", {})
       );
