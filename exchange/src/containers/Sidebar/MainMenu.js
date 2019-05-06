@@ -25,7 +25,7 @@ class MainMenu extends Component {
               <a href="/market">Market</a>
             </Menu.Item>
             <Menu.Item>
-              <a href="/exchange/CONSTANT-GOVTOKEN">Basic Trading</a>
+              <a href="/exchange/CONST-GOV">Basic Trading</a>
             </Menu.Item>
           </SubMenu>
         </Menu>
