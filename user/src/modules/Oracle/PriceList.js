@@ -7,6 +7,7 @@ import {
   ListItemIcon, CircularProgress,
 } from '@material-ui/core';
 import {getCurrentPrice} from "../../services/oracle";
+import {formatConstantValue} from "../../services/formatter";
 
 const mapStateToProps = (state) => {
   return {
@@ -31,11 +32,11 @@ class PriceList extends React.Component {
   }
 
   onGetCurrentPrice = async () => {
-    const { accessToken } = this.props;
+    const {accessToken} = this.props;
     const res = await getCurrentPrice(accessToken);
-    const { Result = [], error = "" } = res;
-    if (error) {
-      console.log("get current price error", error);
+    const {Result = [], Error = ""} = res.data;
+    if (Error) {
+      console.log("get current price error", Error);
       return;
     }
     this.setState({currenPrice: Result});
@@ -59,7 +60,7 @@ class PriceList extends React.Component {
                         <ListItem button>
                           <ListItemText primary={key.toUpperCase()}/>
                           <ListItemIcon>
-                            {`${parseFloat(currenPrice[key]) / 100} USD`}
+                            {`${formatConstantValue(parseFloat(currenPrice[key]) / 100)} USD`}
                           </ListItemIcon>
                         </ListItem>
                       )
