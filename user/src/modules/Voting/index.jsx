@@ -20,15 +20,21 @@ class Voting extends React.Component {
   };
 
   componentDidMount() {
-    const { boardType, loadCandidates } = this.props
-    loadCandidates(boardType)
+    const { boardType } = this.props
+    this.loadCandidates(boardType)
   }
 
   changeBoardType = e => {
-    const { loadCandidates } = this.props
     const boardType = e.target.value
-    loadCandidates(boardType)
+    this.loadCandidates(boardType)
   };
+
+  loadCandidates = async (boardType) => {
+    const { loadCandidates } = this.props
+    loadCandidates(boardType)
+
+    this.setState(() => ({ selectedCandidate: null }))
+  }
 
   voteCandidate = async () => {
     const {
@@ -138,7 +144,7 @@ class Voting extends React.Component {
                       candidates.map((applicant, index) => (
                         <ApplicantListItem
                           key={applicant.ID}
-                          active={index === this.state.selectedApplicantIndex}
+                          active={selectedCandidate ? applicant.ID === selectedCandidate.ID : false}
                           applicant={applicant}
                           onClick={this.onSelectApplicant.bind(this, index)}
                         />
@@ -170,7 +176,7 @@ export default connect(
   state => ({
     auth: state.auth,
     isUserInBoard: state.oracle.isUserInBoard,
-    boardType: state.voting.candidateBoardType,
+    boardType: state.voting.selectedBoardType,
     candidates: state.voting.candidates,
     isLoadingCandidates: state.voting.isLoadingCandidates,
     voteCandidateDialog: state.voting.voteCandidateDialog,

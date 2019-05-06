@@ -6,12 +6,24 @@ export const types = {
   LOAD_CANDIDATES_SUCCESS: 'VOTING/LOAD_CANDIDATES_SUCCESS',
   LOAD_CANDIDATES_FAILURE: 'VOTING/LOAD_CANDIDATES_FAILURE',
 
+  LOAD_PROPOSALS: 'VOTING/LOAD_PROPOSALS',
+  LOAD_PROPOSALS_REQUEST: 'VOTING/LOAD_PROPOSALS_REQUEST',
+  LOAD_PROPOSALS_SUCCESS: 'VOTING/LOAD_PROPOSALS_SUCCESS',
+  LOAD_PROPOSALS_FAILURE: 'VOTING/LOAD_PROPOSALS_FAILURE',
+
   VOTE_CANDIDATE: 'VOTING/VOTE_CANDIDATE',
   VOTE_CANDIDATE_DIALOG_OPEN: 'VOTING/VOTE_CANDIDATE_DIALOG_OPEN',
   VOTE_CANDIDATE_DIALOG_CLOSE: 'VOTING/VOTE_CANDIDATE_DIALOG_CLOSE',
   VOTE_CANDIDATE_REQUEST: 'VOTING/VOTE_CANDIDATE_REQUEST',
   VOTE_CANDIDATE_SUCCESS: 'VOTING/VOTE_CANDIDATE_SUCCESS',
   VOTE_CANDIDATE_FAILURE: 'VOTING/VOTE_CANDIDATE_FAILURE',
+
+  VOTE_PROPOSAL: 'VOTING/VOTE_PROPOSAL',
+  VOTE_PROPOSAL_DIALOG_OPEN: 'VOTING/VOTE_PROPOSAL_DIALOG_OPEN',
+  VOTE_PROPOSAL_DIALOG_CLOSE: 'VOTING/VOTE_PROPOSAL_DIALOG_CLOSE',
+  VOTE_PROPOSAL_REQUEST: 'VOTING/VOTE_PROPOSAL_REQUEST',
+  VOTE_PROPOSAL_SUCCESS: 'VOTING/VOTE_PROPOSAL_SUCCESS',
+  VOTE_PROPOSAL_FAILURE: 'VOTING/VOTE_PROPOSAL_FAILURE',
 
   LOAD_USER_CANDIDATE_REQUEST: 'VOTING/LOAD_USER_CANDIDATE_REQUEST',
   LOAD_USER_CANDIDATE_SUCCESS: 'VOTING/LOAD_USER_CANDIDATE_SUCCESS',
@@ -51,12 +63,24 @@ export const actions = {
   loadCandidatesSuccess: (boardType, candidates) => ({ type: types.LOAD_CANDIDATES_SUCCESS, payload: { boardType, candidates } }),
   loadCandidatesFailure: (boardType, error) => ({ type: types.LOAD_CANDIDATES_FAILURE, error }),
 
+  loadProposals: (boardType = "") => ({ type: types.LOAD_PROPOSALS, payload: { boardType } }),
+  loadProposalsRequest: () => ({ type: types.LOAD_PROPOSALS_REQUEST }),
+  loadProposalsSuccess: (boardType, proposals) => ({ type: types.LOAD_PROPOSALS_SUCCESS, payload: { boardType, proposals } }),
+  loadProposalsFailure: (boardType, error) => ({ type: types.LOAD_PROPOSALS_FAILURE, error }),
+
   voteCandidate: (boardType, candidate, voteAmount) => ({ type: types.VOTE_CANDIDATE, payload: { boardType, candidate, voteAmount } }),
   voteCandidateDialogOpen: () => ({ type: types.VOTE_CANDIDATE_DIALOG_OPEN }),
   voteCandidateDialogClose: () => ({ type: types.VOTE_CANDIDATE_DIALOG_CLOSE }),
   voteCandidateRequest: () => ({ type: types.VOTE_CANDIDATE_REQUEST }),
   voteCandidateSuccess: () => ({ type: types.VOTE_CANDIDATE_SUCCESS }),
   voteCandidateFailure: (error) => ({ type: types.VOTE_CANDIDATE_FAILURE, error }),
+
+  voteProposal: (boardType, proposal, voteAmount) => ({ type: types.VOTE_PROPOSAL, payload: { boardType, proposal, voteAmount } }),
+  voteProposalDialogOpen: () => ({ type: types.VOTE_PROPOSAL_DIALOG_OPEN }),
+  voteProposalDialogClose: () => ({ type: types.VOTE_PROPOSAL_DIALOG_CLOSE }),
+  voteProposalRequest: () => ({ type: types.VOTE_PROPOSAL_REQUEST }),
+  voteProposalSuccess: () => ({ type: types.VOTE_PROPOSAL_SUCCESS }),
+  voteProposalFailure: (error) => ({ type: types.VOTE_PROPOSAL_FAILURE, error }),
 
   apply: (boardType) => ({ type: types.APPLY, payload: { boardType } }),
   applyRequest: () => ({ type: types.APPLY_REQUEST }),
