@@ -30,7 +30,7 @@ export function SellModal({isShow, onClose, record = {}, loadCrowdsales}) {
         SaleID: record.SaleID,
         TokenID: record.BuyingAsset,
         Amount: Number(formState.amount),
-        PriceLimit: Number(formState.priceLimit),
+        PricePerBond: Number(record.Price),
         TokenName: record.BuyingAssetLabel
       });
       notification.success({message: "Sell Success!"});

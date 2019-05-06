@@ -30,8 +30,8 @@ export function BuyModal({isShow, onClose, record, loadCrowdsales}) {
       setIsLoading(true);
       await axios.post(`${process.env.serviceAPI}/bond-market/dcb/buy`, {
         SaleID: record.SaleID,
-        Amount: parseFloat(formState.amount * record.Price, 10) * 100, //convert to nano constant
-        PriceLimit: parseFloat(formState.priceLimit, 10),
+        Amount: Number(formState.amount),
+        PricePerBond: Number(record.Price),
         TokenName: record.SellingAssetLabel,
         TokenID: record.SellingAsset
       });

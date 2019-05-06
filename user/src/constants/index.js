@@ -72,5 +72,5 @@ export const ORACLE_REQUEST_ACTION = {
 export const BOARD_TYPES = {
   DCB: 1,
   GOV: 2,
-  CMB: 3,
+  // CMB: 3,
 }
