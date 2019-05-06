@@ -1,16 +1,12 @@
 import React from "react";
-// import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import dayjs from 'dayjs';
-
 import {
-  // TextField,
   TablePagination,
   FormControl, CircularProgress,
 } from '@material-ui/core';
-
+import {} from "./Oracle.scss"
 import Link from "components/Link";
-
 import {getOracleMetadatas} from "../../services/oracle";
 
 const mapStateToProps = (state) => {
@@ -80,12 +76,12 @@ class RequestList extends React.Component {
 
                 </div>
 
-                <table className="c-table-portal-home" style={{minWidth: "100%"}}>
+                <table className="c-table-portal-home" style={{minWidth: "100%", fontSize: "14px", fontWeight: 500}}>
                   <thead>
                   <tr>
-                    {/* <th>ID</th> */}
-                    <th>Public Key</th>
                     <th>User</th>
+                    <th>Request</th>
+                    <th>Public Key</th>
                     <th>Created At</th>
                     <th>Status</th>
                   </tr>
@@ -94,17 +90,17 @@ class RequestList extends React.Component {
                   {oracleMetadatas && oracleMetadatas.length > 0 ? oracleMetadatas.map((item = {}) => {
                     return (
                       <tr key={`metadata-item-${item.ID}`}>
-                        {/* <td><Link to={`/oracle/${item.ID}/detail`}>{item.ID} </Link></td> */}
-                        <td><Link to={`/oracle/${item.ID}/detail`}>
+                        <td>{item.User && (item.User.FirstName + " " + item.User.LastName)}</td>
+                        <td>{item.Type.toUpperCase()}</td>
+                        <td style={{width: "25%"}}><Link to={`/oracle/${item.ID}/detail`}>
                           {item.PubKeys && item.PubKeys.length > 0 && item.PubKeys.map((key = "", i) => {
                             return (
-                              <div key={`p-key-${i}`}>{key} <br/></div>
+                              <p key={`p-key-${i}`}>{key}</p>
                             )
                           })}
                         </Link></td>
-                        <td>{item.User && (item.User.FirstName + " " + item.User.LastName)}</td>
-                        <td>{item.CreatedAt ? dayjs(item.CreatedAt).format('MM-DD-YYYY') : ""}</td>
-                        <td>{item.Status}</td>
+                        <td>{item.CreatedAt ? dayjs(item.CreatedAt).format('MM-DD-YYYY HH:mm:ss') : ""}</td>
+                        <td className={item.Status}>{item.Status}</td>
                       </tr>
                     )
                   }) : <CircularProgress/>}
