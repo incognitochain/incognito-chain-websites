@@ -1,7 +1,5 @@
 import React from "react";
 // import PropTypes from 'prop-types';
-import axios from "axios";
-import {push} from "connected-react-router";
 import {connect} from "react-redux";
 import Loading from "components/Loading";
 import Button from '@material-ui/core/Button';
@@ -10,6 +8,8 @@ import styled from "styled-components";
 import CheckCircleOutline from "@material-ui/icons/DoneOutline";
 import CloseOutline from "@material-ui/icons/Close";
 import queryString from 'query-string'
+
+import { actions as authActions } from "../../actions/auth";
 
 
 class Popup extends React.Component{
@@ -60,66 +60,30 @@ class Popup extends React.Component{
           <Button onClick={this.closePopup} style = {this.buttonStyle}>Go to Home Page</Button> 
         </div>
       </div>
-      
     );
   }
 }
 
 class VerifyEmail extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: true,
-      valid: false,
-    };
-  }
-
   componentDidMount(){
     this.handleVerify();
   }
 
-  handleVerify = () => {
+  handleVerify = async () => {
+    const { verifyEmail } = this.props
     const values = queryString.parse(this.props.location.search)
-    let token = values.token;
-    // console.log("Token: ", token);
-    let data = {
-      "Token" : token
-    }
-
-    axios({
-      method: "POST",
-      url: `${process.env.REACT_APP_SERVICE_API}/auth/verify-email`,
-      data
-    })
-      .then(res => {
-        console.log("Response: ", res);
-        if (
-          res &&
-          res.data &&
-          res.data.Result === true
-        ){
-          return (
-            this.setState({loading: false, valid: true})
-          )
-        }  else if (res.data.Error || res.data.Result === false){
-          return (
-            this.setState({loading: false, valid: false})
-          )
-        }
-      })
-      .catch(e =>{
-        console.log("Error when verifying email: ", e);
-        this.setState({loading: false, valid: false});
-      });
+    const token = values.token;
+    await verifyEmail(token)
   }
 
   render(){
-    if (this.state.loading){
+    const { isLoading, error } = this.props
+    if (isLoading){
       return <Loading />
     } else {
-      if (!this.state.valid){
+      if (error != null){
         // show failed message
-        return <Popup showModal={true} success ={false}></Popup>     
+        return <Popup showModal={true} success={false}></Popup>     
       } else{
         // show success message
         return <Popup showModal={true} success ={true}></Popup>
@@ -137,9 +101,13 @@ const IconFailed = styled(CloseOutline)`
   font-size: 100px !important;
   color: #DD0000;
 `;
+
 export default connect(
-  null,
+  state => ({
+    isLoading: state.auth.isLoading,
+    error: state.auth.verifyEmailError,
+  }),
   {
-    routerPush: push
+    verifyEmail: authActions.verifyEmail
   }
 )(VerifyEmail);

@@ -1,61 +1,28 @@
 import React from "react";
 // import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 // import { Link } from 'react-router-dom';
 import { axios, catchError } from "services/api";
-import { API } from "constants/index";
-import { isEmpty } from "lodash";
+import { API } from "../../constants";
 import { Dialog, toaster, TextInputField, Alert } from "evergreen-ui";
 import QRCode from "qrcode.react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
-class Wallet extends React.Component {
-  static propTypes = {
-    // abc: PropTypes.object.isRequired,
-    // abcd: PropTypes.func.isRequired,
-  };
+import { actions as walletActions } from '../../actions/wallet'
 
+class Wallet extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      balancers: [],
-      address: "",
-      inited: false,
-      dialogDeposit: false,
-      dialogWithdraw: false,
-      isLoading: false,
-      currentBalance: {},
-      amount: "",
+      withdrawAmount: "",
       withdrawAddress: ""
     };
-
-    this.loadBalancers();
   }
 
-  loadBalancers = () => {
-    axios
-      .get(API.WALLET_BALANCES)
-      .then(res => {
-        const { data } = res;
-        const { Result } = data;
-        if (Result) {
-          const { ListBalances, PaymentAddress } = Result;
-          if (!isEmpty(ListBalances)) {
-            this.setState({
-              balancers: Object.keys(ListBalances).map(
-                key => ListBalances[key]
-              ),
-              address: PaymentAddress,
-              inited: true
-            });
-          }
-        }
-      })
-      .catch(e => {
-        catchError(e);
-        console.log(e);
-      });
-  };
+  componentDidMount() {
+    const { loadBalances } = this.props;
+    loadBalances()
+  }
 
   copySuccess = () => {
     toaster.success("Copy success!", { duration: 1 });
@@ -111,26 +78,36 @@ class Wallet extends React.Component {
 
   render() {
     const {
-      balancers,
-      address,
-      dialogDeposit,
-      dialogWithdraw,
-      isLoading,
-      inited,
-      amount,
+      withdrawAmount,
       withdrawAddress
     } = this.state;
+
+    const {
+      balances,
+      paymentAddress,
+      isLoading,
+      depositDialog,
+      isWithdrawing,
+      withdrawDialog,
+      // actions
+      withdraw,
+      depositDialogOpen,
+      depositDialogClose,
+      withdrawDialogOpen,
+      withdrawDialogClose,
+    } = this.props
+
     return (
       <div className="page wallet-page">
         <Dialog
-          isShown={dialogDeposit}
+          isShown={depositDialog}
           shouldCloseOnOverlayClick={false}
           shouldCloseOnEscapePress={false}
           title=""
           confirmLabel="Done"
           hasCancel={false}
           hasHeader={false}
-          onCloseComplete={() => this.setState({ dialogDeposit: false })}
+          onCloseComplete={() => depositDialogClose()}
         >
           <div className="deposit-dialog">
             <Alert
@@ -139,15 +116,15 @@ class Wallet extends React.Component {
               marginBottom={5}
             />
             <div className="qrcode">
-              <QRCode value={address} size={200} renderAs="svg" />
+              <QRCode value={paymentAddress} size={200} renderAs="svg" />
             </div>
             <div>
               <span className="c-code" style={{ wordWrap: "break-word" }}>
-                {address}
+                {paymentAddress}
               </span>
             </div>
             <div style={{ textAlign: "center" }}>
-              <CopyToClipboard text={address} onCopy={this.copySuccess}>
+              <CopyToClipboard text={paymentAddress} onCopy={this.copySuccess}>
                 <a href="/wallet" onClick={e => e.preventDefault()}>
                   Copy
                 </a>
@@ -156,24 +133,17 @@ class Wallet extends React.Component {
           </div>
         </Dialog>
         <Dialog
-          isShown={dialogWithdraw}
+          isShown={withdrawDialog}
           shouldCloseOnOverlayClick={false}
           shouldCloseOnEscapePress={false}
           title="Withdraw"
           confirmLabel="Withdraw"
-          isConfirmLoading={isLoading}
+          isConfirmLoading={isWithdrawing}
           onCloseComplete={() =>
-            this.setState({
-              dialogWithdraw: false,
-              isLoading: false,
-              currentBalance: {},
-              amount: "",
-              withdrawAddress: ""
-            })
+            withdrawDialogClose()
           }
           onConfirm={() => {
-            this.setState({ isLoading: true });
-            this.withdraw();
+            withdraw(withdrawAddress, withdrawAmount)
           }}
         >
           <div className="withdraw-dialog">
@@ -189,10 +159,10 @@ class Wallet extends React.Component {
                 autoComplete="off"
                 width="100%"
                 type="text"
-                value={amount}
+                value={withdrawAmount}
                 onChange={e => {
                   this.onlyNumber(e.target.value, () => {
-                    this.setState({ amount: e.target.value });
+                    this.setState({ withdrawAmount: e.target.value });
                   });
                 }}
               />
@@ -209,7 +179,7 @@ class Wallet extends React.Component {
             </div>
           </div>
         </Dialog>
-        <div className="wallet-balancers-list">
+        <div className="wallet-balances-list">
           <div className="container">
             <div className="row">
               <div className="col-12">
@@ -227,12 +197,12 @@ class Wallet extends React.Component {
                       </tr>
                     </thead>
                     <tbody>
-                      {!inited && (
+                      {isLoading && (
                         <tr>
                           <td colSpan="7">Loading..</td>
                         </tr>
                       )}
-                      {balancers.map(balance => (
+                      {balances.map(balance => (
                         <tr key={balance.TokenID}>
                           <td className="name">{balance.SymbolName}</td>
                           <td
@@ -252,7 +222,7 @@ class Wallet extends React.Component {
                               className="c-a-btn"
                               type="button"
                               onClick={() => {
-                                this.setState({ dialogDeposit: true });
+                                depositDialogOpen()
                               }}
                             >
                               Deposit
@@ -262,10 +232,7 @@ class Wallet extends React.Component {
                                 className="c-a-btn"
                                 type="button"
                                 onClick={() => {
-                                  this.setState({
-                                    dialogWithdraw: true,
-                                    currentBalance: balance
-                                  });
+                                  withdrawDialogOpen(balance)
                                 }}
                               >
                                 Withdraw
@@ -284,7 +251,7 @@ class Wallet extends React.Component {
                           </td>
                         </tr>
                       ))}
-                      {inited && balancers.length === 0 && (
+                      {!isLoading && balances.length === 0 && (
                         <td colSpan="7">Empty</td>
                       )}
                     </tbody>
@@ -299,4 +266,21 @@ class Wallet extends React.Component {
   }
 }
 
-export default Wallet;
+export default connect(
+  state => ({
+    isLoading: state.wallet.isLoading,
+    balances: state.wallet.balances,
+    paymentAddress: state.wallet.paymentAddress,
+    depositDialog: state.wallet.depositDialog,
+    withdrawDialog: state.wallet.withdrawDialog,
+    isWithdrawing: walletActions.isWithdrawing,
+  }),
+  {
+    loadBalances: walletActions.loadBalances,
+    depositDialogOpen: walletActions.depositDialogOpen,
+    depositDialogClose: walletActions.depositDialogClose,
+    withdraw: walletActions.withdraw,
+    withdrawDialogOpen: walletActions.withdrawDialogOpen,
+    withdrawDialogClose: walletActions.withdrawDialogClose,
+  }
+)(Wallet);

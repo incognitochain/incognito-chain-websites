@@ -1,5 +1,5 @@
 import React from 'react';
-import history from 'store/history';
+import { history } from '../../store';
 import { ConnectedRouter } from 'connected-react-router';
 import Router from 'components/Router';
 

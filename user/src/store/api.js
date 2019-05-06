@@ -1,6 +1,6 @@
 import { call, put } from "redux-saga/effects";
 import $http from "services/api";
-import { BASE_API } from "constants/index";
+import { BASE_API } from "../../constants";
 
 const apiActionRequest = ({ type }) => ({
   type: `${type}_REQUEST`

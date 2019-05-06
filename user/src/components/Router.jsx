@@ -1,13 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { createDynamicImport } from "services/app";
+import { createDynamicImport } from "./DynamicImport";
 import { Switch, Route, Redirect } from "react-router-dom";
-import Loading from "components/Loading";
-import Layout from "components/App/Layout";
-import { checkAuth, logout } from "reducers/auth/action";
+import Loading from "../components/Loading";
+import Layout from "../components/App/Layout";
 import { connect } from "react-redux";
+import { actions as authActions } from "../actions/auth";
+import { actions as votingActions } from "../actions/voting";
+import { actions as oracleActions } from "../actions/oracle";
 
-const Home = createDynamicImport(() => import("modules/Home/Home"), Loading);
+const Home = createDynamicImport(() => import("modules/Home"), Loading);
 const Register = createDynamicImport(
   () => import("modules/Auth/Register"),
   Loading
@@ -26,15 +28,15 @@ const ForgotPassword = createDynamicImport(
   Loading
 );
 const Wallet = createDynamicImport(
-  () => import("modules/Wallet/Wallet"),
+  () => import("modules/Wallet"),
   Loading
 );
 const Voting = createDynamicImport(
-  () => import("modules/Voting/Voting"),
+  () => import("modules/Voting"),
   Loading
 );
 const Proposals = createDynamicImport(
-  () => import("modules/proposal/Proposals"),
+  () => import("modules/Proposal"),
   Loading
 );
 const Kyc = createDynamicImport(
@@ -143,21 +145,17 @@ const routers = [
 ];
 
 class Router extends React.Component {
-  static propTypes = {
-    auth: PropTypes.object.isRequired,
-    router: PropTypes.object.isRequired
-  };
-
   componentDidMount() {
-    this.props.dispatch(checkAuth());
+    const { firstAuthorize } = this.props;
+    firstAuthorize()
   }
 
   render() {
-    const { auth, router } = this.props;
+    const { isAuthorized, firstAuthorized, router } = this.props;
     const { location } = router;
     const { pathname } = location;
 
-    if (!auth.inited) {
+    if (!firstAuthorized) {
       return <Loading />;
     }
 
@@ -181,14 +179,12 @@ class Router extends React.Component {
               {...route}
               render={routeProps => {
                 if (needLogged) {
-                  console.log("auth.logged", auth.logged);
-                  if (!auth.logged) {
-                    logout();
+                  if (!isAuthorized) {
                     return (
                       <Redirect
                         to={{
                           pathname: "/login",
-                          state: { from: pathname }
+                          search: `?redirect=${pathname}`
                         }}
                       />
                     );
@@ -219,6 +215,13 @@ class Router extends React.Component {
 }
 
 export default connect(state => ({
-  auth: state.auth,
-  router: state.router
-}))(Router);
+  firstAuthorized: state.auth.firstAuthorized,
+  isAuthorized: state.auth.isAuthorized,
+  router: state.router,
+  votingInitiated: state.voting.initiated,
+  oracleInitiated: state.oracle.initiated, 
+}), {
+  firstAuthorize: authActions.firstAuthorize,
+  loadVotingData: votingActions.loadVotingData,
+  loadOracleData: oracleActions.loadOracleData,
+})(Router);

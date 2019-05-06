@@ -1,81 +1,22 @@
 import React from "react";
 import { Formik } from "formik";
-import axios from "axios";
-import Cookies from "js-cookie";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinnerThird } from "@fortawesome/pro-light-svg-icons";
 import Link from "components/Link";
+import {connect} from "react-redux";
+import { actions as authActions } from "../../actions/auth";
+
 
 class Register extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      error: ""
-    };
-  }
-
-  handleSubmit = (values, setSubmitting) => {
+  handleSubmit = async (values) => {
+    const { register } = this.props;
     const { firstName, lastName, email, newPassword, confirmPassword } = values;
 
-    const data = {
-      FirstName: firstName,
-      LastName: lastName,
-      Email: email,
-      Password: newPassword,
-      ConfirmPassword: confirmPassword,
-      Type: "borrower",
-      PublicKey: "",
-      checkAuth: false,
-      redirect: ""
-    };
-
-    axios({
-      method: "POST",
-      url: `${process.env.REACT_APP_SERVICE_API}/auth/register`,
-      data
-    })
-      .then(res => {
-        if (
-          res &&
-          res.data &&
-          res.data.Result &&
-          res.data.Result.Message &&
-          res.data.Result.Message === "register successfully"
-        ) {
-          axios({
-            method: "POST",
-            url: `${process.env.REACT_APP_SERVICE_API}/auth/login`,
-            data
-          }).then(loginRes => {
-            if (
-              loginRes.data &&
-              loginRes.data.Result &&
-              loginRes.data.Result.Token
-            ) {
-              Cookies.set("auth", loginRes.data.Result.Token, {
-                domain: process.env.REACT_APP_DOMAIN,
-                expires: 30
-              });
-              window.location.assign("/");
-            } else {
-              this.setState({ error: "Have something wrong" });
-            }
-          });
-        } else {
-          this.setState({ error: "Have something wrong" });
-        }
-        setSubmitting(false);
-      })
-      .catch(err => {
-        const errResponse = err.response;
-        this.setState({ error: errResponse ? errResponse.data.Error.Message : err.message });
-        console.log("err register", err);
-        setSubmitting(false);
-      });
+    await register(firstName, lastName, email, newPassword, confirmPassword);
   };
 
   render() {
-    const { error } = this.state;
+    const { error, isLoading } = this.props;
 
     return (
       <div className="auth-page">
@@ -123,9 +64,9 @@ class Register extends React.Component {
                   }}
                   validateOnBlur={false}
                   validateOnChange={false}
-                  onSubmit={(values, { setSubmitting }) => {
+                  onSubmit={(values) => {
                     setTimeout(() => {
-                      this.handleSubmit(values, setSubmitting);
+                      this.handleSubmit(values);
                     }, 400);
                   }}
                 >
@@ -135,8 +76,7 @@ class Register extends React.Component {
                     touched,
                     handleChange,
                     handleBlur,
-                    handleSubmit,
-                    isSubmitting
+                    handleSubmit
                   }) => (
                     <form onSubmit={handleSubmit}>
                       <div className="row">
@@ -254,7 +194,7 @@ class Register extends React.Component {
                           className="c-btn c-btn-primary c-block"
                           type="submit"
                         >
-                          {isSubmitting ? (
+                          {isLoading ? (
                             <FontAwesomeIcon
                               icon={faSpinnerThird}
                               size="1x"
@@ -283,4 +223,15 @@ class Register extends React.Component {
   }
 }
 
-export default Register;
+export default connect(
+  (state) => {
+    return {
+      isAuthorized: state.auth.isAuthorized,
+      isLoading: state.auth.isLoading,
+      error: state.auth.registerError,
+    }
+  },
+  {
+    register: authActions.register,
+  }
+)(Register);

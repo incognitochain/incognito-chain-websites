@@ -1,6 +1,7 @@
 import { takeLatest, put } from 'redux-saga/effects';
 import { apiSaga } from 'store/api';
 
+console.log('abc', apiSaga);
 
 import {
   apiLoadLoans,

@@ -1,5 +1,5 @@
-import React from "react";
-import _ from "lodash";
+import React from "./node_modules/react";
+import _ from "./node_modules/lodash";
 
 export function RightContent({ data = {}, onClickVote }) {
   return (

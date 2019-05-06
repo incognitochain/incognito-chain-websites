@@ -1,6 +1,6 @@
 import { axios } from "services/api";
 import Cookies from "js-cookie";
-import { API } from "constants/index";
+import { API } from "../../constants";
 import { isEmpty } from "lodash";
 
 export const ACTIONS = {

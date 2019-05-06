@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import Link from 'components/Link';
 import Logo from 'assets/logo.svg';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faAngleDown, faUserCircle} from '@fortawesome/free-solid-svg-icons';
-import {faBars, faTimes} from '@fortawesome/pro-light-svg-icons';
-import Cookies from 'js-cookie';
-import {push} from 'connected-react-router';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleDown, faUserCircle } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faTimes } from '@fortawesome/pro-light-svg-icons';
+import { actions as authActions } from '../../actions/auth'
 
 class Header extends React.Component {
   static propTypes = {
@@ -23,7 +22,7 @@ class Header extends React.Component {
 
   constructor(props) {
     super(props);
-    const {redirect} = this.props;
+    const { redirect } = this.props;
     this.state = {
       showMenu: false,
       authMenu: false,
@@ -36,33 +35,29 @@ class Header extends React.Component {
     const container = document.getElementById('auth');
     if (e.target !== container && !container.contains(e.target)) {
       window.document.body.removeEventListener('click', this.eventAuthMenu);
-      this.setState({authMenu: false});
+      this.setState({ authMenu: false });
     }
   }
 
   toggleMenu = () => {
-    const {showMenu} = this.state;
-    this.setState({showMenu: !showMenu});
+    const { showMenu } = this.state;
+    this.setState({ showMenu: !showMenu });
   }
 
   toggleAuthMenu = () => {
-    const {authMenu} = this.state;
+    const { authMenu } = this.state;
 
     if (authMenu) {
       window.document.body.removeEventListener('click', this.eventAuthMenu);
     } else {
       window.document.body.addEventListener('click', this.eventAuthMenu);
     }
-    this.setState({authMenu: !authMenu});
+    this.setState({ authMenu: !authMenu });
   }
 
-  logout = (e) => {
-    const {propRedirect} = this.state;
-    // const { routerPush } = this.props;
-    e.preventDefault();
-
-    Cookies.remove('user', {domain: `${process.env.REACT_APP_DOMAIN}`, path: '/'});
-    window.location.assign(`/login?redirect=${propRedirect}`);
+  logout = async (e) => {
+    const { logout } = this.props;
+    logout()
   }
 
   render() {
@@ -70,8 +65,8 @@ class Header extends React.Component {
       auth,
       // router,
     } = this.props;
-    const {data} = auth;
-    const {showMenu, authMenu} = this.state;
+    const { profile } = auth;
+    const { showMenu, authMenu } = this.state;
     // const { location } = router;
     // const { pathname } = location;
 
@@ -82,11 +77,11 @@ class Header extends React.Component {
             <div className="col-12">
               <div className="logo-container">
                 <Link to="/">
-                  <img src={Logo} alt="Logo"/>
+                  <img src={Logo} alt="Logo" />
                   {' onstant'}
                 </Link>
                 <div className="hamburger" onClick={this.toggleMenu}>
-                  <FontAwesomeIcon style={{marginRight: showMenu ? 5 : 0}} icon={showMenu ? faTimes : faBars}/>
+                  <FontAwesomeIcon style={{ marginRight: showMenu ? 5 : 0 }} icon={showMenu ? faTimes : faBars} />
                 </div>
               </div>
               <div className={`menu-container ${showMenu ? 'show' : 'hide'}`}>
@@ -95,8 +90,6 @@ class Header extends React.Component {
                   <li><a href={`${process.env.REACT_APP_EXPLORER_URL}`}>Explorer</a></li>
                   <li><a href={`${process.env.REACT_APP_PORTAL_URL}`}>Portal</a></li>
                   <li><a href={`${process.env.REACT_APP_EXCHANGE_URL}`}>Exchange</a></li>
-                  <li><Link to="/oracle">Oracle</Link></li>
-                  <li><Link to="/oracle/price-list">Oracle Current Price</Link></li>
                   {/*<li><Link to="/about">About</Link></li>
                   <li><Link to="/faq">FAQ</Link></li>*/}
                 </ul>
@@ -105,13 +98,13 @@ class Header extends React.Component {
                 <ul className="menu">
                   <li>
                     <div className="auth" id="auth" onClick={this.toggleAuthMenu}>
-                      <span className="firstname">{`${data.FirstName} `}</span>
-                      <FontAwesomeIcon icon={faUserCircle} size="2x"/>
-                      <FontAwesomeIcon icon={faAngleDown}/>
+                      <span className="firstname">{`${profile.FirstName} `}</span>
+                      <FontAwesomeIcon icon={faUserCircle} size="2x" />
+                      <FontAwesomeIcon icon={faAngleDown} />
                     </div>
                     <ul className={`sub-menu ${authMenu ? 'show' : ''}`}>
                       <li><Link to="/">Profile</Link></li>
-                      <li><Link to="/" onClick={this.logout}>Logout</Link></li>
+                      <li><Link to="#" onClick={this.logout}>Logout</Link></li>
                     </ul>
                   </li>
                 </ul>
@@ -124,6 +117,9 @@ class Header extends React.Component {
   }
 }
 
-export default connect(state => ({auth: state.auth, router: state.router}), ({
-  routerPush: push,
-}))(Header);
+export default connect(
+  state => ({ auth: state.auth }),
+  {
+    logout: authActions.logout,
+  }
+)(Header);
