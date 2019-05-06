@@ -15,7 +15,7 @@ import { getOracleMetadatas } from "../../services/oracle";
 
 const mapStateToProps = (state) => {
   return {
-
+    accessToken: state.auth.accessToken,
   }
 }
 const mapDispatchToProps = (dispatch) => {
@@ -37,7 +37,8 @@ class RequestList extends React.Component {
   }
 
   onGetOracleMetadatas = async (perPage, page) => {
-    const res = await getOracleMetadatas(perPage, page);
+    const { accessToken } = this.props;
+    const res = await getOracleMetadatas(accessToken, perPage, page);
     const { result = [], error = "" } = res;
     if (error) {
       console.log("get oracle metadata error", error);

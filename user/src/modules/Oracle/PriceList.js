@@ -19,7 +19,7 @@ import { getCurrentPrice } from "../../services/oracle";
 
 const mapStateToProps = (state) => {
   return {
-
+    accessToken: state.auth.accessToken,
   }
 }
 const mapDispatchToProps = (dispatch) => {
@@ -40,7 +40,8 @@ class PriceList extends React.Component {
     this.onGetCurrentPrice();
   }
   onGetCurrentPrice = async () => {
-    const res = await getCurrentPrice();
+    const { accessToken } = this.props;
+    const res = await getCurrentPrice(accessToken);
     const { result = [], error = "" } = res;
     if (error) {
       console.log("get current price error", error);
