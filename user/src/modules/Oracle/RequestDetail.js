@@ -96,6 +96,7 @@ class RequestDetail extends React.Component {
     const {isUserInBoard, openDialog, metadata = {}} = this.state;
 
     let showSubmitBtn = (metadata.Status !== "submitted" && isUserInBoard && metadata.IsSign !== true);
+    showSubmitBtn = true;
     return (
       <div className="page user-page home-page">
         <div className="container">
@@ -164,7 +165,7 @@ class RequestDetail extends React.Component {
                 <div className="row">
                   <FormControl component="fieldset" style={{width: "100%"}}>
                     <div className="title">Created
-                      At: {metadata.CreatedAt ? dayjs(metadata.CreatedAt).format('MM-DD-YYYY') : ""}</div>
+                      At: {metadata.CreatedAt ? dayjs(metadata.CreatedAt).format('MM-DD-YYYY HH:mm:ss') : ""}</div>
                   </FormControl>
                 </div>
                 <br/>

@@ -54,7 +54,7 @@ class PriceList extends React.Component {
                      style={{display: "flex", justifyContent: "space-between", alignContent: "center"}}>
                   Current Price List
                 </div>
-                <List component="nav" style={{textAlign: "center"}}>
+                <List component="nav" style={{textAlign: "center", fontSize: "14px", fontWeight: 500}}>
                   {currenPrice && Object.keys(currenPrice).length > 0 ? Object.keys(currenPrice).map((key, i) => {
                       return (
                         <ListItem button>
