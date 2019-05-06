@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Box from "@ui/utility/box";
 import BoxTitle from '@ui/utility/boxTitle';
+import {formatConstantValue} from "../../services/Formatter";
 
 export const CrowdsaleTransactions = ({transactions = []}) => {
   return (
@@ -29,6 +30,15 @@ export const CrowdsaleTransactions = ({transactions = []}) => {
               <Field>
                 <Label>Amount</Label>
                 <Value>{transaction.Amount}</Value>
+              </Field>
+
+              <Field>
+                <Label>Price per Unit</Label>
+                <Value>{formatConstantValue(transaction.PricePerBond / 100)} const</Value>
+              </Field>
+              <Field>
+                <Label>Total</Label>
+                <Value>{formatConstantValue(transaction.PricePerBond * transaction.Amount / 100)} const</Value>
               </Field>
             </Transaction>
           );

@@ -40,7 +40,7 @@ const testData = [
     TxID: "1234567",
     Side: "Buy",
     Amount: 1,
-    PriceLimit: 1
+    PricePerBond: 200,
   },
   {
     ID: 3,
@@ -51,7 +51,7 @@ const testData = [
     TxID: "22222222",
     Side: "Buy",
     Amount: 1,
-    PriceLimit: 1
+    PricePerBond: 200,
   },
   {
     ID: 4,
@@ -62,7 +62,7 @@ const testData = [
     TxID: "33333333",
     Side: "Buy",
     Amount: 1,
-    PriceLimit: 1
+    PricePerBond: 200,
   }
 ];
 
@@ -103,7 +103,8 @@ function getHistoryList(result) {
     return {
       id: tokenID,
       name: firstItemWithToken.TokenName,
-      image: firstItemWithToken.TokenImage
+      image: firstItemWithToken.TokenImage,
+      txs: groupedTransactions[tokenID].length,
     };
   });
 
