@@ -12,7 +12,6 @@ import { BOARD_TYPES } from "../../constants";
 import cn from "classnames";
 import bgImage from "assets/create-a-proposal.svg";
 import { Dialog, Textarea } from "evergreen-ui";
-import { checkAuth } from "reducers/auth/action";
 import GovProposalDialog from "./GovProposalDialog";
 import DcbProposalDialog from "./DcbProposalDialog";
 import _ from "lodash";
@@ -338,7 +337,6 @@ export default connect(
     isCreatingDcbProposal: state.voting.isCreatingDcbProposal
   }),
   {
-    authCheckAuth: checkAuth,
     updateBio: authActions.updateBio,
     updateBioDialogOpen: authActions.updateBioDialogOpen,
     updateBioDialogClose: authActions.updateBioDialogClose,
