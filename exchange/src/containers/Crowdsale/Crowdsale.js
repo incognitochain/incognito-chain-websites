@@ -10,6 +10,7 @@ import {BuyModal} from "./BuyModal";
 import {SellModal} from "./SellModal";
 import BreadcrumbBar from "@/containers/Breadcrumb/Breadcrumb";
 import {formatConstantValue, formatTokenAmount} from "../../services/Formatter";
+import {} from "./Crowdsale.scss"
 
 const renderIf = cond => comp => (cond ? comp : null);
 
@@ -183,7 +184,7 @@ export default function Crowdsale() {
       <BreadcrumbBar
         urls={[
           {
-            name: "Bond Crowdsale",
+            name: "Crowdsale",
             url: "/crowdsale"
           },
           {
