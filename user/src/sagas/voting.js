@@ -68,7 +68,7 @@ export function* loadCandidates(action) {
   const { accessToken: token } = state.auth
   let { boardType } = action.payload
   if (boardType === "") {
-    boardType = state.voting.candidateBoardType
+    boardType = state.voting.selectedBoardType
   }
   // load candidates
   yield put(actions.loadCandidatesRequest())
@@ -78,6 +78,24 @@ export function* loadCandidates(action) {
   } else {
     const candidates = response.data.Result
     yield put(actions.loadCandidatesSuccess(boardType, candidates))
+  }
+}
+
+export function* loadProposals(action) {
+  const state = yield select()
+  const { accessToken: token } = state.auth
+  let { boardType } = action.payload
+  if (boardType === "") {
+    boardType = state.voting.selectedBoardType
+  }
+  // load candidates
+  yield put(actions.loadProposalsRequest())
+  const response = yield call(services.loadProposals, token, boardType)
+  if (response.data.Error) {
+    yield put(actions.loadProposalsError(response.data.Error.Message))
+  } else {
+    const proposals = response.data.Result
+    yield put(actions.loadProposalsSuccess(boardType, proposals))
   }
 }
 
@@ -98,6 +116,27 @@ export function* voteCandidate(action) {
     }
   } catch (e) {
     yield put(actions.voteCandidateFailure(e.message))
+    yield call(toaster.success, "Vote error. Please try again later!")
+  }
+}
+
+export function* voteProposal(action) {
+  const state = yield select()
+  const { accessToken: token } = state.auth
+  const { boardType, proposal, voteAmount } = action.payload
+  yield put(actions.voteProposalRequest())
+  try {
+    const resp = yield call(services.voteProposal, token, boardType, proposal, voteAmount)
+    if (resp.data.Error) {
+      yield put(actions.voteProposalFailure(resp.data.Error.Message))
+    } else {
+      yield put(actions.voteProposalSuccess())
+      yield call(toaster.success, "Vote success!");
+      // reload candidates
+      yield put(actions.loadProposals())
+    }
+  } catch (e) {
+    yield put(actions.voteProposalFailure(e.message))
     yield call(toaster.success, "Vote error. Please try again later!")
   }
 }

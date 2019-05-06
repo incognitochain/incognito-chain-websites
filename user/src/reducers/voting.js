@@ -11,18 +11,31 @@ export const initialState = {
   userCandidate: {},
   loadUserCandidateError: null,
 
-  candidates: [],
-  candidateBoardType: BOARD_TYPES.GOV,
-  isLoadingCandidates: false,
+  selectedBoardType: BOARD_TYPES.GOV,
 
-  applyError: null,
-  applyLoading: false,
+  candidates: [],
+  loadCandidatesError: null,
+  isLoadingCandidates: false,
 
   voteCandidateError: null,
   voteCandidateDialog: false,
   isVotingCandidate: false,
 
+  applyError: null,
+  applyLoading: false,
+
+  proposals: [],
+  loadProposalsError: null,
+  isLoadingProposals: false,
+
+  voteProposalError: null,
+  voteProposalDialog: false,
+  isVotingProposal: false,
+
+  createGovProposalDialog: false,
   isCreatingGovProposal: false,
+
+  createDcbProposalDialog: false,
   isCreatingDcbProposal: false,
 }
 
@@ -44,15 +57,40 @@ export default (
         loadCandidatesError: null,
         isLoadingCandidates: false,
         candidates: action.payload.candidates || [],
-        candidateBoardType: action.payload.boardType,
+        selectedBoardType: action.payload.boardType,
       };
     }
     case types.LOAD_CANDIDATES_FAILURE: {
       return {
         ...state,
-        candidateBoardType: action.payload.boardType,
+        selectedBoardType: action.payload.boardType,
         loadCandidatesError: action.error,
         isLoadingCandidates: false,
+      };
+    }
+
+    case types.LOAD_PROPOSALS_REQUEST: {
+      return {
+        ...state,
+        loadProposalsError: null,
+        isLoadingProposals: true,
+      };
+    }
+    case types.LOAD_PROPOSALS_SUCCESS: {
+      return {
+        ...state,
+        loadProposalsError: null,
+        isLoadingProposals: false,
+        proposals: action.payload.proposals || [],
+        selectedBoardType: action.payload.boardType,
+      };
+    }
+    case types.LOAD_PROPOSALS_FAILURE: {
+      return {
+        ...state,
+        selectedBoardType: action.payload.boardType,
+        loadProposalsError: action.error,
+        isLoadingProposals: false,
       };
     }
 
@@ -131,6 +169,41 @@ export default (
         ...state,
         voteCandidateError: action.error,
         isVotingCandidate: false,
+      };
+    }
+
+    case types.VOTE_PROPOSAL_DIALOG_OPEN: {
+      return {
+        ...state,
+        voteProposalDialog: true,
+      };
+    }
+    case types.VOTE_PROPOSAL_DIALOG_CLOSE: {
+      return {
+        ...state,
+        voteProposalDialog: false,
+      };
+    }
+    case types.VOTE_PROPOSAL_REQUEST: {
+      return {
+        ...state,
+        voteProposalError: null,
+        isVotingProposal: true,
+      };
+    }
+    case types.VOTE_PROPOSAL_SUCCESS: {
+      return {
+        ...state,
+        voteProposalError: null,
+        isVotingProposal: false,
+        voteProposalDialog: false,
+      };
+    }
+    case types.VOTE_PROPOSAL_FAILURE: {
+      return {
+        ...state,
+        voteProposalError: action.error,
+        isVotingProposal: false,
       };
     }
 

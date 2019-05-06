@@ -25,6 +25,8 @@ export default function* rootSaga () {
     takeLatest(votingTypes.CREATE_DCB_PROPOSAL, votingSagas.createDcbProposal),
     takeLatest(votingTypes.LOAD_CANDIDATES, votingSagas.loadCandidates),
     takeLatest(votingTypes.VOTE_CANDIDATE, votingSagas.voteCandidate),
+    takeLatest(votingTypes.LOAD_PROPOSALS, votingSagas.loadProposals),
+    takeLatest(votingTypes.VOTE_PROPOSAL, votingSagas.voteProposal),
 
     takeLatest(oracleTypes.LOAD_ORACLE_DATA, oracleSagas.loadOracleData),
   ])

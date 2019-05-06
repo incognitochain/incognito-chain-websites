@@ -41,9 +41,10 @@ export const API = {
   VOTING_PROPOSAL_SELLING_ASSETS: `${baseUrl}/voting/proposalsellingassets`,
   VOTING_PROPOSAL_BUYING_ASSETS: `${baseUrl}/voting/proposalbuyingassets`,
   VOTING_PROPOSAL: `${baseUrl}/voting/proposal`,
-  PROPOSAL_LIST: `${baseUrl}/voting/proposals`,
-  PROPOSAL_VOTE: `${baseUrl}/voting/proposal/vote`,
-
+  VOTING_PROPOSAL_LIST: `${baseUrl}/voting/proposals`,
+  VOTING_PROPOSAL_DETAIL: `${baseUrl}/voting/proposal`,
+  VOTING_PROPOSAL_VOTE: `${baseUrl}/voting/proposal/vote`,
+  
   // storage
   STORAGE_UPLOAD: `${baseUrl}/storage/upload`,
   STORAGE_KYC_DOCUMENTS: `${baseUrl}/storage/kyc/documents`,

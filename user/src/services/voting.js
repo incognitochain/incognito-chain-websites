@@ -99,6 +99,34 @@ export async function loadProposalSellingAssets(token){
   return response
 }
 
+export async function loadProposals(token, boardType = ""){
+  const options = {
+    method: "GET",
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Authorization': `Bearer ${token}`,
+    },
+    url: `${API.VOTING_PROPOSAL_LIST}${boardType !== "" ? `?board_type=${boardType}` : ""}`,
+  };
+
+  const response = await axios(options);
+  return response
+}
+
+export async function loadProposalDetail(token, id){
+  const options = {
+    method: "GET",
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Authorization': `Bearer ${token}`,
+    },
+    url: `${API.VOTING_PROPOSAL_DETAIL}/${id}`,
+  };
+
+  const response = await axios(options);
+  return response
+}
+
 export async function voteCandidate(token, boardType, candidate, voteAmount) {
   const data = {
     BoardType: boardType,
@@ -113,6 +141,27 @@ export async function voteCandidate(token, boardType, candidate, voteAmount) {
       'Authorization': `Bearer ${token}`,
     },
     url: API.VOTING_CANDIDATE_VOTE,
+    data
+  };
+
+  const response = await axios(options);
+  return response
+}
+
+export async function voteProposal(token, boardType, proposal, voteAmount) {
+  const data = {
+    BoardType: boardType,
+    ProposalID: proposal.ID,
+    VoteAmount: voteAmount,
+  }
+
+  const options = {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json;charset=UTF-8',
+      'Authorization': `Bearer ${token}`,
+    },
+    url: API.VOTING_PROPOSAL_VOTE,
     data
   };
 
@@ -326,3 +375,4 @@ export async function createDcbProposal(token, name = '', executeDuration = 0, e
   const response = await createProposal(token, data)
   return response
 }
+
