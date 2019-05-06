@@ -33,7 +33,7 @@ class PriceList extends React.Component {
   onGetCurrentPrice = async () => {
     const { accessToken } = this.props;
     const res = await getCurrentPrice(accessToken);
-    const { result = [], error = "" } = res;
+    const { Result = [], error = "" } = res;
     if (error) {
       console.log("get current price error", error);
       return;
