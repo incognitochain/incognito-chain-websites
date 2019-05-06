@@ -51,20 +51,20 @@ class RequestCreate extends React.Component {
     this.setState({ pubkeys });
   }
   onSubmit = async () => {
-    const { accessToken } = this.props 
+    const { accessToken } = this.props
     const { pubkeys = "", action = "", bio = "" } = this.state;
     const pubkeyArr = pubkeys.split(",") || [];
     if (!pubkeys || pubkeyArr.length <= 0 || !action) return;
 
     this.setState({ isSubmitting: true })
     const res = await createAndSignMetadata(accessToken, pubkeyArr, action, bio);
-    const { result, error } = res;
+    const { Result, Error } = res.data;
     let resultMessage;
-    if (error) {
-      console.log(error)
-      resultMessage = error;
+    if (Error) {
+      console.log(Error)
+      resultMessage = Error;
     }
-    if (result || result === true) {
+    if (Result || Result === true) {
       resultMessage = "Successfully";
       setTimeout(() => {
         window.location = "/oracle";

@@ -1,6 +1,6 @@
 import React from "react";
 // import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import dayjs from 'dayjs';
 
 import {
@@ -14,7 +14,7 @@ import {
 
 // import Link from "components/Link";
 
-import { signMetadata, checkIsUserInBoard, getMetadataDetail } from "../../services/oracle";
+import {signMetadata, checkIsUserInBoard, getMetadataDetail} from "../../services/oracle";
 
 const mapStateToProps = (state) => {
   return {
@@ -22,9 +22,7 @@ const mapStateToProps = (state) => {
   }
 }
 const mapDispatchToProps = (dispatch) => {
-  return {
-
-  }
+  return {}
 }
 
 class RequestDetail extends React.Component {
@@ -38,61 +36,64 @@ class RequestDetail extends React.Component {
       metadata: {},
     }
   }
+
   componentDidMount() {
-    const { accessToken } = this.props;
+    const {accessToken} = this.props;
     checkIsUserInBoard(accessToken).then((res = {}) => {
-      const { result, error } = res;
-      if (error) {
-        console.log(error);
+      const {Result, Error} = res.data;
+      if (Error) {
+        console.log(Error);
       }
-      if (result || result === true) {
+      if (Result || Result === true) {
         this.setState({
           isUserInBoard: true,
         })
       }
     })
-    const { match = {} } = this.props;
-    const { params } = match;
-    const { id = "" } = params;
+    const {match = {}} = this.props;
+    const {params} = match;
+    const {id = ""} = params;
     if (!id) return;
     this.onGetMetadata(id);
   }
+
   onGetMetadata = async (id) => {
-    const { accessToken } = this.props
+    const {accessToken} = this.props
     const res = await getMetadataDetail(accessToken, id);
-    const { result = {}, error } = res;
-    if (error) {
-      console.log(error);
+    const {Result = {}, Error} = res.data;
+    if (Error) {
+      console.log(Error);
     } else {
-      this.setState({ metadata: result })
+      this.setState({metadata: Result})
     }
   }
   onSubmit = async () => {
-    const { match = {}, accessToken } = this.props;
-    const { params } = match;
-    const { id = "" } = params;
+    const {match = {}, accessToken} = this.props;
+    const {params} = match;
+    const {id = ""} = params;
     if (!id) return;
-    this.setState({ isSubmitting: true })
+    this.setState({isSubmitting: true})
     const res = await signMetadata(accessToken, id);
-    const { result, error } = res;
+    const {Result, Error} = res.data;
     let resultMessage;
-    if (error) {
-      console.log(error)
-      resultMessage = error;
+    if (Error) {
+      console.log(Error)
+      resultMessage = Error;
     }
-    if (result || result === true) {
+    if (Result || Result === true) {
       resultMessage = "Successfully";
       setTimeout(() => {
         window.location = "/oracle";
       }, 200)
     }
-    this.setState({ resultMessage, openDialog: true, isSubmitting: false })
+    this.setState({resultMessage, openDialog: true, isSubmitting: false})
   }
   onCloseDialog = () => {
-    this.setState({ openDialog: false, resultMessage: "" })
+    this.setState({openDialog: false, resultMessage: ""})
   }
+
   render() {
-    const { isUserInBoard, openDialog, metadata = {} } = this.state;
+    const {isUserInBoard, openDialog, metadata = {}} = this.state;
 
     let showSubmitBtn = (metadata.Status !== "submitted" && isUserInBoard && metadata.IsSign !== true);
     return (
@@ -108,7 +109,7 @@ class RequestDetail extends React.Component {
                 </div>
 
                 <div className="row">
-                  <FormControl component="fieldset" style={{ width: "100%" }} >
+                  <FormControl component="fieldset" style={{width: "100%"}}>
                     <div className="title">PUBLIC KEYS</div>
                     {
                       metadata.PubKeys && metadata.PubKeys.length > 0 && metadata.PubKeys.map((key, i) => {
@@ -123,7 +124,7 @@ class RequestDetail extends React.Component {
                             }}
                             fullWidth
                             InputProps={{
-                              style: { paddingTop: 10, paddingBottom: 10, height: "inherit !important" },
+                              style: {paddingTop: 10, paddingBottom: 10, height: "inherit !important"},
                             }}
                             // onChange={(e)=>this.onAmountChange(e.target.value)}
                             value={key}
@@ -134,9 +135,9 @@ class RequestDetail extends React.Component {
                     }
                   </FormControl>
                 </div>
-                <br />
+                <br/>
                 <div className="row">
-                  <FormControl component="fieldset" style={{ width: "100%" }} >
+                  <FormControl component="fieldset" style={{width: "100%"}}>
                     <div className="title">BIO</div>
                     <TextField
                       id="bio"
@@ -159,19 +160,20 @@ class RequestDetail extends React.Component {
                     />
                   </FormControl>
                 </div>
-                <br />
+                <br/>
                 <div className="row">
-                  <FormControl component="fieldset" style={{ width: "100%" }} >
-                    <div className="title">Created At: {metadata.CreatedAt ? dayjs(metadata.CreatedAt).format('MM-DD-YYYY') : ""}</div>
+                  <FormControl component="fieldset" style={{width: "100%"}}>
+                    <div className="title">Created
+                      At: {metadata.CreatedAt ? dayjs(metadata.CreatedAt).format('MM-DD-YYYY') : ""}</div>
                   </FormControl>
                 </div>
-                <br />
+                <br/>
                 <div className="row">
                   {showSubmitBtn ?
-                    <FormControl component="fieldset" >
-                      <button className="c-btn c-btn-primary submit" style={{ width: "100%" }} onClick={this.onSubmit} >
+                    <FormControl component="fieldset">
+                      <button className="c-btn c-btn-primary submit" style={{width: "100%"}} onClick={this.onSubmit}>
                         Sign
-                  </button>
+                      </button>
                     </FormControl>
                     : ""}
                 </div>

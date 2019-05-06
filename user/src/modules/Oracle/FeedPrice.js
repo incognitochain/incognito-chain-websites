@@ -55,11 +55,11 @@ class FeedPrice extends React.Component {
   onGetAssets = async () => {
     const { accessToken } = this.props
     const res = await getAssets(accessToken);
-    const { result = [], error } = res;
-    if (error) {
-      console.log(error);
+    const { Result = [], Error } = res.data;
+    if (Error) {
+      console.log(Error);
     } else {
-      this.setState({ assets: result })
+      this.setState({ assets: Result })
     }
   }
   onCloseDialog = () => {
@@ -75,13 +75,13 @@ class FeedPrice extends React.Component {
     if (!price || isNaN(price)) return;
     this.setState({ isSubmitting: true })
     const res = await feedPrice(accessToken, parseFloat(price), asset);
-    const { result, error } = res;
+    const { Result, Error } = res.data;
     let resultMessage;
-    if (error) {
-      console.log(error)
-      resultMessage = error;
+    if (Error) {
+      console.log(Error)
+      resultMessage = Error;
     }
-    if (result || result === true) {
+    if (Result || Result === true) {
       resultMessage = "Successfully";
       setTimeout(() => {
         window.location.reload();
@@ -93,11 +93,11 @@ class FeedPrice extends React.Component {
   onCheckUserIsInBoard = async () => {
     const { accessToken } = this.props
     const res = await checkIsUserInBoard(accessToken)
-    const { result, error } = res;
-    if (error) {
-      console.log(error);
+    const { Result, Error } = res.data;
+    if (Error) {
+      console.log(Error);
     }
-    if (result || result === true) {
+    if (Result || Result === true) {
       this.setState({
         isUserInBoard: true,
       })
@@ -108,12 +108,12 @@ class FeedPrice extends React.Component {
     const { accessToken } = this.props;
     const res = await getFeedPriceHistory(accessToken, perPage, page);
     // console.log(res)
-    const { result = [], error = "" } = res;
-    if (error) {
-      console.log("get history error", error);
+    const { Result = [], Error = "" } = res.data;
+    if (Error) {
+      console.log("get history error", Error);
       return;
     }
-    let { Records = [], ...pagination } = result;
+    let { Records = [], ...pagination } = Result;
     if (Records === null) Records = [];
     this.setState({ history: Records, historyPagination: pagination });
   }
