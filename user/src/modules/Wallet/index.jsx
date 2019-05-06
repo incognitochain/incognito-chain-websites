@@ -1,14 +1,14 @@
 import React from "react";
 // import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 // import { Link } from 'react-router-dom';
-import { axios, catchError } from "services/api";
-import { API } from "../../constants";
-import { Dialog, toaster, TextInputField, Alert } from "evergreen-ui";
+import {axios, catchError} from "services/api";
+import {API} from "../../constants";
+import {Dialog, toaster, TextInputField, Alert} from "evergreen-ui";
 import QRCode from "qrcode.react";
-import { CopyToClipboard } from "react-copy-to-clipboard";
+import {CopyToClipboard} from "react-copy-to-clipboard";
 
-import { actions as walletActions } from '../../actions/wallet'
+import {actions as walletActions} from '../../actions/wallet'
 
 class Wallet extends React.Component {
   constructor(props) {
@@ -20,16 +20,16 @@ class Wallet extends React.Component {
   }
 
   componentDidMount() {
-    const { loadBalances } = this.props;
+    const {loadBalances} = this.props;
     loadBalances()
   }
 
   copySuccess = () => {
-    toaster.success("Copy success!", { duration: 1 });
+    toaster.success("Copy success!", {duration: 1});
   };
 
   withdraw = () => {
-    const { currentBalance, withdrawAddress, amount } = this.state;
+    const {currentBalance, withdrawAddress, amount} = this.state;
     let realAmount = Number(amount);
 
     if (currentBalance.SymbolName === "CONST") {
@@ -44,18 +44,18 @@ class Wallet extends React.Component {
         PaymentAddress: withdrawAddress
       })
       .then(res => {
-        const { data } = res;
-        const { Result } = data;
+        const {data} = res;
+        const {Result} = data;
         if (Result) {
           toaster.success("Withdraw success!");
         } else {
           toaster.warning("Withdraw fault!");
         }
-        this.setState({ isLoading: false, dialogWithdraw: false });
+        this.setState({isLoading: false, dialogWithdraw: false});
       })
       .catch(e => {
         toaster.warning("Withdraw fault!");
-        this.setState({ isLoading: false, dialogWithdraw: false });
+        this.setState({isLoading: false, dialogWithdraw: false});
         catchError(e);
       });
   };
@@ -63,7 +63,7 @@ class Wallet extends React.Component {
   getAmount = (amount, symbolName) => {
     let rs = 0;
     if (symbolName === "CONST") {
-      rs = Number.parseFloat(amount/100);
+      rs = Number.parseFloat(amount / 100);
     } else {
       rs = Number.parseFloat(amount);
     }
@@ -116,14 +116,14 @@ class Wallet extends React.Component {
               marginBottom={5}
             />
             <div className="qrcode">
-              <QRCode value={paymentAddress} size={200} renderAs="svg" />
+              <QRCode value={paymentAddress} size={200} renderAs="svg"/>
             </div>
             <div>
-              <span className="c-code" style={{ wordWrap: "break-word" }}>
+              <span className="c-code" style={{wordWrap: "break-word"}}>
                 {paymentAddress}
               </span>
             </div>
-            <div style={{ textAlign: "center" }}>
+            <div style={{textAlign: "center"}}>
               <CopyToClipboard text={paymentAddress} onCopy={this.copySuccess}>
                 <a href="/wallet" onClick={e => e.preventDefault()}>
                   Copy
@@ -152,7 +152,7 @@ class Wallet extends React.Component {
               title="Please verify your withdrawal address. We cannot refund an incorrect withdrawal. Do not withdraw directly to a crowdfund or ICO. We will not credit your account with tokens from that sale."
               marginBottom={5}
             />
-            <div style={{ margin: "30px 0 10px" }}>
+            <div style={{margin: "30px 0 10px"}}>
               <TextInputField
                 label="Amount"
                 placeholder="0.00"
@@ -162,7 +162,7 @@ class Wallet extends React.Component {
                 value={withdrawAmount}
                 onChange={e => {
                   this.onlyNumber(e.target.value, () => {
-                    this.setState({ withdrawAmount: e.target.value });
+                    this.setState({withdrawAmount: e.target.value});
                   });
                 }}
               />
@@ -173,7 +173,7 @@ class Wallet extends React.Component {
                 type="text"
                 value={withdrawAddress}
                 onChange={e =>
-                  this.setState({ withdrawAddress: e.target.value })
+                  this.setState({withdrawAddress: e.target.value})
                 }
               />
             </div>
@@ -186,74 +186,74 @@ class Wallet extends React.Component {
                 <div className="c-card c-card-no-padding">
                   <table className="c-table-user-wallet">
                     <thead>
-                      <tr>
-                        <th width="270">Name</th>
-                        <th width="180">Symbol</th>
-                        <th width="90">Total</th>
-                        <th width="90">Available</th>
-                        <th width="100">In Order</th>
-                        <th width="120">CST Value</th>
-                        <th>Your decision</th>
-                      </tr>
+                    <tr>
+                      <th width="270">Name</th>
+                      <th width="180">Symbol</th>
+                      <th width="90">Total</th>
+                      <th width="90">Available</th>
+                      <th width="100">In Order</th>
+                      <th width="120">CST Value</th>
+                      <th>Your decision</th>
+                    </tr>
                     </thead>
                     <tbody>
-                      {isLoading && (
-                        <tr>
-                          <td colSpan="7">Loading..</td>
-                        </tr>
-                      )}
-                      {balances.map(balance => (
-                        <tr key={balance.TokenID}>
-                          <td className="name">{balance.SymbolName}</td>
-                          <td
-                            style={{
-                              textTransform: "uppercase",
-                              fontSize: "80%"
+                    {isLoading && (
+                      <tr>
+                        <td colSpan="7">Loading..</td>
+                      </tr>
+                    )}
+                    {balances.map(balance => (
+                      <tr key={balance.TokenID}>
+                        <td className="name">{balance.SymbolName}</td>
+                        <td
+                          style={{
+                            textTransform: "uppercase",
+                            fontSize: "80%"
+                          }}
+                        >
+                          {balance.SymbolCode}
+                        </td>
+                        <td>{this.getAmount(balance.TotalBalance, balance.SymbolName)}</td>
+                        <td>{this.getAmount(balance.AvailableBalance, balance.SymbolName)}</td>
+                        <td>{balance.InOrder}</td>
+                        <td>{balance.ConstantValue}</td>
+                        <td>
+                          <button
+                            className="c-a-btn"
+                            type="button"
+                            onClick={() => {
+                              depositDialogOpen()
                             }}
                           >
-                            {balance.SymbolCode}
-                          </td>
-                          <td>{this.getAmount(balance.TotalBalance, balance.SymbolName)}</td>
-                          <td>{this.getAmount(balance.AvailableBalance, balance.SymbolName)}</td>
-                          <td>{balance.InOrder}</td>
-                          <td>{balance.ConstantValue}</td>
-                          <td>
+                            Deposit
+                          </button>
+                          {balance.Withdrawable ? (
                             <button
                               className="c-a-btn"
                               type="button"
                               onClick={() => {
-                                depositDialogOpen()
+                                withdrawDialogOpen(balance)
                               }}
                             >
-                              Deposit
+                              Withdraw
                             </button>
-                            {balance.Withdrawable ? (
-                              <button
-                                className="c-a-btn"
-                                type="button"
-                                onClick={() => {
-                                  withdrawDialogOpen(balance)
-                                }}
-                              >
-                                Withdraw
-                              </button>
-                            ) : (
-                              ""
-                            )}
-                            <a
-                              href={`${process.env.REACT_APP_EXCHANGE_URL}/exchange/${balance.SymbolCode.toUpperCase()}_BOND`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="c-a-btn"
-                            >
-                              Exchange
-                            </a>
-                          </td>
-                        </tr>
-                      ))}
-                      {!isLoading && balances.length === 0 && (
-                        <td colSpan="7">Empty</td>
-                      )}
+                          ) : (
+                            ""
+                          )}
+                          {balance.SymbolCode.toUpperCase() != "CONST" ? <a
+                            href={`${process.env.REACT_APP_EXCHANGE_URL}/exchange/CONST-${balance.SymbolCode.toUpperCase()}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="c-a-btn"
+                          >
+                            Exchange
+                          </a> : ""}
+                        </td>
+                      </tr>
+                    ))}
+                    {!isLoading && balances.length === 0 && (
+                      <td colSpan="7">Empty</td>
+                    )}
                     </tbody>
                   </table>
                 </div>
