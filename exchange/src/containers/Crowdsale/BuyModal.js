@@ -71,7 +71,7 @@ export function BuyModal({isShow, onClose, record, loadCrowdsales}) {
             addonAfter={record.BuyingAssetLabel}
             disabled={true}
             placeholder="0"
-            value={formatConstantValue(formState.amount * record.Price)}
+            value={formatConstantValue(formState.amount * record.Price / 100)}
             onChange={e => setField("priceLimit", e.target.value)}
           />
         </Form.Item>

@@ -135,7 +135,7 @@ const CrowdsaleHistory = () => {
         `${process.env.serviceAPI}/bond-market/dcb/crowdsales_histories`
       );
       // TODO remove when live
-      response = {data: {Result: testData}};
+      // response = {data: {Result: testData}};
       if (response.data.Result) {
         dispatch({
           type: "LOAD_HISTORY_SUCCESS",

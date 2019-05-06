@@ -73,7 +73,7 @@ export function SellModal({isShow, onClose, record = {}, loadCrowdsales}) {
             addonAfter={record.SellingAssetLabel}
             disabled={true}
             placeholder="0"
-            value={formatConstantValue(record.Price * formState.amount)}
+            value={formatConstantValue(record.Price / 100 * formState.amount)}
           />
         </Form.Item>
       </Form>

@@ -88,10 +88,7 @@ const testData = {
       "BuyingAsset": "4c420b974449ac188c155a7029706b8419a591ee398977d00000000000000000",
       "BuyingAmount": 1000,
       "Price": 200,
-      // "DefaultBuyPrice": 100,
       "SellingAsset": "0000000000000000000000000000000000000000000000000000000000000004",
-      // "SellingAmount": 15000,
-      // "DefaultSellPrice": 100,
       "TokenImage": 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAaQAAAGkAQMAAABEgsN2AAAABlBMVEXw8PAVfiWe8geIAAAAjElEQVR4nOzasQ2AMAxFwWQSVmVsOmgtBQxEpkC6134dA5g0SZL0Vcs+tOYDRVEURVEURVWqraV1iqIoiqIoiqpXJ2Ps5nMURVEURVEUNa/+crmlKIqiKIqiKIqiKIqiKIqqUrE+quc3WIqiKIqiKIp6qeJ4+Wc/fZtKURRFURRFUXNKkiQVdwQAAP//Zdx8MyWkQr4AAAAASUVORK5CYII=',
       "Type": "sellable"
     },
@@ -99,12 +96,9 @@ const testData = {
       "SaleID": "0200000000000000000000000000000000000000000000000000000000000000",
       "EndBlock": 2000,
       "BuyingAsset": "0000000000000000000000000000000000000000000000000000000000000004",
-      // "BuyingAmount": 25000,
-      // "DefaultBuyPrice": 100,
       "SellingAsset": "4c420b974449ac188c155a7029706b8419a591ee398977d00000000000000000",
       "SellingAmount": 5000,
       "Price": 300,
-      // "DefaultSellPrice": 100,
       "TokenImage": 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAaQAAAGkAQMAAABEgsN2AAAABlBMVEXw8PDToAKxYbCAAAAAlklEQVR4nOzaMQqEMBBA0U21x/CoelSPYaWCphhIE1RCCO+3mWc9yPwkSVKL0lG0URRFURRFUVQLlZuv+bV6nqIoiqIoiqIeqSmsq3v5/I/r7EJRFEVRFEVRFEVRFEVRFDWAiqX4eH+u/h6AoiiKoiiKol6oXGdXBBRFURRFUdSoqv8/txRFURRFUdSoSpIkfdwZAAD//xGuA8je9ci/AAAAAElFTkSuQmCC',
       "Type": "buyable"
     }
@@ -249,7 +243,7 @@ export default function Crowdsale() {
                   sortDirections: ["descend", "ascend"],
                   render: (_, record) => (
                     <div style={{color: mapTypeToTextColor[record.Type]}}>
-                      {formatConstantValue(record.Price)} const
+                      {formatConstantValue(record.Price / 100)} const
                     </div>
                   )
                 },

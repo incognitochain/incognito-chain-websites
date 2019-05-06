@@ -30,10 +30,6 @@ export const CrowdsaleTransactions = ({transactions = []}) => {
                 <Label>Amount</Label>
                 <Value>{transaction.Amount}</Value>
               </Field>
-              <Field>
-                <Label>Price Limit</Label>
-                <Value>{transaction.PriceLimit}</Value>
-              </Field>
             </Transaction>
           );
         })}
