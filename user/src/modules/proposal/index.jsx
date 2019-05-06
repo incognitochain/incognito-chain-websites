@@ -1,6 +1,6 @@
 import React from "react";
-import { axios, catchError } from "services/api";
-import { API } from "constants/index";
+import { axios, catchError } from "../../services/api";
+import { API } from "../../constants";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import { Dialog, toaster } from "evergreen-ui";

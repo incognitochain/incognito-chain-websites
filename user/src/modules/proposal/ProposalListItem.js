@@ -3,7 +3,7 @@ import styled from "styled-components";
 import cls from "classnames";
 import _ from "lodash";
 import { Avatar } from "../Voting/Avatar";
-import { TimeAgo } from "components/TimeAgo";
+import { TimeAgo } from "../../components/TimeAgo";
 
 function getFullName(user) {
   return `${_.get(user, "FirstName")} ${_.get(user, "LastName")}`;

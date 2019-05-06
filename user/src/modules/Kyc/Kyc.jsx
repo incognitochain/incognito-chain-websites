@@ -3,24 +3,17 @@ import React from "react";
 // import { connect } from 'react-redux';
 // import { Link } from 'react-router-dom';
 import { axios, catchError } from "services/api";
-import { API } from "constants/index";
+import { API } from "../../constants";
 import { Dialog, toaster } from "evergreen-ui";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/pro-regular-svg-icons';
 import { faSpinnerThird } from '@fortawesome/pro-light-svg-icons';
 import { Formik } from 'formik';
 
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import Radio from '@material-ui/core/Radio';
-import FormControl from '@material-ui/core/FormControl';
-import Checkbox from '@material-ui/core/Checkbox';
+import { Typography, Grid, TextField, FormControlLabel, InputLabel, Select, MenuItem, OutlinedInput, Radio, FormControl, Checkbox } from '@material-ui/core';
+
+import MomentUtils from '@date-io/moment';
+import { MuiPickersUtilsProvider, DatePicker } from 'material-ui-pickers';
 
 class Kyc extends React.Component {
   static propTypes = {
@@ -44,8 +37,9 @@ class Kyc extends React.Component {
   }
 
   getData = () => {
-    axios.get(`${API.AUTH_KYC}`, null).then((res) => {
+    axios.get(`${API.USER_KYC}`, null).then((res) => {
       if (res.status === 200) {
+        console.log(res.data)
         if (res.data && res.data.Result) {
           this.setState({ data: res.data.Result })
           return
@@ -59,6 +53,7 @@ class Kyc extends React.Component {
     });
     axios.get(`${API.STORAGE_KYC_DOCUMENTS}`, null).then((res) => {
       if (res.status === 200) {
+        console.log(res.data)
         if (res.data && res.data.Result) {
           this.setState({ kycDocs: res.data.Result })
           return
@@ -123,7 +118,7 @@ class Kyc extends React.Component {
       phoneNumber: values.phoneNumber,
       phoneCountryCode: values.phoneCountryCode,
     };
-    axios.post(`${API.AUTH_KYC}`, data).then((res) => {
+    axios.post(`${API.USER_KYC}`, data).then((res) => {
       if (res.status === 200) {
         if (res.data && res.data.Result) {
           toaster.success('Successed to update your KYC');
@@ -145,7 +140,7 @@ class Kyc extends React.Component {
     } = this.state;
     if (data == null) {
       return (
-        <div></div>
+        <div />
       )
     }
     return (
@@ -255,21 +250,20 @@ class Kyc extends React.Component {
                         KYC INFOMATION
                       </Typography>
                       <Grid container spacing={24}>
-                        <Grid item xs={6}>
-                          <Grid item xs={12}>
-                            <TextField
-                              id="fullName"
-                              label="Full Name"
-                              fullWidth
-                              name="fullName"
-                              value={values.fullName}
-                              autoComplete="off"
-                              onChange={handleChange}
-                            />
-                            {errors.fullName && touched.fullName && <span className="c-error"><span>{errors.fullName}</span></span>}
-                          </Grid>
+                        <Grid item sm={12} md={6}>
+                          <TextField
+                            id="fullName"
+                            label="Full Name"
+                            variant="outlined"
+                            fullWidth
+                            name="fullName"
+                            value={values.fullName}
+                            autoComplete="off"
+                            onChange={handleChange}
+                          />
+                          {errors.fullName && touched.fullName && <span className="c-error"><span>{errors.fullName}</span></span>}
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item sm={12} md={3}>
                           <FormControlLabel value="1" control={
                             <Radio
                               checked={parseInt(values.gender) === 1}
@@ -295,20 +289,23 @@ class Kyc extends React.Component {
                             />
                           } label="Female" />
                         </Grid>
-                        <Grid item xs={3}>
-                          <TextField
-                            id="dob"
-                            label="Date Of Birth"
-                            type="date"
-                            value={values.dob}
-                            onChange={handleChange}
-                            InputLabelProps={{
-                              shrink: true,
-                            }}
-                          />
-                          {errors.dob && touched.dob && <span className="c-error"><span>{errors.dob}</span></span>}
+                        <Grid item sm={12} md={3}>
+                          <MuiPickersUtilsProvider utils={MomentUtils}>
+                            <DatePicker
+                              id="dob"
+                              label="Date Of Birth"
+                              variant="outlined"
+                              value={values.dob}
+                              format="MM/DD/YYYY"
+                              onChange={(date) => {
+                                values.dob = date
+                                this.setState({ isUpdated: true })
+                              }}
+                            />
+                            {errors.dob && touched.dob && <span className="c-error"><span>{errors.dob}</span></span>}
+                          </MuiPickersUtilsProvider>
                         </Grid>
-                        <Grid item xs={2}>
+                        <Grid item sm={12} md={2}>
                           <FormControl variant="outlined" fullWidth>
                             <InputLabel
                               ref={ref => {
@@ -337,10 +334,11 @@ class Kyc extends React.Component {
                             </Select>
                           </FormControl>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item sm={12} md={4}>
                           <TextField
                             id="taxIDNumber"
                             label="Tax ID Number"
+                            variant="outlined"
                             value={values.taxIDNumber}
                             helperText=""
                             fullWidth
@@ -348,10 +346,10 @@ class Kyc extends React.Component {
                           />
                           {errors.taxIDNumber && touched.taxIDNumber && <span className="c-error"><span>{errors.taxIDNumber}</span></span>}
                         </Grid>
-                        <Grid item xs={2}>
+                        <Grid item sm={12} md={2}>
                           Government ID Front
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item sm={12} md={3}>
                           <input
                             accept="image/*"
                             id="taxImage1"
@@ -361,7 +359,7 @@ class Kyc extends React.Component {
                             }}
                           />
                         </Grid>
-                        <Grid item xs={1}>
+                        <Grid item sm={12} md={1}>
                           {
                             kycDocs && kycDocs.government_id_front ?
                               (
@@ -374,10 +372,10 @@ class Kyc extends React.Component {
                               ) : null
                           }
                         </Grid>
-                        <Grid item xs={2}>
+                        <Grid item sm={12} md={2}>
                           Government ID Back
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item sm={12} md={3}>
                           <input
                             accept="image/*"
                             id="taxImage2"
@@ -387,7 +385,7 @@ class Kyc extends React.Component {
                             }}
                           />
                         </Grid>
-                        <Grid item xs={1}>
+                        <Grid item sm={12} md={1}>
                           {
                             kycDocs && kycDocs.government_id_back ?
                               (
@@ -400,10 +398,10 @@ class Kyc extends React.Component {
                               ) : null
                           }
                         </Grid>
-                        <Grid item xs={2}>
+                        <Grid item sm={12} md={2}>
                           Proof Of Address
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item sm={12} md={3}>
                           <input
                             accept="image/*"
                             id="taxImage3"
@@ -413,7 +411,7 @@ class Kyc extends React.Component {
                             }}
                           />
                         </Grid>
-                        <Grid item xs={1}>
+                        <Grid item sm={12} md={1}>
                           {
                             kycDocs && kycDocs.proof_of_address ?
                               (
@@ -426,10 +424,11 @@ class Kyc extends React.Component {
                               ) : null
                           }
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item sm={12} md={6}>
                           <TextField
                             id="addressStreet1"
                             label="AddressStreet1"
+                            variant="outlined"
                             helperText=""
                             value={values.addressStreet1}
                             fullWidth
@@ -437,10 +436,11 @@ class Kyc extends React.Component {
                           />
                           {errors.addressStreet1 && touched.addressStreet1 && <span className="c-error"><span>{errors.addressStreet1}</span></span>}
                         </Grid>
-                        <Grid item xs={12} md={6}>
+                        <Grid item sm={12} md={6}>
                           <TextField
                             id="addressStreet2"
                             label="AddressStreet2"
+                            variant="outlined"
                             helperText=""
                             value={values.addressStreet2}
                             fullWidth
@@ -448,10 +448,11 @@ class Kyc extends React.Component {
                           />
                           {errors.addressStreet2 && touched.addressStreet2 && <span className="c-error"><span>{errors.addressStreet2}</span></span>}
                         </Grid>
-                        <Grid item xs={12} md={6}>
+                        <Grid item sm={12} md={6}>
                           <TextField
                             id="addressRegion"
                             label="AddressRegion"
+                            variant="outlined"
                             helperText=""
                             value={values.addressRegion}
                             fullWidth
@@ -459,20 +460,22 @@ class Kyc extends React.Component {
                           />
                           {errors.addressRegion && touched.addressRegion && <span className="c-error"><span>{errors.addressRegion}</span></span>}
                         </Grid>
-                        <Grid item xs={12} md={6}>
+                        <Grid item sm={12} md={6}>
                           <TextField
                             id="addressCity"
                             label="AddressCity"
+                            variant="outlined"
                             helperText=""
                             value={values.addressCity}
                             fullWidth
                             onChange={handleChange}
                           />
                         </Grid>
-                        <Grid item xs={12} md={6}>
+                        <Grid item sm={12} md={6}>
                           <TextField
                             id="addressPostalCode"
                             label="AddressPostalCode"
+                            variant="outlined"
                             helperText=""
                             value={values.addressPostalCode}
                             fullWidth
@@ -480,10 +483,11 @@ class Kyc extends React.Component {
                           />
                           {errors.addressPostalCode && touched.addressPostalCode && <span className="c-error"><span>{errors.addressPostalCode}</span></span>}
                         </Grid>
-                        <Grid item xs={12} md={6}>
+                        <Grid item sm={12} md={6}>
                           <TextField
                             id="addressCountry"
                             label="AddressCountry"
+                            variant="outlined"
                             helperText=""
                             value={values.addressCountry}
                             fullWidth
@@ -491,7 +495,7 @@ class Kyc extends React.Component {
                           />
                           {errors.addressCountry && touched.addressCountry && <span className="c-error"><span>{errors.addressCountry}</span></span>}
                         </Grid>
-                        <Grid item xs={2}>
+                        <Grid item sm={12} md={2}>
                           <FormControl variant="outlined" fullWidth>
                             <InputLabel
                               ref={ref => {
@@ -521,10 +525,11 @@ class Kyc extends React.Component {
                             </Select>
                           </FormControl>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item sm={12} md={4}>
                           <TextField
                             id="phoneNumber"
                             label="Phone Number"
+                            variant="outlined"
                             helperText=""
                             value={values.phoneNumber}
                             fullWidth
@@ -533,7 +538,11 @@ class Kyc extends React.Component {
                           {errors.phoneNumber && touched.phoneNumber && <span className="c-error"><span>{errors.phoneNumber}</span></span>}
                         </Grid>
                         <Grid item xs={12}>
-                          <button className="c-btn c-btn-primary submit" type="submit" disabled={isValid && isSubmitting}>
+                          <button
+                            className="c-btn c-btn-primary submit"
+                            type="submit"
+                            disabled={isValid && isSubmitting}
+                          >
                             {isValid && isSubmitting ? <FontAwesomeIcon icon={faSpinnerThird} size="1x" spin style={{ marginRight: 10 }} /> : ''}
                             {'Submit '}
                             <FontAwesomeIcon icon={faArrowRight} />
@@ -543,7 +552,7 @@ class Kyc extends React.Component {
                     </React.Fragment>
                   </div>
                 </div>
-              </div >
+              </div>
             </form>
           );
         }}

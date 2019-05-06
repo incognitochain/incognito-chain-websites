@@ -6,11 +6,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUserAlt,
   faWallet,
-  faCog,
+  // faCog,
   faPollH,
   faBallotCheck
 } from "@fortawesome/pro-light-svg-icons";
 import cn from "classnames";
+import { faMoneyBill, faFunnelDollar } from "@fortawesome/pro-regular-svg-icons";
 
 class SubHeader extends React.Component {
   static propTypes = {
@@ -76,7 +77,7 @@ class SubHeader extends React.Component {
                     {" Proposal"}
                   </Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link
                     to="/setting"
                     className={cn({ active: pathname.startsWith("/setting") })}
@@ -84,7 +85,7 @@ class SubHeader extends React.Component {
                     <FontAwesomeIcon icon={faCog} />
                     {" Setting"}
                   </Link>
-                </li>
+                </li> */}
                 <li>
                   <Link
                     to="/kyc"
@@ -92,6 +93,25 @@ class SubHeader extends React.Component {
                   >
                     <FontAwesomeIcon icon={faUserAlt} />
                     {" Kyc"}
+                  </Link>
+                </li>
+
+                <li>
+                  <Link
+                    to="/oracle"
+                    className={cn({ active: pathname.startsWith("/oracle") })}
+                  >
+                    <FontAwesomeIcon icon={faMoneyBill} />
+                    {" Oracle"}
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/oracle/price-list"
+                    className={cn({ active: pathname.startsWith("/oracle/price-list") })}
+                  >
+                    <FontAwesomeIcon icon={faFunnelDollar} />
+                    {" Oracle Current Price"}
                   </Link>
                 </li>
               </ul>

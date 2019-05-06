@@ -1,5 +1,5 @@
 import { APIGetCreator, APIPostCreator, APIFormCreator } from "store/api";
-import { API_URL } from "constants/index";
+import { API_URL } from "../../constants";
 
 export const apiLoadLoans = APIGetCreator({
   type: "API:LOAD_LOANS",

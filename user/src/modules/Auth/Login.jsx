@@ -1,18 +1,13 @@
 import React from "react";
 // import PropTypes from 'prop-types';
 import {Formik} from "formik";
-import axios from "axios";
-import Cookies from "js-cookie";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSpinnerThird} from "@fortawesome/pro-light-svg-icons";
 import Link from "components/Link";
-import {push} from "connected-react-router";
 import {connect} from "react-redux";
+import { actions } from "../../actions/auth";
 
 class Login extends React.Component {
-  static propTypes = {
-    // routerPush: PropTypes.func.isRequired,
-  };
 
   constructor(props) {
     super(props);
@@ -21,47 +16,44 @@ class Login extends React.Component {
     };
   }
 
-  handleSubmit = (values, setSubmitting) => {
-    // const { routerPush } = this.props;
+  handleSubmit = async (values, setSubmitting) => {
+    const { login } = this.props;
     const {email, password} = values;
-    const {redirect} = this.state;
 
-    const data = {
-      Email: email,
-      Password: password
-    };
+    await login(email, password);
+    setSubmitting(false);
 
-    axios({
-      method: "POST",
-      url: `${process.env.REACT_APP_SERVICE_API}/auth/login`,
-      data
-    })
-      .then(res => {
-        if (res.data && res.data.Result && res.data.Result.Token) {
-          let domain = process.env.REACT_APP_DOMAIN;
-          Cookies.set("user", res.data.Result.Token, {
-            domain: domain,
-            expires: 30
-          });
-          if (redirect) {
-            document.location.assign(`//${redirect}`);
-          } else {
-            document.location.assign("/");
-          }
-        } else {
-          this.setState({error: "Invalid email or password"});
-        }
-        setSubmitting(false);
-      })
-      .catch(err => {
-        this.setState({error: "Invalid email or password"});
-        console.log("err login", err);
-        setSubmitting(false);
-      });
+    // axios({
+    //   method: "POST",
+    //   url: `${process.env.REACT_APP_SERVICE_API}/auth/login`,
+    //   data
+    // })
+    //   .then(res => {
+    //     if (res.data && res.data.Result && res.data.Result.Token) {
+    //       let domain = process.env.REACT_APP_DOMAIN;
+    //       Cookies.set("user", res.data.Result.Token, {
+    //         domain: domain,
+    //         expires: 30
+    //       });
+    //       if (redirect) {
+    //         document.location.assign(`//${redirect}`);
+    //       } else {
+    //         document.location.assign("/");
+    //       }
+    //     } else {
+    //       this.setState({error: "Invalid email or password"});
+    //     }
+        
+    //   })
+    //   .catch(err => {
+    //     this.setState({error: "Invalid email or password"});
+    //     console.log("err login", err);
+    //     setSubmitting(false);
+    //   });
   };
 
   render() {
-    const {error} = this.state;
+    const { error } = this.props;
 
     return (
       <div className="auth-page">
@@ -189,8 +181,14 @@ class Login extends React.Component {
 }
 
 export default connect(
-  null,
+  (state) => {
+    return {
+      isAuthorized: state.auth.isAuthorized,
+      isLoading: state.auth.isLoading,
+      error: state.auth.loginError,
+    }
+  },
   {
-    routerPush: push
+    login: actions.login,
   }
 )(Login);

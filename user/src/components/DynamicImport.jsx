@@ -36,4 +36,19 @@ class DynamicImport extends React.Component {
   }
 }
 
-export default connect(null, null)(DynamicImport);
+const WrappedDynamicImport = connect(null, null)(DynamicImport);
+
+export const createDynamicImport = (load, loading, isNotFound = false) => {
+  const dynamicImport = props => (
+    <WrappedDynamicImport isNotFound={isNotFound} loading={loading} load={load}>
+      {Component => <Component {...props} />}
+    </WrappedDynamicImport>
+  );
+  return dynamicImport;
+};
+
+export default WrappedDynamicImport
+
+
+
+
