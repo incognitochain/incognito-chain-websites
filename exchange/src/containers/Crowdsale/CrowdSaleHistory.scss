@@ -17,11 +17,9 @@
 
   .wrapperBondList {
     width: 30%;
-  }
-
-  .wrapperHistoryList {
-    width: 70%;
-    margin-left: 20px;
+    @media only screen and (max-device-width: 640px) {
+      width: 100%;
+    }
   }
 
   .tokenLink {
@@ -29,22 +27,19 @@
       display: none;
     }
   }
+
+  .wrapperHistoryList {
+    width: 70%;
+    margin-left: 20px;
+  }
 }
 
 .HistoryList {
-
-  button {
-    @media only screen and (max-device-width: 640px) {
-      margin: 10px 0;
-    }
-  }
-
   .wrapperHistoryItem {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: (10px 0);
-
     @media only screen and (max-device-width: 640px) {
       flex-direction: column;
       align-items: start;
@@ -85,33 +80,18 @@
 
 .wrapperBond {
   padding: (10px 0);
-  cursor: pointer;
-  border-bottom: 1px solid #ebeffa;
-  padding: 10px;
-  display: flex;
-  flex-direction: row;
-
-  &:hover {
-    background-color: #f9fafb;
-  }
-
-  &.isSelected {
-    background-color: #f9fafb;
-    cursor: default;
-  }
 }
 
 .wrapperBond:not(.wrapperSelectedBond):hover {
-  background-color: #f9fafb;
+  background-color: #DDD;
 }
 
 .wrapperSelectedBond {
-  background-color: #f9fafb;
+  background-color: #EEE;
 }
 
 .wrapperBondItem {
   display: flex;
-  //cursor: pointer;
 
   .historyName {
     word-wrap: break-word;
@@ -128,7 +108,6 @@
 
   .detail {
     margin: (0 10px);
-    //cursor: pointer;
   }
 
 }

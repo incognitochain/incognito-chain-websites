@@ -61,7 +61,7 @@ const TableWrapper = styled(Table)`
   .ant-table-tbody > tr.ant-table-row-hover > td,
   .ant-table-thead > tr:hover > td,
   .ant-table-tbody > tr:hover > td {
-    background-color: transparent;
+    background-color: #f9fafb;
   }
 
   .ant-table-bordered .ant-table-thead > tr > th {

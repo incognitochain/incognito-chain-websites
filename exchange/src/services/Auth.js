@@ -36,6 +36,7 @@ export default class Auth {
 
   static isLogged(){
     const result = Cookies.get('user');
+    console.log("Cookies user", result);
     return result || '';
   }
 

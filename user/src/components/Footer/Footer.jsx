@@ -12,9 +12,9 @@ const Footer = ({ type }) => (
         <div className="row">
           <div className="col-12">
             <ul>
-              <li>{`${dayjs().format('YYYY')} constant`}</li>
-              <li><Link to="/terms">Terms</Link></li>
-              <li><Link to="/policy">Privacy policy</Link></li>
+              <li>{`${dayjs().format('YYYY')} Constant Chain`}</li>
+              {/*<li><Link to="/terms">Terms</Link></li>
+              <li><Link to="/policy">Privacy policy</Link></li>*/}
             </ul>
           </div>
         </div>

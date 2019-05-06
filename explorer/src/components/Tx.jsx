@@ -72,9 +72,21 @@ class Tx extends React.Component {
           }}>{tx.Sig}</td>
         </tr>
         <tr>
+          <td style={{verticalAlign: 'top'}}>Privacy transaction</td>
+          <td>
+            <strong>{tx.IsPrivacy ? 'true' : 'false'}</strong>
+          </td>
+        </tr>
+        <tr>
           <td style={{verticalAlign: 'top'}}>Proof (base68ceheck encode)</td>
           <td>
             <textarea disabled={true} rows={10} cols={100}>{tx.Proof}</textarea>
+          </td>
+        </tr>
+        <tr>
+          <td style={{verticalAlign: 'top'}}>Proof Detail</td>
+          <td>
+            <textarea disabled={true} rows={10} cols={100}>{JSON.stringify(tx.ProofDetail, null, '  ')}</textarea>
           </td>
         </tr>
         <tr>

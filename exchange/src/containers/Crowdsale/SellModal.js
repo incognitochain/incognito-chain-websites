@@ -1,14 +1,15 @@
 import React from "react";
+import {Modal, Form, Input, notification} from "antd";
 import axios from "axios";
-import { Modal, Form, Input, notification } from "antd";
 import _ from "lodash";
+import {formatConstantValue} from "../../services/Formatter";
 
 const initialFormState = {
   amount: "",
   priceLimit: ""
 };
 
-export function BuyModal({ isShow, onClose, record, loadCrowdsales }) {
+export function SellModal({isShow, onClose, record = {}, loadCrowdsales}) {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const [formState, setFormState] = React.useState(initialFormState);
@@ -18,25 +19,30 @@ export function BuyModal({ isShow, onClose, record, loadCrowdsales }) {
   }, [isShow]);
 
   function setField(fieldName, value) {
-    setFormState({ ...formState, [fieldName]: value });
+    setFormState({...formState, [fieldName]: value});
   }
 
   async function submitForm() {
     try {
       setIsLoading(true);
-      await axios.post(`${process.env.serviceAPI}/bond-market/dcb/buy`, {
+
+      await axios.post(`${process.env.serviceAPI}/bond-market/dcb/sell`, {
         SaleID: record.SaleID,
-        Amount: parseFloat(formState.amount, 10) * 100, //convert to nano constant
-        PriceLimit: parseFloat(formState.priceLimit, 10),
-        TokenName: record.SellingAssetLabel,
-        TokenID: record.SellingAsset
+        TokenID: record.BuyingAsset,
+        Amount: Number(formState.amount),
+        PriceLimit: Number(formState.priceLimit),
+        TokenName: record.BuyingAssetLabel
       });
-      notification.success({ message: "Buy Success!" });
-      loadCrowdsales();
+      notification.success({message: "Sell Success!"});
       onClose();
+      loadCrowdsales();
     } catch (e) {
       notification.error({
-        message: _.get(e, "response.data.Error.Message", "Submit Buy Data Fail")
+        message: _.get(
+          e,
+          "response.data.Error.Message",
+          "Submit Sell Data Fail"
+        )
       });
     }
     setIsLoading(false);
@@ -44,7 +50,7 @@ export function BuyModal({ isShow, onClose, record, loadCrowdsales }) {
 
   return (
     <Modal
-      title="Buy Crowdsell"
+      title="Sell bond to DCB"
       visible={isShow}
       onOk={submitForm}
       onCancel={onClose}
@@ -54,18 +60,20 @@ export function BuyModal({ isShow, onClose, record, loadCrowdsales }) {
       }}
     >
       <Form layout="vertical">
-        <Form.Item label="Amount (CONST)">
+        <Form.Item label={`Amount`}>
           <Input
+            addonAfter={record.BuyingAssetLabel}
             placeholder="0"
             value={formState.amount}
             onChange={e => setField("amount", e.target.value)}
           />
         </Form.Item>
-        <Form.Item label="Price Limit">
+        <Form.Item label="Price">
           <Input
+            addonAfter={record.SellingAssetLabel}
+            disabled={true}
             placeholder="0"
-            value={formState.priceLimit}
-            onChange={e => setField("priceLimit", e.target.value)}
+            value={formatConstantValue(record.Price / 100 * formState.amount)}
           />
         </Form.Item>
       </Form>

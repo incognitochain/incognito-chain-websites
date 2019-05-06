@@ -82,7 +82,7 @@ class Header extends React.Component {
                   <li><a href={process.env.userUrl}>User</a></li>
                   <li><a href={process.env.explorerUrl}>Explorer</a></li>
                   <li><Link to="/" className="active">Portal</Link></li>
-                  <li><a href={process.env.exchangeUrl}>Exchange</a></li>
+                  <li><a href={process.env.exchangeUrl}>Market</a></li>
                   {/*<li><a href={process.env.userUrl + '/about'}>About</a></li>
                   <li><a href={process.env.userUrl + '/faq'}>FAQ</a></li>*/}
                 </ul>

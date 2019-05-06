@@ -12,6 +12,11 @@
   .stats-container {
     > div {
       position: relative;
+      
+      @include breakpoint-max('sm') {
+        margin-bottom: 20px;
+      }
+
       @include breakpoint('lg') {
         &:not(:last-of-type):after {
           content: '';

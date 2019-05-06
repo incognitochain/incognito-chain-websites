@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 
-import Tabs, { TabPane } from "@ui/uielements/tabs";
+import Tabs, {TabPane} from "@ui/uielements/tabs";
 import LayoutWrapper from "@ui/utility/layoutWrapper.js";
 import PageHeader from "@ui/utility/pageHeader";
 import IntlMessages from "@ui/utility/intlMessages";
@@ -8,7 +8,7 @@ import Loader from "@ui/utility/loader";
 
 import TableStyle from "./custom.style";
 import Data from "./data";
-import SortView, { tableinfos } from "./tableViews/sortView";
+import SortView, {tableinfos} from "./tableViews/sortView";
 import market from "@/services/Market";
 
 export default class Market extends Component {
@@ -21,7 +21,7 @@ export default class Market extends Component {
   }
 
   async componentDidMount() {
-    let { dataList } = this.state;
+    let {dataList} = this.state;
 
     if (!dataList) {
       dataList = {};
@@ -36,10 +36,10 @@ export default class Market extends Component {
       if (result) dataList["1h"] = result;
 
       if (dataList["24h"] || dataList["4h"] || dataList["1h"])
-        this.setState({ dataList });
+        this.setState({dataList});
     }
 
-    this.setState({ loading: false });
+    this.setState({loading: false});
   }
 
   async getData(time = "24h") {
@@ -48,8 +48,8 @@ export default class Market extends Component {
     if (!result.error) {
       let markets = {};
       for (let s of result) {
-        const { DisplayName, Status, SymbolCode } = s;
-        markets[SymbolCode] = { DisplayName, Status };
+        const {DisplayName, Status, SymbolCode} = s;
+        markets[SymbolCode] = {DisplayName, Status};
       }
 
       //market datas
@@ -77,7 +77,7 @@ export default class Market extends Component {
   }
 
   renderTable(tableInfo) {
-    const { dataList } = this.state;
+    const {dataList} = this.state;
     if (dataList && dataList[tableInfo.value]) {
       const data = new Data(10, dataList[tableInfo.value]);
       //console.log(dataList, data);
@@ -92,24 +92,24 @@ export default class Market extends Component {
         default:
           Component = SortView;
       }
-      return <Component tableInfo={tableInfo} dataList={data} />;
+      return <Component tableInfo={tableInfo} dataList={data}/>;
     } else {
       return (
         <p>
-          <IntlMessages id="Market.DataNotFound" />
+          <IntlMessages id="Market.DataNotFound"/>
         </p>
       );
     }
   }
 
   render() {
-    const { loading } = this.state;
+    const {loading} = this.state;
 
-    if (loading) return <Loader />;
+    if (loading) return <Loader/>;
 
     return (
       <LayoutWrapper>
-        <PageHeader>{<IntlMessages id="Exchange.PageHeader" />}</PageHeader>
+        <PageHeader>{<IntlMessages id="Exchange.PageHeader"/>}</PageHeader>
         <TableStyle className="isoLayoutContent">
           <Tabs className="isoTableDisplayTab">
             {tableinfos.map(tableInfo => (
@@ -123,4 +123,4 @@ export default class Market extends Component {
     );
   }
 }
-export { SortView, Data };
+export {SortView, Data};

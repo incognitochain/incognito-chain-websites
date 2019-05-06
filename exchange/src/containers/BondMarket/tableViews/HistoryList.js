@@ -1,6 +1,7 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import PropTypes from "prop-types";
 import Button from "@ui/uielements/button";
+import {formatConstantValue} from "../../../services/Formatter";
 
 class HistoryItem extends Component {
   static propTypes = {
@@ -9,17 +10,17 @@ class HistoryItem extends Component {
     onClickDetail: PropTypes.func
   };
   handleOnBuyBack = () => {
-    const { item, onBuyBack } = this.props;
+    const {item, onBuyBack} = this.props;
     onBuyBack(item);
   };
 
   handleOnClickDetai = () => {
-    const { item, onClickDetail } = this.props;
+    const {item, onClickDetail} = this.props;
     onClickDetail(item);
   };
 
   renderDetail(item) {
-    const { TxID, BuyBackDate, MadeBuyBackDate, Amount, TokenImage } = item;
+    const {TxID, BuyBackDate, MadeBuyBackDate, Amount, TokenImage} = item;
     const url = `${process.env.explorerUrl}/tx/${TxID}`;
     return (
       <div className="wrapperDetail">
@@ -31,7 +32,7 @@ class HistoryItem extends Component {
         </div>
         <div className="Amount">
           <span className="title">Amount</span>
-          {Amount} CONST
+          {formatConstantValue(Amount)} CONST
         </div>
         {BuyBackDate && (
           <div className="BuyBackDate">
@@ -48,8 +49,9 @@ class HistoryItem extends Component {
       </div>
     );
   }
+
   renderBuyBackButton(item) {
-    const { BuyBackAvailable } = item;
+    const {BuyBackAvailable} = item;
     if (!BuyBackAvailable) return false;
     return (
       <Button
@@ -63,14 +65,14 @@ class HistoryItem extends Component {
   }
 
   render() {
-    const { item } = this.props;
+    const {item} = this.props;
     return (
       <div className="wrapperItem">
         <div className="wrapperHistoryItem">
           {this.renderDetail(item)}
           {this.renderBuyBackButton(item)}
         </div>
-        <div className="line" />
+        <div className="line"/>
       </div>
     );
   }
@@ -91,17 +93,17 @@ export default class HistoryList extends Component {
   }
 
   render() {
-    const { list, onBuyBack, onClickDetail } = this.props;
+    const {list, onBuyBack, onClickDetail} = this.props;
     return (
       <div className="HistoryList">
-        {list.map((item, index) => (
+        {list && list.length > 0 ? list.map((item, index) => (
           <HistoryItem
             key={index}
             item={item}
             onBuyBack={onBuyBack}
             onClickDetail={onClickDetail}
           />
-        ))}
+        )) : "No data"}
       </div>
     );
   }

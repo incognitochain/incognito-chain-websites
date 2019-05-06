@@ -1,25 +1,25 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, {Component} from "react";
+import {connect} from "react-redux";
 import clone from "clone";
-import { Link } from "react-router-dom";
-import { Layout } from "antd";
+import {Link} from "react-router-dom";
+import {Layout} from "antd";
 import Scrollbars from "@ui/utility/customScrollBar.js";
 import Menu from "@ui/uielements/menu";
-import { Dropdown, Icon } from "antd";
+import {Dropdown, Icon} from "antd";
 
 import IntlMessages from "@ui/utility/intlMessages";
 import SidebarWrapper from "./sidebar.style";
 import appActions from "../../redux/app/actions";
 import Logo from "@ui/utility/logo";
 import themes from "@/settings/themes";
-import { themeConfig } from "../../settings";
-import { Row, Col } from "antd";
+import {themeConfig} from "../../settings";
+import {Row, Col} from "antd";
 import ContentHolder from "@ui/utility/contentHolder";
 import imgLogo from "@/image/logo.png";
-import { siteConfig } from "@/settings";
-import { Button } from "antd";
+import {siteConfig} from "@/settings";
+import {Button} from "antd";
 
-const { Sider } = Layout;
+const {Sider} = Layout;
 
 const {
   toggleOpenDrawer,
@@ -27,29 +27,6 @@ const {
   changeCurrent,
   toggleCollapsed
 } = appActions;
-
-const topMenus = [
-  {
-    key: "",
-    label: "sidebar.Exchange",
-    leftIcon: ""
-  },
-  {
-    key: "bond-market",
-    label: "sidebar.BondMarket",
-    leftIcon: "",
-    children: [
-      {
-        key: "bond-market",
-        label: "Bond Market"
-      },
-      {
-        key: "crowdsale",
-        label: "Crowdsale"
-      }
-    ]
-  }
-];
 
 class Sidebar extends Component {
   constructor(props) {
@@ -71,8 +48,9 @@ class Sidebar extends Component {
       }, 100);
     }
   }
+
   onOpenChange(newOpenKeys) {
-    const { app, changeOpenKeys } = this.props;
+    const {app, changeOpenKeys} = this.props;
     const latestOpenKey = newOpenKeys.find(
       key => !(app.openKeys.indexOf(key) > -1)
     );
@@ -88,6 +66,7 @@ class Sidebar extends Component {
     }
     changeOpenKeys(nextOpenKeys);
   }
+
   getAncestorKeys = key => {
     const map = {
       sub3: ["sub2"]
@@ -100,7 +79,7 @@ class Sidebar extends Component {
     return (
       <Menu.Item key={child.key}>
         <Link style={submenuColor} to={linkTo}>
-          <IntlMessages id={child.label} />
+          <IntlMessages id={child.label}/>
         </Link>
       </Menu.Item>
     );
@@ -115,12 +94,13 @@ class Sidebar extends Component {
       </Menu>
     );
   };
-  renderMainMenuText({ submenuColor, label, key }) {
+
+  renderMainMenuText({submenuColor, label, key}) {
     return (
       <Link to={`/${key}`}>
         <span className="isoMenuHolder" style={submenuColor}>
           <span className="nav-text">
-            <IntlMessages id={label} />
+            <IntlMessages id={label}/>
           </span>
         </span>
       </Link>
@@ -128,47 +108,48 @@ class Sidebar extends Component {
   }
 
   renderDropdownMainMenuText({
-    submenuStyle,
-    submenuColor,
-    children,
-    label,
-    key
-  }) {
+                               submenuStyle,
+                               submenuColor,
+                               children,
+                               label,
+                               key
+                             }) {
     return (
       <Link to={`/${key}`}>
         <Dropdown
           overlay={this.getSubMenu(children, submenuColor, submenuStyle)}
         >
           <Button className="sub-menu-button">
-            <IntlMessages id={label} />
-            <Icon type="down" />
+            <IntlMessages id={label}/>
+            <Icon type="down"/>
           </Button>
         </Dropdown>
       </Link>
     );
   }
 
-  getMenuItem = ({ singleOption, submenuStyle, submenuColor }) => {
-    const { key, label, children } = singleOption;
+  getMenuItem = ({singleOption, submenuStyle, submenuColor}) => {
+    const {key, label, children} = singleOption;
 
     return (
-      <Menu.Item key={key} style={{ width: "150px" }}>
+      <Menu.Item key={key} style={{width: "0px"}}>
         {children
           ? this.renderDropdownMainMenuText({
-              submenuStyle,
-              submenuColor,
-              children,
-              label,
-              key
-            })
-          : this.renderMainMenuText({ submenuColor, label, key })}
+            submenuStyle,
+            submenuColor,
+            children,
+            label,
+            key
+          })
+          : this.renderMainMenuText({submenuColor, label, key})}
       </Menu.Item>
     );
   };
+
   render() {
-    const { app, toggleOpenDrawer } = this.props;
+    const {app, toggleOpenDrawer} = this.props;
     const collapsed = clone(app.collapsed) && !clone(app.openDrawer);
-    const { openDrawer } = app;
+    const {openDrawer} = app;
     const mode = collapsed === true ? "horizontal" : "inline";
     const onMouseEnter = event => {
       if (openDrawer === false) {
@@ -206,7 +187,7 @@ class Sidebar extends Component {
           style={styling}
         >
           <Row>
-            <ContentHolder style={{ overflow: "hidden", margin: 0 }}>
+            <ContentHolder style={{overflow: "hidden", margin: 0}}>
               <Col lg={4} md={4} sm={6} xs={4}>
                 <Logo
                   collapsed={collapsed}
@@ -215,7 +196,7 @@ class Sidebar extends Component {
                 />
               </Col>
               <Col lg={20} md={20} sm={18} xs={20}>
-                <Scrollbars style={{ height: 50 }}>
+                <Scrollbars style={{height: 50}}>
                   <Menu
                     onClick={this.handleClick}
                     theme="dark"
@@ -225,34 +206,34 @@ class Sidebar extends Component {
                     selectedKeys={app.current}
                     onOpenChange={this.onOpenChange}
                   >
-                    <Menu.Item style={{ width: "150px" }}>
+                    <Menu.Item>
                       <a href={`${process.env.userUrl}`}>
                         <span className="isoMenuHolder" style={submenuColor}>
                           <span className="nav-text">User</span>
                         </span>
                       </a>
                     </Menu.Item>
-                    <Menu.Item style={{ width: "150px" }}>
+                    <Menu.Item>
                       <a href={`${process.env.explorerUrl}`}>
                         <span className="isoMenuHolder" style={submenuColor}>
                           <span className="nav-text">Explorer</span>
                         </span>
                       </a>
                     </Menu.Item>
-                    <Menu.Item style={{ width: "150px" }}>
+                    <Menu.Item>
                       <a href={`${process.env.portalUrl}`}>
                         <span className="isoMenuHolder" style={submenuColor}>
                           <span className="nav-text">Portal</span>
                         </span>
                       </a>
                     </Menu.Item>
-                    {topMenus.map(singleOption =>
-                      this.getMenuItem({
-                        submenuStyle,
-                        submenuColor,
-                        singleOption
-                      })
-                    )}
+                    <Menu.Item>
+                      <a href={`${process.env.exchangeUrl}`}>
+                        <span className="isoMenuHolder" style={submenuColor}>
+                          <span className="nav-text">Market</span>
+                        </span>
+                      </a>
+                    </Menu.Item>
                   </Menu>
                 </Scrollbars>
               </Col>
@@ -269,5 +250,5 @@ export default connect(
     app: state.App,
     height: state.App.height
   }),
-  { toggleOpenDrawer, changeOpenKeys, changeCurrent, toggleCollapsed }
+  {toggleOpenDrawer, changeOpenKeys, changeCurrent, toggleCollapsed}
 )(Sidebar);
