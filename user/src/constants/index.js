@@ -43,7 +43,7 @@ export const API = {
   VOTING_PROPOSAL: `${baseUrl}/voting/proposal`,
   PROPOSAL_LIST: `${baseUrl}/voting/proposals`,
   PROPOSAL_VOTE: `${baseUrl}/voting/proposal/vote`,
-  
+
   // storage
   STORAGE_UPLOAD: `${baseUrl}/storage/upload`,
   STORAGE_KYC_DOCUMENTS: `${baseUrl}/storage/kyc/documents`,
@@ -71,5 +71,5 @@ export const ORACLE_REQUEST_ACTION = {
 export const BOARD_TYPES = {
   DCB: 1,
   GOV: 2,
-  CMB: 3,
+  // CMB: 3,
 }
