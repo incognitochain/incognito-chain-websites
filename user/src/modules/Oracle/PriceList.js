@@ -1,21 +1,12 @@
 import React from "react";
-// import PropTypes from "prop-types";
-import { connect } from "react-redux";
-// import dayjs from 'dayjs';
-
+import {connect} from "react-redux";
 import {
-  // TextField,
-  // TablePagination,
-  // FormControl,
   List,
   ListItem,
   ListItemText,
-  ListItemIcon,
+  ListItemIcon, CircularProgress,
 } from '@material-ui/core';
-
-// import Link from "components/Link";
-
-import { getCurrentPrice } from "../../services/oracle";
+import {getCurrentPrice} from "../../services/oracle";
 
 const mapStateToProps = (state) => {
   return {
@@ -23,9 +14,7 @@ const mapStateToProps = (state) => {
   }
 }
 const mapDispatchToProps = (dispatch) => {
-  return {
-
-  }
+  return {}
 }
 
 class PriceList extends React.Component {
@@ -36,9 +25,11 @@ class PriceList extends React.Component {
       currenPrice: {},
     }
   }
+
   componentDidMount() {
     this.onGetCurrentPrice();
   }
+
   onGetCurrentPrice = async () => {
     const { accessToken } = this.props;
     const res = await getCurrentPrice(accessToken);
@@ -47,32 +38,34 @@ class PriceList extends React.Component {
       console.log("get current price error", error);
       return;
     }
-    this.setState({ currenPrice: result });
+    this.setState({currenPrice: Result});
   }
 
   render() {
-    const { currenPrice = {} } = this.state;
+    const {currenPrice = {}} = this.state;
     return (
       <div className="page user-page home-page">
         <div className="container">
           <div className="row">
             <div className="col-12 col-md-12 col-lg-12">
               <div className="c-card">
-                <div className="hello" style={{ display: "flex", justifyContent: "space-between", alignContent: "center" }}>
+                <div className="hello"
+                     style={{display: "flex", justifyContent: "space-between", alignContent: "center"}}>
                   Current Price List
                 </div>
-
-                <List component="nav">
-                  {currenPrice && Object.keys(currenPrice).length > 0 && Object.keys(currenPrice).map((key, i) => {
-                    return (
-                      <ListItem button>
-                        <ListItemText primary={key.toUpperCase()} />
-                        <ListItemIcon>
-                          {`${parseFloat(currenPrice[key]) / 100} USD`}
-                        </ListItemIcon>
-                      </ListItem>
-                    )
-                  })}
+                <List component="nav" style={{textAlign: "center"}}>
+                  {currenPrice && Object.keys(currenPrice).length > 0 ? Object.keys(currenPrice).map((key, i) => {
+                      return (
+                        <ListItem button>
+                          <ListItemText primary={key.toUpperCase()}/>
+                          <ListItemIcon>
+                            {`${parseFloat(currenPrice[key]) / 100} USD`}
+                          </ListItemIcon>
+                        </ListItem>
+                      )
+                    }) :
+                    <CircularProgress/>
+                  }
                 </List>
               </div>
             </div>
