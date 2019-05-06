@@ -18,7 +18,7 @@ import { signMetadata, checkIsUserInBoard, getMetadataDetail } from "../../servi
 
 const mapStateToProps = (state) => {
   return {
-
+    accessToken: state.auth.accessToken
   }
 }
 const mapDispatchToProps = (dispatch) => {
@@ -39,7 +39,8 @@ class RequestDetail extends React.Component {
     }
   }
   componentDidMount() {
-    checkIsUserInBoard().then((res = {}) => {
+    const { accessToken } = this.props;
+    checkIsUserInBoard(accessToken).then((res = {}) => {
       const { result, error } = res;
       if (error) {
         console.log(error);
@@ -57,7 +58,8 @@ class RequestDetail extends React.Component {
     this.onGetMetadata(id);
   }
   onGetMetadata = async (id) => {
-    const res = await getMetadataDetail(id);
+    const { accessToken } = this.props
+    const res = await getMetadataDetail(accessToken, id);
     const { result = {}, error } = res;
     if (error) {
       console.log(error);
@@ -66,12 +68,12 @@ class RequestDetail extends React.Component {
     }
   }
   onSubmit = async () => {
-    const { match = {} } = this.props;
+    const { match = {}, accessToken } = this.props;
     const { params } = match;
     const { id = "" } = params;
     if (!id) return;
     this.setState({ isSubmitting: true })
-    const res = await signMetadata(id);
+    const res = await signMetadata(accessToken, id);
     const { result, error } = res;
     let resultMessage;
     if (error) {

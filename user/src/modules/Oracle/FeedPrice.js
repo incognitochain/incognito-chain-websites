@@ -20,7 +20,7 @@ import { getAssets, feedPrice, checkIsUserInBoard, getFeedPriceHistory } from ".
 
 const mapStateToProps = (state) => {
   return {
-
+    accessToken: state.auth.accessToken
   }
 }
 const mapDispatchToProps = (dispatch) => {
@@ -53,7 +53,8 @@ class FeedPrice extends React.Component {
     this.setState({ asset })
   }
   onGetAssets = async () => {
-    const res = await getAssets();
+    const { accessToken } = this.props
+    const res = await getAssets(accessToken);
     const { result = [], error } = res;
     if (error) {
       console.log(error);
@@ -68,11 +69,12 @@ class FeedPrice extends React.Component {
     this.setState({ price })
   }
   onSubmit = async () => {
+    const { accessToken } = this.props;
     const { asset = "", price } = this.state;
     if (!asset) return;
     if (!price || isNaN(price)) return;
     this.setState({ isSubmitting: true })
-    const res = await feedPrice(parseFloat(price), asset);
+    const res = await feedPrice(accessToken, parseFloat(price), asset);
     const { result, error } = res;
     let resultMessage;
     if (error) {
@@ -89,7 +91,8 @@ class FeedPrice extends React.Component {
   }
 
   onCheckUserIsInBoard = async () => {
-    const res = await checkIsUserInBoard()
+    const { accessToken } = this.props
+    const res = await checkIsUserInBoard(accessToken)
     const { result, error } = res;
     if (error) {
       console.log(error);
@@ -102,7 +105,8 @@ class FeedPrice extends React.Component {
   }
 
   onGetHistory = async (perPage, page) => {
-    const res = await getFeedPriceHistory(perPage, page);
+    const { accessToken } = this.props;
+    const res = await getFeedPriceHistory(accessToken, perPage, page);
     // console.log(res)
     const { result = [], error = "" } = res;
     if (error) {
