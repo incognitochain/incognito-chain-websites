@@ -26,7 +26,7 @@ class Login extends React.Component {
     let redirect = qs.parse(this.props.location.search, {ignoreQueryPrefix: true}).redirect
     setTimeout(function () {
       if (redirect && redirect != "/") {
-        window.location.href = `/${redirect}`;
+        window.location.href = redirect;
       } else {
         window.location.href = "/";
       }
