@@ -9,7 +9,7 @@ import {
   FormControl,
   Dialog,
   DialogContent,
-  DialogContentText,
+  DialogContentText, FormLabel,
 } from '@material-ui/core';
 
 // import Link from "components/Link";
@@ -94,9 +94,8 @@ class RequestDetail extends React.Component {
 
   render() {
     const {isUserInBoard, openDialog, metadata = {}} = this.state;
-
-    let showSubmitBtn = (metadata.Status !== "submitted" && isUserInBoard && metadata.IsSign !== true);
-    showSubmitBtn = true;
+    let showSignBtn = (metadata.Status !== "submitted" && isUserInBoard && metadata.IsSign !== true);
+    // showSignBtn = true;
     return (
       <div className="page user-page home-page">
         <div className="container">
@@ -108,29 +107,27 @@ class RequestDetail extends React.Component {
                     Request Detail
                   </div>
                 </div>
-
                 <div className="row">
                   <FormControl component="fieldset" style={{width: "100%"}}>
-                    <div className="title">PUBLIC KEYS</div>
+                    <FormLabel component="legend">Proponent</FormLabel>
+                    <FormLabel>{metadata.User ? metadata.User.FirstName + " " + metadata.User.LastName : ""}</FormLabel>
+                  </FormControl>
+                </div>
+                <br/>
+                <div className="row">
+                  <FormControl component="fieldset" style={{width: "100%"}}>
+                    <FormLabel component="legend">Bio of Proponent</FormLabel>
+                    <FormLabel>{metadata.Bio}</FormLabel>
+                  </FormControl>
+                </div>
+                <br/>
+                <div className="row">
+                  <FormControl component="fieldset" style={{width: "100%"}}>
+                    <FormLabel component="legend">Nominee's Public keys</FormLabel>
                     {
                       metadata.PubKeys && metadata.PubKeys.length > 0 && metadata.PubKeys.map((key, i) => {
                         return (
-                          <TextField
-                            key={`pubkey=${i}`}
-                            id="amount"
-                            className="input-of-create cst"
-                            type="text"
-                            style={{
-                              lineHeight: "2em",
-                            }}
-                            fullWidth
-                            InputProps={{
-                              style: {paddingTop: 10, paddingBottom: 10, height: "inherit !important"},
-                            }}
-                            // onChange={(e)=>this.onAmountChange(e.target.value)}
-                            value={key}
-                            disabled
-                          />
+                          <FormLabel>{key}</FormLabel>
                         )
                       })
                     }
@@ -139,38 +136,14 @@ class RequestDetail extends React.Component {
                 <br/>
                 <div className="row">
                   <FormControl component="fieldset" style={{width: "100%"}}>
-                    <div className="title">BIO</div>
-                    <TextField
-                      id="bio"
-                      multiline
-                      className="input-of-create cst"
-                      type="text"
-                      style={{
-                        lineHeight: "2em",
-                      }}
-                      fullWidth
-                      InputProps={{
-                        style: {
-                          paddingTop: 10, paddingBottom: 10, display: "block",
-                          minHeight: 250
-                        },
-                      }}
-                      value={metadata.Bio}
-                      disabled
-                      variant="outlined"
-                    />
+                    <FormLabel component="legend">Created
+                      At</FormLabel>
+                    <FormLabel>{metadata.CreatedAt ? dayjs(metadata.CreatedAt).format('MM-DD-YYYY HH:mm:ss') : ""}</FormLabel>
                   </FormControl>
                 </div>
                 <br/>
-                <div className="row">
-                  <FormControl component="fieldset" style={{width: "100%"}}>
-                    <div className="title">Created
-                      At: {metadata.CreatedAt ? dayjs(metadata.CreatedAt).format('MM-DD-YYYY HH:mm:ss') : ""}</div>
-                  </FormControl>
-                </div>
-                <br/>
-                <div className="row">
-                  {showSubmitBtn ?
+                <div className="row" style={{justifyContent: "flex-end"}}>
+                  {showSignBtn ?
                     <FormControl component="fieldset">
                       <button className="c-btn c-btn-primary submit" style={{width: "100%"}} onClick={this.onSubmit}>
                         Sign
