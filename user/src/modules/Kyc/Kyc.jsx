@@ -441,7 +441,7 @@ class Kyc extends React.Component {
                             <Grid item sm={12} md={6}>
                               <TextField
                                 id="addressStreet1"
-                                label="AddressStreet1"
+                                label="Address Street 1"
                                 variant="outlined"
                                 helperText=""
                                 value={values.addressStreet1}
@@ -454,7 +454,7 @@ class Kyc extends React.Component {
                             <Grid item sm={12} md={6}>
                               <TextField
                                 id="addressStreet2"
-                                label="AddressStreet2"
+                                label="Address Street 2"
                                 variant="outlined"
                                 helperText=""
                                 value={values.addressStreet2}
@@ -467,7 +467,7 @@ class Kyc extends React.Component {
                             <Grid item sm={12} md={6}>
                               <TextField
                                 id="addressRegion"
-                                label="AddressRegion"
+                                label="Address Region"
                                 variant="outlined"
                                 helperText=""
                                 value={values.addressRegion}
@@ -480,7 +480,7 @@ class Kyc extends React.Component {
                             <Grid item sm={12} md={6}>
                               <TextField
                                 id="addressCity"
-                                label="AddressCity"
+                                label="Address City"
                                 variant="outlined"
                                 helperText=""
                                 value={values.addressCity}
@@ -491,7 +491,7 @@ class Kyc extends React.Component {
                             <Grid item sm={12} md={6}>
                               <TextField
                                 id="addressPostalCode"
-                                label="AddressPostalCode"
+                                label="Address Postal Code"
                                 variant="outlined"
                                 helperText=""
                                 value={values.addressPostalCode}
@@ -504,7 +504,7 @@ class Kyc extends React.Component {
                             <Grid item sm={12} md={6}>
                               <TextField
                                 id="addressCountry"
-                                label="AddressCountry"
+                                label="Address Country"
                                 variant="outlined"
                                 helperText=""
                                 value={values.addressCountry}
