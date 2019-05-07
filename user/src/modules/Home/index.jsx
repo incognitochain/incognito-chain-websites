@@ -1,28 +1,28 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import Link from "components/Link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
-import { faArrowRight, faEdit } from "@fortawesome/pro-regular-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faAngleRight} from "@fortawesome/free-solid-svg-icons";
+import {faArrowRight, faEdit} from "@fortawesome/pro-regular-svg-icons";
 import bgApplyGOV from "assets/apply-gov.svg";
 import bgApplyDCB from "assets/apply-dcb.svg";
 import bgApplyMCB from "assets/apply-mcb.svg";
-import { BOARD_TYPES } from "../../constants";
+import {BOARD_TYPES} from "../../constants";
 import cn from "classnames";
 import bgImage from "assets/create-a-proposal.svg";
-import { Dialog, Textarea } from "evergreen-ui";
+import {Dialog, Textarea} from "evergreen-ui";
 import GovProposalDialog from "./GovProposalDialog";
 import DcbProposalDialog from "./DcbProposalDialog";
 import _ from "lodash";
-import { GovTokens } from "../gov-tokens/GovTokens";
+import {GovTokens} from "../gov-tokens/GovTokens";
 
-import { actions as authActions } from '../../actions/auth'
-import { actions as votingActions } from '../../actions/voting'
+import {actions as authActions} from '../../actions/auth'
+import {actions as votingActions} from '../../actions/voting'
 // import { actions as oracleActions } from '../../actions/oracle'
 
 
-const Applied = ({ applied, children }) => {
+const Applied = ({applied, children}) => {
   if (applied) return "Applied";
   return children;
 };
@@ -35,7 +35,7 @@ class Home extends React.Component {
 
   constructor(props) {
     super(props);
-    const { auth } = props;
+    const {auth} = props;
 
     this.state = {
       candidate: {},
@@ -47,20 +47,20 @@ class Home extends React.Component {
   }
 
   submitCreateDCB = async (values = {}) => {
-    const { createDcbProposal } = this.props
+    const {createDcbProposal} = this.props
     console.log(values)
     createDcbProposal(values.Name, values.ExecuteDuration, values.Explanation, values.dcbParams)
   };
 
   submitCreateGOV = async (values = {}) => {
-    const { createGovProposal } = this.props
+    const {createGovProposal} = this.props
     console.log(values)
     createGovProposal(values.Name, values.ExecuteDuration, values.Explanation, values.govParams)
   };
 
   apply = (boardType, ev, denyCall) => {
     ev.preventDefault();
-    const { apply } = this.props;
+    const {apply} = this.props;
 
     if (!denyCall) {
       apply(boardType)
@@ -116,7 +116,7 @@ class Home extends React.Component {
           }}
         >
           <div className="withdraw-dialog">
-            <div style={{ margin: "0" }}>
+            <div style={{margin: "0"}}>
               <Textarea
                 rows={15}
                 label="Your bio"
@@ -125,7 +125,7 @@ class Home extends React.Component {
                 width="100%"
                 value={bio}
                 onChange={e => {
-                  this.setState({ bio: e.target.value });
+                  this.setState({bio: e.target.value});
                 }}
               />
             </div>
@@ -182,7 +182,7 @@ class Home extends React.Component {
                         updateBioDialogOpen()
                       }}
                     >
-                      <FontAwesomeIcon icon={faEdit} />
+                      <FontAwesomeIcon icon={faEdit}/>
                     </div>
                   </div>
                   <div
@@ -198,12 +198,10 @@ class Home extends React.Component {
               <div className="col-12 col-lg-4">
                 <div
                   className="c-card card-create-a-proposal-container"
-                  style={{ backgroundImage: `url(${bgImage})` }}
+                  style={{backgroundImage: `url(${bgImage})`}}
                 >
                   <p>
-                    Wanna know how to loan Constant instantly
-                    <br />
-                    <i>Create new one.</i>
+                    Wanna make a new Proposal for Constant
                   </p>
                   <button
                     className="c-btn c-bg-green"
@@ -213,7 +211,7 @@ class Home extends React.Component {
                     }}
                   >
                     {"DCB Proposal "}
-                    <FontAwesomeIcon icon={faAngleRight} />
+                    <FontAwesomeIcon icon={faAngleRight}/>
                   </button>
                   <button
                     className="c-btn c-bg-green"
@@ -223,15 +221,15 @@ class Home extends React.Component {
                     }}
                   >
                     {"GOV Proposal "}
-                    <FontAwesomeIcon icon={faAngleRight} />
+                    <FontAwesomeIcon icon={faAngleRight}/>
                   </button>
-                  {isUserInBoard ?
+                  {!isUserInBoard ?
                     <Link
                       className="c-btn c-bg-green"
                       to={'/oracle/feed-price'}
                     >
                       {"Oracle Proposal"}
-                      <FontAwesomeIcon icon={faAngleRight} />
+                      <FontAwesomeIcon icon={faAngleRight}/>
                     </Link>
                     : ""}
                 </div>
@@ -245,7 +243,7 @@ class Home extends React.Component {
               <div className="col-12 col-lg-4">
                 <div
                   className="c-card"
-                  style={{ backgroundImage: `url(${bgApplyGOV})` }}
+                  style={{backgroundImage: `url(${bgApplyGOV})`}}
                 >
                   <div className="title c-color-blue-1000">Apply GOV board</div>
                   <div className="description">Control the new internet</div>
@@ -259,7 +257,7 @@ class Home extends React.Component {
                     <Applied applied={candidate.GOVAppliedAt}>
                       <>
                         {"Apply now "}
-                        <FontAwesomeIcon icon={faArrowRight} />
+                        <FontAwesomeIcon icon={faArrowRight}/>
                       </>
                     </Applied>
                   </Link>
@@ -268,7 +266,7 @@ class Home extends React.Component {
               <div className="col-12 col-lg-4">
                 <div
                   className="c-card"
-                  style={{ backgroundImage: `url(${bgApplyDCB})` }}
+                  style={{backgroundImage: `url(${bgApplyDCB})`}}
                 >
                   <div className="title c-color-blue-1000">Apply DCB Board</div>
                   <div className="description">A decentralized bank</div>
@@ -282,7 +280,7 @@ class Home extends React.Component {
                     <Applied applied={candidate.DCBAppliedAt}>
                       <>
                         {"Apply now "}
-                        <FontAwesomeIcon icon={faArrowRight} />
+                        <FontAwesomeIcon icon={faArrowRight}/>
                       </>
                     </Applied>
                   </Link>
@@ -291,7 +289,7 @@ class Home extends React.Component {
               <div className="col-12 col-lg-4">
                 <div
                   className="c-card"
-                  style={{ backgroundImage: `url(${bgApplyMCB})` }}
+                  style={{backgroundImage: `url(${bgApplyMCB})`}}
                 >
                   <div className="title c-color-blue-1000">Apply CMB Board</div>
                   <div className="description">Lorem ipsum ador</div>
@@ -306,7 +304,7 @@ class Home extends React.Component {
                     <Applied applied={candidate.CMBAppliedAt}>
                       <>
                         {"Comming soon "}
-                        <FontAwesomeIcon icon={faArrowRight} />
+                        <FontAwesomeIcon icon={faArrowRight}/>
                       </>
                     </Applied>
                   </Link>
@@ -316,7 +314,7 @@ class Home extends React.Component {
           </div>
         </div>
 
-        <GovTokens />
+        <GovTokens/>
       </div>
     );
   }

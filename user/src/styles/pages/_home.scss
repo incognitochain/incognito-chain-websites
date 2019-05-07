@@ -1,11 +1,13 @@
 .home-page {
   background-color: #FAFAFA;
   padding: 48px 0;
+
   .hello {
     font-size: 22px;
     @extend .c-color-blue-900;
     margin-bottom: 40px;
   }
+
   .stats-container {
     > div {
       position: relative;
@@ -22,6 +24,7 @@
           transform: translateY(-50%);
         }
       }
+
       .value {
         padding: 7px 0;
         font-size: 27px;
@@ -29,17 +32,21 @@
       }
     }
   }
+
   .c-card {
     margin-bottom: 24px;
   }
+
   .coin-information {
     .edit {
       float: right;
       cursor: pointer;
     }
+
     .c-card {
       min-height: 276px;
     }
+
     .card-create-a-proposal-container {
       padding: 20px 33px;
       position: relative;
@@ -48,44 +55,58 @@
       background-repeat: no-repeat;
       background-position: right center;
       color: #FFFFFF;
+
       p {
-        font-size: 20px;
-        padding-right: 100px;
+        font-size: 17px;
+        //padding-right: 100px;
+        text-align: center;
       }
+
       .c-btn {
-        padding: 0 20px;
+        padding: 0 10px;
         margin-right: 20px;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
+        font-size: 13px;
+        font-weight: 500;
+        min-width: 104px;
       }
     }
   }
+
   .summary {
     .c-card {
       padding: 20px 22px;
+
       &:after {
         content: '';
         display: table;
         clear: both;
       }
     }
+
     .title {
       font-size: 110%;
     }
+
     .description {
       margin-top: 2px;
     }
   }
+
   .apply {
     .c-card {
       min-height: 174px;
       background-repeat: no-repeat;
       background-position: right bottom;
+
       .title {
         font-size: 20px;
       }
+
       .description {
         color: #838AA7;
       }
+
       .c-btn {
         margin-top: 10px;
         height: 36px;
@@ -94,10 +115,12 @@
         padding: 0 23px;
         @extend .c-color-blue-900;
         text-transform: none;
+
         &:hover {
           @extend .c-bg-blue-900;
           color: #FFFFFF;
           opacity: 1;
+
           &:before {
             display: none;
           }
