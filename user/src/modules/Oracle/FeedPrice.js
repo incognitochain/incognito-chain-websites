@@ -173,7 +173,7 @@ class FeedPrice extends React.Component {
                       }}
                       fullWidth
                       InputProps={{
-                        style: {paddingTop: 10, paddingBottom: 10, height: "inherit !important"},
+                        style: {paddingTop: 0, paddingBottom: 0, height: "inherit !important"},
                       }}
                       onChange={(e) => this.onPriceChange(e.target.value)}
                       value={this.state.price}
@@ -183,7 +183,7 @@ class FeedPrice extends React.Component {
                 </div>
                 <br/>
                 {isUserInBoard ?
-                  <div className="row">
+                  <div className="row" style={{justifyContent: "flex-end"}}>
                     <FormControl component="fieldset">
                       <button className="c-btn c-btn-primary submit" style={{width: "100%"}}
                               disabled={isDisableBtn ? true : false} onClick={this.onSubmit}>
