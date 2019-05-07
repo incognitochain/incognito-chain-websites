@@ -105,7 +105,7 @@ class Wallet extends React.Component {
           shouldCloseOnOverlayClick={false}
           shouldCloseOnEscapePress={false}
           title=""
-          confirmLabel="Done"
+          confirmLabel="Close"
           hasCancel={false}
           hasHeader={false}
           onCloseComplete={() => depositDialogClose()}
