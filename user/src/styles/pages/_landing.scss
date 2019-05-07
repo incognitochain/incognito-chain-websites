@@ -1,8 +1,43 @@
 .landing-page {
+  background-color: #FFFFFF;
+  margin-bottom: 50px;
+
   .content {
-    padding: 20px;
+    padding: 20px 40px;
     text-align: center;
   }
 
-  //.container:
+  .container {
+    width: 100%;
+    margin: 0px;
+    max-width: 100%;
+  }
+
+  .row {
+    background-color: white;
+  }
+
+  .c-card {
+    box-shadow: none;
+  }
+
+  .footer {
+    background: url(https://www.myconstant.com/public/assets/bg-home-a039bb9b.png);
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-pack: distribute;
+    justify-content: space-around;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    text-align: center;
+    height: 250px;
+    padding: 20px;
+  }
 }
