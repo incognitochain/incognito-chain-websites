@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import Link from "components/Link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
   faUserAlt,
   faWallet,
@@ -11,7 +11,7 @@ import {
   faBallotCheck
 } from "@fortawesome/pro-light-svg-icons";
 import cn from "classnames";
-import { faMoneyBill, faFunnelDollar } from "@fortawesome/pro-regular-svg-icons";
+import {faMoneyBill, faFunnelDollar} from "@fortawesome/pro-regular-svg-icons";
 
 class SubHeader extends React.Component {
   static propTypes = {
@@ -29,40 +29,40 @@ class SubHeader extends React.Component {
   }
 
   render() {
-    const { show, router } = this.props;
-    const { location } = router;
-    const { pathname } = location;
+    const {show, router} = this.props;
+    const {location} = router;
+    const {pathname} = location;
 
     return (
       <header
         className="c-sub-header"
-        style={{ display: `${show ? "block" : "none"}` }}
+        style={{display: `${show ? "block" : "none"}`}}
       >
         <div className="container">
           <div className="row">
             <div className="col-12">
               <ul>
                 <li>
-                  <Link to="/" className={cn({ active: pathname === "/" })}>
-                    <FontAwesomeIcon icon={faUserAlt} />
+                  <Link to="/" className={cn({active: pathname === "/"})}>
+                    <FontAwesomeIcon icon={faUserAlt}/>
                     {" Profile"}
                   </Link>
                 </li>
                 <li>
                   <Link
                     to="/wallet"
-                    className={cn({ active: pathname.startsWith("/wallet") })}
+                    className={cn({active: pathname.startsWith("/wallet")})}
                   >
-                    <FontAwesomeIcon icon={faWallet} />
+                    <FontAwesomeIcon icon={faWallet}/>
                     {" Wallet"}
                   </Link>
                 </li>
                 <li>
                   <Link
                     to="/voting"
-                    className={cn({ active: pathname.startsWith("/voting") })}
+                    className={cn({active: pathname.startsWith("/voting")})}
                   >
-                    <FontAwesomeIcon icon={faPollH} />
+                    <FontAwesomeIcon icon={faPollH}/>
                     {" Voting"}
                   </Link>
                 </li>
@@ -73,25 +73,16 @@ class SubHeader extends React.Component {
                       active: pathname.startsWith("/proposals")
                     })}
                   >
-                    <FontAwesomeIcon icon={faBallotCheck} />
+                    <FontAwesomeIcon icon={faBallotCheck}/>
                     {" Proposal"}
                   </Link>
                 </li>
-                {/* <li>
-                  <Link
-                    to="/setting"
-                    className={cn({ active: pathname.startsWith("/setting") })}
-                  >
-                    <FontAwesomeIcon icon={faCog} />
-                    {" Setting"}
-                  </Link>
-                </li> */}
                 <li>
                   <Link
                     to="/kyc"
-                    className={cn({ active: pathname.startsWith("/kyc") })}
+                    className={cn({active: pathname.startsWith("/kyc")})}
                   >
-                    <FontAwesomeIcon icon={faUserAlt} />
+                    <FontAwesomeIcon icon={faUserAlt}/>
                     {" Kyc"}
                   </Link>
                 </li>
@@ -99,18 +90,18 @@ class SubHeader extends React.Component {
                 <li>
                   <Link
                     to="/oracle"
-                    className={cn({ active: pathname.startsWith("/oracle") })}
+                    className={cn({active: pathname.startsWith("/oracle")})}
                   >
-                    <FontAwesomeIcon icon={faMoneyBill} />
+                    <FontAwesomeIcon icon={faMoneyBill}/>
                     {" Oracle"}
                   </Link>
                 </li>
                 <li>
                   <Link
                     to="/oracle/price-list"
-                    className={cn({ active: pathname.startsWith("/oracle/price-list") })}
+                    className={cn({active: pathname.startsWith("/oracle/price-list")})}
                   >
-                    <FontAwesomeIcon icon={faFunnelDollar} />
+                    <FontAwesomeIcon icon={faFunnelDollar}/>
                     {" Oracle Current Price"}
                   </Link>
                 </li>
@@ -123,4 +114,4 @@ class SubHeader extends React.Component {
   }
 }
 
-export default connect(state => ({ router: state.router }))(SubHeader);
+export default connect(state => ({router: state.router}))(SubHeader);
