@@ -246,11 +246,13 @@ class Kyc extends React.Component {
                 <div className="row">
                   <div className="col">
                     <React.Fragment>
-                      <Typography variant="h6" gutterBottom>
-                        KYC INFOMATION
-                      </Typography>
                       <Grid container spacing={24}>
-                        <Grid item sm={12} md={6}>
+                        <Grid item xs={12}>
+                          <Typography variant="h6" gutterBottom>
+                            KYC INFOMATION
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={12} md={6}>
                           <TextField
                             id="fullName"
                             label="Full Name"
@@ -260,10 +262,13 @@ class Kyc extends React.Component {
                             value={values.fullName}
                             autoComplete="off"
                             onChange={handleChange}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
                           />
                           {errors.fullName && touched.fullName && <span className="c-error"><span>{errors.fullName}</span></span>}
                         </Grid>
-                        <Grid item sm={12} md={3}>
+                        <Grid item xs={12} sm={12} md={6}>
                           <FormControlLabel value="1" control={
                             <Radio
                               checked={parseInt(values.gender) === 1}
@@ -289,7 +294,8 @@ class Kyc extends React.Component {
                             />
                           } label="Female" />
                         </Grid>
-                        <Grid item sm={12} md={3}>
+                        <Grid item xs={12}>
+                        <Grid item xs={6} sm={3}>
                           <MuiPickersUtilsProvider utils={MomentUtils}>
                             <DatePicker
                               id="dob"
@@ -305,7 +311,8 @@ class Kyc extends React.Component {
                             {errors.dob && touched.dob && <span className="c-error"><span>{errors.dob}</span></span>}
                           </MuiPickersUtilsProvider>
                         </Grid>
-                        <Grid item sm={12} md={2}>
+                        </Grid>
+                        <Grid item xs={4} sm={4} md={3}>
                           <FormControl variant="outlined" fullWidth>
                             <InputLabel
                               ref={ref => {
@@ -334,7 +341,7 @@ class Kyc extends React.Component {
                             </Select>
                           </FormControl>
                         </Grid>
-                        <Grid item sm={12} md={4}>
+                        <Grid item xs={8} sm={8} md={9}>
                           <TextField
                             id="taxIDNumber"
                             label="Tax ID Number"
@@ -343,8 +350,157 @@ class Kyc extends React.Component {
                             helperText=""
                             fullWidth
                             onChange={handleChange}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
                           />
                           {errors.taxIDNumber && touched.taxIDNumber && <span className="c-error"><span>{errors.taxIDNumber}</span></span>}
+                        </Grid>
+                        <Grid item xs={4} sm={4} md={3}>
+                          <FormControl variant="outlined" fullWidth>
+                            <InputLabel
+                              ref={ref => {
+                                this.InputLabelRef = ref;
+                              }}
+                              htmlFor="outlined-phoneCountryCode"
+                            >
+                              Country Code
+                            </InputLabel>
+                            <Select
+                              value={values.phoneCountryCode}
+                              style={{ minHeight: 55 }}
+                              onChange={(e) => {
+                                values.phoneCountryCode = e.target.value
+                                this.setState({ isUpdated: true })
+                              }}
+                              input={
+                                <OutlinedInput
+                                  name="phoneCountryCode"
+                                  labelWidth={90}
+                                  id="outlined-phoneCountryCode"
+                                />
+                              }
+                            >
+                              <MenuItem value={'+1'}>+1</MenuItem>
+                              <MenuItem value={'+84'}>+84</MenuItem>
+                            </Select>
+                          </FormControl>
+                        </Grid>
+                        <Grid item xs={8} sm={8} md={9}>
+                          <TextField
+                            id="phoneNumber"
+                            label="Phone Number"
+                            variant="outlined"
+                            helperText=""
+                            value={values.phoneNumber}
+                            fullWidth
+                            onChange={handleChange}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                          />
+                          {errors.phoneNumber && touched.phoneNumber && <span className="c-error"><span>{errors.phoneNumber}</span></span>}
+                        </Grid>
+                        <Grid item xs={12}></Grid>
+                        <Grid item xs={12}>
+                          <Typography variant="h6" gutterBottom>
+                            ADDRESS INFOMATION
+                          </Typography>
+                        </Grid>
+                        <Grid item sm={12} md={6}>
+                          <TextField
+                            id="addressStreet1"
+                            label="Street 1"
+                            variant="outlined"
+                            helperText=""
+                            value={values.addressStreet1}
+                            fullWidth
+                            onChange={handleChange}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                          />
+                          {errors.addressStreet1 && touched.addressStreet1 && <span className="c-error"><span>{errors.addressStreet1}</span></span>}
+                        </Grid>
+                        <Grid item sm={12} md={6}>
+                          <TextField
+                            id="addressStreet2"
+                            label="Street 2"
+                            variant="outlined"
+                            helperText=""
+                            value={values.addressStreet2}
+                            fullWidth
+                            onChange={handleChange}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                          />
+                          {errors.addressStreet2 && touched.addressStreet2 && <span className="c-error"><span>{errors.addressStreet2}</span></span>}
+                        </Grid>
+                        <Grid item xs={12} sm={4}>
+                          <TextField
+                            id="addressRegion"
+                            label="Region"
+                            variant="outlined"
+                            helperText=""
+                            value={values.addressRegion}
+                            fullWidth
+                            onChange={handleChange}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                          />
+                          {errors.addressRegion && touched.addressRegion && <span className="c-error"><span>{errors.addressRegion}</span></span>}
+                        </Grid>
+                        <Grid item xs={12} sm={4}>
+                          <TextField
+                            id="addressCity"
+                            label="City"
+                            variant="outlined"
+                            helperText=""
+                            value={values.addressCity}
+                            fullWidth
+                            onChange={handleChange}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                          />
+                        </Grid>
+                        <Grid item xs={12} sm={4}>
+                          <TextField
+                            id="addressPostalCode"
+                            label="Postal Code"
+                            variant="outlined"
+                            helperText=""
+                            value={values.addressPostalCode}
+                            fullWidth
+                            onChange={handleChange}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                          />
+                          {errors.addressPostalCode && touched.addressPostalCode && <span className="c-error"><span>{errors.addressPostalCode}</span></span>}
+                        </Grid>
+                        <Grid item sm={12} md={6}>
+                          <TextField
+                            id="addressCountry"
+                            label="Country"
+                            variant="outlined"
+                            helperText=""
+                            value={values.addressCountry}
+                            fullWidth
+                            onChange={handleChange}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                          />
+                          {errors.addressCountry && touched.addressCountry && <span className="c-error"><span>{errors.addressCountry}</span></span>}
+                        </Grid>
+                        <Grid item xs={12}></Grid>
+                        <Grid item xs={12}>
+                          <Typography variant="h6" gutterBottom>
+                            Photos
+                          </Typography>
                         </Grid>
                         <Grid item sm={12} md={2}>
                           Government ID Front
@@ -423,119 +579,6 @@ class Kyc extends React.Component {
                                 />
                               ) : null
                           }
-                        </Grid>
-                        <Grid item sm={12} md={6}>
-                          <TextField
-                            id="addressStreet1"
-                            label="AddressStreet1"
-                            variant="outlined"
-                            helperText=""
-                            value={values.addressStreet1}
-                            fullWidth
-                            onChange={handleChange}
-                          />
-                          {errors.addressStreet1 && touched.addressStreet1 && <span className="c-error"><span>{errors.addressStreet1}</span></span>}
-                        </Grid>
-                        <Grid item sm={12} md={6}>
-                          <TextField
-                            id="addressStreet2"
-                            label="AddressStreet2"
-                            variant="outlined"
-                            helperText=""
-                            value={values.addressStreet2}
-                            fullWidth
-                            onChange={handleChange}
-                          />
-                          {errors.addressStreet2 && touched.addressStreet2 && <span className="c-error"><span>{errors.addressStreet2}</span></span>}
-                        </Grid>
-                        <Grid item sm={12} md={6}>
-                          <TextField
-                            id="addressRegion"
-                            label="AddressRegion"
-                            variant="outlined"
-                            helperText=""
-                            value={values.addressRegion}
-                            fullWidth
-                            onChange={handleChange}
-                          />
-                          {errors.addressRegion && touched.addressRegion && <span className="c-error"><span>{errors.addressRegion}</span></span>}
-                        </Grid>
-                        <Grid item sm={12} md={6}>
-                          <TextField
-                            id="addressCity"
-                            label="AddressCity"
-                            variant="outlined"
-                            helperText=""
-                            value={values.addressCity}
-                            fullWidth
-                            onChange={handleChange}
-                          />
-                        </Grid>
-                        <Grid item sm={12} md={6}>
-                          <TextField
-                            id="addressPostalCode"
-                            label="AddressPostalCode"
-                            variant="outlined"
-                            helperText=""
-                            value={values.addressPostalCode}
-                            fullWidth
-                            onChange={handleChange}
-                          />
-                          {errors.addressPostalCode && touched.addressPostalCode && <span className="c-error"><span>{errors.addressPostalCode}</span></span>}
-                        </Grid>
-                        <Grid item sm={12} md={6}>
-                          <TextField
-                            id="addressCountry"
-                            label="AddressCountry"
-                            variant="outlined"
-                            helperText=""
-                            value={values.addressCountry}
-                            fullWidth
-                            onChange={handleChange}
-                          />
-                          {errors.addressCountry && touched.addressCountry && <span className="c-error"><span>{errors.addressCountry}</span></span>}
-                        </Grid>
-                        <Grid item sm={12} md={2}>
-                          <FormControl variant="outlined" fullWidth>
-                            <InputLabel
-                              ref={ref => {
-                                this.InputLabelRef = ref;
-                              }}
-                              htmlFor="outlined-phoneCountryCode"
-                            >
-                              Country Code
-                            </InputLabel>
-                            <Select
-                              value={values.phoneCountryCode}
-                              style={{ minHeight: 55 }}
-                              onChange={(e) => {
-                                values.phoneCountryCode = e.target.value
-                                this.setState({ isUpdated: true })
-                              }}
-                              input={
-                                <OutlinedInput
-                                  name="phoneCountryCode"
-                                  labelWidth={90}
-                                  id="outlined-phoneCountryCode"
-                                />
-                              }
-                            >
-                              <MenuItem value={'+1'}>+1</MenuItem>
-                              <MenuItem value={'+84'}>+84</MenuItem>
-                            </Select>
-                          </FormControl>
-                        </Grid>
-                        <Grid item sm={12} md={4}>
-                          <TextField
-                            id="phoneNumber"
-                            label="Phone Number"
-                            variant="outlined"
-                            helperText=""
-                            value={values.phoneNumber}
-                            fullWidth
-                            onChange={handleChange}
-                          />
-                          {errors.phoneNumber && touched.phoneNumber && <span className="c-error"><span>{errors.phoneNumber}</span></span>}
                         </Grid>
                         <Grid item xs={12}>
                           <button
