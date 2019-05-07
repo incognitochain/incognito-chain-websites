@@ -9,7 +9,8 @@ import {actions as authActions} from "../actions/auth";
 import {actions as votingActions} from "../actions/voting";
 import {actions as oracleActions} from "../actions/oracle";
 
-const Home = createDynamicImport(() => import("modules/Home"), Loading);
+const LandingPage = createDynamicImport(() => import("modules/LandingPage"), Loading);
+const Profile = createDynamicImport(() => import("modules/Home"), Loading);
 const Setting = createDynamicImport(() => import("modules/Setting"), Loading);
 const Register = createDynamicImport(
   () => import("modules/Auth/Register"),
@@ -69,9 +70,16 @@ const OracleFeedPrice = createDynamicImport(
 
 const routers = [
   {
+    path: "/home",
+    exact: true,
+    component: LandingPage,
+    needLogged: true,
+    needLayout: true
+  },
+  {
     path: "/",
     exact: true,
-    component: Home,
+    component: Profile,
     needLogged: true,
     needLayout: true
   },
