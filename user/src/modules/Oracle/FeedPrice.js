@@ -17,6 +17,7 @@ import {
 // import Link from "components/Link";
 
 import {getAssets, feedPrice, checkIsUserInBoard, getFeedPriceHistory} from "../../services/oracle";
+import {formatConstantValue} from "../../services/formatter";
 
 const mapStateToProps = (state) => {
   return {
@@ -74,7 +75,7 @@ class FeedPrice extends React.Component {
     if (!asset) return;
     if (!price || isNaN(price)) return;
     this.setState({isSubmitting: true})
-    const res = await feedPrice(accessToken, parseFloat(price), asset);
+    const res = await feedPrice(accessToken, parseFloat(price) * 100, asset);
     const {Result, Error} = res.data;
     let resultMessage;
     if (Error) {
@@ -162,7 +163,7 @@ class FeedPrice extends React.Component {
                 <br/>
                 <div className="row">
                   <FormControl component="fieldset" style={{width: "100%"}}>
-                    <FormLabel component="legend" className="title">Price</FormLabel>
+                    <FormLabel component="legend" className="title">Price(USD)</FormLabel>
                     <TextField
                       id="price"
                       className="input-of-create cst"
@@ -176,6 +177,7 @@ class FeedPrice extends React.Component {
                       }}
                       onChange={(e) => this.onPriceChange(e.target.value)}
                       value={this.state.price}
+                      addonAfter={"USD"}
                     />
                   </FormControl>
                 </div>
@@ -197,11 +199,12 @@ class FeedPrice extends React.Component {
                       <div className="hello">
                         History
                       </div>
-                      <table className="c-table-portal-home" style={{minWidth: "100%"}}>
+                      <table className="c-table-portal-home"
+                             style={{minWidth: "100%", fontSize: "14px", fontWeight: 500}}>
                         <thead>
                         <tr>
+                          <th>Currency</th>
                           <th>Price</th>
-                          <th>Asset Type</th>
                           <th>Created At</th>
                         </tr>
                         </thead>
@@ -210,9 +213,9 @@ class FeedPrice extends React.Component {
                           history && history.map((item = {}) => {
                             return (
                               <tr key={`history-${item.ID}`}>
-                                <td>{item.Price}</td>
                                 <td>{item.AssetType}</td>
-                                <td>{item.CreatedAt ? dayjs(item.CreatedAt).format('MM-DD-YYYY') : ""}</td>
+                                <td>{formatConstantValue(item.Price / 100)} USD</td>
+                                <td>{item.CreatedAt ? dayjs(item.CreatedAt).format('MM-DD-YYYY HH:mm:ss') : ""}</td>
                               </tr>
                             )
                           })

@@ -7,10 +7,10 @@ legend {
   margin: 8px 0px !important;
 }
 
-.MuiTablePagination-select-20 {
+div[class^="MuiTablePagination-select-"], div[class*="MuiTablePagination-select-"] {
   padding-right: 25px !important;
 }
 
-.MuiTableCell-root-25 {
+td[class^="MuiTableCell-root-"], td[class*="MuiTableCell-root-"] {
   border-bottom: none !important;
 }
