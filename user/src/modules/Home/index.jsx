@@ -198,7 +198,7 @@ class Home extends React.Component {
               <div className="col-12 col-lg-4">
                 <div
                   className="c-card card-create-a-proposal-container"
-                  style={{backgroundImage: `url(${bgImage})`}}
+                  style={{backgroundImage: `url(${bgImage})`, height: "94%"}}
                 >
                   <p>
                     Wanna make a new Proposal for Constant
