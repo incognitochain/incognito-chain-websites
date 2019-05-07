@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { API } from '../constants'
+import {API} from '../constants'
 
-export async function getOracleMetadatas(token, perPage=10, page = 1){
+export async function getOracleMetadatas(token, perPage = 10, page = 1) {
   const options = {
     method: "GET",
     headers: {
@@ -14,7 +14,7 @@ export async function getOracleMetadatas(token, perPage=10, page = 1){
   return response
 }
 
-export async function checkIsUserInBoard(token){
+export async function checkIsUserInBoard(token) {
   const options = {
     method: "GET",
     headers: {
@@ -27,7 +27,7 @@ export async function checkIsUserInBoard(token){
   return response
 }
 
-export async function createAndSignMetadata(token, pubkeys=[], action="", bio){
+export async function createAndSignMetadata(token, pubkeys = [], action = "", bio) {
   const data = {
     Action: action,
     PubKeys: pubkeys,
@@ -48,7 +48,7 @@ export async function createAndSignMetadata(token, pubkeys=[], action="", bio){
   return response
 }
 
-export async function signMetadata(token, id){
+export async function signMetadata(token, id) {
   const options = {
     method: "POST",
     headers: {
@@ -62,7 +62,7 @@ export async function signMetadata(token, id){
   return response
 }
 
-export async function feedPrice(token, price, asset=""){
+export async function feedPrice(token, price, asset = "") {
   const data = {
     Price: price,
     Asset: asset,
@@ -76,12 +76,16 @@ export async function feedPrice(token, price, asset=""){
     url: `${API.ORACLE_FEED_PRICE}`,
     data
   };
-
-  const response = await axios(options);
+  let response = null;
+  try {
+    response = await axios(options);
+  } catch (error) {
+    throw error
+  }
   return response
 }
 
-export async function getMetadataDetail(token, id){
+export async function getMetadataDetail(token, id) {
   const options = {
     method: "GET",
     headers: {
@@ -95,7 +99,7 @@ export async function getMetadataDetail(token, id){
   return response
 }
 
-export async function getAssets(token){
+export async function getAssets(token) {
   const options = {
     method: "GET",
     headers: {
@@ -109,7 +113,7 @@ export async function getAssets(token){
   return response
 }
 
-export async function getCurrentPrice(token){
+export async function getCurrentPrice(token) {
   const options = {
     method: "GET",
     headers: {
@@ -123,7 +127,7 @@ export async function getCurrentPrice(token){
   return response
 }
 
-export async function getFeedPriceHistory(token, perPage=10, page=1, assetType=""){
+export async function getFeedPriceHistory(token, perPage = 10, page = 1, assetType = "") {
   const options = {
     method: "GET",
     headers: {

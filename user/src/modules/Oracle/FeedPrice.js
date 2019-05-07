@@ -32,11 +32,11 @@ class FeedPrice extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      asset: "",
+      asset: "0000000000000000000000000000000000000000000000000000000000000004",
       assets: [],
       openDialog: false,
       resultMessage: "",
-      price: "",
+      price: 1.0,
       isUserInBoard: false,
       history: [],
       historyPagination: {Page: 1, Limit: 10, TotalRecord: 0, TotalPage: 0},
@@ -75,20 +75,26 @@ class FeedPrice extends React.Component {
     if (!asset) return;
     if (!price || isNaN(price)) return;
     this.setState({isSubmitting: true})
-    const res = await feedPrice(accessToken, parseFloat(price) * 100, asset);
-    const {Result, Error} = res.data;
-    let resultMessage;
-    if (Error) {
-      console.log(Error)
-      resultMessage = Error;
+    try {
+      const res = await feedPrice(accessToken, parseFloat(price) * 100, asset);
+      const {Result, Error} = res.data;
+      let resultMessage;
+      if (Error) {
+        console.log(Error)
+        resultMessage = Error;
+      }
+      if (Result || Result === true) {
+        resultMessage = "Successfully";
+        setTimeout(() => {
+          window.location.reload();
+        }, 200)
+      }
+      this.setState({resultMessage, openDialog: true, isSubmitting: false})
+    } catch (e) {
+      console.log(e)
+      let resultMessage = e.toString();
+      this.setState({resultMessage, openDialog: true, isSubmitting: false})
     }
-    if (Result || Result === true) {
-      resultMessage = "Successfully";
-      setTimeout(() => {
-        window.location.reload();
-      }, 200)
-    }
-    this.setState({resultMessage, openDialog: true, isSubmitting: false})
   }
 
   onCheckUserIsInBoard = async () => {
@@ -154,7 +160,8 @@ class FeedPrice extends React.Component {
                     >
                       {assets && assets.length > 0 && assets.map((item = {}, i) => {
                         return (
-                          <MenuItem key={`asset-${i}`} value={item.Asset}>{item.Name}</MenuItem>
+                          <MenuItem selected={item.Asset == this.state.asset ? true : false} key={`asset-${i}`}
+                                    value={item.Asset}>{item.Name}</MenuItem>
                         )
                       })}
                     </Select>
@@ -177,12 +184,11 @@ class FeedPrice extends React.Component {
                       }}
                       onChange={(e) => this.onPriceChange(e.target.value)}
                       value={this.state.price}
-                      addonAfter={"USD"}
                     />
                   </FormControl>
                 </div>
                 <br/>
-                {isUserInBoard ?
+                {!isUserInBoard ?
                   <div className="row" style={{justifyContent: "flex-end"}}>
                     <FormControl component="fieldset">
                       <button className="c-btn c-btn-primary submit" style={{width: "100%"}}
