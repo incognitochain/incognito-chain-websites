@@ -1,6 +1,14 @@
 import React from "react";
 
 class LandingPage extends React.Component {
+  handleJoinUs = () => {
+    window.location.href = "/register"
+  }
+
+  handleLogin = () => {
+    window.location.href = "/login"
+  }
+
   render() {
     return (
       <div className="page user-page landing-page">
@@ -19,6 +27,10 @@ class LandingPage extends React.Component {
                 into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the
                 release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing
                 software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+              <p>
+                <button type="button" className="btn btn-primary btn-lg" onClick={this.handleJoinUs} style={{marginRight: "20px"}}>Join Us</button>
+                <button type="button" className="btn btn-success btn-lg" onClick={this.handleLogin}>Sign-in</button>
+              </p>
             </div>
           </div>
           <div className="row">
