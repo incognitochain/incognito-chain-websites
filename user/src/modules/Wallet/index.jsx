@@ -9,6 +9,7 @@ import QRCode from "qrcode.react";
 import {CopyToClipboard} from "react-copy-to-clipboard";
 
 import {actions as walletActions} from '../../actions/wallet'
+import {CircularProgress} from "@material-ui/core";
 
 class Wallet extends React.Component {
   constructor(props) {
@@ -192,14 +193,14 @@ class Wallet extends React.Component {
                       <th width="90">Total</th>
                       <th width="90">Available</th>
                       <th width="100">In Order</th>
-                      <th width="120">CST Value</th>
-                      <th>Your decision</th>
+                      {/*<th width="120">CST Value</th>*/}
+                      <th></th>
                     </tr>
                     </thead>
                     <tbody>
                     {isLoading && (
                       <tr>
-                        <td colSpan="7">Loading..</td>
+                        <td colSpan="7" style={{textAlign: "center"}}><CircularProgress/></td>
                       </tr>
                     )}
                     {balances.map(balance => (
@@ -216,10 +217,11 @@ class Wallet extends React.Component {
                         <td>{this.getAmount(balance.TotalBalance, balance.SymbolName)}</td>
                         <td>{this.getAmount(balance.AvailableBalance, balance.SymbolName)}</td>
                         <td>{balance.InOrder}</td>
-                        <td>{balance.ConstantValue}</td>
+                        {/*<td>{balance.ConstantValue}</td>*/}
                         <td>
                           <button
-                            className="c-a-btn"
+                            className="btn btn-outline-success"
+                            style={{marginRight: "5px"}}
                             type="button"
                             onClick={() => {
                               depositDialogOpen()
@@ -229,7 +231,8 @@ class Wallet extends React.Component {
                           </button>
                           {balance.Withdrawable ? (
                             <button
-                              className="c-a-btn"
+                              className="btn btn-outline-primary"
+                              style={{marginRight: "5px"}}
                               type="button"
                               onClick={() => {
                                 withdrawDialogOpen(balance)
@@ -244,7 +247,7 @@ class Wallet extends React.Component {
                             href={`${process.env.REACT_APP_EXCHANGE_URL}/exchange/CONST-${balance.SymbolCode.toUpperCase()}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="c-a-btn"
+                            className="btn btn-outline-warning"
                           >
                             Exchange
                           </a> : ""}
