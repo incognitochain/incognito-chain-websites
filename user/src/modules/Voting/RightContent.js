@@ -42,7 +42,7 @@ export function RightContent({
   const balancesArr = Object.values(balances);
   return (
     <div className="col-12 col-lg-3">
-      <div className="c-card">
+      <div className="c-card" style={{height: "100%"}}>
         {renderIf(_.isEmpty(user))(<div className="empty">{placeholder}</div>)}
         {renderIf(!_.isEmpty(user))(
           <div className="right-bar">

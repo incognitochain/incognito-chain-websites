@@ -17,7 +17,7 @@ export function CenterContent({ applicant }) {
 
   return (
     <div className="col-12 col-lg-6">
-      <div className="c-card">
+      <div className="c-card" style={{height: "100%"}}>
         {renderIf(_.isEmpty(applicant))(
           <div className="empty">Please select applicant</div>
         )}
