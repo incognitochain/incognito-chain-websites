@@ -63,12 +63,10 @@ class Header extends React.Component {
   render() {
     const {
       auth,
-      // router,
     } = this.props;
-    const {profile} = auth;
+
+    const {profile, accessToken} = auth;
     const {showMenu, authMenu} = this.state;
-    // const { location } = router;
-    // const { pathname } = location;
 
     return (
       <header className="c-header">
@@ -92,6 +90,7 @@ class Header extends React.Component {
                   <li><a href={`${process.env.REACT_APP_EXCHANGE_URL}`}>Market</a></li>
                 </ul>
               </div>
+              {accessToken != "" &&
               <div className={`auth-container ${showMenu ? 'show' : 'hide'}`}>
                 <ul className="menu">
                   <li>
@@ -108,6 +107,7 @@ class Header extends React.Component {
                   </li>
                 </ul>
               </div>
+              }
             </div>
           </div>
         </div>
