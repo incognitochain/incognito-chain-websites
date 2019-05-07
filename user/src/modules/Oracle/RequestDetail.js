@@ -78,7 +78,7 @@ class RequestDetail extends React.Component {
     let resultMessage;
     if (Error) {
       console.log(Error)
-      resultMessage = Error;
+      resultMessage = Error.Message;
     }
     if (Result || Result === true) {
       resultMessage = "Successfully";

@@ -40,6 +40,7 @@ class FeedPrice extends React.Component {
       isUserInBoard: false,
       history: [],
       historyPagination: {Page: 1, Limit: 10, TotalRecord: 0, TotalPage: 0},
+      isSubmitting: false,
     }
   }
 
@@ -81,7 +82,7 @@ class FeedPrice extends React.Component {
       let resultMessage;
       if (Error) {
         console.log(Error)
-        resultMessage = Error;
+        resultMessage = Error.Message;
       }
       if (Result || Result === true) {
         resultMessage = "Successfully";
@@ -89,11 +90,12 @@ class FeedPrice extends React.Component {
           window.location.reload();
         }, 200)
       }
-      this.setState({resultMessage, openDialog: true, isSubmitting: false})
+      debugger;
+      this.setState({resultMessage: resultMessage, openDialog: true, isSubmitting: false})
     } catch (e) {
       console.log(e)
       let resultMessage = e.toString();
-      this.setState({resultMessage, openDialog: true, isSubmitting: false})
+      this.setState({resultMessage: resultMessage, openDialog: true, isSubmitting: false})
     }
   }
 
