@@ -73,7 +73,7 @@ const routers = [
     path: "/home",
     exact: true,
     component: LandingPage,
-    needLogged: true,
+    needLogged: false,
     needLayout: true
   },
   {

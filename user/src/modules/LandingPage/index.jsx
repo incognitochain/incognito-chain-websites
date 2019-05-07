@@ -3,7 +3,7 @@ import React from "react";
 class LandingPage extends React.Component {
   render() {
     return (
-      <div className="page user-page home-page">
+      <div className="page user-page landing-page">
         <div className="container">
           <div className="row">
             <div className="col-12 col-md-12 col-lg-12">
