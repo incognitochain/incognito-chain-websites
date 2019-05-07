@@ -1,11 +1,11 @@
 import React from "react";
-// import PropTypes from 'prop-types';
+import qs from 'query-string';
 import {Formik} from "formik";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSpinnerThird} from "@fortawesome/pro-light-svg-icons";
 import Link from "components/Link";
 import {connect} from "react-redux";
-import { actions } from "../../actions/auth";
+import {actions} from "../../actions/auth";
 
 class Login extends React.Component {
 
@@ -17,43 +17,24 @@ class Login extends React.Component {
   }
 
   handleSubmit = async (values, setSubmitting) => {
-    const { login } = this.props;
+    const {login} = this.props;
     const {email, password} = values;
-
     await login(email, password);
+
     setSubmitting(false);
 
-    // axios({
-    //   method: "POST",
-    //   url: `${process.env.REACT_APP_SERVICE_API}/auth/login`,
-    //   data
-    // })
-    //   .then(res => {
-    //     if (res.data && res.data.Result && res.data.Result.Token) {
-    //       let domain = process.env.REACT_APP_DOMAIN;
-    //       Cookies.set("user", res.data.Result.Token, {
-    //         domain: domain,
-    //         expires: 30
-    //       });
-    //       if (redirect) {
-    //         document.location.assign(`//${redirect}`);
-    //       } else {
-    //         document.location.assign("/");
-    //       }
-    //     } else {
-    //       this.setState({error: "Invalid email or password"});
-    //     }
-        
-    //   })
-    //   .catch(err => {
-    //     this.setState({error: "Invalid email or password"});
-    //     console.log("err login", err);
-    //     setSubmitting(false);
-    //   });
-  };
+    let redirect = qs.parse(this.props.location.search, {ignoreQueryPrefix: true}).redirect
+    setTimeout(function () {
+      if (redirect && redirect != "/") {
+        document.location.assign(`/${redirect}`);
+      } else {
+        document.location.assign("/");
+      }
+    }, 1000)
+  }
 
   render() {
-    const { error } = this.props;
+    const {error} = this.props;
 
     return (
       <div className="auth-page">
@@ -181,14 +162,20 @@ class Login extends React.Component {
 }
 
 export default connect(
-  (state) => {
+  (
+    state
+  ) => {
     return {
-      isAuthorized: state.auth.isAuthorized,
-      isLoading: state.auth.isLoading,
-      error: state.auth.loginError,
+      isAuthorized: state.auth.isAuthorized
+      ,
+      isLoading: state.auth.isLoading
+      ,
+      error: state.auth.loginError
+      ,
     }
   },
   {
     login: actions.login,
   }
-)(Login);
+)
+(Login);
