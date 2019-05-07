@@ -68,12 +68,7 @@ class RequestList extends React.Component {
               <div className="c-card">
                 <div className="hello"
                      style={{display: "flex", justifyContent: "space-between", alignContent: "center"}}>
-                  Request list
-
-                  <FormControl component="fieldset">
-                    <Link className="c-btn c-btn-primary submit" to='/oracle/create'>Create Request</Link>
-                  </FormControl>
-
+                  Suggestion Oracle Board
                 </div>
 
                 <table className="c-table-portal-home" style={{minWidth: "100%", fontSize: "14px", fontWeight: 500}}>
@@ -106,20 +101,27 @@ class RequestList extends React.Component {
                   }) : <CircularProgress/>}
                   </tbody>
                 </table>
-                {oracleMetadatas.length > 0 && pagination && Object.keys(pagination).length > 0 ?
-                  <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
-                    colSpan={3}
-                    count={pagination.TotalRecord}
-                    rowsPerPage={pagination.Limit}
-                    page={pagination.Page - 1}
-                    SelectProps={{
-                      // native: true,
-                    }}
-                    onChangePage={(e, p) => (this.onChangePage(p))}
-                    onChangeRowsPerPage={(e) => this.onChangeRowsPerPage(e.target.value)}
-                  />
-                  : ""}
+                <div style={{textAlign: "right"}}>
+                  {oracleMetadatas.length > 0 && pagination && Object.keys(pagination).length > 0 ?
+                    <TablePagination
+                      rowsPerPageOptions={[5, 10, 25]}
+                      colSpan={3}
+                      count={pagination.TotalRecord}
+                      rowsPerPage={pagination.Limit}
+                      page={pagination.Page - 1}
+                      SelectProps={{
+                        // native: true,
+                      }}
+                      onChangePage={(e, p) => (this.onChangePage(p))}
+                      onChangeRowsPerPage={(e) => this.onChangeRowsPerPage(e.target.value)}
+                    />
+                    : ""}
+                </div>
+                <div style={{textAlign: "right"}}>
+                  <FormControl component="fieldset" style={{fontSize: "14px"}}>
+                    <Link className="c-btn c-btn-primary submit" to='/oracle/create'>Make Suggestion</Link>
+                  </FormControl>
+                </div>
               </div>
             </div>
           </div>

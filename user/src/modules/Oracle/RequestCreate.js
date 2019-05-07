@@ -1,6 +1,6 @@
 import React from "react";
 // import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 // import dayjs from 'dayjs';
 
 import {
@@ -11,17 +11,17 @@ import {
   DialogContent,
   DialogContentText,
   Select,
-  MenuItem,
+  MenuItem, FormLabel,
 } from '@material-ui/core';
 
 // import Link from "components/Link";
 
-import { ORACLE_REQUEST_ACTION } from "../../constants";
-import { createAndSignMetadata } from "../../services/oracle";
+import {ORACLE_REQUEST_ACTION} from "../../constants";
+import {createAndSignMetadata} from "../../services/oracle";
 
 const requestActionItems = [
-  { label: "Add", value: ORACLE_REQUEST_ACTION.ADD },
-  { label: "Remove", value: ORACLE_REQUEST_ACTION.REMOVE },
+  {label: "Add", value: ORACLE_REQUEST_ACTION.ADD},
+  {label: "Remove", value: ORACLE_REQUEST_ACTION.REMOVE},
 ];
 
 const mapStateToProps = (state) => {
@@ -30,9 +30,7 @@ const mapStateToProps = (state) => {
   }
 }
 const mapDispatchToProps = (dispatch) => {
-  return {
-
-  }
+  return {}
 }
 
 class RequestCreate extends React.Component {
@@ -43,22 +41,23 @@ class RequestCreate extends React.Component {
       openDialog: false,
       resultMessage: "",
       isSubmitting: false,
-      action: "",
+      action: 1,
       bio: "",
     }
   }
+
   onChangePubkey = (pubkeys = "") => {
-    this.setState({ pubkeys });
+    this.setState({pubkeys});
   }
   onSubmit = async () => {
-    const { accessToken } = this.props
-    const { pubkeys = "", action = "", bio = "" } = this.state;
+    const {accessToken} = this.props
+    const {pubkeys = "", action = "", bio = ""} = this.state;
     const pubkeyArr = pubkeys.split(",") || [];
     if (!pubkeys || pubkeyArr.length <= 0 || !action) return;
 
-    this.setState({ isSubmitting: true })
+    this.setState({isSubmitting: true})
     const res = await createAndSignMetadata(accessToken, pubkeyArr, action, bio);
-    const { Result, Error } = res.data;
+    const {Result, Error} = res.data;
     let resultMessage;
     if (Error) {
       console.log(Error)
@@ -70,19 +69,20 @@ class RequestCreate extends React.Component {
         window.location = "/oracle";
       }, 200)
     }
-    this.setState({ resultMessage, openDialog: true, isSubmitting: false })
+    this.setState({resultMessage, openDialog: true, isSubmitting: false})
   }
   onCloseDialog = () => {
-    this.setState({ openDialog: false, resultMessage: "" })
+    this.setState({openDialog: false, resultMessage: ""})
   }
   onChangeAction = (action) => {
-    this.setState({ action });
+    this.setState({action});
   }
   onChangeBio = (bio) => {
-    this.setState({ bio });
+    this.setState({bio});
   }
+
   render() {
-    const { pubkeys, openDialog, isSubmitting, bio = "" } = this.state;
+    const {pubkeys, openDialog, isSubmitting, bio = ""} = this.state;
     const isDisableButton = isSubmitting === true;
     return (
       <div className="page user-page home-page">
@@ -92,12 +92,12 @@ class RequestCreate extends React.Component {
               <div className="c-card">
                 <div className="row">
                   <div className="hello">
-                    Request Create
+                    Make New Suggestion
                   </div>
                 </div>
                 <div className="row">
-                  <FormControl component="fieldset" style={{ width: "100%" }} >
-                    <div className="title">PUBLIC KEYS</div>
+                  <FormControl component="fieldset" style={{width: "100%"}}>
+                    <FormLabel component="legend" className="title">Nominee's Public keys</FormLabel>
                     <TextField
                       id="amount"
                       multiline
@@ -119,18 +119,15 @@ class RequestCreate extends React.Component {
                     />
                   </FormControl>
                 </div>
-                <br />
+                <br/>
                 <div className="row">
-                  <FormControl component="fieldset" style={{ width: "100%" }} >
-                    <div className="title">Bio</div>
+                  <FormControl component="fieldset" style={{width: "100%"}}>
+                    <FormLabel component="legend" className="title">Bio of Proponent</FormLabel>
                     <TextField
                       id="bio"
                       multiline
                       className="input-of-create cst"
                       type="text"
-                      style={{
-                        // lineHeight: "2em",
-                      }}
                       fullWidth
                       InputProps={{
                         style: {
@@ -144,10 +141,10 @@ class RequestCreate extends React.Component {
                     />
                   </FormControl>
                 </div>
-                <br />
+                <br/>
                 <div className="row">
-                  <FormControl component="fieldset" style={{ width: "100%" }} >
-                    <div className="title">ASSETS</div>
+                  <FormControl component="fieldset" style={{width: "100%"}}>
+                    <FormLabel component="legend" className="title">Suggestion Action</FormLabel>
                     <Select
                       value={this.state.action}
                       onChange={(e) => this.onChangeAction(e.target.value)}
@@ -156,23 +153,22 @@ class RequestCreate extends React.Component {
                         id: 'asset',
                       }}
                     >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
                       {requestActionItems.map((item = {}, i) => {
                         return (
-                          <MenuItem key={`asset-${i}`} value={item.value}>{item.label}</MenuItem>
+                          <MenuItem selected={i == 0 ? true : false} key={`asset-${i}`}
+                                    value={item.value}>{item.label}</MenuItem>
                         )
                       })}
                     </Select>
                   </FormControl>
                 </div>
-                <br />
-                <div className="row">
-                  <FormControl component="fieldset" >
-                    <button className="c-btn c-btn-primary submit" style={{ width: "100%" }} onClick={this.onSubmit} disabled={isDisableButton ? true : false} >
+                <br/>
+                <div className="row" style={{justifyContent: "flex-end"}}>
+                  <FormControl component="fieldset">
+                    <button className="c-btn c-btn-primary submit" style={{width: "100%"}} onClick={this.onSubmit}
+                            disabled={isDisableButton ? true : false}>
                       Submit
-                  </button>
+                    </button>
                   </FormControl>
                 </div>
 
