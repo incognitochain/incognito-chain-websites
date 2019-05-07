@@ -146,7 +146,7 @@ class RequestDetail extends React.Component {
                   {showSignBtn ?
                     <FormControl component="fieldset">
                       <button className="c-btn c-btn-primary submit" style={{width: "100%"}} onClick={this.onSubmit}>
-                        Sign
+                        Agree and Sign
                       </button>
                     </FormControl>
                     : ""}
