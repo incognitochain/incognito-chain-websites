@@ -44,7 +44,7 @@ const Wrapper = styled.div`
     cursor: pointer;
   }
   &.active {
-    background-color: #f2f4ff !important;
+    background-color: #f9fafb !important;
   }
   padding-top: 20px !important;
   padding-bottom: 20px !important;

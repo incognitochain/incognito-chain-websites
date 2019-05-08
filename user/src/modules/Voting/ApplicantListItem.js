@@ -2,13 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import cls from "classnames";
 import _ from "lodash";
-import { Avatar } from "./Avatar";
+import {Avatar} from "./Avatar";
 
 function getFullName(user) {
   return `${_.get(user, "FirstName")} ${_.get(user, "LastName")}`;
 }
 
-export function ApplicantListItem({ index, active, applicant, onClick }) {
+export function ApplicantListItem({index, active, applicant, onClick}) {
   const user = _.get(applicant, "User", {});
   return (
     <Wrapper
@@ -23,7 +23,7 @@ export function ApplicantListItem({ index, active, applicant, onClick }) {
           <Avatar>{_.get(user, "FirstName.0", "").toUpperCase()}</Avatar>
           <Name title={getFullName(user)}>{getFullName(user)}</Name>
         </AvatarAndName>
-        <Bio>{_.get(user, "Bio")}</Bio>
+        <Bio>{(_.get(user, "Bio")) ? (_.get(user, "Bio")).substring(0, 30) + "..." : ""}</Bio>
       </div>
     </Wrapper>
   );
@@ -35,7 +35,7 @@ const Wrapper = styled.div`
     cursor: pointer;
   }
   &.active {
-    background-color: #f2f4ff !important;
+    background-color: #f9fafb !important;
   }
   padding-top: 20px !important;
   padding-bottom: 20px !important;
@@ -63,4 +63,5 @@ const Bio = styled.div`
   -webkit-box-orient: vertical;
   overflow: hidden;
   padding-top: 10px;
+  padding-left: 40px;
 `;

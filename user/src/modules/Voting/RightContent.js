@@ -1,9 +1,10 @@
 import React from "react";
 import _ from "lodash";
-import { Avatar } from "./Avatar";
+import {Avatar} from "./Avatar";
 import styled from "styled-components";
-import { MailIcon, VoteIcon } from "../../components/svg";
+import {MailIcon, VoteIcon} from "../../components/svg";
 import numeral from "numeral";
+import {formatConstantValue} from "../../services/formatter";
 
 const renderIf = condition => component => (condition ? component : null);
 
@@ -11,14 +12,14 @@ function getFullName(user) {
   return `${_.get(user, "FirstName")} ${_.get(user, "LastName")}`;
 }
 
-const TokenImage = ({ width, height, src }) => {
+const TokenImage = ({width, height, src}) => {
   const [isError, setIsError] = React.useState(false);
   React.useEffect(() => {
     setIsError(false);
   }, [src]);
 
   return isError ? (
-    <div style={{ display: "inline-block", width, height }} />
+    <div style={{display: "inline-block", width, height}}/>
   ) : (
     <img
       alt="."
@@ -33,12 +34,12 @@ const TokenImage = ({ width, height, src }) => {
 };
 
 export function RightContent({
-  placeholder = "",
-  user = {},
-  balances = {},
-  vote = 0,
-  onClickVote
-}) {
+                               placeholder = "",
+                               user = {},
+                               balances = {},
+                               vote = 0,
+                               onClickVote
+                             }) {
   const balancesArr = Object.values(balances);
   return (
     <div className="col-12 col-lg-3">
@@ -53,13 +54,13 @@ export function RightContent({
             <Div1>
               <Line>
                 <IconWrapper>
-                  <MailIcon />
+                  <MailIcon/>
                 </IconWrapper>
                 <Text>{_.get(user, "Email")}</Text>
               </Line>
               <Line>
                 <IconWrapper>
-                  <VoteIcon />
+                  <VoteIcon/>
                 </IconWrapper>
                 <Text>{vote} votes</Text>
               </Line>
@@ -68,6 +69,7 @@ export function RightContent({
             <Div2>
               <Title>Token list</Title>
               {balancesArr.map((balance, index) => {
+
                 return (
                   <Balance key={index}>
                     <TokenImageWrapper>
@@ -79,7 +81,7 @@ export function RightContent({
                     </TokenImageWrapper>
                     <SymbolName>{balance.SymbolName}</SymbolName>
                     <BalanceValue>
-                      {numeral(balance.AvailableBalance).format("0,0")}
+                      {balance.SymbolName != "CONST" ? numeral(balance.AvailableBalance).format("0,0") : formatConstantValue(parseFloat(balance.AvailableBalance / 100))}
                     </BalanceValue>
                   </Balance>
                 );
