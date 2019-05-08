@@ -37,6 +37,6 @@ export function* withdraw(action) {
     }
   } catch (e) {
     yield put(actions.withdrawFailure(e.message))
-    yield call(toaster.success, "Apply error. Please try again later!")
+    yield call(toaster.danger, "Apply error. Please try again later!")
   }
 }

@@ -26,7 +26,7 @@ export const withdraw = async (token, balance = {}, paymentAddress = "", amount 
     TokenID: balance.TokenID,
     PaymentAddress: paymentAddress,
   }
-  debugger;
+  // debugger;
   const options = {
     method: 'POST',
     headers: {
