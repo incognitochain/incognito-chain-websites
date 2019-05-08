@@ -1,15 +1,16 @@
 import React from "react";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import { Dialog, TextInputField } from "evergreen-ui";
+import {Dialog, TextInputField} from "evergreen-ui";
 import _ from "lodash";
-import { RightContent } from "./RightContent";
-import { CenterContent } from "./CenterContent";
-import { ApplicantListItem } from "./ApplicantListItem";
-import { actions as votingActions } from '../../actions/voting'
-import { BOARD_TYPES } from "../../constants"; 
+import {RightContent} from "./RightContent";
+import {CenterContent} from "./CenterContent";
+import {ApplicantListItem} from "./ApplicantListItem";
+import {actions as votingActions} from '../../actions/voting'
+import {BOARD_TYPES} from "../../constants";
 import * as votingService from "../../services/voting"
+import {hideOverlayLoading, showOverlayLoading} from "../../components/App/Layout";
 
 const renderIf = condition => component => (condition ? component : null);
 
@@ -20,7 +21,7 @@ class Voting extends React.Component {
   };
 
   componentDidMount() {
-    const { boardType } = this.props
+    const {boardType} = this.props
     this.loadCandidates(boardType)
   }
 
@@ -30,10 +31,10 @@ class Voting extends React.Component {
   };
 
   loadCandidates = async (boardType) => {
-    const { loadCandidates } = this.props
+    const {loadCandidates} = this.props
     loadCandidates(boardType)
 
-    this.setState(() => ({ selectedCandidate: null }))
+    this.setState(() => ({selectedCandidate: null}))
   }
 
   voteCandidate = async () => {
@@ -41,7 +42,7 @@ class Voting extends React.Component {
       selectedCandidate,
       voteAmount,
     } = this.state;
-    const { boardType, voteCandidate } = this.props
+    const {boardType, voteCandidate} = this.props
     voteCandidate(boardType, selectedCandidate, Number(voteAmount))
   };
 
@@ -52,13 +53,15 @@ class Voting extends React.Component {
   };
 
   onSelectApplicant = async (index) => {
-    const { auth, candidates } = this.props
+    showOverlayLoading();
+    const {auth, candidates} = this.props
     const resp = await votingService.loadCandidateDetail(auth.accessToken, candidates[index].ID)
     console.log("candidate detail", resp)
     if (resp.data.Result) {
       const selectedCandidate = Object.assign({}, candidates[index], resp.data.Result)
-      this.setState(() => ({ selectedCandidate }))
+      this.setState(() => ({selectedCandidate}))
     }
+    hideOverlayLoading();
   };
 
   render() {
@@ -76,7 +79,7 @@ class Voting extends React.Component {
       // actions
       voteCandidateDialogOpen,
       voteCandidateDialogClose,
-    } = this.props  
+    } = this.props
 
     return (
       <div className="page user-page proposals-page">
@@ -95,7 +98,7 @@ class Voting extends React.Component {
           }}
         >
           <div className="withdraw-dialog">
-            <div style={{ margin: "0" }}>
+            <div style={{margin: "0"}}>
               <TextInputField
                 label="Amount"
                 placeholder="0.00"
@@ -105,7 +108,7 @@ class Voting extends React.Component {
                 value={voteAmount}
                 onChange={e => {
                   this.onlyNumber(e.target.value, () => {
-                    this.setState({ voteAmount: e.target.value });
+                    this.setState({voteAmount: e.target.value});
                   });
                 }}
               />
@@ -119,7 +122,7 @@ class Voting extends React.Component {
                 <div className="c-card">
                   <div className="title">
                     <span>Applicants</span>
-                    <div className="select" style={{ float: "right" }}>
+                    <div className="select" style={{float: "right"}}>
                       <Select
                         disabled={isLoadingCandidates}
                         value={boardType}
@@ -136,7 +139,7 @@ class Voting extends React.Component {
                         ))}
                       </Select>
                     </div>
-                    <div className="clearfix" />
+                    <div className="clearfix"/>
                   </div>
                   <div className="content">
                     {renderIf(isLoadingCandidates)("Loading..")}
@@ -154,11 +157,11 @@ class Voting extends React.Component {
                 </div>
               </div>
 
-              <CenterContent applicant={selectedCandidate} />
+              <CenterContent applicant={selectedCandidate}/>
               <RightContent
                 placeholder="Please select applicant"
                 user={selectedCandidate ? selectedCandidate.User : {}}
-                balances={selectedCandidate && selectedCandidate.Balances? selectedCandidate.Balances.ListBalances : []}
+                balances={selectedCandidate && selectedCandidate.Balances ? selectedCandidate.Balances.ListBalances : []}
                 vote={selectedCandidate ? selectedCandidate.VoteNum : 0}
                 onClickVote={() => {
                   voteCandidateDialogOpen()
@@ -186,7 +189,7 @@ export default connect(
     voteCandidate: votingActions.voteCandidate,
     voteCandidateDialogOpen: votingActions.voteCandidateDialogOpen,
     voteCandidateDialogClose: votingActions.voteCandidateDialogClose,
-   
+
     loadCandidates: votingActions.loadCandidates,
   }
 )(Voting);
