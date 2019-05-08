@@ -201,7 +201,7 @@ class Home extends React.Component {
                   style={{backgroundImage: `url(${bgImage})`, height: "94%"}}
                 >
                   <p>
-                    Wanna make a new Proposal for Constant
+                    Wanna make a new Proposal for Constant?
                   </p>
                   <button
                     className="c-btn c-bg-green"
