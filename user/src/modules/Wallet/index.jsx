@@ -182,83 +182,88 @@ class Wallet extends React.Component {
         </Dialog>
         <div className="wallet-balances-list">
           <div className="container">
-            <div className="row">
-              <div className="col-12">
-                <div className="c-card c-card-no-padding">
-                  <table className="c-table-user-wallet">
-                    <thead>
-                    <tr>
-                      <th width="270">Name</th>
-                      <th width="180">Symbol</th>
-                      <th width="90">Total</th>
-                      <th width="90">Available</th>
-                      <th width="100">In Order</th>
-                      {/*<th width="120">CST Value</th>*/}
-                      <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {isLoading && (
+            <div className="c-card">
+              <div className="row">
+                <div className="hello">
+                  Your Wallet
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-12">
+                  <div className="c-card c-card-no-padding" style={{overflow: "auto"}}>
+                    <table className="c-table-user-wallet">
+                      <thead>
                       <tr>
-                        <td colSpan="7" style={{textAlign: "center"}}><CircularProgress/></td>
+                        <th>Assets</th>
+                        <th>Symbol</th>
+                        <th>Total</th>
+                        <th>Available</th>
+                        <th>In Order</th>
+                        <th>#</th>
                       </tr>
-                    )}
-                    {balances.map(balance => (
-                      <tr key={balance.TokenID}>
-                        <td className="name">{balance.SymbolName}</td>
-                        <td
-                          style={{
-                            textTransform: "uppercase",
-                            fontSize: "80%"
-                          }}
-                        >
-                          {balance.SymbolCode}
-                        </td>
-                        <td>{this.getAmount(balance.TotalBalance, balance.SymbolName)}</td>
-                        <td>{this.getAmount(balance.AvailableBalance, balance.SymbolName)}</td>
-                        <td>{balance.InOrder}</td>
-                        {/*<td>{balance.ConstantValue}</td>*/}
-                        <td>
-                          <button
-                            className="btn btn-outline-success"
-                            style={{marginRight: "5px"}}
-                            type="button"
-                            onClick={() => {
-                              depositDialogOpen()
+                      </thead>
+                      <tbody>
+                      {isLoading && (
+                        <tr>
+                          <td colSpan="7" style={{textAlign: "center"}}><CircularProgress/></td>
+                        </tr>
+                      )}
+                      {balances.map(balance => (
+                        <tr key={balance.TokenID}>
+                          <td className="name">{balance.SymbolName}</td>
+                          <td
+                            style={{
+                              textTransform: "uppercase",
+                              fontSize: "80%"
                             }}
                           >
-                            Deposit
-                          </button>
-                          {balance.Withdrawable ? (
+                            {balance.SymbolCode}
+                          </td>
+                          <td>{this.getAmount(balance.TotalBalance, balance.SymbolName)}</td>
+                          <td>{this.getAmount(balance.AvailableBalance, balance.SymbolName)}</td>
+                          <td>{balance.InOrder}</td>
+                          <td>
                             <button
-                              className="btn btn-outline-primary"
+                              className="btn btn-outline-success"
                               style={{marginRight: "5px"}}
                               type="button"
                               onClick={() => {
-                                withdrawDialogOpen(balance)
+                                depositDialogOpen()
                               }}
                             >
-                              Withdraw
+                              Deposit
                             </button>
-                          ) : (
-                            ""
-                          )}
-                          {balance.SymbolCode.toUpperCase() != "CONST" ? <a
-                            href={`${process.env.REACT_APP_EXCHANGE_URL}/exchange/CONST-${balance.SymbolCode.toUpperCase()}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="btn btn-outline-warning"
-                          >
-                            Exchange
-                          </a> : ""}
-                        </td>
-                      </tr>
-                    ))}
-                    {!isLoading && balances.length === 0 && (
-                      <td colSpan="7">Empty</td>
-                    )}
-                    </tbody>
-                  </table>
+                            {balance.Withdrawable ? (
+                              <button
+                                className="btn btn-outline-primary"
+                                style={{marginRight: "5px"}}
+                                type="button"
+                                onClick={() => {
+                                  withdrawDialogOpen(balance)
+                                }}
+                              >
+                                Withdraw
+                              </button>
+                            ) : (
+                              ""
+                            )}
+                            {balance.SymbolCode.toUpperCase() != "CONST" ? <a
+                              href={`${process.env.REACT_APP_EXCHANGE_URL}/exchange/CONST-${balance.SymbolCode.toUpperCase()}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="btn btn-outline-warning"
+                            >
+                              Exchange
+                            </a> : ""}
+                          </td>
+                        </tr>
+                      ))}
+                      {!isLoading && balances.length === 0 && (
+                        <td colSpan="7">Empty</td>
+                      )}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>

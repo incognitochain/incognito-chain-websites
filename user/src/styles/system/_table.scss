@@ -3,25 +3,73 @@
     overflow-y: hidden;
   }
 }
+
 .c-table-portal-home {
   min-width: 1100px;
   width: 100%;
+
   thead {
     background-color: #F7F8FA;
+
     th {
       padding: 10px 20px;
       @extend .c-color-blue-700;
       font-weight: normal;
     }
   }
+
   tbody {
     td {
       line-height: 33px;
       padding: 21px 20px;
     }
+
     tr {
       border-bottom: 1px solid map-get($gray, 's-200');
     }
   }
+
   // @extend .c-color-blue-1000;
+}
+
+
+.c-table-user-wallet {
+  table-layout: fixed;
+  min-width: initial;
+  width: 100%;
+  font-size: 93%;
+  letter-spacing: 0.1px;
+
+  thead {
+    background-color: #F7F8FA;
+
+    th {
+      padding: 10px 20px;
+      @extend .c-color-blue-700;
+      font-weight: normal;
+    }
+  }
+
+  tbody {
+    td {
+      line-height: 33px;
+      padding: 21px 20px;
+
+      button {
+        font-size: 12px;
+      }
+
+      a {
+        font-size: 12px;
+      }
+    }
+
+    tr {
+      border-bottom: 1px solid map-get($gray, 's-200');
+    }
+  }
+
+  .c-a-btn {
+    padding: 5px;
+  }
 }
