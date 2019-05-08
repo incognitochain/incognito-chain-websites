@@ -1,6 +1,6 @@
-import { select, put, call } from 'redux-saga/effects'
-import { toaster } from "evergreen-ui";
-import { actions } from '../actions/wallet'
+import {select, put, call} from 'redux-saga/effects'
+import {toaster} from "evergreen-ui";
+import {actions} from '../actions/wallet'
 import * as services from '../services/wallet'
 
 export function* loadBalances() {
@@ -11,7 +11,7 @@ export function* loadBalances() {
     if (response.data.Error) {
       yield put(actions.loadBalancesFailure(response.data.Error.Message))
     } else {
-      const { ListBalances, PaymentAddress } = response.data.Result
+      const {ListBalances, PaymentAddress} = response.data.Result
       yield put(actions.loadBalancesSuccess(
         Object.keys(ListBalances).map(key => ListBalances[key]),
         PaymentAddress
@@ -24,11 +24,11 @@ export function* loadBalances() {
 
 export function* withdraw(action) {
   const state = yield select()
-  const { accessToken: token } = state.auth
-  const { paymentAddress, amount, balance } = action.payload
+  const {accessToken: token} = state.auth
+  const {withdrawingBalance, withdrawAddress, withdrawAmount} = action.payload
   yield put(actions.withdrawRequest())
   try {
-    const resp = yield call(services.withdraw, token, balance, paymentAddress, amount)
+    const resp = yield call(services.withdraw, token, withdrawingBalance, withdrawAddress, withdrawAmount)
     if (resp.data.Error) {
       yield put(actions.withdrawFailure(resp.data.Error.Message))
     } else {

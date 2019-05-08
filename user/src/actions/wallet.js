@@ -16,18 +16,24 @@ export const types = {
 }
 
 export const actions = {
-  loadBalances: () => ({ type: types.LOAD_BALANCES }),
-  loadBalancesRequest: () => ({ type: types.LOAD_BALANCES_REQUEST }),
-  loadBalancesSuccess: (balances, paymentAddress) => ({ type: types.LOAD_BALANCES_SUCCESS, payload: { balances, paymentAddress } }),
-  loadBalancesFailure: (error) => ({ type: types.LOAD_BALANCES_FAILURE, error }),
+  loadBalances: () => ({type: types.LOAD_BALANCES}),
+  loadBalancesRequest: () => ({type: types.LOAD_BALANCES_REQUEST}),
+  loadBalancesSuccess: (balances, paymentAddress) => ({
+    type: types.LOAD_BALANCES_SUCCESS,
+    payload: {balances, paymentAddress}
+  }),
+  loadBalancesFailure: (error) => ({type: types.LOAD_BALANCES_FAILURE, error}),
 
-  depositDialogOpen: () => ({ type: types.DEPOSIT_DIALOG_OPEN }),
-  depositDialogClose: () => ({ type: types.DEPOSIT_DIALOG_CLOSE }),
+  depositDialogOpen: () => ({type: types.DEPOSIT_DIALOG_OPEN}),
+  depositDialogClose: () => ({type: types.DEPOSIT_DIALOG_CLOSE}),
 
-  withdraw: (withdrawAddress, amount) => ({ type: types.WITHDRAW, payload: { withdrawAddress, amount } }),
-  withdrawDialogOpen: (balance) => ({ type: types.WITHDRAW_DIALOG_OPEN, payload: { balance } }),
-  withdrawDialogClose: () => ({ type: types.WITHDRAW_DIALOG_CLOSE }),
-  withdrawRequest: () => ({ type: types.WITHDRAW_REQUEST }),
-  withdrawSuccess: () => ({ type: types.WITHDRAW_SUCCESS }),
-  withdrawFailure: (error) => ({ type: types.WITHDRAW_FAILURE, error }),
+  withdraw: (withdrawingBalance, withdrawAddress, withdrawAmount) => ({
+    type: types.WITHDRAW,
+    payload: {withdrawingBalance, withdrawAddress, withdrawAmount}
+  }),
+  withdrawDialogOpen: (balance) => ({type: types.WITHDRAW_DIALOG_OPEN, payload: {balance}}),
+  withdrawDialogClose: () => ({type: types.WITHDRAW_DIALOG_CLOSE}),
+  withdrawRequest: () => ({type: types.WITHDRAW_REQUEST}),
+  withdrawSuccess: () => ({type: types.WITHDRAW_SUCCESS}),
+  withdrawFailure: (error) => ({type: types.WITHDRAW_FAILURE, error}),
 }

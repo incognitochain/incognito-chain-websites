@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API } from '../constants'
+import {API} from '../constants'
 
 export const loadBalances = async (token) => {
   const options = {
@@ -15,12 +15,18 @@ export const loadBalances = async (token) => {
 }
 
 export const withdraw = async (token, balance = {}, paymentAddress = "", amount = 1, isPrivacy = false) => {
+  let realAmount = Number(amount);
+
+  if (balance.SymbolName === "CONST") {
+    realAmount *= 100;
+  }
   const data = {
     IsPrivacy: false,
-    Amount: amount,
+    Amount: realAmount,
     TokenID: balance.TokenID,
     PaymentAddress: paymentAddress,
   }
+  debugger;
   const options = {
     method: 'POST',
     headers: {

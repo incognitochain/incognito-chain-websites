@@ -1,7 +1,5 @@
 import React from "react";
-// import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-// import { Link } from 'react-router-dom';
 import {axios, catchError} from "services/api";
 import {API} from "../../constants";
 import {Dialog, toaster, TextInputField, Alert} from "evergreen-ui";
@@ -29,7 +27,7 @@ class Wallet extends React.Component {
     toaster.success("Copy success!", {duration: 1});
   };
 
-  withdraw = () => {
+  /*withdraw = () => {
     const {currentBalance, withdrawAddress, amount} = this.state;
     let realAmount = Number(amount);
 
@@ -59,7 +57,7 @@ class Wallet extends React.Component {
         this.setState({isLoading: false, dialogWithdraw: false});
         catchError(e);
       });
-  };
+  };*/
 
   getAmount = (amount, symbolName) => {
     let rs = 0;
@@ -80,7 +78,7 @@ class Wallet extends React.Component {
   render() {
     const {
       withdrawAmount,
-      withdrawAddress
+      withdrawAddress,
     } = this.state;
 
     const {
@@ -90,8 +88,8 @@ class Wallet extends React.Component {
       depositDialog,
       isWithdrawing,
       withdrawDialog,
-      // actions
       withdraw,
+      withdrawingBalance,
       depositDialogOpen,
       depositDialogClose,
       withdrawDialogOpen,
@@ -144,7 +142,7 @@ class Wallet extends React.Component {
             withdrawDialogClose()
           }
           onConfirm={() => {
-            withdraw(withdrawAddress, withdrawAmount)
+            withdraw(withdrawingBalance, withdrawAddress, withdrawAmount)
           }}
         >
           <div className="withdraw-dialog">
@@ -199,7 +197,7 @@ class Wallet extends React.Component {
                         <th>Total</th>
                         <th>Available</th>
                         <th>In Order</th>
-                        <th>#</th>
+                        <th width="280">#</th>
                       </tr>
                       </thead>
                       <tbody>
@@ -275,14 +273,17 @@ class Wallet extends React.Component {
 }
 
 export default connect(
-  state => ({
-    isLoading: state.wallet.isLoading,
-    balances: state.wallet.balances,
-    paymentAddress: state.wallet.paymentAddress,
-    depositDialog: state.wallet.depositDialog,
-    withdrawDialog: state.wallet.withdrawDialog,
-    isWithdrawing: walletActions.isWithdrawing,
-  }),
+  state => {
+    return ({
+      isLoading: state.wallet.isLoading,
+      balances: state.wallet.balances,
+      paymentAddress: state.wallet.paymentAddress,
+      depositDialog: state.wallet.depositDialog,
+      withdrawDialog: state.wallet.withdrawDialog,
+      isWithdrawing: walletActions.isWithdrawing,
+      withdrawingBalance: state.wallet.withdrawingBalance,
+    })
+  },
   {
     loadBalances: walletActions.loadBalances,
     depositDialogOpen: walletActions.depositDialogOpen,
