@@ -2,6 +2,7 @@ import {select, put, call} from 'redux-saga/effects'
 import {toaster} from "evergreen-ui";
 import {actions} from '../actions/wallet'
 import * as services from '../services/wallet'
+import {hideOverlayLoading, showOverlayLoading} from "../components/App/Layout";
 
 export function* loadBalances() {
   yield put(actions.loadBalancesRequest())
@@ -28,7 +29,9 @@ export function* withdraw(action) {
   const {withdrawingBalance, withdrawAddress, withdrawAmount} = action.payload
   yield put(actions.withdrawRequest())
   try {
+    showOverlayLoading();
     const resp = yield call(services.withdraw, token, withdrawingBalance, withdrawAddress, withdrawAmount)
+    hideOverlayLoading();
     if (resp.data.Error) {
       yield put(actions.withdrawFailure(resp.data.Error.Message))
     } else {
@@ -36,6 +39,7 @@ export function* withdraw(action) {
       yield call(toaster.success, "Apply success!");
     }
   } catch (e) {
+    hideOverlayLoading();
     yield put(actions.withdrawFailure(e.message))
     yield call(toaster.danger, "Apply error. Please try again later!")
   }
