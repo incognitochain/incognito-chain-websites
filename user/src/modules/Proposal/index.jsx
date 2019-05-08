@@ -1,16 +1,17 @@
 import React from "react";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import { Dialog, TextInputField } from "evergreen-ui";
+import {Dialog, TextInputField} from "evergreen-ui";
 import _ from "lodash";
-import { ProposalListItem } from "./ProposalListItem";
-import { ProposalData } from "./ProposalData";
-import { RightContent } from "../Voting/RightContent";
+import {ProposalListItem} from "./ProposalListItem";
+import {ProposalData} from "./ProposalData";
+import {RightContent} from "../Voting/RightContent";
 
-import { actions as votingActions } from '../../actions/voting'
-import { BOARD_TYPES } from "../../constants"; 
+import {actions as votingActions} from '../../actions/voting'
+import {BOARD_TYPES} from "../../constants";
 import * as votingService from "../../services/voting"
+import {hideOverlayLoading, showOverlayLoading} from "../../components/App/Layout";
 
 const renderIf = condition => component => (condition ? component : null);
 
@@ -21,7 +22,7 @@ class Proposals extends React.Component {
   };
 
   componentDidMount() {
-    const { boardType } = this.props
+    const {boardType} = this.props
     this.loadProposals(boardType)
   }
 
@@ -31,7 +32,7 @@ class Proposals extends React.Component {
   };
 
   loadProposals = (boardType) => {
-    const { loadProposals } = this.props
+    const {loadProposals} = this.props
     loadProposals(boardType)
   }
 
@@ -40,7 +41,7 @@ class Proposals extends React.Component {
       selectedProposal,
       voteAmount,
     } = this.state;
-    const { boardType, voteProposal } = this.props
+    const {boardType, voteProposal} = this.props
     voteProposal(boardType, selectedProposal, Number(voteAmount))
   };
 
@@ -51,13 +52,15 @@ class Proposals extends React.Component {
   };
 
   onSelectApplicant = async (index) => {
-    const { auth, proposals } = this.props
+    showOverlayLoading();
+    const {auth, proposals} = this.props
     const resp = await votingService.loadProposalDetail(auth.accessToken, proposals[index].ID)
     console.log("proposal detail", resp)
     if (resp.data.Result) {
       const selectedProposal = Object.assign({}, proposals[index], resp.data.Result)
-      this.setState(() => ({ selectedProposal }))
+      this.setState(() => ({selectedProposal}))
     }
+    hideOverlayLoading();
   };
 
   render() {
@@ -77,7 +80,7 @@ class Proposals extends React.Component {
       // actions
       voteProposalDialogOpen,
       voteProposalDialogClose,
-    } = this.props  
+    } = this.props
 
     console.log('render', proposals, BOARD_TYPES)
 
@@ -98,7 +101,7 @@ class Proposals extends React.Component {
           }}
         >
           <div className="withdraw-dialog">
-            <div style={{ margin: "0", textAlign: "center" }}>
+            <div style={{margin: "0", textAlign: "center"}}>
               {<TextInputField
                 label="Amount"
                 placeholder="0.00"
@@ -108,7 +111,7 @@ class Proposals extends React.Component {
                 value={voteAmount}
                 onChange={e => {
                   this.onlyNumber(e.target.value, () => {
-                    this.setState({ voteAmount: e.target.value });
+                    this.setState({voteAmount: e.target.value});
                   });
                 }}
               />}
@@ -123,7 +126,7 @@ class Proposals extends React.Component {
                 <div className="c-card">
                   <div className="title">
                     <span>Proposals</span>
-                    <div className="select" style={{ float: "right" }}>
+                    <div className="select" style={{float: "right"}}>
                       <Select
                         disabled={isLoadingProposals}
                         value={boardType}
@@ -140,7 +143,7 @@ class Proposals extends React.Component {
                         ))}
                       </Select>
                     </div>
-                    <div className="clearfix" />
+                    <div className="clearfix"/>
                   </div>
                   <div className="content">
                     {renderIf(isLoadingProposals)("Loading...")}
