@@ -2,10 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { faEthereum } from '@fortawesome/free-brands-svg-icons';
-import { faArrowRight } from '@fortawesome/pro-regular-svg-icons';
-import { faSpinnerThird, faUsdCircle, faUsdSquare } from '@fortawesome/pro-light-svg-icons';
+import { faSpinnerThird, faUsdCircle } from '@fortawesome/pro-light-svg-icons';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import Link from '@/components/Link';
@@ -37,14 +35,16 @@ class Create extends React.Component {
   constructor(props) {
     super(props);
 
+    // ETH for next Phrase
     const collaterals = [
-      { name: 'USD', icon: faUsdCircle },
-      { name: 'ETH', icon: faEthereum },
+      { name: 'USD', icon: faUsdCircle, hidden: false },
+      { name: 'ETH', icon: faEthereum, hidden: true },
     ];
+
     this.state = {
       collaterals,
-      currentCollateral: collaterals[1],
-      hiddenETHAddr: false,
+      currentCollateral: collaterals[0],
+      hiddenETHAddr: true,
       status: '',
       leftToken: 0,
     };
@@ -208,7 +208,7 @@ class Create extends React.Component {
           <div className="container">
             <div className="row">
               <div className="col-12">
-                <h2>Constant redeem</h2>
+                <h2>Redeem Constant Token</h2>
                 <p>Use your constant for redeem</p>
               </div>
             </div>
@@ -302,8 +302,6 @@ class Create extends React.Component {
                     }
                     return errors;
                   }}
-                  // validateOnBlur={false}
-                  // validateOnChange={false}
                   onSubmit={(values, { setSubmitting }) => {
                     this.handleSubmit(values, setSubmitting);
                   }}
@@ -378,21 +376,26 @@ class Create extends React.Component {
                               }
                             </div>
                             <div className="col-12 col-md-6">
-                              <div className="title">CHOOSE YOUR OPTION</div>
+                              <div className="title">CHOOSE YOUR ASSETS</div>
                               <div className="input">
-                                {collaterals.map(collateral => (
-                                  <div
-                                    key={collateral.name}
-                                    className={`collateral-option ${currentCollateral.name === collateral.name ? 'active' : ''}`}
-                                    onClick={() => {
-                                      this.setState({ currentCollateral: collateral }, () => {
-                                        this.changeRedeemAmount({ target: { value: values.redeemAmount } }, setFieldValue);
-                                      });
-                                    }}
-                                  >
-                                    <FontAwesomeIcon icon={collateral.icon} size="2x" />
-                                  </div>
-                                ))}
+                                {collaterals.map(collateral => {
+                                  if (collateral.hidden) {
+                                    return "";
+                                  }
+                                  return (
+                                    <div
+                                      key={collateral.name}
+                                      className={`collateral-option ${currentCollateral.name === collateral.name ? 'active' : ''}`}
+                                      onClick={() => {
+                                        this.setState({ currentCollateral: collateral }, () => {
+                                          this.changeRedeemAmount({ target: { value: values.redeemAmount } }, setFieldValue);
+                                        });
+                                      }}
+                                    >
+                                      <FontAwesomeIcon icon={collateral.icon} size="2x"/>
+                                    </div>
+                                  );
+                                })}
                               </div>
                             </div>
                           </div>
@@ -651,10 +654,9 @@ class Create extends React.Component {
                               <Link to="/redeem" className="mr-4">
                                 {'Cancel'}
                               </Link>
-                              <button className="c-btn c-btn-primary submit" type="submit">
+                              <button disabled={true} className="c-btn c-btn-primary submit" type="submit">
                                 {isValid && isSubmitting ? <FontAwesomeIcon icon={faSpinnerThird} size="1x" spin style={{ marginRight: 10 }} /> : ''}
-                                {'Submit '}
-                                <FontAwesomeIcon icon={faArrowRight} />
+                                {'Submit (comming soon)'}
                               </button>
                             </div>
                           </div>

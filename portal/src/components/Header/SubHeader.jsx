@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Link from '@/components/Link';
-import { Popover } from '@material-ui/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRetweetAlt, faSearchDollar, faCopyright } from '@fortawesome/pro-regular-svg-icons';
+import { faRetweetAlt, faCopyright } from '@fortawesome/pro-regular-svg-icons';
 import { faHome } from '@fortawesome/pro-light-svg-icons';
 import cn from '@sindresorhus/class-names';
 
