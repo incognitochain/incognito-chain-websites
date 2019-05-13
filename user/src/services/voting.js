@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { API, BOARD_TYPES } from '../constants'
+import {API, BOARD_TYPES} from '../constants'
 
-export async function loadUserCandidate(token){
+export async function loadUserCandidate(token) {
   const options = {
     method: "GET",
     headers: {
@@ -15,7 +15,7 @@ export async function loadUserCandidate(token){
   return response
 }
 
-export async function loadCandidates(token, boardType = ""){
+export async function loadCandidates(token, boardType = "") {
   const options = {
     method: "GET",
     headers: {
@@ -29,7 +29,7 @@ export async function loadCandidates(token, boardType = ""){
   return response
 }
 
-export async function loadCandidateDetail(token, id){
+export async function loadCandidateDetail(token, id) {
   const options = {
     method: "GET",
     headers: {
@@ -43,7 +43,7 @@ export async function loadCandidateDetail(token, id){
   return response
 }
 
-export async function loadGovParams(token){
+/*export async function loadGovParams(token) {
   const options = {
     method: "GET",
     headers: {
@@ -55,9 +55,9 @@ export async function loadGovParams(token){
 
   const response = await axios(options);
   return response
-}
+}*/
 
-export async function loadDcbParams(token){
+export async function loadDcbParams(token) {
   const options = {
     method: "GET",
     headers: {
@@ -71,7 +71,7 @@ export async function loadDcbParams(token){
   return response
 }
 
-export async function loadProposalBuyingAssets(token){
+export async function loadProposalBuyingAssets(token) {
   const options = {
     method: "GET",
     headers: {
@@ -85,7 +85,7 @@ export async function loadProposalBuyingAssets(token){
   return response
 }
 
-export async function loadProposalSellingAssets(token){
+export async function loadProposalSellingAssets(token) {
   const options = {
     method: "GET",
     headers: {
@@ -99,7 +99,7 @@ export async function loadProposalSellingAssets(token){
   return response
 }
 
-export async function loadProposals(token, boardType = ""){
+export async function loadProposals(token, boardType = "") {
   const options = {
     method: "GET",
     headers: {
@@ -113,7 +113,7 @@ export async function loadProposals(token, boardType = ""){
   return response
 }
 
-export async function loadProposalDetail(token, id){
+export async function loadProposalDetail(token, id) {
   const options = {
     method: "GET",
     headers: {
@@ -204,7 +204,7 @@ async function createProposal(token, data) {
   return response
 }
 
-export async function createGovProposal(token, name = '', executeDuration = 0, explanation = '', govParams = {}) {
+/*export async function createGovProposal(token, name = '', executeDuration = 0, explanation = '', govParams = {}) {
   const {
     SalaryPerTx,
     BasicSalary,
@@ -311,7 +311,7 @@ export async function createGovProposal(token, name = '', executeDuration = 0, e
 
   const response = await createProposal(token, data)
   return response
-}
+}*/
 
 export async function createDcbProposal(token, name = '', executeDuration = 0, explanation = '', dcbParams = {}) {
   const {

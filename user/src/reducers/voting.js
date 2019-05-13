@@ -1,6 +1,6 @@
-import { types } from "../actions/voting";
-import { types as authTypes } from "../actions/auth";
-import { BOARD_TYPES } from "../constants";
+import {types} from "../actions/voting";
+import {types as authTypes} from "../actions/auth";
+import {BOARD_TYPES} from "../constants";
 
 export const initialState = {
   govParams: {},
@@ -11,7 +11,7 @@ export const initialState = {
   userCandidate: {},
   loadUserCandidateError: null,
 
-  selectedBoardType: BOARD_TYPES.GOV,
+  selectedBoardType: BOARD_TYPES.DCB,
 
   candidates: [],
   loadCandidatesError: null,

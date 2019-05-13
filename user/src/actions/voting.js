@@ -53,54 +53,72 @@ export const types = {
 }
 
 export const actions = {
-  loadVotingData: () => ({ type: types.LOAD_VOTING_DATA }),
-  loadUserCandidateRequest: () => ({ type: types.LOAD_USER_CANDIDATE_REQUEST }),
-  loadUserCandidateSuccess: (userCandidate) => ({ type: types.LOAD_USER_CANDIDATE_SUCCESS, payload: { userCandidate } }),
-  loadUserCandidateFailure: (error) => ({ type: types.LOAD_USER_CANDIDATE_FAILURE, error }),
+  loadVotingData: () => ({type: types.LOAD_VOTING_DATA}),
+  loadUserCandidateRequest: () => ({type: types.LOAD_USER_CANDIDATE_REQUEST}),
+  loadUserCandidateSuccess: (userCandidate) => ({type: types.LOAD_USER_CANDIDATE_SUCCESS, payload: {userCandidate}}),
+  loadUserCandidateFailure: (error) => ({type: types.LOAD_USER_CANDIDATE_FAILURE, error}),
 
-  loadCandidates: (boardType = "") => ({ type: types.LOAD_CANDIDATES, payload: { boardType } }),
-  loadCandidatesRequest: () => ({ type: types.LOAD_CANDIDATES_REQUEST }),
-  loadCandidatesSuccess: (boardType, candidates) => ({ type: types.LOAD_CANDIDATES_SUCCESS, payload: { boardType, candidates } }),
-  loadCandidatesFailure: (boardType, error) => ({ type: types.LOAD_CANDIDATES_FAILURE, error }),
+  loadCandidates: (boardType = "") => ({type: types.LOAD_CANDIDATES, payload: {boardType}}),
+  loadCandidatesRequest: () => ({type: types.LOAD_CANDIDATES_REQUEST}),
+  loadCandidatesSuccess: (boardType, candidates) => ({
+    type: types.LOAD_CANDIDATES_SUCCESS,
+    payload: {boardType, candidates}
+  }),
+  loadCandidatesFailure: (boardType, error) => ({type: types.LOAD_CANDIDATES_FAILURE, error}),
 
-  loadProposals: (boardType = "") => ({ type: types.LOAD_PROPOSALS, payload: { boardType } }),
-  loadProposalsRequest: () => ({ type: types.LOAD_PROPOSALS_REQUEST }),
-  loadProposalsSuccess: (boardType, proposals) => ({ type: types.LOAD_PROPOSALS_SUCCESS, payload: { boardType, proposals } }),
-  loadProposalsFailure: (boardType, error) => ({ type: types.LOAD_PROPOSALS_FAILURE, error }),
+  loadProposals: (boardType = "") => ({type: types.LOAD_PROPOSALS, payload: {boardType}}),
+  loadProposalsRequest: () => ({type: types.LOAD_PROPOSALS_REQUEST}),
+  loadProposalsSuccess: (boardType, proposals) => ({
+    type: types.LOAD_PROPOSALS_SUCCESS,
+    payload: {boardType, proposals}
+  }),
+  loadProposalsFailure: (boardType, error) => ({type: types.LOAD_PROPOSALS_FAILURE, error}),
 
-  voteCandidate: (boardType, candidate, voteAmount) => ({ type: types.VOTE_CANDIDATE, payload: { boardType, candidate, voteAmount } }),
-  voteCandidateDialogOpen: () => ({ type: types.VOTE_CANDIDATE_DIALOG_OPEN }),
-  voteCandidateDialogClose: () => ({ type: types.VOTE_CANDIDATE_DIALOG_CLOSE }),
-  voteCandidateRequest: () => ({ type: types.VOTE_CANDIDATE_REQUEST }),
-  voteCandidateSuccess: () => ({ type: types.VOTE_CANDIDATE_SUCCESS }),
-  voteCandidateFailure: (error) => ({ type: types.VOTE_CANDIDATE_FAILURE, error }),
+  voteCandidate: (boardType, candidate, voteAmount) => ({
+    type: types.VOTE_CANDIDATE,
+    payload: {boardType, candidate, voteAmount}
+  }),
+  voteCandidateDialogOpen: () => ({type: types.VOTE_CANDIDATE_DIALOG_OPEN}),
+  voteCandidateDialogClose: () => ({type: types.VOTE_CANDIDATE_DIALOG_CLOSE}),
+  voteCandidateRequest: () => ({type: types.VOTE_CANDIDATE_REQUEST}),
+  voteCandidateSuccess: () => ({type: types.VOTE_CANDIDATE_SUCCESS}),
+  voteCandidateFailure: (error) => ({type: types.VOTE_CANDIDATE_FAILURE, error}),
 
-  voteProposal: (boardType, proposal, voteAmount) => ({ type: types.VOTE_PROPOSAL, payload: { boardType, proposal, voteAmount } }),
-  voteProposalDialogOpen: () => ({ type: types.VOTE_PROPOSAL_DIALOG_OPEN }),
-  voteProposalDialogClose: () => ({ type: types.VOTE_PROPOSAL_DIALOG_CLOSE }),
-  voteProposalRequest: () => ({ type: types.VOTE_PROPOSAL_REQUEST }),
-  voteProposalSuccess: () => ({ type: types.VOTE_PROPOSAL_SUCCESS }),
-  voteProposalFailure: (error) => ({ type: types.VOTE_PROPOSAL_FAILURE, error }),
+  voteProposal: (boardType, proposal, voteAmount) => ({
+    type: types.VOTE_PROPOSAL,
+    payload: {boardType, proposal, voteAmount}
+  }),
+  voteProposalDialogOpen: () => ({type: types.VOTE_PROPOSAL_DIALOG_OPEN}),
+  voteProposalDialogClose: () => ({type: types.VOTE_PROPOSAL_DIALOG_CLOSE}),
+  voteProposalRequest: () => ({type: types.VOTE_PROPOSAL_REQUEST}),
+  voteProposalSuccess: () => ({type: types.VOTE_PROPOSAL_SUCCESS}),
+  voteProposalFailure: (error) => ({type: types.VOTE_PROPOSAL_FAILURE, error}),
 
-  apply: (boardType) => ({ type: types.APPLY, payload: { boardType } }),
-  applyRequest: () => ({ type: types.APPLY_REQUEST }),
-  applySuccess: (userCandidate) => ({ type: types.APPLY_SUCCESS, payload: { userCandidate } }),
-  applyFailure: (error) => ({ type: types.APPLY_FAILURE, error }),
+  apply: (boardType) => ({type: types.APPLY, payload: {boardType}}),
+  applyRequest: () => ({type: types.APPLY_REQUEST}),
+  applySuccess: (userCandidate) => ({type: types.APPLY_SUCCESS, payload: {userCandidate}}),
+  applyFailure: (error) => ({type: types.APPLY_FAILURE, error}),
 
-  createGovProposal: (name, executeDuration, explanation, govParams) => ({ type: types.CREATE_GOV_PROPOSAL, payload: { name, executeDuration, explanation, govParams } }),
-  createGovProposalDialogOpen: () => ({ type: types.CREATE_GOV_PROPOSAL_DIALOG_OPEN }),
-  createGovProposalDialogClose: () => ({ type: types.CREATE_GOV_PROPOSAL_DIALOG_CLOSE }),
-  createGovProposalRequest: () => ({ type: types.CREATE_GOV_PROPOSAL_REQUEST }),
-  createGovProposalSuccess: () => ({ type: types.CREATE_GOV_PROPOSAL_SUCCESS }),
-  createGovProposalFailure: (error) => ({ type: types.CREATE_GOV_PROPOSAL_FAILURE, error }),
+  // createGovProposal: (name, executeDuration, explanation, govParams) => ({ type: types.CREATE_GOV_PROPOSAL, payload: { name, executeDuration, explanation, govParams } }),
+  // createGovProposalDialogOpen: () => ({ type: types.CREATE_GOV_PROPOSAL_DIALOG_OPEN }),
+  // createGovProposalDialogClose: () => ({ type: types.CREATE_GOV_PROPOSAL_DIALOG_CLOSE }),
+  // createGovProposalRequest: () => ({ type: types.CREATE_GOV_PROPOSAL_REQUEST }),
+  // createGovProposalSuccess: () => ({ type: types.CREATE_GOV_PROPOSAL_SUCCESS }),
+  // createGovProposalFailure: (error) => ({ type: types.CREATE_GOV_PROPOSAL_FAILURE, error }),
 
-  createDcbProposal: (name, executeDuration, explanation, dcbParams) => ({ type: types.CREATE_DCB_PROPOSAL, payload: { name, executeDuration, explanation, dcbParams } }),
-  createDcbProposalDialogOpen: () => ({ type: types.CREATE_DCB_PROPOSAL_DIALOG_OPEN }),
-  createDcbProposalDialogClose: () => ({ type: types.CREATE_DCB_PROPOSAL_DIALOG_CLOSE }),
-  createDcbProposalRequest: () => ({ type: types.CREATE_DCB_PROPOSAL_REQUEST }),
-  createDcbProposalSuccess: () => ({ type: types.CREATE_DCB_PROPOSAL_SUCCESS }),
-  createDcbProposalFailure: (error) => ({ type: types.CREATE_DCB_PROPOSAL_FAILURE, error }),
+  createDcbProposal: (name, executeDuration, explanation, dcbParams) => ({
+    type: types.CREATE_DCB_PROPOSAL,
+    payload: {name, executeDuration, explanation, dcbParams}
+  }),
+  createDcbProposalDialogOpen: () => ({type: types.CREATE_DCB_PROPOSAL_DIALOG_OPEN}),
+  createDcbProposalDialogClose: () => ({type: types.CREATE_DCB_PROPOSAL_DIALOG_CLOSE}),
+  createDcbProposalRequest: () => ({type: types.CREATE_DCB_PROPOSAL_REQUEST}),
+  createDcbProposalSuccess: () => ({type: types.CREATE_DCB_PROPOSAL_SUCCESS}),
+  createDcbProposalFailure: (error) => ({type: types.CREATE_DCB_PROPOSAL_FAILURE, error}),
 
-  updateParams: (govParams, dcbParams) => ({ type: types.UPDATE_PARAMS, payload: { govParams, dcbParams } }),
-  updateProposalAssets: (proposalBuyingAssets, proposalSellingAssets) => ({ type: types.UPDATE_PROPOSAL_ASSETS, payload: { proposalBuyingAssets, proposalSellingAssets } }),
+  updateParams: (govParams, dcbParams) => ({type: types.UPDATE_PARAMS, payload: {govParams, dcbParams}}),
+  updateProposalAssets: (proposalBuyingAssets, proposalSellingAssets) => ({
+    type: types.UPDATE_PROPOSAL_ASSETS,
+    payload: {proposalBuyingAssets, proposalSellingAssets}
+  }),
 }

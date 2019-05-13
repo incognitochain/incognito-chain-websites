@@ -1,11 +1,11 @@
-import { select, put, call, all } from 'redux-saga/effects'
-import { toaster } from "evergreen-ui";
-import { actions } from '../actions/voting'
+import {select, put, call, all} from 'redux-saga/effects'
+import {toaster} from "evergreen-ui";
+import {actions} from '../actions/voting'
 import * as services from '../services/voting'
 
 export function* loadVotingData() {
   const state = yield select();
-  const { accessToken: token } = state.auth
+  const {accessToken: token} = state.auth
 
   // load user candidate
   yield put(actions.loadUserCandidateRequest())
@@ -18,23 +18,23 @@ export function* loadVotingData() {
   }
 
   // load gov & dcb params
-  let govParams = {}
+  /*let govParams = {}*/
   let dcbParams = {}
-  const [ govParamsResp, dcbParamsResp ] = yield all([
-    call(services.loadGovParams, token),
+  const [/*govParamsResp, */dcbParamsResp] = yield all([
+    // call(services.loadGovParams, token),
     call(services.loadDcbParams, token),
   ])
   // console.log('params', govParamsResp, dcbParamsResp)
-  if (!govParamsResp.data.Error) {
+  /*if (!govParamsResp.data.Error) {
     govParams = govParamsResp.data.Result.GOVParams
-  }
+  }*/
   if (!dcbParamsResp.data.Error) {
     dcbParams = dcbParamsResp.data.Result.DCBParams
   }
-  yield put(actions.updateParams(govParams, dcbParams))
+  yield put(actions.updateParams(/*govParams, */dcbParams))
 
   // load proposal buy & sell assets
-  const [ proposalBuyingAssetsResp, proposalSellingAssetsResp ] = yield all([
+  const [proposalBuyingAssetsResp, proposalSellingAssetsResp] = yield all([
     call(services.loadProposalBuyingAssets, token),
     call(services.loadProposalSellingAssets, token),
   ])
@@ -59,14 +59,14 @@ export function* loadVotingData() {
       })
     )
   }
-  
+
   yield put(actions.updateProposalAssets(proposalSellingAssets, proposalBuyingAssets))
 }
 
 export function* loadCandidates(action) {
   const state = yield select()
-  const { accessToken: token } = state.auth
-  let { boardType } = action.payload
+  const {accessToken: token} = state.auth
+  let {boardType} = action.payload
   if (boardType === "") {
     boardType = state.voting.selectedBoardType
   }
@@ -83,8 +83,8 @@ export function* loadCandidates(action) {
 
 export function* loadProposals(action) {
   const state = yield select()
-  const { accessToken: token } = state.auth
-  let { boardType } = action.payload
+  const {accessToken: token} = state.auth
+  let {boardType} = action.payload
   if (boardType === "") {
     boardType = state.voting.selectedBoardType
   }
@@ -101,8 +101,8 @@ export function* loadProposals(action) {
 
 export function* voteCandidate(action) {
   const state = yield select()
-  const { accessToken: token } = state.auth
-  const { boardType, candidate, voteAmount } = action.payload
+  const {accessToken: token} = state.auth
+  const {boardType, candidate, voteAmount} = action.payload
   yield put(actions.voteCandidateRequest())
   try {
     const resp = yield call(services.voteCandidate, token, boardType, candidate, voteAmount)
@@ -122,8 +122,8 @@ export function* voteCandidate(action) {
 
 export function* voteProposal(action) {
   const state = yield select()
-  const { accessToken: token } = state.auth
-  const { boardType, proposal, voteAmount } = action.payload
+  const {accessToken: token} = state.auth
+  const {boardType, proposal, voteAmount} = action.payload
   yield put(actions.voteProposalRequest())
   try {
     const resp = yield call(services.voteProposal, token, boardType, proposal, voteAmount)
@@ -143,7 +143,7 @@ export function* voteProposal(action) {
 
 export function* apply(action) {
   const state = yield select()
-  const { accessToken: token, profile: { PaymentAddress: paymentAddress } } = state.auth
+  const {accessToken: token, profile: {PaymentAddress: paymentAddress}} = state.auth
   yield put(actions.applyRequest())
   try {
     const resp = yield call(services.apply, token, paymentAddress, action.payload.boardType)
@@ -166,7 +166,7 @@ export function* apply(action) {
   }
 }
 
-export function* createGovProposal(action) {
+/*export function* createGovProposal(action) {
   const state = yield select()
   const { accessToken: token } = state.auth
   const { name, executeDuration, explanation, govParams } = action.payload
@@ -184,12 +184,12 @@ export function* createGovProposal(action) {
     yield call(toaster.danger, "Create GOV Proposal Error. Please try again later!")
     yield put(actions.createGovProposalFailure(e.message))
   }
-}
+}*/
 
 export function* createDcbProposal(action) {
   const state = yield select()
-  const { accessToken: token } = state.auth
-  const { name, executeDuration, explanation, dcbParams } = action.payload
+  const {accessToken: token} = state.auth
+  const {name, executeDuration, explanation, dcbParams} = action.payload
   yield put(actions.createDcbProposalRequest())
   try {
     const resp = yield call(services.createDcbProposal, token, name, executeDuration, explanation, dcbParams)

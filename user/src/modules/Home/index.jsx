@@ -52,11 +52,11 @@ class Home extends React.Component {
     createDcbProposal(values.Name, values.ExecuteDuration, values.Explanation, values.dcbParams)
   };
 
-  submitCreateGOV = async (values = {}) => {
-    const {createGovProposal} = this.props
-    console.log(values)
-    createGovProposal(values.Name, values.ExecuteDuration, values.Explanation, values.govParams)
-  };
+  // submitCreateGOV = async (values = {}) => {
+  //   const {createGovProposal} = this.props
+  //   console.log(values)
+  //   createGovProposal(values.Name, values.ExecuteDuration, values.Explanation, values.govParams)
+  // };
 
   apply = (boardType, ev, denyCall) => {
     ev.preventDefault();
@@ -342,8 +342,8 @@ export default connect(
     createDcbProposal: votingActions.createDcbProposal,
     createDcbProposalDialogOpen: votingActions.createDcbProposalDialogOpen,
     createDcbProposalDialogClose: votingActions.createDcbProposalDialogClose,
-    createGovProposal: votingActions.createGovProposal,
-    createGovProposalDialogOpen: votingActions.createGovProposalDialogOpen,
-    createGovProposalDialogClose: votingActions.createGovProposalDialogClose,
+    // createGovProposal: votingActions.createGovProposal,
+    // createGovProposalDialogOpen: votingActions.createGovProposalDialogOpen,
+    // createGovProposalDialogClose: votingActions.createGovProposalDialogClose,
   }
 )(Home);
