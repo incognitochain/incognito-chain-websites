@@ -7,8 +7,6 @@ export default (state = {
   producers: {list: {}, updatedAt: Date.now()},
   candidates: {list: {}, updatedAt: Date.now()},
   dcb: {list: [], updatedAt: Date.now()},
-  cb: {list: [], updatedAt: Date.now()},
-  gov: {list: [], updatedAt: Date.now()},
   block: {},
   tx: {},
   txPending: {},
