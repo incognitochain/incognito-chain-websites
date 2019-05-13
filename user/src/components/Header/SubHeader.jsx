@@ -57,6 +57,7 @@ class SubHeader extends React.Component {
                     {" Wallet"}
                   </Link>
                 </li>
+                {/* next Phrase
                 <li>
                   <Link
                     to="/voting"
@@ -65,7 +66,8 @@ class SubHeader extends React.Component {
                     <FontAwesomeIcon icon={faPollH}/>
                     {" Voting"}
                   </Link>
-                </li>
+                </li>*/}
+                {/* next Phrase
                 <li>
                   <Link
                     to="/proposals"
@@ -76,7 +78,7 @@ class SubHeader extends React.Component {
                     <FontAwesomeIcon icon={faBallotCheck}/>
                     {" Proposal"}
                   </Link>
-                </li>
+                </li>*/}
                 <li>
                   <Link
                     to="/kyc"
@@ -87,6 +89,7 @@ class SubHeader extends React.Component {
                   </Link>
                 </li>
 
+                {/* next Phrase
                 <li>
                   <Link
                     to="/oracle"
@@ -104,7 +107,7 @@ class SubHeader extends React.Component {
                     <FontAwesomeIcon icon={faFunnelDollar}/>
                     {" Oracle Current Price"}
                   </Link>
-                </li>
+                </li>*/}
               </ul>
             </div>
           </div>
