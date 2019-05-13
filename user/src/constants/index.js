@@ -37,7 +37,6 @@ export const API = {
   VOTING_CANDIDATE_DETAIL: `${baseUrl}/voting/candidate`,
   VOTING_CANDIDATE_VOTE: `${baseUrl}/voting/candidate/vote`,
   VOTING_DCB_PARAMS: `${baseUrl}/voting/dcbparams`,
-  // VOTING_GOV_PARAMS: `${baseUrl}/voting/govparams`,
   VOTING_PROPOSAL_SELLING_ASSETS: `${baseUrl}/voting/proposalsellingassets`,
   VOTING_PROPOSAL_BUYING_ASSETS: `${baseUrl}/voting/proposalbuyingassets`,
   VOTING_PROPOSAL: `${baseUrl}/voting/proposal`,
@@ -71,6 +70,4 @@ export const ORACLE_REQUEST_ACTION = {
 
 export const BOARD_TYPES = {
   DCB: 1,
-  // GOV: 2,
-  // CMB: 3,
 }

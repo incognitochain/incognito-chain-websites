@@ -92,98 +92,10 @@ function renderDcbField(key, value, options) {
       </fieldset>
     );
   }
-  return <div key={key} unhandledfield={key} />;
+  return <div key={key} unhandledfield={key}/>;
 }
 
-function renderGovField(key, value) {
-  if (typeof value === "number" || typeof value === "string") {
-    return (
-      <Field key={key}>
-        <Label>{_.startCase(key)}</Label>
-        <Value>{value}</Value>
-      </Field>
-    );
-  }
-  if (key === "OracleNetwork") {
-    return (
-      <fieldset key={key}>
-        <legend>Oracle Network</legend>
-        <Field>
-          <Label>Acceptable Error Margin</Label>
-          <Value>{value.AcceptableErrorMargin}</Value>
-        </Field>
-        <Field>
-          <Label>Oracle Pub Keys</Label>
-          <Value>{value.OraclePubKeys.join(", ")}</Value>
-        </Field>
-        <Field>
-          <Label>Wrong Times Allowed</Label>
-          <Value>{value.WrongTimesAllowed}</Value>
-        </Field>
-        <Field>
-          <Label>Quorum</Label>
-          <Value>{value.Quorum}</Value>
-        </Field>
-        <Field>
-          <Label>Update Frequency</Label>
-          <Value>{value.UpdateFrequency}</Value>
-        </Field>
-        <Field>
-          <Label>Oracle Reward Multiplier</Label>
-          <Value>{value.OracleRewardMultiplier}</Value>
-        </Field>
-      </fieldset>
-    );
-  }
-  if (key === "RefundInfo") {
-    return (
-      <fieldset key={key}>
-        <legend>Refund Info</legend>
-        {Object.entries(value).map(([key, value]) => {
-          return (
-            <Field key={key}>
-              <Label>{_.startCase(key)}</Label>
-              <Value>{value}</Value>
-            </Field>
-          );
-        })}
-      </fieldset>
-    );
-  }
-  if (key === "SellingBonds") {
-    return (
-      <fieldset key={key}>
-        <legend>Selling Bonds</legend>
-        {Object.entries(value).map(([key, value]) => {
-          return (
-            <Field key={key}>
-              <Label>{_.startCase(key)}</Label>
-              <Value>{value}</Value>
-            </Field>
-          );
-        })}
-      </fieldset>
-    );
-  }
-  if (key === "SellingGOVTokens") {
-    return (
-      <fieldset key={key}>
-        <legend>Selling GOV Tokens Market</legend>
-        {Object.entries(value).map(([key, value]) => {
-          return (
-            <Field key={key}>
-              <Label>{_.startCase(key)}</Label>
-              <Value>{value}</Value>
-            </Field>
-          );
-        })}
-      </fieldset>
-    );
-  }
-  return <div key={key} unhandledfield={key} />;
-}
-
-export function ProposalData({ type, data = {}, options }) {
+export function ProposalData({type, data = {}, options}) {
   const proposal = React.useMemo(() => {
     try {
       return JSON.parse(data.Data);
@@ -201,11 +113,7 @@ export function ProposalData({ type, data = {}, options }) {
         {!_.isEmpty(proposal) && (
           <ProposalWrapper>
             <Title>{data.Name}</Title>
-            {Object.entries(proposal).map(([key, value]) =>
-              type === 1
-                ? renderDcbField(key, value, options)
-                : renderGovField(key, value)
-            )}
+            {Object.entries(proposal).map(([key, value]) => renderDcbField(key, value, options))}
           </ProposalWrapper>
         )}
       </div>

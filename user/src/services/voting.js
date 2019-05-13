@@ -43,20 +43,6 @@ export async function loadCandidateDetail(token, id) {
   return response
 }
 
-/*export async function loadGovParams(token) {
-  const options = {
-    method: "GET",
-    headers: {
-      'Content-Type': 'application/json;charset=UTF-8',
-      'Authorization': `Bearer ${token}`,
-    },
-    url: API.VOTING_GOV_PARAMS,
-  };
-
-  const response = await axios(options);
-  return response
-}*/
-
 export async function loadDcbParams(token) {
   const options = {
     method: "GET",
@@ -203,115 +189,6 @@ async function createProposal(token, data) {
   const response = await axios(options);
   return response
 }
-
-/*export async function createGovProposal(token, name = '', executeDuration = 0, explanation = '', govParams = {}) {
-  const {
-    SalaryPerTx,
-    BasicSalary,
-    FeePerKbTx,
-    SellingBonds,
-    SellingGOVTokens,
-    OracleNetwork
-  } = (govParams) || {};
-
-  const data = {
-    Type: BOARD_TYPES.GOV,
-    Name: name,
-    GOV: {
-      GOVParams: {
-        SalaryPerTx: parseInt(SalaryPerTx, 10),
-        BasicSalary: parseInt(BasicSalary, 10),
-        FeePerKbTx: parseInt(FeePerKbTx, 10),
-        SellingBonds: {
-          BondName: SellingBonds ? SellingBonds.BondName : "",
-          BondSymbol: SellingBonds ? SellingBonds.BondSymbol : "",
-          TotalIssue: parseInt(
-            SellingBonds ? SellingBonds.TotalIssue : 0,
-            10
-          ),
-          BondsToSell: parseInt(
-            SellingBonds ? SellingBonds.BondsToSell : 0,
-            10
-          ),
-          BondPrice: parseInt(
-            SellingBonds ? SellingBonds.BondPrice : 0,
-            10
-          ),
-          Maturity: parseInt(SellingBonds ? SellingBonds.Maturity : 0, 10),
-          BuyBackPrice: parseInt(
-            SellingBonds ? SellingBonds.BuyBackPrice : 0,
-            10
-          ),
-          StartSellingAt: parseInt(
-            SellingBonds ? SellingBonds.StartSellingAt : 0,
-            10
-          ),
-          SellingWithin: parseInt(
-            SellingBonds ? SellingBonds.SellingWithin : 0,
-            10
-          )
-        },
-        SellingGOVTokens: {
-          TotalIssue: parseInt(
-            SellingGOVTokens ? SellingGOVTokens.TotalIssue : 0,
-            10
-          ),
-          GOVTokensToSell: parseInt(
-            SellingGOVTokens ? SellingGOVTokens.GOVTokensToSell : 0,
-            10
-          ),
-          GOVTokenPrice: parseInt(
-            SellingGOVTokens ? SellingGOVTokens.GOVTokenPrice : 0,
-            10
-          ),
-          StartSellingAt: parseInt(
-            SellingGOVTokens ? SellingGOVTokens.StartSellingAt : 0,
-            10
-          ),
-          SellingWithin: parseInt(
-            SellingGOVTokens ? SellingGOVTokens.SellingWithin : 0,
-            10
-          )
-        },
-        RefundInfo: {
-          // ThresholdToLargeTx: parseInt(
-          //   RefundInfo.ThresholdToLargeTx,
-          //   10
-          // ),
-          // RefundAmount: parseInt(
-          //   RefundInfo.RefundAmount,
-          //   10
-          // )
-        },
-        OracleNetwork: {
-          OraclePubKeys: OracleNetwork ? OracleNetwork.OraclePubKeys : [],
-          WrongTimesAllowed: parseInt(
-            OracleNetwork ? OracleNetwork.WrongTimesAllowed : 0,
-            10
-          ),
-          Quorum: parseInt(OracleNetwork ? OracleNetwork.Quorum : 0, 10),
-          AcceptableErrorMargin: parseInt(
-            OracleNetwork ? OracleNetwork.AcceptableErrorMargin : 0,
-            10
-          ),
-          UpdateFrequency: parseInt(
-            OracleNetwork ? OracleNetwork.UpdateFrequency : 0,
-            10
-          ),
-          OracleRewardMultiplier: parseInt(
-            OracleNetwork ? OracleNetwork.OracleRewardMultiplier : 0,
-            10
-          )
-        }
-      },
-      ExecuteDuration: parseInt(executeDuration, 10) || 0,
-      Explanation: explanation,
-    }
-  }
-
-  const response = await createProposal(token, data)
-  return response
-}*/
 
 export async function createDcbProposal(token, name = '', executeDuration = 0, explanation = '', dcbParams = {}) {
   const {

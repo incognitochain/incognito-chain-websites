@@ -5,17 +5,13 @@ import Link from "components/Link";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAngleRight} from "@fortawesome/free-solid-svg-icons";
 import {faArrowRight, faEdit} from "@fortawesome/pro-regular-svg-icons";
-// import bgApplyGOV from "assets/apply-gov.svg";
 import bgApplyDCB from "assets/apply-dcb.svg";
-// import bgApplyMCB from "assets/apply-mcb.svg";
 import {BOARD_TYPES} from "../../constants";
 import cn from "classnames";
 import bgImage from "assets/create-a-proposal.svg";
 import {Dialog, Textarea} from "evergreen-ui";
-import GovProposalDialog from "./GovProposalDialog";
 import DcbProposalDialog from "./DcbProposalDialog";
 import _ from "lodash";
-/*import {GovTokens} from "../gov-tokens/GovTokens";*/
 
 import {actions as authActions} from '../../actions/auth'
 import {actions as votingActions} from '../../actions/voting'
@@ -52,12 +48,6 @@ class Home extends React.Component {
     createDcbProposal(values.Name, values.ExecuteDuration, values.Explanation, values.dcbParams)
   };
 
-  // submitCreateGOV = async (values = {}) => {
-  //   const {createGovProposal} = this.props
-  //   console.log(values)
-  //   createGovProposal(values.Name, values.ExecuteDuration, values.Explanation, values.govParams)
-  // };
-
   apply = (boardType, ev, denyCall) => {
     ev.preventDefault();
     const {apply} = this.props;
@@ -82,8 +72,6 @@ class Home extends React.Component {
       proposalSellingAssets,
       proposalBuyingAssets,
 
-      createGovProposalDialog,
-      isCreatingGovProposal,
       createDcbProposalDialog,
       isCreatingDcbProposal,
 
@@ -146,28 +134,9 @@ class Home extends React.Component {
             createDcbProposalDialogClose()
           }
           onConfirm={() => {
-            // this.setState({
-            //   isLoading: true
-            // });
             this.dcbForm.submitForm();
           }}
           submitCreateDCB={this.submitCreateDCB}
-        />
-        <GovProposalDialog
-          innerRef={form => {
-            this.govForm = form;
-          }}
-          isShown={createGovProposalDialog}
-          govParams={govParams}
-          isLoading={isCreatingGovProposal}
-          onClose={() =>
-            createGovProposalDialogClose()
-          }
-          submitCreateGOV={this.submitCreateGOV}
-          onConfirm={() => {
-            // this.setState({ isLoading: true });
-            this.govForm.submitForm();
-          }}
         />
         <div className="coin-information">
           <div className="container">
@@ -213,25 +182,6 @@ class Home extends React.Component {
                     {"DCB Proposal "}
                     <FontAwesomeIcon icon={faAngleRight}/>
                   </button>
-                  {/*<button
-                    className="c-btn c-bg-green"
-                    type="button"
-                    onClick={() => {
-                      createGovProposalDialogOpen()
-                    }}
-                  >
-                    {"GOV Proposal "}
-                    <FontAwesomeIcon icon={faAngleRight}/>
-                  </button>*/}
-                  {/* {!isUserInBoard ?
-                    <Link
-                      className="c-btn c-bg-green"
-                      to={'/oracle/feed-price'}
-                    >
-                      {"Oracle Proposal"}
-                      <FontAwesomeIcon icon={faAngleRight}/>
-                    </Link>
-                    : ""}*/}
                 </div>
               </div>
             </div>
@@ -240,29 +190,6 @@ class Home extends React.Component {
         <div className="apply">
           <div className="container">
             <div className="row">
-              {/*<div className="col-12 col-lg-4">
-                <div
-                  className="c-card"
-                  style={{backgroundImage: `url(${bgApplyGOV})`}}
-                >
-                  <div className="title c-color-blue-1000">Apply GOV board</div>
-                  <div className="description">Control the new internet</div>
-                  <Link
-                    className={cn("c-btn", {
-                      active: candidate.GOVAppliedAt
-                    })}
-                    to="/"
-                    onClick={e => this.apply(BOARD_TYPES.GOV, e, candidate.GOVAppliedAt)}
-                  >
-                    <Applied applied={candidate.GOVAppliedAt}>
-                      <>
-                        {"Apply now "}
-                        <FontAwesomeIcon icon={faArrowRight}/>
-                      </>
-                    </Applied>
-                  </Link>
-                </div>
-              </div>*/}
               <div className="col-12 col-lg-4">
                 <div
                   className="c-card"
@@ -286,30 +213,6 @@ class Home extends React.Component {
                   </Link>
                 </div>
               </div>
-              {/*<div className="col-12 col-lg-4">
-                <div
-                  className="c-card"
-                  style={{backgroundImage: `url(${bgApplyMCB})`}}
-                >
-                  <div className="title c-color-blue-1000">Apply CMB Board</div>
-                  <div className="description">Lorem ipsum ador</div>
-                  <Link
-                    disabled={true}
-                    className={cn("c-btn", {
-                      active: candidate.CMBAppliedAt
-                    })}
-                    to="/"
-                    onClick={e => this.apply(BOARD_TYPES.CMB, e, candidate.CMBAppliedAt)}
-                  >
-                    <Applied applied={candidate.CMBAppliedAt}>
-                      <>
-                        {"Comming soon "}
-                        <FontAwesomeIcon icon={faArrowRight}/>
-                      </>
-                    </Applied>
-                  </Link>
-                </div>
-              </div>*/}
             </div>
           </div>
         </div>

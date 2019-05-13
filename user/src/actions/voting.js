@@ -34,13 +34,6 @@ export const types = {
   APPLY_SUCCESS: 'VOTING/APPLY_SUCCESS',
   APPLY_FAILURE: 'VOTING/APPLY_FAILURE',
 
-  /*CREATE_GOV_PROPOSAL: 'VOTING/CREATE_GOV_PROPOSAL',
-  CREATE_GOV_PROPOSAL_DIALOG_OPEN: 'VOTING/CREATE_GOV_PROPOSAL_DIALOG_OPEN',
-  CREATE_GOV_PROPOSAL_DIALOG_CLOSE: 'VOTING/CREATE_GOV_PROPOSAL_DIALOG_CLOSE',
-  CREATE_GOV_PROPOSAL_REQUEST: 'VOTING/CREATE_GOV_PROPOSAL_REQUEST',
-  CREATE_GOV_PROPOSAL_SUCCESS: 'VOTING/CREATE_GOV_PROPOSAL_SUCCESS',
-  CREATE_GOV_PROPOSAL_FAILURE: 'VOTING/CREATE_GOV_PROPOSAL_FAILURE',*/
-
   CREATE_DCB_PROPOSAL: 'VOTING/CREATE_DCB_PROPOSAL',
   CREATE_DCB_PROPOSAL_DIALOG_OPEN: 'VOTING/CREATE_DCB_PROPOSAL_DIALOG_OPEN',
   CREATE_DCB_PROPOSAL_DIALOG_CLOSE: 'VOTING/CREATE_DCB_PROPOSAL_DIALOG_CLOSE',
@@ -98,13 +91,6 @@ export const actions = {
   applyRequest: () => ({type: types.APPLY_REQUEST}),
   applySuccess: (userCandidate) => ({type: types.APPLY_SUCCESS, payload: {userCandidate}}),
   applyFailure: (error) => ({type: types.APPLY_FAILURE, error}),
-
-  // createGovProposal: (name, executeDuration, explanation, govParams) => ({ type: types.CREATE_GOV_PROPOSAL, payload: { name, executeDuration, explanation, govParams } }),
-  // createGovProposalDialogOpen: () => ({ type: types.CREATE_GOV_PROPOSAL_DIALOG_OPEN }),
-  // createGovProposalDialogClose: () => ({ type: types.CREATE_GOV_PROPOSAL_DIALOG_CLOSE }),
-  // createGovProposalRequest: () => ({ type: types.CREATE_GOV_PROPOSAL_REQUEST }),
-  // createGovProposalSuccess: () => ({ type: types.CREATE_GOV_PROPOSAL_SUCCESS }),
-  // createGovProposalFailure: (error) => ({ type: types.CREATE_GOV_PROPOSAL_FAILURE, error }),
 
   createDcbProposal: (name, executeDuration, explanation, dcbParams) => ({
     type: types.CREATE_DCB_PROPOSAL,

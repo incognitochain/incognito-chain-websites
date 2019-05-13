@@ -3,7 +3,6 @@ import {types as authTypes} from "../actions/auth";
 import {BOARD_TYPES} from "../constants";
 
 export const initialState = {
-  govParams: {},
   dcbParams: {},
   proposalSellingAssets: [],
   proposalBuyingAssets: [],
@@ -31,9 +30,6 @@ export const initialState = {
   voteProposalError: null,
   voteProposalDialog: false,
   isVotingProposal: false,
-
-  createGovProposalDialog: false,
-  isCreatingGovProposal: false,
 
   createDcbProposalDialog: false,
   isCreatingDcbProposal: false,

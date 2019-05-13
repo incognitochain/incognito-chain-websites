@@ -18,20 +18,15 @@ export function* loadVotingData() {
   }
 
   // load gov & dcb params
-  /*let govParams = {}*/
   let dcbParams = {}
-  const [/*govParamsResp, */dcbParamsResp] = yield all([
-    // call(services.loadGovParams, token),
+  const [dcbParamsResp] = yield all([
     call(services.loadDcbParams, token),
   ])
-  // console.log('params', govParamsResp, dcbParamsResp)
-  /*if (!govParamsResp.data.Error) {
-    govParams = govParamsResp.data.Result.GOVParams
-  }*/
+  // console.log('params', dcbParamsResp)
   if (!dcbParamsResp.data.Error) {
     dcbParams = dcbParamsResp.data.Result.DCBParams
   }
-  yield put(actions.updateParams(/*govParams, */dcbParams))
+  yield put(actions.updateParams(dcbParams))
 
   // load proposal buy & sell assets
   const [proposalBuyingAssetsResp, proposalSellingAssetsResp] = yield all([
@@ -165,26 +160,6 @@ export function* apply(action) {
     yield call(toaster.success, "Apply error. Please try again later!")
   }
 }
-
-/*export function* createGovProposal(action) {
-  const state = yield select()
-  const { accessToken: token } = state.auth
-  const { name, executeDuration, explanation, govParams } = action.payload
-  yield put(actions.createGovProposalRequest())
-  try {
-    const resp = yield call(services.createGovProposal, token, name, executeDuration, explanation, govParams)
-    if (resp.data.Error) {
-      yield put(actions.createGovProposalFailure(resp.data.Error.Message))
-      yield call(toaster.danger, "Create GOV Proposal Error. Please try again later!")
-    } else {
-      yield put(actions.createGovProposalSuccess())
-      yield call(toaster.success, "Create GOV Proposal success!")
-    }
-  } catch (e) {
-    yield call(toaster.danger, "Create GOV Proposal Error. Please try again later!")
-    yield put(actions.createGovProposalFailure(e.message))
-  }
-}*/
 
 export function* createDcbProposal(action) {
   const state = yield select()

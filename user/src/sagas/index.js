@@ -21,7 +21,6 @@ export default function* rootSaga () {
 
     takeLatest(votingTypes.LOAD_VOTING_DATA, votingSagas.loadVotingData),
     takeLatest(votingTypes.APPLY, votingSagas.apply),
-    // takeLatest(votingTypes.CREATE_GOV_PROPOSAL, votingSagas.createGovProposal),
     takeLatest(votingTypes.CREATE_DCB_PROPOSAL, votingSagas.createDcbProposal),
     takeLatest(votingTypes.LOAD_CANDIDATES, votingSagas.loadCandidates),
     takeLatest(votingTypes.VOTE_CANDIDATE, votingSagas.voteCandidate),
