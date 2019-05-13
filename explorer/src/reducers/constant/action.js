@@ -58,8 +58,6 @@ export const getMempoolInfo = () => createRPCRequest('mempool', false, ACTIONS.C
 export const getBlockProducer = () => createRPCRequest('producers', false, ACTIONS.CONSTANT_PRODUCER, 'getblockproducer', []);
 export const getCommitteeCandidate = () => createRPCRequest('candidates', false, ACTIONS.CONSTANT_CANDIDATE, 'getcommitteecandidate', []);
 export const getDCB = () => createRPCRequest('dcb', false, ACTIONS.CONSTANT_DCB, 'getlistdcbboard', []);
-export const getCB = () => createRPCRequest('cb', false, ACTIONS.CONSTANT_CB, 'getlistcbboard', []);
-export const getGOV = () => createRPCRequest('gov', false, ACTIONS.CONSTANT_GOV, 'getlistgovboard', []);
 export const getBlocks = chainId => createRPCRequest('chainBlocks', true, ACTIONS.CONSTANT_BLOCKS, 'getblocks', [20, chainId]);
 export const getTokens = () => createRPCRequest('tokens', true, ACTIONS.CONSTANT_TOKENS, 'listcustomtoken', []);
 export const getPrivacyTokens = () => createRPCRequest('privacyTokens', true, ACTIONS.CONSTANT_PRIVACY_TOKENS, 'listprivacycustomtoken', []);

@@ -182,11 +182,11 @@ class Home extends React.Component {
                 </form>
               </div>
             </div>
-            <div className="col-12">
+            {/*<div className="col-12">
               <div className="block content">
                 <Link to="/info">Blockchain Advance Information </Link>
               </div>
-            </div>
+            </div>*/}
             <div className="col-12">
               <div className="block content" id="best-blocks">
                 <div className="block-heading">
