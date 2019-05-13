@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {getBlockchainInfo, checkHash} from '@/reducers/constant/action';
-import {Link} from 'react-router-dom';
-import {push} from 'connected-react-router';
-import {trim} from 'lodash';
-import {formatBlocksHeight, formatHashStr} from "../services/formatter";
-import BrowserDetect from "../services/browserdetect";
+import { connect } from 'react-redux';
+import { getBlockchainInfo, checkHash } from '@/reducers/constant/action';
+import { Link } from 'react-router-dom';
+import { push } from 'connected-react-router';
+import { trim } from 'lodash';
+import { formatBlocksHeight, formatHashStr } from '../services/formatter';
+import BrowserDetect from '../services/browserdetect';
 
 class Home extends React.Component {
   static propTypes = {
@@ -20,8 +20,8 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
 
-    const {chainInfo} = this.props;
-    const {search} = props;
+    const { chainInfo } = this.props;
+    const { search } = props;
 
     this.state = {
       chainInfo,
@@ -31,16 +31,16 @@ class Home extends React.Component {
       keyword: '',
     };
 
-    const {actionGetBlockChainInfo} = this.props;
+    const { actionGetBlockChainInfo } = this.props;
     actionGetBlockChainInfo();
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.chainInfo.updatedAt !== prevState.chainInfo.updatedAt) {
-      return {chainInfo: nextProps.chainInfo};
+      return { chainInfo: nextProps.chainInfo };
     }
     if (nextProps.search.updatedAt !== prevState.searchUpdateAt) {
-      const {search} = nextProps;
+      const { search } = nextProps;
       if (search.keyword) {
         if (search.success) {
           return {
@@ -58,21 +58,21 @@ class Home extends React.Component {
   }
 
   componentDidUpdate() {
-    const {keyword, searchSuccess} = this.state;
-    const {dispatch} = this.props;
+    const { keyword, searchSuccess } = this.state;
+    const { dispatch } = this.props;
 
     if (searchSuccess) {
       switch (searchSuccess) {
         case 'tx':
-          dispatch({type: 'CLEAR_SEARCH'});
+          dispatch({ type: 'CLEAR_SEARCH' });
           dispatch(push(`/tx/${keyword}`));
           return;
         case 'pending':
-          dispatch({type: 'CLEAR_SEARCH'});
+          dispatch({ type: 'CLEAR_SEARCH' });
           dispatch(push(`/tx/pending/${keyword}`));
           return;
         case 'block':
-          dispatch({type: 'CLEAR_SEARCH'});
+          dispatch({ type: 'CLEAR_SEARCH' });
           dispatch(push(`/block/${keyword}`));
           return;
         default:
@@ -82,16 +82,16 @@ class Home extends React.Component {
   }
 
   submitSearch = (e) => {
-    const {actionCheckHash} = this.props;
+    const { actionCheckHash } = this.props;
 
     e.preventDefault();
     const keyword = trim(this.searchInput.value);
-    this.setState({keyword});
+    this.setState({ keyword });
     actionCheckHash(keyword);
   };
 
   render() {
-    const {chainInfo, searchError} = this.state;
+    const { chainInfo, searchError } = this.state;
     if (!chainInfo.ChainName) {
       return null;
     }
@@ -121,14 +121,13 @@ class Home extends React.Component {
               fontSize: '13px',
             }}>
               <p>
-                The Constant System is a decentralized global financial infrastructure that enables a new set of
-                financial
-                applications for consumers and businesses. At the heart of the Constant System, there is a
-                decentralized,
-                borderless, stable currency, called Constant.
-                Constant is a cryptocurrency that embodies the three integral characteristics of usable money: stable
-                unit
-                of account, efficient medium of exchange and secure store of value.
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean
+                massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam
+                felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede
+                justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a,
+                venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus.
+                Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu,
+                consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus.
               </p>
             </div>
           </div>
