@@ -20,8 +20,6 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 
-const web3 = require('web3')
-
 class Create extends React.Component {
   static propTypes = {
     metamask: PropTypes.object.isRequired,
@@ -245,10 +243,10 @@ class Create extends React.Component {
                       errors.redeemAmount = 'Required';
                     }
                     if (currentCollateral.name === 'ETH') {
+                      const web3 = require('web3')
                       if (!values.receiverAddress) {
                         errors.receiverAddress = 'Required';
-                      }
-                      else if (!web3.utils.isAddress(values.receiverAddress)) {
+                      } else if (!web3.utils.isAddress(values.receiverAddress)) {
                         errors.receiverAddress = 'Invalid';
                       }
                     }

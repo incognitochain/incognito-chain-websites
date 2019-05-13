@@ -220,7 +220,7 @@ class Redeem extends React.Component {
             selected: 'tab-selected'
           }}/>
         </Tabs>*/}
-        {
+        {/*{
           tabIndex === 1 && (
             <div className="container">
               <div className="row">
@@ -228,7 +228,7 @@ class Redeem extends React.Component {
                   <div className="c-card c-card-no-padding table-container">
                     <table className="c-table-portal-home" style={{
                       width: '100%',
-                      tableLayout: 'fixed'
+                      tableLayout: 'fixed',
                     }}>
                       <colgroup>
                         <col style={{ 'width': '7%' }}/>
@@ -323,7 +323,7 @@ class Redeem extends React.Component {
               </div>
             </div>
           )
-        }
+        }*/}
         {
           tabIndex === 0 && (
             <div className="container">
@@ -332,7 +332,7 @@ class Redeem extends React.Component {
                   <div className="c-card c-card-no-padding table-container">
                     <table className="c-table-portal-home" style={{
                       width: '100%',
-                      tableLayout: 'fixed'
+                      tableLayout: 'fixed',
                     }}>
                       <colgroup>
                         <col style={{ 'width': '7%' }}/>
