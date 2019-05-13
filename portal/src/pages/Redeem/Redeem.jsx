@@ -160,7 +160,7 @@ class Redeem extends React.Component {
                     {`Hello, ${auth.data.UserName || auth.data.FirstName}`}
                   </div>
                   <div className="row stats-container">
-                    <div className="col-12 col-sm-6 col-lg-3 stats">
+                    <div className="col-12 col-sm-6 col-lg-6 stats">
                       <div className="value">
                         {summary.UsdFinished ? summary.UsdFinished : 0}
                         {' '}
@@ -176,7 +176,7 @@ class Redeem extends React.Component {
                       </div>
                       <div>Are failed</div>
                     </div>
-                    <div className="col-12 col-sm-6 col-lg-3 stats">
+                    {/*<div className="col-12 col-sm-6 col-lg-3 stats">
                       <div className="value">
                         {summary.EthFinished ? summary.EthFinished : 0}
                         {' '}
@@ -191,7 +191,7 @@ class Redeem extends React.Component {
                         <sup>ETH</sup>
                       </div>
                       <div>Are failed</div>
-                    </div>
+                    </div>*/}
                   </div>
                   <div className="row stats-container">
                   </div>
@@ -209,7 +209,7 @@ class Redeem extends React.Component {
             </div>
           </div>
         </section>
-        <Tabs indicatorColor="primary" className="container tabs-container" value={tabIndex}
+        {/*<Tabs indicatorColor="primary" className="container tabs-container" value={tabIndex}
               onChange={this.handleTabChange}>
           <Tab label="ETH" value={1} classes={{
             root: 'tab',
@@ -219,7 +219,7 @@ class Redeem extends React.Component {
             root: 'tab',
             selected: 'tab-selected'
           }}/>
-        </Tabs>
+        </Tabs>*/}
         {
           tabIndex === 1 && (
             <div className="container">
