@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 function getCurrentUserToken() {
-  const result = Cookies.get('user');
+  const result = Cookies.get('token');
   return result || '';
 }
 
