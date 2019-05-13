@@ -12,11 +12,11 @@ class SubHeader extends React.Component {
   static propTypes = {
     show: PropTypes.bool,
     router: PropTypes.object.isRequired,
-  }
+  };
 
   static defaultProps = {
     show: true,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -36,7 +36,7 @@ class SubHeader extends React.Component {
               <ul>
                 <li>
                   <Link to="/" className={cn('menu-item text-truncate', { active: pathname === '/' })}>
-                    <FontAwesomeIcon icon={faHome} />
+                    <FontAwesomeIcon icon={faHome}/>
                     {' Landing'}
                   </Link>
                 </li>
@@ -47,22 +47,26 @@ class SubHeader extends React.Component {
                   </Link>
                 </li> */}
                 <li className="hover-menu">
-                  <Link to="/redeem" className={cn('menu-item text-truncate', { active: ['/redeem', '/buy-token', '/buy-constant'].some(_ => pathname && pathname.startsWith(_)) })}>
-                    <FontAwesomeIcon icon={faRetweetAlt} />
+                  <Link to="/redeem"
+                        className={cn('menu-item text-truncate', { active: ['/redeem', '/buy-token', '/buy-constant'].some(_ => pathname && pathname.startsWith(_)) })}>
+                    <FontAwesomeIcon icon={faRetweetAlt}/>
                     {' Reserve'}
                   </Link>
                   <div name="content-hover">
                     <Link to="/redeem" className={cn('item text-truncate', { active: pathname.startsWith('/redeem') })}>
-                      <FontAwesomeIcon icon={faRetweetAlt} />
+                      <FontAwesomeIcon icon={faRetweetAlt}/>
                       {' Redeem'}
                     </Link>
-                    <Link to="/buy-token" className={cn('item text-truncate', { active: pathname.startsWith('/buy-token') })}>
+                    {/* next Phrase
+                   <Link to="/buy-token" className={cn('item text-truncate', { active: pathname.startsWith('/buy-token') })}>
                       <FontAwesomeIcon icon={faSearchDollar} />
                       &nbsp;
                       {'Reserve Asset'}
                     </Link>
-                    <Link to="/buy-constant" className={cn('item text-truncate', { active: pathname.startsWith('/buy-constant') })}>
-                      <FontAwesomeIcon icon={faCopyright} />
+                    */}
+                    <Link to="/buy-constant"
+                          className={cn('item text-truncate', { active: pathname.startsWith('/buy-constant') })}>
+                      <FontAwesomeIcon icon={faCopyright}/>
                       &nbsp;
                       {'Buy Constant'}
                     </Link>
