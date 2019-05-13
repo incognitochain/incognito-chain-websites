@@ -245,6 +245,7 @@ class Wallet extends React.Component {
                             ) : (
                               ""
                             )}
+                            {/* next Phrase
                             {balance.SymbolCode.toUpperCase() != "CONST" ? <a
                               href={`${process.env.REACT_APP_EXCHANGE_URL}/exchange/CONST-${balance.SymbolCode.toUpperCase()}`}
                               target="_blank"
@@ -252,7 +253,7 @@ class Wallet extends React.Component {
                               className="btn btn-outline-warning"
                             >
                               Exchange
-                            </a> : ""}
+                            </a> : ""}*/}
                           </td>
                         </tr>
                       ))}
