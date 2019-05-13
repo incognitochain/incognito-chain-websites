@@ -1,3 +1,4 @@
+/*
 import React from "react";
 import axios from "axios";
 import { Modal, Form, Input, notification } from "antd";
@@ -73,3 +74,4 @@ export function BuyModal({ isShow, onClose, record = {}, loadGovTokens }) {
     </Modal>
   );
 }
+*/

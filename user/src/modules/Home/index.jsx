@@ -5,9 +5,9 @@ import Link from "components/Link";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faAngleRight} from "@fortawesome/free-solid-svg-icons";
 import {faArrowRight, faEdit} from "@fortawesome/pro-regular-svg-icons";
-import bgApplyGOV from "assets/apply-gov.svg";
+// import bgApplyGOV from "assets/apply-gov.svg";
 import bgApplyDCB from "assets/apply-dcb.svg";
-import bgApplyMCB from "assets/apply-mcb.svg";
+// import bgApplyMCB from "assets/apply-mcb.svg";
 import {BOARD_TYPES} from "../../constants";
 import cn from "classnames";
 import bgImage from "assets/create-a-proposal.svg";
@@ -15,7 +15,7 @@ import {Dialog, Textarea} from "evergreen-ui";
 import GovProposalDialog from "./GovProposalDialog";
 import DcbProposalDialog from "./DcbProposalDialog";
 import _ from "lodash";
-import {GovTokens} from "../gov-tokens/GovTokens";
+/*import {GovTokens} from "../gov-tokens/GovTokens";*/
 
 import {actions as authActions} from '../../actions/auth'
 import {actions as votingActions} from '../../actions/voting'
@@ -213,7 +213,7 @@ class Home extends React.Component {
                     {"DCB Proposal "}
                     <FontAwesomeIcon icon={faAngleRight}/>
                   </button>
-                  <button
+                  {/*<button
                     className="c-btn c-bg-green"
                     type="button"
                     onClick={() => {
@@ -222,8 +222,8 @@ class Home extends React.Component {
                   >
                     {"GOV Proposal "}
                     <FontAwesomeIcon icon={faAngleRight}/>
-                  </button>
-                  {!isUserInBoard ?
+                  </button>*/}
+                  {/* {!isUserInBoard ?
                     <Link
                       className="c-btn c-bg-green"
                       to={'/oracle/feed-price'}
@@ -231,7 +231,7 @@ class Home extends React.Component {
                       {"Oracle Proposal"}
                       <FontAwesomeIcon icon={faAngleRight}/>
                     </Link>
-                    : ""}
+                    : ""}*/}
                 </div>
               </div>
             </div>
@@ -240,7 +240,7 @@ class Home extends React.Component {
         <div className="apply">
           <div className="container">
             <div className="row">
-              <div className="col-12 col-lg-4">
+              {/*<div className="col-12 col-lg-4">
                 <div
                   className="c-card"
                   style={{backgroundImage: `url(${bgApplyGOV})`}}
@@ -262,7 +262,7 @@ class Home extends React.Component {
                     </Applied>
                   </Link>
                 </div>
-              </div>
+              </div>*/}
               <div className="col-12 col-lg-4">
                 <div
                   className="c-card"
@@ -286,7 +286,7 @@ class Home extends React.Component {
                   </Link>
                 </div>
               </div>
-              <div className="col-12 col-lg-4">
+              {/*<div className="col-12 col-lg-4">
                 <div
                   className="c-card"
                   style={{backgroundImage: `url(${bgApplyMCB})`}}
@@ -309,12 +309,12 @@ class Home extends React.Component {
                     </Applied>
                   </Link>
                 </div>
-              </div>
+              </div>*/}
             </div>
           </div>
         </div>
 
-        <GovTokens/>
+        {/*<GovTokens/>*/}
       </div>
     );
   }

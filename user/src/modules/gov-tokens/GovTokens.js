@@ -1,3 +1,4 @@
+/*
 import React from "react";
 import styled from "styled-components";
 import { notification, Table, Button, Tabs, Tooltip } from "antd";
@@ -174,3 +175,4 @@ const TableWrapper = styled.div`
     display: none;
   }
 `;
+*/
