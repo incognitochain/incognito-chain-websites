@@ -119,7 +119,7 @@ class BuyConstant extends React.Component {
             <div className="col-12 col-lg-8 order-2 order-lg-1 my-3">
               <div className="c-card h-100">
                 <div className="hello">
-                  Buy Constant
+                  Buy Constant Token
                 </div>
                 <div className="row stats-container" style={{display: "flex", justifyContent: "center"}}>
 
@@ -212,8 +212,8 @@ class BuyConstant extends React.Component {
                         <CircularProgress style={{width: "auto", height:"auto"}} />
                       </div>
                     :
-                      <button disabled={amount <= 0} className="c-btn c-btn-primary submit" style={{width: "100%"}} onClick={this.onSubmit} >
-                        Get Constant
+                      <button disabled={amount <= 0 || true} className="c-btn c-btn-primary submit" style={{width: "100%"}} onClick={this.onSubmit} >
+                        Get Constant (Comming soon)
                         &nbsp;<FontAwesomeIcon icon={faArrowRight} />
                       </button>
                   }

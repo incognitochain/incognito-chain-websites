@@ -12,7 +12,7 @@ class Header extends React.Component {
   static propTypes = {
     auth: PropTypes.object.isRequired,
     // router: PropTypes.object.isRequired,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -30,12 +30,12 @@ class Header extends React.Component {
       window.document.body.removeEventListener('click', this.eventAuthMenu);
       this.setState({ authMenu: false });
     }
-  }
+  };
 
   toggleMenu = () => {
     const { showMenu } = this.state;
     this.setState({ showMenu: !showMenu });
-  }
+  };
 
   toggleAuthMenu = () => {
     const { authMenu } = this.state;
@@ -45,13 +45,16 @@ class Header extends React.Component {
       window.document.body.addEventListener('click', this.eventAuthMenu);
     }
     this.setState({ authMenu: !authMenu });
-  }
+  };
 
   logout = (e) => {
     e.preventDefault();
-    Cookies.remove('user', { domain: process.env.domain, path: '/' });
+    Cookies.remove('user', {
+      domain: process.env.domain,
+      path: '/'
+    });
     window.location.assign(process.env.userUrl + '/login?redirect=' + process.env.portalUrl);
-  }
+  };
 
   render() {
     const {
@@ -70,11 +73,11 @@ class Header extends React.Component {
             <div className="col-12">
               <div className="logo-container">
                 <Link to="/">
-                  <img src={Logo} alt="Logo" />
+                  <img src={Logo} alt="Logo"/>
                   {' onstant'}
                 </Link>
                 <div className="hamburger" onClick={this.toggleMenu}>
-                  <FontAwesomeIcon style={{ marginRight: showMenu ? 5 : 0 }} icon={showMenu ? faTimes : faBars} />
+                  <FontAwesomeIcon style={{ marginRight: showMenu ? 5 : 0 }} icon={showMenu ? faTimes : faBars}/>
                 </div>
               </div>
               <div className={`menu-container ${showMenu ? 'show' : 'hide'}`}>
@@ -82,9 +85,7 @@ class Header extends React.Component {
                   <li><a href={process.env.userUrl}>User</a></li>
                   <li><a href={process.env.explorerUrl}>Explorer</a></li>
                   <li><Link to="/" className="active">Portal</Link></li>
-                  <li><a href={process.env.exchangeUrl}>Market</a></li>
-                  {/*<li><a href={process.env.userUrl + '/about'}>About</a></li>
-                  <li><a href={process.env.userUrl + '/faq'}>FAQ</a></li>*/}
+                  {/*<li><a href={process.env.exchangeUrl}>Market</a></li>*/}
                 </ul>
               </div>
               {
@@ -94,8 +95,8 @@ class Header extends React.Component {
                       <li>
                         <div className="auth" id="auth" onClick={this.toggleAuthMenu}>
                           <span className="firstname">{`${data.FirstName} `}</span>
-                          <FontAwesomeIcon icon={faUserCircle} size="2x" />
-                          <FontAwesomeIcon icon={faAngleDown} />
+                          <FontAwesomeIcon icon={faUserCircle} size="2x"/>
+                          <FontAwesomeIcon icon={faAngleDown}/>
                         </div>
                         <ul className={`sub-menu ${authMenu ? 'show' : ''}`}>
                           <li><a href={process.env.userUrl}>Profile</a></li>
@@ -114,4 +115,7 @@ class Header extends React.Component {
   }
 }
 
-export default connect(state => ({ auth: state.auth, router: state.router }))(Header);
+export default connect(state => ({
+  auth: state.auth,
+  router: state.router
+}))(Header);

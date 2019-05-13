@@ -54,7 +54,7 @@ class SubHeader extends React.Component {
                   <div name="content-hover">
                     <Link to="/redeem" className={cn('item text-truncate', { active: pathname.startsWith('/redeem') })}>
                       <FontAwesomeIcon icon={faRetweetAlt}/>
-                      {' Redeem'}
+                      {' Redeem Constant Token'}
                     </Link>
                     {/* next Phrase
                    <Link to="/buy-token" className={cn('item text-truncate', { active: pathname.startsWith('/buy-token') })}>
@@ -67,7 +67,7 @@ class SubHeader extends React.Component {
                           className={cn('item text-truncate', { active: pathname.startsWith('/buy-constant') })}>
                       <FontAwesomeIcon icon={faCopyright}/>
                       &nbsp;
-                      {'Buy Constant'}
+                      {'Buy Constant Token'}
                     </Link>
                   </div>
                 </li>
