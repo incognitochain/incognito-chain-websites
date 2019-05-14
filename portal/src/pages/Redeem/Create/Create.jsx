@@ -28,15 +28,23 @@ class Create extends React.Component {
     metamaskRequestUnlock: PropTypes.func.isRequired,
     routerPush: PropTypes.func.isRequired,
     authCheckAuth: PropTypes.func.isRequired,
-  }
+  };
 
   constructor(props) {
     super(props);
 
     // ETH for next Phrase
     const collaterals = [
-      { name: 'USD', icon: faUsdCircle, hidden: false },
-      { name: 'ETH', icon: faEthereum, hidden: true },
+      {
+        name: 'USD',
+        icon: faUsdCircle,
+        hidden: false
+      },
+      {
+        name: 'ETH',
+        icon: faEthereum,
+        hidden: true
+      },
     ];
 
     this.state = {
@@ -52,7 +60,7 @@ class Create extends React.Component {
 
   componentDidMount() {
     document.title = 'Create a redeem request - Constant';
-    this.getSpendInfo()
+    this.getSpendInfo();
   }
 
   componentWillUnmount() {
@@ -60,23 +68,26 @@ class Create extends React.Component {
   }
 
   getSpendInfo = () => {
-    axios.get(API.RESERVE_SPEND_INFO, null).then((res) => {
-      if (res.status === 200) {
-        if (res.data && res.data.Result) {
-          this.setState({ leftToken: res.data.Result.LeftToken })
-        } else {
-          this.setState({ leftToken: 0 })
+    axios.get(API.RESERVE_SPEND_INFO, null)
+      .then((res) => {
+        if (res.status === 200) {
+          if (res.data && res.data.Result) {
+            this.setState({ leftToken: res.data.Result.LeftToken });
+          } else {
+            this.setState({ leftToken: 0 });
+          }
         }
-      }
-    }).catch((e) => {
-      this.setState({ leftToken: 0 })
-      console.log(e);
-      catchError(e);
-    });
-  }
+      })
+      .catch((e) => {
+        this.setState({ leftToken: 0 });
+        console.log(e);
+        catchError(e);
+      });
+  };
 
   // form
-  changeRedeemAmount = (e, setFieldValue, cb = () => { }) => {
+  changeRedeemAmount = (e, setFieldValue, cb = () => {
+  }) => {
     const { currentCollateral } = this.state;
     if (currentCollateral.name === 'ETH') {
       this.setState({
@@ -86,18 +97,21 @@ class Create extends React.Component {
         setFieldValue('etherAmount', 0);
       } else {
         const data = {
-          constant_amount: parseInt(e.target.value, 0).cst2Cent(),
+          constant_amount: parseInt(e.target.value, 0)
+            .cst2Cent(),
         };
-        axios.post(API.RESERVE_CONVERT_CST_TO_ETH, data).then((res) => {
-          if (res.status === 200) {
-            if (res.data && res.data.Result) {
-              setFieldValue('etherAmount', res.data.Result);
+        axios.post(API.RESERVE_CONVERT_CST_TO_ETH, data)
+          .then((res) => {
+            if (res.status === 200) {
+              if (res.data && res.data.Result) {
+                setFieldValue('etherAmount', res.data.Result);
+              }
             }
-          }
-        }).catch((e) => {
-          console.log(e);
-          catchError(e);
-        });
+          })
+          .catch((e) => {
+            console.log(e);
+            catchError(e);
+          });
       }
     }
     if (currentCollateral.name === 'USD') {
@@ -106,19 +120,19 @@ class Create extends React.Component {
       });
       setFieldValue('etherAmount', 0);
     }
-  }
+  };
 
   inputChange = (handleChange, setFieldTouched, name, e) => {
     e.persist();
     handleChange(e);
     setFieldTouched(name, true, false);
-  }
+  };
 
   onlyNumber = (value, cb) => {
     if (!Number.isNaN(Number(value))) {
       cb();
     }
-  }
+  };
 
   // submit handler
   handleSubmit = (values, setSubmitting) => {
@@ -130,7 +144,7 @@ class Create extends React.Component {
       this.submitByETH(values, setSubmitting);
     }
     return true;
-  }
+  };
 
   submitByUSD = (values, setSubmitting) => {
     const { routerPush } = this.props;
@@ -152,44 +166,50 @@ class Create extends React.Component {
         beneficiaryAddressPostalCode: values.beneficiaryAddressPostalCode,
         beneficiaryAddressCountry: values.beneficiaryAddressCountry,
       },
-      Amount: parseInt(parseFloat(values.redeemAmount).cst2Cent(), 0)
+      Amount: parseInt(parseFloat(values.redeemAmount)
+        .cst2Cent(), 0)
     };
-    axios.post(API.RESERVE_REDEEM_USD_CREATE, data).then((res) => {
-      if (res.status === 200) {
-        if (res.data && res.data.Result) {
-          routerPush('/redeem?type=usd');
+    axios.post(API.RESERVE_REDEEM_USD_CREATE, data)
+      .then((res) => {
+        if (res.status === 200) {
+          if (res.data && res.data.Result) {
+            routerPush('/redeem?type=usd');
+          }
         }
-      }
-      setSubmitting(false);
-    }).catch((e) => {
-      toaster.warning('Failed to submit request');
-      console.log(e);
-      catchError(e);
-      setSubmitting(false);
-    });
-  }
+        setSubmitting(false);
+      })
+      .catch((e) => {
+        toaster.warning('Failed to submit request');
+        console.log(e);
+        catchError(e);
+        setSubmitting(false);
+      });
+  };
 
   submitByETH = (values, setSubmitting) => {
     const { routerPush } = this.props;
     setSubmitting(false);
     const data = {
       receiver_address: values.receiverAddress,
-      constant_amount: parseInt(parseFloat(values.redeemAmount).cst2Cent(), 0)
+      constant_amount: parseInt(parseFloat(values.redeemAmount)
+        .cst2Cent(), 0)
     };
-    axios.post(API.RESERVE_REDEEM_ETH_CREATE, data).then((res) => {
-      if (res.status === 200) {
-        if (res.data && res.data.Result) {
-          routerPush('/redeem?type=eth');
+    axios.post(API.RESERVE_REDEEM_ETH_CREATE, data)
+      .then((res) => {
+        if (res.status === 200) {
+          if (res.data && res.data.Result) {
+            routerPush('/redeem?type=eth');
+          }
         }
-      }
-      setSubmitting(false);
-    }).catch((e) => {
-      toaster.warning('Failed to submit request');
-      console.log(e);
-      catchError(e);
-      setSubmitting(false);
-    });
-  }
+        setSubmitting(false);
+      })
+      .catch((e) => {
+        toaster.warning('Failed to submit request');
+        console.log(e);
+        catchError(e);
+        setSubmitting(false);
+      });
+  };
 
   //
   render() {
@@ -243,7 +263,7 @@ class Create extends React.Component {
                       errors.redeemAmount = 'Required';
                     }
                     if (currentCollateral.name === 'ETH') {
-                      const web3 = require('web3')
+                      const web3 = require('web3');
                       if (!values.receiverAddress) {
                         errors.receiverAddress = 'Required';
                       } else if (!web3.utils.isAddress(values.receiverAddress)) {
@@ -305,362 +325,384 @@ class Create extends React.Component {
                   }}
                 >
                   {({
-                    values,
-                    errors,
-                    touched,
-                    handleChange,
-                    handleSubmit,
-                    isSubmitting,
-                    setFieldTouched,
-                    setFieldValue,
-                    isValid,
-                  }) => (
-                      <form onSubmit={handleSubmit} autoComplete="off">
-                        <Dialog
-                          isShown={isValid && isSubmitting}
-                          shouldCloseOnOverlayClick={false}
-                          shouldCloseOnEscapePress={false}
-                          hasHeader={false}
-                          hasFooter={false}
-                        >
-                          <div style={{ textAlign: 'center', margin: '20px 0' }}>
-                            <div>
-                              {' '}
-                              <FontAwesomeIcon icon={faSpinnerThird} size="3x" spin color="##2D4EF5" />
-                            </div>
-                            <div style={{ marginTop: 10 }}>Loading....</div>
-                            <div>{status}</div>
-                            <div style={{ color: '#ff0000' }}>
-                              <strong>
-                                {"PLEASE DON'T CLOSE THIS TAB"}
-                              </strong>
-                            </div>
+                      values,
+                      errors,
+                      touched,
+                      handleChange,
+                      handleSubmit,
+                      isSubmitting,
+                      setFieldTouched,
+                      setFieldValue,
+                      isValid,
+                    }) => (
+                    <form onSubmit={handleSubmit} autoComplete="off">
+                      <Dialog
+                        isShown={isValid && isSubmitting}
+                        shouldCloseOnOverlayClick={false}
+                        shouldCloseOnEscapePress={false}
+                        hasHeader={false}
+                        hasFooter={false}
+                      >
+                        <div style={{
+                          textAlign: 'center',
+                          margin: '20px 0'
+                        }}>
+                          <div>
+                            {' '}
+                            <FontAwesomeIcon icon={faSpinnerThird} size="3x" spin color="##2D4EF5"/>
                           </div>
-                        </Dialog>
-                        <div className="create-box c-card">
-                          <h2>Create a redeem request</h2>
-                          <div className="row input-container input-container-first">
-                            <div className="col-12 col-md-6">
-                              <div className="title">ENTER REDEEM AMOUNT</div>
-                              <div className="input">
-                                <TextField
-                                  disabled={(leftToken <= 0 && currentCollateral.name == 'ETH')}
-                                  name="redeemAmount"
-                                  placeholder="100"
-                                  className="input-of-create cst"
-                                  value={values.redeemAmount}
-                                  autoComplete="off"
-                                  onChange={(e) => {
-                                    if (e.target.value == '') {
-                                      return handleChange(e)
-                                    }
-                                    this.onlyNumber(e.target.value, () => {
-                                      if (!(parseFloat(e.target.value).cst2Cent() > leftToken && currentCollateral.name == 'ETH')) {
-                                        this.changeRedeemAmount(e, setFieldValue);
-                                        return handleChange(e)
-                                      }
-                                    });
-                                  }}
-                                  InputProps={{
-                                    startAdornment: <InputAdornment position="start">CST</InputAdornment>,
-                                  }}
-                                />
-                                {errors.redeemAmount && touched.redeemAmount && <span className="c-error"><span>{errors.redeemAmount}</span></span>}
-                              </div>
-                              {
-                                currentCollateral.name == 'ETH' ? (
-                                  <span className="c-info"><span>{`MAXIMUM `} <span className="c-error"><span>{leftToken.constant()}</span></span> {` CONSTANT`}</span></span>
-                                ) : null
-                              }
-                            </div>
-                            <div className="col-12 col-md-6">
-                              <div className="title">CHOOSE YOUR ASSETS</div>
-                              <div className="input">
-                                {collaterals.map(collateral => {
-                                  if (collateral.hidden) {
-                                    return "";
+                          <div style={{ marginTop: 10 }}>Loading....</div>
+                          <div>{status}</div>
+                          <div style={{ color: '#ff0000' }}>
+                            <strong>
+                              {'PLEASE DON\'T CLOSE THIS TAB'}
+                            </strong>
+                          </div>
+                        </div>
+                      </Dialog>
+                      <div className="create-box c-card">
+                        <h2>Create a redeem request</h2>
+                        <div className="row input-container input-container-first">
+                          <div className="col-12 col-md-6">
+                            <div className="title">ENTER REDEEM AMOUNT</div>
+                            <div className="input">
+                              <TextField
+                                disabled={(leftToken <= 0 && currentCollateral.name == 'ETH')}
+                                name="redeemAmount"
+                                placeholder="100"
+                                className="input-of-create cst"
+                                value={values.redeemAmount}
+                                autoComplete="off"
+                                onChange={(e) => {
+                                  if (e.target.value == '') {
+                                    return handleChange(e);
                                   }
-                                  return (
-                                    <div
-                                      key={collateral.name}
-                                      className={`collateral-option ${currentCollateral.name === collateral.name ? 'active' : ''}`}
-                                      onClick={() => {
-                                        this.setState({ currentCollateral: collateral }, () => {
-                                          this.changeRedeemAmount({ target: { value: values.redeemAmount } }, setFieldValue);
-                                        });
-                                      }}
-                                    >
-                                      <FontAwesomeIcon icon={collateral.icon} size="2x"/>
-                                    </div>
-                                  );
-                                })}
-                              </div>
+                                  this.onlyNumber(e.target.value, () => {
+                                    if (!(parseFloat(e.target.value)
+                                      .cst2Cent() > leftToken && currentCollateral.name == 'ETH')) {
+                                      this.changeRedeemAmount(e, setFieldValue);
+                                      return handleChange(e);
+                                    }
+                                  });
+                                }}
+                                InputProps={{
+                                  startAdornment: <InputAdornment position="start">CST</InputAdornment>,
+                                }}
+                              />
+                              {errors.redeemAmount && touched.redeemAmount &&
+                              <span className="c-error"><span>{errors.redeemAmount}</span></span>}
+                            </div>
+                            {
+                              currentCollateral.name == 'ETH' ? (
+                                <span className="c-info"><span>{`MAXIMUM `} <span
+                                  className="c-error"><span>{leftToken.constant()}</span></span> {` CONSTANT`}</span></span>
+                              ) : null
+                            }
+                          </div>
+                          <div className="col-12 col-md-6">
+                            <div className="title">CHOOSE YOUR ASSETS</div>
+                            <div className="input">
+                              {collaterals.map(collateral => {
+                                if (collateral.hidden) {
+                                  return '';
+                                }
+                                return (
+                                  <div
+                                    key={collateral.name}
+                                    className={`collateral-option ${currentCollateral.name === collateral.name ? 'active' : ''}`}
+                                    onClick={() => {
+                                      this.setState({ currentCollateral: collateral }, () => {
+                                        this.changeRedeemAmount({ target: { value: values.redeemAmount } }, setFieldValue);
+                                      });
+                                    }}
+                                  >
+                                    <FontAwesomeIcon icon={collateral.icon} size="2x"/>
+                                  </div>
+                                );
+                              })}
                             </div>
                           </div>
-                          {
-                            hiddenETHAddr ? (
-                              <div className="row container">
-                                <div className="col">
-                                  <div className="title">ENTER YOUR BANK</div>
-                                  <div className="row">
-                                    <div className="col-12 col-lg-6 input">
+                        </div>
+                        {
+                          hiddenETHAddr ? (
+                            <div className="row container">
+                              <div className="col">
+                                <div className="title">ENTER YOUR BANK</div>
+                                <div className="row">
+                                  <div className="col-12 col-lg-6 input">
+                                    <TextField
+                                      label="Routing Number"
+                                      name="routingNumber"
+                                      placeholder=""
+                                      className="input-of-create cst"
+                                      fullWidth
+                                      value={values.routingNumber}
+                                      autoComplete="off"
+                                      onChange={handleChange}
+                                    />
+                                    {errors.routingNumber && touched.routingNumber &&
+                                    <span className="c-error"><span>{errors.routingNumber}</span></span>}
+                                  </div>
+                                  <div className="col-12 col-lg-6 row m-0 p-0">
+                                    <div className="col-12 col-sm-8 input">
                                       <TextField
-                                        label="Routing Number"
-                                        name="routingNumber"
+                                        label="Swift Code"
+                                        name="swiftCode"
                                         placeholder=""
                                         className="input-of-create cst"
                                         fullWidth
-                                        value={values.routingNumber}
+                                        value={values.swiftCode}
                                         autoComplete="off"
                                         onChange={handleChange}
                                       />
-                                      {errors.routingNumber && touched.routingNumber && <span className="c-error"><span>{errors.routingNumber}</span></span>}
+                                      {errors.swiftCode && touched.swiftCode &&
+                                      <span className="c-error"><span>{errors.swiftCode}</span></span>}
                                     </div>
-                                    <div className="col-12 col-lg-6 row m-0 p-0">
-                                      <div className="col-12 col-sm-8 input">
-                                        <TextField
-                                          label="Swift Code"
-                                          name="swiftCode"
-                                          placeholder=""
-                                          className="input-of-create cst"
-                                          fullWidth
-                                          value={values.swiftCode}
-                                          autoComplete="off"
-                                          onChange={handleChange}
-                                        />
-                                        {errors.swiftCode && touched.swiftCode && <span className="c-error"><span>{errors.swiftCode}</span></span>}
-                                      </div>
-                                      <div className="col-12 col-sm-4 input">
-                                        <FormControl variant="outlined" fullWidth style={{ marginTop: 20 }}>
-                                          <InputLabel htmlFor="age-required">Ach Check Type</InputLabel>
-                                          <Select
-                                            value={values.achCheckType}
-                                            onChange={(e) => {
-                                              values.achCheckType = e.target.value
-                                              this.setState({ isUpdated: true })
-                                            }}
-                                            name="achCheckType"
-                                          >
-                                            <MenuItem value={'personal'}>Personal</MenuItem>
-                                            <MenuItem value={'business'}>Business</MenuItem>
-                                          </Select>
-                                        </FormControl>
-                                      </div>
-                                    </div>
-                                    <div className="col-12 col-lg-6 row m-0 p-0">
-                                      <div className="col-12 col-sm-4 input">
-                                        <FormControl variant="outlined" fullWidth style={{ marginTop: 20 }}>
-                                          <InputLabel htmlFor="age-required">Bank Country</InputLabel>
-                                          <Select
-                                            value={values.bankCountry}
-                                            onChange={(e) => {
-                                              values.bankCountry = e.target.value
-                                              this.setState({ isUpdated: true })
-                                            }}
-                                            name="bankCountry"
-                                          >
-                                            <MenuItem value={'US'}>US</MenuItem>
-                                            <MenuItem value={'VN'}>VN</MenuItem>
-                                          </Select>
-                                        </FormControl>
-                                      </div>
-                                      <div className="col-12 col-sm-8 input">
-                                        <TextField
-                                          label="Bank Account Name"
-                                          name="bankAccountName"
-                                          placeholder=""
-                                          className="input-of-create cst"
-                                          fullWidth
-                                          value={values.bankAccountName}
-                                          autoComplete="off"
-                                          onChange={handleChange}
-                                        />
-                                        {errors.bankAccountName && touched.bankAccountName && <span className="c-error"><span>{errors.bankAccountName}</span></span>}
-                                      </div>
-                                    </div>
-                                    <div className="col-12 col-lg-6 input">
+                                    <div className="col-12 col-sm-4 input">
                                       <FormControl variant="outlined" fullWidth style={{ marginTop: 20 }}>
-                                        <InputLabel htmlFor="age-required">Bank Account Type</InputLabel>
+                                        <InputLabel htmlFor="age-required">Ach Check Type</InputLabel>
                                         <Select
-                                          value={values.bankAccountType}
+                                          value={values.achCheckType}
                                           onChange={(e) => {
-                                            values.bankAccountType = e.target.value
-                                            this.setState({ isUpdated: true })
+                                            values.achCheckType = e.target.value;
+                                            this.setState({ isUpdated: true });
                                           }}
-                                          name="bankAccountType"
+                                          name="achCheckType"
                                         >
-                                          <MenuItem value={'checking'}>Checking</MenuItem>
-                                          <MenuItem value={'savings'}>Savings</MenuItem>
+                                          <MenuItem value={'personal'}>Personal</MenuItem>
+                                          <MenuItem value={'business'}>Business</MenuItem>
                                         </Select>
                                       </FormControl>
                                     </div>
-                                    <div className="col-12 col-lg-6 input">
-                                      <TextField
-                                        label="Bank Account Number"
-                                        name="bankAccountNumber"
-                                        placeholder=""
-                                        className="input-of-create cst"
-                                        fullWidth
-                                        value={values.bankAccountNumber}
-                                        autoComplete="off"
-                                        onChange={handleChange}
-                                      />
-                                      {errors.bankAccountNumber && touched.bankAccountNumber && <span className="c-error"><span>{errors.bankAccountNumber}</span></span>}
-                                    </div>
-                                    <div className="col-12 col-lg-6 input">
-                                      <TextField
-                                        label="Bank Name"
-                                        name="bankName"
-                                        placeholder=""
-                                        className="input-of-create cst"
-                                        fullWidth
-                                        value={values.bankName}
-                                        autoComplete="off"
-                                        onChange={handleChange}
-                                      />
-                                      {errors.bankName && touched.bankName && <span className="c-error"><span>{errors.bankName}</span></span>}
-                                    </div>
-                                    <div className="col-12 col-lg-6 input">
-                                      <TextField
-                                        label="Beneficiary Address Street 1"
-                                        name="beneficiaryAddressStreet1"
-                                        placeholder=""
-                                        className="input-of-create cst"
-                                        fullWidth
-                                        value={values.beneficiaryAddressStreet1}
-                                        autoComplete="off"
-                                        onChange={handleChange}
-                                      />
-                                      {errors.beneficiaryAddressStreet1 && touched.beneficiaryAddressStreet1 && <span className="c-error"><span>{errors.beneficiaryAddressStreet1}</span></span>}
-                                    </div>
-                                    <div className="col-12 col-lg-6 input">
-                                      <TextField
-                                        label="Beneficiary Address Street 2"
-                                        name="beneficiaryAddressStreet2"
-                                        placeholder=""
-                                        className="input-of-create cst"
-                                        fullWidth
-                                        value={values.beneficiaryAddressStreet2}
-                                        autoComplete="off"
-                                        onChange={handleChange}
-                                      />
-                                      {errors.beneficiaryAddressStreet2 && touched.beneficiaryAddressStreet2 && <span className="c-error"><span>{errors.beneficiaryAddressStreet2}</span></span>}
-                                    </div>
-                                    <div className="col-12 col-lg-6 input">
-                                      <TextField
-                                        label="Beneficiary Address Region"
-                                        name="beneficiaryAddressRegion"
-                                        placeholder=""
-                                        className="input-of-create cst"
-                                        fullWidth
-                                        value={values.beneficiaryAddressRegion}
-                                        autoComplete="off"
-                                        onChange={handleChange}
-                                      />
-                                      {errors.beneficiaryAddressRegion && touched.beneficiaryAddressRegion && <span className="c-error"><span>{errors.beneficiaryAddressRegion}</span></span>}
-                                    </div>
-                                    <div className="col-12 col-lg-6 input">
-                                      <TextField
-                                        label="Beneficiary Address City"
-                                        name="beneficiaryAddressCity"
-                                        placeholder=""
-                                        className="input-of-create cst"
-                                        fullWidth
-                                        value={values.beneficiaryAddressCity}
-                                        autoComplete="off"
-                                        onChange={handleChange}
-                                      />
-                                      {errors.beneficiaryAddressCity && touched.beneficiaryAddressCity && <span className="c-error"><span>{errors.beneficiaryAddressCity}</span></span>}
-                                    </div>
-                                    <div className="col-12 col-lg-6 input">
-                                      <TextField
-                                        label="Beneficiary Address PostalCode"
-                                        name="beneficiaryAddressPostalCode"
-                                        placeholder=""
-                                        className="input-of-create cst"
-                                        fullWidth
-                                        value={values.beneficiaryAddressPostalCode}
-                                        autoComplete="off"
-                                        onChange={handleChange}
-                                      />
-                                      {errors.beneficiaryAddressPostalCode && touched.beneficiaryAddressPostalCode && <span className="c-error"><span>{errors.beneficiaryAddressPostalCode}</span></span>}
-                                    </div>
-                                    <div className="col-12 col-lg-6 input">
+                                  </div>
+                                  <div className="col-12 col-lg-6 row m-0 p-0">
+                                    <div className="col-12 col-sm-4 input">
                                       <FormControl variant="outlined" fullWidth style={{ marginTop: 20 }}>
-                                        <InputLabel htmlFor="age-required">Beneficiary Address Country</InputLabel>
+                                        <InputLabel htmlFor="age-required">Bank Country</InputLabel>
                                         <Select
-                                          value={values.beneficiaryAddressCountry}
+                                          value={values.bankCountry}
                                           onChange={(e) => {
-                                            values.beneficiaryAddressCountry = e.target.value
-                                            this.setState({ isUpdated: true })
+                                            values.bankCountry = e.target.value;
+                                            this.setState({ isUpdated: true });
                                           }}
-                                          name="beneficiaryAddressCountry"
+                                          name="bankCountry"
                                         >
                                           <MenuItem value={'US'}>US</MenuItem>
                                           <MenuItem value={'VN'}>VN</MenuItem>
                                         </Select>
                                       </FormControl>
                                     </div>
+                                    <div className="col-12 col-sm-8 input">
+                                      <TextField
+                                        label="Bank Account Name"
+                                        name="bankAccountName"
+                                        placeholder=""
+                                        className="input-of-create cst"
+                                        fullWidth
+                                        value={values.bankAccountName}
+                                        autoComplete="off"
+                                        onChange={handleChange}
+                                      />
+                                      {errors.bankAccountName && touched.bankAccountName &&
+                                      <span className="c-error"><span>{errors.bankAccountName}</span></span>}
+                                    </div>
+                                  </div>
+                                  <div className="col-12 col-lg-6 input">
+                                    <FormControl variant="outlined" fullWidth style={{ marginTop: 20 }}>
+                                      <InputLabel htmlFor="age-required">Bank Account Type</InputLabel>
+                                      <Select
+                                        value={values.bankAccountType}
+                                        onChange={(e) => {
+                                          values.bankAccountType = e.target.value;
+                                          this.setState({ isUpdated: true });
+                                        }}
+                                        name="bankAccountType"
+                                      >
+                                        <MenuItem value={'checking'}>Checking</MenuItem>
+                                        <MenuItem value={'savings'}>Savings</MenuItem>
+                                      </Select>
+                                    </FormControl>
+                                  </div>
+                                  <div className="col-12 col-lg-6 input">
+                                    <TextField
+                                      label="Bank Account Number"
+                                      name="bankAccountNumber"
+                                      placeholder=""
+                                      className="input-of-create cst"
+                                      fullWidth
+                                      value={values.bankAccountNumber}
+                                      autoComplete="off"
+                                      onChange={handleChange}
+                                    />
+                                    {errors.bankAccountNumber && touched.bankAccountNumber &&
+                                    <span className="c-error"><span>{errors.bankAccountNumber}</span></span>}
+                                  </div>
+                                  <div className="col-12 col-lg-6 input">
+                                    <TextField
+                                      label="Bank Name"
+                                      name="bankName"
+                                      placeholder=""
+                                      className="input-of-create cst"
+                                      fullWidth
+                                      value={values.bankName}
+                                      autoComplete="off"
+                                      onChange={handleChange}
+                                    />
+                                    {errors.bankName && touched.bankName &&
+                                    <span className="c-error"><span>{errors.bankName}</span></span>}
+                                  </div>
+                                  <div className="col-12 col-lg-6 input">
+                                    <TextField
+                                      label="Beneficiary Address Street 1"
+                                      name="beneficiaryAddressStreet1"
+                                      placeholder=""
+                                      className="input-of-create cst"
+                                      fullWidth
+                                      value={values.beneficiaryAddressStreet1}
+                                      autoComplete="off"
+                                      onChange={handleChange}
+                                    />
+                                    {errors.beneficiaryAddressStreet1 && touched.beneficiaryAddressStreet1 &&
+                                    <span className="c-error"><span>{errors.beneficiaryAddressStreet1}</span></span>}
+                                  </div>
+                                  <div className="col-12 col-lg-6 input">
+                                    <TextField
+                                      label="Beneficiary Address Street 2"
+                                      name="beneficiaryAddressStreet2"
+                                      placeholder=""
+                                      className="input-of-create cst"
+                                      fullWidth
+                                      value={values.beneficiaryAddressStreet2}
+                                      autoComplete="off"
+                                      onChange={handleChange}
+                                    />
+                                    {errors.beneficiaryAddressStreet2 && touched.beneficiaryAddressStreet2 &&
+                                    <span className="c-error"><span>{errors.beneficiaryAddressStreet2}</span></span>}
+                                  </div>
+                                  <div className="col-12 col-lg-6 input">
+                                    <TextField
+                                      label="Beneficiary Address Region"
+                                      name="beneficiaryAddressRegion"
+                                      placeholder=""
+                                      className="input-of-create cst"
+                                      fullWidth
+                                      value={values.beneficiaryAddressRegion}
+                                      autoComplete="off"
+                                      onChange={handleChange}
+                                    />
+                                    {errors.beneficiaryAddressRegion && touched.beneficiaryAddressRegion &&
+                                    <span className="c-error"><span>{errors.beneficiaryAddressRegion}</span></span>}
+                                  </div>
+                                  <div className="col-12 col-lg-6 input">
+                                    <TextField
+                                      label="Beneficiary Address City"
+                                      name="beneficiaryAddressCity"
+                                      placeholder=""
+                                      className="input-of-create cst"
+                                      fullWidth
+                                      value={values.beneficiaryAddressCity}
+                                      autoComplete="off"
+                                      onChange={handleChange}
+                                    />
+                                    {errors.beneficiaryAddressCity && touched.beneficiaryAddressCity &&
+                                    <span className="c-error"><span>{errors.beneficiaryAddressCity}</span></span>}
+                                  </div>
+                                  <div className="col-12 col-lg-6 input">
+                                    <TextField
+                                      label="Beneficiary Address PostalCode"
+                                      name="beneficiaryAddressPostalCode"
+                                      placeholder=""
+                                      className="input-of-create cst"
+                                      fullWidth
+                                      value={values.beneficiaryAddressPostalCode}
+                                      autoComplete="off"
+                                      onChange={handleChange}
+                                    />
+                                    {errors.beneficiaryAddressPostalCode && touched.beneficiaryAddressPostalCode &&
+                                    <span className="c-error"><span>{errors.beneficiaryAddressPostalCode}</span></span>}
+                                  </div>
+                                  <div className="col-12 col-lg-6 input">
+                                    <FormControl variant="outlined" fullWidth style={{ marginTop: 20 }}>
+                                      <InputLabel htmlFor="age-required">Beneficiary Address Country</InputLabel>
+                                      <Select
+                                        value={values.beneficiaryAddressCountry}
+                                        onChange={(e) => {
+                                          values.beneficiaryAddressCountry = e.target.value;
+                                          this.setState({ isUpdated: true });
+                                        }}
+                                        name="beneficiaryAddressCountry"
+                                      >
+                                        <MenuItem value={'US'}>US</MenuItem>
+                                        <MenuItem value={'VN'}>VN</MenuItem>
+                                      </Select>
+                                    </FormControl>
                                   </div>
                                 </div>
                               </div>
-                            ) : (
-                                <div className="row container">
-                                  <div className="col">
-                                    <div className="title">ENTER ETHER ADDRESS</div>
-                                    <div className="row">
-                                      <div className="col-8">
-                                        <TextField
-                                          name="receiverAddress"
-                                          placeholder=""
-                                          className="input-of-create cst"
-                                          fullWidth
-                                          value={values.receiverAddress}
-                                          autoComplete="off"
-                                          onChange={handleChange}
-                                        />
-                                        {errors.receiverAddress && touched.receiverAddress && <span className="c-error"><span>{errors.receiverAddress}</span></span>}
-                                      </div>
-                                      <div className="col-4">
-                                        <TextField
-                                          disabled={true}
-                                          placeholder=""
-                                          className="input-of-create cst"
-                                          value={`${values.etherAmount} ETH`}
-                                          autoComplete="off"
-                                          fullWidth
-                                          onChange={handleChange}
-                                        />
-                                      </div>
-                                    </div>
+                            </div>
+                          ) : (
+                            <div className="row container">
+                              <div className="col">
+                                <div className="title">ENTER ETHER ADDRESS</div>
+                                <div className="row">
+                                  <div className="col-8">
+                                    <TextField
+                                      name="receiverAddress"
+                                      placeholder=""
+                                      className="input-of-create cst"
+                                      fullWidth
+                                      value={values.receiverAddress}
+                                      autoComplete="off"
+                                      onChange={handleChange}
+                                    />
+                                    {errors.receiverAddress && touched.receiverAddress &&
+                                    <span className="c-error"><span>{errors.receiverAddress}</span></span>}
+                                  </div>
+                                  <div className="col-4">
+                                    <TextField
+                                      disabled={true}
+                                      placeholder=""
+                                      className="input-of-create cst"
+                                      value={`${values.etherAmount} ETH`}
+                                      autoComplete="off"
+                                      fullWidth
+                                      onChange={handleChange}
+                                    />
                                   </div>
                                 </div>
-                              )
-                          }
-                          <div className="row" style={{ marginTop: 40 }}>
-                            <div className="col-12"></div>
-                            <div className="col-12">
-                              <label>
-                                <input type="checkbox" name="policy" value={values.policy} onChange={handleChange} />
-                                {' I certify that I am 18 years of age or older, and I agree to the Terms & Conditions.'}
-                              </label>
-                              {errors.policy && touched.policy && <span className="c-error"><span>{errors.policy}</span></span>}
+                              </div>
                             </div>
-                          </div>
-                          <div className="row">
-                            <div className="col-12">
-                              <Link to="/redeem" className="mr-4">
-                                {'Cancel'}
-                              </Link>
-                              <button disabled={true} className="c-btn c-btn-primary submit" type="submit">
-                                {isValid && isSubmitting ? <FontAwesomeIcon icon={faSpinnerThird} size="1x" spin style={{ marginRight: 10 }} /> : ''}
-                                {'Submit (comming soon)'}
-                              </button>
-                            </div>
+                          )
+                        }
+                        <div className="row" style={{ marginTop: 40 }}>
+                          <div className="col-12"></div>
+                          <div className="col-12">
+                            <label>
+                              <input type="checkbox" name="policy" value={values.policy} onChange={handleChange}/>
+                              {' I certify that I am 18 years of age or older, and I agree to the Terms & Conditions.'}
+                            </label>
+                            {errors.policy && touched.policy &&
+                            <span className="c-error"><span>{errors.policy}</span></span>}
                           </div>
                         </div>
-                      </form>
-                    )}
+                        <div className="row">
+                          <div className="col-12">
+                            <Link to="/redeem" className="mr-4">
+                              {'Cancel'}
+                            </Link>
+                            <button onClick={() => {
+                              alert('Comming soon');
+                              return false;
+                            }} className="c-btn c-btn-primary submit" type="submit">
+                              {isValid && isSubmitting ? <FontAwesomeIcon icon={faSpinnerThird} size="1x" spin
+                                                                          style={{ marginRight: 10 }}/> : ''}
+                              {'Submit'}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  )}
                 </Formik>
               </div>
             </div>

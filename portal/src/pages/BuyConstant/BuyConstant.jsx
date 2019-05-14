@@ -60,6 +60,8 @@ class BuyConstant extends React.Component {
   };
 
   onSubmit = async () => {
+    alert('Comming soon');
+    return;
     const { amount } = this.state;
     if (isNaN(amount) || amount <= 0) {
       return;
@@ -240,9 +242,9 @@ class BuyConstant extends React.Component {
                           }}/>
                         </div>
                         :
-                        <button disabled={amount <= 0 || true} className="c-btn c-btn-primary submit"
+                        <button disabled={amount <= 0} className="c-btn c-btn-primary submit"
                                 style={{ width: '100%' }} onClick={this.onSubmit}>
-                          Get Constant (Comming soon)
+                          Get Constant Token
                           &nbsp;<FontAwesomeIcon icon={faArrowRight}/>
                         </button>
                     }
