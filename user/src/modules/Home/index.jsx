@@ -181,7 +181,7 @@ class Home extends React.Component {
                     {"DCB Proposal "}
                     <FontAwesomeIcon icon={faAngleRight}/>
                   </button>
-                  {!isUserInBoard ?
+                  {isUserInBoard ?
                     <Link
                       className="c-btn c-bg-green"
                       // to={'/oracle/feed-price'}
