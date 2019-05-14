@@ -36,7 +36,6 @@ class Home extends React.Component {
     this.state = {
       candidate: {},
       dialogDCBProposal: false,
-      dialogGOVProposal: false,
       isLoading: false,
       bio: auth.profile.Bio,
     };
@@ -68,7 +67,6 @@ class Home extends React.Component {
       isUserInBoard,
       candidate,
       dcbParams,
-      govParams,
       proposalSellingAssets,
       proposalBuyingAssets,
 
@@ -79,9 +77,6 @@ class Home extends React.Component {
       updateBio,
       updateBioDialogOpen,
       updateBioDialogClose,
-
-      createGovProposalDialogOpen,
-      createGovProposalDialogClose,
 
       createDcbProposalDialogOpen,
       createDcbProposalDialogClose,
@@ -217,7 +212,6 @@ class Home extends React.Component {
           </div>
         </div>
 
-        {/*<GovTokens/>*/}
       </div>
     );
   }
@@ -227,14 +221,11 @@ export default connect(
   state => ({
     auth: state.auth,
     candidate: state.voting.userCandidate,
-    govParams: state.voting.govParams,
     dcbParams: state.voting.dcbParams,
     proposalBuyingAssets: state.voting.proposalBuyingAssets,
     proposalSellingAssets: state.voting.proposalSellingAssets,
     isUserInBoard: state.oracle.isUserInBoard,
-    createGovProposalDialog: state.voting.createGovProposalDialog,
     createDcbProposalDialog: state.voting.createDcbProposalDialog,
-    isCreatingGovProposal: state.voting.isCreatingGovProposal,
     isCreatingDcbProposal: state.voting.isCreatingDcbProposal
   }),
   {
@@ -245,8 +236,5 @@ export default connect(
     createDcbProposal: votingActions.createDcbProposal,
     createDcbProposalDialogOpen: votingActions.createDcbProposalDialogOpen,
     createDcbProposalDialogClose: votingActions.createDcbProposalDialogClose,
-    // createGovProposal: votingActions.createGovProposal,
-    // createGovProposalDialogOpen: votingActions.createGovProposalDialogOpen,
-    // createGovProposalDialogClose: votingActions.createGovProposalDialogClose,
   }
 )(Home);
