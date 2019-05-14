@@ -48,12 +48,14 @@ class Home extends React.Component {
   };
 
   apply = (boardType, ev, denyCall) => {
-    ev.preventDefault();
+    alert("Comming soon")
+    return;
+    /*ev.preventDefault();
     const {apply} = this.props;
 
     if (!denyCall) {
       apply(boardType)
-    }
+    }*/
   };
 
   render() {
@@ -171,12 +173,28 @@ class Home extends React.Component {
                     className="c-btn c-bg-green"
                     type="button"
                     onClick={() => {
-                      createDcbProposalDialogOpen()
+                      alert("Comming soon");
+                      return;
+                      createDcbProposalDialogOpen();
                     }}
                   >
                     {"DCB Proposal "}
                     <FontAwesomeIcon icon={faAngleRight}/>
                   </button>
+                  {!isUserInBoard ?
+                    <Link
+                      className="c-btn c-bg-green"
+                      // to={'/oracle/feed-price'}
+                      to={"/"}
+                      onClick={() => {
+                        alert("Comming soon");
+                        return false;
+                      }}
+                    >
+                      {"Oracle Proposal"}
+                      <FontAwesomeIcon icon={faAngleRight}/>
+                    </Link>
+                    : ""}
                 </div>
               </div>
             </div>
