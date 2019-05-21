@@ -18,7 +18,7 @@ class Header extends React.Component {
     return (
       <>
 
-        <RootHeader/>
+        {/*<RootHeader/>*/}
         <header className="explorer-header c-shadow-bottom">
           <div className="container">
             <div className="row">
