@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {getBlockchainInfo} from '@/reducers/constant/action';
-import {Link} from 'react-router-dom';
-import {formatBlocksHeight, formatConstantValue, formatHashStr} from "../services/formatter";
-import BrowserDetect from "../services/browserdetect"
+import { connect } from 'react-redux';
+import { getBlockchainInfo } from '@/reducers/constant/action';
+import { Link } from 'react-router-dom';
+import { formatBlocksHeight, formatConstantValue, formatHashStr } from '../services/formatter';
+import BrowserDetect from '../services/browserdetect';
 
 class Chains extends React.Component {
   static propTypes = {
@@ -15,7 +15,7 @@ class Chains extends React.Component {
   constructor(props) {
     super(props);
 
-    const {chainInfo} = this.props;
+    const { chainInfo } = this.props;
 
     this.state = {
       chainInfo,
@@ -27,18 +27,18 @@ class Chains extends React.Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.chainInfo.updatedAt !== prevState.chainInfo.updatedAt) {
-      return {chainInfo: nextProps.chainInfo};
+      return { chainInfo: nextProps.chainInfo };
     }
     return null;
   }
 
   loadData = () => {
-    const {actionGetBlockChainInfo} = this.props;
+    const { actionGetBlockChainInfo } = this.props;
     actionGetBlockChainInfo();
   };
 
   render() {
-    const {chainInfo} = this.state;
+    const { chainInfo } = this.state;
     if (!chainInfo.ChainName) {
       return null;
     }
@@ -70,26 +70,6 @@ class Chains extends React.Component {
         </div>
         <div className="container">
           <div className="row">
-            <div className="col-12">
-              <div className="block content">
-                <table className="c-table c-table-list">
-                  <tbody>
-                  <tr>
-                    <td>Remain salary fund</td>
-                    <td>{formatConstantValue(blockBeacon.SalaryFund / 100)} PRV</td>
-                  </tr>
-                  <tr>
-                    <td>Basic salary</td>
-                    <td>{(blockBeacon.BasicSalary / 100).toLocaleString(navigator.language, {minimumFractionDigits: 2})} PRV</td>
-                  </tr>
-                  <tr>
-                    <td>Salary per TX</td>
-                    <td>{(blockBeacon.SalaryPerTx / 100).toLocaleString(navigator.language, {minimumFractionDigits: 2})} PRV</td>
-                  </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
             {Object.keys(bestBlocks)
               .map((key) => {
                 if (key == -1) {

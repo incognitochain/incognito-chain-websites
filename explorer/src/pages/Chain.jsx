@@ -127,18 +127,6 @@ class Chain extends React.Component {
                     <td className="c-hash"
                         title={chainBlock.BlockProducer}>{formatProducerStr(chainBlock.BlockProducer, BrowserDetect.isMobile)}</td>
                   </tr>
-                  <tr>
-                    <td>Remain salary fund</td>
-                    <td>{formatConstantValue(chainBlock.SalaryFund / 100)} PRV</td>
-                  </tr>
-                  <tr>
-                    <td>Basic salary</td>
-                    <td>{(chainBlock.BasicSalary / 100).toLocaleString(navigator.language, { minimumFractionDigits: 2 })} PRV</td>
-                  </tr>
-                  <tr>
-                    <td>Salary per TX</td>
-                    <td>{(chainBlock.SalaryPerTx / 100).toLocaleString(navigator.language, { minimumFractionDigits: 2 })} PRV</td>
-                  </tr>
                   <tr style={{ display: `${this.isBeacon(chainId) ? 'none' : 'contents'}` }}>
                     <td>Total TXs</td>
                     <td>{chainBlock.TotalTxs.toLocaleString(navigator.language, { minimumFractionDigits: 0 })}</td>
