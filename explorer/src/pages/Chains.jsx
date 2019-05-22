@@ -76,15 +76,15 @@ class Chains extends React.Component {
                   <tbody>
                   <tr>
                     <td>Remain salary fund</td>
-                    <td>{formatConstantValue(blockBeacon.SalaryFund / 100)} CONST</td>
+                    <td>{formatConstantValue(blockBeacon.SalaryFund / 100)} PRV</td>
                   </tr>
                   <tr>
                     <td>Basic salary</td>
-                    <td>{(blockBeacon.BasicSalary / 100).toLocaleString(navigator.language, {minimumFractionDigits: 2})} CONST</td>
+                    <td>{(blockBeacon.BasicSalary / 100).toLocaleString(navigator.language, {minimumFractionDigits: 2})} PRV</td>
                   </tr>
                   <tr>
                     <td>Salary per TX</td>
-                    <td>{(blockBeacon.SalaryPerTx / 100).toLocaleString(navigator.language, {minimumFractionDigits: 2})} CONST</td>
+                    <td>{(blockBeacon.SalaryPerTx / 100).toLocaleString(navigator.language, {minimumFractionDigits: 2})} PRV</td>
                   </tr>
                   </tbody>
                 </table>
