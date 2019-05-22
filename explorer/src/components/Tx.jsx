@@ -18,7 +18,7 @@ class Tx extends React.Component {
       return 'Paid Salary';
     }
     if (type == 'n') {
-      return 'Transfer constant';
+      return 'Transfer PRV';
     }
     if (type == 't') {
       return 'Init/Transfer custom token';
@@ -51,7 +51,7 @@ class Tx extends React.Component {
         </tr>
         <tr>
           <td>Fee</td>
-          <td>{(tx.Fee / 100) > 1 ? (formatConstantValue(tx.Fee / 100)) + " costants" : (formatConstantValue(tx.Fee / 100)) + " constant"} </td>
+          <td>{(tx.Fee / 100) > 1 ? (formatConstantValue(tx.Fee / 100)) + " PRV" : (formatConstantValue(tx.Fee / 100)) + " PRV"} </td>
         </tr>
         <tr>
           <td>Lock time</td>
