@@ -2,20 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getPrivacyToken, getToken } from '@/reducers/constant/action';
+import { getPrivacyTokenTxs, getTokenTxs, getTokenHolder } from '@/reducers/constant/action';
 import queryString from 'query-string';
+import { formatTokenAmount } from '@/services/formatter';
 
 class Token extends React.Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
     token: PropTypes.object.isRequired,
     actionGetToken: PropTypes.func.isRequired,
+    actionGetPrivacyToken: PropTypes.func.isRequired,
+    actionGetTokenHolder: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
 
-    const { actionGetToken, actionGetPrivacyToken, token, match } = props;
+    const { actionGetToken, actionGetPrivacyToken, actionGetTokenHolder, token, match } = props;
     const { customTokenId } = match.params;
 
     this.state = {
@@ -27,6 +30,7 @@ class Token extends React.Component {
       actionGetPrivacyToken(customTokenId);
     } else {
       actionGetToken(customTokenId);
+      actionGetTokenHolder(customTokenId);
     }
   }
 
@@ -45,10 +49,7 @@ class Token extends React.Component {
 
   render() {
     const { token, customTokenId } = this.state;
-
-    console.log(token);
-    console.log(token[customTokenId]);
-
+    const { tokenHolders } = this.props;
     if (!token[customTokenId]) return null;
 
     return (
@@ -97,6 +98,34 @@ class Token extends React.Component {
                 </table>
               </div>
             </div>
+            <div className="col-12">
+              <div className="block content">
+                <div className="block-heading">
+                  Token Holders
+                </div>
+                <table className="c-table c-table-list">
+                  <thead>
+                  <tr>
+                    <th>Holder</th>
+                    <th>Balance</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {
+                    tokenHolders[customTokenId] ? Object.entries(tokenHolders[customTokenId].data)
+                      .map(([key, value]) => {
+                        return (
+                          <tr key={key}>
+                            <td>{key}</td>
+                            <td>{formatTokenAmount(value)}</td>
+                          </tr>
+                        );
+                      }) : null
+                  }
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -108,9 +137,11 @@ class Token extends React.Component {
 export default connect(
   state => ({
     token: state.constant.token,
+    tokenHolders: state.constant.tokenHolders,
   }),
   ({
-    actionGetToken: getToken,
-    actionGetPrivacyToken: getPrivacyToken,
+    actionGetToken: getTokenTxs,
+    actionGetPrivacyToken: getPrivacyTokenTxs,
+    actionGetTokenHolder: getTokenHolder,
   }),
 )(Token);

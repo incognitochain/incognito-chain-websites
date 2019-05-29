@@ -34,25 +34,26 @@ export default (state = {
   tx: {},
   txPending: {},
   token: {},
+  tokenHolders: {},
   search: {
     keyword: '',
     success: '',
-    updatedAt: Date.now()
+    updatedAt: Date.now(),
   },
   mempool: {
     info: {},
     updatedAt: Date.now(),
-    inited: false
+    inited: false,
   },
   tokens: {
     list: [],
     updatedAt: Date.now(),
-    inited: false
+    inited: false,
   },
   privacyTokens: {
     list: [],
     updatedAt: Date.now(),
-    inited: false
+    inited: false,
   },
 }, action) => {
   switch (action.type) {
@@ -229,7 +230,18 @@ export default (state = {
         token: {
           [action.params[0]]: {
             data: action.payload.Result,
-            updatedAt: Date.now()
+            updatedAt: Date.now(),
+          },
+        },
+      };
+    }
+    case `${ACTIONS.CONSTANT_TOKEN_HOLDER}_SUCCESS`: {
+      return {
+        ...state,
+        tokenHolders: {
+          [action.params[0]]: {
+            data: action.payload.Result,
+            updatedAt: Date.now(),
           },
         },
       };
