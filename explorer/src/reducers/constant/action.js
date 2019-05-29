@@ -72,3 +72,4 @@ export const getBlock = (blockHash, beacon = false) => {
 export const getTx = txHash => createRPCRequest('tx', false, ACTIONS.CONSTANT_TX, 'gettransactionbyhash', [txHash]);
 export const getTxPending = txHash => createRPCRequest('txPending', false, ACTIONS.CONSTANT_TX_PENDING, 'gettransactionbyhash', [txHash]);
 export const getToken = customTokenId => createRPCRequest('token', false, ACTIONS.CONSTANT_TOKEN, 'customtoken', [customTokenId]);
+export const getPrivacyToken = customTokenId => createRPCRequest('token', false, ACTIONS.CONSTANT_TOKEN, 'privacycustomtoken', [customTokenId]);

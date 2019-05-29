@@ -2,33 +2,38 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getToken } from '@/reducers/constant/action';
+import { getPrivacyToken, getToken } from '@/reducers/constant/action';
+import queryString from 'query-string';
 
 class Token extends React.Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
     token: PropTypes.object.isRequired,
     actionGetToken: PropTypes.func.isRequired,
-  }
+  };
 
   constructor(props) {
     super(props);
 
-    const { actionGetToken, token, match } = props;
+    const { actionGetToken, actionGetPrivacyToken, token, match } = props;
     const { customTokenId } = match.params;
 
     this.state = {
       customTokenId,
       token,
     };
-
-    actionGetToken(customTokenId);
+    const values = queryString.parse(props.location.search);
+    if (values.privacy) {
+      actionGetPrivacyToken(customTokenId);
+    } else {
+      actionGetToken(customTokenId);
+    }
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (
-      nextProps.token[prevState.customTokenId] ?.updatedAt
-        !== prevState.token[prevState.customTokenId] ?.updatedAt
+      nextProps.token[prevState.customTokenId]?.updatedAt
+      !== prevState.token[prevState.customTokenId]?.updatedAt
     ) {
       return { token: nextProps.token };
     }
@@ -76,18 +81,18 @@ class Token extends React.Component {
                 </div>
                 <table className="c-table c-table-list">
                   <thead>
-                    <tr>
-                      <th>Index</th>
-                      <th>Tx hash</th>
-                    </tr>
+                  <tr>
+                    <th>Index</th>
+                    <th>Tx hash</th>
+                  </tr>
                   </thead>
                   <tbody>
-                    {token[customTokenId].data.ListTxs.map((tx, index) => (
-                      <tr key={tx}>
-                        <td>{index}</td>
-                        <td><Link to={`/tx/${tx}`} className="c-hash">{tx}</Link></td>
-                      </tr>
-                    ))}
+                  {token[customTokenId].data.ListTxs.map((tx, index) => (
+                    <tr key={tx}>
+                      <td>{index}</td>
+                      <td><Link to={`/tx/${tx}`} className="c-hash">{tx}</Link></td>
+                    </tr>
+                  ))}
                   </tbody>
                 </table>
               </div>
@@ -106,5 +111,6 @@ export default connect(
   }),
   ({
     actionGetToken: getToken,
+    actionGetPrivacyToken: getPrivacyToken,
   }),
 )(Token);

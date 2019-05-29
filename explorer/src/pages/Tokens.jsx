@@ -80,7 +80,7 @@ class Tokens extends React.Component {
                     <tbody>
                     {tokens.list.length ? tokens.list.map(token => (
                       <tr key={token.ID}>
-                        <td className="c-hash"><Link to={`/token/${token.ID}`}><Avatar alt="avatar"
+                        <td className="c-hash"><Link to={`/token/${token.ID}?privacy=${token.IsPrivacy}`}><Avatar alt="avatar"
                                                                                        src={token.Image}/></Link>
                         </td>
                         <td className="c-hash">{token.Name}</td>
