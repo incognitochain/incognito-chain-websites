@@ -23,7 +23,7 @@ class Token extends React.Component {
       token,
     };
     const values = queryString.parse(props.location.search);
-    if (values.privacy) {
+    if (values.privacy === 'true') {
       actionGetPrivacyToken(customTokenId);
     } else {
       actionGetToken(customTokenId);
