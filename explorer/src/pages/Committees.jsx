@@ -42,75 +42,82 @@ class Committees extends React.Component {
                 </ul>
               </div>
             </div>
+          </div>
+          <div className="row">
             <div className="col-12">
               <div className="block content">
                 <div className="block-heading">Epoch {committees.Epoch}</div>
-                <div className="row">
-                  <div className="col-12 col-md-12">
-                    <div className="block-heading" style={{ fontSize: '15px' }}>Beacon Commmitee</div>
-                    <table
-                      className={cn('c-table', {
-                        'c-table-list': !isEmpty(committees.BeaconCommittee),
-                      })}
-                    >
-                      <tbody>
-                      {
-                        !isEmpty(committees.BeaconCommittee)
-                          ? Object.keys(committees.BeaconCommittee)
-                            .map((key, index) => (
-                              <tr key={key}>
-                                <td><Link to={`/chain/${index + 1}`}>{`#${index + 1}`}</Link></td>
-                                <td className="c-hash">{committees.BeaconCommittee[key]}</td>
-                              </tr>
-                            ))
-                          : (
-                            <tr>
-                              <td style={{ textAlign: 'center' }}>Empty</td>
-                            </tr>
-                          )
-                      }
-                      </tbody>
-                    </table>
-                  </div>
-                  {
-                    Object.keys(committees.ShardCommittee)
-                      .map((key, index) => {
-                        console.log(committees.ShardCommittee[key]);
-                        let shardCommittee = committees.ShardCommittee[key];
-                        return (
-                          <div className="col-12 col-md-12">
-                            <div className="block-heading" style={{ fontSize: '15px' }}>Shard {key} Committee
-                            </div>
-                            <table
-                              className={cn('c-table', {
-                                'c-table-list': !isEmpty(shardCommittee),
-                              })}
-                            >
-                              <tbody>
-                              {
-                                !isEmpty(shardCommittee)
-                                  ? Object.keys(shardCommittee)
-                                    .map((key, index) => (
-                                      <tr key={key}>
-                                        <td>{`#${index + 1}`}</td>
-                                        <td className="c-hash">{shardCommittee[key]}</td>
-                                      </tr>
-                                    ))
-                                  : (
-                                    <tr>
-                                      <td style={{ textAlign: 'center' }}>Empty</td>
-                                    </tr>
-                                  )
-                              }
-                              </tbody>
-                            </table>
-                          </div>
-                        );
-                      })
-                  }
-                </div>
               </div>
             </div>
+          </div>
+
+          <div className="row">
+            <div className="col-12 col-md-12">
+              <div className="block content">
+                <div className="block-heading" style={{ fontSize: '15px' }}>Beacon Commmitee</div>
+                <table
+                  className={cn('c-table', {
+                    'c-table-list': !isEmpty(committees.BeaconCommittee),
+                  })}
+                >
+                  <tbody>
+                  {
+                    !isEmpty(committees.BeaconCommittee)
+                      ? Object.keys(committees.BeaconCommittee)
+                        .map((key, index) => (
+                          <tr key={key}>
+                            <td>{`#${index + 1}`}</td>
+                            <td className="c-hash">{committees.BeaconCommittee[key]}</td>
+                          </tr>
+                        ))
+                      : (
+                        <tr>
+                          <td style={{ textAlign: 'center' }}>Empty</td>
+                        </tr>
+                      )
+                  }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            {
+              Object.keys(committees.ShardCommittee)
+                .map((key, index) => {
+                  console.log(committees.ShardCommittee[key]);
+                  let shardCommittee = committees.ShardCommittee[key];
+                  return (
+                    <div className="col-12 col-md-12">
+                      <div className="block content">
+                        <div className="block-heading" style={{ fontSize: '15px' }}>Shard {key} Committee
+                        </div>
+                        <table
+                          className={cn('c-table', {
+                            'c-table-list': !isEmpty(shardCommittee),
+                          })}
+                        >
+                          <tbody>
+                          {
+                            !isEmpty(shardCommittee)
+                              ? Object.keys(shardCommittee)
+                                .map((key, index) => (
+                                  <tr key={key}>
+                                    <td>{`#${index + 1}`}</td>
+                                    <td className="c-hash">{shardCommittee[key]}</td>
+                                  </tr>
+                                ))
+                              : (
+                                <tr>
+                                  <td style={{ textAlign: 'center' }}>Empty</td>
+                                </tr>
+                              )
+                          }
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  );
+                })
+            }
           </div>
         </div>
       </div>
