@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import cn from '@sindresorhus/class-names';
 import { getListCommittee } from '@/reducers/constant/action';
+import { formatBlocksHeight } from '@/services/formatter';
 
 class Committees extends React.Component {
   static propTypes = {
@@ -46,7 +47,7 @@ class Committees extends React.Component {
           <div className="row">
             <div className="col-12">
               <div className="block content">
-                <div className="block-heading">Epoch {committees.Epoch}</div>
+                <div className="block-heading">Epoch {formatBlocksHeight(committees.Epoch)}</div>
               </div>
             </div>
           </div>

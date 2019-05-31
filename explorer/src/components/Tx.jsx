@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatBlocksHeight, formatConstantValue } from '../services/formatter';
+import { formatBlocksHeight, formatCoinValue } from '../services/formatter';
 
 class Tx extends React.Component {
   static propTypes = {
@@ -48,7 +48,7 @@ class Tx extends React.Component {
         </tr>
         <tr>
           <td>Fee</td>
-          <td>{(tx.Fee / 100) > 1 ? (formatConstantValue(tx.Fee / 100)) + ' PRV' : (formatConstantValue(tx.Fee / 100)) + ' PRV'} </td>
+          <td>{(tx.Fee / 100) > 1 ? (formatCoinValue(tx.Fee / 100)) + ' PRV' : (formatCoinValue(tx.Fee / 100)) + ' PRV'} </td>
         </tr>
         <tr>
           <td>Lock time</td>

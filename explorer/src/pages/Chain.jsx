@@ -6,7 +6,7 @@ import { getBlocks, getBlockchainInfo } from '@/reducers/constant/action';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/pro-regular-svg-icons';
-import { formatBlocksHeight, formatConstantValue, formatHashStr, formatProducerStr } from '../services/formatter';
+import { formatBlocksHeight, formatCoinValue, formatHashStr, formatProducerStr } from '../services/formatter';
 import BrowserDetect from '../services/browserdetect';
 
 class Chain extends React.Component {

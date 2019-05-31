@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getBlockchainInfo } from '@/reducers/constant/action';
 import { Link } from 'react-router-dom';
-import { formatBlocksHeight, formatConstantValue, formatHashStr } from '../services/formatter';
+import { formatBlocksHeight, formatCoinValue, formatHashStr } from '../services/formatter';
 import BrowserDetect from '../services/browserdetect';
 
 class Chains extends React.Component {
