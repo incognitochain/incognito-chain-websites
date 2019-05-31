@@ -31,7 +31,7 @@ export default (state = {
         isNotFound: true,
       };
     }
-    case `${CONSTANT_ACTIONS.CONSTANT_CANDIDATE}_FAILED`: {
+    case `${CONSTANT_ACTIONS.CONSTANT_LIST_COMMITTEE}_FAILED`: {
       return {
         ...state,
         isNotFound: true,

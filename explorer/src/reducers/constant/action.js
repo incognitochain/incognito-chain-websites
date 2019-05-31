@@ -4,7 +4,7 @@ export const ACTIONS = {
   CONSTANT_INFO: 'CONSTANT_INFO',
   CONSTANT_MEMPOOL: 'CONSTANT_MEMPOOL',
   CONSTANT_PRODUCER: 'CONSTANT_PRODUCER',
-  CONSTANT_CANDIDATE: 'CONSTANT_CANDIDATE',
+  CONSTANT_LIST_COMMITTEE: 'CONSTANT_LIST_COMMITTEE',
   CONSTANT_DCB: 'CONSTANT_DCB',
   CONSTANT_CB: 'CONSTANT_CB',
   CONSTANT_GOV: 'CONSTANT_GOV',
@@ -56,8 +56,7 @@ const createRPCRequest = (
 
 export const getBlockchainInfo = () => createRPCRequest('chainInfo', false, ACTIONS.CONSTANT_INFO, 'getblockchaininfo', '');
 export const getMempoolInfo = () => createRPCRequest('mempool', false, ACTIONS.CONSTANT_MEMPOOL, 'getmempoolinfo', []);
-export const getBlockProducer = () => createRPCRequest('producers', false, ACTIONS.CONSTANT_PRODUCER, 'getblockproducer', []);
-export const getCommitteeCandidate = () => createRPCRequest('candidates', false, ACTIONS.CONSTANT_CANDIDATE, 'getcommitteecandidate', []);
+export const getListCommittee = () => createRPCRequest('committees', false, ACTIONS.CONSTANT_LIST_COMMITTEE, 'getcommitteelist', []);
 export const getDCB = () => createRPCRequest('dcb', false, ACTIONS.CONSTANT_DCB, 'getlistdcbboard', []);
 export const getBlocks = chainId => createRPCRequest('chainBlocks', true, ACTIONS.CONSTANT_BLOCKS, 'getblocks', [20, chainId]);
 export const getTokens = () => createRPCRequest('tokens', true, ACTIONS.CONSTANT_TOKENS, 'listcustomtoken', []);

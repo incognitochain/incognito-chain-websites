@@ -71,7 +71,7 @@ export default (state = {
         search: {
           keyword: action.params[0],
           success,
-          updatedAt: Date.now()
+          updatedAt: Date.now(),
         },
       };
     }
@@ -81,7 +81,7 @@ export default (state = {
         search: {
           keyword: action.params[0],
           success: '',
-          updatedAt: Date.now()
+          updatedAt: Date.now(),
         },
       };
     }
@@ -91,7 +91,7 @@ export default (state = {
         search: {
           keyword: '',
           success: '',
-          updatedAt: Date.now()
+          updatedAt: Date.now(),
         },
       };
     }
@@ -128,13 +128,10 @@ export default (state = {
       };
     }
     // committees
-    case `${ACTIONS.CONSTANT_CANDIDATE}_SUCCESS`: {
+    case `${ACTIONS.CONSTANT_LIST_COMMITTEE}_SUCCESS`: {
       return {
         ...state,
-        candidates: {
-          list: action.payload.Result,
-          updatedAt: Date.now()
-        },
+        commitees: action.payload.Result,
       };
     }
     // DCB
@@ -143,7 +140,7 @@ export default (state = {
         ...state,
         dcb: {
           list: action.payload.Result || [],
-          updatedAt: Date.now()
+          updatedAt: Date.now(),
         },
       };
     }
@@ -153,7 +150,7 @@ export default (state = {
         ...state,
         cb: {
           list: action.payload.Result || [],
-          updatedAt: Date.now()
+          updatedAt: Date.now(),
         },
       };
     }
@@ -163,7 +160,7 @@ export default (state = {
         ...state,
         gov: {
           list: action.payload.Result || [],
-          updatedAt: Date.now()
+          updatedAt: Date.now(),
         },
       };
     }
@@ -174,7 +171,7 @@ export default (state = {
         chainBlocks: {
           [action.params[1]]: {
             list: action.payload.Result,
-            updatedAt: Date.now()
+            updatedAt: Date.now(),
           },
         },
       };
@@ -185,7 +182,7 @@ export default (state = {
         ...state,
         tokens: {
           list: action.payload.Result.ListCustomToken,
-          updatedAt: Date.now()
+          updatedAt: Date.now(),
         },
       };
     }
@@ -195,7 +192,7 @@ export default (state = {
         ...state,
         privacyTokens: {
           list: action.payload.Result.ListCustomToken,
-          updatedAt: Date.now()
+          updatedAt: Date.now(),
         },
       };
     }
@@ -206,7 +203,7 @@ export default (state = {
         block: {
           [action.params[0]]: {
             data: action.payload.Result,
-            updatedAt: Date.now()
+            updatedAt: Date.now(),
           },
         },
       };
@@ -218,7 +215,7 @@ export default (state = {
         tx: {
           [action.params[0]]: {
             data: action.payload.Result,
-            updatedAt: Date.now()
+            updatedAt: Date.now(),
           },
         },
       };

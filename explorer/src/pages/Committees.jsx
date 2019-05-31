@@ -4,45 +4,32 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 import cn from '@sindresorhus/class-names';
-import { getCommitteeCandidate, getBlockProducer } from '@/reducers/constant/action';
+import { getListCommittee } from '@/reducers/constant/action';
 
-class CommitteeCandidate extends React.Component {
+class Committees extends React.Component {
   static propTypes = {
-    producers: PropTypes.object.isRequired,
-    candidates: PropTypes.object.isRequired,
-    actionGetBlockProducer: PropTypes.func.isRequired,
-    actionGetCommitteeCandidate: PropTypes.func.isRequired,
-  }
+    committees: PropTypes.object.isRequired,
+    actionGetListCommittee: PropTypes.func.isRequired,
+  };
 
   constructor(props) {
     super(props);
 
     this.state = {
-      producers: props.producers,
-      candidates: props.candidates,
+      committees: props.committees,
     };
   }
 
   componentDidMount() {
-    const { actionGetBlockProducer, actionGetCommitteeCandidate } = this.props;
-    actionGetBlockProducer();
-    actionGetCommitteeCandidate();
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.producers.updatedAt !== prevState.producers.updatedAt) {
-      return { producers: nextProps.producers };
-    }
-    if (nextProps.candidates.updatedAt !== prevState.candidates.updatedAt) {
-      return { candidates: nextProps.candidates };
-    }
-    return null;
+    const { actionGetListCommittee } = this.props;
+    actionGetListCommittee();
   }
 
   render() {
-    const { candidates, producers } = this.state;
-
-    if (isEmpty(producers.list)) return null;
+    const { committees } = this.props;
+    if (!committees) {
+      return null;
+    }
 
     return (
       <div className="c-explorer-page c-explorer-page-tx">
@@ -64,24 +51,25 @@ class CommitteeCandidate extends React.Component {
                     <div className="block-heading" style={{ fontSize: '15px' }}>Block producers</div>
                     <table
                       className={cn('c-table', {
-                        'c-table-list': !isEmpty(producers.list),
+                        'c-table-list': !isEmpty(committees.BeaconCommittee),
                       })}
                     >
                       <tbody>
-                        {
-                          !isEmpty(producers.list)
-                            ? Object.keys(producers.list).map((key, index) => (
+                      {
+                        !isEmpty(committees.BeaconCommittee)
+                          ? Object.keys(committees.BeaconCommittee)
+                            .map((key, index) => (
                               <tr key={key}>
                                 <td><Link to={`/chain/${index + 1}`}>{`#${index + 1}`}</Link></td>
-                                <td className="c-hash">{producers.list[key]}</td>
+                                <td className="c-hash">{committees.BeaconCommittee[key]}</td>
                               </tr>
                             ))
-                            : (
-                              <tr>
-                                <td style={{ textAlign: 'center' }}>Empty</td>
-                              </tr>
-                            )
-                        }
+                          : (
+                            <tr>
+                              <td style={{ textAlign: 'center' }}>Empty</td>
+                            </tr>
+                          )
+                      }
                       </tbody>
                     </table>
                   </div>
@@ -89,24 +77,25 @@ class CommitteeCandidate extends React.Component {
                     <div className="block-heading" style={{ fontSize: '15px' }}>Candidates</div>
                     <table
                       className={cn('c-table', {
-                        'c-table-list': !isEmpty(candidates.list),
+                        'c-table-list': !isEmpty(committees.ShardCommittee[0]),
                       })}
                     >
                       <tbody>
-                        {
-                          !isEmpty(candidates.list)
-                            ? Object.keys(candidates.list).map((key, index) => (
+                      {
+                        !isEmpty(committees.ShardCommittee[0])
+                          ? Object.keys(committees.ShardCommittee[0])
+                            .map((key, index) => (
                               <tr key={key}>
                                 <td>{`#${index + 1}`}</td>
-                                <td className="c-hash">{candidates.list[key]}</td>
+                                <td className="c-hash">{committees.ShardCommittee[0][key]}</td>
                               </tr>
                             ))
-                            : (
-                              <tr>
-                                <td style={{ textAlign: 'center' }}>Empty</td>
-                              </tr>
-                            )
-                        }
+                          : (
+                            <tr>
+                              <td style={{ textAlign: 'center' }}>Empty</td>
+                            </tr>
+                          )
+                      }
                       </tbody>
                     </table>
                   </div>
@@ -123,11 +112,9 @@ class CommitteeCandidate extends React.Component {
 
 export default connect(
   state => ({
-    producers: state.constant.producers,
-    candidates: state.constant.candidates,
+    committees: state.constant.commitees,
   }),
   ({
-    actionGetBlockProducer: getBlockProducer,
-    actionGetCommitteeCandidate: getCommitteeCandidate,
+    actionGetListCommittee: getListCommittee,
   }),
-)(CommitteeCandidate);
+)(Committees);
