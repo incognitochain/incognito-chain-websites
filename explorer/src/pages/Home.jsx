@@ -98,6 +98,8 @@ class Home extends React.Component {
     const bestBlocks = chainInfo.BestBlocks;
     const activeShards = chainInfo.ActiveShards;
 
+    const epoch = bestBlocks[-1].Epoch;
+
     const totalTxs = Object.keys(bestBlocks)
       .reduce(
         (accumulator, blockIndex) => (
@@ -148,7 +150,7 @@ class Home extends React.Component {
                     </Link>
                   </li>
                   <li>
-                    <Link to="/#best-blocks">
+                    <Link to="/chain/0">
                       <div className="data c-color-black">{formatBlocksHeight(totalBlocks)}</div>
                       <div className="title">Total blocks</div>
                     </Link>
@@ -157,6 +159,12 @@ class Home extends React.Component {
                     <Link to="/txs/pending">
                       <div className="data c-color-black">{formatBlocksHeight(totalTxs)}</div>
                       <div className="title">Total txs</div>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/committees">
+                      <div className="data c-color-black">{formatBlocksHeight(epoch)}</div>
+                      <div className="title">Epoch</div>
                     </Link>
                   </li>
                 </ul>
