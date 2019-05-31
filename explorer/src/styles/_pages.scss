@@ -1,50 +1,63 @@
 .c-explorer-page {
   padding: 20px 0;
+
   &.c-explorer-page-chains {
     .chain-item-content {
       color: get-gray('endeavour2');
     }
   }
+
   &.c-explorer-page-chain {
 
   }
+
   &.c-explorer-page-home {
     .home-top-info-container {
       padding-bottom: 0;
     }
+
     .home-search {
       @extend .c-bg-blue-900;
       color: #ffffff;
       border-radius: 10px;
+
       .title {
         font-weight: bold;
         font-size: 120%;
         margin-bottom: 10px;
       }
+
       .c-input {
         width: 100%;
       }
     }
+
     .home-top-info {
       position: relative;
       width: 100%;
+
       li {
         width: 20%;
+
         a {
           display: block;
           padding: 20px 0;
           text-align: center;
+
           &:hover {
             background-color: map-get($map: $blue, $key: 's-900');
+
             .data, .title {
               color: #ffffff !important;
             }
           }
+
           .data {
             font-weight: bold;
             font-size: 150%;
             line-height: 22px;
           }
+
           .title {
             @extend .c-color-gray-600;
           }
@@ -56,6 +69,7 @@
 
 .c-table {
   overflow: hidden;
+
   td {
     max-width: 400px;
     overflow: hidden;
@@ -71,5 +85,18 @@
 
   th {
     padding: 15px;
+  }
+
+  &.c-table-list {
+    tr {
+      td {
+        &:first-of-type {
+          &:after {
+            content: '';
+            padding-left: 2px;
+          }
+        }
+      }
+    }
   }
 }

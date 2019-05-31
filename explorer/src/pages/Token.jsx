@@ -90,7 +90,7 @@ class Token extends React.Component {
                   <tbody>
                   {token[customTokenId].data.ListTxs.map((tx, index) => (
                     <tr key={tx}>
-                      <td>{index}</td>
+                      <td>#{index + 1}</td>
                       <td><Link to={`/tx/${tx}`} className="c-hash">{tx}</Link></td>
                     </tr>
                   ))}
@@ -116,11 +116,15 @@ class Token extends React.Component {
                       .map(([key, value]) => {
                         return (
                           <tr key={key}>
-                            <td>{key}</td>
+                            <td>#{key + 1}</td>
                             <td>{formatTokenAmount(value)}</td>
                           </tr>
                         );
-                      }) : null
+                      }) : (
+                      <tr>
+                        <td colSpan={2} style={{ textAlign: 'center' }}>Can not get holder</td>
+                      </tr>
+                    )
                   }
                   </tbody>
                 </table>
