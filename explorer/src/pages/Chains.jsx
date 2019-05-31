@@ -22,7 +22,7 @@ class Chains extends React.Component {
     };
 
     this.loadData();
-    setInterval(this.loadData, 5000);
+    setInterval(this.loadData, 5 * 60 * 1000);
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
