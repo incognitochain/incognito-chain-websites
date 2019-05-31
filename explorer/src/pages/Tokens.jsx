@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-import {Link} from 'react-router-dom';
-import {getTokens, getPrivacyTokens} from '@/reducers/constant/action';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { getTokens, getPrivacyTokens } from '@/reducers/constant/action';
 import Avatar from '@material-ui/core/Avatar';
-import {formatTokenAmount} from "../services/formatter";
+import { formatTokenAmount } from '../services/formatter';
 
 class Tokens extends React.Component {
   static propTypes = {
@@ -17,7 +17,7 @@ class Tokens extends React.Component {
   constructor(props) {
     super(props);
 
-    const {actionGetTokens, actionGetPrivacyTokens, tokens, privacyTokens} = props;
+    const { actionGetTokens, actionGetPrivacyTokens, tokens, privacyTokens } = props;
 
     this.state = {
       tokens,
@@ -38,15 +38,20 @@ class Tokens extends React.Component {
   }
 
   render() {
-    let {tokens, privacyTokens} = this.state;
-
-    if (privacyTokens) {
-      for (let i = 0; i < privacyTokens.list.length; i++) {
-        tokens.list.push(privacyTokens.list[i]);
+    let { tokens, privacyTokens } = this.state;
+    let listTokens = {
+      list: [],
+    };
+    if (tokens) {
+      for (let i = 0; i < tokens.list.length; i++) {
+        listTokens.list.push(tokens.list[i]);
       }
     }
-
-    console.log(tokens);
+    if (privacyTokens) {
+      for (let i = 0; i < privacyTokens.list.length; i++) {
+        listTokens.list.push(privacyTokens.list[i]);
+      }
+    }
 
     return (
       <div className="c-explorer-page c-explorer-page-tokens">
@@ -78,10 +83,11 @@ class Tokens extends React.Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {tokens.list.length ? tokens.list.map(token => (
+                    {listTokens.list.length ? listTokens.list.map(token => (
                       <tr key={token.ID}>
-                        <td className="c-hash"><Link to={`/token/${token.ID}?privacy=${token.IsPrivacy}`}><Avatar alt="avatar"
-                                                                                       src={token.Image}/></Link>
+                        <td className="c-hash"><Link to={`/token/${token.ID}?privacy=${token.IsPrivacy}`}><Avatar
+                          alt="avatar"
+                          src={token.Image}/></Link>
                         </td>
                         <td className="c-hash">{token.Name}</td>
                         <td className="c-hash">{token.Symbol}</td>
@@ -90,7 +96,7 @@ class Tokens extends React.Component {
                         <td className="c-hash right">{formatTokenAmount(token.ListTxs?.length | 0)}</td>
                       </tr>
                     )) : <tr>
-                      <td style={{textAlign: 'center'}} colSpan={4}>Empty</td>
+                      <td style={{ textAlign: 'center' }} colSpan={4}>Empty</td>
                     </tr>}
                     </tbody>
                   </table>
