@@ -8,7 +8,6 @@ import { getListCommittee } from '@/reducers/constant/action';
 
 class Committees extends React.Component {
   static propTypes = {
-    committees: PropTypes.object.isRequired,
     actionGetListCommittee: PropTypes.func.isRequired,
   };
 
@@ -45,10 +44,10 @@ class Committees extends React.Component {
             </div>
             <div className="col-12">
               <div className="block content">
-                <div className="block-heading">Committees</div>
+                <div className="block-heading">Epoch {committees.Epoch}</div>
                 <div className="row">
-                  <div className="col-12 col-md-6">
-                    <div className="block-heading" style={{ fontSize: '15px' }}>Block producers</div>
+                  <div className="col-12 col-md-12">
+                    <div className="block-heading" style={{ fontSize: '15px' }}>Beacon Commmitee</div>
                     <table
                       className={cn('c-table', {
                         'c-table-list': !isEmpty(committees.BeaconCommittee),
@@ -73,32 +72,42 @@ class Committees extends React.Component {
                       </tbody>
                     </table>
                   </div>
-                  <div className="col-12 col-md-6">
-                    <div className="block-heading" style={{ fontSize: '15px' }}>Candidates</div>
-                    <table
-                      className={cn('c-table', {
-                        'c-table-list': !isEmpty(committees.ShardCommittee[0]),
-                      })}
-                    >
-                      <tbody>
-                      {
-                        !isEmpty(committees.ShardCommittee[0])
-                          ? Object.keys(committees.ShardCommittee[0])
-                            .map((key, index) => (
-                              <tr key={key}>
-                                <td>{`#${index + 1}`}</td>
-                                <td className="c-hash">{committees.ShardCommittee[0][key]}</td>
-                              </tr>
-                            ))
-                          : (
-                            <tr>
-                              <td style={{ textAlign: 'center' }}>Empty</td>
-                            </tr>
-                          )
-                      }
-                      </tbody>
-                    </table>
-                  </div>
+                  {
+                    Object.keys(committees.ShardCommittee)
+                      .map((key, index) => {
+                        console.log(committees.ShardCommittee[key]);
+                        let shardCommittee = committees.ShardCommittee[key];
+                        return (
+                          <div className="col-12 col-md-12">
+                            <div className="block-heading" style={{ fontSize: '15px' }}>Shard {key} Committee
+                            </div>
+                            <table
+                              className={cn('c-table', {
+                                'c-table-list': !isEmpty(shardCommittee),
+                              })}
+                            >
+                              <tbody>
+                              {
+                                !isEmpty(shardCommittee)
+                                  ? Object.keys(shardCommittee)
+                                    .map((key, index) => (
+                                      <tr key={key}>
+                                        <td>{`#${index + 1}`}</td>
+                                        <td className="c-hash">{shardCommittee[key]}</td>
+                                      </tr>
+                                    ))
+                                  : (
+                                    <tr>
+                                      <td style={{ textAlign: 'center' }}>Empty</td>
+                                    </tr>
+                                  )
+                              }
+                              </tbody>
+                            </table>
+                          </div>
+                        );
+                      })
+                  }
                 </div>
               </div>
             </div>
