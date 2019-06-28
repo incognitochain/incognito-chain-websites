@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { getBlockchainInfo, checkHash } from '@/reducers/constant/action';
-import { Link } from 'react-router-dom';
-import { push } from 'connected-react-router';
-import { trim } from 'lodash';
-import { formatBlocksHeight, formatHashStr } from '../services/formatter';
+import {connect} from 'react-redux';
+import {getBlockchainInfo, checkHash} from '@/reducers/constant/action';
+import {Link} from 'react-router-dom';
+import {push} from 'connected-react-router';
+import {trim} from 'lodash';
+import {formatBlocksHeight, formatHashStr} from '../services/formatter';
 import BrowserDetect from '../services/browserdetect';
 
 class Home extends React.Component {
@@ -20,8 +20,8 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
 
-    const { chainInfo } = this.props;
-    const { search } = props;
+    const {chainInfo} = this.props;
+    const {search} = props;
 
     this.state = {
       chainInfo,
@@ -31,16 +31,17 @@ class Home extends React.Component {
       keyword: '',
     };
 
-    const { actionGetBlockChainInfo } = this.props;
+    const {actionGetBlockChainInfo} = this.props;
     actionGetBlockChainInfo();
+    setInterval(actionGetBlockChainInfo, 15 * 1000);
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.chainInfo.updatedAt !== prevState.chainInfo.updatedAt) {
-      return { chainInfo: nextProps.chainInfo };
+      return {chainInfo: nextProps.chainInfo};
     }
     if (nextProps.search.updatedAt !== prevState.searchUpdateAt) {
-      const { search } = nextProps;
+      const {search} = nextProps;
       if (search.keyword) {
         if (search.success) {
           return {
@@ -58,21 +59,21 @@ class Home extends React.Component {
   }
 
   componentDidUpdate() {
-    const { keyword, searchSuccess } = this.state;
-    const { dispatch } = this.props;
+    const {keyword, searchSuccess} = this.state;
+    const {dispatch} = this.props;
 
     if (searchSuccess) {
       switch (searchSuccess) {
         case 'tx':
-          dispatch({ type: 'CLEAR_SEARCH' });
+          dispatch({type: 'CLEAR_SEARCH'});
           dispatch(push(`/tx/${keyword}`));
           return;
         case 'pending':
-          dispatch({ type: 'CLEAR_SEARCH' });
+          dispatch({type: 'CLEAR_SEARCH'});
           dispatch(push(`/tx/pending/${keyword}`));
           return;
         case 'block':
-          dispatch({ type: 'CLEAR_SEARCH' });
+          dispatch({type: 'CLEAR_SEARCH'});
           dispatch(push(`/block/${keyword}`));
           return;
         default:
@@ -82,16 +83,16 @@ class Home extends React.Component {
   }
 
   submitSearch = (e) => {
-    const { actionCheckHash } = this.props;
+    const {actionCheckHash} = this.props;
 
     e.preventDefault();
     const keyword = trim(this.searchInput.value);
-    this.setState({ keyword });
+    this.setState({keyword});
     actionCheckHash(keyword);
   };
 
   render() {
-    const { chainInfo, searchError } = this.state;
+    const {chainInfo, searchError} = this.state;
     if (!chainInfo.ChainName) {
       return null;
     }

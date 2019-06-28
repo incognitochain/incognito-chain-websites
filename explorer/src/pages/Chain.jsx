@@ -35,7 +35,7 @@ class Chain extends React.Component {
     this.loadData(rawchainId);
     setInterval(() => {
       this.loadData(rawchainId);
-    }, 5 * 60 * 1000); // reload after 5 minutes
+    }, 15 * 1000); // reload after 5 minutes
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
