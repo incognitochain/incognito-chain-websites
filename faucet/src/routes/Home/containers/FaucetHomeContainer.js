@@ -28,6 +28,11 @@ const inlineStyle = {
     width: 24,
     height: 24,
     padding: 10,
+  },
+  logo: {
+    marginTop: 20,
+    fontSize: 20,
+    fontWeight: 'bold'
   }
 }
 
@@ -159,14 +164,14 @@ class FaucetHomePage extends React.Component {
       <div className="App">
         <Grid container>
           <div className="App-header">
-            <img className="logo" src={"https://www.myconstant.com/public/assets/logo-footer-88192f4c.svg"}></img>
-            <h2><FontAwesomeIcon icon="shower" size="2x"/>Constant Authenticated Faucet </h2>
+            <span style={inlineStyle.logo}>Incognito</span>
+            <h2><FontAwesomeIcon icon="shower" size="2x"/>Incognito Authenticated Faucet </h2>
             <div style={{width: '90%', maxWidth: 1280, display: "flex"}}>
 
               <Input
                 type="text"
                 fullWidth
-                placeholder="Social network URL containing your Constant address"
+                placeholder="Social network URL containing your Incognito address"
                 disableUnderline
                 style={{
                   padding: 5,
@@ -208,7 +213,7 @@ class FaucetHomePage extends React.Component {
             <div className="network-info">
               <p>
                 <FontAwesomeIcon icon="heartbeat"/>
-                Remain Balance: <strong>{formatConstantValue(balance / 100)}</strong> Constant</p>
+                Remain Balance: <strong>{formatConstantValue(balance / 100)}</strong> PRV</p>
               <p><FontAwesomeIcon
                 icon="rss"/>Connection: <strong>{networkInfo.Connections ? networkInfo.Connections : ''}</strong> peers
               </p>
@@ -233,8 +238,8 @@ class FaucetHomePage extends React.Component {
               <Grid item xs={8}>
 
                 <h3>How does this work?</h3>
-                <p>This Constant faucet is running on the network. To prevent malicious actors from exhausting all
-                  available funds or accumulating enough Constant to mount long running spam attacks, requests are tied
+                <p>This Incognito faucet is running on the network. To prevent malicious actors from exhausting all
+                  available funds or accumulating enough Incognito to mount long running spam attacks, requests are tied
                   to common 3rd party social network accounts. Anyone having a Twitter or Facebook account may request
                   funds within the permitted limits.</p>
 
@@ -247,7 +252,7 @@ class FaucetHomePage extends React.Component {
                   <div>
                     To request funds via Twitter, make a <a style={{color: "#bfbfce"}}
                                                             href="https://twitter.com/intent/tweet?text=0x0000000000000000000000000000000000000000."
-                                                            target="_about:blank"> tweet</a> with your Constant address
+                                                            target="_about:blank"> tweet</a> with your Incognito address
                     pasted into the contents (surrounding text doesn't matter).
                     <br/>Copy-paste the <a style={{color: "#bfbfce"}} href="https://support.twitter.com/articles/80586"
                                            target="_about:blank">tweets URL</a> into the above input box and fire away!
@@ -261,7 +266,7 @@ class FaucetHomePage extends React.Component {
                   </svg>
 
                   <div>
-                    To request funds via Facebook, publish a new <strong>public</strong> post with your Constant address
+                    To request funds via Facebook, publish a new <strong>public</strong> post with your Incognito address
                     embedded into the content (surrounding text doesn't matter).<br/>Copy-paste the <a
                     style={{color: "#bfbfce"}}
                     href="https://www.facebook.com/help/community/question/?id=282662498552845" target="_about:blank">posts
