@@ -16,6 +16,7 @@
   align-items: center;
   justify-content: center;
   color: white;
+  width: 100%;
 }
 
 .App-header h2 {
@@ -60,7 +61,7 @@ p {
 
 .how-to-work {
   display: flex;
-  text-align: left;
+  text-align: center;
   justify-content: center;
   margin-top: 30px;
   font-size: 14px;

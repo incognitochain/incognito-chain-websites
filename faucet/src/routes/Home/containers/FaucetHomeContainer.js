@@ -113,7 +113,7 @@ class FaucetHomePage extends React.Component {
       resultMessage = error;
     }
     if (result || result === true) {
-      resultMessage = "Successfully";
+      resultMessage = "Success! You got test PRV.";
       setTimeout(() => {
         window.location.reload();
       }, 200)
@@ -164,14 +164,14 @@ class FaucetHomePage extends React.Component {
       <div className="App">
         <Grid container>
           <div className="App-header">
-            <span style={inlineStyle.logo}>Incognito</span>
-            <h2><FontAwesomeIcon icon="shower" size="2x"/>Incognito Authenticated Faucet </h2>
-            <div style={{width: '90%', maxWidth: 1280, display: "flex"}}>
+            <span style={inlineStyle.logo}>Welcome to the Incognito Faucet.</span>
+            <p style={{maxWidth: '500px', margin: '20px 0px'}}>Get some test PRV to play with. Post your wallet address on twitter or facebook, then paste the URL that your post in the field below.</p>
+            <div style={{width: '100%', maxWidth: 700, display: "flex"}}>
 
               <Input
                 type="text"
                 fullWidth
-                placeholder="Social network URL containing your Incognito address"
+                placeholder="URL of the post containing your Incognito address"
                 disableUnderline
                 style={{
                   padding: 5,
@@ -198,12 +198,7 @@ class FaucetHomePage extends React.Component {
                   </div>
                   :
                   <div style={{display: "flex", width: "100%"}}>
-                    <div>Give me</div>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                      <path
-                        d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/>
-                      <path d="M0 0h24v24H0z" fill="none"/>
-                    </svg>
+                    <div>Give me privacy</div>
                   </div>
                 }
               </Button>
@@ -213,7 +208,7 @@ class FaucetHomePage extends React.Component {
             <div className="network-info">
               <p>
                 <FontAwesomeIcon icon="heartbeat"/>
-                Remain Balance: <strong>{formatConstantValue(balance / 100)}</strong> PRV</p>
+                Current Balance: <strong>{formatConstantValue(balance / 100)}</strong> PRV</p>
               <p><FontAwesomeIcon
                 icon="rss"/>Connection: <strong>{networkInfo.Connections ? networkInfo.Connections : ''}</strong> peers
               </p>
@@ -229,56 +224,20 @@ class FaucetHomePage extends React.Component {
                 - <strong>{blockChainInfo.BestBlocks ? formatBlocksHeight(this.getShardBlockHeight(blockChainInfo)) : ''}</strong> blocks
               </p>
             </div>
-            <div className="waiting-list">
-              {this.renderWaitingList(waitingList)}
-            </div>
-
+            {
+              waitingList && waitingList.length > 0 && (
+                <div className="waiting-list">
+                  <span>Addresses waiting to receive test PRV</span>
+                  {this.renderWaitingList(waitingList)}
+                </div>
+              )
+            }
             <div className="how-to-work">
+              <Grid item xs={6}>
 
-              <Grid item xs={8}>
-
-                <h3>How does this work?</h3>
-                <p>This Incognito faucet is running on the network. To prevent malicious actors from exhausting all
-                  available funds or accumulating enough Incognito to mount long running spam attacks, requests are tied
-                  to common 3rd party social network accounts. Anyone having a Twitter or Facebook account may request
-                  funds within the permitted limits.</p>
-
-                <div style={inlineStyle.socialItemStyle}>
-                  <svg style={inlineStyle.socialIconStyle} viewBox="0 0 24 24">
-                    <path fill="#fff"
-                          d="M22.46,6C21.69,6.35 20.86,6.58 20,6.69C20.88,6.16 21.56,5.32 21.88,4.31C21.05,4.81 20.13,5.16 19.16,5.36C18.37,4.5 17.26,4 16,4C13.65,4 11.73,5.92 11.73,8.29C11.73,8.63 11.77,8.96 11.84,9.27C8.28,9.09 5.11,7.38 3,4.79C2.63,5.42 2.42,6.16 2.42,6.94C2.42,8.43 3.17,9.75 4.33,10.5C3.62,10.5 2.96,10.3 2.38,10C2.38,10 2.38,10 2.38,10.03C2.38,12.11 3.86,13.85 5.82,14.24C5.46,14.34 5.08,14.39 4.69,14.39C4.42,14.39 4.15,14.36 3.89,14.31C4.43,16 6,17.26 7.89,17.29C6.43,18.45 4.58,19.13 2.56,19.13C2.22,19.13 1.88,19.11 1.54,19.07C3.44,20.29 5.7,21 8.12,21C16,21 20.33,14.46 20.33,8.79C20.33,8.6 20.33,8.42 20.32,8.23C21.16,7.63 21.88,6.87 22.46,6Z"/>
-                  </svg>
-
-                  <div>
-                    To request funds via Twitter, make a <a style={{color: "#bfbfce"}}
-                                                            href="https://twitter.com/intent/tweet?text=0x0000000000000000000000000000000000000000."
-                                                            target="_about:blank"> tweet</a> with your Incognito address
-                    pasted into the contents (surrounding text doesn't matter).
-                    <br/>Copy-paste the <a style={{color: "#bfbfce"}} href="https://support.twitter.com/articles/80586"
-                                           target="_about:blank">tweets URL</a> into the above input box and fire away!
-                  </div>
-                </div>
-
-                <div style={inlineStyle.socialItemStyle}>
-                  <svg style={inlineStyle.socialIconStyle} viewBox="0 0 24 24">
-                    <path fill="#fff"
-                          d="M17,2V2H17V6H15C14.31,6 14,6.81 14,7.5V10H14L17,10V14H14V22H10V14H7V10H10V6A4,4 0 0,1 14,2H17Z"/>
-                  </svg>
-
-                  <div>
-                    To request funds via Facebook, publish a new <strong>public</strong> post with your Incognito address
-                    embedded into the content (surrounding text doesn't matter).<br/>Copy-paste the <a
-                    style={{color: "#bfbfce"}}
-                    href="https://www.facebook.com/help/community/question/?id=282662498552845" target="_about:blank">posts
-                    URL</a> into the above input box and fire away!
-                  </div>
-                </div>
-
-
-                <p>You can track the current pending requests below the input field to see how much you have to wait
-                  until your turn comes.</p>
+                <h3>Why do I need to post my address on social media?</h3>
+                <p>Simply because it makes it very difficult for spammers or malicious actors to drain the faucet. You can delete the post after you receive PRV. There's enough Privacy to go round if everyone behaves responsibly.</p>
               </Grid>
-
             </div>
 
             <Dialog
