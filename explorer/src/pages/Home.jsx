@@ -76,6 +76,10 @@ class Home extends React.Component {
           dispatch({type: 'CLEAR_SEARCH'});
           dispatch(push(`/block/${keyword}`));
           return;
+        case 'beaconblock':
+          dispatch({type: 'CLEAR_SEARCH'});
+          dispatch(push(`/block/${keyword}?beacon=true`));
+          return;
         default:
           console.log('Not match type');
       }

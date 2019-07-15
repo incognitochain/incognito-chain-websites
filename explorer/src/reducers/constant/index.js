@@ -63,6 +63,9 @@ export default (state = {
       if (action.payload.Result.IsBlock) {
         success = 'block';
       }
+      if (action.payload.Result.IsBeaconBlock) {
+        success = 'beaconblock';
+      }
       if (action.payload.Result.IsTransaction) {
         success = 'tx';
       }
