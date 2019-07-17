@@ -1,15 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { isEmpty } from 'lodash';
+import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
+import {isEmpty} from 'lodash';
 import cn from '@sindresorhus/class-names';
-import { getListCommittee } from '@/reducers/constant/action';
-import { formatBlocksHeight } from '@/services/formatter';
+import {getListCommittee, getListRewardAmount} from '@/reducers/constant/action';
+import {formatBlocksHeight} from '@/services/formatter';
 
 class Committees extends React.Component {
   static propTypes = {
     actionGetListCommittee: PropTypes.func.isRequired,
+    actionGetListRewardAmount: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -17,19 +18,22 @@ class Committees extends React.Component {
 
     this.state = {
       committees: props.committees,
+      commiteesRewardAmount: props.commiteesRewardAmount,
     };
   }
 
-  componentDidMount() {
-    const { actionGetListCommittee } = this.props;
-    actionGetListCommittee();
+  async componentDidMount() {
+    const {actionGetListCommittee, actionGetListRewardAmount} = this.props;
+    await actionGetListCommittee();
+    await actionGetListRewardAmount();
   }
 
   render() {
-    const { committees } = this.props;
-    if (!committees) {
+    const {committees, commiteesRewardAmount} = this.props;
+    if (!committees || !commiteesRewardAmount) {
       return null;
     }
+    const PRV = '0000000000000000000000000000000000000000000000000000000000000004'
 
     return (
       <div className="c-explorer-page c-explorer-page-tx">
@@ -55,25 +59,32 @@ class Committees extends React.Component {
           <div className="row">
             <div className="col-12 col-md-12">
               <div className="block content">
-                <div className="block-heading" style={{ fontSize: '15px' }}>Beacon Commmitee</div>
+                <div className="block-heading" style={{fontSize: '15px'}}>Beacon Commmitee</div>
                 <table
                   className={cn('c-table', {
                     'c-table-list': !isEmpty(committees.BeaconCommittee),
                   })}
                 >
+                  <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Public Key in base58heck.encode</th>
+                    <th>PRV Reward</th>
+                  </tr>
+                  </thead>
                   <tbody>
                   {
                     !isEmpty(committees.BeaconCommittee)
-                      ? Object.keys(committees.BeaconCommittee)
-                        .map((key, index) => (
-                          <tr key={key}>
-                            <td>{`#${index + 1}`}</td>
-                            <td className="c-hash">{committees.BeaconCommittee[key]}</td>
-                          </tr>
-                        ))
+                      ? committees.BeaconCommittee.map((value, index) => (
+                        <tr key={value}>
+                          <td>{`${index + 1}`}</td>
+                          <td className="c-hash">{value}</td>
+                          <td className="c-hash">{commiteesRewardAmount[value][PRV]}</td>
+                        </tr>
+                      ))
                       : (
                         <tr>
-                          <td style={{ textAlign: 'center' }}>Empty</td>
+                          <td style={{textAlign: 'center'}}>Empty</td>
                         </tr>
                       )
                   }
@@ -89,26 +100,33 @@ class Committees extends React.Component {
                   return (
                     <div className="col-12 col-md-12">
                       <div className="block content">
-                        <div className="block-heading" style={{ fontSize: '15px' }}>Shard {key} Committee
+                        <div className="block-heading" style={{fontSize: '15px'}}>Shard {key} Committee
                         </div>
                         <table
                           className={cn('c-table', {
                             'c-table-list': !isEmpty(shardCommittee),
                           })}
                         >
+                          <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Public Key in base58heck.encode</th>
+                            <th>PRV Reward</th>
+                          </tr>
+                          </thead>
                           <tbody>
                           {
                             !isEmpty(shardCommittee)
-                              ? Object.keys(shardCommittee)
-                                .map((key, index) => (
-                                  <tr key={key}>
-                                    <td>{`#${index + 1}`}</td>
-                                    <td className="c-hash">{shardCommittee[key]}</td>
-                                  </tr>
-                                ))
+                              ? shardCommittee.map((value, index) => (
+                                <tr key={key}>
+                                  <td>{`${index + 1}`}</td>
+                                  <td className="c-hash">{value}</td>
+                                  <td className="c-hash">{commiteesRewardAmount[value][PRV]}</td>
+                                </tr>
+                              ))
                               : (
                                 <tr>
-                                  <td style={{ textAlign: 'center' }}>Empty</td>
+                                  <td style={{textAlign: 'center'}}>Empty</td>
                                 </tr>
                               )
                           }
@@ -130,8 +148,10 @@ class Committees extends React.Component {
 export default connect(
   state => ({
     committees: state.constant.commitees,
+    commiteesRewardAmount: state.constant.commiteesRewardAmount,
   }),
   ({
     actionGetListCommittee: getListCommittee,
+    actionGetListRewardAmount: getListRewardAmount,
   }),
 )(Committees);

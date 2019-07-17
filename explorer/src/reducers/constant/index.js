@@ -137,6 +137,13 @@ export default (state = {
         commitees: action.payload.Result,
       };
     }
+    // committees rewar amount
+    case `${ACTIONS.CONSTANT_LIST_REWARD_AMOUNT}_SUCCESS`: {
+      return {
+        ...state,
+        commiteesRewardAmount: action.payload.Result,
+      };
+    }
     // DCB
     case `${ACTIONS.CONSTANT_DCB}_SUCCESS`: {
       return {

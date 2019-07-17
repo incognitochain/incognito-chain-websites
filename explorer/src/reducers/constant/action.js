@@ -5,6 +5,7 @@ export const ACTIONS = {
   CONSTANT_MEMPOOL: 'CONSTANT_MEMPOOL',
   CONSTANT_PRODUCER: 'CONSTANT_PRODUCER',
   CONSTANT_LIST_COMMITTEE: 'CONSTANT_LIST_COMMITTEE',
+  CONSTANT_LIST_REWARD_AMOUNT: 'CONSTANT_LIST_REWARD_AMOUNT',
   CONSTANT_DCB: 'CONSTANT_DCB',
   CONSTANT_CB: 'CONSTANT_CB',
   CONSTANT_GOV: 'CONSTANT_GOV',
@@ -27,7 +28,7 @@ const emptyFn = () => {
 const createRPCRequest = (
   storeName, firebaseWatch, actionName, method, params, successFn = emptyFn, errorFn = emptyFn,
 ) => (dispatch) => {
-  dispatch({ type: actionName });
+  dispatch({type: actionName});
   axios.post(`${process.env.blockchainAPI}`, {
     jsonrpc: '1.0',
     method,
@@ -57,6 +58,7 @@ const createRPCRequest = (
 export const getBlockchainInfo = () => createRPCRequest('chainInfo', false, ACTIONS.CONSTANT_INFO, 'getblockchaininfo', '');
 export const getMempoolInfo = () => createRPCRequest('mempool', false, ACTIONS.CONSTANT_MEMPOOL, 'getmempoolinfo', []);
 export const getListCommittee = () => createRPCRequest('committees', false, ACTIONS.CONSTANT_LIST_COMMITTEE, 'getcommitteelist', []);
+export const getListRewardAmount = () => createRPCRequest('listrewardamount', false, ACTIONS.CONSTANT_LIST_REWARD_AMOUNT, 'listrewardamount', []);
 export const getDCB = () => createRPCRequest('dcb', false, ACTIONS.CONSTANT_DCB, 'getlistdcbboard', []);
 export const getBlocks = chainId => createRPCRequest('chainBlocks', true, ACTIONS.CONSTANT_BLOCKS, 'getblocks', [20, chainId]);
 export const getTokens = () => createRPCRequest('tokens', true, ACTIONS.CONSTANT_TOKENS, 'listcustomtoken', []);
