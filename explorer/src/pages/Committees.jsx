@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 import {isEmpty} from 'lodash';
 import cn from '@sindresorhus/class-names';
 import {getListCommittee, getListRewardAmount} from '@/reducers/constant/action';
-import {formatBlocksHeight} from '@/services/formatter';
+import {formatBlocksHeight, formatCoinValue} from '@/services/formatter';
 
 class Committees extends React.Component {
   static propTypes = {
@@ -79,7 +79,7 @@ class Committees extends React.Component {
                         <tr key={value}>
                           <td>{`${index + 1}`}</td>
                           <td className="c-hash">{value}</td>
-                          <td className="c-hash">{commiteesRewardAmount[value][PRV]}</td>
+                          <td className="c-hash">{formatCoinValue(commiteesRewardAmount[value][PRV] / 100)}</td>
                         </tr>
                       ))
                       : (
@@ -121,7 +121,7 @@ class Committees extends React.Component {
                                 <tr key={key}>
                                   <td>{`${index + 1}`}</td>
                                   <td className="c-hash">{value}</td>
-                                  <td className="c-hash">{commiteesRewardAmount[value][PRV]}</td>
+                                  <td className="c-hash">{formatCoinValue(commiteesRewardAmount[value][PRV] / 100)}</td>
                                 </tr>
                               ))
                               : (
