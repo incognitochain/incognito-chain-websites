@@ -100,7 +100,7 @@ class Committees extends React.Component {
                   return (
                     <div className="col-12 col-md-12">
                       <div className="block content">
-                        <div className="block-heading" style={{fontSize: '15px'}}>Shard {key} Committee
+                        <div className="block-heading" style={{fontSize: '15px'}}>Shard {key + 1} Committee
                         </div>
                         <table
                           className={cn('c-table', {
