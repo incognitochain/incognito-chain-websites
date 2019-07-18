@@ -48,7 +48,7 @@ class Tx extends React.Component {
         </tr>
         <tr>
           <td>Fee</td>
-          <td>{(tx.Fee / 100) > 1 ? (formatCoinValue(tx.Fee / 100)) + ' PRV' : (formatCoinValue(tx.Fee / 100)) + ' PRV'} </td>
+          <td>{(tx.Fee / 1e9) > 1 ? (formatCoinValue(tx.Fee / 1e9)) + ' PRV' : (formatCoinValue(tx.Fee / 1e9)) + ' PRV'} </td>
         </tr>
         <tr>
           <td>Lock time</td>

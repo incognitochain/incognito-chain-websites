@@ -170,9 +170,9 @@ class Chain extends React.Component {
                           to={`/block/${blockchain.Hash}/txs`}>{blockchain.TxHashes ? blockchain.TxHashes.length : 0}</Link>
                         </td>
                         <td
-                          className='center'>{blockchain.Fee ? ((blockchain.Fee / 100).toLocaleString(navigator.language, { minimumFractionDigits: 2 })) + ' PRV' : '-'}</td>
+                          className='center'>{blockchain.Fee ? ((blockchain.Fee / 1e9).toLocaleString(navigator.language, { minimumFractionDigits: 2 })) + ' PRV' : '-'}</td>
                         <td
-                          className='center'>{blockchain.Reward ? ((blockchain.Reward / 100).toLocaleString(navigator.language, { minimumFractionDigits: 2 })) + ' PRV' : '-'}</td>
+                          className='center'>{blockchain.Reward ? ((blockchain.Reward / 1e9).toLocaleString(navigator.language, { minimumFractionDigits: 2 })) + ' PRV' : '-'}</td>
                       </tr>
                     ))}
                     </tbody>
