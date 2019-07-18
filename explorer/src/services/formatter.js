@@ -21,5 +21,5 @@ export const formatTokenAmount = (value) => {
 };
 
 export const formatCoinValue = (value) => {
-  return value.toLocaleString(navigator.language, { minimumFractionDigits: 2 });
+  return value.toLocaleString(navigator.language, { minimumFractionDigits: 9 });
 };
