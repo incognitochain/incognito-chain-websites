@@ -208,7 +208,7 @@ class FaucetHomePage extends React.Component {
             <div className="network-info">
               <p>
                 <FontAwesomeIcon icon="heartbeat"/>
-                Current Balance: <strong>{formatConstantValue(balance / 100)}</strong> PRV</p>
+                Current Balance: <strong>{formatConstantValue(balance / 1e9)}</strong> PRV</p>
               <p><FontAwesomeIcon
                 icon="rss"/>Connection: <strong>{networkInfo.Connections ? networkInfo.Connections : ''}</strong> peers
               </p>
