@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatBlocksHeight, formatCoinValue } from '../services/formatter';
+import {formatBlocksHeight, formatCoinValue} from '../services/formatter';
 
 class Tx extends React.Component {
   static propTypes = {
@@ -29,7 +29,7 @@ class Tx extends React.Component {
   };
 
   render() {
-    const { tx } = this.props;
+    const {tx} = this.props;
 
     return (
       <table className="c-table">
@@ -69,31 +69,37 @@ class Tx extends React.Component {
           }}>{tx.Sig}</td>
         </tr>
         <tr>
-          <td style={{ verticalAlign: 'top' }}>Privacy transaction</td>
+          <td style={{verticalAlign: 'top'}}>Privacy transaction</td>
           <td>
             <strong>{tx.IsPrivacy ? 'true' : 'false'}</strong>
           </td>
         </tr>
         <tr>
-          <td style={{ verticalAlign: 'top' }}>Proof (base68ceheck encode)</td>
+          <td style={{verticalAlign: 'top'}}>More Information</td>
+          <td>
+            <i>{tx.Info}</i>
+          </td>
+        </tr>
+        <tr>
+          <td style={{verticalAlign: 'top'}}>Proof (base68ceheck encode)</td>
           <td>
             <textarea disabled={true} rows={10} cols={100}>{tx.Proof}</textarea>
           </td>
         </tr>
         <tr>
-          <td style={{ verticalAlign: 'top' }}>Proof Detail</td>
+          <td style={{verticalAlign: 'top'}}>Proof Detail</td>
           <td>
             <textarea disabled={true} rows={10} cols={100}>{JSON.stringify(tx.ProofDetail, null, '  ')}</textarea>
           </td>
         </tr>
         <tr>
-          <td style={{ verticalAlign: 'top' }}>Metadata</td>
+          <td style={{verticalAlign: 'top'}}>Metadata</td>
           <td>
             <textarea disabled={true} rows={10} cols={100}>{tx.Metadata == null ? '' : tx.Metadata}</textarea>
           </td>
         </tr>
         <tr>
-          <td style={{ verticalAlign: 'top' }}>Custom token</td>
+          <td style={{verticalAlign: 'top'}}>Custom token</td>
           <td>
             <textarea disabled={true} rows={10}
                       cols={100}>{tx.CustomTokenData == null ? '' : tx.CustomTokenData}</textarea>
@@ -101,7 +107,7 @@ class Tx extends React.Component {
         </tr>
 
         <tr>
-          <td style={{ verticalAlign: 'top' }}>Privacy Custom token</td>
+          <td style={{verticalAlign: 'top'}}>Privacy Custom token</td>
           <td>
             <textarea disabled={true} rows={10}
                       cols={100}>{tx.PrivacyCustomTokenData == null ? '' : tx.PrivacyCustomTokenData}</textarea>
