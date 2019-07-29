@@ -65,7 +65,11 @@ class TxsPending extends React.Component {
                   <tbody>
                   {mempool.info.ListTxs && mempool.info.ListTxs.length ? mempool.info.ListTxs.map(tx => (
                     <tr>
-                      <td className="c-hash">{formatHashStr(tx.TxID, BrowserDetect.isMobile)}</td>
+                      <td className="c-hash">
+                        <Link to={`/tx/${tx.TxID}`}>
+                          {formatHashStr(tx.TxID, BrowserDetect.isMobile)}
+                        </Link>
+                      </td>
                       <td className="c-hash">{new Date(tx.LockTime * 1000).toLocaleString()}</td>
                     </tr>
                   )) : <tr>
