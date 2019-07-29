@@ -172,7 +172,7 @@ class Chain extends React.Component {
                           to={`/block/${blockchain.Hash}/txs`}>{blockchain.TxHashes ? blockchain.TxHashes.length : 0}</Link>
                         </td>
                         <td>
-                          {moment(blockchain.time).format('DD/MM/YYYY, h:mm:ss A')}
+                          {moment.unix(blockchain.Time).format('DD/MM/YYYY, h:mm:ss A')}
                         </td>
                         <td
                           className='center'>{blockchain.Fee ? ((blockchain.Fee / 1e9).toLocaleString(navigator.language, { minimumFractionDigits: 2 })) + ' PRV' : '-'}</td>
