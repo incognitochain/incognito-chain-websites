@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import cn from '@sindresorhus/class-names';
 import { getBlocks, getBlockchainInfo } from '@/reducers/constant/action';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/pro-regular-svg-icons';
 import { formatBlocksHeight, formatCoinValue, formatHashStr, formatProducerStr } from '../services/formatter';
@@ -154,6 +155,7 @@ class Chain extends React.Component {
                       <th>Hash</th>
                       <th>Producer</th>
                       <th>Txn</th>
+                      <th>Created Time</th>
                       <th>TxS Fee</th>
                       <th>Reward</th>
                     </tr>
@@ -168,6 +170,9 @@ class Chain extends React.Component {
                         <td>{blockchain.BlockProducer ? formatProducerStr(blockchain.BlockProducer, BrowserDetect.isMobile) : '[Genesis block]'}</td>
                         <td className="c-hash right"><Link
                           to={`/block/${blockchain.Hash}/txs`}>{blockchain.TxHashes ? blockchain.TxHashes.length : 0}</Link>
+                        </td>
+                        <td>
+                          {moment(blockchain.time).format('DD/MM/YYYY, h:mm:ss A')}
                         </td>
                         <td
                           className='center'>{blockchain.Fee ? ((blockchain.Fee / 1e9).toLocaleString(navigator.language, { minimumFractionDigits: 2 })) + ' PRV' : '-'}</td>
