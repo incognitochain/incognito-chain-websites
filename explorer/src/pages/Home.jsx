@@ -7,6 +7,7 @@ import {push} from 'connected-react-router';
 import {trim} from 'lodash';
 import {formatBlocksHeight, formatHashStr} from '../services/formatter';
 import BrowserDetect from '../services/browserdetect';
+import moment from 'moment';
 
 class Home extends React.Component {
   static propTypes = {
@@ -249,6 +250,8 @@ class Home extends React.Component {
                           <tr key={key}>
                             <td><Link to={`/block/${bestBlocks[key].Hash}`}
                                       className="c-hash">{formatHashStr(bestBlocks[key].Hash, BrowserDetect.isMobile)}</Link>
+                              <br/>
+                              <i>{moment(bestBlocks[key].Time * 1000).fromNow()}</i>
                             </td>
                             <td className="right"><Link
                               to={`/chain/${parseInt(key, 10) + 1}`}>{parseInt(key, 10) + 1}</Link></td>
