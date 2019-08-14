@@ -5,7 +5,7 @@ import {getBlockchainInfo} from '@/reducers/constant/action';
 import {Link} from 'react-router-dom';
 import {formatBlocksHeight, formatCoinValue, formatHashStr} from '../services/formatter';
 import BrowserDetect from '../services/browserdetect';
-import moment from "./Home";
+import moment from "moment";
 
 class Chains extends React.Component {
   static propTypes = {
