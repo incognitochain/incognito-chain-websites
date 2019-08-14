@@ -198,7 +198,7 @@ class Block extends React.Component {
                           <td>{formatHashStr(block[blockHash].data.BeaconBlockHash, BrowserDetect.isMobile)}</td>
                         </tr>
                       </> : null}
-                    {this.isBeacon(chainId) ? <tr>
+                    {this.isBeacon(chainId) || true ? <tr>
                       <td style={{verticalAlign: 'top'}}>Instruction</td>
                       <td><textarea cols={120}
                                     rows={10}>{JSON.stringify(block[blockHash].data.Instructions, null, 2)}</textarea>
