@@ -156,6 +156,7 @@ class Chain extends React.Component {
                       <th>Producer</th>
                       <th>Txn</th>
                       <th>Created Time</th>
+                      <th>Duration</th>
                       <th>TxS Fee</th>
                       <th>Reward</th>
                     </tr>
@@ -173,6 +174,9 @@ class Chain extends React.Component {
                         </td>
                         <td>
                           {moment.unix(blockchain.Time).format('DD/MM/YYYY, h:mm:ss A')}
+                        </td>
+                        <td>
+                          {moment(blockchain.Time * 1000).fromNow()}
                         </td>
                         <td
                           className='center'>{blockchain.Fee ? ((blockchain.Fee / 1e9).toLocaleString(navigator.language, { minimumFractionDigits: 2 })) + ' PRV' : '-'}</td>

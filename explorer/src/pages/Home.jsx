@@ -217,6 +217,8 @@ class Home extends React.Component {
                     <tr key={-1}>
                       <td><Link to={`/block/${bestBlocks[-1].Hash}?beacon=true`}
                                 className="c-hash">{formatHashStr(bestBlocks[-1].Hash, BrowserDetect.isMobile)}</Link>
+                        <br/>
+                        <i>{moment(bestBlocks[-1].Time * 1000).fromNow()}</i>
                       </td>
                       <td className="right">{formatBlocksHeight(bestBlocks[-1].Height)}</td>
                     </tr>

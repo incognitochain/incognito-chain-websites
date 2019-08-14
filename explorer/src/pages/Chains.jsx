@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { getBlockchainInfo } from '@/reducers/constant/action';
-import { Link } from 'react-router-dom';
-import { formatBlocksHeight, formatCoinValue, formatHashStr } from '../services/formatter';
+import {connect} from 'react-redux';
+import {getBlockchainInfo} from '@/reducers/constant/action';
+import {Link} from 'react-router-dom';
+import {formatBlocksHeight, formatCoinValue, formatHashStr} from '../services/formatter';
 import BrowserDetect from '../services/browserdetect';
+import moment from "./Home";
 
 class Chains extends React.Component {
   static propTypes = {
@@ -15,7 +16,7 @@ class Chains extends React.Component {
   constructor(props) {
     super(props);
 
-    const { chainInfo } = this.props;
+    const {chainInfo} = this.props;
 
     this.state = {
       chainInfo,
@@ -27,18 +28,18 @@ class Chains extends React.Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.chainInfo.updatedAt !== prevState.chainInfo.updatedAt) {
-      return { chainInfo: nextProps.chainInfo };
+      return {chainInfo: nextProps.chainInfo};
     }
     return null;
   }
 
   loadData = () => {
-    const { actionGetBlockChainInfo } = this.props;
+    const {actionGetBlockChainInfo} = this.props;
     actionGetBlockChainInfo();
   };
 
   render() {
-    const { chainInfo } = this.state;
+    const {chainInfo} = this.state;
     if (!chainInfo.ChainName) {
       return null;
     }
@@ -84,7 +85,10 @@ class Chains extends React.Component {
                       <div className="chain-item-content">
                         <div>{`Height: ${formatBlocksHeight(block.Height)}`}</div>
                         <div
-                          className="c-hash">{`Best block: ${formatHashStr(block.Hash, true)}`}</div>
+                          className="c-hash">{`Best block: ${formatHashStr(block.Hash, true)}`}
+                          <br/>
+                          <i>{moment(block.Time * 1000).fromNow()}</i>
+                        </div>
                         <div>{`Total txs: ${formatBlocksHeight(block.TotalTxs)}`}</div>
                       </div>
                     </Link>
