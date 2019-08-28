@@ -94,7 +94,7 @@ class Chain extends React.Component {
                   <li><Link to="/">Explorer</Link></li>
                   <li><Link to="/chains">Shards list</Link></li>
                   <li><Link
-                    to={`/chain/${chainId}`}>{!this.isBeacon(chainId) ? `Shard #${chainId}` : '[Beacon Chain]'}</Link>
+                    to={`/chain/${chainId}`}>{!this.isBeacon(chainId) ? `Shard #${chainId - 1}` : '[Beacon Chain]'}</Link>
                   </li>
                 </ul>
               </div>
@@ -103,7 +103,7 @@ class Chain extends React.Component {
               <div className="block content">
                 <div className="row">
                   <div className="col-12 col-md-6">
-                    <h3>{!this.isBeacon(chainId) ? `Shard #${chainId}` : '[Beacon Chain]'}</h3>
+                    <h3>{!this.isBeacon(chainId) ? `Shard #${chainId - 1}` : '[Beacon Chain]'}</h3>
                   </div>
                   <div className="col-12 col-md-6">
                     <table className="c-table c-table-list">

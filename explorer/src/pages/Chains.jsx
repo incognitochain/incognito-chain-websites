@@ -81,7 +81,7 @@ class Chains extends React.Component {
                 return (
                   <div className="col-12 col-sm-6 col-md-6 chain-item" key={block.Hash}>
                     <Link to={`/chain/${index + 1}`} className="card">
-                      <strong className="chain-id">{`Shard #${index + 1}`}</strong>
+                      <strong className="chain-id">{`Shard #${index}`}</strong>
                       <div className="chain-item-content">
                         <div>{`Height: ${formatBlocksHeight(block.Height)}`}</div>
                         <div

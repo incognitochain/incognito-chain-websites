@@ -256,7 +256,7 @@ class Home extends React.Component {
                               <i>{moment(bestBlocks[key].Time * 1000).fromNow()}</i>
                             </td>
                             <td className="right"><Link
-                              to={`/chain/${parseInt(key, 10) + 1}`}>{parseInt(key, 10) + 1}</Link></td>
+                              to={`/chain/${parseInt(key, 10) + 1}`}>{parseInt(key, 10)}</Link></td>
                             <td className="right"><Link to={`/block/${bestBlocks[key].Hash}`}
                                                         className="c-hash">{formatBlocksHeight(bestBlocks[key].Height)}</Link>
                             </td>
