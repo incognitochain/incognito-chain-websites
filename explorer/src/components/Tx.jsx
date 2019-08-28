@@ -43,6 +43,10 @@ class Tx extends React.Component {
           <td>{tx.Version}</td>
         </tr>
         <tr>
+          <td>Tx of Shard</td>
+          <td>{tx.ShardID}</td>
+        </tr>
+        <tr>
           <td>Type</td>
           <td>{this.renderTxType(tx.Type)}</td>
         </tr>
