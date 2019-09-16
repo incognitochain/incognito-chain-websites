@@ -85,6 +85,9 @@ class Block extends React.Component {
       return null;
     }
 
+    const validateData = block[blockHash].data.ValidationData;
+    const validateDataObj = JSON.parse(validateData);
+
     return (
       <div className="c-explorer-page c-explorer-page-chains">
         <div className="container">
@@ -146,10 +149,6 @@ class Block extends React.Component {
                       <td>{block[blockHash].data.TxRoot}</td>
                     </tr>
                     <tr>
-                      <td>R</td>
-                      <td>{block[blockHash].data.R}</td>
-                    </tr>
-                    <tr>
                       <td>Round</td>
                       <td>{block[blockHash].data.Round}</td>
                     </tr>
@@ -179,13 +178,21 @@ class Block extends React.Component {
                         className="c-hash">{BrowserDetect.isMobile ? block[blockHash].data.BlockProducer.substring(5) : block[blockHash].data.BlockProducer}</td>
                     </tr>
                     <tr>
+                      <td style={{verticalAlign: 'top'}}>Validation data</td>
+                      <td
+                        className="c-hash">
+                        <textarea cols={50}
+                                  rows={10}>{BrowserDetect.isMobile ? block[blockHash].data.ValidationData.substring(5) : block[blockHash].data.ValidationData}</textarea>
+                      </td>
+                    </tr>
+                    <tr>
                       <td>Block producer Signature</td>
                       <td
-                        className="c-hash">{BrowserDetect.isMobile ? block[blockHash].data.BlockProducerSign.substring(5) + '...' : block[blockHash].data.BlockProducerSign}</td>
+                        className="c-hash">{BrowserDetect.isMobile ? validateDataObj.ProducerBLSSig.substring(5) + '...' : validateDataObj.ProducerBLSSig}</td>
                     </tr>
                     <tr>
                       <td>Aggregated Signature</td>
-                      <td>{block[blockHash].data.AggregatedSig}</td>
+                      <td>{validateDataObj.AggSig}</td>
                     </tr>
                     {!this.isBeacon(chainId) ?
                       <>
@@ -200,7 +207,7 @@ class Block extends React.Component {
                       </> : null}
                     {this.isBeacon(chainId) || true ? <tr>
                       <td style={{verticalAlign: 'top'}}>Instruction</td>
-                      <td><textarea cols={120}
+                      <td><textarea cols={50}
                                     rows={10}>{JSON.stringify(block[blockHash].data.Instructions, null, 2)}</textarea>
                       </td>
                     </tr> : null}
