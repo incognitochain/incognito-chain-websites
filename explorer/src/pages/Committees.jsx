@@ -68,7 +68,8 @@ class Committees extends React.Component {
                   <thead>
                   <tr>
                     <th>#</th>
-                    <th>Public Key in base58heck.encode</th>
+                    <th>Mining Key in base58check.encode</th>
+                    <th>Reward receiver in base58check.encode</th>
                     <th>PRV Reward</th>
                   </tr>
                   </thead>
@@ -79,7 +80,8 @@ class Committees extends React.Component {
                         <tr key={value}>
                           <td>{`${index + 1}`}</td>
                           <td className="c-hash">{value}</td>
-                          <td className="c-hash">{formatCoinValue(commiteesRewardAmount[value] ? commiteesRewardAmount[value][PRV] / 1e9 : 0)}</td>
+                          <td className="c-hash">{committees.BeaconRewardReceiver[index]}</td>
+                          <td className="c-hash">{formatCoinValue(commiteesRewardAmount[committees.BeaconRewardReceiver[index]] ? commiteesRewardAmount[committees.BeaconRewardReceiver[index]][PRV] / 1e9 : 0)}</td>
                         </tr>
                       ))
                       : (
@@ -97,6 +99,7 @@ class Committees extends React.Component {
                 .map((key, index) => {
                   console.log(committees.ShardCommittee[key]);
                   let shardCommittee = committees.ShardCommittee[key];
+                  let shardRewardReceiver = committees.ShardRewardReceiver[key];
                   return (
                     <div className="col-12 col-md-12">
                       <div className="block content">
@@ -110,7 +113,8 @@ class Committees extends React.Component {
                           <thead>
                           <tr>
                             <th>#</th>
-                            <th>Public Key in base58heck.encode</th>
+                            <th>Mining Key in base58check.encode</th>
+                            <th>Reward receiver in base58check.encode</th>
                             <th>PRV Reward</th>
                           </tr>
                           </thead>
@@ -121,7 +125,8 @@ class Committees extends React.Component {
                                 <tr key={key}>
                                   <td>{`${index + 1}`}</td>
                                   <td className="c-hash">{value}</td>
-                                  <td className="c-hash">{formatCoinValue(commiteesRewardAmount[value] ? commiteesRewardAmount[value][PRV] / 1e9 : 0)}</td>
+                                  <td className="c-hash">{shardRewardReceiver[index]}</td>
+                                  <td className="c-hash">{formatCoinValue(commiteesRewardAmount[shardRewardReceiver[index]] ? commiteesRewardAmount[shardRewardReceiver[index]][PRV] / 1e9 : 0)}</td>
                                 </tr>
                               ))
                               : (
