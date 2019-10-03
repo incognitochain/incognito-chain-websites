@@ -113,7 +113,7 @@ class Committees extends React.Component {
                                     value = value / 1e9;
                                   }
                                   return (
-                                    <span style={{display: "inline"}}>{name + ":" + value}</span>
+                                    <span style={{display: "block"}}>{name + ":" + value}</span>
                                   );
                                 } else {
                                   return <></>;
@@ -181,7 +181,7 @@ class Committees extends React.Component {
                                             value = value / 1e9;
                                           }
                                           return (
-                                            <span style={{display: "inline"}}>{name + ":" + value}</span>
+                                            <span style={{display: "block"}}>{name + ":" + value}</span>
                                           );
                                         } else {
                                           return <></>;
