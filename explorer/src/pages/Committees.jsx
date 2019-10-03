@@ -67,7 +67,7 @@ class Committees extends React.Component {
           <div className="row">
             <div className="col-12">
               <div className="block content">
-                <div className="block-heading">Epoch {formatBlocksHeight(committees.Epoch)}</div>
+                <div className="block-heading">Epoch {formatBlocksHeight(committees.Epoch)} - List Committee</div>
               </div>
             </div>
           </div>
@@ -205,7 +205,17 @@ class Committees extends React.Component {
                 })
             }
           </div>
+          <div>
+            <hr/>
+          </div>
           <div className="row">
+            <div className="col-12">
+              <div className="block content">
+                <div className="block-heading">Epoch {formatBlocksHeight(committees.Epoch)} - Waiting list</div>
+              </div>
+            </div>
+          </div>
+          <div className="row" style={{paddingTop: 20}}>
             <div className="col-12 col-md-12">
               <div className="block content">
                 <div className="block-heading" style={{fontSize: '15px'}}>Candidate committee for shard(waiting for next
