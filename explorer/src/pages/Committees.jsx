@@ -4,7 +4,12 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {isEmpty} from 'lodash';
 import cn from '@sindresorhus/class-names';
-import {getListCommittee, getListRewardAmount, getPrivacyTokens} from '@/reducers/constant/action';
+import {
+  getListCommittee,
+  getListRewardAmount,
+  getPrivacyTokens,
+  getBeaconBeststateDetail
+} from '@/reducers/constant/action';
 import {formatBlocksHeight, formatCoinValue} from '@/services/formatter';
 
 class Committees extends React.Component {
@@ -21,19 +26,21 @@ class Committees extends React.Component {
       committees: props.committees,
       commiteesRewardAmount: props.commiteesRewardAmount,
       privacyTokens: props.privacyTokens,
+      beaconBeststate: props.beaconBeststate,
     };
   }
 
   async componentDidMount() {
-    const {actionGetListCommittee, actionGetListRewardAmount, actionGetPrivacyTokens} = this.props;
+    const {actionGetListCommittee, actionGetListRewardAmount, actionGetPrivacyTokens, actionGetBeaconBeststate} = this.props;
     await actionGetListCommittee();
     await actionGetListRewardAmount();
     await actionGetPrivacyTokens();
+    await actionGetBeaconBeststate();
   }
 
   render() {
-    const {committees, commiteesRewardAmount, privacyTokens} = this.props;
-    if (!committees || !commiteesRewardAmount || !privacyTokens) {
+    const {committees, commiteesRewardAmount, privacyTokens, beaconBeststate} = this.props;
+    if (!committees || !commiteesRewardAmount || !privacyTokens || !beaconBeststate) {
       return null;
     }
 
@@ -198,6 +205,74 @@ class Committees extends React.Component {
                 })
             }
           </div>
+          <div className="row">
+            <div className="col-12 col-md-12">
+              <div className="block content">
+                <div className="block-heading" style={{fontSize: '15px'}}>Candidate committee for shard(waiting for next
+                  random)
+                </div>
+                <table class="c-table c-table-list">
+                  <thead>
+                  <tr>
+                    <th>Mining Key in base58check.encode</th>
+                    <th>Reward receiver in base58check.encode</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {
+                    beaconBeststate.data.CandidateShardWaitingForNextRandom ? beaconBeststate.data.CandidateShardWaitingForNextRandom.map((value, index) => {
+                      return (
+                        <tr>
+                          <td className="c-hash">{value.MiningPubKey.bls}</td>
+                          <td className="c-hash">{value.IncPubKey}</td>
+                        </tr>
+                      )
+                    }) : (
+                      <tr>
+                        <td style={{textAlign: 'center'}}>Empty</td>
+                      </tr>
+                    )
+                  }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-12 col-md-12">
+              <div className="block content">
+                <div className="block-heading" style={{fontSize: '15px'}}>Shard pending validator
+                </div>
+                <table className="c-table c-table-list">
+                  <thead>
+                  <tr>
+                    <th>Shard ID</th>
+                    <th>Mining Key in base58check.encode</th>
+                    <th>Reward receiver in base58check.encode</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {
+                    beaconBeststate.data.ShardPendingValidator ? Object.entries(beaconBeststate.data.ShardPendingValidator).map(([shardID, value]) => {
+                      return value.map((v, i) => {
+                        return <tr>
+                          <td className="c-hash">{shardID}</td>
+                          <td className="c-hash">{v.MiningPubKey.bls}</td>
+                          <td className="c-hash">{v.IncPubKey}</td>
+                        </tr>
+                      })
+
+                    }) : (
+                      <tr>
+                        <td style={{textAlign: 'center'}}>Empty</td>
+                      </tr>
+                    )
+                  }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -210,10 +285,12 @@ export default connect(
     committees: state.constant.commitees,
     commiteesRewardAmount: state.constant.commiteesRewardAmount,
     privacyTokens: state.constant.privacyTokens,
+    beaconBeststate: state.constant.beaconBeststate,
   }),
   ({
     actionGetListCommittee: getListCommittee,
     actionGetListRewardAmount: getListRewardAmount,
     actionGetPrivacyTokens: getPrivacyTokens,
+    actionGetBeaconBeststate: getBeaconBeststateDetail,
   }),
 )(Committees);

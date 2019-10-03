@@ -253,6 +253,15 @@ export default (state = {
         },
       };
     }
+    case `${ACTIONS.CONSTANT_BEACON_BEST_STATE}_SUCCESS`: {
+      return {
+        ...state,
+        beaconBeststate: {
+          data: action.payload.Result,
+          updatedAt: Date.now(),
+        },
+      };
+    }
     default: {
       return state;
     }

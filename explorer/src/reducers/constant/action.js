@@ -18,6 +18,7 @@ export const ACTIONS = {
   CONSTANT_TX_PENDING: 'CONSTANT_TX_PENDING',
   CONSTANT_TOKEN: 'CONSTANT_TOKEN',
   CONSTANT_TOKEN_HOLDER: 'CONSTANT_TOKEN_HOLDER',
+  CONSTANT_BEACON_BEST_STATE: 'CONSTANT_BEACON_BEST_STATE',
 };
 
 let idRequest = 1;
@@ -75,3 +76,4 @@ export const getTx = txHash => createRPCRequest('tx', false, ACTIONS.CONSTANT_TX
 export const getTokenTxs = customTokenId => createRPCRequest('token', false, ACTIONS.CONSTANT_TOKEN, 'customtoken', [customTokenId]);
 export const getTokenHolder = customTokenId => createRPCRequest('tokenHolders', false, ACTIONS.CONSTANT_TOKEN_HOLDER, 'customtokenholder', [customTokenId]);
 export const getPrivacyTokenTxs = customTokenId => createRPCRequest('token', false, ACTIONS.CONSTANT_TOKEN, 'privacycustomtoken', [customTokenId]);
+export const getBeaconBeststateDetail = () => createRPCRequest('beaconBeststate', false, ACTIONS.CONSTANT_BEACON_BEST_STATE, 'getbeaconbeststatedetail', []);
