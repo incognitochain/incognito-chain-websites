@@ -105,7 +105,7 @@ class Committees extends React.Component {
                             {
                               Object.keys(mapPrivacyTokens).map((key, i) => {
                                 var name = mapPrivacyTokens[key];
-                                if (commiteesRewardAmount[committees.BeaconRewardReceiver[index]] && commiteesRewardAmount[committees.BeaconRewardReceiver[index]][key]) {
+                                if (name.length > 0 && commiteesRewardAmount[committees.BeaconRewardReceiver[index]] && commiteesRewardAmount[committees.BeaconRewardReceiver[index]][key]) {
                                   var value = commiteesRewardAmount[committees.BeaconRewardReceiver[index]][key]
                                   if (key == PRV) {
                                     value = value / 1e9;
@@ -113,7 +113,7 @@ class Committees extends React.Component {
                                     value = value / 1e9;
                                   }
                                   return (
-                                    <span>{name + ":" + value}</span>
+                                    <span style={{display: "inline"}}>{name + ":" + value}</span>
                                   );
                                 } else {
                                   return <></>;
@@ -173,7 +173,7 @@ class Committees extends React.Component {
                                     {
                                       Object.keys(mapPrivacyTokens).map((key, i) => {
                                         var name = mapPrivacyTokens[key];
-                                        if ((commiteesRewardAmount[shardRewardReceiver[index]] && commiteesRewardAmount[shardRewardReceiver[index]][key])) {
+                                        if (name.length > 0 && (commiteesRewardAmount[shardRewardReceiver[index]] && commiteesRewardAmount[shardRewardReceiver[index]][key])) {
                                           var value = commiteesRewardAmount[shardRewardReceiver[index]][key]
                                           if (key == PRV) {
                                             value = value / 1e9;
@@ -181,7 +181,7 @@ class Committees extends React.Component {
                                             value = value / 1e9;
                                           }
                                           return (
-                                            <span>{name + ":" + value}</span>
+                                            <span style={{display: "inline"}}>{name + ":" + value}</span>
                                           );
                                         } else {
                                           return <></>;
