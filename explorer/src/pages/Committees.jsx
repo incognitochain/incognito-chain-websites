@@ -224,8 +224,11 @@ class Committees extends React.Component {
                 <table class="c-table c-table-list">
                   <thead>
                   <tr>
+                    <th>#</th>
                     <th>Mining Key in base58check.encode</th>
                     <th>Reward receiver in base58check.encode</th>
+                    <th>PRV Reward</th>
+                    <th>Token Reward</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -233,8 +236,32 @@ class Committees extends React.Component {
                     beaconBeststate.data.CandidateShardWaitingForNextRandom ? beaconBeststate.data.CandidateShardWaitingForNextRandom.map((value, index) => {
                       return (
                         <tr>
+                          <td>{`${index + 1}`}</td>
                           <td className="c-hash">{value.MiningPubKey.bls}</td>
                           <td className="c-hash">{value.IncPubKey}</td>
+                          <td
+                            className="c-hash">{formatCoinValue(commiteesRewardAmount[value.IncPubKey] ? commiteesRewardAmount[value.IncPubKey][PRV] / 1e9 : 0)}
+                          </td>
+                          <td className="c-hash">
+                            {
+                              Object.keys(mapPrivacyTokens).map((key, i) => {
+                                var name = mapPrivacyTokens[key];
+                                if (name.length > 0 && (commiteesRewardAmount[value.IncPubKey] && commiteesRewardAmount[value.IncPubKey][key])) {
+                                  var value = commiteesRewardAmount[value.IncPubKey][key]
+                                  if (key == PRV) {
+                                    value = value / 1e9;
+                                  } else {
+                                    value = value / 1e9;
+                                  }
+                                  return (
+                                    <span style={{display: "block"}}>{name + ":" + value}</span>
+                                  );
+                                } else {
+                                  return <></>;
+                                }
+                              })
+                            }
+                          </td>
                         </tr>
                       )
                     }) : (
@@ -256,6 +283,7 @@ class Committees extends React.Component {
                 <table className="c-table c-table-list">
                   <thead>
                   <tr>
+                    <th>#</th>
                     <th>Shard ID</th>
                     <th>Mining Key in base58check.encode</th>
                     <th>Reward receiver in base58check.encode</th>
@@ -265,9 +293,10 @@ class Committees extends React.Component {
                   </thead>
                   <tbody>
                   {
-                    beaconBeststate.data.ShardPendingValidator ? Object.entries(beaconBeststate.data.ShardPendingValidator).map(([shardID, value]) => {
+                    beaconBeststate.data.ShardPendingValidator ? Object.entries(beaconBeststate.data.ShardPendingValidator).map(([shardID, value], index) => {
                       return value.map((v, i) => {
                         return <tr>
+                          <td className="c-hash">{`${index + 1}`}</td>
                           <td className="c-hash">{shardID}</td>
                           <td className="c-hash">{v.MiningPubKey.bls}</td>
                           <td className="c-hash">{v.IncPubKey}</td>
