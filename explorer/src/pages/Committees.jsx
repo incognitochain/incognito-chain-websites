@@ -259,6 +259,8 @@ class Committees extends React.Component {
                     <th>Shard ID</th>
                     <th>Mining Key in base58check.encode</th>
                     <th>Reward receiver in base58check.encode</th>
+                    <th>PRV Reward</th>
+                    <th>Token Reward</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -269,6 +271,29 @@ class Committees extends React.Component {
                           <td className="c-hash">{shardID}</td>
                           <td className="c-hash">{v.MiningPubKey.bls}</td>
                           <td className="c-hash">{v.IncPubKey}</td>
+                          <td
+                            className="c-hash">{formatCoinValue(commiteesRewardAmount[v.IncPubKey] ? commiteesRewardAmount[v.IncPubKey][PRV] / 1e9 : 0)}
+                          </td>
+                          <td className="c-hash">
+                            {
+                              Object.keys(mapPrivacyTokens).map((key, i) => {
+                                var name = mapPrivacyTokens[key];
+                                if (name.length > 0 && (commiteesRewardAmount[v.IncPubKey] && commiteesRewardAmount[v.IncPubKey][key])) {
+                                  var value = commiteesRewardAmount[v.IncPubKey][key]
+                                  if (key == PRV) {
+                                    value = value / 1e9;
+                                  } else {
+                                    value = value / 1e9;
+                                  }
+                                  return (
+                                    <span style={{display: "block"}}>{name + ":" + value}</span>
+                                  );
+                                } else {
+                                  return <></>;
+                                }
+                              })
+                            }
+                          </td>
                         </tr>
                       })
 
