@@ -247,14 +247,14 @@ class Committees extends React.Component {
                               Object.keys(mapPrivacyTokens).map((key, i) => {
                                 var name = mapPrivacyTokens[key];
                                 if (name.length > 0 && (commiteesRewardAmount[value.IncPubKey] && commiteesRewardAmount[value.IncPubKey][key])) {
-                                  var value = commiteesRewardAmount[value.IncPubKey][key]
+                                  var valueToken = commiteesRewardAmount[value.IncPubKey][key]
                                   if (key == PRV) {
-                                    value = value / 1e9;
+                                    valueToken = valueToken / 1e9;
                                   } else {
-                                    value = value / 1e9;
+                                    valueToken = valueToken / 1e9;
                                   }
                                   return (
-                                    <span style={{display: "block"}}>{name + ":" + value}</span>
+                                    <span style={{display: "block"}}>{name + ":" + valueToken}</span>
                                   );
                                 } else {
                                   return <></>;
