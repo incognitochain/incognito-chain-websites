@@ -49,7 +49,7 @@ class Committees extends React.Component {
     privacyTokens.list.forEach(function (item, i) {
       mapPrivacyTokens[item.ID] = item.Symbol;
     })
-    // mapPrivacyTokens[PRV] = "PRV";
+    var indexPendingList = 0;
 
     return (
       <div className="c-explorer-page c-explorer-page-tx">
@@ -295,8 +295,9 @@ class Committees extends React.Component {
                   {
                     beaconBeststate.data.ShardPendingValidator ? Object.entries(beaconBeststate.data.ShardPendingValidator).map(([shardID, value], index) => {
                       return value.map((v, i) => {
-                        return <tr>
-                          <td className="c-hash">{`${index + 1}`}</td>
+                        indexPendingList++;
+                        return (<tr>
+                          <td className="c-hash">{`${indexPendingList}`}</td>
                           <td className="c-hash">{shardID}</td>
                           <td className="c-hash">{v.MiningPubKey.bls}</td>
                           <td className="c-hash">{v.IncPubKey}</td>
@@ -323,7 +324,7 @@ class Committees extends React.Component {
                               })
                             }
                           </td>
-                        </tr>
+                        </tr>)
                       })
 
                     }) : (
