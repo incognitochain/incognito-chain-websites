@@ -117,6 +117,21 @@ class Tx extends React.Component {
                       cols={100}>{tx.PrivacyCustomTokenData == null ? '' : tx.PrivacyCustomTokenData}</textarea>
           </td>
         </tr>
+
+        <tr>
+          <td style={{verticalAlign: 'top'}}>Privacy token's Proof detail</td>
+          <td>
+            <textarea disabled={true} rows={10}
+                      cols={100}>{tx.PrivacyCustomTokenProofDetail == null ? '' : JSON.stringify(tx.PrivacyCustomTokenProofDetail, '\t', '\t')}</textarea>
+          </td>
+        </tr>
+
+        <tr>
+          <td style={{verticalAlign: 'top'}}>Privacy token's privacy</td>
+          <td>
+            <textarea>{tx.PrivacyCustomTokenIsPrivacy}</textarea>
+          </td>
+        </tr>
         </tbody>
       </table>
     );
