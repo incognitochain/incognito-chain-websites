@@ -8,7 +8,8 @@ import {
   getListCommittee,
   getListRewardAmount,
   getPrivacyTokens,
-  getBeaconBeststateDetail
+  getBeaconBeststateDetail,
+  getProducersBlacklistDetail
 } from '@/reducers/constant/action';
 import {formatBlocksHeight, formatCoinValue} from '@/services/formatter';
 
@@ -27,23 +28,26 @@ class Committees extends React.Component {
       commiteesRewardAmount: props.commiteesRewardAmount,
       privacyTokens: props.privacyTokens,
       beaconBeststate: props.beaconBeststate,
+      producersBlacklistDetail: props.producersBlacklistDetail,
     };
   }
 
   async componentDidMount() {
-    const {actionGetListCommittee, actionGetListRewardAmount, actionGetPrivacyTokens, actionGetBeaconBeststate} = this.props;
+    const {actionGetListCommittee, actionGetListRewardAmount, actionGetPrivacyTokens, actionGetBeaconBeststate, actionGetProducersBlacklistDetail} = this.props;
     await actionGetListCommittee();
     await actionGetListRewardAmount();
     await actionGetPrivacyTokens();
-    await actionGetBeaconBeststate();
+    const beaconBestState = await actionGetBeaconBeststate();
+    if (beaconBestState && beaconBestState.data && beaconBestState.data.Result) {
+      await actionGetProducersBlacklistDetail(beaconBestState.data.Result.BeaconHeight);
+    }
   }
 
   render() {
-    const {committees, commiteesRewardAmount, privacyTokens, beaconBeststate} = this.props;
-    if (!committees || !commiteesRewardAmount || !privacyTokens || !beaconBeststate) {
+    const {committees, commiteesRewardAmount, privacyTokens, beaconBeststate, producersBlacklistDetail} = this.props;
+    if (!committees || !commiteesRewardAmount || !privacyTokens || !beaconBeststate || !producersBlacklistDetail) {
       return null;
     }
-
     const PRV = '0000000000000000000000000000000000000000000000000000000000000004'
     var mapPrivacyTokens = {}
     privacyTokens.list.forEach(function (item, i) {
@@ -338,6 +342,41 @@ class Committees extends React.Component {
               </div>
             </div>
           </div>
+          <div className="row">
+            <div className="col-12 col-md-12">
+              <div className="block content">
+                <div className="block-heading" style={{fontSize: '15px'}}>Black list
+                </div>
+                <table className="c-table c-table-list">
+                  <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Mining Key in base58check.encode</th>
+                    <th>Reward receiver in base58check.encode</th>
+                    <th>Count down in</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {
+                    producersBlacklistDetail.data ? producersBlacklistDetail.data.map((value, index) => {
+                        return (<tr>
+                          <td className="c-hash">{`${index + 1}`}</td>
+                          <td className="c-hash">{value.MiningPubKey.bls}</td>
+                          <td className="c-hash">{value.IncPubKey}</td>
+                          <td className="c-hash">{value.Epochs} epoch</td>
+                        </tr>)
+
+                    }) : (
+                      <tr>
+                        <td style={{textAlign: 'center'}}>Empty</td>
+                      </tr>
+                    )
+                  }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -351,11 +390,13 @@ export default connect(
     commiteesRewardAmount: state.constant.commiteesRewardAmount,
     privacyTokens: state.constant.privacyTokens,
     beaconBeststate: state.constant.beaconBeststate,
+    producersBlacklistDetail: state.constant.producersBlacklistDetail,
   }),
   ({
     actionGetListCommittee: getListCommittee,
     actionGetListRewardAmount: getListRewardAmount,
     actionGetPrivacyTokens: getPrivacyTokens,
     actionGetBeaconBeststate: getBeaconBeststateDetail,
+    actionGetProducersBlacklistDetail: getProducersBlacklistDetail,
   }),
 )(Committees);

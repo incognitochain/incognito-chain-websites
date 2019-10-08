@@ -19,6 +19,7 @@ export const ACTIONS = {
   CONSTANT_TOKEN: 'CONSTANT_TOKEN',
   CONSTANT_TOKEN_HOLDER: 'CONSTANT_TOKEN_HOLDER',
   CONSTANT_BEACON_BEST_STATE: 'CONSTANT_BEACON_BEST_STATE',
+  CONSTANT_PRODUCER_BLACK_LIST_DETAIL: 'CONSTANT_PRODUCER_BLACK_LIST_DETAIL',
 };
 
 let idRequest = 1;
@@ -30,7 +31,7 @@ const createRPCRequest = (
   storeName, firebaseWatch, actionName, method, params, successFn = emptyFn, errorFn = emptyFn,
 ) => (dispatch) => {
   dispatch({type: actionName});
-  axios.post(`${process.env.blockchainAPI}`, {
+  return axios.post(`${process.env.blockchainAPI}`, {
     jsonrpc: '1.0',
     method,
     params,
@@ -44,6 +45,7 @@ const createRPCRequest = (
         id: idRequest,
         params,
       });
+      return res;
     })
     .catch((e) => {
       errorFn(e);
@@ -77,3 +79,4 @@ export const getTokenTxs = customTokenId => createRPCRequest('token', false, ACT
 export const getTokenHolder = customTokenId => createRPCRequest('tokenHolders', false, ACTIONS.CONSTANT_TOKEN_HOLDER, 'customtokenholder', [customTokenId]);
 export const getPrivacyTokenTxs = customTokenId => createRPCRequest('token', false, ACTIONS.CONSTANT_TOKEN, 'privacycustomtoken', [customTokenId]);
 export const getBeaconBeststateDetail = () => createRPCRequest('beaconBeststate', false, ACTIONS.CONSTANT_BEACON_BEST_STATE, 'getbeaconbeststatedetail', []);
+export const getProducersBlacklistDetail = beaconHeigh => createRPCRequest('producersBlacklistDetail', false, ACTIONS.CONSTANT_PRODUCER_BLACK_LIST_DETAIL, 'getproducersblacklistdetail', [beaconHeigh]);

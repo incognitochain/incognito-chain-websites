@@ -262,6 +262,15 @@ export default (state = {
         },
       };
     }
+    case `${ACTIONS.CONSTANT_PRODUCER_BLACK_LIST_DETAIL}_SUCCESS`: {
+      return {
+        ...state,
+        producersBlacklistDetail: {
+          data: action.payload.Result,
+          updatedAt: Date.now(),
+        },
+      };
+    }
     default: {
       return state;
     }
