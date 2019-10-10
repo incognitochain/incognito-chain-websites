@@ -53,18 +53,20 @@ class TxsPending extends React.Component {
             <div className="col-12">
               <div className="block content">
                 <div className="block-heading">
-                  Pendings TXs
+                  Pendings TXs {mempool.info.ListTxs.length}
                 </div>
                 <table className="c-table">
                   <thead>
                   <tr>
+                    <th>#</th>
                     <th>Tx hash</th>
                     <th>Lock time</th>
                   </tr>
                   </thead>
                   <tbody>
-                  {mempool.info.ListTxs && mempool.info.ListTxs.length ? mempool.info.ListTxs.map(tx => (
+                  {mempool.info.ListTxs && mempool.info.ListTxs.length ? mempool.info.ListTxs.map((tx, index) => (
                     <tr>
+                      <td>{`${index + 1}`}</td>
                       <td className="c-hash">
                         <Link to={`/tx/${tx.TxID}`}>
                           {formatHashStr(tx.TxID, BrowserDetect.isMobile)}
