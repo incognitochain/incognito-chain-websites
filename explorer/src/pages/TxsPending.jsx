@@ -53,7 +53,7 @@ class TxsPending extends React.Component {
             <div className="col-12">
               <div className="block content">
                 <div className="block-heading">
-                  Pendings TXs {mempool.info.ListTxs.length}
+                  Pendings TXs - {mempool.info.ListTxs ? mempool.info.ListTxs.length : 0}
                 </div>
                 <table className="c-table">
                   <thead>
