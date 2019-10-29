@@ -86,7 +86,10 @@ class Block extends React.Component {
     }
 
     const validateData = block[blockHash].data.ValidationData;
-    const validateDataObj = JSON.parse(validateData);
+    var validateDataObj;
+    if (validateData != "") {
+      validateData = JSON.parse(validateData);
+    }
 
     return (
       <div className="c-explorer-page c-explorer-page-chains">
@@ -188,11 +191,11 @@ class Block extends React.Component {
                     <tr>
                       <td>Block producer Signature</td>
                       <td
-                        className="c-hash">{BrowserDetect.isMobile ? validateDataObj.ProducerBLSSig.substring(5) + '...' : validateDataObj.ProducerBLSSig}</td>
+                        className="c-hash">{BrowserDetect.isMobile ? (validateDataObj ? validateDataObj.ProducerBLSSig.substring(5) + '...' : "") : (validateDataObj ? validateDataObj.ProducerBLSSig : "")}</td>
                     </tr>
                     <tr>
                       <td>Aggregated Signature</td>
-                      <td>{validateDataObj.AggSig}</td>
+                      <td>{validateDataObj ? validateDataObj.AggSig : ""}</td>
                     </tr>
                     {!this.isBeacon(chainId) ?
                       <>
