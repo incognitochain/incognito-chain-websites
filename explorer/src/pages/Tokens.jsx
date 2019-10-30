@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { getTokens, getPrivacyTokens } from '@/reducers/constant/action';
 import Avatar from '@material-ui/core/Avatar';
 import { formatTokenAmount } from '../services/formatter';
@@ -11,24 +11,32 @@ class Tokens extends React.Component {
     tokens: PropTypes.object.isRequired,
     privacyTokens: PropTypes.object.isRequired,
     actionGetTokens: PropTypes.func.isRequired,
-    actionGetPrivacyTokens: PropTypes.func.isRequired,
+    actionGetPrivacyTokens: PropTypes.func.isRequired
   };
 
   constructor(props) {
     super(props);
 
-    const { actionGetTokens, actionGetPrivacyTokens, tokens, privacyTokens } = props;
+    const {
+      actionGetTokens,
+      actionGetPrivacyTokens,
+      tokens,
+      privacyTokens
+    } = props;
 
     this.state = {
       tokens,
-      privacyTokens,
+      privacyTokens
     };
     actionGetTokens();
     actionGetPrivacyTokens();
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.tokens.updatedAt !== prevState.tokens.updatedAt && nextProps.privacyTokens.updatedAt !== prevState.privacyTokens.updatedAt) {
+    if (
+      nextProps.tokens.updatedAt !== prevState.tokens.updatedAt &&
+      nextProps.privacyTokens.updatedAt !== prevState.privacyTokens.updatedAt
+    ) {
       let temp = {};
       temp.tokens = nextProps.tokens;
       temp.privacyTokens = nextProps.privacyTokens;
@@ -40,7 +48,7 @@ class Tokens extends React.Component {
   render() {
     let { tokens, privacyTokens } = this.state;
     let listTokens = {
-      list: [],
+      list: []
     };
     if (tokens) {
       for (let i = 0; i < tokens.list.length; i++) {
@@ -60,44 +68,59 @@ class Tokens extends React.Component {
             <div className="col-12">
               <div className="c-breadcrumb">
                 <ul>
-                  <li><Link to="/">Explorer</Link></li>
-                  <li><Link to="/tokens">Tokens</Link></li>
+                  <li>
+                    <Link to="/">Explorer</Link>
+                  </li>
+                  <li>
+                    <Link to="/tokens">Private Tokens</Link>
+                  </li>
                 </ul>
               </div>
             </div>
             <div className="col-12">
               <div className="block content">
-                <div className="block-heading">
-                  Tokens
-                </div>
+                <div className="block-heading">Private Tokens</div>
                 <div className="block-data">
                   <table className="c-table">
                     <thead>
-                    <tr>
-                      <th>Token</th>
-                      <th>Token name</th>
-                      <th>Token symbol</th>
-                      <th>Is Privacy</th>
-                      <th>Token amount</th>
-                      <th>TXs</th>
-                    </tr>
+                      <tr>
+                        {/* <th>Token</th> */}
+                        <th>Name</th>
+                        <th>Symbol</th>
+                        <th>Privacy Status</th>
+                        <th>Supply</th>
+                        <th>No. of TXs</th>
+                      </tr>
                     </thead>
                     <tbody>
-                    {listTokens.list.length ? listTokens.list.map(token => (
-                      <tr key={token.ID}>
-                        <td className="c-hash"><Link to={`/token/${token.ID}?privacy=${token.IsPrivacy}`}><Avatar
-                          alt="avatar"
-                          src={token.Image}/></Link>
-                        </td>
-                        <td className="c-hash">{token.Name}</td>
-                        <td className="c-hash">{token.Symbol}</td>
-                        <td className="c-hash center">{token.IsPrivacy + ''}</td>
-                        <td className="c-hash right">{formatTokenAmount(token.Amount)}</td>
-                        <td className="c-hash right">{formatTokenAmount(token.ListTxs?.length | 0)}</td>
-                      </tr>
-                    )) : <tr>
-                      <td style={{ textAlign: 'center' }} colSpan={4}>Empty</td>
-                    </tr>}
+                      {listTokens.list.length ? (
+                        listTokens.list.map(token => (
+                          <tr key={token.ID}>
+                            {/* <td className="c-hash">
+                              <Link
+                                to={`/token/${token.ID}?privacy=${token.IsPrivacy}`}
+                              >
+                                <Avatar alt="avatar" src={token.Image} />
+                              </Link>
+                            </td> */}
+                            <td className="c-hash">{token.Name}</td>
+                            <td className="c-hash">{token.Symbol}</td>
+                            <td className="c-hash">{token.IsPrivacy + ''}</td>
+                            <td className="c-hash">
+                              {formatTokenAmount(token.Amount)}
+                            </td>
+                            <td className="c-hash">
+                              {formatTokenAmount(token.ListTxs?.length | 0)}
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td style={{ textAlign: 'center' }} colSpan={4}>
+                            Empty
+                          </td>
+                        </tr>
+                      )}
                     </tbody>
                   </table>
                 </div>
@@ -110,14 +133,13 @@ class Tokens extends React.Component {
   }
 }
 
-
 export default connect(
   state => ({
     tokens: state.constant.tokens,
-    privacyTokens: state.constant.privacyTokens,
+    privacyTokens: state.constant.privacyTokens
   }),
-  ({
+  {
     actionGetTokens: getTokens,
-    actionGetPrivacyTokens: getPrivacyTokens,
-  }),
+    actionGetPrivacyTokens: getPrivacyTokens
+  }
 )(Tokens);

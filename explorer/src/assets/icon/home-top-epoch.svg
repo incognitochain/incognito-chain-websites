@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="39px" height="40px" viewBox="0 0 39 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>epoch</title>
+    <desc>Created with Sketch.</desc>
+    <g id="block-explorer" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Explorer" transform="translate(-1094.000000, -135.000000)">
+            <g id="epoch" transform="translate(1094.000000, 135.000000)">
+                <g id="Group">
+                    <g fill-rule="nonzero" id="Path">
+                        <path d="M28.3333333,40 L1.66666667,40 C0.75,40 0,39.25 0,38.3333333 L0,1.66666667 C0,0.75 0.75,0 1.66666667,0 L25.8333333,0 L30,5 L30,38.3333333 C30,39.25 29.25,40 28.3333333,40 Z" fill="#BBF6F9"></path>
+                        <polygon fill="#2980B9" points="25.8333333 5 30 5 25.8333333 0"></polygon>
+                    </g>
+                    <g transform="translate(5.000000, 11.666667)" id="Path" stroke="#25CDD6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <line x1="0" y1="0.833333333" x2="20" y2="0.833333333"></line>
+                        <line x1="0" y1="8.33333333" x2="15" y2="8.33333333"></line>
+                        <line x1="0" y1="15.8333333" x2="11.6666667" y2="15.8333333"></line>
+                    </g>
+                </g>
+                <g id="Group" transform="translate(21.666667, 20.833333)">
+                    <circle id="Oval" fill="#ECF0F1" fill-rule="nonzero" cx="8.33333333" cy="8.33333333" r="8.33333333"></circle>
+                    <circle id="Oval" stroke="#2C3E50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" cx="8.33333333" cy="8.33333333" r="5.83333333"></circle>
+                    <g transform="translate(7.500000, 5.000000)" id="Path" stroke="#2C3E50" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                        <path d="M0.833333333,3.33333333 L0.833333333,0 L0.833333333,3.33333333 Z"></path>
+                        <line x1="3.33333333" y1="3.33333333" x2="0.833333333" y2="3.33333333"></line>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

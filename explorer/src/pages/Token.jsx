@@ -1,8 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { getPrivacyTokenTxs, getTokenTxs, getTokenHolder } from '@/reducers/constant/action';
+import { Link, NavLink } from 'react-router-dom';
+import {
+  getPrivacyTokenTxs,
+  getTokenTxs,
+  getTokenHolder
+} from '@/reducers/constant/action';
 import queryString from 'query-string';
 import { formatTokenAmount } from '@/services/formatter';
 
@@ -12,18 +16,24 @@ class Token extends React.Component {
     token: PropTypes.object.isRequired,
     actionGetToken: PropTypes.func.isRequired,
     actionGetPrivacyToken: PropTypes.func.isRequired,
-    actionGetTokenHolder: PropTypes.func.isRequired,
+    actionGetTokenHolder: PropTypes.func.isRequired
   };
 
   constructor(props) {
     super(props);
 
-    const { actionGetToken, actionGetPrivacyToken, actionGetTokenHolder, token, match } = props;
+    const {
+      actionGetToken,
+      actionGetPrivacyToken,
+      actionGetTokenHolder,
+      token,
+      match
+    } = props;
     const { customTokenId } = match.params;
 
     this.state = {
       customTokenId,
-      token,
+      token
     };
     const values = queryString.parse(props.location.search);
     if (values.privacy === 'true') {
@@ -36,8 +46,8 @@ class Token extends React.Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (
-      nextProps.token[prevState.customTokenId]?.updatedAt
-      !== prevState.token[prevState.customTokenId]?.updatedAt
+      nextProps.token[prevState.customTokenId]?.updatedAt !==
+      prevState.token[prevState.customTokenId]?.updatedAt
     ) {
       return { token: nextProps.token };
     }
@@ -59,9 +69,26 @@ class Token extends React.Component {
             <div className="col-12">
               <div className="c-breadcrumb">
                 <ul>
-                  <li><Link to="/">Explorer</Link></li>
-                  <li><Link to="/tokens">Tokens</Link></li>
-                  <li><Link to={`/token/${customTokenId}`} className="c-hash">{customTokenId}</Link></li>
+                  <li>
+                    <NavLink exact activeClassName="nav-active" to="/">
+                      Explorer
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink exact activeClassName="nav-active" to="/tokens">
+                      Tokens
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      exact
+                      activeClassName="nav-active"
+                      to={`/token/${customTokenId}`}
+                      className="c-hash"
+                    >
+                      {customTokenId}
+                    </NavLink>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -77,55 +104,58 @@ class Token extends React.Component {
             </div>
             <div className="col-12">
               <div className="block content">
-                <div className="block-heading">
-                  Txs
-                </div>
+                <div className="block-heading">Txs</div>
                 <table className="c-table c-table-list">
                   <thead>
-                  <tr>
-                    <th>Index</th>
-                    <th>Tx hash</th>
-                  </tr>
+                    <tr>
+                      <th>Index</th>
+                      <th>Tx hash</th>
+                    </tr>
                   </thead>
                   <tbody>
-                  {token[customTokenId].data.ListTxs.map((tx, index) => (
-                    <tr key={tx}>
-                      <td>#{index + 1}</td>
-                      <td><Link to={`/tx/${tx}`} className="c-hash">{tx}</Link></td>
-                    </tr>
-                  ))}
+                    {token[customTokenId].data.ListTxs.map((tx, index) => (
+                      <tr key={tx}>
+                        <td>#{index + 1}</td>
+                        <td>
+                          <Link to={`/tx/${tx}`} className="c-hash">
+                            {tx}
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
             </div>
             <div className="col-12">
               <div className="block content">
-                <div className="block-heading">
-                  Token Holders
-                </div>
+                <div className="block-heading">Token Holders</div>
                 <table className="c-table c-table-list">
                   <thead>
-                  <tr>
-                    <th>Holder</th>
-                    <th>Balance</th>
-                  </tr>
+                    <tr>
+                      <th>Holder</th>
+                      <th>Balance</th>
+                    </tr>
                   </thead>
                   <tbody>
-                  {
-                    tokenHolders[customTokenId] ? Object.entries(tokenHolders[customTokenId].data)
-                      .map(([key, value]) => {
-                        return (
-                          <tr key={key}>
-                            <td>#{key + 1}</td>
-                            <td>{formatTokenAmount(value)}</td>
-                          </tr>
-                        );
-                      }) : (
+                    {tokenHolders[customTokenId] ? (
+                      Object.entries(tokenHolders[customTokenId].data).map(
+                        ([key, value]) => {
+                          return (
+                            <tr key={key}>
+                              <td>#{key + 1}</td>
+                              <td>{formatTokenAmount(value)}</td>
+                            </tr>
+                          );
+                        }
+                      )
+                    ) : (
                       <tr>
-                        <td colSpan={2} style={{ textAlign: 'center' }}>Can not get holder</td>
+                        <td colSpan={2} style={{ textAlign: 'center' }}>
+                          Can not get holder
+                        </td>
                       </tr>
-                    )
-                  }
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -137,15 +167,14 @@ class Token extends React.Component {
   }
 }
 
-
 export default connect(
   state => ({
     token: state.constant.token,
-    tokenHolders: state.constant.tokenHolders,
+    tokenHolders: state.constant.tokenHolders
   }),
-  ({
+  {
     actionGetToken: getTokenTxs,
     actionGetPrivacyToken: getPrivacyTokenTxs,
-    actionGetTokenHolder: getTokenHolder,
-  }),
+    actionGetTokenHolder: getTokenHolder
+  }
 )(Token);

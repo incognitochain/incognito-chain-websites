@@ -1,15 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { getBlock } from '@/reducers/constant/action';
+import { formatHashStr } from '@/services/formatter';
 
 class Txs extends React.Component {
   static propTypes = {
     match: PropTypes.object.isRequired,
     actionGetBlock: PropTypes.func.isRequired,
-    block: PropTypes.object.isRequired,
-  }
+    block: PropTypes.object.isRequired
+  };
 
   constructor(props) {
     super(props);
@@ -19,7 +20,7 @@ class Txs extends React.Component {
 
     this.state = {
       blockHash,
-      block,
+      block
     };
 
     this.fetch();
@@ -27,8 +28,8 @@ class Txs extends React.Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (
-      nextProps.block[prevState.blockHash] ?.updatedAt
-        !== prevState.block[prevState.blockHash] ?.updatedAt
+      nextProps.block[prevState.blockHash]?.updatedAt !==
+      prevState.block[prevState.blockHash]?.updatedAt
     ) {
       if (!nextProps.block[prevState.blockHash].data.NextBlockHash) {
         return { block: nextProps.block, isLatest: true };
@@ -52,14 +53,13 @@ class Txs extends React.Component {
     const { actionGetBlock } = this.props;
     const { blockHash } = this.state;
     actionGetBlock(blockHash);
-  }
-
+  };
 
   render() {
     const { blockHash, block } = this.state;
-    const chainId = block[blockHash] ?.data ?.ShardID + 1;
+    const chainId = block[blockHash]?.data?.ShardID + 1;
 
-    if (!block[blockHash] ?.data) {
+    if (!block[blockHash]?.data) {
       return null;
     }
 
@@ -70,37 +70,60 @@ class Txs extends React.Component {
             <div className="col-12">
               <div className="c-breadcrumb">
                 <ul>
-                  <li><Link to="/">Explorer</Link></li>
-                  <li><Link to="/chains">Shard list</Link></li>
-                  <li><Link to={`/chain/${chainId}`}>{`Shard #${chainId}`}</Link></li>
                   <li>
-                    <Link
+                    <NavLink exact activeClassName="nav-active" to="/">
+                      Explorer
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink exact activeClassName="nav-active" to="/chains">
+                      Shard list
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      exact
+                      activeClassName="nav-active"
+                      to={`/chain/${chainId}`}
+                    >{`Shard #${chainId}`}</NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      exact
+                      activeClassName="nav-active"
                       className="c-text-ellipsis c-hash"
-                      style={{ maxWidth: '100px', display: 'inline-block', verticalAlign: 'top' }}
+                      style={{
+                        maxWidth: '100px',
+                        display: 'inline-block',
+                        verticalAlign: 'top'
+                      }}
                       to={`/block/${blockHash}`}
                     >
                       {blockHash}
-                    </Link>
+                    </NavLink>
                   </li>
-                  <li><Link to={`/block/${blockHash}/txs`}>TXs</Link></li>
+                  <li>
+                    <NavLink
+                      exact
+                      activeClassName="nav-active"
+                      to={`/block/${blockHash}/txs`}
+                    >
+                      TXs
+                    </NavLink>
+                  </li>
                 </ul>
               </div>
             </div>
             <div className="col-12">
-              <div className="block content">
-                <div className="row">
-                  <div className="col-12">
-                    <h3>TXs of block</h3>
-                    <div className="c-hash">{blockHash}</div>
-                  </div>
-                </div>
+              <div className="heading multiple-line">
+                Transactions
+                <div class="title">Block:</div>
+                <div className="c-hash">{formatHashStr(blockHash, true)}</div>
               </div>
             </div>
             <div className="col-12">
               <div className="block content">
-                <div className="block-heading">
-                  Txs
-                </div>
+                <div className="block-heading">Txs</div>
                 <table className="c-table c-table-list">
                   <thead>
                     <tr>
@@ -112,7 +135,11 @@ class Txs extends React.Component {
                     {block[blockHash].data.Txs.map((tx, index) => (
                       <tr key={tx}>
                         <td>{index}</td>
-                        <td><Link to={`/tx/${tx.Hash}`} className="c-hash">{tx.Hash}</Link></td>
+                        <td>
+                          <Link to={`/tx/${tx.Hash}`} className="c-hash">
+                            {tx.Hash}
+                          </Link>
+                        </td>
                       </tr>
                     ))}
                   </tbody>
@@ -128,9 +155,9 @@ class Txs extends React.Component {
 
 export default connect(
   state => ({
-    block: state.constant.block,
+    block: state.constant.block
   }),
-  ({
-    actionGetBlock: getBlock,
-  }),
+  {
+    actionGetBlock: getBlock
+  }
 )(Txs);

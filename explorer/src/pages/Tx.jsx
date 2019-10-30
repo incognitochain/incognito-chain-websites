@@ -1,29 +1,29 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
-import {getTx} from '@/reducers/constant/action';
+import { NavLink } from 'react-router-dom';
+import { getTx } from '@/reducers/constant/action';
 import TxComponent from '@/components/Tx';
-import {isEmpty} from 'lodash';
-import {formatHashStr} from "../services/formatter";
-import BrowserDetect from "../services/browserdetect"
+import { isEmpty } from 'lodash';
+import { formatHashStr } from '../services/formatter';
+import BrowserDetect from '../services/browserdetect';
 
 class Tx extends React.Component {
   static propTypes = {
     tx: PropTypes.object.isRequired,
     match: PropTypes.object.isRequired,
-    actionGetTx: PropTypes.func.isRequired,
-  }
+    actionGetTx: PropTypes.func.isRequired
+  };
 
   constructor(props) {
     super(props);
 
-    const {match, actionGetTx, tx} = this.props;
-    const {txHash} = match.params;
+    const { match, actionGetTx, tx } = this.props;
+    const { txHash } = match.params;
 
     this.state = {
       txHash,
-      tx,
+      tx
     };
 
     actionGetTx(txHash);
@@ -31,16 +31,16 @@ class Tx extends React.Component {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (
-      nextProps.tx[prevState.txHash]?.updatedAt
-      !== prevState.tx[prevState.txHash]?.updatedAt
+      nextProps.tx[prevState.txHash]?.updatedAt !==
+      prevState.tx[prevState.txHash]?.updatedAt
     ) {
-      return {tx: nextProps.tx};
+      return { tx: nextProps.tx };
     }
     return null;
   }
 
   render() {
-    const {txHash, tx} = this.state;
+    const { txHash, tx } = this.state;
 
     let specTx = tx[txHash];
 
@@ -58,35 +58,72 @@ class Tx extends React.Component {
             <div className="col-12">
               <div className="c-breadcrumb">
                 <ul>
-                  <li><Link to="/">Explorer</Link></li>
-                  <li><Link to="/chains">Shard list</Link></li>
-                  <li><Link to={`/chain/${chainId}`}>{`Shard #${chainId}`}</Link></li>
                   <li>
-                    <Link
+                    <NavLink exact activeClassName="nav-active" to="/">
+                      Explorer
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink exact activeClassName="nav-active" to="/chains">
+                      Shard list
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      exact
+                      activeClassName="nav-active"
+                      to={`/chain/${chainId}`}
+                    >{`Shard #${chainId}`}</NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      exact
+                      activeClassName="nav-active"
                       to={`/block/${specTx.BlockHash}`}
                       className="c-text-ellipsis c-hash"
-                      style={{maxWidth: '100px', display: 'inline-block', verticalAlign: 'top'}}
+                      style={{
+                        maxWidth: '100px',
+                        display: 'inline-block',
+                        verticalAlign: 'top'
+                      }}
                     >
                       {specTx.BlockHash}
-                    </Link>
+                    </NavLink>
                   </li>
-                  <li><Link to={`/block/${specTx.BlockHash}/txs`}>TXs</Link></li>
-                  <li><Link className="c-hash c-text-cut" to={`/tx/${txHash}`}>{txHash}</Link></li>
+                  <li>
+                    <NavLink
+                      exact
+                      activeClassName="nav-active"
+                      to={`/block/${specTx.BlockHash}/txs`}
+                    >
+                      TXs
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      exact
+                      activeClassName="nav-active"
+                      className="c-hash c-text-cut"
+                      to={`/tx/${txHash}`}
+                    >
+                      {txHash}
+                    </NavLink>
+                  </li>
                 </ul>
               </div>
             </div>
             <div className="col-12">
               <div className="block content">
-                <div className="block-heading">
-                  Tx
+                <div className="block-heading">Tx</div>
+                <div className="c-hash">
+                  {formatHashStr(txHash, BrowserDetect.isMobile)}
                 </div>
-                <div className="c-hash">{formatHashStr(txHash, BrowserDetect.isMobile)}</div>
               </div>
             </div>
             <div className="col-12">
               <div className="block content">
                 <div className="block-data">
-                  <TxComponent tx={specTx}/>
+                  <TxComponent tx={specTx} />
                 </div>
               </div>
             </div>
@@ -99,9 +136,9 @@ class Tx extends React.Component {
 
 export default connect(
   state => ({
-    tx: state.constant.tx,
+    tx: state.constant.tx
   }),
-  ({
-    actionGetTx: getTx,
-  }),
+  {
+    actionGetTx: getTx
+  }
 )(Tx);

@@ -1,13 +1,125 @@
-.explorer-header {
-  .container {
-    background-color: #fff;
-    padding: 10px;
+.c-header {
+  background-color: $black;
+}
 
-    .menu {
-      float: right;
-      li {
-        padding: 0 15px !important;
+.explorer-header {
+  font-size: 0.9rem;
+
+  .menu {
+    float: right;
+    li {
+      padding: 0 15px;
+
+      &:last-child {
+        padding-right: 0;
       }
+
+      .nav-active {
+        color: #25cdd6;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+.logo-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.home-top-info-container {
+  padding-bottom: 30px;
+  background-color: $black;
+
+  .home-top-info {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-top: 50px;
+
+    li {
+      padding: 10px 15px;
+
+      &:not(:last-child) {
+        margin-right: 25px;
+      }
+
+      &:not(:first-child) {
+        &:hover {
+          background-color: rgba($color: $white, $alpha: 0.1);
+          border-radius: 4px;
+        }
+      }
+
+      a {
+        display: flex;
+
+        .icon {
+          margin-right: 15px;
+        }
+
+        .data {
+          font-weight: 400;
+          font-size: 28px;
+          line-height: 22px;
+          color: $white;
+          letter-spacing: 0.5px;
+        }
+
+        .title {
+          @extend .c-color-gray-600;
+          text-transform: uppercase;
+          font-size: 12px;
+          color: $blue;
+          margin-bottom: 10px;
+          letter-spacing: 1px;
+        }
+      }
+
+      &:first-child {
+        flex: 1;
+        padding-left: 0;
+
+        a {
+          .data {
+            font-weight: 500;
+            font-size: 18px;
+            text-transform: uppercase;
+          }
+
+          .title {
+            margin-bottom: 0;
+            letter-spacing: 1px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.home-search {
+  @extend .c-bg-blue-900;
+  color: #ffffff;
+  background-color: $black;
+  padding-bottom: 30px;
+
+  .title {
+    font-weight: bold;
+    font-size: 120%;
+    margin-bottom: 10px;
+  }
+
+  .c-input {
+    width: 100%;
+    height: 60px;
+    padding-left: 25px;
+    padding-right: 25px;
+    border-radius: 8px;
+    font-size: 18px;
+
+    &::placeholder {
+      color: $grey;
     }
   }
 }

@@ -1,65 +1,138 @@
 .c-explorer-page {
-  padding: 20px 0;
+  padding: 0 0 20px 0;
+
+  textarea {
+    background: $white2;
+    padding: 15px;
+    border: none;
+    border-radius: 4px;
+  }
+
+  .heading {
+    font-size: 24px;
+    font-weight: 500 !important;
+    margin-bottom: 20px;
+
+    &.multiple-line {
+      display: flex;
+
+      .title {
+        margin-left: 20px;
+        margin-right: 10px;
+        padding-left: 20px;
+        position: relative;
+
+        &::before {
+          content: '';
+          height: 20px;
+          width: 1px;
+          background-color: $grey;
+          display: inline-block;
+          left: 0;
+          top: 5px;
+          position: absolute;
+        }
+      }
+    }
+  }
+
+  &.c-explorer-page-tokens {
+    .c-table {
+      tr {
+        td {
+          padding: 10px 20px;
+        }
+      }
+    }
+  }
+
+  &.c-explorer-page-chain-details {
+    .block-producer {
+      tr {
+        td {
+          padding: 10px;
+          padding-left: 0;
+
+          &:first-child {
+            max-width: 90px;
+          }
+        }
+
+        &:first-child {
+          td {
+            padding-top: 0;
+          }
+        }
+
+        &:last-child {
+          td {
+            padding-bottom: 0;
+          }
+        }
+      }
+    }
+
+    .block-heading {
+      margin-bottom: 5px;
+    }
+  }
 
   &.c-explorer-page-chains {
-    .chain-item-content {
-      color: get-gray('endeavour2');
+    .chain-item-container {
+      display: flex;
+      align-items: flex-start;
+
+      .icon {
+        margin-right: 20px;
+      }
+
+      .chain-item-content {
+        &,
+        * {
+          color: $grey2;
+        }
+
+        tr {
+          td {
+            &:not(:first-child) {
+              padding-left: 30px;
+              color: $black;
+            }
+          }
+        }
+
+        .block-time {
+          font-size: 12px;
+          color: $grey;
+        }
+      }
+    }
+  }
+
+  &.c-explorer-page-block-details {
+    .c-table {
+      tr {
+        td {
+          max-width: unset;
+          padding: 10px 0;
+
+          &.title {
+            color: $grey2;
+          }
+        }
+      }
     }
   }
 
   &.c-explorer-page-chain {
-
   }
 
   &.c-explorer-page-home {
-    .home-top-info-container {
-      padding-bottom: 0;
-    }
-
-    .home-search {
-      @extend .c-bg-blue-900;
-      color: #ffffff;
-      border-radius: 10px;
-
-      .title {
-        font-weight: bold;
-        font-size: 120%;
-        margin-bottom: 10px;
-      }
-
-      .c-input {
-        width: 100%;
-      }
-    }
-
-    .home-top-info {
-      position: relative;
-      width: 100%;
-
-      li {
-        width: 20%;
-
-        a {
-          display: block;
-          padding: 20px 0;
-          text-align: center;
-
-          &:hover {
-            background-color: map-get($map: $blue, $key: 's-900');
-
-            .data, .title {
-              color: #ffffff !important;
-            }
-          }
-
-          .data {
-            font-weight: bold;
-            font-size: 150%;
-            line-height: 22px;
-          }
-
-          .title {
-            @extend .c-color-gray-600;
+    .c-table {
+      tr {
+        td {
+          &:first-child {
+            padding-left: 0;
           }
         }
       }
@@ -70,21 +143,38 @@
 .c-table {
   overflow: hidden;
 
-  td {
-    max-width: 400px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding: 5px;
+  tr {
+    border-bottom: 1px solid #f0f5f5;
+    td {
+      max-width: 350px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding: 20px;
+
+      &:last-of-type {
+        padding-right: 20px;
+      }
+    }
+
+    &:last-child {
+      border-bottom: none;
+      td {
+        padding-bottom: 0;
+      }
+    }
   }
 
   thead {
-    background-color: #f8fafd;
+    background-color: $white1;
     border-color: #e7eaf3;
-    color: #6c757e;
+    color: $black;
+    font-size: 12px;
+    letter-spacing: 1px;
   }
 
   th {
-    padding: 15px;
+    padding: 10px 20px;
+    color: $grey2;
   }
 
   &.c-table-list {
@@ -95,6 +185,37 @@
             content: '';
             padding-left: 2px;
           }
+        }
+      }
+    }
+  }
+}
+
+.c-hash {
+  font-family: inherit !important;
+}
+
+.c-breadcrumb {
+  font-size: 14px !important;
+  padding: 30px 0 40px;
+
+  ul {
+    li {
+      &:not(:last-of-type) {
+        &::after {
+          content: '\f054';
+          font-family: 'Font Awesome 5 Pro';
+          font-size: 12px;
+          transform: unset;
+          top: -2px;
+        }
+      }
+
+      a {
+        color: $grey;
+
+        &.nav-active {
+          color: $black;
         }
       }
     }

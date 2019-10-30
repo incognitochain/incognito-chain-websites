@@ -1,13 +1,30 @@
+* {
+  font-family: 'Colfax';
+  font-weight: 400;
+}
+
+body {
+  color: $black;
+}
+
 #root {
   min-height: 100vh;
-  background-color: get-gray('black-squeeze');
+  background-color: $background-color;
   padding-bottom: 40px;
 }
 
 a {
   text-decoration: none;
+  color: $blue2;
 
-  &:hover, &:active, &:focus, &:visited {
+  &:hover {
+    color: $blue3;
+  }
+
+  &:hover,
+  &:active,
+  &:focus,
+  &:visited {
     text-decoration: none;
   }
 }
@@ -17,12 +34,25 @@ a {
   @extend .c-shadow-100;
   margin-bottom: 20px;
   padding-bottom: 20px;
+  border: 1px solid #d1dfe0;
+  border-radius: 8px;
+  box-shadow: none;
 
   .block-heading {
     @extend .h5;
-    border-bottom: 1px solid #c5c5c5;
     padding: 20px 0 0;
     margin: 0 20px;
+    font-weight: 500 !important;
+    font-size: 16px;
+    text-transform: uppercase;
+    color: $black;
+    letter-spacing: 0.2px;
+  }
+
+  .block-description {
+    margin-bottom: 20px;
+    font-size: 13px;
+    letter-spacing: 0.5px;
   }
 
   &.content {
@@ -34,16 +64,28 @@ a {
       text-align: right;
     }
 
-    padding: 20px;
+    padding: 25px;
 
     .block-heading {
       padding: 0;
       margin: 0;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
 
     .block-data {
-      overflow-x: scroll;
+      overflow-x: auto;
+    }
+
+    .hash-container {
+      display: flex;
+
+      .icon {
+        margin-right: 20px;
+      }
+
+      .block-time {
+        color: $grey;
+      }
     }
   }
 }
@@ -61,12 +103,18 @@ table {
 }
 
 .chain-id {
-  font-size: 120%;
+  font-size: 16px;
+  font-weight: 500;
+  color: $black;
 }
 
 .card {
   display: block;
-  padding: 10px 12px;
+  padding: 20px;
   border-radius: 10px;
   margin-bottom: 20px;
+}
+
+.footer {
+  text-align: center;
 }
