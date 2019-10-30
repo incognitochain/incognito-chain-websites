@@ -19,7 +19,7 @@ module.exports = function webpackConfig(env, argv = {}) {
   const stats = {
     modules: false,
     children: false,
-    chunks: false,
+    chunks: false
   };
 
   const development = {
@@ -32,9 +32,9 @@ module.exports = function webpackConfig(env, argv = {}) {
       disableHostCheck: true,
       publicPath: '/',
       historyApiFallback: {
-        disableDotRule: true,
+        disableDotRule: true
       },
-      hot: true,
+      hot: true
     },
     module: {
       rules: [
@@ -47,10 +47,10 @@ module.exports = function webpackConfig(env, argv = {}) {
             {
               loader: 'resolve-url-loader',
               options: {
-                keepQuery: true,
-              },
-            },
-          ],
+                keepQuery: true
+              }
+            }
+          ]
         },
         {
           test: /\.scss$/,
@@ -61,14 +61,14 @@ module.exports = function webpackConfig(env, argv = {}) {
             {
               loader: 'resolve-url-loader',
               options: {
-                keepQuery: true,
-              },
+                keepQuery: true
+              }
             },
-            'sass-loader',
-          ],
-        },
-      ],
-    },
+            'sass-loader'
+          ]
+        }
+      ]
+    }
   };
 
   const production = {
@@ -85,9 +85,9 @@ module.exports = function webpackConfig(env, argv = {}) {
       //   }),
       // ],
       splitChunks: {
-        chunks: 'all',
+        chunks: 'all'
       },
-      noEmitOnErrors: true,
+      noEmitOnErrors: true
     },
     module: {
       rules: [
@@ -100,45 +100,44 @@ module.exports = function webpackConfig(env, argv = {}) {
             {
               loader: 'resolve-url-loader',
               options: {
-                keepQuery: true,
-              },
+                keepQuery: true
+              }
             },
-            'sass-loader',
-          ],
-        },
-      ],
+            'sass-loader'
+          ]
+        }
+      ]
     },
     plugins: [
       new CleanWebpackPlugin(['dist']),
       new OptimizeCSSAssetsPlugin(),
       new MiniCssExtractPlugin({
         filename: 'css/[name].css',
-        chunkFilename: 'css/[hash].[name].css',
-      }),
+        chunkFilename: 'css/[hash].[name].css'
+      })
     ],
     performance: { hints: false },
-    devtool: false,
+    devtool: false
   };
-
 
   return merge(
     {
       entry: {
-        main: appPath('src/index.js'),
+        main: appPath('src/index.js')
       },
       output: {
         filename: '[name].js?v=[hash]',
         chunkFilename: '[name].chunk.js?v=[hash]',
         publicPath: '/',
-        globalObject: 'this',
+        globalObject: 'this'
       },
       resolve: {
         alias: {
           '@': appPath('src'),
-          '@ui': appPath('src/__ui/components'),
+          '@ui': appPath('src/__ui/components')
         },
         extensions: ['.js', '.jsx', '.scss'],
-        modules: [appPath('node_modules')],
+        modules: [appPath('node_modules')]
       },
       plugins: [
         new webpack.DefinePlugin({
@@ -146,8 +145,8 @@ module.exports = function webpackConfig(env, argv = {}) {
             ...appEnv,
             isProduction,
             NODE_ENV: argv.mode,
-            DEBUG: !isProduction,
-          }),
+            DEBUG: !isProduction
+          })
         }),
         // new PrepackWebpackPlugin({
         //   test: /^(?!.*\.worker).*\.jsx?$/i,
@@ -156,16 +155,15 @@ module.exports = function webpackConfig(env, argv = {}) {
           chunks: ['main', 'vendors~main'],
           minify: isProduction
             ? {
-              collapseWhitespace: true,
-              preserveLineBreaks: true,
-              removeComments: true,
-            }
+                collapseWhitespace: true,
+                preserveLineBreaks: true,
+                removeComments: true
+              }
             : null,
           filename: 'index.html',
           template: appPath('src/templates/index.html'),
-          favicon: appPath('src/assets/favicon.png'),
-
-        }),
+          favicon: appPath('src/assets/favicon.ico')
+        })
         // new PreloadWebpackPlugin(),
       ],
       module: {
@@ -175,22 +173,22 @@ module.exports = function webpackConfig(env, argv = {}) {
             exclude: /node_modules/,
             use: [
               {
-                loader: 'babel-loader',
-              },
-            ],
+                loader: 'babel-loader'
+              }
+            ]
           },
           {
             test: /\.html$/,
             use: [
               {
                 loader: 'html-loader',
-                options: { minimize: isProduction },
-              },
-            ],
+                options: { minimize: isProduction }
+              }
+            ]
           },
           {
             test: /\.(raw)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-            use: 'raw-loader',
+            use: 'raw-loader'
           },
           {
             test: /\.(png|gif|jpe?g|svg|webp)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -201,10 +199,10 @@ module.exports = function webpackConfig(env, argv = {}) {
                 options: {
                   name: '[hash].[ext]',
                   outputPath: 'images/',
-                  verbose: false,
-                },
-              },
-            ],
+                  verbose: false
+                }
+              }
+            ]
           },
           {
             test: /\.(eot|tiff|woff2|woff|ttf|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -214,10 +212,10 @@ module.exports = function webpackConfig(env, argv = {}) {
                 options: {
                   name: '[hash].[ext]',
                   outputPath: 'fonts/',
-                  verbose: false,
-                },
-              },
-            ],
+                  verbose: false
+                }
+              }
+            ]
           },
           {
             test: /\.md$/,
@@ -225,16 +223,16 @@ module.exports = function webpackConfig(env, argv = {}) {
               {
                 loader: 'remark-loader',
                 options: {
-                  plugins: [],
-                },
-              },
-            ],
-          },
-        ],
+                  plugins: []
+                }
+              }
+            ]
+          }
+        ]
       },
       stats,
-      devtool: 'source-map',
+      devtool: 'source-map'
     },
-    isProduction ? production : development,
+    isProduction ? production : development
   );
 };
