@@ -318,8 +318,7 @@ class Committees extends React.Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {beaconBeststate.data.CandidateShardWaitingForNextRandom
-                      .length > 0 ? (
+                    {beaconBeststate.data.CandidateShardWaitingForNextRandom ? (
                       beaconBeststate.data.CandidateShardWaitingForNextRandom.map(
                         (value, index) => {
                           return (
@@ -399,7 +398,7 @@ class Committees extends React.Component {
                     </tr>
                   </thead>
                   <tbody>
-                    {beaconBeststate.data.ShardPendingValidator.length > 0 ? (
+                    {beaconBeststate.data.ShardPendingValidator ? (
                       Object.entries(
                         beaconBeststate.data.ShardPendingValidator
                       ).map(([shardID, value], index) => {
