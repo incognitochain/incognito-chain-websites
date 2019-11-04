@@ -131,10 +131,10 @@ class Committees extends React.Component {
                   <thead>
                     <tr>
                       <th>No.</th>
-                      <th>Mining Key in base58check.encode</th>
-                      <th>Reward Receiver in base58check.encode</th>
+                      <th>Mining Public Info</th>
+                      {/*<th>Reward Receiver in base58check.encode</th>
                       <th>Reward (PRV)</th>
-                      <th>Reward (pToken)</th>
+                      <th>Reward (pToken)</th>*/}
                     </tr>
                   </thead>
                   <tbody>
@@ -143,7 +143,7 @@ class Committees extends React.Component {
                         <tr key={value}>
                           <td>{`${index + 1}`}</td>
                           <td>{formatHashStr(value, true)}</td>
-                          <td>{committees.BeaconRewardReceiver[index]}</td>
+                          {/*<td>{committees.BeaconRewardReceiver[index]}</td>
                           <td>
                             {formatCoinValue(
                               commiteesRewardAmount[
@@ -185,7 +185,7 @@ class Committees extends React.Component {
                                 return <></>;
                               }
                             })}
-                          </td>
+                          </td>*/}
                         </tr>
                       ))
                     ) : (
@@ -217,10 +217,10 @@ class Committees extends React.Component {
                       <thead>
                         <tr>
                           <th>No.</th>
-                          <th>Mining Key in base58check.encode</th>
-                          <th>Reward Receiver in base58check.encode</th>
+                          <th>Mining Public Info</th>
+                          {/*<th>Reward Receiver in base58check.encode</th>
                           <th>Reward (PRV)</th>
-                          <th>Reward (pToken)</th>
+                          <th>Reward (pToken)</th>*/}
                         </tr>
                       </thead>
                       <tbody>
@@ -229,7 +229,7 @@ class Committees extends React.Component {
                             <tr key={key}>
                               <td>{`${index + 1}`}</td>
                               <td>{formatHashStr(value, true)}</td>
-                              <td>{shardRewardReceiver[index]}</td>
+                              {/*<td>{shardRewardReceiver[index]}</td>
                               <td>
                                 {formatCoinValue(
                                   commiteesRewardAmount[
@@ -271,7 +271,7 @@ class Committees extends React.Component {
                                     return <></>;
                                   }
                                 })}
-                              </td>
+                              </td>*/}
                             </tr>
                           ))
                         ) : (
@@ -311,10 +311,10 @@ class Committees extends React.Component {
                   <thead>
                     <tr>
                       <th>No.</th>
-                      <th>Mining Key in base58check.encode</th>
-                      <th>Reward Receiver in base58check.encode</th>
+                      <th>Mining Public Info</th>
+                      {/*<th>Reward Receiver in base58check.encode</th>
                       <th>Reward (PRV)</th>
-                      <th>Reward (pToken)</th>
+                      <th>Reward (pToken)</th>*/}
                     </tr>
                   </thead>
                   <tbody>
@@ -325,7 +325,7 @@ class Committees extends React.Component {
                             <tr>
                               <td>{`${index + 1}`}</td>
                               <td>{value.MiningPubKey.bls}</td>
-                              <td>{value.IncPubKey}</td>
+                              {/*<td>{value.IncPubKey}</td>
                               <td>
                                 {formatCoinValue(
                                   commiteesRewardAmount[value.IncPubKey]
@@ -363,7 +363,7 @@ class Committees extends React.Component {
                                     return <></>;
                                   }
                                 })}
-                              </td>
+                              </td>*/}
                             </tr>
                           );
                         }
@@ -391,10 +391,10 @@ class Committees extends React.Component {
                     <tr>
                       <th>No.</th>
                       <th>Shard ID</th>
-                      <th>Mining Key in base58check.encode</th>
-                      <th>Reward Receiver in base58check.encode</th>
+                      <th>Mining Public Info</th>
+                      {/*<th>Reward Receiver in base58check.encode</th>
                       <th>Reward (PRV)</th>
-                      <th>Reward (pToken)</th>
+                      <th>Reward (pToken)</th>*/}
                     </tr>
                   </thead>
                   <tbody>
@@ -409,7 +409,7 @@ class Committees extends React.Component {
                               <td>{`${indexPendingList}`}</td>
                               <td>{shardID}</td>
                               <td>{v.MiningPubKey.bls}</td>
-                              <td>{v.IncPubKey}</td>
+                              {/*<td>{v.IncPubKey}</td>
                               <td>
                                 {formatCoinValue(
                                   commiteesRewardAmount[v.IncPubKey]
@@ -442,7 +442,7 @@ class Committees extends React.Component {
                                     return <></>;
                                   }
                                 })}
-                              </td>
+                              </td>*/}
                             </tr>
                           );
                         });
@@ -469,7 +469,7 @@ class Committees extends React.Component {
                   <thead>
                     <tr>
                       <th>No.</th>
-                      <th>Mining Key in base58check.encode</th>
+                      <th>Mining Public Info</th>
                       <th>Reward Receiver in base58check.encode</th>
                       <th>Count down in</th>
                     </tr>
