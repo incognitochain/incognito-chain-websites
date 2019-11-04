@@ -131,7 +131,7 @@ class Committees extends React.Component {
                   <thead>
                     <tr>
                       <th>No.</th>
-                      <th>Mining Public Info</th>
+                      <th>Consensus(BLS) Public Key</th>
                       {/*<th>Reward Receiver in base58check.encode</th>
                       <th>Reward (PRV)</th>
                       <th>Reward (pToken)</th>*/}
@@ -217,7 +217,7 @@ class Committees extends React.Component {
                       <thead>
                         <tr>
                           <th>No.</th>
-                          <th>Mining Public Info</th>
+                          <th>Consensus(BLS) Public Key</th>
                           {/*<th>Reward Receiver in base58check.encode</th>
                           <th>Reward (PRV)</th>
                           <th>Reward (pToken)</th>*/}
@@ -311,7 +311,7 @@ class Committees extends React.Component {
                   <thead>
                     <tr>
                       <th>No.</th>
-                      <th>Mining Public Info</th>
+                      <th>Consensus(BLS) Public Key</th>
                       {/*<th>Reward Receiver in base58check.encode</th>
                       <th>Reward (PRV)</th>
                       <th>Reward (pToken)</th>*/}
@@ -391,7 +391,7 @@ class Committees extends React.Component {
                     <tr>
                       <th>No.</th>
                       <th>Shard ID</th>
-                      <th>Mining Public Info</th>
+                      <th>Consensus(BLS) Public Key</th>
                       {/*<th>Reward Receiver in base58check.encode</th>
                       <th>Reward (PRV)</th>
                       <th>Reward (pToken)</th>*/}
@@ -469,7 +469,7 @@ class Committees extends React.Component {
                   <thead>
                     <tr>
                       <th>No.</th>
-                      <th>Mining Public Info</th>
+                      <th>Consensus(BLS) Public Key</th>
                       <th>Reward Receiver in base58check.encode</th>
                       <th>Count down in</th>
                     </tr>
