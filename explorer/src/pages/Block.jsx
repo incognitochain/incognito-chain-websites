@@ -119,7 +119,7 @@ class Block extends React.Component {
                           exact
                           activeClassName="nav-active"
                           to={`/chain/${chainId}`}
-                        >{`Shard ${chainId}`}</NavLink>
+                        >{`Shard ${chainId - 1}`}</NavLink>
                       </li>
                       <li>
                         <NavLink

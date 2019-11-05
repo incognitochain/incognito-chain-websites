@@ -108,7 +108,7 @@ class Home extends React.Component {
               <input
                 type="text"
                 className="c-input"
-                placeholder="Search block hash, tx hash or wallet address ..."
+                placeholder="Search block hash or tx hash ..."
                 ref={div => {
                   this.searchInput = div;
                   return null;

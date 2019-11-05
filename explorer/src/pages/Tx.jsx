@@ -63,40 +63,34 @@ class Tx extends React.Component {
                       Explorer
                     </NavLink>
                   </li>
-                  <li>
-                    <NavLink exact activeClassName="nav-active" to="/chains">
-                      Shard list
-                    </NavLink>
-                  </li>
+                  {specTx.BlockHash && (
+                    <li>
+                      <NavLink
+                        exact
+                        activeClassName="nav-active"
+                        to={`/block/${specTx.BlockHash}`}
+                        className="c-text-ellipsis c-hash"
+                        style={{
+                          maxWidth: '100px',
+                          display: 'inline-block',
+                          verticalAlign: 'top'
+                        }}
+                      >
+                        {specTx.BlockHash}
+                      </NavLink>
+                    </li>
+                  )}
                   <li>
                     <NavLink
                       exact
                       activeClassName="nav-active"
-                      to={`/chain/${chainId}`}
-                    >{`Shard #${chainId}`}</NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      exact
-                      activeClassName="nav-active"
-                      to={`/block/${specTx.BlockHash}`}
-                      className="c-text-ellipsis c-hash"
-                      style={{
-                        maxWidth: '100px',
-                        display: 'inline-block',
-                        verticalAlign: 'top'
-                      }}
+                      to={
+                        specTx.BlockHash
+                          ? `/block/${specTx.BlockHash}/txs`
+                          : `/txs/pending`
+                      }
                     >
-                      {specTx.BlockHash}
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      exact
-                      activeClassName="nav-active"
-                      to={`/block/${specTx.BlockHash}/txs`}
-                    >
-                      TXs
+                      {specTx.BlockHash ? 'TXs' : 'Pending TXs'}
                     </NavLink>
                   </li>
                   <li>
@@ -113,12 +107,7 @@ class Tx extends React.Component {
               </div>
             </div>
             <div className="col-12">
-              <div className="block content">
-                <div className="block-heading">Tx</div>
-                <div className="c-hash">
-                  {formatHashStr(txHash, BrowserDetect.isMobile)}
-                </div>
-              </div>
+              <div className="heading multiple-line">Transaction Details</div>
             </div>
             <div className="col-12">
               <div className="block content">
