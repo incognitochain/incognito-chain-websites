@@ -5,7 +5,7 @@ module.exports = {
     allowImportExportEverywhere: false,
     codeFrame: false
   },
-  extends: ['airbnb', 'prettier'],
+  extends: ['eslint:recommended', 'plugin:react/recommended'],
   env: {
     browser: true,
     jest: true
@@ -15,7 +15,11 @@ module.exports = {
     'prefer-promise-reject-errors': ['off'],
     'react/jsx-filename-extension': ['off'],
     'react/prop-types': ['warn'],
-    'no-return-assign': ['off'],
-    'prettier/prettier': ['error']
+    'no-return-assign': ['off']
+  },
+  settings: {
+    'import/resolver': {
+      alias: true
+    }
   }
 };
