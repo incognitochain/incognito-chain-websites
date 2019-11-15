@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
+import queryString from 'query-string';
 import {
   getPrivacyTokenTxs,
   getTokenTxs,
   getTokenHolder
 } from '@/reducers/constant/action';
-import queryString from 'query-string';
 import { formatTokenAmount } from '@/services/formatter';
 
 class Token extends React.Component {
@@ -115,7 +115,10 @@ class Token extends React.Component {
                   <tbody>
                     {token[customTokenId].data.ListTxs.map((tx, index) => (
                       <tr key={tx}>
-                        <td>#{index + 1}</td>
+                        <td>
+#
+                          {index + 1}
+                        </td>
                         <td>
                           <Link to={`/tx/${tx}`} className="c-hash">
                             {tx}
@@ -143,7 +146,10 @@ class Token extends React.Component {
                         ([key, value]) => {
                           return (
                             <tr key={key}>
-                              <td>#{key + 1}</td>
+                              <td>
+#
+                                {key + 1}
+                              </td>
                               <td>{formatTokenAmount(value)}</td>
                             </tr>
                           );

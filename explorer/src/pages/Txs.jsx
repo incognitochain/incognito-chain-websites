@@ -85,7 +85,9 @@ class Txs extends React.Component {
                       exact
                       activeClassName="nav-active"
                       to={`/chain/${chainId}`}
-                    >{`Shard ${chainId - 1}`}</NavLink>
+                    >
+                      {`Shard ${chainId - 1}`}
+                    </NavLink>
                   </li>
                   <li>
                     <NavLink
@@ -117,7 +119,7 @@ class Txs extends React.Component {
             <div className="col-12">
               <div className="heading multiple-line">
                 Transactions
-                <div class="title">Block:</div>
+                <div className="title">Block:</div>
                 <div className="c-hash">{formatHashStr(blockHash, true)}</div>
               </div>
             </div>

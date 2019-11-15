@@ -29,7 +29,7 @@ class Header extends React.Component {
       path: '/'
     });
     window.location.assign(
-      process.env.userUrl + '?redirect=' + process.env.explorerUrl
+      `${process.env.userUrl  }?redirect=${  process.env.explorerUrl}`
     );
   };
 
@@ -110,14 +110,14 @@ class Header extends React.Component {
                   />
                 </div>
               </div>
-              {/*<div className={cn('menu-container', { show: showMenu })}>
+              {/* <div className={cn('menu-container', { show: showMenu })}>
                 <ul className="menu">
                   <li><a href={process.env.userUrl}>User</a></li>
                   <li><Link to="/" className="active">Explorer</Link></li>
                   <li><a href={process.env.portalUrl}>Portal</a></li>
                   <li><a href={process.env.exchangeUrl}>Market</a></li>
                 </ul>
-              </div>*/}
+              </div> */}
             </div>
           </div>
         </div>

@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getBlockchainInfo } from '@/reducers/constant/action';
 import { Link, NavLink } from 'react-router-dom';
+import moment from 'moment';
+import { getBlockchainInfo } from '@/reducers/constant/action';
 import {
   formatBlocksHeight,
   formatCoinValue,
   formatHashStr
 } from '../services/formatter';
 import BrowserDetect from '../services/browserdetect';
-import moment from 'moment';
 import ShardIcon from '@/assets/icon/chain-shard.svg';
 
 class Chains extends React.Component {
@@ -38,6 +38,15 @@ class Chains extends React.Component {
     return null;
   }
 
+  componentDidMount() {
+    this.loadData();
+    this.loadDataInterval = setInterval(this.loadData, 15 * 1000);
+  }
+
+  componentWillUnmount() {
+    if (this.loadDataInterval) clearInterval(this.loadDataInterval);
+  }
+
   loadData = () => {
     const { actionGetBlockChainInfo } = this.props;
     actionGetBlockChainInfo();
@@ -49,7 +58,7 @@ class Chains extends React.Component {
       return null;
     }
     const bestBlocks = chainInfo.BestBlocks;
-    let blockBeacon = bestBlocks[-1];
+    const blockBeacon = bestBlocks[-1];
 
     return (
       <div className="c-explorer-page c-explorer-page-chains">
@@ -82,8 +91,8 @@ class Chains extends React.Component {
               if (key == -1) {
                 return <></>;
               }
-              let index = parseInt(key);
-              let block = bestBlocks[key];
+              const index = parseInt(key);
+              const block = bestBlocks[key];
               return (
                 <div
                   className="col-12 col-sm-6 col-md-6 chain-item"

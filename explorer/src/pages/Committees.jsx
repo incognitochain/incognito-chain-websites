@@ -78,11 +78,11 @@ class Committees extends React.Component {
     }
     const PRV =
       '0000000000000000000000000000000000000000000000000000000000000004';
-    var mapPrivacyTokens = {};
+    const mapPrivacyTokens = {};
     privacyTokens.list.forEach(function(item, i) {
       mapPrivacyTokens[item.ID] = item.Symbol;
     });
-    var indexPendingList = 0;
+    let indexPendingList = 0;
 
     return (
       <div className="c-explorer-page c-explorer-page-tx">
@@ -112,7 +112,11 @@ class Committees extends React.Component {
           <div className="row">
             <div className="col-12">
               <div className="heading">
-                Epoch {formatBlocksHeight(committees.Epoch)} - Committee Lists
+                Epoch 
+                {' '}
+                {formatBlocksHeight(committees.Epoch)}
+                {' '}
+- Committee Lists
               </div>
             </div>
           </div>
@@ -132,9 +136,9 @@ class Committees extends React.Component {
                     <tr>
                       <th>No.</th>
                       <th>Consensus(BLS) Public Key</th>
-                      {/*<th>Reward Receiver in base58check.encode</th>
+                      {/* <th>Reward Receiver in base58check.encode</th>
                       <th>Reward (PRV)</th>
-                      <th>Reward (pToken)</th>*/}
+                      <th>Reward (pToken)</th> */}
                     </tr>
                   </thead>
                   <tbody>
@@ -143,7 +147,7 @@ class Committees extends React.Component {
                         <tr key={value}>
                           <td>{`${index + 1}`}</td>
                           <td>{formatHashStr(value, true)}</td>
-                          {/*<td>{committees.BeaconRewardReceiver[index]}</td>
+                          {/* <td>{committees.BeaconRewardReceiver[index]}</td>
                           <td>
                             {formatCoinValue(
                               commiteesRewardAmount[
@@ -185,7 +189,7 @@ class Committees extends React.Component {
                                 return <></>;
                               }
                             })}
-                          </td>*/}
+                          </td> */}
                         </tr>
                       ))
                     ) : (
@@ -201,13 +205,17 @@ class Committees extends React.Component {
             </div>
             {Object.keys(committees.ShardCommittee).map((key, index) => {
               console.log(committees.ShardCommittee[key]);
-              let shardCommittee = committees.ShardCommittee[key];
-              let shardRewardReceiver = committees.ShardRewardReceiver[key];
+              const shardCommittee = committees.ShardCommittee[key];
+              const shardRewardReceiver = committees.ShardRewardReceiver[key];
               return (
                 <div className="col-12 col-md-12">
                   <div className="block content">
                     <div className="block-heading" style={{ fontSize: '15px' }}>
-                      Shard {parseInt(key)} Committee
+                      Shard 
+                      {' '}
+                      {parseInt(key)}
+                      {' '}
+Committee
                     </div>
                     <table
                       className={cn('c-table', {
@@ -218,9 +226,9 @@ class Committees extends React.Component {
                         <tr>
                           <th>No.</th>
                           <th>Consensus(BLS) Public Key</th>
-                          {/*<th>Reward Receiver in base58check.encode</th>
+                          {/* <th>Reward Receiver in base58check.encode</th>
                           <th>Reward (PRV)</th>
-                          <th>Reward (pToken)</th>*/}
+                          <th>Reward (pToken)</th> */}
                         </tr>
                       </thead>
                       <tbody>
@@ -229,7 +237,7 @@ class Committees extends React.Component {
                             <tr key={key}>
                               <td>{`${index + 1}`}</td>
                               <td>{formatHashStr(value, true)}</td>
-                              {/*<td>{shardRewardReceiver[index]}</td>
+                              {/* <td>{shardRewardReceiver[index]}</td>
                               <td>
                                 {formatCoinValue(
                                   commiteesRewardAmount[
@@ -271,7 +279,7 @@ class Committees extends React.Component {
                                     return <></>;
                                   }
                                 })}
-                              </td>*/}
+                              </td> */}
                             </tr>
                           ))
                         ) : (
@@ -295,7 +303,11 @@ class Committees extends React.Component {
             <div className="col-12">
               <div className="block content">
                 <div className="block-heading">
-                  Epoch {formatBlocksHeight(committees.Epoch)} - Waiting list
+                  Epoch 
+                  {' '}
+                  {formatBlocksHeight(committees.Epoch)}
+                  {' '}
+- Waiting list
                 </div>
               </div>
             </div>
@@ -312,9 +324,9 @@ class Committees extends React.Component {
                     <tr>
                       <th>No.</th>
                       <th>Consensus(BLS) Public Key</th>
-                      {/*<th>Reward Receiver in base58check.encode</th>
+                      {/* <th>Reward Receiver in base58check.encode</th>
                       <th>Reward (PRV)</th>
-                      <th>Reward (pToken)</th>*/}
+                      <th>Reward (pToken)</th> */}
                     </tr>
                   </thead>
                   <tbody>
@@ -325,7 +337,7 @@ class Committees extends React.Component {
                             <tr>
                               <td>{`${index + 1}`}</td>
                               <td>{value.MiningPubKey.bls}</td>
-                              {/*<td>{value.IncPubKey}</td>
+                              {/* <td>{value.IncPubKey}</td>
                               <td>
                                 {formatCoinValue(
                                   commiteesRewardAmount[value.IncPubKey]
@@ -363,7 +375,7 @@ class Committees extends React.Component {
                                     return <></>;
                                   }
                                 })}
-                              </td>*/}
+                              </td> */}
                             </tr>
                           );
                         }
@@ -392,9 +404,9 @@ class Committees extends React.Component {
                       <th>No.</th>
                       <th>Shard ID</th>
                       <th>Consensus(BLS) Public Key</th>
-                      {/*<th>Reward Receiver in base58check.encode</th>
+                      {/* <th>Reward Receiver in base58check.encode</th>
                       <th>Reward (PRV)</th>
-                      <th>Reward (pToken)</th>*/}
+                      <th>Reward (pToken)</th> */}
                     </tr>
                   </thead>
                   <tbody>
@@ -409,7 +421,7 @@ class Committees extends React.Component {
                               <td>{`${indexPendingList}`}</td>
                               <td>{shardID}</td>
                               <td>{v.MiningPubKey.bls}</td>
-                              {/*<td>{v.IncPubKey}</td>
+                              {/* <td>{v.IncPubKey}</td>
                               <td>
                                 {formatCoinValue(
                                   commiteesRewardAmount[v.IncPubKey]
@@ -442,7 +454,7 @@ class Committees extends React.Component {
                                     return <></>;
                                   }
                                 })}
-                              </td>*/}
+                              </td> */}
                             </tr>
                           );
                         });
@@ -482,7 +494,11 @@ class Committees extends React.Component {
                             <td>{`${index + 1}`}</td>
                             <td>{value.MiningPubKey.bls}</td>
                             <td>{value.IncPubKey}</td>
-                            <td>{value.Epochs} epoch</td>
+                            <td>
+                              {value.Epochs}
+                              {' '}
+epoch
+                            </td>
                           </tr>
                         );
                       })

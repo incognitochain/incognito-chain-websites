@@ -2,18 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link, NavLink } from 'react-router-dom';
-import { getBlock } from '@/reducers/constant/action';
 import * as moment from 'moment';
+import { getBlock } from '@/reducers/constant/action';
 import { formatHashStr } from '../services/formatter';
 import BrowserDetect from '../services/browserdetect';
 
 class Block extends React.Component {
-  static propTypes = {
-    match: PropTypes.object.isRequired,
-    actionGetBlock: PropTypes.func.isRequired,
-    block: PropTypes.object.isRequired
-  };
-
   constructor(props) {
     super(props);
 
@@ -25,8 +19,6 @@ class Block extends React.Component {
       block,
       isLatest: false
     };
-
-    this.fetch();
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -51,6 +43,10 @@ class Block extends React.Component {
     return null;
   }
 
+  componentDidMount() {
+    this.fetch();
+  }
+
   componentDidUpdate(prevProps, prevState) {
     const { blockHash, isLatest } = this.state;
     if (prevState.blockHash !== blockHash) {
@@ -63,7 +59,7 @@ class Block extends React.Component {
 
   fetch = () => {
     const params = new URLSearchParams(this.props.location.search);
-    let beacon = params.get('beacon');
+    const beacon = params.get('beacon');
     const { blockHash } = this.state;
     if (!beacon) {
       const { actionGetBlock } = this.props;
@@ -74,9 +70,7 @@ class Block extends React.Component {
     }
   };
 
-  isBeacon = chainId => {
-    return isNaN(chainId);
-  };
+  isBeacon = chainId => isNaN(chainId);
 
   render() {
     const { blockHash, block } = this.state;
@@ -86,8 +80,8 @@ class Block extends React.Component {
     }
 
     let validateData = block[blockHash].data.ValidationData;
-    var validateDataObj;
-    if (validateData != '') {
+    let validateDataObj;
+    if (validateData !== '') {
       validateData = JSON.parse(validateData);
     }
 
@@ -119,7 +113,9 @@ class Block extends React.Component {
                           exact
                           activeClassName="nav-active"
                           to={`/chain/${chainId}`}
-                        >{`Shard ${chainId - 1}`}</NavLink>
+                        >
+                          {`Shard ${chainId - 1}`}
+                        </NavLink>
                       </li>
                       <li>
                         <NavLink
@@ -214,10 +210,9 @@ class Block extends React.Component {
                         <td className="title">Previous block</td>
                         <td className="c-hash">
                           <Link
-                            to={
-                              `/block/${block[blockHash].data.PreviousBlockHash}` +
-                              (this.isBeacon(chainId) ? '?beacon=true' : '')
-                            }
+                            to={`/block/${
+                              block[blockHash].data.PreviousBlockHash
+                            }${this.isBeacon(chainId) ? '?beacon=true' : ''}`}
                           >
                             {formatHashStr(
                               block[blockHash].data.PreviousBlockHash,
@@ -230,10 +225,9 @@ class Block extends React.Component {
                         <td className="title">Next block</td>
                         <td className="c-hash">
                           <Link
-                            to={
-                              `/block/${block[blockHash].data.NextBlockHash}` +
-                              (this.isBeacon(chainId) ? '?beacon=true' : '')
-                            }
+                            to={`/block/${block[blockHash].data.NextBlockHash}${
+                              this.isBeacon(chainId) ? '?beacon=true' : ''
+                            }`}
                           >
                             {formatHashStr(
                               block[blockHash].data.NextBlockHash,
@@ -269,8 +263,9 @@ class Block extends React.Component {
                         <td className="c-hash">
                           {BrowserDetect.isMobile
                             ? validateDataObj
-                              ? validateDataObj.ProducerBLSSig.substring(5) +
-                                '...'
+                              ? `${validateDataObj.ProducerBLSSig.substring(
+                                  5
+                                )}...`
                               : ''
                             : validateDataObj
                             ? validateDataObj.ProducerBLSSig
@@ -321,9 +316,9 @@ class Block extends React.Component {
                         <tr>
                           <td className="title">TXs</td>
                           <td className="c-hash">
-                            <Link
-                              to={`/block/${blockHash}/txs`}
-                            >{`${block[blockHash].data.Txs.length} - View all`}</Link>
+                            <Link to={`/block/${blockHash}/txs`}>
+                              {`${block[blockHash].data.Txs.length} - View all`}
+                            </Link>
                           </td>
                         </tr>
                       ) : null}
@@ -338,6 +333,12 @@ class Block extends React.Component {
     );
   }
 }
+
+Block.propTypes = {
+  match: PropTypes.object.isRequired,
+  actionGetBlock: PropTypes.func.isRequired,
+  block: PropTypes.object.isRequired
+};
 
 export default connect(
   state => ({

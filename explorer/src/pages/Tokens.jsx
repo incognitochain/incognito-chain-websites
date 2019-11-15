@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
-import { getTokens, getPrivacyTokens } from '@/reducers/constant/action';
 import Avatar from '@material-ui/core/Avatar';
+import { getTokens, getPrivacyTokens } from '@/reducers/constant/action';
 import { formatTokenAmount } from '../services/formatter';
 
 class Tokens extends React.Component {
@@ -37,7 +37,7 @@ class Tokens extends React.Component {
       nextProps.tokens.updatedAt !== prevState.tokens.updatedAt &&
       nextProps.privacyTokens.updatedAt !== prevState.privacyTokens.updatedAt
     ) {
-      let temp = {};
+      const temp = {};
       temp.tokens = nextProps.tokens;
       temp.privacyTokens = nextProps.privacyTokens;
       return temp;
@@ -46,8 +46,8 @@ class Tokens extends React.Component {
   }
 
   render() {
-    let { tokens, privacyTokens } = this.state;
-    let listTokens = {
+    const { tokens, privacyTokens } = this.state;
+    const listTokens = {
       list: []
     };
     if (tokens) {
@@ -105,7 +105,7 @@ class Tokens extends React.Component {
                             </td> */}
                             <td className="c-hash">{token.Name}</td>
                             <td className="c-hash">{token.Symbol}</td>
-                            <td className="c-hash">{token.IsPrivacy + ''}</td>
+                            <td className="c-hash">{`${token.IsPrivacy  }`}</td>
                             <td className="c-hash">
                               {formatTokenAmount(token.Amount)}
                             </td>

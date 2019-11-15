@@ -14,18 +14,19 @@ class Tx extends React.Component {
   }
 
   renderTxType = type => {
-    if (type == 's') {
+    if (type === 's') {
       return 'Reward Tx';
     }
-    if (type == 'n') {
+    if (type === 'n') {
       return 'Transfer';
     }
-    if (type == 't') {
+    if (type === 't') {
       return 'Init/Transfer custom token';
     }
-    if (type == 'tp') {
+    if (type === 'tp') {
       return 'Init/Transfer privacy custom token';
     }
+    return '';
   };
 
   render() {
@@ -37,7 +38,7 @@ class Tx extends React.Component {
           <tr>
             <td>Block height</td>
             <td>
-              {tx.BlockHeight == 1
+              {tx.BlockHeight === 1
                 ? '1 [Genesis block]'
                 : formatBlocksHeight(tx.BlockHeight)}
             </td>
@@ -56,11 +57,7 @@ class Tx extends React.Component {
           </tr>
           <tr>
             <td>Fee</td>
-            <td>
-              {tx.Fee / 1e9 > 1
-                ? formatCoinValue(tx.Fee / 1e9) + ' PRV'
-                : formatCoinValue(tx.Fee / 1e9) + ' PRV'}{' '}
-            </td>
+            <td>{`${formatCoinValue(tx.Fee / 1e9)} PRV`}</td>
           </tr>
           <tr>
             <td>Time created</td>
@@ -105,7 +102,7 @@ class Tx extends React.Component {
           <tr>
             <td style={{ verticalAlign: 'top' }}>Proof (base58check encode)</td>
             <td>
-              <textarea disabled={true} rows={10} cols={100}>
+              <textarea disabled rows={10} cols={100}>
                 {tx.Proof}
               </textarea>
             </td>
@@ -113,7 +110,7 @@ class Tx extends React.Component {
           <tr>
             <td style={{ verticalAlign: 'top' }}>Proof Detail</td>
             <td>
-              <textarea disabled={true} rows={10} cols={100}>
+              <textarea disabled rows={10} cols={100}>
                 {JSON.stringify(tx.ProofDetail, null, '  ')}
               </textarea>
             </td>
@@ -121,7 +118,7 @@ class Tx extends React.Component {
           <tr>
             <td style={{ verticalAlign: 'top' }}>Metadata</td>
             <td>
-              <textarea disabled={true} rows={10} cols={100}>
+              <textarea disabled rows={10} cols={100}>
                 {tx.Metadata == null ? '' : tx.Metadata}
               </textarea>
             </td>
@@ -138,7 +135,7 @@ class Tx extends React.Component {
           <tr>
             <td style={{ verticalAlign: 'top' }}>Transacted privacy token</td>
             <td>
-              <textarea disabled={true} rows={10} cols={100}>
+              <textarea disabled rows={10} cols={100}>
                 {tx.PrivacyCustomTokenData == null
                   ? ''
                   : tx.PrivacyCustomTokenData}
@@ -149,7 +146,7 @@ class Tx extends React.Component {
           <tr>
             <td style={{ verticalAlign: 'top' }}>Privacy token proof detail</td>
             <td>
-              <textarea disabled={true} rows={10} cols={100}>
+              <textarea disabled rows={10} cols={100}>
                 {tx.PrivacyCustomTokenProofDetail == null
                   ? ''
                   : JSON.stringify(

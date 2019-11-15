@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { checkHash } from '@/reducers/constant/action';
 import { Link } from 'react-router-dom';
 import { push } from 'connected-react-router';
 import { trim } from 'lodash';
+import moment from 'moment';
 import { formatBlocksHeight, formatHashStr } from '../services/formatter';
 import BrowserDetect from '../services/browserdetect';
-import moment from 'moment';
+import { checkHash } from '@/reducers/constant/action';
 import RecentBlockIcon from '@/assets/icon/recent-block.svg';
 import BeaconIcon from '@/assets/icon/beacon.svg';
 
@@ -128,15 +128,15 @@ class Home extends React.Component {
                 paddingBottom: '20px',
                 fontSize: '13px'
               }}
-            ></div>
+            />
           </div>
           <div className="row">
-            <div className="col-12"></div>
-            {/*<div className="col-12">
+            <div className="col-12" />
+            {/* <div className="col-12">
               <div className="block content">
                 <Link to="/info">Blockchain Advance Information </Link>
               </div>
-            </div>*/}
+            </div> */}
             <div className="col-12">
               <div className="block content" id="best-blocks">
                 <div className="block-heading">Beacon chain</div>

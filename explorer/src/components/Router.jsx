@@ -1,6 +1,5 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
-import { createDynamicImport } from '@/services/app';
 import {
   Switch,
   Route,
@@ -8,6 +7,7 @@ import {
   // Redirect,
 } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { createDynamicImport } from '@/services/app';
 import Loading from './Loading';
 
 const Home = createDynamicImport(() => import('@/pages/Home'), Loading);

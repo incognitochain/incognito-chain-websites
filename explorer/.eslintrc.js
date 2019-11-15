@@ -1,26 +1,21 @@
 module.exports = {
-  "extends": "airbnb",
-  "parser": "babel-eslint",
-  "env": {
-    "browser": true,
+  parser: 'babel-eslint',
+  parserOptions: {
+    sourceType: 'module',
+    allowImportExportEverywhere: false,
+    codeFrame: false
   },
-  "rules": {
-    "max-len": "off",
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "react/forbid-prop-types": "off",
-    // will turn on later
-    "jsx-a11y/click-events-have-key-events": "off",
-    "jsx-a11y/no-static-element-interactions": "off",
-    "jsx-a11y/label-has-for": "off",
-    "jsx-a11y/label-has-associated-control": "off",
-    "react/no-danger": "off",
-    "no-console": "off"
+  extends: ['airbnb', 'prettier'],
+  env: {
+    browser: true,
+    jest: true
   },
-  "settings": {
-    "import/resolver": "webpack",
-  },
-  "globals": {
-    "web3": true,
-    "DEBUG": true
+  rules: {
+    'max-len': ['error', { code: 100 }],
+    'prefer-promise-reject-errors': ['off'],
+    'react/jsx-filename-extension': ['off'],
+    'react/prop-types': ['warn'],
+    'no-return-assign': ['off'],
+    'prettier/prettier': ['error']
   }
 };

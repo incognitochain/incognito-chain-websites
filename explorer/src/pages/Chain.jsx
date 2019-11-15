@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import cn from '@sindresorhus/class-names';
-import { getBlocks, getBlockchainInfo } from '@/reducers/constant/action';
 import { Link, NavLink } from 'react-router-dom';
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,9 +9,9 @@ import {
   faChevronLeft,
   faChevronRight
 } from '@fortawesome/pro-regular-svg-icons';
+import { getBlocks, getBlockchainInfo } from '@/reducers/constant/action';
 import {
   formatBlocksHeight,
-  formatCoinValue,
   formatHashStr,
   formatProducerStr
 } from '../services/formatter';
@@ -40,11 +39,6 @@ class Chain extends React.Component {
       rawchainId,
       page: 1
     };
-
-    this.loadData(rawchainId);
-    setInterval(() => {
-      this.loadData(rawchainId);
-    }, 15 * 1000); // reload after 5 minutes
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -64,6 +58,18 @@ class Chain extends React.Component {
       return { page: parseInt(pageRegexExeced[1], 10) };
     }
     return null;
+  }
+
+  componentDidMount() {
+    const { rawchainId } = this.state;
+    this.loadData(rawchainId);
+    this.loadDataInterval = setInterval(() => {
+      this.loadData(rawchainId);
+    }, 15 * 1000); // reload after 5 minutes
+  }
+
+  componentWillUnmount() {
+    if (this.loadDataInterval) clearInterval(this.loadDataInterval);
   }
 
   loadData = rawchainId => {
@@ -128,7 +134,7 @@ class Chain extends React.Component {
                 {!this.isBeacon(chainId)
                   ? `Shard ${chainId - 1}`
                   : 'Beacon Chain'}
-                <div class="title">Total blocks:</div>
+                <div className="title">Total blocks:</div>
                 <Link to={`/block/${chainBlock.Hash}`} className="c-hash">
                   {formatBlocksHeight(chainBlock.Height)}
                 </Link>
@@ -173,17 +179,25 @@ class Chain extends React.Component {
                       blocks[rawchainId].list.length - 1
                     ].Height.toLocaleString(navigator.language, {
                       minimumFractionDigits: 0
-                    })}{' '}
+                    })}
+                    {' '}
                     to #
                     {blocks[rawchainId].list[0].Height.toLocaleString(
                       navigator.language,
-                      { minimumFractionDigits: 0 }
-                    )}{' '}
-                    (Total of{' '}
+                      {
+                        minimumFractionDigits: 0
+                      }
+                    )}
+                    {' '}
+                    (Total of
+                    {' '}
                     {blocks[rawchainId].list[0].Height.toLocaleString(
                       navigator.language,
-                      { minimumFractionDigits: 0 }
-                    )}{' '}
+                      {
+                        minimumFractionDigits: 0
+                      }
+                    )}
+                    {' '}
                     blocks)
                   </span>
                 </div>
@@ -214,8 +228,8 @@ class Chain extends React.Component {
                             <td className="c-hash">
                               <Link
                                 to={
-                                  `/block/${blockchain.Hash}` +
-                                  (this.isBeacon(chainId) ? '?beacon=true' : '')
+                                  `/block/${blockchain.Hash}${ 
+                                  this.isBeacon(chainId) ? '?beacon=true' : ''}`
                                 }
                               >
                                 {formatHashStr(
@@ -247,18 +261,22 @@ class Chain extends React.Component {
                             <td>{moment(blockchain.Time * 1000).fromNow()}</td>
                             <td className="center">
                               {blockchain.Fee
-                                ? (blockchain.Fee / 1e9).toLocaleString(
+                                ? `${(blockchain.Fee / 1e9).toLocaleString(
                                     navigator.language,
-                                    { minimumFractionDigits: 2 }
-                                  ) + ' PRV'
+                                    {
+                                      minimumFractionDigits: 2
+                                    }
+                                  )  } PRV`
                                 : '-'}
                             </td>
                             <td className="center">
                               {blockchain.Reward
-                                ? (blockchain.Reward / 1e9).toLocaleString(
+                                ? `${(blockchain.Reward / 1e9).toLocaleString(
                                     navigator.language,
-                                    { minimumFractionDigits: 2 }
-                                  ) + ' PRV'
+                                    {
+                                      minimumFractionDigits: 2
+                                    }
+                                  )  } PRV`
                                 : '-'}
                             </td>
                           </tr>

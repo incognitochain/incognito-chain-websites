@@ -2,19 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
+import { isEmpty } from 'lodash';
 import { getTx } from '@/reducers/constant/action';
 import TxComponent from '@/components/Tx';
-import { isEmpty } from 'lodash';
-import { formatHashStr } from '../services/formatter';
-import BrowserDetect from '../services/browserdetect';
 
 class Tx extends React.Component {
-  static propTypes = {
-    tx: PropTypes.object.isRequired,
-    match: PropTypes.object.isRequired,
-    actionGetTx: PropTypes.func.isRequired
-  };
-
   constructor(props) {
     super(props);
 
@@ -87,7 +79,7 @@ class Tx extends React.Component {
                       to={
                         specTx.BlockHash
                           ? `/block/${specTx.BlockHash}/txs`
-                          : `/txs/pending`
+                          : '/txs/pending'
                       }
                     >
                       {specTx.BlockHash ? 'TXs' : 'Pending TXs'}
@@ -122,6 +114,12 @@ class Tx extends React.Component {
     );
   }
 }
+
+Tx.propTypes = {
+  tx: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  actionGetTx: PropTypes.func.isRequired
+};
 
 export default connect(
   state => ({

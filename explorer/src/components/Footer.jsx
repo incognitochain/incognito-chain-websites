@@ -16,7 +16,9 @@ class Footer extends React.PureComponent {
         <div className="container">
           <div className="row">
             <div className="col-12">
-              {capitalize(chainInfo.ChainName)} © Incognito Network
+              {capitalize(chainInfo.ChainName)}
+              {' '}
+© Incognito Network
             </div>
           </div>
         </div>

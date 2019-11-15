@@ -1,8 +1,8 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Router from '@/components/Router';
 import { withRouter } from 'react-router-dom';
+import Router from '@/components/Router';
 
 class Root extends React.Component {
   static propTypes = {

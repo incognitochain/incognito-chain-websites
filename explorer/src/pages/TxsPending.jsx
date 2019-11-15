@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link, NavLink } from 'react-router-dom';
-import { getMempoolInfo } from '@/reducers/constant/action';
 import { isEmpty } from 'lodash';
+import { getMempoolInfo } from '@/reducers/constant/action';
 import { formatHashStr } from '../services/formatter';
 import BrowserDetect from '../services/browserdetect';
 
