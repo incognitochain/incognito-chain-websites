@@ -1,0 +1,57 @@
+@mixin breakpoint-up($size) {
+  @if $size == xs {
+    @media screen and (min-width: $breakpoint-xs) {
+      @content;
+    }
+  } @else if $size == sm {
+    @media screen and (min-width: $breakpoint-sm) {
+      @content;
+    }
+  } @else if $size == md {
+    @media screen and (min-width: $breakpoint-md) {
+      @content;
+    }
+  } @else if $size == lg {
+    @media screen and (min-width: $breakpoint-lg) {
+      @content;
+    }
+  } @else if $size == xl {
+    @media screen and (min-width: $breakpoint-xl) {
+      @content;
+    }
+  } @else {
+    // fallback to px
+    @media screen and (min-width: $size) {
+      @content;
+    }
+  }
+}
+
+@mixin breakpoint-down($size) {
+  @if $size == xs {
+    @media screen and (max-width: $breakpoint-xs) {
+      @content;
+    }
+  } @else if $size == sm {
+    @media screen and (max-width: $breakpoint-sm) {
+      @content;
+    }
+  } @else if $size == md {
+    @media screen and (max-width: $breakpoint-md) {
+      @content;
+    }
+  } @else if $size == lg {
+    @media screen and (max-width: $breakpoint-lg) {
+      @content;
+    }
+  } @else if $size == xl {
+    @media screen and (max-width: $breakpoint-xl) {
+      @content;
+    }
+  } @else {
+    // fallback to px
+    @media screen and (max-width: $size) {
+      @content;
+    }
+  }
+}

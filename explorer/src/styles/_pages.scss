@@ -81,6 +81,7 @@
     .chain-item-container {
       display: flex;
       align-items: flex-start;
+      overflow: auto;
 
       .icon {
         margin-right: 20px;

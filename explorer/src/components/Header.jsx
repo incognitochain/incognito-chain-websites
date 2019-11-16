@@ -62,7 +62,7 @@ class Header extends React.Component {
             <ul className="home-top-info c-list-inline">
               <li>
                 <Link to="/">
-                  <img className="icon" src={NetworkIcon} />
+                  <img className="icon" src={NetworkIcon} alt="network icon" />
                   <div>
                     <div className="data c-color-black">
                       {chainInfo.ChainName}
@@ -73,7 +73,7 @@ class Header extends React.Component {
               </li>
               <li>
                 <Link to="/chains">
-                  <img className="icon" src={ShardIcon} />
+                  <img className="icon" src={ShardIcon} alt="shard icon" />
                   <div>
                     <div className="title">Total shards</div>
                     <div className="data c-color-black">{activeShards}</div>
@@ -82,7 +82,7 @@ class Header extends React.Component {
               </li>
               <li>
                 <Link to="/chain/0">
-                  <img className="icon" src={BlockIcon} />
+                  <img className="icon" src={BlockIcon} alt="block icon" />
                   <div>
                     <div className="title">Total blocks</div>
                     <div className="data c-color-black">
@@ -93,7 +93,7 @@ class Header extends React.Component {
               </li>
               <li>
                 <Link to="/txs/pending">
-                  <img className="icon" src={TxIcon} />
+                  <img className="icon" src={TxIcon} alt="transaction icon" />
                   <div>
                     <div className="title">Total txs</div>
                     <div className="data c-color-black">
@@ -104,7 +104,7 @@ class Header extends React.Component {
               </li>
               <li>
                 <Link to="/committees">
-                  <img className="icon" src={EpochIcon} />
+                  <img className="icon" src={EpochIcon} alt="epoch icon" />
                   <div>
                     <div className="title">Epoch</div>
                     <div className="data c-color-black">

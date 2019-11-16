@@ -38,6 +38,10 @@
     align-items: center;
     padding-top: 50px;
 
+    @include breakpoint-down(xl) {
+      flex-wrap: wrap;
+    }
+
     li {
       padding: 10px 15px;
 
@@ -94,6 +98,15 @@
           }
         }
       }
+
+      @include breakpoint-down(xl) {
+        flex: 0 0 100%;
+        margin: 0;
+
+        &:not(:last-child) {
+          margin: 0;
+        }
+      }
     }
   }
 }
@@ -103,6 +116,7 @@
   color: #ffffff;
   background-color: $black;
   padding-bottom: 30px;
+  margin-top: -1px;
 
   .title {
     font-weight: bold;
