@@ -36,6 +36,20 @@ class Tx extends React.Component {
       <table className="c-table">
         <tbody>
           <tr>
+            <td>Status:</td>
+            <td>{tx.BlockHash ? 'Success' : 'Pending'}</td>
+          </tr>
+          <tr>
+            <td>Timestamp</td>
+            <td>{tx.LockTime}</td>
+          </tr>
+          {tx.BlockHash && (
+            <tr>
+              <td>Block:</td>
+              <td>{tx.BlockHash}</td>
+            </tr>
+          )}
+          <tr>
             <td>Block height</td>
             <td>
               {tx.BlockHeight === 1
@@ -58,10 +72,6 @@ class Tx extends React.Component {
           <tr>
             <td>Fee</td>
             <td>{`${formatCoinValue(tx.Fee / 1e9)} PRV`}</td>
-          </tr>
-          <tr>
-            <td>Time created</td>
-            <td>{tx.LockTime}</td>
           </tr>
           <tr>
             <td>SigPubKey</td>
@@ -154,15 +164,6 @@ class Tx extends React.Component {
                       '\t',
                       '\t'
                     )}
-              </textarea>
-            </td>
-          </tr>
-
-          <tr>
-            <td style={{ verticalAlign: 'top' }}>Privacy token transaction</td>
-            <td>
-              <textarea>
-                {tx.PrivacyCustomTokenIsPrivacy ? 'yes' : 'no'}
               </textarea>
             </td>
           </tr>
