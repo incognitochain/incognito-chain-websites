@@ -97,7 +97,9 @@ class Token extends React.Component {
                 <div className="row">
                   <div className="col-12">
                     <h3>Token</h3>
-                    <span className="c-hash">{customTokenId}</span>
+                    <span className="c-hash">ID: {customTokenId}</span><br/>
+                    <span className="c-hash">Name: {token[customTokenId].data.Name}</span><br/>
+                    <span className="c-hash">Symbol: {token[customTokenId].data.Symbol}</span>
                   </div>
                 </div>
               </div>
@@ -130,7 +132,7 @@ class Token extends React.Component {
                 </table>
               </div>
             </div>
-            <div className="col-12">
+            {/*<div className="col-12">
               <div className="block content">
                 <div className="block-heading">Token Holders</div>
                 <table className="c-table c-table-list">
@@ -165,7 +167,7 @@ class Token extends React.Component {
                   </tbody>
                 </table>
               </div>
-            </div>
+            </div>*/}
           </div>
         </div>
       </div>
