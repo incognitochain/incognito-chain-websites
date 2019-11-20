@@ -110,7 +110,7 @@ class Tokens extends React.Component {
                               {formatTokenAmount(token.Amount)}
                             </td>
                             <td className="c-hash">
-                              {formatTokenAmount(token.ListTxs?.length | 0)}
+                              {formatTokenAmount(token.CountTxs | 0)}
                             </td>
                           </tr>
                         ))
