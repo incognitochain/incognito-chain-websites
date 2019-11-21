@@ -117,7 +117,7 @@ export const getPrivacyTokens = () =>
     true,
     ACTIONS.CONSTANT_PRIVACY_TOKENS,
     'listprivacycustomtoken',
-    []
+    [1]
   );
 export const checkHash = hash =>
   createRPCRequest(
