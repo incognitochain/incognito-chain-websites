@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
-import { isEmpty } from 'lodash';
+import {connect} from 'react-redux';
+import {NavLink} from 'react-router-dom';
+import {isEmpty} from 'lodash';
 import cn from '@sindresorhus/class-names';
 import {
   getListCommittee,
@@ -79,7 +79,7 @@ class Committees extends React.Component {
     const PRV =
       '0000000000000000000000000000000000000000000000000000000000000004';
     const mapPrivacyTokens = {};
-    privacyTokens.list.forEach(function(item, i) {
+    privacyTokens.list.forEach(function (item, i) {
       mapPrivacyTokens[item.ID] = item.Symbol;
     });
     let indexPendingList = 0;
@@ -112,11 +112,11 @@ class Committees extends React.Component {
           <div className="row">
             <div className="col-12">
               <div className="heading">
-                Epoch 
+                Epoch
                 {' '}
                 {formatBlocksHeight(committees.Epoch)}
                 {' '}
-- Committee Lists
+                - Committee Lists
               </div>
             </div>
           </div>
@@ -124,7 +124,7 @@ class Committees extends React.Component {
           <div className="row">
             <div className="col-12 col-md-12">
               <div className="block content">
-                <div className="block-heading" style={{ fontSize: '15px' }}>
+                <div className="block-heading" style={{fontSize: '15px'}}>
                   Beacon Commmitee
                 </div>
                 <table
@@ -133,72 +133,72 @@ class Committees extends React.Component {
                   })}
                 >
                   <thead>
-                    <tr>
-                      <th>No.</th>
-                      <th>Consensus(BLS) Public Key</th>
-                      {/* <th>Reward Receiver in base58check.encode</th>
-                      <th>Reward (PRV)</th>
-                      <th>Reward (pToken)</th> */}
-                    </tr>
+                  <tr>
+                    <th>No.</th>
+                    <th>Consensus(BLS) Public Key</th>
+                    <th>Reward Receiver in base58check.encode</th>
+                    <th>Reward (PRV)</th>
+                    <th>Reward (pToken)</th>
+                  </tr>
                   </thead>
                   <tbody>
-                    {!isEmpty(committees.BeaconCommittee) ? (
-                      committees.BeaconCommittee.map((value, index) => (
-                        <tr key={value}>
-                          <td>{`${index + 1}`}</td>
-                          <td>{formatHashStr(value, true)}</td>
-                          {/* <td>{committees.BeaconRewardReceiver[index]}</td>
-                          <td>
-                            {formatCoinValue(
+                  {!isEmpty(committees.BeaconCommittee) ? (
+                    committees.BeaconCommittee.map((value, index) => (
+                      <tr key={value}>
+                        <td>{`${index + 1}`}</td>
+                        <td>{formatHashStr(value, true)}</td>
+                        <td>{committees.BeaconRewardReceiver[index]}</td>
+                        <td>
+                          {formatCoinValue(
+                            commiteesRewardAmount[
+                              committees.BeaconRewardReceiver[index]
+                              ]
+                              ? commiteesRewardAmount[
+                              committees.BeaconRewardReceiver[index]
+                              ][PRV] / 1e9
+                              : 0
+                          )}
+                        </td>
+                        <td>
+                          {Object.keys(mapPrivacyTokens).map((key, i) => {
+                            var name = mapPrivacyTokens[key];
+                            if (
+                              name.length > 0 &&
                               commiteesRewardAmount[
                                 committees.BeaconRewardReceiver[index]
-                              ]
-                                ? commiteesRewardAmount[
-                                    committees.BeaconRewardReceiver[index]
-                                  ][PRV] / 1e9
-                                : 0
-                            )}
-                          </td>
-                          <td>
-                            {Object.keys(mapPrivacyTokens).map((key, i) => {
-                              var name = mapPrivacyTokens[key];
-                              if (
-                                name.length > 0 &&
-                                commiteesRewardAmount[
-                                  committees.BeaconRewardReceiver[index]
                                 ] &&
+                              commiteesRewardAmount[
+                                committees.BeaconRewardReceiver[index]
+                                ][key]
+                            ) {
+                              var value =
                                 commiteesRewardAmount[
                                   committees.BeaconRewardReceiver[index]
-                                ][key]
-                              ) {
-                                var value =
-                                  commiteesRewardAmount[
-                                    committees.BeaconRewardReceiver[index]
                                   ][key];
-                                if (key == PRV) {
-                                  value = value / 1e9;
-                                } else {
-                                  value = value / 1e9;
-                                }
-                                return (
-                                  <span style={{ display: 'block' }}>
+                              if (key == PRV) {
+                                value = value / 1e9;
+                              } else {
+                                value = value / 1e9;
+                              }
+                              return (
+                                <span style={{display: 'block'}}>
                                     {name + ':' + value}
                                   </span>
-                                );
-                              } else {
-                                return <></>;
-                              }
-                            })}
-                          </td> */}
-                        </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td style={{ textAlign: 'center' }} colSpan={5}>
-                          - Nothing here at the moment. -
+                              );
+                            } else {
+                              return <></>;
+                            }
+                          })}
                         </td>
                       </tr>
-                    )}
+                    ))
+                  ) : (
+                    <tr>
+                      <td style={{textAlign: 'center'}} colSpan={5}>
+                        - Nothing here at the moment. -
+                      </td>
+                    </tr>
+                  )}
                   </tbody>
                 </table>
               </div>
@@ -210,12 +210,12 @@ class Committees extends React.Component {
               return (
                 <div className="col-12 col-md-12">
                   <div className="block content">
-                    <div className="block-heading" style={{ fontSize: '15px' }}>
-                      Shard 
+                    <div className="block-heading" style={{fontSize: '15px'}}>
+                      Shard
                       {' '}
                       {parseInt(key)}
                       {' '}
-Committee
+                      Committee
                     </div>
                     <table
                       className={cn('c-table', {
@@ -223,72 +223,72 @@ Committee
                       })}
                     >
                       <thead>
-                        <tr>
-                          <th>No.</th>
-                          <th>Consensus(BLS) Public Key</th>
-                          {/* <th>Reward Receiver in base58check.encode</th>
-                          <th>Reward (PRV)</th>
-                          <th>Reward (pToken)</th> */}
-                        </tr>
+                      <tr>
+                        <th>No.</th>
+                        <th>Consensus(BLS) Public Key</th>
+                        <th>Reward Receiver in base58check.encode</th>
+                        <th>Reward (PRV)</th>
+                        <th>Reward (pToken)</th>
+                      </tr>
                       </thead>
                       <tbody>
-                        {!isEmpty(shardCommittee) ? (
-                          shardCommittee.map((value, index) => (
-                            <tr key={key}>
-                              <td>{`${index + 1}`}</td>
-                              <td>{formatHashStr(value, true)}</td>
-                              {/* <td>{shardRewardReceiver[index]}</td>
-                              <td>
-                                {formatCoinValue(
-                                  commiteesRewardAmount[
-                                    shardRewardReceiver[index]
+                      {!isEmpty(shardCommittee) ? (
+                        shardCommittee.map((value, index) => (
+                          <tr key={key}>
+                            <td>{`${index + 1}`}</td>
+                            <td>{formatHashStr(value, true)}</td>
+                            <td>{shardRewardReceiver[index]}</td>
+                            <td>
+                              {formatCoinValue(
+                                commiteesRewardAmount[
+                                  shardRewardReceiver[index]
                                   ]
-                                    ? commiteesRewardAmount[
-                                        shardRewardReceiver[index]
-                                      ][PRV] / 1e9
-                                    : 0
-                                )}
-                              </td>
-                              <td>
-                                {Object.keys(mapPrivacyTokens).map((key, i) => {
-                                  var name = mapPrivacyTokens[key];
-                                  if (
-                                    name.length > 0 &&
-                                    (commiteesRewardAmount[
+                                  ? commiteesRewardAmount[
+                                  shardRewardReceiver[index]
+                                  ][PRV] / 1e9
+                                  : 0
+                              )}
+                            </td>
+                            <td>
+                              {Object.keys(mapPrivacyTokens).map((key, i) => {
+                                var name = mapPrivacyTokens[key];
+                                if (
+                                  name.length > 0 &&
+                                  (commiteesRewardAmount[
                                       shardRewardReceiver[index]
-                                    ] &&
-                                      commiteesRewardAmount[
-                                        shardRewardReceiver[index]
+                                      ] &&
+                                    commiteesRewardAmount[
+                                      shardRewardReceiver[index]
                                       ][key])
-                                  ) {
-                                    var value =
-                                      commiteesRewardAmount[
-                                        shardRewardReceiver[index]
+                                ) {
+                                  var value =
+                                    commiteesRewardAmount[
+                                      shardRewardReceiver[index]
                                       ][key];
-                                    if (key == PRV) {
-                                      value = value / 1e9;
-                                    } else {
-                                      value = value / 1e9;
-                                    }
-                                    return (
-                                      <span style={{ display: 'block' }}>
+                                  if (key == PRV) {
+                                    value = value / 1e9;
+                                  } else {
+                                    value = value / 1e9;
+                                  }
+                                  return (
+                                    <span style={{display: 'block'}}>
                                         {name + ':' + value}
                                       </span>
-                                    );
-                                  } else {
-                                    return <></>;
-                                  }
-                                })}
-                              </td> */}
-                            </tr>
-                          ))
-                        ) : (
-                          <tr>
-                            <td style={{ textAlign: 'center' }} colSpan={5}>
-                              - Nothing here at the moment. -
+                                  );
+                                } else {
+                                  return <></>;
+                                }
+                              })}
                             </td>
                           </tr>
-                        )}
+                        ))
+                      ) : (
+                        <tr>
+                          <td style={{textAlign: 'center'}} colSpan={5}>
+                            - Nothing here at the moment. -
+                          </td>
+                        </tr>
+                      )}
                       </tbody>
                     </table>
                   </div>
@@ -297,218 +297,218 @@ Committee
             })}
           </div>
           <div>
-            <hr />
+            <hr/>
           </div>
           <div className="row">
             <div className="col-12">
               <div className="block content">
                 <div className="block-heading">
-                  Epoch 
+                  Epoch
                   {' '}
                   {formatBlocksHeight(committees.Epoch)}
                   {' '}
-- Waiting list
+                  - Waiting list
                 </div>
               </div>
             </div>
           </div>
-          <div className="row" style={{ paddingTop: 20 }}>
+          <div className="row" style={{paddingTop: 20}}>
             <div className="col-12 col-md-12">
               <div className="block content">
-                <div className="block-heading" style={{ fontSize: '15px' }}>
+                <div className="block-heading" style={{fontSize: '15px'}}>
                   Committee candidates for the next shard (to be selected at
                   random)
                 </div>
                 <table className="c-table c-table-list">
                   <thead>
-                    <tr>
-                      <th>No.</th>
-                      <th>Consensus(BLS) Public Key</th>
-                      {/* <th>Reward Receiver in base58check.encode</th>
-                      <th>Reward (PRV)</th>
-                      <th>Reward (pToken)</th> */}
-                    </tr>
+                  <tr>
+                    <th>No.</th>
+                    <th>Consensus(BLS) Public Key</th>
+                    <th>Reward Receiver in base58check.encode</th>
+                    <th>Reward (PRV)</th>
+                    <th>Reward (pToken)</th>
+                  </tr>
                   </thead>
                   <tbody>
-                    {beaconBeststate.data.CandidateShardWaitingForNextRandom ? (
-                      beaconBeststate.data.CandidateShardWaitingForNextRandom.map(
-                        (value, index) => {
-                          return (
-                            <tr>
-                              <td>{`${index + 1}`}</td>
-                              <td>{value.MiningPubKey.bls}</td>
-                              {/* <td>{value.IncPubKey}</td>
-                              <td>
-                                {formatCoinValue(
-                                  commiteesRewardAmount[value.IncPubKey]
-                                    ? commiteesRewardAmount[value.IncPubKey][
-                                        PRV
-                                      ] / 1e9
-                                    : 0
-                                )}
-                              </td>
-                              <td>
-                                {Object.keys(mapPrivacyTokens).map((key, i) => {
-                                  var name = mapPrivacyTokens[key];
-                                  if (
-                                    name.length > 0 &&
-                                    (commiteesRewardAmount[value.IncPubKey] &&
-                                      commiteesRewardAmount[value.IncPubKey][
-                                        key
-                                      ])
-                                  ) {
-                                    var valueToken =
-                                      commiteesRewardAmount[value.IncPubKey][
-                                        key
-                                      ];
-                                    if (key == PRV) {
-                                      valueToken = valueToken / 1e9;
-                                    } else {
-                                      valueToken = valueToken / 1e9;
-                                    }
-                                    return (
-                                      <span style={{ display: 'block' }}>
-                                        {name + ':' + valueToken}
-                                      </span>
-                                    );
-                                  } else {
-                                    return <></>;
-                                  }
-                                })}
-                              </td> */}
-                            </tr>
-                          );
-                        }
-                      )
-                    ) : (
-                      <tr>
-                        <td style={{ textAlign: 'center' }} colSpan={5}>
-                          - Nothing here at the moment. -
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-12 col-md-12">
-              <div className="block content">
-                <div className="block-heading" style={{ fontSize: '15px' }}>
-                  Selected candidates (validators) in preparation phase
-                </div>
-                <table className="c-table c-table-list">
-                  <thead>
-                    <tr>
-                      <th>No.</th>
-                      <th>Shard ID</th>
-                      <th>Consensus(BLS) Public Key</th>
-                      {/* <th>Reward Receiver in base58check.encode</th>
-                      <th>Reward (PRV)</th>
-                      <th>Reward (pToken)</th> */}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {beaconBeststate.data.ShardPendingValidator ? (
-                      Object.entries(
-                        beaconBeststate.data.ShardPendingValidator
-                      ).map(([shardID, value], index) => {
-                        return value.map((v, i) => {
-                          indexPendingList++;
-                          return (
-                            <tr>
-                              <td>{`${indexPendingList}`}</td>
-                              <td>{shardID}</td>
-                              <td>{v.MiningPubKey.bls}</td>
-                              {/* <td>{v.IncPubKey}</td>
-                              <td>
-                                {formatCoinValue(
-                                  commiteesRewardAmount[v.IncPubKey]
-                                    ? commiteesRewardAmount[v.IncPubKey][PRV] /
-                                        1e9
-                                    : 0
-                                )}
-                              </td>
-                              <td>
-                                {Object.keys(mapPrivacyTokens).map((key, i) => {
-                                  var name = mapPrivacyTokens[key];
-                                  if (
-                                    name.length > 0 &&
-                                    (commiteesRewardAmount[v.IncPubKey] &&
-                                      commiteesRewardAmount[v.IncPubKey][key])
-                                  ) {
-                                    var value =
-                                      commiteesRewardAmount[v.IncPubKey][key];
-                                    if (key == PRV) {
-                                      value = value / 1e9;
-                                    } else {
-                                      value = value / 1e9;
-                                    }
-                                    return (
-                                      <span style={{ display: 'block' }}>
-                                        {name + ':' + value}
-                                      </span>
-                                    );
-                                  } else {
-                                    return <></>;
-                                  }
-                                })}
-                              </td> */}
-                            </tr>
-                          );
-                        });
-                      })
-                    ) : (
-                      <tr>
-                        <td style={{ textAlign: 'center' }} colSpan={6}>
-                          - Nothing here at the moment. -
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-12 col-md-12">
-              <div className="block content">
-                <div className="block-heading" style={{ fontSize: '15px' }}>
-                  Greylist
-                </div>
-                <table className="c-table c-table-list">
-                  <thead>
-                    <tr>
-                      <th>No.</th>
-                      <th>Consensus(BLS) Public Key</th>
-                      <th>Reward Receiver in base58check.encode</th>
-                      <th>Count down in</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {producersBlacklistDetail.data ? (
-                      producersBlacklistDetail.data.map((value, index) => {
+                  {beaconBeststate.data.CandidateShardWaitingForNextRandom ? (
+                    beaconBeststate.data.CandidateShardWaitingForNextRandom.map(
+                      (value, index) => {
                         return (
                           <tr>
                             <td>{`${index + 1}`}</td>
                             <td>{value.MiningPubKey.bls}</td>
                             <td>{value.IncPubKey}</td>
                             <td>
-                              {value.Epochs}
-                              {' '}
-epoch
+                              {formatCoinValue(
+                                commiteesRewardAmount[value.IncPubKey]
+                                  ? commiteesRewardAmount[value.IncPubKey][
+                                  PRV
+                                  ] / 1e9
+                                  : 0
+                              )}
+                            </td>
+                            <td>
+                              {Object.keys(mapPrivacyTokens).map((key, i) => {
+                                var name = mapPrivacyTokens[key];
+                                if (
+                                  name.length > 0 &&
+                                  (commiteesRewardAmount[value.IncPubKey] &&
+                                    commiteesRewardAmount[value.IncPubKey][
+                                      key
+                                      ])
+                                ) {
+                                  var valueToken =
+                                    commiteesRewardAmount[value.IncPubKey][
+                                      key
+                                      ];
+                                  if (key == PRV) {
+                                    valueToken = valueToken / 1e9;
+                                  } else {
+                                    valueToken = valueToken / 1e9;
+                                  }
+                                  return (
+                                    <span style={{display: 'block'}}>
+                                        {name + ':' + valueToken}
+                                      </span>
+                                  );
+                                } else {
+                                  return <></>;
+                                }
+                              })}
                             </td>
                           </tr>
                         );
-                      })
-                    ) : (
-                      <tr>
-                        <td style={{ textAlign: 'center' }} colSpan={4}>
-                          - Nothing here at the moment. -
-                        </td>
-                      </tr>
-                    )}
+                      }
+                    )
+                  ) : (
+                    <tr>
+                      <td style={{textAlign: 'center'}} colSpan={5}>
+                        - Nothing here at the moment. -
+                      </td>
+                    </tr>
+                  )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-12 col-md-12">
+              <div className="block content">
+                <div className="block-heading" style={{fontSize: '15px'}}>
+                  Selected candidates (validators) in preparation phase
+                </div>
+                <table className="c-table c-table-list">
+                  <thead>
+                  <tr>
+                    <th>No.</th>
+                    <th>Shard ID</th>
+                    <th>Consensus(BLS) Public Key</th>
+                    <th>Reward Receiver in base58check.encode</th>
+                    <th>Reward (PRV)</th>
+                    <th>Reward (pToken)</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {beaconBeststate.data.ShardPendingValidator ? (
+                    Object.entries(
+                      beaconBeststate.data.ShardPendingValidator
+                    ).map(([shardID, value], index) => {
+                      return value.map((v, i) => {
+                        indexPendingList++;
+                        return (
+                          <tr>
+                            <td>{`${indexPendingList}`}</td>
+                            <td>{shardID}</td>
+                            <td>{v.MiningPubKey.bls}</td>
+                            <td>{v.IncPubKey}</td>
+                            <td>
+                              {formatCoinValue(
+                                commiteesRewardAmount[v.IncPubKey]
+                                  ? commiteesRewardAmount[v.IncPubKey][PRV] /
+                                  1e9
+                                  : 0
+                              )}
+                            </td>
+                            <td>
+                              {Object.keys(mapPrivacyTokens).map((key, i) => {
+                                var name = mapPrivacyTokens[key];
+                                if (
+                                  name.length > 0 &&
+                                  (commiteesRewardAmount[v.IncPubKey] &&
+                                    commiteesRewardAmount[v.IncPubKey][key])
+                                ) {
+                                  var value =
+                                    commiteesRewardAmount[v.IncPubKey][key];
+                                  if (key == PRV) {
+                                    value = value / 1e9;
+                                  } else {
+                                    value = value / 1e9;
+                                  }
+                                  return (
+                                    <span style={{display: 'block'}}>
+                                        {name + ':' + value}
+                                      </span>
+                                  );
+                                } else {
+                                  return <></>;
+                                }
+                              })}
+                            </td>
+                          </tr>
+                        );
+                      });
+                    })
+                  ) : (
+                    <tr>
+                      <td style={{textAlign: 'center'}} colSpan={6}>
+                        - Nothing here at the moment. -
+                      </td>
+                    </tr>
+                  )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-12 col-md-12">
+              <div className="block content">
+                <div className="block-heading" style={{fontSize: '15px'}}>
+                  Greylist
+                </div>
+                <table className="c-table c-table-list">
+                  <thead>
+                  <tr>
+                    <th>No.</th>
+                    <th>Consensus(BLS) Public Key</th>
+                    <th>Reward Receiver in base58check.encode</th>
+                    <th>Count down in</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  {producersBlacklistDetail.data ? (
+                    producersBlacklistDetail.data.map((value, index) => {
+                      return (
+                        <tr>
+                          <td>{`${index + 1}`}</td>
+                          <td>{value.MiningPubKey.bls}</td>
+                          <td>{value.IncPubKey}</td>
+                          <td>
+                            {value.Epochs}
+                            {' '}
+                            epoch
+                          </td>
+                        </tr>
+                      );
+                    })
+                  ) : (
+                    <tr>
+                      <td style={{textAlign: 'center'}} colSpan={4}>
+                        - Nothing here at the moment. -
+                      </td>
+                    </tr>
+                  )}
                   </tbody>
                 </table>
               </div>
