@@ -146,7 +146,13 @@
   .censored {
     width: 100px;
     height: 20px;
-    background-color: #000;
+    background-image: repeating-linear-gradient(
+      to left,
+      #b9c9ca,
+      #b9c9ca 9px,
+      transparent 0px,
+      transparent 10px
+    );
   }
 
   tr {

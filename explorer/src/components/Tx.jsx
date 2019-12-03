@@ -68,23 +68,23 @@ class Tx extends React.Component {
             <table className="c-table">
               <tbody>
                 <tr>
-                  <td>Status:</td>
+                  <td>Status</td>
                   <td>{tx.BlockHash ? 'Success' : 'Pending'}</td>
                 </tr>
                 <tr>
-                  <td>Sender:</td>
+                  <td>Sender</td>
                   <td>
-                    <div className="censored" />
+                    <div className="censored" style={{ width: '400px' }} />
                   </td>
                 </tr>
                 <tr>
-                  <td>Receiver:</td>
+                  <td>Receiver</td>
                   <td>
-                    <div className="censored" />
+                    <div className="censored" style={{ width: '400px' }} />
                   </td>
                 </tr>
                 <tr>
-                  <td>Amount:</td>
+                  <td>Amount</td>
                   <td>
                     {isNaN(amount) ? (
                       <div className="censored" />
@@ -94,8 +94,8 @@ class Tx extends React.Component {
                   </td>
                 </tr>
                 <tr>
-                  <td>Timestamp:</td>
-                  <td>{tx.LockTime}</td>
+                  <td>Timestamp</td>
+                  <td>{new Date(tx.LockTime).toUTCString()}</td>
                 </tr>
               </tbody>
             </table>
@@ -107,7 +107,7 @@ class Tx extends React.Component {
               <tbody>
                 {tx.BlockHash && (
                   <tr>
-                    <td>Block:</td>
+                    <td>Block</td>
                     <td>{tx.BlockHash}</td>
                   </tr>
                 )}
@@ -120,11 +120,11 @@ class Tx extends React.Component {
                   </td>
                 </tr>
                 <tr>
-                  <td>Tx Version</td>
+                  <td>Tx version</td>
                   <td>{tx.Version}</td>
                 </tr>
                 <tr>
-                  <td>Tx of Shard</td>
+                  <td>Originating shard</td>
                   <td>{tx.ShardID}</td>
                 </tr>
                 <tr>
@@ -160,7 +160,7 @@ class Tx extends React.Component {
                   </td>
                 </tr>
                 <tr>
-                  <td style={{ verticalAlign: 'top' }}>More Information</td>
+                  <td style={{ verticalAlign: 'top' }}>More information</td>
                   <td>
                     <i>{tx.Info}</i>
                   </td>
@@ -176,7 +176,7 @@ class Tx extends React.Component {
                   </td>
                 </tr>
                 <tr>
-                  <td style={{ verticalAlign: 'top' }}>Proof Detail</td>
+                  <td style={{ verticalAlign: 'top' }}>Proof detail</td>
                   <td>
                     <textarea disabled rows={10} cols={100}>
                       {JSON.stringify(tx.ProofDetail, null, '  ')}
