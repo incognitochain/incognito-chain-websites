@@ -37,7 +37,11 @@ class Tx extends React.Component {
 
     let amount = NaN;
 
-    if (!tx.PrivacyCustomTokenIsPrivacy) {
+    if (
+      !tx.PrivacyCustomTokenIsPrivacy &&
+      tx.PrivacyCustomTokenProofDetail.InputCoins &&
+      tx.PrivacyCustomTokenProofDetail.OutputCoins
+    ) {
       amount = 0;
       const inputCoinsPublicKey =
         tx.PrivacyCustomTokenProofDetail.InputCoins[0].CoinDetails.PublicKey;
