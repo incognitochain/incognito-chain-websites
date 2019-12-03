@@ -143,6 +143,12 @@
 .c-table {
   overflow: hidden;
 
+  .censored {
+    width: 100px;
+    height: 20px;
+    background-color: #000;
+  }
+
   tr {
     border-bottom: 1px solid #f0f5f5;
     td {

@@ -102,11 +102,7 @@ class Tx extends React.Component {
               <div className="heading multiple-line">Transaction Details</div>
             </div>
             <div className="col-12">
-              <div className="block content">
-                <div className="block-data">
-                  <TxComponent tx={specTx} />
-                </div>
-              </div>
+              <TxComponent tx={specTx} />
             </div>
           </div>
         </div>
