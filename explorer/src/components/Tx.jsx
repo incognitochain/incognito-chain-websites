@@ -21,10 +21,10 @@ class Tx extends React.Component {
       return 'Transfer';
     }
     if (type === 't') {
-      return 'Init/Transfer custom token';
+      return 'Init/Transfer custom coin';
     }
     if (type === 'tp') {
-      return 'Init/Transfer privacy custom token';
+      return 'Init/Transfer privacy custom coin';
     }
     return '';
   };
@@ -204,7 +204,7 @@ class Tx extends React.Component {
 
                 <tr>
                   <td style={{ verticalAlign: 'top' }}>
-                    Transacted privacy token
+                    Transacted privacy coin
                   </td>
                   <td>
                     <textarea disabled rows={10} cols={100}>
@@ -217,7 +217,7 @@ class Tx extends React.Component {
 
                 <tr>
                   <td style={{ verticalAlign: 'top' }}>
-                    Privacy token proof detail
+                    Privacy coin proof detail
                   </td>
                   <td>
                     <textarea disabled rows={10} cols={100}>

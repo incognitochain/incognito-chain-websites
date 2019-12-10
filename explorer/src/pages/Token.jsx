@@ -76,7 +76,7 @@ class Token extends React.Component {
                   </li>
                   <li>
                     <NavLink exact activeClassName="nav-active" to="/tokens">
-                      Tokens
+                      Coins
                     </NavLink>
                   </li>
                   <li>
@@ -96,10 +96,16 @@ class Token extends React.Component {
               <div className="block content">
                 <div className="row">
                   <div className="col-12">
-                    <h3>Token</h3>
-                    <span className="c-hash">ID: {customTokenId}</span><br/>
-                    <span className="c-hash">Name: {token[customTokenId].data.Name}</span><br/>
-                    <span className="c-hash">Symbol: {token[customTokenId].data.Symbol}</span>
+                    <h3>Coin</h3>
+                    <span className="c-hash">ID: {customTokenId}</span>
+                    <br />
+                    <span className="c-hash">
+                      Name: {token[customTokenId].data.Name}
+                    </span>
+                    <br />
+                    <span className="c-hash">
+                      Symbol: {token[customTokenId].data.Symbol}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -117,10 +123,7 @@ class Token extends React.Component {
                   <tbody>
                     {token[customTokenId].data.ListTxs.map((tx, index) => (
                       <tr key={tx}>
-                        <td>
-#
-                          {index + 1}
-                        </td>
+                        <td>#{index + 1}</td>
                         <td>
                           <Link to={`/tx/${tx}`} className="c-hash">
                             {tx}
@@ -134,7 +137,7 @@ class Token extends React.Component {
             </div>
             {/*<div className="col-12">
               <div className="block content">
-                <div className="block-heading">Token Holders</div>
+                <div className="block-heading">Coin Holders</div>
                 <table className="c-table c-table-list">
                   <thead>
                     <tr>

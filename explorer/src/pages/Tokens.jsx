@@ -72,21 +72,21 @@ class Tokens extends React.Component {
                     <Link to="/">Explorer</Link>
                   </li>
                   <li>
-                    <Link to="/tokens">Private Tokens</Link>
+                    <Link to="/tokens">Privacy Coins</Link>
                   </li>
                 </ul>
               </div>
             </div>
             <div className="col-12">
               <div className="block content">
-                <div className="block-heading">Private Tokens</div>
+                <div className="block-heading">Privacy Coins</div>
                 <div className="block-data">
                   <table className="c-table">
                     <thead>
                       <tr>
-                        {/* <th>Token</th> */}
+                        {/* <th>Coin</th> */}
                         <th>Name</th>
-                        <th>Symbol</th>
+                        <th>Ticker</th>
                         <th>Privacy Status</th>
                         <th>Supply</th>
                         <th>No. of TXs</th>
@@ -105,7 +105,7 @@ class Tokens extends React.Component {
                             </td> */}
                             <td className="c-hash">{token.Name}</td>
                             <td className="c-hash">{token.Symbol}</td>
-                            <td className="c-hash">{`${token.IsPrivacy  }`}</td>
+                            <td className="c-hash">{`${token.IsPrivacy}`}</td>
                             <td className="c-hash">
                               {formatTokenAmount(token.Amount)}
                             </td>

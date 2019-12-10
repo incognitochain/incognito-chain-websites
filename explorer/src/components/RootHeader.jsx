@@ -29,7 +29,7 @@ class Header extends React.Component {
       path: '/'
     });
     window.location.assign(
-      `${process.env.userUrl  }?redirect=${  process.env.explorerUrl}`
+      `${process.env.userUrl}?redirect=${process.env.explorerUrl}`
     );
   };
 
@@ -74,7 +74,7 @@ class Header extends React.Component {
         href: '/txs/pending'
       },
       {
-        title: 'Private Tokens',
+        title: 'Privacy Coins',
         href: '/tokens'
       }
     ];
