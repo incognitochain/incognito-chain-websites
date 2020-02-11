@@ -1,10 +1,10 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { formatBlocksHeight } from '@/services/formatter';
-import { showDialog } from '@/reducers/app/action';
-import { getBlockchainInfo } from '@/reducers/constant/action';
+import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
+import {formatBlocksHeight} from '@/services/formatter';
+import {showDialog} from '@/reducers/app/action';
+import {getBlockchainInfo} from '@/reducers/constant/action';
 import RootHeader from './RootHeader';
 import BlockIcon from '@/assets/icon/home-top-block.svg';
 import TxIcon from '@/assets/icon/home-top-tx.svg';
@@ -18,21 +18,21 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
     const chainInfo = this.props;
-    this.state = { chainInfo };
+    this.state = {chainInfo};
 
-    const { actionGetBlockChainInfo } = this.props;
+    const {actionGetBlockChainInfo} = this.props;
     actionGetBlockChainInfo();
     setInterval(actionGetBlockChainInfo, 15 * 1000);
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.chainInfo.updatedAt !== prevState.chainInfo.updatedAt) {
-      return { chainInfo: nextProps.chainInfo };
+      return {chainInfo: nextProps.chainInfo};
     }
   }
 
   render() {
-    const { chainInfo } = this.state;
+    const {chainInfo} = this.state;
     if (!chainInfo.ChainName) {
       return null;
     }
@@ -40,6 +40,8 @@ class Header extends React.Component {
     const activeShards = chainInfo.ActiveShards;
 
     const epoch = bestBlocks[-1].Epoch;
+    const remainingBlockepoch = bestBlocks[-1].RemainingBlockEpoch;
+    const epochBlock = bestBlocks[-1].EpochBlock;
 
     const totalTxs = Object.keys(bestBlocks).reduce(
       (accumulator, blockIndex) =>
@@ -56,13 +58,13 @@ class Header extends React.Component {
 
     return (
       <>
-        <RootHeader />
+        <RootHeader/>
         <div className="home-top-info-container">
           <div className="container">
             <ul className="home-top-info c-list-inline">
               <li>
                 <Link to="/">
-                  <img className="icon" src={NetworkIcon} />
+                  <img className="icon" src={NetworkIcon}/>
                   <div>
                     <div className="data c-color-black">
                       {chainInfo.ChainName}
@@ -73,7 +75,7 @@ class Header extends React.Component {
               </li>
               <li>
                 <Link to="/chains">
-                  <img className="icon" src={ShardIcon} />
+                  <img className="icon" src={ShardIcon}/>
                   <div>
                     <div className="title">Total shards</div>
                     <div className="data c-color-black">{activeShards}</div>
@@ -82,7 +84,7 @@ class Header extends React.Component {
               </li>
               <li>
                 <Link to="/chain/0">
-                  <img className="icon" src={BlockIcon} />
+                  <img className="icon" src={BlockIcon}/>
                   <div>
                     <div className="title">Total blocks</div>
                     <div className="data c-color-black">
@@ -93,7 +95,7 @@ class Header extends React.Component {
               </li>
               <li>
                 <Link to="/txs/pending">
-                  <img className="icon" src={TxIcon} />
+                  <img className="icon" src={TxIcon}/>
                   <div>
                     <div className="title">Total txs</div>
                     <div className="data c-color-black">
@@ -104,11 +106,14 @@ class Header extends React.Component {
               </li>
               <li>
                 <Link to="/committees">
-                  <img className="icon" src={EpochIcon} />
+                  <img className="icon" src={EpochIcon}/>
                   <div>
                     <div className="title">Epoch</div>
                     <div className="data c-color-black">
                       {formatBlocksHeight(epoch)}
+                    </div>
+                    <div className="data c-color-black" style={{fontSize: 11}}>
+                      {formatBlocksHeight(remainingBlockepoch)}/{formatBlocksHeight(epochBlock)} blocks to the next epoch
                     </div>
                   </div>
                 </Link>
