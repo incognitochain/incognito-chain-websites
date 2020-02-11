@@ -112,8 +112,8 @@ class Header extends React.Component {
                     <div className="data c-color-black">
                       {formatBlocksHeight(epoch)}
                     </div>
-                    <div className="data c-color-black" style={{fontSize: 15}}>
-                      Remaining {formatBlocksHeight(remainingBlockepoch)}/{formatBlocksHeight(epochBlock)} blocks
+                    <div className="data c-color-black" style={{fontSize: 11}}>
+                      {formatBlocksHeight(remainingBlockepoch)}/{formatBlocksHeight(epochBlock)} blocks to the next epoch
                     </div>
                   </div>
                 </Link>
