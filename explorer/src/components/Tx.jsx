@@ -95,6 +95,16 @@ class Tx extends React.Component {
                     )}
                   </td>
                 </tr>
+
+                <tr>
+                  <td>Memo</td>
+                  <td> 
+                    {tx.BlockHash && (
+                      <i>{tx.Info}</i> 
+                    )}
+                  </td>
+                </tr>
+
                 <tr>
                   <td>Timestamp</td>
                   <td>{new Date(tx.LockTime).toUTCString()}</td>
@@ -160,13 +170,7 @@ class Tx extends React.Component {
                   >
                     {tx.Sig}
                   </td>
-                </tr>
-                <tr>
-                  <td style={{ verticalAlign: 'top' }}>More information</td>
-                  <td>
-                    <i>{tx.Info}</i>
-                  </td>
-                </tr>
+                </tr> 
                 <tr>
                   <td style={{ verticalAlign: 'top' }}>
                     Proof (base58check encode)
