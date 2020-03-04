@@ -100,7 +100,7 @@ class Tx extends React.Component {
                   <td>Memo</td>
                    <td>
                     {tx.BlockHash && (
-                        <i>{tx.Info}</i> 
+                      tx.Info
                     )}
                    </td>
                 </tr>
