@@ -98,11 +98,11 @@ class Tx extends React.Component {
 
                 <tr>
                   <td>Memo</td>
-                  <td> 
+                   <td>
                     {tx.BlockHash && (
-                      <i>{tx.Info}</i> 
+                        <i>{tx.Info}</i> 
                     )}
-                  </td>
+                   </td>
                 </tr>
 
                 <tr>
