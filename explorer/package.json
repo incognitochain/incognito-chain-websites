@@ -32,7 +32,7 @@
     "lodash": "^4.17.11",
     "mini-css-extract-plugin": "^0.4.3",
     "mobile-detect": "^1.4.3",
-    "moment": "^2.22.2",
+    "moment": "^2.29.2",
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
     "react-day-picker": "^7.2.4",
